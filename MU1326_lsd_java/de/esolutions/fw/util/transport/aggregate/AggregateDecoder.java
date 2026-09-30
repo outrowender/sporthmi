@@ -7,6 +7,8 @@ import de.esolutions.fw.util.commons.miniser.BEMiniIntDeserializer;
 import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.exception.InvalidTransportFormatException;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class AggregateDecoder {
     protected ITransport transport;
@@ -21,7 +23,7 @@ public class AggregateDecoder {
         this.offset = 0;
     }
 
-    public IReadable getMessage() {
+    public IReadable getMessage() throws IOException, TransportException, InterruptedException {
         if (this.messagesLeft == 0) {
             this.getNextMessagePacket();
         }
@@ -34,7 +36,7 @@ public class AggregateDecoder {
         return iReadable;
     }
 
-    protected void getNextMessagePacket() {
+    protected void getNextMessagePacket() throws IOException, TransportException, InterruptedException {
         this.packet = this.transport.recv();
         BEMiniIntDeserializer bEMiniIntDeserializer = new BEMiniIntDeserializer();
         this.messagesLeft = bEMiniIntDeserializer.retrieveInt(this.packet.getData(0, 4));

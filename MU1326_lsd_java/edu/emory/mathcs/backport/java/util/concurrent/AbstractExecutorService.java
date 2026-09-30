@@ -32,7 +32,6 @@ implements ExecutorService {
         return new FutureTask(callable);
     }
 
-    @Override
     public Future submit(Runnable runnable) {
         if (runnable == null) {
             throw new NullPointerException();
@@ -42,7 +41,6 @@ implements ExecutorService {
         return runnableFuture;
     }
 
-    @Override
     public Future submit(Runnable runnable, Object object) {
         if (runnable == null) {
             throw new NullPointerException();
@@ -52,7 +50,6 @@ implements ExecutorService {
         return runnableFuture;
     }
 
-    @Override
     public Future submit(Callable callable) {
         if (callable == null) {
             throw new NullPointerException();
@@ -66,7 +63,7 @@ implements ExecutorService {
      * WARNING - Removed try catching itself - possible behaviour change.
      * Unable to fully structure code
      */
-    private Object doInvokeAny(Collection var1_1, boolean var2_2, long var3_3) {
+    private Object doInvokeAny(Collection var1_1, boolean var2_2, long var3_3) throws InterruptedException, ExecutionException, TimeoutException {
         block18: {
             if (var1_1 == null) {
                 throw new NullPointerException();
@@ -138,8 +135,7 @@ implements ExecutorService {
         }
     }
 
-    @Override
-    public Object invokeAny(Collection collection) {
+    public Object invokeAny(Collection collection) throws InterruptedException, ExecutionException {
         try {
             return this.doInvokeAny(collection, false, 0L);
         }
@@ -151,16 +147,14 @@ implements ExecutorService {
         }
     }
 
-    @Override
-    public Object invokeAny(Collection collection, long l, TimeUnit timeUnit) {
+    public Object invokeAny(Collection collection, long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
         return this.doInvokeAny(collection, true, timeUnit.toNanos(l));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public List invokeAll(Collection collection) {
+    public List invokeAll(Collection collection) throws InterruptedException {
         if (collection == null) {
             throw new NullPointerException();
         }
@@ -203,8 +197,7 @@ implements ExecutorService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public List invokeAll(Collection collection, long l, TimeUnit timeUnit) {
+    public List invokeAll(Collection collection, long l, TimeUnit timeUnit) throws InterruptedException {
         if (collection == null || timeUnit == null) {
             throw new NullPointerException();
         }

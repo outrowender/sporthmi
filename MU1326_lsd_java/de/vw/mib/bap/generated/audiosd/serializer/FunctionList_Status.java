@@ -14,7 +14,7 @@ implements StatusProperty {
     public boolean fctBap_ConfigAvailable;
     public boolean fctFunctionListAvailable;
     public boolean fctHeartBeatAvailable;
-    private static final int RESERVED_BIT_5__13_BITSIZE;
+    private static final int RESERVED_BIT_5__13_BITSIZE = 9;
     public boolean fctFsg_SetupAvailable;
     public boolean fctFsg_OperationStateAvailable;
     public boolean fctActiveSourceAvailable;
@@ -54,8 +54,8 @@ implements StatusProperty {
     public boolean fctCommonListAvailable;
     public boolean fctCurrentStation_Handle2Available;
     public boolean fctPlayPositionAvailable;
-    private static final int RESERVED_BIT_53__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_53__63_BITSIZE = 11;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -114,12 +114,10 @@ implements StatusProperty {
         this.fctPlayPositionAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fctGetAllAvailable == functionList_Status.fctGetAllAvailable && this.fctBap_ConfigAvailable == functionList_Status.fctBap_ConfigAvailable && this.fctFunctionListAvailable == functionList_Status.fctFunctionListAvailable && this.fctHeartBeatAvailable == functionList_Status.fctHeartBeatAvailable && this.fctFsg_SetupAvailable == functionList_Status.fctFsg_SetupAvailable && this.fctFsg_OperationStateAvailable == functionList_Status.fctFsg_OperationStateAvailable && this.fctActiveSourceAvailable == functionList_Status.fctActiveSourceAvailable && this.fctActiveSourceNameAvailable == functionList_Status.fctActiveSourceNameAvailable && this.fctCurrentVolumeAvailable == functionList_Status.fctCurrentVolumeAvailable && this.fctMuteAvailable == functionList_Status.fctMuteAvailable && this.fctSourceStateAvailable == functionList_Status.fctSourceStateAvailable && this.fctCurrentStationInfoAvailable == functionList_Status.fctCurrentStationInfoAvailable && this.fctCurrentStation_HandleAvailable == functionList_Status.fctCurrentStation_HandleAvailable && this.fctReceptionListAvailable == functionList_Status.fctReceptionListAvailable && this.fctDedicatedAudioControlAvailable == functionList_Status.fctDedicatedAudioControlAvailable && this.fctGeneralInfoSwitchesAvailable == functionList_Status.fctGeneralInfoSwitchesAvailable && this.fctTpMemoInfoAvailable == functionList_Status.fctTpMemoInfoAvailable && this.fctTpMemoListAvailable == functionList_Status.fctTpMemoListAvailable && this.fctAnnouncementInfoAvailable == functionList_Status.fctAnnouncementInfoAvailable && this.fctAnnouncementEscapeAvailable == functionList_Status.fctAnnouncementEscapeAvailable && this.fctInfoStatesAvailable == functionList_Status.fctInfoStatesAvailable && this.fctReceptionListTypeAvailable == functionList_Status.fctReceptionListTypeAvailable && this.fctSourceListAvailable == functionList_Status.fctSourceListAvailable && this.fctRadioTv_PresetListAvailable == functionList_Status.fctRadioTv_PresetListAvailable && this.fctSwitchSourceAvailable == functionList_Status.fctSwitchSourceAvailable && this.fctMediaBrowser_FolderLevelAvailable == functionList_Status.fctMediaBrowser_FolderLevelAvailable && this.fctMediaBrowserAvailable == functionList_Status.fctMediaBrowserAvailable && this.fctMediaPathAvailable == functionList_Status.fctMediaPathAvailable && this.fctMediaBrowserControlAvailable == functionList_Status.fctMediaBrowserControlAvailable && this.fctMediaFileInfoAvailable == functionList_Status.fctMediaFileInfoAvailable && this.fctPreferredListAvailable == functionList_Status.fctPreferredListAvailable && this.fctSds_StateAvailable == functionList_Status.fctSds_StateAvailable && this.fctFunctionSynchronisationAvailable == functionList_Status.fctFunctionSynchronisationAvailable && this.fctAsg_CapabilitiesAvailable == functionList_Status.fctAsg_CapabilitiesAvailable && this.fctGetNextListPosAvailable == functionList_Status.fctGetNextListPosAvailable && this.fctSwitchRadioMediaAvailable == functionList_Status.fctSwitchRadioMediaAvailable && this.fctMediaImportStateAvailable == functionList_Status.fctMediaImportStateAvailable && this.fctCurrentVolumeExtendedAvailable == functionList_Status.fctCurrentVolumeExtendedAvailable && this.fctCustomerDownloadStateAvailable == functionList_Status.fctCustomerDownloadStateAvailable && this.fctOnlineMusic_StateAvailable == functionList_Status.fctOnlineMusic_StateAvailable && this.fctCommonListAvailable == functionList_Status.fctCommonListAvailable && this.fctCurrentStation_Handle2Available == functionList_Status.fctCurrentStation_Handle2Available && this.fctPlayPositionAvailable == functionList_Status.fctPlayPositionAvailable;
@@ -128,7 +126,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -399,13 +396,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllAvailable);
@@ -455,7 +450,6 @@ implements StatusProperty {
         bitStream.resetBits(11);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllAvailable = bitStream.popFrontBoolean();
@@ -509,7 +503,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

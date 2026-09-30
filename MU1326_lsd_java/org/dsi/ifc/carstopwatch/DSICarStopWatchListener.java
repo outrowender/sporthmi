@@ -9,25 +9,18 @@ import org.dsi.ifc.carstopwatch.StopWatchViewOptions;
 
 public interface DSICarStopWatchListener
 extends DSIListener {
-    default public void updateStopWatchViewOptions(StopWatchViewOptions stopWatchViewOptions, int n) {
-    }
+    public void updateStopWatchViewOptions(StopWatchViewOptions var1, int var2);
 
-    default public void updateStopWatchState(int n, int n2) {
-    }
+    public void updateStopWatchState(int var1, int var2);
 
-    default public void updateStopWatchCurrentLapNumber(int n, int n2) {
-    }
+    public void updateStopWatchCurrentLapNumber(int var1, int var2);
 
-    default public void updateStopWatchTotalTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchTotalTime(StopWatchTime var1, int var2);
 
-    default public void updateStopWatchLastSplitTime(int n, StopWatchTime stopWatchTime, int n2) {
-    }
+    public void updateStopWatchLastSplitTime(int var1, StopWatchTime var2, int var3);
 
-    default public void updateStopWatchCurrentLapTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchCurrentLapTime(StopWatchTime var1, int var2);
 
-    default public void updateStopWatchLastLapTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchLastLapTime(StopWatchTime var1, int var2);
 }
 

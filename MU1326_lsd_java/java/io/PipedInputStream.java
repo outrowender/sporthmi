@@ -17,18 +17,17 @@ extends InputStream {
     protected byte[] buffer;
     protected int in = -1;
     protected int out = 0;
-    protected static final int PIPE_SIZE;
+    protected static final int PIPE_SIZE = 1024;
     boolean isConnected = false;
 
     public PipedInputStream() {
     }
 
-    public PipedInputStream(PipedOutputStream pipedOutputStream) {
+    public PipedInputStream(PipedOutputStream pipedOutputStream) throws IOException {
         this.connect(pipedOutputStream);
     }
 
-    @Override
-    public synchronized int available() {
+    public synchronized int available() throws IOException {
         if (this.buffer == null || this.in == -1) {
             return 0;
         }
@@ -38,8 +37,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         PipedInputStream pipedInputStream = this;
         synchronized (pipedInputStream) {
             if (this.buffer != null) {
@@ -48,12 +46,11 @@ extends InputStream {
         }
     }
 
-    public void connect(PipedOutputStream pipedOutputStream) {
+    public void connect(PipedOutputStream pipedOutputStream) throws IOException {
         pipedOutputStream.connect(this);
     }
 
-    @Override
-    public synchronized int read() {
+    public synchronized int read() throws IOException {
         if (this.isConnected) {
             if (this.buffer != null) {
                 byte by;
@@ -68,8 +65,8 @@ extends InputStream {
                             throw new IOException(Msg.getString("K0076"));
                         }
                         by = 0;
-                        super.notifyAll();
-                        super.wait(0);
+                        this.notifyAll();
+                        this.wait(1000L);
                     }
                 }
                 catch (InterruptedException interruptedException) {
@@ -90,8 +87,7 @@ extends InputStream {
         throw new IOException(Msg.getString("K0074"));
     }
 
-    @Override
-    public synchronized int read(byte[] byArray, int n, int n2) {
+    public synchronized int read(byte[] byArray, int n, int n2) throws IOException {
         if (byArray != null && n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
             if (n2 == 0) {
                 return 0;
@@ -109,8 +105,8 @@ extends InputStream {
                             throw new IOException(Msg.getString("K0076"));
                         }
                         n3 = 0;
-                        super.notifyAll();
-                        super.wait(0);
+                        this.notifyAll();
+                        this.wait(1000L);
                     }
                 }
                 catch (InterruptedException interruptedException) {
@@ -153,14 +149,14 @@ extends InputStream {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    protected synchronized void receive(int n) {
+    protected synchronized void receive(int n) throws IOException {
         if (this.buffer != null && !this.isClosed) {
             this.lastWriter = Thread.currentThread();
             try {
                 if (this.out == this.in) {
                     do {
-                        super.notifyAll();
-                        super.wait(0);
+                        this.notifyAll();
+                        this.wait(1000L);
                         if (this.lastReader == null || this.lastReader.isAlive()) continue;
                         throw new IOException(Msg.getString("K0076"));
                     } while (this.buffer != null && this.out == this.in);
@@ -187,7 +183,7 @@ extends InputStream {
 
     synchronized void done() {
         this.isClosed = true;
-        super.notifyAll();
+        this.notifyAll();
     }
 }
 

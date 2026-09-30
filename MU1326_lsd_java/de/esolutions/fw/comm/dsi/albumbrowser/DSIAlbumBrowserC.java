@@ -3,59 +3,43 @@
  */
 package de.esolutions.fw.comm.dsi.albumbrowser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAlbumBrowserC {
-    default public void initializeBrowser(long l, long l2, int n) {
-    }
+    public void initializeBrowser(long var1, long var3, int var5) throws MethodException;
 
-    default public void deinitializeBrowser() {
-    }
+    public void deinitializeBrowser() throws MethodException;
 
-    default public void startSingle() {
-    }
+    public void startSingle() throws MethodException;
 
-    default public void startPreview() {
-    }
+    public void startPreview() throws MethodException;
 
-    default public void startActive() {
-    }
+    public void startActive() throws MethodException;
 
-    default public void stop() {
-    }
+    public void stop() throws MethodException;
 
-    default public void setScrollMode(int n) {
-    }
+    public void setScrollMode(int var1) throws MethodException;
 
-    default public void scrollTicks(long l) {
-    }
+    public void scrollTicks(long var1) throws MethodException;
 
-    default public void selectAlbum(long l) {
-    }
+    public void selectAlbum(long var1) throws MethodException;
 
-    default public void moveFocus(long l, int n) {
-    }
+    public void moveFocus(long var1, int var3) throws MethodException;
 
-    default public void albumIdxForFID(long l) {
-    }
+    public void albumIdxForFID(long var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

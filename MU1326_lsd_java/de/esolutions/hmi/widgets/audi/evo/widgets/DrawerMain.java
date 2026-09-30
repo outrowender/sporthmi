@@ -11,13 +11,10 @@ public interface DrawerMain
 extends DrawerItem,
 ScreenAreaFocus,
 Rectangular {
-    default public boolean canOpen() {
-    }
+    public boolean canOpen();
 
-    default public void initializeScreenChangeAnimation() {
-    }
+    public void initializeScreenChangeAnimation();
 
-    default public boolean canClose() {
-    }
+    public boolean canClose();
 }
 

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCCounterSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCConsumptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCCounter;
 import org.dsi.ifc.carkombi.BCStatisticsAC;
 import org.dsi.ifc.global.CarBCConsumption;
 
 public class BCStatisticsACSerializer {
-    public static void putOptionalBCStatisticsAC(ISerializer iSerializer, BCStatisticsAC bCStatisticsAC) {
+    public static void putOptionalBCStatisticsAC(ISerializer iSerializer, BCStatisticsAC bCStatisticsAC) throws SerializerException {
         boolean bl = bCStatisticsAC == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BCStatisticsACSerializer {
         }
     }
 
-    public static void putOptionalBCStatisticsACVarArray(ISerializer iSerializer, BCStatisticsAC[] bCStatisticsACArray) {
+    public static void putOptionalBCStatisticsACVarArray(ISerializer iSerializer, BCStatisticsAC[] bCStatisticsACArray) throws SerializerException {
         boolean bl = bCStatisticsACArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BCStatisticsACSerializer {
         }
     }
 
-    public static BCStatisticsAC getOptionalBCStatisticsAC(IDeserializer iDeserializer) {
+    public static BCStatisticsAC getOptionalBCStatisticsAC(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsAC bCStatisticsAC = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BCStatisticsACSerializer {
         return bCStatisticsAC;
     }
 
-    public static BCStatisticsAC[] getOptionalBCStatisticsACVarArray(IDeserializer iDeserializer) {
+    public static BCStatisticsAC[] getOptionalBCStatisticsACVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsAC[] bCStatisticsACArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

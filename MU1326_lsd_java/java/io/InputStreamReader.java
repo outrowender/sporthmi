@@ -31,7 +31,7 @@ extends Reader {
         this.converter = CharacterConverter.getDefaultConverter(string);
     }
 
-    public InputStreamReader(InputStream inputStream, String string) {
+    public InputStreamReader(InputStream inputStream, String string) throws UnsupportedEncodingException {
         super(inputStream);
         this.in = inputStream;
         this.converter = CharacterConverter.getConverter(string);
@@ -43,8 +43,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.bytes != null) {
@@ -56,7 +55,7 @@ extends Reader {
         }
     }
 
-    private int fillbuf() {
+    private int fillbuf() throws IOException {
         int n;
         if (this.count > 0 && this.pos > 0) {
             this.count -= this.pos;
@@ -74,7 +73,7 @@ extends Reader {
         return n;
     }
 
-    private int convert(char[] cArray, int n, int n2) {
+    private int convert(char[] cArray, int n, int n2) throws IOException {
         int n3;
         CharBuffer charBuffer = new CharBuffer(cArray, n, n2);
         this.pos = n3 = this.converter.convert(this.bytes, this.pos, this.count - this.pos, charBuffer);
@@ -91,7 +90,7 @@ extends Reader {
         if (this.converter instanceof NativeCharacterConverter) {
             return ((NativeCharacterConverter)this.converter).getJavaEncoding();
         }
-        String string = super.getClass().getName();
+        String string = this.converter.getClass().getName();
         int n = string.indexOf(95);
         if (n < 0) {
             return "ISO8859_1";
@@ -104,8 +103,7 @@ extends Reader {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.bytes == null) {
@@ -129,8 +127,7 @@ extends Reader {
         }
     }
 
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             int n3 = 0;
             int n4 = n;
@@ -163,8 +160,7 @@ extends Reader {
         throw new IndexOutOfBoundsException();
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.bytes != null) {

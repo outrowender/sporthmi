@@ -18,26 +18,26 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.StackedBarChartController
 public class MultiStackedBarChartRenderer
 extends AbstractRendererHigh
 implements IWidgetLogChannel {
-    private static final String TEMPLATE_NODE_NAME;
-    private static final String EAL_NODE_NAME;
-    private static final String EAL_NODE_NAME_MULTIBARCHART;
-    private static final String EAL_NODE_NAME_SINGELBARCHART;
-    private static final String EAL_NODE_NAME_STACKEDBAR;
-    private static final String EAL_NODE_NAME_CHART_BACKGROUND;
-    private static final String EAL_NODE_NAME_CHART_FRAME;
-    private static final String PROPERTY_BAR_WIDTH;
-    private static final String PROPERTY_BAR_HEIGHT;
-    private static final String PROPERTY_BAR_MARGIN;
-    private static final String PROPERTY_BAR_SECTION1_COLOR;
-    private static final String PROPERTY_BAR_SECTION2_COLOR;
-    private static final String PROPERTY_BAR_SECTION1_RATIO;
-    private static final String PROPERTY_BAR_SECTION2_RATIO;
-    private static final String PROPERTY_BAR_SECTION3_VISIBLE;
-    private static final int OFFSET_LEFT;
-    private static final int OFFSET_TOP;
-    private static final int MAX_BARS;
-    private static final int IMAGE_INDEX_BACKGROUND;
-    private static final int IMAGE_INDEX_FRAME;
+    private static final String TEMPLATE_NODE_NAME = "Prefabs/statistics_column";
+    private static final String EAL_NODE_NAME = "ETRON_STATS";
+    private static final String EAL_NODE_NAME_MULTIBARCHART = "MultiBarChart";
+    private static final String EAL_NODE_NAME_SINGELBARCHART = "SingleBarChart";
+    private static final String EAL_NODE_NAME_STACKEDBAR = "StackedBar";
+    private static final String EAL_NODE_NAME_CHART_BACKGROUND = "ChartBackground";
+    private static final String EAL_NODE_NAME_CHART_FRAME = "ChartFrame";
+    private static final String PROPERTY_BAR_WIDTH = "sc_width";
+    private static final String PROPERTY_BAR_HEIGHT = "sc_height";
+    private static final String PROPERTY_BAR_MARGIN = "sc_margin";
+    private static final String PROPERTY_BAR_SECTION1_COLOR = "sc_section1_color";
+    private static final String PROPERTY_BAR_SECTION2_COLOR = "sc_section2_color";
+    private static final String PROPERTY_BAR_SECTION1_RATIO = "sc_section1_ratio";
+    private static final String PROPERTY_BAR_SECTION2_RATIO = "sc_section2_ratio";
+    private static final String PROPERTY_BAR_SECTION3_VISIBLE = "sc_section3_visible";
+    private static final int OFFSET_LEFT = 7;
+    private static final int OFFSET_TOP = 10;
+    private static final int MAX_BARS = 30;
+    private static final int IMAGE_INDEX_BACKGROUND = 0;
+    private static final int IMAGE_INDEX_FRAME = 0;
     private static int colorYellow;
     private static int colorGreen;
     private IWrappedNode3D precalculatedBar;
@@ -63,28 +63,28 @@ implements IWidgetLogChannel {
 
     private void loadResources(RedrawContextHigh redrawContextHigh) {
         if (!this.loadresources) {
-            colorYellow = EALManager.createColorCode(128838399);
-            colorGreen = EALManager.createColorCode(0xFF00FF);
+            colorYellow = EALManager.createColorCode(-1397497);
+            colorGreen = EALManager.createColorCode(-16711936);
             this.propertyCache = new EALPropertyCache();
             this.postcalculatedBar = new IWrappedNode3D[30];
-            this.rootNode = this.getEALManager().createNode3D(redrawContextHigh.parentNode, "ETRON_STATS", this.getAbstractController().getWidth(), this.getAbstractController().getHeight());
+            this.rootNode = this.getEALManager().createNode3D(redrawContextHigh.parentNode, EAL_NODE_NAME, this.getAbstractController().getWidth(), this.getAbstractController().getHeight());
             if (this.isMultiBarchart()) {
                 int n = this.multiBarChartController.getBarCount();
                 if (n <= 0) {
                     logStatisticsStackedBarChart.log(10000, "StackedBarChartRenderer#loadResources barCount is zero");
                     return;
                 }
-                this.axes = this.getEALManager().createImage3D(this.rootNode, EALManager.createNodeName("ChartBackground", this), this.getTextureDescription(0, true), 0, true, (Object)this);
+                this.axes = this.getEALManager().createImage3D(this.rootNode, EALManager.createNodeName(EAL_NODE_NAME_CHART_BACKGROUND, this), this.getTextureDescription(0, true), 0, true, (Object)this);
                 if (n > 0 && n <= 30) {
-                    this.multiBarGroup = this.getEALManager().createNode3D(this.rootNode, "MultiBarChart", this.rootNode.getWidth(), this.rootNode.getHeight());
-                    this.precalculatedBar = this.getEALManager().createTemplateInstanceNode(this.multiBarGroup, "StackedBar", this.multiBarChartController.getPostcalculatedBarWidth(), this.multiBarChartController.getPostcalculatedBarHeight(), this.getKZBId(), "Prefabs/statistics_column", redrawContextHigh.getScreenID());
+                    this.multiBarGroup = this.getEALManager().createNode3D(this.rootNode, EAL_NODE_NAME_MULTIBARCHART, this.rootNode.getWidth(), this.rootNode.getHeight());
+                    this.precalculatedBar = this.getEALManager().createTemplateInstanceNode(this.multiBarGroup, EAL_NODE_NAME_STACKEDBAR, this.multiBarChartController.getPostcalculatedBarWidth(), this.multiBarChartController.getPostcalculatedBarHeight(), this.getKZBId(), TEMPLATE_NODE_NAME, redrawContextHigh.getScreenID());
                     for (int i2 = 0; i2 < n; ++i2) {
-                        this.postcalculatedBar[i2] = this.getEALManager().createTemplateInstanceNode(this.rootNode, new String("StackedBar".concat("_").concat(String.valueOf(i2))), this.multiBarChartController.getPostcalculatedBarWidth(), this.multiBarChartController.getPostcalculatedBarHeight(), this.getKZBId(), "Prefabs/statistics_column", redrawContextHigh.getScreenID());
+                        this.postcalculatedBar[i2] = this.getEALManager().createTemplateInstanceNode(this.rootNode, new String(EAL_NODE_NAME_STACKEDBAR.concat("_").concat(String.valueOf(i2))), this.multiBarChartController.getPostcalculatedBarWidth(), this.multiBarChartController.getPostcalculatedBarHeight(), this.getKZBId(), TEMPLATE_NODE_NAME, redrawContextHigh.getScreenID());
                     }
                 }
             } else {
-                this.frame = this.getEALManager().createImage3D(this.rootNode, EALManager.createNodeName("ChartFrame", this), this.getTextureDescription(0, true), 0, true, (Object)this);
-                this.singleBar = this.getEALManager().createTemplateInstanceNode(this.rootNode, "SingleBarChart", this.singleBarChartController.getBarWidth(), this.singleBarChartController.getBarHeight(), this.getKZBId(), "Prefabs/statistics_column", redrawContextHigh.getScreenID());
+                this.frame = this.getEALManager().createImage3D(this.rootNode, EALManager.createNodeName(EAL_NODE_NAME_CHART_FRAME, this), this.getTextureDescription(0, true), 0, true, (Object)this);
+                this.singleBar = this.getEALManager().createTemplateInstanceNode(this.rootNode, EAL_NODE_NAME_SINGELBARCHART, this.singleBarChartController.getBarWidth(), this.singleBarChartController.getBarHeight(), this.getKZBId(), TEMPLATE_NODE_NAME, redrawContextHigh.getScreenID());
             }
             this.loadresources = true;
         }
@@ -92,53 +92,53 @@ implements IWidgetLogChannel {
 
     private void applyProperties() {
         if (this.isMultiBarchart() && this.loadresources) {
-            this.propertyCache.setProperty(this.precalculatedBar, "sc_width", (float)this.multiBarChartController.getPostcalculatedBarWidth());
-            this.propertyCache.setProperty(this.precalculatedBar, "sc_height", (float)this.multiBarChartController.getPostcalculatedBarHeight());
-            this.propertyCache.setProperty(this.precalculatedBar, "sc_margin", (float)this.multiBarChartController.getBarMargin());
-            this.propertyCache.setColorProperty(this.precalculatedBar, "sc_section1_color", colorGreen);
-            this.propertyCache.setColorProperty(this.precalculatedBar, "sc_section2_color", colorYellow);
-            this.propertyCache.setProperty(this.precalculatedBar, "sc_section3_visible", false);
+            this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_WIDTH, (float)this.multiBarChartController.getPostcalculatedBarWidth());
+            this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_HEIGHT, (float)this.multiBarChartController.getPostcalculatedBarHeight());
+            this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_MARGIN, (float)this.multiBarChartController.getBarMargin());
+            this.propertyCache.setColorProperty(this.precalculatedBar, PROPERTY_BAR_SECTION1_COLOR, colorGreen);
+            this.propertyCache.setColorProperty(this.precalculatedBar, PROPERTY_BAR_SECTION2_COLOR, colorYellow);
+            this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_SECTION3_VISIBLE, false);
             float f2 = this.multiBarChartController.getPrecalculatedData(0, 0);
             float f3 = this.multiBarChartController.getPrecalculatedData(0, 1);
-            if (f2 == 16448 || f2 == 32959) {
-                this.propertyCache.setProperty(this.precalculatedBar, "sc_section1_ratio", 0.0f);
-                this.propertyCache.setProperty(this.precalculatedBar, "sc_section2_ratio", 0.0f);
+            if (f2 == 3.0f || f2 == -1.0f) {
+                this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_SECTION1_RATIO, 0.0f);
+                this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_SECTION2_RATIO, 0.0f);
             } else {
-                this.propertyCache.setProperty(this.precalculatedBar, "sc_section1_ratio", f3 != 32959 ? f3 : 0.0f);
-                this.propertyCache.setProperty(this.precalculatedBar, "sc_section2_ratio", f3 != 32959 ? 1.0f - f3 : 0.0f);
+                this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_SECTION1_RATIO, f3 != -1.0f ? f3 : 0.0f);
+                this.propertyCache.setProperty(this.precalculatedBar, PROPERTY_BAR_SECTION2_RATIO, f3 != -1.0f ? 1.0f - f3 : 0.0f);
             }
             this.applyCalculatePosition(0, this.precalculatedBar);
             for (int i2 = 0; i2 < this.postcalculatedBar.length - 1; ++i2) {
-                this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_width", (float)this.multiBarChartController.getPostcalculatedBarWidth());
-                this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_height", (float)this.multiBarChartController.getPostcalculatedBarHeight());
-                this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_margin", (float)this.multiBarChartController.getBarMargin());
-                this.propertyCache.setColorProperty(this.postcalculatedBar[i2], "sc_section1_color", colorGreen);
-                this.propertyCache.setColorProperty(this.postcalculatedBar[i2], "sc_section2_color", colorYellow);
-                this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_section3_visible", false);
+                this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_WIDTH, (float)this.multiBarChartController.getPostcalculatedBarWidth());
+                this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_HEIGHT, (float)this.multiBarChartController.getPostcalculatedBarHeight());
+                this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_MARGIN, (float)this.multiBarChartController.getBarMargin());
+                this.propertyCache.setColorProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION1_COLOR, colorGreen);
+                this.propertyCache.setColorProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION2_COLOR, colorYellow);
+                this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION3_VISIBLE, false);
                 f3 = this.multiBarChartController.getPostcalculatedData(i2, 0);
                 float f4 = this.multiBarChartController.getPostcalculatedData(i2, 1);
-                if (f3 == 16448 || f3 == 32959) {
-                    this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_section1_ratio", 0.0f);
-                    this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_section2_ratio", 0.0f);
+                if (f3 == 3.0f || f3 == -1.0f) {
+                    this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION1_RATIO, 0.0f);
+                    this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION2_RATIO, 0.0f);
                 } else {
-                    this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_section1_ratio", f4 != 32959 ? f4 : 0.0f);
-                    this.propertyCache.setProperty(this.postcalculatedBar[i2], "sc_section2_ratio", f4 != 32959 ? 1.0f - f4 : 0.0f);
+                    this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION1_RATIO, f4 != -1.0f ? f4 : 0.0f);
+                    this.propertyCache.setProperty(this.postcalculatedBar[i2], PROPERTY_BAR_SECTION2_RATIO, f4 != -1.0f ? 1.0f - f4 : 0.0f);
                 }
                 this.applyCalculatePosition(i2 + 1, this.postcalculatedBar[i2]);
             }
         } else {
-            this.propertyCache.setProperty(this.singleBar, "sc_width", (float)this.singleBarChartController.getBarWidth());
-            this.propertyCache.setProperty(this.singleBar, "sc_height", (float)this.singleBarChartController.getBarHeight());
-            this.propertyCache.setProperty(this.singleBar, "sc_margin", (float)this.singleBarChartController.getBarMargin());
-            this.propertyCache.setColorProperty(this.singleBar, "sc_section1_color", colorGreen);
-            this.propertyCache.setColorProperty(this.singleBar, "sc_section2_color", colorYellow);
-            this.propertyCache.setProperty(this.singleBar, "sc_section3_visible", false);
-            if (this.singleBarChartController.getValue() == 32959) {
-                this.propertyCache.setProperty(this.singleBar, "sc_section1_ratio", 0.0f);
-                this.propertyCache.setProperty(this.singleBar, "sc_section2_ratio", 0.0f);
+            this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_WIDTH, (float)this.singleBarChartController.getBarWidth());
+            this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_HEIGHT, (float)this.singleBarChartController.getBarHeight());
+            this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_MARGIN, (float)this.singleBarChartController.getBarMargin());
+            this.propertyCache.setColorProperty(this.singleBar, PROPERTY_BAR_SECTION1_COLOR, colorGreen);
+            this.propertyCache.setColorProperty(this.singleBar, PROPERTY_BAR_SECTION2_COLOR, colorYellow);
+            this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_SECTION3_VISIBLE, false);
+            if (this.singleBarChartController.getValue() == -1.0f) {
+                this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_SECTION1_RATIO, 0.0f);
+                this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_SECTION2_RATIO, 0.0f);
             } else {
-                this.propertyCache.setProperty(this.singleBar, "sc_section1_ratio", this.singleBarChartController.getValue());
-                this.propertyCache.setProperty(this.singleBar, "sc_section2_ratio", 1.0f - this.singleBarChartController.getValue());
+                this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_SECTION1_RATIO, this.singleBarChartController.getValue());
+                this.propertyCache.setProperty(this.singleBar, PROPERTY_BAR_SECTION2_RATIO, 1.0f - this.singleBarChartController.getValue());
             }
             this.singleBar.setPosition(this.singleBarChartController.getX(), this.singleBarChartController.getY(), 0.0f);
             this.frame.setPosition(this.singleBarChartController.getX() - 3, this.singleBarChartController.getY() - 3, 0.0f);
@@ -168,13 +168,11 @@ implements IWidgetLogChannel {
         iWrappedNode3D.setPosition(n3, n2, 0.0f);
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.loadResources((RedrawContextHigh)redrawContext);
         this.applyProperties();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         if (this.multiBarChartController != null) {
             return this.multiBarChartController;
@@ -193,7 +191,6 @@ implements IWidgetLogChannel {
         return 3;
     }
 
-    @Override
     public void disconnect() {
         if (this.propertyCache != null) {
             this.propertyCache.clearAll();

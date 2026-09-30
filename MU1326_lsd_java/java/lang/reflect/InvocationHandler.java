@@ -6,7 +6,6 @@ package java.lang.reflect;
 import java.lang.reflect.Method;
 
 public interface InvocationHandler {
-    default public Object invoke(Object object, Method method, Object[] objectArray) {
-    }
+    public Object invoke(Object var1, Method var2, Object[] var3) throws Throwable;
 }
 

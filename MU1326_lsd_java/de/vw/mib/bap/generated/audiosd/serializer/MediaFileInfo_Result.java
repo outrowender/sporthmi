@@ -11,19 +11,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaFileInfo_Result
 implements ResultMethod {
     public int mediaFileInfoResult;
-    private static final int MEDIA_FILE_INFO_RESULT_BITSIZE;
-    public static final int MEDIA_FILE_INFO_RESULT_SUCCESSFUL;
-    public static final int MEDIA_FILE_INFO_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED;
-    public static final int MEDIA_FILE_INFO_RESULT_ABORT_SUCCESSFUL;
-    public static final int MEDIA_FILE_INFO_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int MEDIA_FILE_INFO_RESULT_BITSIZE = 8;
+    public static final int MEDIA_FILE_INFO_RESULT_SUCCESSFUL = 0;
+    public static final int MEDIA_FILE_INFO_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED = 1;
+    public static final int MEDIA_FILE_INFO_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int MEDIA_FILE_INFO_RESULT_ABORT_NOT_SUCCESSFUL = 3;
     public final BAPString artist = new BAPString(76);
-    private static final int MAX_ARTIST_LENGTH;
+    private static final int MAX_ARTIST_LENGTH = 76;
     public final BAPString title = new BAPString(76);
-    private static final int MAX_TITLE_LENGTH;
+    private static final int MAX_TITLE_LENGTH = 76;
     public final BAPString album = new BAPString(76);
-    private static final int MAX_ALBUM_LENGTH;
+    private static final int MAX_ALBUM_LENGTH = 76;
 
-    @Override
     public int getResultCode() {
         return this.mediaFileInfoResult;
     }
@@ -42,7 +41,6 @@ implements ResultMethod {
         this.mediaFileInfoResult = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.artist.reset();
@@ -50,7 +48,6 @@ implements ResultMethod {
         this.album.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaFileInfo_Result mediaFileInfo_Result = (MediaFileInfo_Result)bAPEntity;
         return this.mediaFileInfoResult == mediaFileInfo_Result.mediaFileInfoResult && this.artist.equalTo(mediaFileInfo_Result.artist) && this.title.equalTo(mediaFileInfo_Result.title) && this.album.equalTo(mediaFileInfo_Result.album);
@@ -62,7 +59,6 @@ implements ResultMethod {
         this.album.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaFileInfo_Result:");
@@ -97,7 +93,6 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -106,7 +101,6 @@ implements ResultMethod {
         return n += this.album.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.mediaFileInfoResult);
         this.artist.serialize(bitStream);
@@ -114,7 +108,6 @@ implements ResultMethod {
         this.album.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.mediaFileInfoResult = bitStream.popFrontByte();
         this.artist.deserialize(bitStream);
@@ -126,7 +119,6 @@ implements ResultMethod {
         return 39;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaFileInfo_Result.functionId();
     }

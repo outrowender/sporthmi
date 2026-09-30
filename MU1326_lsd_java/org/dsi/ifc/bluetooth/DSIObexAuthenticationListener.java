@@ -7,10 +7,8 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIObexAuthenticationListener
 extends DSIListener {
-    default public void authenticationRequired(int n, boolean bl, String string) {
-    }
+    public void authenticationRequired(int var1, boolean var2, String var3);
 
-    default public void indAuthentication(boolean bl) {
-    }
+    public void indAuthentication(boolean var1);
 }
 

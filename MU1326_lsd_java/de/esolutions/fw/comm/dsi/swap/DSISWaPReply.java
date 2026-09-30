@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.swap;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.swap.ConfigInfo;
 import org.dsi.ifc.swap.SFscDetails;
 import org.dsi.ifc.swap.SFscHistory;
@@ -10,72 +11,51 @@ import org.dsi.ifc.swap.SFscImportStatus;
 import org.dsi.ifc.swap.SFscStatus;
 
 public interface DSISWaPReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "5d89d8f3-07c4-5d00-9db7-32c55c981f43";
+    public static final String IPL_COMM_INTERFACE_KEY = "cbe65faa-96b7-5ffd-b8c1-9f9ade45b142";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.11";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.11";
 
-    default public void updateSoftwareEnabling(int[] nArray, int n) {
-    }
+    public void updateSoftwareEnabling(int[] var1, int var2) throws MethodException;
 
-    default public void updateIllegalFSCs(int[] nArray, int n) {
-    }
+    public void updateIllegalFSCs(int[] var1, int var2) throws MethodException;
 
-    default public void updateAreFSCsSigned(boolean bl, int n) {
-    }
+    public void updateAreFSCsSigned(boolean var1, int var2) throws MethodException;
 
-    default public void updateLimitedLifetime(boolean bl, int n) {
-    }
+    public void updateLimitedLifetime(boolean var1, int var2) throws MethodException;
 
-    default public void updateConfigCheck(ConfigInfo configInfo, int n) {
-    }
+    public void updateConfigCheck(ConfigInfo var1, int var2) throws MethodException;
 
-    default public void updateConfigPrepare(String string, int n) {
-    }
+    public void updateConfigPrepare(String var1, int var2) throws MethodException;
 
-    default public void updateConfigFinalize(ConfigInfo configInfo, int n) {
-    }
+    public void updateConfigFinalize(ConfigInfo var1, int var2) throws MethodException;
 
-    default public void updateFscList(SFscStatus[] sFscStatusArray, int n) {
-    }
+    public void updateFscList(SFscStatus[] var1, int var2) throws MethodException;
 
-    default public void encryptFile(String string, int n) {
-    }
+    public void encryptFile(String var1, int var2) throws MethodException;
 
-    default public void checkSignature(boolean bl, String string) {
-    }
+    public void checkSignature(boolean var1, String var2) throws MethodException;
 
-    default public void getPublicKey(short[] sArray, boolean bl) {
-    }
+    public void getPublicKey(short[] var1, boolean var2) throws MethodException;
 
-    default public void checkSingleFsc(int n, int n2) {
-    }
+    public void checkSingleFsc(int var1, int var2) throws MethodException;
 
-    default public void decryptFile(String string, int n) {
-    }
+    public void decryptFile(String var1, int var2) throws MethodException;
 
-    default public void getFscDetail(SFscDetails sFscDetails) {
-    }
+    public void getFscDetail(SFscDetails var1) throws MethodException;
 
-    default public void importFSCs(int n, SFscImportStatus sFscImportStatus) {
-    }
+    public void importFSCs(int var1, SFscImportStatus var2) throws MethodException;
 
-    default public void importFSCsList(int n, SFscImportStatus[] sFscImportStatusArray) {
-    }
+    public void importFSCsList(int var1, SFscImportStatus[] var2) throws MethodException;
 
-    default public void exportCCD(int n) {
-    }
+    public void exportCCD(int var1) throws MethodException;
 
-    default public void getHistory(SFscHistory sFscHistory) {
-    }
+    public void getHistory(SFscHistory var1) throws MethodException;
 
-    default public void getHistoryList(SFscHistory[] sFscHistoryArray) {
-    }
+    public void getHistoryList(SFscHistory[] var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

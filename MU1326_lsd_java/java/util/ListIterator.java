@@ -7,34 +7,22 @@ import java.util.Iterator;
 
 public interface ListIterator
 extends Iterator {
-    default public void add(Object object) {
-    }
+    public void add(Object var1);
 
-    @Override
-    default public boolean hasNext() {
-    }
+    public boolean hasNext();
 
-    default public boolean hasPrevious() {
-    }
+    public boolean hasPrevious();
 
-    @Override
-    default public Object next() {
-    }
+    public Object next();
 
-    default public int nextIndex() {
-    }
+    public int nextIndex();
 
-    default public Object previous() {
-    }
+    public Object previous();
 
-    default public int previousIndex() {
-    }
+    public int previousIndex();
 
-    @Override
-    default public void remove() {
-    }
+    public void remove();
 
-    default public void set(Object object) {
-    }
+    public void set(Object var1);
 }
 

@@ -4,8 +4,8 @@
 package de.esolutions.fw.comm.dsi.komogfxstreamsink;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_GFXSTATE;
-    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_REQUESTSYNC;
-    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_DATARATE;
+    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_GFXSTATE = 1;
+    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_REQUESTSYNC = 2;
+    public static final int ATTRIBUTE_ID_DSIKOMOGFXSTREAMSINK_DATARATE = 3;
 }
 

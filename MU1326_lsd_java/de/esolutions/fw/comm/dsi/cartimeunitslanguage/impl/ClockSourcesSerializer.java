@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockSources;
 
 public class ClockSourcesSerializer {
-    public static void putOptionalClockSources(ISerializer iSerializer, ClockSources clockSources) {
+    public static void putOptionalClockSources(ISerializer iSerializer, ClockSources clockSources) throws SerializerException {
         boolean bl = clockSources == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ClockSourcesSerializer {
         }
     }
 
-    public static void putOptionalClockSourcesVarArray(ISerializer iSerializer, ClockSources[] clockSourcesArray) {
+    public static void putOptionalClockSourcesVarArray(ISerializer iSerializer, ClockSources[] clockSourcesArray) throws SerializerException {
         boolean bl = clockSourcesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ClockSourcesSerializer {
         }
     }
 
-    public static ClockSources getOptionalClockSources(IDeserializer iDeserializer) {
+    public static ClockSources getOptionalClockSources(IDeserializer iDeserializer) throws SerializerException {
         ClockSources clockSources = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ClockSourcesSerializer {
         return clockSources;
     }
 
-    public static ClockSources[] getOptionalClockSourcesVarArray(IDeserializer iDeserializer) {
+    public static ClockSources[] getOptionalClockSourcesVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockSources[] clockSourcesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

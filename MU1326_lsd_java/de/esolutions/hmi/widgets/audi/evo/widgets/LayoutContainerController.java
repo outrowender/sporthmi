@@ -49,13 +49,11 @@ IEmptyableWidget {
         return this.layoutDirty;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.manageLayout();
         super.render(redrawContext);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.checkCorrectProgressBarMirroring();
@@ -74,7 +72,6 @@ IEmptyableWidget {
         }
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         this.invalidateChildrenBounds();
         if (this.getHasDynamicLayout() && this.isVisible() && this.isVisibleOnCurrentStage()) {
@@ -111,7 +108,6 @@ IEmptyableWidget {
         return this.m_hasDynamicLayout;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.getHasDynamicLayout() && this.preferredWidth == -1) {
             return this.layoutManager.calculateSize(this, -1)[0];
@@ -119,7 +115,6 @@ IEmptyableWidget {
         return super.getPreferredWidth();
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.getHasDynamicLayout() && this.preferredHeight == -1) {
             return this.layoutManager.calculateSize(this, -1)[1];
@@ -127,7 +122,6 @@ IEmptyableWidget {
         return super.getPreferredHeight();
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (this.width != n3 || this.height != n4) {
             this.invalidateChildrenBounds();
@@ -135,7 +129,6 @@ IEmptyableWidget {
         super.setBounds(n, n2, n3, n4);
     }
 
-    @Override
     public void setWidth(int n) {
         if (this.width != n) {
             this.invalidateChildrenBounds();
@@ -143,7 +136,6 @@ IEmptyableWidget {
         super.setWidth(n);
     }
 
-    @Override
     public void setHeight(int n) {
         if (this.height != n) {
             this.invalidateChildrenBounds();
@@ -151,27 +143,24 @@ IEmptyableWidget {
         super.setHeight(n);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         this.invalidateLayout(abstractWidget);
     }
 
     public void add(AbstractWidget abstractWidget, int n) {
-        if (n == 1 && abstractWidget instanceof LabelController) {
+        if (n == 0x1000000 && abstractWidget instanceof LabelController) {
             ((LabelController)abstractWidget).setUserHintRole(n);
         }
         super.add(abstractWidget);
         this.invalidateLayout(abstractWidget);
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         super.remove(abstractWidget);
         this.invalidateLayout(abstractWidget);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -197,7 +186,6 @@ IEmptyableWidget {
         this.invalidateLayout(null);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.invalidateChildrenBounds();
@@ -248,11 +236,10 @@ IEmptyableWidget {
         nArray2[nArray2.length - 1] = horizInsetsRight[n];
     }
 
-    @Override
     public int getBaseline() {
         this.manageLayout();
         boolean bl = false;
-        int n = -129;
+        int n = Integer.MAX_VALUE;
         Iterator iterator = this.getLayoutedChildren().iterator();
         while (iterator.hasNext()) {
             BaselineWidget baselineWidget;
@@ -276,14 +263,12 @@ IEmptyableWidget {
         return this.getChildren();
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (this.layoutManager instanceof IViewSizeAnimatable) {
             ((IViewSizeAnimatable)((Object)this.layoutManager)).setViewSizeAnimation(f2, fArray, fArray2, bl);
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (this.layoutManager instanceof IViewSizeAnimatable) {
             ((IViewSizeAnimatable)((Object)this.layoutManager)).setViewSizeAnimationFinished(fArray, bl);
@@ -304,16 +289,13 @@ IEmptyableWidget {
         this.role = n;
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public boolean hasContent() {
         return this.getPreferredHeight() != 0 && this.getPreferredWidth() != 0;
     }
 
-    @Override
     public boolean hasBaseline() {
         Iterator iterator = this.getLayoutedChildren().iterator();
         while (iterator.hasNext()) {
@@ -325,7 +307,6 @@ IEmptyableWidget {
         return false;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 

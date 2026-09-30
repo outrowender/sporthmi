@@ -16,7 +16,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -39,7 +38,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public int getDepth() {
         ComboBoxController comboBoxController;
         if (this.getParent() instanceof ComboBoxController && (comboBoxController = (ComboBoxController)this.getParent()).getType() == 1) {

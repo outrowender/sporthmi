@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.Template;
 
 public class TemplateSerializer {
-    public static void putOptionalTemplate(ISerializer iSerializer, Template template) {
+    public static void putOptionalTemplate(ISerializer iSerializer, Template template) throws SerializerException {
         boolean bl = template == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TemplateSerializer {
         }
     }
 
-    public static void putOptionalTemplateVarArray(ISerializer iSerializer, Template[] templateArray) {
+    public static void putOptionalTemplateVarArray(ISerializer iSerializer, Template[] templateArray) throws SerializerException {
         boolean bl = templateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TemplateSerializer {
         }
     }
 
-    public static Template getOptionalTemplate(IDeserializer iDeserializer) {
+    public static Template getOptionalTemplate(IDeserializer iDeserializer) throws SerializerException {
         Template template = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TemplateSerializer {
         return template;
     }
 
-    public static Template[] getOptionalTemplateVarArray(IDeserializer iDeserializer) {
+    public static Template[] getOptionalTemplateVarArray(IDeserializer iDeserializer) throws SerializerException {
         Template[] templateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

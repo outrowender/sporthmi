@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Suggestion;
 
 public class SuggestionSerializer {
-    public static void putOptionalSuggestion(ISerializer iSerializer, Suggestion suggestion) {
+    public static void putOptionalSuggestion(ISerializer iSerializer, Suggestion suggestion) throws SerializerException {
         boolean bl = suggestion == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SuggestionSerializer {
         }
     }
 
-    public static void putOptionalSuggestionVarArray(ISerializer iSerializer, Suggestion[] suggestionArray) {
+    public static void putOptionalSuggestionVarArray(ISerializer iSerializer, Suggestion[] suggestionArray) throws SerializerException {
         boolean bl = suggestionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SuggestionSerializer {
         }
     }
 
-    public static Suggestion getOptionalSuggestion(IDeserializer iDeserializer) {
+    public static Suggestion getOptionalSuggestion(IDeserializer iDeserializer) throws SerializerException {
         Suggestion suggestion = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SuggestionSerializer {
         return suggestion;
     }
 
-    public static Suggestion[] getOptionalSuggestionVarArray(IDeserializer iDeserializer) {
+    public static Suggestion[] getOptionalSuggestionVarArray(IDeserializer iDeserializer) throws SerializerException {
         Suggestion[] suggestionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

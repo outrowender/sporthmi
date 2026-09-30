@@ -6,10 +6,8 @@ package de.vw.mib.asl.api.bap.observer;
 import de.vw.mib.asl.api.bap.observer.BAPValueObserver;
 
 public interface BAPValueObserverable {
-    default public void addObserver(BAPValueObserver bAPValueObserver, Object object) {
-    }
+    public void addObserver(BAPValueObserver var1, Object var2);
 
-    default public void removeObserver(BAPValueObserver bAPValueObserver) {
-    }
+    public void removeObserver(BAPValueObserver var1);
 }
 

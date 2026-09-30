@@ -82,7 +82,7 @@ public class sTmcLocationReference {
     }
 
     public String toString() {
-        return new StringBuffer("sTmcLocationReference{").append("location=").append(this.location).append(", countryCode=").append(this.countryCode).append(", ltn=").append(this.ltn).append(", extent=").append(this.extent).append(", direction=").append(this.direction).append(", offset=").append(this.offset).append(", hzd=").append(this.hzd).append("}").toString();
+        return "sTmcLocationReference{" + "location=" + this.location + ", countryCode=" + this.countryCode + ", ltn=" + this.ltn + ", extent=" + this.extent + ", direction=" + this.direction + ", offset=" + this.offset + ", hzd=" + this.hzd + "}";
     }
 }
 

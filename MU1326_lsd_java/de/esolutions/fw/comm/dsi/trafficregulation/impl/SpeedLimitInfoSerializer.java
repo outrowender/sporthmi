@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.trafficregulation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.trafficregulation.SpeedLimitInfo;
 
 public class SpeedLimitInfoSerializer {
-    public static void putOptionalSpeedLimitInfo(ISerializer iSerializer, SpeedLimitInfo speedLimitInfo) {
+    public static void putOptionalSpeedLimitInfo(ISerializer iSerializer, SpeedLimitInfo speedLimitInfo) throws SerializerException {
         boolean bl = speedLimitInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SpeedLimitInfoSerializer {
         }
     }
 
-    public static void putOptionalSpeedLimitInfoVarArray(ISerializer iSerializer, SpeedLimitInfo[] speedLimitInfoArray) {
+    public static void putOptionalSpeedLimitInfoVarArray(ISerializer iSerializer, SpeedLimitInfo[] speedLimitInfoArray) throws SerializerException {
         boolean bl = speedLimitInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SpeedLimitInfoSerializer {
         }
     }
 
-    public static SpeedLimitInfo getOptionalSpeedLimitInfo(IDeserializer iDeserializer) {
+    public static SpeedLimitInfo getOptionalSpeedLimitInfo(IDeserializer iDeserializer) throws SerializerException {
         SpeedLimitInfo speedLimitInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SpeedLimitInfoSerializer {
         return speedLimitInfo;
     }
 
-    public static SpeedLimitInfo[] getOptionalSpeedLimitInfoVarArray(IDeserializer iDeserializer) {
+    public static SpeedLimitInfo[] getOptionalSpeedLimitInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpeedLimitInfo[] speedLimitInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

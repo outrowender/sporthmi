@@ -5,35 +5,27 @@ package javax.microedition.io;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import java.io.IOException;
 
 public interface Datagram
 extends DataInput,
 DataOutput {
-    default public String getAddress() {
-    }
+    public String getAddress();
 
-    default public byte[] getData() {
-    }
+    public byte[] getData();
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getOffset() {
-    }
+    public int getOffset();
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public void setAddress(Datagram datagram) {
-    }
+    public void setAddress(Datagram var1);
 
-    default public void setAddress(String string) {
-    }
+    public void setAddress(String var1) throws IOException;
 
-    default public void setData(byte[] byArray, int n, int n2) {
-    }
+    public void setData(byte[] var1, int var2, int var3);
 
-    default public void setLength(int n) {
-    }
+    public void setLength(int var1);
 }
 

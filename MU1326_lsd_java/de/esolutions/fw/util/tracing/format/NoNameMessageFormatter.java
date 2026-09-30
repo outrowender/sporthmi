@@ -14,15 +14,13 @@ import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
 
 public class NoNameMessageFormatter
 implements ITraceMessageFormatter {
-    private static final int threadNameWidth;
-    private static final int channelNameWidth;
-    private static final int seqNumWidth;
+    private static final int threadNameWidth = 11;
+    private static final int channelNameWidth = 23;
+    private static final int seqNumWidth = 5;
 
-    @Override
     public void init(TraceConfigFormatter traceConfigFormatter) {
     }
 
-    @Override
     public String[] formatMessage(ITraceMessage iTraceMessage, ITraceEntityResolver iTraceEntityResolver) {
         String string = null;
         String string2 = null;
@@ -44,7 +42,7 @@ implements ITraceMessageFormatter {
         String[] stringArray = iTraceMessage.getDecodedMessage();
         String[] stringArray2 = new String[stringArray.length];
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
-            stringArray2[i2] = new StringBuffer().append(string3).append(stringArray[i2]).toString();
+            stringArray2[i2] = string3 + stringArray[i2];
         }
         return stringArray2;
     }

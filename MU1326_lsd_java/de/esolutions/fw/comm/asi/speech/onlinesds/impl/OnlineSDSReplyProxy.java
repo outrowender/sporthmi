@@ -6,19 +6,22 @@ package de.esolutions.fw.comm.asi.speech.onlinesds.impl;
 import de.esolutions.fw.comm.asi.speech.onlinesds.AudioData;
 import de.esolutions.fw.comm.asi.speech.onlinesds.LanguageInfo;
 import de.esolutions.fw.comm.asi.speech.onlinesds.OnlineSDSReply;
-import de.esolutions.fw.comm.asi.speech.onlinesds.impl.OnlineSDSReplyProxy$1;
-import de.esolutions.fw.comm.asi.speech.onlinesds.impl.OnlineSDSReplyProxy$2;
-import de.esolutions.fw.comm.asi.speech.onlinesds.impl.OnlineSDSReplyProxy$3;
+import de.esolutions.fw.comm.asi.speech.onlinesds.impl.AudioDataSerializer;
+import de.esolutions.fw.comm.asi.speech.onlinesds.impl.LanguageInfoSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class OnlineSDSReplyProxy
 implements OnlineSDSReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.speech.onlinesds.OnlineSDS");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public OnlineSDSReplyProxy() {
@@ -26,27 +29,40 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void setLanguage(LanguageInfo languageInfo) {
-        OnlineSDSReplyProxy$1 onlineSDSReplyProxy$1 = new OnlineSDSReplyProxy$1(this, languageInfo);
-        this.proxy.remoteCallMethod((short)20, onlineSDSReplyProxy$1);
+    public void setLanguage(final LanguageInfo languageInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                LanguageInfoSerializer.putOptionalLanguageInfo(iSerializer, languageInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void speechDataUpdate(int n, int n2, AudioData audioData) {
-        OnlineSDSReplyProxy$2 onlineSDSReplyProxy$2 = new OnlineSDSReplyProxy$2(this, n, n2, audioData);
-        this.proxy.remoteCallMethod((short)21, onlineSDSReplyProxy$2);
+    public void speechDataUpdate(final int n, final int n2, final AudioData audioData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt16(n);
+                iSerializer.putEnum(n2);
+                AudioDataSerializer.putOptionalAudioData(iSerializer, audioData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void cancel(int n) {
-        OnlineSDSReplyProxy$3 onlineSDSReplyProxy$3 = new OnlineSDSReplyProxy$3(this, n);
-        this.proxy.remoteCallMethod((short)16, onlineSDSReplyProxy$3);
+    public void cancel(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 }
 

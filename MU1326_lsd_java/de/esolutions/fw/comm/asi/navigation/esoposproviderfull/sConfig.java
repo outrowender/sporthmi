@@ -92,7 +92,7 @@ public class sConfig {
     }
 
     public String toString() {
-        return new StringBuffer("sConfig{").append("updatePeriod=").append(this.updatePeriod).append(", predLength=").append(this.predLength).append(", predDuration=").append(this.predDuration).append(", coordinateSystem=").append(this.coordinateSystem).append(", deadrecEnabled=").append(this.deadrecEnabled).append(", mapMatchingEnabled=").append(this.mapMatchingEnabled).append(", nmeaPosEnabled=").append(this.nmeaPosEnabled).append(", structPosEnabled=").append(this.structPosEnabled).append("}").toString();
+        return "sConfig{" + "updatePeriod=" + this.updatePeriod + ", predLength=" + this.predLength + ", predDuration=" + this.predDuration + ", coordinateSystem=" + this.coordinateSystem + ", deadrecEnabled=" + this.deadrecEnabled + ", mapMatchingEnabled=" + this.mapMatchingEnabled + ", nmeaPosEnabled=" + this.nmeaPosEnabled + ", structPosEnabled=" + this.structPosEnabled + "}";
     }
 }
 

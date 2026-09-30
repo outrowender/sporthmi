@@ -9,6 +9,8 @@ import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.aggregate.AggregateDecoder;
 import de.esolutions.fw.util.transport.aggregate.AggregateEncoder;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class AggregateTransport
 implements ITransport {
@@ -32,40 +34,35 @@ implements ITransport {
         this.maxPacketSize = n;
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException, TransportException, InterruptedException {
         if (this.encoder == null) {
             throw new RuntimeException("No Transmitter in Transport!");
         }
         this.encoder.flushPacket();
     }
 
-    @Override
-    public void send(IWriter iWriter) {
+    public void send(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         if (this.encoder == null) {
             throw new RuntimeException("No Transmitter in Transport!");
         }
         this.encoder.putMessage(iWriter);
     }
 
-    @Override
-    public void sendSync(IWriter iWriter) {
+    public void sendSync(IWriter iWriter) throws IOException, TransportException, InterruptedException {
         if (this.encoder == null) {
             throw new RuntimeException("No Transmitter in Transport!");
         }
         this.encoder.putMessageCopy(iWriter);
     }
 
-    @Override
-    public IReadable recv() {
+    public IReadable recv() throws IOException, TransportException, InterruptedException {
         if (this.decoder == null) {
             throw new RuntimeException("No Receiver in Transport!");
         }
         return this.decoder.getMessage();
     }
 
-    @Override
-    public void open() {
+    public void open() throws IOException {
         if (this.isOpen) {
             return;
         }
@@ -76,13 +73,11 @@ implements ITransport {
         }
     }
 
-    @Override
     public boolean isOpen() {
         return this.isOpen;
     }
 
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         if (!this.isOpen) {
             return;
         }
@@ -90,7 +85,6 @@ implements ITransport {
         this.transport.close(bl);
     }
 
-    @Override
     public int maxMsgSize() {
         if (this.encoder != null) {
             return this.encoder.getMaxMessageSize();
@@ -98,27 +92,22 @@ implements ITransport {
         return 0;
     }
 
-    @Override
     public boolean isReliable() {
         return this.transport.isReliable();
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return this.transport.detectsPeerReset();
     }
 
-    @Override
     public boolean keepsRecordBoundaries() {
         return this.transport.keepsRecordBoundaries();
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[Aggregate:").append(this.transport.getDescription()).append("]").toString();
+        return "[Aggregate:" + this.transport.getDescription() + "]";
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
     }
 }

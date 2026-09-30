@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.hmisync.headunit;
 
 import de.esolutions.fw.comm.asi.hmisync.headunit.ASIHMISyncHeadUnitReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncHeadUnitS {
-    default public void setNotification(ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void setNotification(ASIHMISyncHeadUnitReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncHeadUnitReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncHeadUnitReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void clearNotification(ASIHMISyncHeadUnitReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncHeadUnitReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncHeadUnitReply aSIHMISyncHeadUnitReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncHeadUnitReply var2) throws MethodException;
 }
 

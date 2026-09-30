@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaScreens;
 
 public class CharismaScreensSerializer {
-    public static void putOptionalCharismaScreens(ISerializer iSerializer, CharismaScreens charismaScreens) {
+    public static void putOptionalCharismaScreens(ISerializer iSerializer, CharismaScreens charismaScreens) throws SerializerException {
         boolean bl = charismaScreens == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CharismaScreensSerializer {
         }
     }
 
-    public static void putOptionalCharismaScreensVarArray(ISerializer iSerializer, CharismaScreens[] charismaScreensArray) {
+    public static void putOptionalCharismaScreensVarArray(ISerializer iSerializer, CharismaScreens[] charismaScreensArray) throws SerializerException {
         boolean bl = charismaScreensArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CharismaScreensSerializer {
         }
     }
 
-    public static CharismaScreens getOptionalCharismaScreens(IDeserializer iDeserializer) {
+    public static CharismaScreens getOptionalCharismaScreens(IDeserializer iDeserializer) throws SerializerException {
         CharismaScreens charismaScreens = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CharismaScreensSerializer {
         return charismaScreens;
     }
 
-    public static CharismaScreens[] getOptionalCharismaScreensVarArray(IDeserializer iDeserializer) {
+    public static CharismaScreens[] getOptionalCharismaScreensVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaScreens[] charismaScreensArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

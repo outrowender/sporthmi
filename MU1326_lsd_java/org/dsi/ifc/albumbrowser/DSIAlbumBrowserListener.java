@@ -8,25 +8,18 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAlbumBrowserListener
 extends DSIListener {
-    default public void updateBrowserState(int n, int n2) {
-    }
+    public void updateBrowserState(int var1, int var2);
 
-    default public void updateFocusedEntry(AlbumEntryInfo albumEntryInfo, int n) {
-    }
+    public void updateFocusedEntry(AlbumEntryInfo var1, int var2);
 
-    default public void updateListPosition(long l, int n) {
-    }
+    public void updateListPosition(long var1, int var3);
 
-    default public void updateNumEntries(long l, int n) {
-    }
+    public void updateNumEntries(long var1, int var3);
 
-    default public void updateScrollMode(int n, int n2) {
-    }
+    public void updateScrollMode(int var1, int var2);
 
-    default public void selectAlbum(long l) {
-    }
+    public void selectAlbum(long var1);
 
-    default public void albumIdxForFID(long l, long l2) {
-    }
+    public void albumIdxForFID(long var1, long var3);
 }
 

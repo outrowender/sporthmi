@@ -25,28 +25,23 @@ implements DSIBluetooth {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = DSIBluetoothProvider.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBluetoothProxy(this.instance, (DSIBluetoothReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void abortConnectService(String string) {
         try {
             this.proxy.abortConnectService(string);
@@ -56,7 +51,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void abortInquiry() {
         try {
             this.proxy.abortInquiry();
@@ -66,7 +60,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestAcceptIncomingServiceRequest(String string, int n, boolean bl) {
         try {
             this.proxy.requestAcceptIncomingServiceRequest(string, n, bl);
@@ -76,7 +69,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestConnectService(String string, int n, int n2) {
         try {
             this.proxy.requestConnectService(string, n, n2);
@@ -86,7 +78,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestConnectServiceToInstance(String string, int n, int n2) {
         try {
             this.proxy.requestConnectServiceToInstance(string, n, n2);
@@ -96,7 +87,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestDisconnectService(String string, int n) {
         try {
             this.proxy.requestDisconnectService(string, n);
@@ -106,7 +96,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestGetServices(String string) {
         try {
             this.proxy.requestGetServices(string);
@@ -116,7 +105,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestInquiry(int n, int n2, int n3) {
         try {
             this.proxy.requestInquiry(n, n2, n3);
@@ -126,7 +114,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestPasskeyResponse(String string, String string2, int n) {
         try {
             this.proxy.requestPasskeyResponse(string, string2, n);
@@ -136,7 +123,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestReconnectSuspend(boolean bl) {
         try {
             this.proxy.requestReconnectSuspend(bl);
@@ -146,7 +132,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestRemoveAuthentication(String string) {
         try {
             this.proxy.requestRemoveAuthentication(string);
@@ -156,7 +141,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestRestoreFactorySettings() {
         try {
             this.proxy.requestRestoreFactorySettings();
@@ -166,7 +150,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestSetA2DPUserSetting(boolean bl) {
         try {
             this.proxy.requestSetA2DPUserSetting(bl);
@@ -176,7 +159,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestSwitchBTState(int n) {
         try {
             this.proxy.requestSwitchBTState(n);
@@ -186,7 +168,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void setAccessibleMode(int n) {
         try {
             this.proxy.setAccessibleMode(n);
@@ -196,7 +177,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void setUserFriendlyName(String string) {
         try {
             this.proxy.setUserFriendlyName(string);
@@ -206,7 +186,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void requestSetPriorizedDeviceReconnect(boolean bl, String string) {
         try {
             this.proxy.requestSetPriorizedDeviceReconnect(bl, string);
@@ -216,7 +195,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -226,7 +204,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -236,7 +213,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -246,7 +222,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -256,7 +231,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -266,7 +240,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -276,7 +249,6 @@ implements DSIBluetooth {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

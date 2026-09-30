@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
 
 public abstract class ChildNode
 extends NodeImpl {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -6112455738802414002L;
     protected ChildNode previousSibling;
     protected ChildNode nextSibling;
 
@@ -20,7 +20,6 @@ extends NodeImpl {
     public ChildNode() {
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         ChildNode childNode = (ChildNode)super.cloneNode(bl);
         childNode.previousSibling = null;
@@ -29,27 +28,22 @@ extends NodeImpl {
         return childNode;
     }
 
-    @Override
     public Node getParentNode() {
         return this.isOwned() ? this.ownerNode : null;
     }
 
-    @Override
     final NodeImpl parentNode() {
         return this.isOwned() ? this.ownerNode : null;
     }
 
-    @Override
     public Node getNextSibling() {
         return this.nextSibling;
     }
 
-    @Override
     public Node getPreviousSibling() {
         return this.isFirstChild() ? null : this.previousSibling;
     }
 
-    @Override
     final ChildNode previousSibling() {
         return this.isFirstChild() ? null : this.previousSibling;
     }

@@ -46,7 +46,7 @@ public class sNavCountryRegionVersion {
     }
 
     public String toString() {
-        return new StringBuffer("sNavCountryRegionVersion{").append("msg_id=").append(this.msg_id).append(", status=").append(this.status).append(", versionList=").append("[").append(this.versionList == null ? "null" : Arrays.asList(this.versionList).toString()).append("]").append("}").toString();
+        return "sNavCountryRegionVersion{" + "msg_id=" + this.msg_id + ", status=" + this.status + ", versionList=" + "[" + (this.versionList == null ? "null" : Arrays.asList(this.versionList).toString()) + "]" + "}";
     }
 }
 

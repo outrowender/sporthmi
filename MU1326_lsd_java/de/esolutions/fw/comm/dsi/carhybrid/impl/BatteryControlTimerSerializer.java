@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlWeekdaysSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlTimer;
 import org.dsi.ifc.carhybrid.BatteryControlWeekdays;
 
 public class BatteryControlTimerSerializer {
-    public static void putOptionalBatteryControlTimer(ISerializer iSerializer, BatteryControlTimer batteryControlTimer) {
+    public static void putOptionalBatteryControlTimer(ISerializer iSerializer, BatteryControlTimer batteryControlTimer) throws SerializerException {
         boolean bl = batteryControlTimer == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class BatteryControlTimerSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlTimerVarArray(ISerializer iSerializer, BatteryControlTimer[] batteryControlTimerArray) {
+    public static void putOptionalBatteryControlTimerVarArray(ISerializer iSerializer, BatteryControlTimer[] batteryControlTimerArray) throws SerializerException {
         boolean bl = batteryControlTimerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class BatteryControlTimerSerializer {
         }
     }
 
-    public static BatteryControlTimer getOptionalBatteryControlTimer(IDeserializer iDeserializer) {
+    public static BatteryControlTimer getOptionalBatteryControlTimer(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlTimer batteryControlTimer = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class BatteryControlTimerSerializer {
         return batteryControlTimer;
     }
 
-    public static BatteryControlTimer[] getOptionalBatteryControlTimerVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlTimer[] getOptionalBatteryControlTimerVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlTimer[] batteryControlTimerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

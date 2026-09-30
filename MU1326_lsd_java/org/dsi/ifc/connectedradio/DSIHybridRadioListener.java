@@ -8,46 +8,32 @@ import org.dsi.ifc.connectedradio.RadioStation;
 
 public interface DSIHybridRadioListener
 extends DSIListener {
-    default public void getOnlineRadioAvailabilityResult(int n, int n2, RadioStation[] radioStationArray) {
-    }
+    public void getOnlineRadioAvailabilityResult(int var1, int var2, RadioStation[] var3);
 
-    default public void getRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
-    }
+    public void getRadioStationLogoResult(int var1, int var2, RadioStation[] var3, int var4);
 
-    default public void indicateRadioStationLogoResult(int n, int n2, RadioStation[] radioStationArray, int n3) {
-    }
+    public void indicateRadioStationLogoResult(int var1, int var2, RadioStation[] var3, int var4);
 
-    default public void getStreamResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void getStreamResult(int var1, int var2, RadioStation var3);
 
-    default public void startSlideshowResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void startSlideshowResult(int var1, int var2, RadioStation var3);
 
-    default public void stopSlideshowResult(int n, int n2, RadioStation radioStation) {
-    }
+    public void stopSlideshowResult(int var1, int var2, RadioStation var3);
 
-    default public void updateSlideshow(int n, RadioStation radioStation, int n2) {
-    }
+    public void updateSlideshow(int var1, RadioStation var2, int var3);
 
-    default public void updateRadioText(int n, RadioStation radioStation, int n2) {
-    }
+    public void updateRadioText(int var1, RadioStation var2, int var3);
 
-    default public void cancelGetRadioStationLogoResult(int n, int n2) {
-    }
+    public void cancelGetRadioStationLogoResult(int var1, int var2);
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3);
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2);
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3);
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2);
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1);
 }
 

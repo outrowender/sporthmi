@@ -7,7 +7,6 @@ import de.esolutions.fw.comm.core.IReplyService;
 
 public interface IExtendedReplyService
 extends IReplyService {
-    default public Boolean getCheckIK() {
-    }
+    public Boolean getCheckIK();
 }
 

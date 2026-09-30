@@ -6,6 +6,7 @@ package java.lang;
 import com.ibm.oti.lang.SystemProcess;
 import com.ibm.oti.vm.VM;
 import java.io.File;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class Runtime {
@@ -14,15 +15,15 @@ public class Runtime {
     private Runtime() {
     }
 
-    public Process exec(String[] stringArray) {
+    public Process exec(String[] stringArray) throws IOException {
         return this.exec(stringArray, null);
     }
 
-    public Process exec(String[] stringArray, String[] stringArray2) {
+    public Process exec(String[] stringArray, String[] stringArray2) throws IOException {
         return this.exec(stringArray, stringArray2, null);
     }
 
-    public Process exec(String[] stringArray, String[] stringArray2, File file) {
+    public Process exec(String[] stringArray, String[] stringArray2, File file) throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkExec(stringArray[0]);
@@ -33,15 +34,15 @@ public class Runtime {
         return SystemProcess.create(stringArray, stringArray2, file);
     }
 
-    public Process exec(String string) {
+    public Process exec(String string) throws IOException {
         return this.exec(string, null);
     }
 
-    public Process exec(String string, String[] stringArray) {
+    public Process exec(String string, String[] stringArray) throws IOException {
         return this.exec(string, stringArray, null);
     }
 
-    public Process exec(String string, String[] stringArray, File file) {
+    public Process exec(String string, String[] stringArray, File file) throws IOException {
         int n = 0;
         StringTokenizer stringTokenizer = new StringTokenizer(string);
         int n2 = stringTokenizer.countTokens();
@@ -60,14 +61,11 @@ public class Runtime {
         this.exitImpl(n);
     }
 
-    private native void exitImpl(int n) {
-    }
+    private native void exitImpl(int var1);
 
-    public native long freeMemory() {
-    }
+    public native long freeMemory();
 
-    public native void gc() {
-    }
+    public native void gc();
 
     public static Runtime getRuntime() {
         return runtime;
@@ -85,11 +83,9 @@ public class Runtime {
         ClassLoader.loadLibraryWithClassLoader(string, ClassLoader.callerClassLoader());
     }
 
-    public native void runFinalization() {
-    }
+    public native void runFinalization();
 
-    public native long totalMemory() {
-    }
+    public native long totalMemory();
 
     public void traceInstructions(boolean bl) {
     }
@@ -113,21 +109,18 @@ public class Runtime {
         this.haltImpl(n);
     }
 
-    private native void haltImpl(int n) {
-    }
+    private native void haltImpl(int var1);
 
     public int availableProcessors() {
         return this.availableProcessorsImpl();
     }
 
-    private native int availableProcessorsImpl() {
-    }
+    private native int availableProcessorsImpl();
 
     public long maxMemory() {
         return this.maxMemoryImpl();
     }
 
-    private native long maxMemoryImpl() {
-    }
+    private native long maxMemoryImpl();
 }
 

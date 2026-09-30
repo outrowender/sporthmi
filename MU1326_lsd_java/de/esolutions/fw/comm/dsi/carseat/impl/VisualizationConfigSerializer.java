@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.VisualizationConfig;
 
 public class VisualizationConfigSerializer {
-    public static void putOptionalVisualizationConfig(ISerializer iSerializer, VisualizationConfig visualizationConfig) {
+    public static void putOptionalVisualizationConfig(ISerializer iSerializer, VisualizationConfig visualizationConfig) throws SerializerException {
         boolean bl = visualizationConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class VisualizationConfigSerializer {
         }
     }
 
-    public static void putOptionalVisualizationConfigVarArray(ISerializer iSerializer, VisualizationConfig[] visualizationConfigArray) {
+    public static void putOptionalVisualizationConfigVarArray(ISerializer iSerializer, VisualizationConfig[] visualizationConfigArray) throws SerializerException {
         boolean bl = visualizationConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class VisualizationConfigSerializer {
         }
     }
 
-    public static VisualizationConfig getOptionalVisualizationConfig(IDeserializer iDeserializer) {
+    public static VisualizationConfig getOptionalVisualizationConfig(IDeserializer iDeserializer) throws SerializerException {
         VisualizationConfig visualizationConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -107,7 +108,7 @@ public class VisualizationConfigSerializer {
         return visualizationConfig;
     }
 
-    public static VisualizationConfig[] getOptionalVisualizationConfigVarArray(IDeserializer iDeserializer) {
+    public static VisualizationConfig[] getOptionalVisualizationConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         VisualizationConfig[] visualizationConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

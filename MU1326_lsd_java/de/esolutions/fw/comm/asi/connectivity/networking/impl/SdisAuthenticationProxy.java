@@ -25,8 +25,7 @@ implements SdisAuthentication {
         return this.proxy;
     }
 
-    @Override
-    public void sdisAuthenticationSuccessful(String string) {
+    public void sdisAuthenticationSuccessful(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

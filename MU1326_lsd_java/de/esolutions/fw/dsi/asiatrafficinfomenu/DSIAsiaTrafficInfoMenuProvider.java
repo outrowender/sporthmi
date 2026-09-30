@@ -25,28 +25,23 @@ implements DSIAsiaTrafficInfoMenu {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenu == null ? (class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenu = DSIAsiaTrafficInfoMenuProvider.class$("org.dsi.ifc.asiatrafficinfomenu.DSIAsiaTrafficInfoMenu")) : class$org$dsi$ifc$asiatrafficinfomenu$DSIAsiaTrafficInfoMenu).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAsiaTrafficInfoMenuProxy(this.instance, (DSIAsiaTrafficInfoMenuReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestResourceInformation(int n) {
         try {
             this.proxy.requestResourceInformation(n);
@@ -56,7 +51,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void requestTrafficInformationDetails(int n) {
         try {
             this.proxy.requestTrafficInformationDetails(n);
@@ -66,7 +60,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setPrefectureSetting(String string, boolean bl) {
         try {
             this.proxy.setPrefectureSetting(string, bl);
@@ -76,7 +69,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setProbeDataSetting(boolean bl) {
         try {
             this.proxy.setProbeDataSetting(bl);
@@ -86,7 +78,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -96,7 +87,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -116,7 +105,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -126,7 +114,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -136,7 +123,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -146,7 +132,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -156,7 +141,6 @@ implements DSIAsiaTrafficInfoMenu {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

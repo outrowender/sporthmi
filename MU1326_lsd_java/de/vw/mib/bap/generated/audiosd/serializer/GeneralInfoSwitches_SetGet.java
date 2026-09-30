@@ -12,7 +12,7 @@ public final class GeneralInfoSwitches_SetGet
 implements SetGetProperty {
     public final GeneralInfoSwitches_OnOffSwitches onOffSwitches = new GeneralInfoSwitches_OnOffSwitches();
     public int reserve1;
-    private static final int RESERVE1_BITSIZE;
+    private static final int RESERVE1_BITSIZE = 8;
 
     public GeneralInfoSwitches_SetGet() {
         this.internalReset();
@@ -28,13 +28,11 @@ implements SetGetProperty {
         this.reserve1 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.onOffSwitches.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         GeneralInfoSwitches_SetGet generalInfoSwitches_SetGet = (GeneralInfoSwitches_SetGet)bAPEntity;
         return this.onOffSwitches.equalTo(generalInfoSwitches_SetGet.onOffSwitches) && this.reserve1 == generalInfoSwitches_SetGet.reserve1;
@@ -43,7 +41,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("GeneralInfoSwitches_SetGet:");
@@ -54,20 +51,17 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.onOffSwitches.bitSize();
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.onOffSwitches.serialize(bitStream);
         bitStream.pushByte((byte)this.reserve1);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.onOffSwitches.deserialize(bitStream);
         this.reserve1 = bitStream.popFrontByte();
@@ -77,7 +71,6 @@ implements SetGetProperty {
         return 25;
     }
 
-    @Override
     public int getFunctionId() {
         return GeneralInfoSwitches_SetGet.functionId();
     }

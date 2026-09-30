@@ -10,15 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ETC_Status_Status
 implements StatusProperty {
     public int cardStatus;
-    private static final int CARD_STATUS_BITSIZE;
-    public static final int CARD_STATUS_INIT_UNKNOWN;
-    public static final int CARD_STATUS_ETC_CARD_INSERTED;
-    public static final int CARD_STATUS_ETC_CARD_NOT_INSERTED;
-    public static final int CARD_STATUS_ETC_CARD_READER_IS_NOT_CONNECTED;
-    public static final int EXTENSION1_MAX;
-    public static final int EXTENSION1_MIN;
+    private static final int CARD_STATUS_BITSIZE = 8;
+    public static final int CARD_STATUS_INIT_UNKNOWN = 0;
+    public static final int CARD_STATUS_ETC_CARD_INSERTED = 1;
+    public static final int CARD_STATUS_ETC_CARD_NOT_INSERTED = 2;
+    public static final int CARD_STATUS_ETC_CARD_READER_IS_NOT_CONNECTED = 3;
+    public static final int EXTENSION1_MAX = 0;
+    public static final int EXTENSION1_MIN = 0;
     public int extension1;
-    private static final int EXTENSION1_BITSIZE;
+    private static final int EXTENSION1_BITSIZE = 8;
 
     public ETC_Status_Status() {
         this.internalReset();
@@ -35,12 +35,10 @@ implements StatusProperty {
         this.extension1 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ETC_Status_Status eTC_Status_Status = (ETC_Status_Status)bAPEntity;
         return this.cardStatus == eTC_Status_Status.cardStatus && this.extension1 == eTC_Status_Status.extension1;
@@ -49,7 +47,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ETC_Status_Status:");
@@ -80,20 +77,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.cardStatus);
         bitStream.pushByte((byte)this.extension1);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.cardStatus = bitStream.popFrontByte();
         this.extension1 = bitStream.popFrontByte();
@@ -103,7 +97,6 @@ implements StatusProperty {
         return 56;
     }
 
-    @Override
     public int getFunctionId() {
         return ETC_Status_Status.functionId();
     }

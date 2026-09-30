@@ -9,19 +9,14 @@ import org.apache.xerces.xs.XSObjectList;
 
 public interface XSFacet
 extends XSObject {
-    default public short getFacetKind() {
-    }
+    public short getFacetKind();
 
-    default public String getLexicalFacetValue() {
-    }
+    public String getLexicalFacetValue();
 
-    default public boolean getFixed() {
-    }
+    public boolean getFixed();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

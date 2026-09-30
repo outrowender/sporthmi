@@ -8,6 +8,7 @@ import com.ibm.oti.util.JarUtils;
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
@@ -18,13 +19,11 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.jar.Attributes;
 import java.util.jar.InitManifest;
 import java.util.jar.JarEntry;
-import java.util.jar.JarVerifier$VerifierEntry;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 
@@ -40,7 +39,7 @@ class JarVerifier {
         this.jarName = string;
     }
 
-    JarVerifier$VerifierEntry initEntry(String string) {
+    VerifierEntry initEntry(String string) {
         Object object;
         Object object2;
         Object object3;
@@ -79,7 +78,7 @@ class JarVerifier {
         while (((StringTokenizer)object3).hasMoreTokens()) {
             byte[] byArray;
             object2 = ((StringTokenizer)object3).nextToken();
-            object = attributes.getValue(new StringBuffer(String.valueOf(object2)).append("-Digest").toString());
+            object = attributes.getValue(String.valueOf(object2) + "-Digest");
             if (object == null) continue;
             try {
                 byArray = ((String)object).getBytes("ISO8859_1");
@@ -88,7 +87,7 @@ class JarVerifier {
                 throw new RuntimeException(unsupportedEncodingException.toString());
             }
             try {
-                return new JarVerifier$VerifierEntry(MessageDigest.getInstance((String)object2), byArray, (Certificate[])objectArray);
+                return new VerifierEntry(MessageDigest.getInstance((String)object2), byArray, (Certificate[])objectArray);
             }
             catch (NoSuchAlgorithmException noSuchAlgorithmException) {}
         }
@@ -120,7 +119,7 @@ class JarVerifier {
         String string2;
         byte[] byArray;
         Object object;
-        String string3 = new StringBuffer(String.valueOf(string.substring(0, string.lastIndexOf(46)))).append(".SF").toString();
+        String string3 = String.valueOf(string.substring(0, string.lastIndexOf(46))) + ".SF";
         byte[] byArray2 = (byte[])this.metaEntries.get(string3);
         if (byArray2 == null) {
             return;
@@ -158,13 +157,13 @@ class JarVerifier {
         if (!this.verify((Attributes)object, string2, byArray, false)) {
             Iterator iterator = hashMap.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                byte[] byArray4 = this.man.getChunk((String)map$Entry.getKey());
+                Map.Entry entry = (Map.Entry)iterator.next();
+                byte[] byArray4 = this.man.getChunk((String)entry.getKey());
                 if (byArray4 == null) {
                     return;
                 }
-                if (this.verify((Attributes)map$Entry.getValue(), "-Digest", byArray4, bl)) continue;
-                throw new SecurityException(Msg.getString("K00ec", new Object[]{string3, map$Entry.getKey(), this.jarName}));
+                if (this.verify((Attributes)entry.getValue(), "-Digest", byArray4, bl)) continue;
+                throw new SecurityException(Msg.getString("K00ec", new Object[]{string3, entry.getKey(), this.jarName}));
             }
         }
         this.metaEntries.put(string3, null);
@@ -175,14 +174,14 @@ class JarVerifier {
         this.man = manifest;
     }
 
-    void verifySignatures(JarVerifier$VerifierEntry jarVerifier$VerifierEntry, ZipEntry zipEntry) {
-        byte[] byArray = jarVerifier$VerifierEntry.digest.digest();
-        if (!MessageDigest.isEqual(byArray, BASE64Decoder.decode(jarVerifier$VerifierEntry.hash))) {
+    void verifySignatures(VerifierEntry verifierEntry, ZipEntry zipEntry) {
+        byte[] byArray = verifierEntry.digest.digest();
+        if (!MessageDigest.isEqual(byArray, BASE64Decoder.decode(verifierEntry.hash))) {
             throw new SecurityException(Msg.getString("K00ec", new Object[]{"META-INF/MANIFEST.MF", zipEntry.getName(), this.jarName}));
         }
-        this.verifiedEntries.put(zipEntry.getName(), jarVerifier$VerifierEntry.certificates);
+        this.verifiedEntries.put(zipEntry.getName(), verifierEntry.certificates);
         if (zipEntry instanceof JarEntry) {
-            ((JarEntry)zipEntry).certificates = (Certificate[])jarVerifier$VerifierEntry.certificates.clone();
+            ((JarEntry)zipEntry).certificates = (Certificate[])verifierEntry.certificates.clone();
         }
     }
 
@@ -200,7 +199,7 @@ class JarVerifier {
             byte[] byArray2;
             MessageDigest messageDigest;
             String string3 = stringTokenizer.nextToken();
-            String string4 = attributes.getValue(new StringBuffer(String.valueOf(string3)).append(string).toString());
+            String string4 = attributes.getValue(String.valueOf(string3) + string);
             if (string4 == null) continue;
             try {
                 messageDigest = MessageDigest.getInstance(string3);
@@ -248,6 +247,27 @@ class JarVerifier {
             }
         }
         return vector;
+    }
+
+    static class VerifierEntry
+    extends OutputStream {
+        MessageDigest digest;
+        byte[] hash;
+        Certificate[] certificates;
+
+        VerifierEntry(MessageDigest messageDigest, byte[] byArray, Certificate[] certificateArray) {
+            this.digest = messageDigest;
+            this.hash = byArray;
+            this.certificates = certificateArray;
+        }
+
+        public void write(int n) {
+            this.digest.update((byte)n);
+        }
+
+        public void write(byte[] byArray, int n, int n2) {
+            this.digest.update(byArray, n, n2);
+        }
     }
 }
 

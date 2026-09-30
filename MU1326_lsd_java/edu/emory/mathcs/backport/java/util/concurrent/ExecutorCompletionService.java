@@ -8,7 +8,6 @@ import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.Callable;
 import edu.emory.mathcs.backport.java.util.concurrent.CompletionService;
 import edu.emory.mathcs.backport.java.util.concurrent.Executor;
-import edu.emory.mathcs.backport.java.util.concurrent.ExecutorCompletionService$QueueingFuture;
 import edu.emory.mathcs.backport.java.util.concurrent.Future;
 import edu.emory.mathcs.backport.java.util.concurrent.FutureTask;
 import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingQueue;
@@ -53,43 +52,48 @@ implements CompletionService {
         this.completionQueue = blockingQueue;
     }
 
-    @Override
     public Future submit(Callable callable) {
         if (callable == null) {
             throw new NullPointerException();
         }
         RunnableFuture runnableFuture = this.newTaskFor(callable);
-        this.executor.execute(new ExecutorCompletionService$QueueingFuture(this, runnableFuture));
+        this.executor.execute(new QueueingFuture(runnableFuture));
         return runnableFuture;
     }
 
-    @Override
     public Future submit(Runnable runnable, Object object) {
         if (runnable == null) {
             throw new NullPointerException();
         }
         RunnableFuture runnableFuture = this.newTaskFor(runnable, object);
-        this.executor.execute(new ExecutorCompletionService$QueueingFuture(this, runnableFuture));
+        this.executor.execute(new QueueingFuture(runnableFuture));
         return runnableFuture;
     }
 
-    @Override
-    public Future take() {
+    public Future take() throws InterruptedException {
         return (Future)this.completionQueue.take();
     }
 
-    @Override
     public Future poll() {
         return (Future)this.completionQueue.poll();
     }
 
-    @Override
-    public Future poll(long l, TimeUnit timeUnit) {
+    public Future poll(long l, TimeUnit timeUnit) throws InterruptedException {
         return (Future)this.completionQueue.poll(l, timeUnit);
     }
 
-    static /* synthetic */ BlockingQueue access$000(ExecutorCompletionService executorCompletionService) {
-        return executorCompletionService.completionQueue;
+    private class QueueingFuture
+    extends FutureTask {
+        private final Future task;
+
+        QueueingFuture(RunnableFuture runnableFuture) {
+            super(runnableFuture, null);
+            this.task = runnableFuture;
+        }
+
+        protected void done() {
+            ExecutorCompletionService.this.completionQueue.add(this.task);
+        }
     }
 }
 

@@ -3,120 +3,86 @@
  */
 package de.esolutions.fw.comm.dsi.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.radio.AMFMRadioText;
 import org.dsi.ifc.radio.HdStationInfo;
 import org.dsi.ifc.radio.Station;
 import org.dsi.ifc.radio.WavebandInfo;
 
 public interface DSIAMFMTunerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "624f70c8-a845-526d-98c4-395f6f0a04e3";
+    public static final String IPL_COMM_INTERFACE_KEY = "1596edb0-7f9a-5bb8-b0a7-43508fd050b7";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.36";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.36";
 
-    default public void updateStationList(Station[] stationArray, int n) {
-    }
+    public void updateStationList(Station[] var1, int var2) throws MethodException;
 
-    default public void updateStationListMW(Station[] stationArray, int n) {
-    }
+    public void updateStationListMW(Station[] var1, int var2) throws MethodException;
 
-    default public void updateStationListLW(Station[] stationArray, int n) {
-    }
+    public void updateStationListLW(Station[] var1, int var2) throws MethodException;
 
-    default public void updateWavebandInfoList(WavebandInfo[] wavebandInfoArray, int n) {
-    }
+    public void updateWavebandInfoList(WavebandInfo[] var1, int var2) throws MethodException;
 
-    default public void updateRadioText(AMFMRadioText aMFMRadioText, int n) {
-    }
+    public void updateRadioText(AMFMRadioText var1, int var2) throws MethodException;
 
-    default public void updateAFSwitchStatus(boolean bl, int n) {
-    }
+    public void updateAFSwitchStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateREGSwitchStatus(int n, int n2) {
-    }
+    public void updateREGSwitchStatus(int var1, int var2) throws MethodException;
 
-    default public void updateLinkingUsageStatus(int n, int n2) {
-    }
+    public void updateLinkingUsageStatus(int var1, int var2) throws MethodException;
 
-    default public void updateDetectedDevice(int n, int n2) {
-    }
+    public void updateDetectedDevice(int var1, int var2) throws MethodException;
 
-    default public void tuneFrequencyStepsStatus(int n) {
-    }
+    public void tuneFrequencyStepsStatus(int var1) throws MethodException;
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1) throws MethodException;
 
-    default public void seekStationStatus(int n) {
-    }
+    public void seekStationStatus(int var1) throws MethodException;
 
-    default public void updateRadioTextPlus(int[] nArray, String[] stringArray, int n) {
-    }
+    public void updateRadioTextPlus(int[] var1, String[] var2, int var3) throws MethodException;
 
-    default public void updateSelectedStation(Station station, int n) {
-    }
+    public void updateSelectedStation(Station var1, int var2) throws MethodException;
 
-    default public void updateSelectedStationHD(Station station, int n, int n2) {
-    }
+    public void updateSelectedStationHD(Station var1, int var2, int var3) throws MethodException;
 
-    default public void prepareTuningStatus(int n) {
-    }
+    public void prepareTuningStatus(int var1) throws MethodException;
 
-    default public void selectFrequencyStatus(int n) {
-    }
+    public void selectFrequencyStatus(int var1) throws MethodException;
 
-    default public void setAMBandRangeStatus(int n) {
-    }
+    public void setAMBandRangeStatus(int var1) throws MethodException;
 
-    default public void forceFMUpdateStatus(int n) {
-    }
+    public void forceFMUpdateStatus(int var1) throws MethodException;
 
-    default public void updatePiIgnoreSwitchStatus(boolean bl, int n) {
-    }
+    public void updatePiIgnoreSwitchStatus(boolean var1, int var2) throws MethodException;
 
-    default public void forceAMUpdateStatus(int n) {
-    }
+    public void forceAMUpdateStatus(int var1) throws MethodException;
 
-    default public void updateRDSIgnoreSwitchStatus(boolean bl, int n) {
-    }
+    public void updateRDSIgnoreSwitchStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateMESwitchStatus(boolean bl, int n) {
-    }
+    public void updateMESwitchStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateHdStatus(int n, int n2) {
-    }
+    public void updateHdStatus(int var1, int var2) throws MethodException;
 
-    default public void updateHdMode(int n, int n2) {
-    }
+    public void updateHdMode(int var1, int var2) throws MethodException;
 
-    default public void updateHdStationInfo(HdStationInfo hdStationInfo, int n) {
-    }
+    public void updateHdStationInfo(HdStationInfo var1, int var2) throws MethodException;
 
-    default public void updateAvailability(int n, int n2) {
-    }
+    public void updateAvailability(int var1, int var2) throws MethodException;
 
-    default public void updateElectronicSerialCode(String string, int n) {
-    }
+    public void updateElectronicSerialCode(String var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

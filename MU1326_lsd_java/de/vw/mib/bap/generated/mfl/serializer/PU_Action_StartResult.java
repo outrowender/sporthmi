@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PU_Action_StartResult
 implements StartResultMethod {
     public int taid;
-    private static final int TAID_BITSIZE;
+    private static final int TAID_BITSIZE = 8;
     public int option;
-    private static final int OPTION_BITSIZE;
-    public static final int OPTION_QUIT;
-    public static final int OPTION_OPTION_1;
-    public static final int OPTION_OPTION_2;
-    public static final int OPTION_OPTION_3;
-    public static final int OPTION_OPTION_4;
+    private static final int OPTION_BITSIZE = 8;
+    public static final int OPTION_QUIT = 0;
+    public static final int OPTION_OPTION_1 = 1;
+    public static final int OPTION_OPTION_2 = 2;
+    public static final int OPTION_OPTION_3 = 3;
+    public static final int OPTION_OPTION_4 = 4;
 
     public int getTransactionId() {
         return this.taid;
@@ -42,12 +42,10 @@ implements StartResultMethod {
         this.option = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PU_Action_StartResult pU_Action_StartResult = (PU_Action_StartResult)bAPEntity;
         return this.taid == pU_Action_StartResult.taid && this.option == pU_Action_StartResult.option;
@@ -56,7 +54,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PU_Action_StartResult:");
@@ -91,20 +88,17 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.taid);
         bitStream.pushByte((byte)this.option);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.taid = bitStream.popFrontByte();
         this.option = bitStream.popFrontByte();
@@ -114,7 +108,6 @@ implements StartResultMethod {
         return 20;
     }
 
-    @Override
     public int getFunctionId() {
         return PU_Action_StartResult.functionId();
     }

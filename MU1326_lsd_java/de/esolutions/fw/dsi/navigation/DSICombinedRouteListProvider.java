@@ -25,28 +25,23 @@ implements DSICombinedRouteList {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$navigation$DSICombinedRouteList == null ? (class$org$dsi$ifc$navigation$DSICombinedRouteList = DSICombinedRouteListProvider.class$("org.dsi.ifc.navigation.DSICombinedRouteList")) : class$org$dsi$ifc$navigation$DSICombinedRouteList).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICombinedRouteListProxy(this.instance, (DSICombinedRouteListReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestCombinedRouteListWindow(int n, int n2, long[] lArray, long l) {
         try {
             this.proxy.requestCombinedRouteListWindow(n, n2, lArray, l);
@@ -56,7 +51,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void requestTrafficInformation(long l) {
         try {
             this.proxy.requestTrafficInformation(l);
@@ -66,7 +60,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void requestPOIInformation(long l) {
         try {
             this.proxy.requestPOIInformation(l);
@@ -76,7 +69,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void getBoundingRectangleOfCombinedRouteListElements(long[] lArray) {
         try {
             this.proxy.getBoundingRectangleOfCombinedRouteListElements(lArray);
@@ -86,7 +78,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void requestPriceInfo(long l) {
         try {
             this.proxy.requestPriceInfo(l);
@@ -96,7 +87,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -106,7 +96,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -116,7 +105,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -126,7 +114,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -136,7 +123,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -146,7 +132,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -156,7 +141,6 @@ implements DSICombinedRouteList {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

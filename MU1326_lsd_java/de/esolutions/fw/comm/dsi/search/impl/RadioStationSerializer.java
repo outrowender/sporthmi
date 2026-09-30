@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.RadioStation;
 
 public class RadioStationSerializer {
-    public static void putOptionalRadioStation(ISerializer iSerializer, RadioStation radioStation) {
+    public static void putOptionalRadioStation(ISerializer iSerializer, RadioStation radioStation) throws SerializerException {
         boolean bl = radioStation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class RadioStationSerializer {
         }
     }
 
-    public static void putOptionalRadioStationVarArray(ISerializer iSerializer, RadioStation[] radioStationArray) {
+    public static void putOptionalRadioStationVarArray(ISerializer iSerializer, RadioStation[] radioStationArray) throws SerializerException {
         boolean bl = radioStationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class RadioStationSerializer {
         }
     }
 
-    public static RadioStation getOptionalRadioStation(IDeserializer iDeserializer) {
+    public static RadioStation getOptionalRadioStation(IDeserializer iDeserializer) throws SerializerException {
         RadioStation radioStation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class RadioStationSerializer {
         return radioStation;
     }
 
-    public static RadioStation[] getOptionalRadioStationVarArray(IDeserializer iDeserializer) {
+    public static RadioStation[] getOptionalRadioStationVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStation[] radioStationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

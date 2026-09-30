@@ -18,8 +18,8 @@ import java.util.List;
 
 public class MultiLayoutContainerController
 extends LayoutContainerController {
-    public static final int USE_PREFERRED_SIZE;
-    public static final int USE_CURRENT_SIZE;
+    public static final int USE_PREFERRED_SIZE = -1;
+    public static final int USE_CURRENT_SIZE = -2;
     protected LayoutManager[] layoutChoices;
 
     public LayoutManager[] getLayoutChoices() {
@@ -34,13 +34,11 @@ extends LayoutContainerController {
         return this.layoutChoices != null && this.layoutChoices.length != 0;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.initSelectLayout();
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateChildrenVisibility();
@@ -50,11 +48,10 @@ extends LayoutContainerController {
         if (this.hasMultipleLayouts()) {
             this.setLayoutManager(this.layoutChoices[0]);
         } else {
-            logLayout.log(-2137614336, "MultiLayoutMenuItemController#initSelectLayout: no layout choices are set.");
+            logLayout.log(10000000, "MultiLayoutMenuItemController#initSelectLayout: no layout choices are set.");
         }
     }
 
-    @Override
     protected void flushLayoutCache() {
         super.flushLayoutCache();
         if (this.hasMultipleLayouts()) {
@@ -94,7 +91,7 @@ extends LayoutContainerController {
     public TransitionLayout selectLayoutManagerWithTransition(int n, int n2, int n3) {
         LayoutManager layoutManager = this.layoutChoices[n];
         if (!(layoutManager instanceof LayoutManagerSimulation)) {
-            logLayout.log(-1601830656, "MultiLayoutMenuItemController#selectLayoutManagerWithTransition: new Layout is not a LayoutManagerSimulation: %1", (Object)layoutManager);
+            logLayout.log(100000, "MultiLayoutMenuItemController#selectLayoutManagerWithTransition: new Layout is not a LayoutManagerSimulation: %1", (Object)layoutManager);
             this.setLayoutManager(layoutManager);
             return null;
         }
@@ -214,7 +211,6 @@ extends LayoutContainerController {
         return this.layoutManager instanceof TransitionLayout;
     }
 
-    @Override
     protected void autoLayoutSetup() {
         super.autoLayoutSetup();
         if (this.hasLayoutChoice(0) && this.layoutChoices[0] instanceof GridLayout) {

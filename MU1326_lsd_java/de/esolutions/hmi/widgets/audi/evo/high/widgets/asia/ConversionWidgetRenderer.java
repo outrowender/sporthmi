@@ -5,7 +5,6 @@ package de.esolutions.hmi.widgets.audi.evo.high.widgets.asia;
 
 import de.esolutions.graphics.eal.FlagFontStyle;
 import de.esolutions.graphics.eal.api.ITextLayoutSection;
-import de.esolutions.graphics.eal.api.ITextLayoutSection$style_t;
 import de.esolutions.hmi.widgets.audi.base.Layout;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
@@ -20,24 +19,24 @@ import java.util.Iterator;
 
 public class ConversionWidgetRenderer
 extends AbstractConversionWidgetRenderer {
-    public static final String NODE_NAME_PREFIX_UNCONVERTED_CHARACTERS;
-    public static final String NODE_NAME_PREFIX_BACK_ARROW_IMAGE;
-    private static final int VERTICAL_SEPARATOR_Y_OFFSET_RELATIVE_TO_GRID_CELL;
-    private static float verticalSeparatorHeight;
-    private static int marginLeftGrid;
-    private static int marginRightGrid;
-    private static int marginBottomGrid;
-    public static final int ROWS;
-    private static final int BITMAP_BACK_ARROW_HEIGHT;
-    private static final int BITMAP_INDEX_BACK_ARROW;
-    private static final int BITMAP_INDEX_HORIZONTAL_SEPARATOR;
-    private static final int BITMAP_INDEX_VERTICAL_SEPARATOR;
-    private static final int TITLE_LINE_GAP_X;
-    private static final int TITLE_LINE_MARGIN_TOP_ARROW_IMAGE;
-    private static final int TITLE_LINE_BASELINE_OFFSET_TEXT;
-    private static final int Y_OFFSET_FOR_TITLE;
-    private static final int FONT_NORMAL;
-    private static final int FONT_HIGHLIGHT;
+    public static final String NODE_NAME_PREFIX_UNCONVERTED_CHARACTERS = "unconvertedCharacters";
+    public static final String NODE_NAME_PREFIX_BACK_ARROW_IMAGE = "backArrowImageNode";
+    private static final int VERTICAL_SEPARATOR_Y_OFFSET_RELATIVE_TO_GRID_CELL = 0;
+    private static float verticalSeparatorHeight = 36.0f;
+    private static int marginLeftGrid = 21;
+    private static int marginRightGrid = 35;
+    private static int marginBottomGrid = 19;
+    public static final int ROWS = 3;
+    private static final int BITMAP_BACK_ARROW_HEIGHT = 15;
+    private static final int BITMAP_INDEX_BACK_ARROW = 0;
+    private static final int BITMAP_INDEX_HORIZONTAL_SEPARATOR = 2;
+    private static final int BITMAP_INDEX_VERTICAL_SEPARATOR = 1;
+    private static final int TITLE_LINE_GAP_X = 16;
+    private static final int TITLE_LINE_MARGIN_TOP_ARROW_IMAGE = 43;
+    private static final int TITLE_LINE_BASELINE_OFFSET_TEXT = 58;
+    private static final int Y_OFFSET_FOR_TITLE = -75;
+    private static final int FONT_NORMAL = 0;
+    private static final int FONT_HIGHLIGHT = 1;
     private IWrappedNode3DTextMultiSection unconvertedInputTextNode;
     private IWrappedNode3DImage backArrowImageNode;
     private final ConversionMatrixController conversionMatrixController;
@@ -47,7 +46,6 @@ extends AbstractConversionWidgetRenderer {
         this.conversionMatrixController = conversionMatrixController;
     }
 
-    @Override
     protected void initializeLayoutValues(Layout layout) {
         this.rows = 3;
         this.columns = layout.getIntegerConstant(105);
@@ -58,7 +56,6 @@ extends AbstractConversionWidgetRenderer {
         this.gridCellPaddingLeftRight = layout.getDistance(229);
     }
 
-    @Override
     protected void initializeNodes(RedrawContextHigh redrawContextHigh) {
         this.nodeMain.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
         this.createTitleLine(this.getNormalFont(redrawContextHigh));
@@ -71,17 +68,14 @@ extends AbstractConversionWidgetRenderer {
         return true;
     }
 
-    @Override
     protected float getGridHeight() {
-        return verticalSeparatorHeight * 16448 + 32832;
+        return verticalSeparatorHeight * 3.0f + 4.0f;
     }
 
-    @Override
     protected float getGridWidth() {
         return this.controller.getWidth() - marginLeftGrid - marginRightGrid;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         if (this.conversionMatrixController.isModuleColorRefreshNeeded()) {
             this.cursorColor = EALManager.createColorCode(redrawContextHigh.getColor(0));
@@ -99,22 +93,18 @@ extends AbstractConversionWidgetRenderer {
         this.updateUnconvertedDataTitle(this.getNormalFont(redrawContextHigh));
     }
 
-    @Override
     protected int getTopRowIndex() {
         return this.conversionMatrixController.getViewPort().getTopRowIndex();
     }
 
-    @Override
     protected Iterator getCandidateIterator() {
         return this.conversionMatrixController.getViewPort().getCandidates().iterator();
     }
 
-    @Override
     protected void resetCellSize(int n, int n2, GridCell gridCell) {
         gridCell.setSize(this.cellWidth, this.cellHeight);
     }
 
-    @Override
     protected int getAmountColumnsForTextItems() {
         return this.columns;
     }
@@ -122,18 +112,16 @@ extends AbstractConversionWidgetRenderer {
     private void updateUnconvertedDataTitle(IWrappedFont iWrappedFont) {
         if (this.unconvertedInputTextNode != null) {
             String string = this.controller.getUnconvertedCharacters();
-            int n = (int)((float)this.controller.getWidth() - this.unconvertedInputTextNode.getX() - 32833);
+            int n = (int)((float)this.controller.getWidth() - this.unconvertedInputTextNode.getX() - 16.0f);
             String string2 = this.abbreviateTextRight(iWrappedFont, n, string);
             this.unconvertedInputTextNode.setText(string2);
         }
     }
 
-    @Override
     protected float calculateCursorHeight(GridCell gridCell) {
         return gridCell.cellNode.getHeight() + 2.0f;
     }
 
-    @Override
     protected float calculateCursorY(GridCell gridCell) {
         return gridCell.cellNode.getY() - 1.0f;
     }
@@ -143,7 +131,6 @@ extends AbstractConversionWidgetRenderer {
         this.createUnconvertedCharsTitleNode(iWrappedFont);
     }
 
-    @Override
     protected void createHighlightMatrixButtonNode() {
         this.highlightedMatrixButtonNode = (IWrappedNode3DImage)NULL_NODE;
     }
@@ -155,21 +142,21 @@ extends AbstractConversionWidgetRenderer {
                 canditateMatrixLogChannel.log(10000, "ConversionWidgetRenderer#createBackArrowImageNode: Could not create TextureDescription for back arrow bitmap (index %1).", 0L);
                 return;
             }
-            String string = EALManager.createNodeName("backArrowImageNode", this);
+            String string = EALManager.createNodeName(NODE_NAME_PREFIX_BACK_ARROW_IMAGE, this);
             this.backArrowImageNode = this.getEALManager().createImage3D(this.nodeMain, string, textureDescription, 1, true, (Object)this);
             if (this.backArrowImageNode == null) {
                 canditateMatrixLogChannel.log(10000, "ConversionWidgetRenderer#createBackArrowImageNode: Could not create backArrowImageNode.");
                 return;
             }
             this.backArrowImageNode.setModulateColor(this.backArrowColor);
-            this.backArrowImageNode.setPosition(32833, 194, 0.0f);
+            this.backArrowImageNode.setPosition(16.0f, -32.0f, 0.0f);
             this.backArrowImageNode.setVisible(true);
         }
     }
 
     private void createUnconvertedCharsTitleNode(IWrappedFont iWrappedFont) {
         if (this.unconvertedInputTextNode == null) {
-            String string = EALManager.createNodeName("unconvertedCharacters", this);
+            String string = EALManager.createNodeName(NODE_NAME_PREFIX_UNCONVERTED_CHARACTERS, this);
             this.unconvertedInputTextNode = this.getEALManager().createText3DMultiSection(this.nodeMain, string, "", iWrappedFont, 0);
             if (this.unconvertedInputTextNode == null) {
                 canditateMatrixLogChannel.log(10000, "ConversionWidgetRenderer#createUnconvertedCharsTextTitleNode: Could not create unconvertedInputTextNode");
@@ -177,16 +164,15 @@ extends AbstractConversionWidgetRenderer {
             }
             this.unconvertedInputTextNode.getLayout().setTextLayoutSectionNum(1L);
             ITextLayoutSection iTextLayoutSection = this.unconvertedInputTextNode.getLayout().getLayoutSection(0L);
-            iTextLayoutSection.setStyle(new FlagFontStyle(ITextLayoutSection$style_t.STYLE_UNDERLINE));
+            iTextLayoutSection.setStyle(new FlagFontStyle(ITextLayoutSection.style_t.STYLE_UNDERLINE));
             iTextLayoutSection.setColor(this.getCandidateColor());
             this.unconvertedInputTextNode.notifyLayoutChanged(false);
-            this.unconvertedInputTextNode.setPosition(66 + this.backArrowImageNode.getWidth(), 35009, 0.0f);
+            this.unconvertedInputTextNode.setPosition(32.0f + this.backArrowImageNode.getWidth(), -17.0f, 0.0f);
             this.unconvertedInputTextNode.setVisible(true);
         }
         this.updateUnconvertedDataTitle(iWrappedFont);
     }
 
-    @Override
     protected void destroyNode() {
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
@@ -208,31 +194,20 @@ extends AbstractConversionWidgetRenderer {
     public void setFocused(boolean bl) {
     }
 
-    @Override
     protected int getCandidateColor() {
         return this.whiteColor;
     }
 
-    @Override
     protected IWrappedFont getHighlightFont(RedrawContextHigh redrawContextHigh) {
         return redrawContextHigh.getFont(1);
     }
 
-    @Override
     protected IWrappedFont getNormalFont(RedrawContextHigh redrawContextHigh) {
         return redrawContextHigh.getFont(0);
     }
 
-    @Override
     protected void createHighlightTruffleButtonNode() {
         this.highlightedTruffleButtonNode = (IWrappedNode3DImage)NULL_NODE;
-    }
-
-    static {
-        verticalSeparatorHeight = 4162;
-        marginLeftGrid = 21;
-        marginRightGrid = 35;
-        marginBottomGrid = 19;
     }
 }
 

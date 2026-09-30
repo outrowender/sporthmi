@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaOperationMode;
 
 public class CharismaOperationModeSerializer {
-    public static void putOptionalCharismaOperationMode(ISerializer iSerializer, CharismaOperationMode charismaOperationMode) {
+    public static void putOptionalCharismaOperationMode(ISerializer iSerializer, CharismaOperationMode charismaOperationMode) throws SerializerException {
         boolean bl = charismaOperationMode == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CharismaOperationModeSerializer {
         }
     }
 
-    public static void putOptionalCharismaOperationModeVarArray(ISerializer iSerializer, CharismaOperationMode[] charismaOperationModeArray) {
+    public static void putOptionalCharismaOperationModeVarArray(ISerializer iSerializer, CharismaOperationMode[] charismaOperationModeArray) throws SerializerException {
         boolean bl = charismaOperationModeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CharismaOperationModeSerializer {
         }
     }
 
-    public static CharismaOperationMode getOptionalCharismaOperationMode(IDeserializer iDeserializer) {
+    public static CharismaOperationMode getOptionalCharismaOperationMode(IDeserializer iDeserializer) throws SerializerException {
         CharismaOperationMode charismaOperationMode = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CharismaOperationModeSerializer {
         return charismaOperationMode;
     }
 
-    public static CharismaOperationMode[] getOptionalCharismaOperationModeVarArray(IDeserializer iDeserializer) {
+    public static CharismaOperationMode[] getOptionalCharismaOperationModeVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaOperationMode[] charismaOperationModeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

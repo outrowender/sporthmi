@@ -44,44 +44,42 @@ implements AnimationListener {
     private ModelStubController modelstubPlugAnimation;
     private ModelStubController modelstubClimateState;
     private int mode = 0;
-    private static final int ANIMATION_TYPE;
-    private static final int ANIMATE_INTERVAL;
-    private static final float ANIMATION_STEP_CHARGING;
-    private static final float INITIAL_VALUE;
-    private static final float MAX_ANIMATION_LIMIT;
-    private static final float MAX_VALUE_GREEN_CABLE;
-    private static final float MAX_VALUE_YELLOW_CABLE;
-    private static final float MAX_VALUE_RED_CABLE;
-    private static final float MID_VALUE_GREEN_CABLE;
-    private static final float MID_VALUE_YELLOW_CABLE;
-    private static final float MID_VALUE_RED_CABLE;
-    private static final float INITIAL_VALUE_GREEN_CABLE;
-    private static final float INITIAL_VALUE_YELLOW_CABLE;
-    private static final float INITIAL_VALUE_RED_CABLE;
-    private static final float BATTERY_SEGMENTS;
-    private static final int PLUG_ANIMATION_OFF_OR_PERMANENT;
-    private static final int PLUG_ANIMATION_BLINK;
-    private static final int PLUG_ANIMATION_PULSE;
-    private static final int PLUG_ANIMATION_FLASH;
-    private static final int PLUG_ANIMATION_COLOR_GREEN;
-    private static final int PLUG_ANIMATION_COLOR_YELLOW;
-    private static final int PLUG_ANIMATION_COLOR_RED;
-    private static final float PLUG_ANIMATION_STEP_LONG;
-    private static final float PLUG_ANIMATION_STEP_SHORT;
-    private static final int MINIMUM_BATTERY_LEVEL;
-    private static final int VALUE_BATTERY_INACTIVE;
-    private static final int VALUE_BATTERY_NO_CURRENT;
-    private static final int VALUE_BATTERY_CHARGING;
+    private static final int ANIMATION_TYPE = 1;
+    private static final int ANIMATE_INTERVAL = 100;
+    private static final float ANIMATION_STEP_CHARGING = 0.025f;
+    private static final float INITIAL_VALUE = 0.0f;
+    private static final float MAX_ANIMATION_LIMIT = 1.0f;
+    private static final float MAX_VALUE_GREEN_CABLE = 1.0f;
+    private static final float MAX_VALUE_YELLOW_CABLE = 3.0f;
+    private static final float MAX_VALUE_RED_CABLE = 5.0f;
+    private static final float MID_VALUE_GREEN_CABLE = 0.5f;
+    private static final float MID_VALUE_YELLOW_CABLE = 2.5f;
+    private static final float MID_VALUE_RED_CABLE = 4.5f;
+    private static final float INITIAL_VALUE_GREEN_CABLE = 0.0f;
+    private static final float INITIAL_VALUE_YELLOW_CABLE = 2.0f;
+    private static final float INITIAL_VALUE_RED_CABLE = 4.0f;
+    private static final float BATTERY_SEGMENTS = 8.0f;
+    private static final int PLUG_ANIMATION_OFF_OR_PERMANENT = 0;
+    private static final int PLUG_ANIMATION_BLINK = 1;
+    private static final int PLUG_ANIMATION_PULSE = 2;
+    private static final int PLUG_ANIMATION_FLASH = 3;
+    private static final int PLUG_ANIMATION_COLOR_GREEN = 1;
+    private static final int PLUG_ANIMATION_COLOR_YELLOW = 2;
+    private static final int PLUG_ANIMATION_COLOR_RED = 3;
+    private static final float PLUG_ANIMATION_STEP_LONG = 0.03f;
+    private static final float PLUG_ANIMATION_STEP_SHORT = 0.1f;
+    private static final int MINIMUM_BATTERY_LEVEL = 1;
+    private static final int VALUE_BATTERY_INACTIVE = 0;
+    private static final int VALUE_BATTERY_NO_CURRENT = 1;
+    private static final int VALUE_BATTERY_CHARGING = 2;
     private AbstractAnimation animation;
     private boolean isAnimating = false;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateModelValue();
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (!(abstractWidget instanceof ModelStubController)) {
             return;
@@ -124,7 +122,7 @@ implements AnimationListener {
             choiceModelGUI = (ChoiceModelGUI)this.modelstubBatteryLevel.getModel();
             this.phevBatteryLevel = choiceModelGUI.getValue();
             if (this.phevBatteryLevel >= 1.0f) {
-                this.phevBatteryLevel = (this.phevBatteryLevel - 1.0f) / 65;
+                this.phevBatteryLevel = (this.phevBatteryLevel - 1.0f) / 8.0f;
             } else if (this.phevBatteryLevel < 1.0f && this.phevBatteryState != 2.0f) {
                 this.phevBatteryState = 0.0f;
             }
@@ -170,9 +168,9 @@ implements AnimationListener {
         }
         if (this.phevPlugAnimation == 0.0f) {
             if (this.phevCableColor == 2.0f) {
-                this.phevCableColor = 16448;
-            } else if (this.phevCableColor == 16448) {
-                this.phevCableColor = 41024;
+                this.phevCableColor = 3.0f;
+            } else if (this.phevCableColor == 3.0f) {
+                this.phevCableColor = 5.0f;
             }
         }
         if (this.phevPlugAnimation > 0.0f || this.phevBatteryState == 2.0f) {
@@ -182,7 +180,6 @@ implements AnimationListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateModelValue();
         super.processModelUpdateEvent(modelUpdateEvent);
@@ -196,15 +193,14 @@ implements AnimationListener {
         }
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         if (this.phevBatteryState == 2.0f) {
             if (this.phevBatteryLevel > 1.0f) {
                 this.phevBatteryLevel = 0.0f;
             }
-            this.phevBatteryLevel += -842216388;
+            this.phevBatteryLevel += 0.025f;
         }
-        if (this.phevPlugAnimation == 16448) {
+        if (this.phevPlugAnimation == 3.0f) {
             this.startPlugAnimationFlash();
         }
         if (this.phevPlugAnimation == 2.0f) {
@@ -222,30 +218,30 @@ implements AnimationListener {
             if (this.blinkAnimationStateGreen > 1.0f) {
                 this.blinkAnimationStateGreen = 0.0f;
             }
-            if (this.blinkAnimationStateGreen >= 63) {
+            if (this.blinkAnimationStateGreen >= 0.5f) {
                 this.phevCableColor = 0.0f;
             }
-            this.blinkAnimationStateGreen += -1883048644;
+            this.blinkAnimationStateGreen += 0.03f;
         }
         if (this.animationColor == 2.0f) {
-            this.phevCableColor = 16448;
-            if (this.blinkAnimationStateYellow > 16448) {
+            this.phevCableColor = 3.0f;
+            if (this.blinkAnimationStateYellow > 3.0f) {
                 this.blinkAnimationStateYellow = 2.0f;
             }
-            if (this.blinkAnimationStateYellow >= 8256) {
+            if (this.blinkAnimationStateYellow >= 2.5f) {
                 this.phevCableColor = 2.0f;
             }
-            this.blinkAnimationStateYellow += -1883048644;
+            this.blinkAnimationStateYellow += 0.03f;
         }
-        if (this.animationColor == 16448) {
-            this.phevCableColor = 41024;
-            if (this.blinkAnimationStateRed > 41024) {
-                this.blinkAnimationStateRed = 32832;
+        if (this.animationColor == 3.0f) {
+            this.phevCableColor = 5.0f;
+            if (this.blinkAnimationStateRed > 5.0f) {
+                this.blinkAnimationStateRed = 4.0f;
             }
-            if (this.blinkAnimationStateRed >= 36928) {
-                this.phevCableColor = 32832;
+            if (this.blinkAnimationStateRed >= 4.5f) {
+                this.phevCableColor = 4.0f;
             }
-            this.blinkAnimationStateRed += -1883048644;
+            this.blinkAnimationStateRed += 0.03f;
         }
     }
 
@@ -258,29 +254,29 @@ implements AnimationListener {
             if (this.blinkAnimationStateGreen <= 0.0f) {
                 this.pulseAnimationStateGreen = 0.0f;
             }
-            this.blinkAnimationStateGreen = this.pulseAnimationStateGreen == 0.0f ? (this.blinkAnimationStateGreen += -842216387) : (this.blinkAnimationStateGreen -= -842216387);
+            this.blinkAnimationStateGreen = this.pulseAnimationStateGreen == 0.0f ? (this.blinkAnimationStateGreen += 0.1f) : (this.blinkAnimationStateGreen -= 0.1f);
             this.phevCableColor = this.blinkAnimationStateGreen;
         }
         if (this.animationColor == 2.0f) {
             this.phevCableColor = 2.0f;
-            if (this.blinkAnimationStateYellow > 16448) {
-                this.pulseAnimationStateYellow = 16448;
+            if (this.blinkAnimationStateYellow > 3.0f) {
+                this.pulseAnimationStateYellow = 3.0f;
             }
             if (this.blinkAnimationStateYellow <= 2.0f) {
                 this.pulseAnimationStateYellow = 2.0f;
             }
-            this.blinkAnimationStateYellow = this.pulseAnimationStateYellow == 2.0f ? (this.blinkAnimationStateYellow += -842216387) : (this.blinkAnimationStateYellow -= -842216387);
+            this.blinkAnimationStateYellow = this.pulseAnimationStateYellow == 2.0f ? (this.blinkAnimationStateYellow += 0.1f) : (this.blinkAnimationStateYellow -= 0.1f);
             this.phevCableColor = this.blinkAnimationStateYellow;
         }
-        if (this.animationColor == 16448) {
-            this.phevCableColor = 32832;
-            if (this.blinkAnimationStateRed > 41024) {
-                this.pulseAnimationStateRed = 41024;
+        if (this.animationColor == 3.0f) {
+            this.phevCableColor = 4.0f;
+            if (this.blinkAnimationStateRed > 5.0f) {
+                this.pulseAnimationStateRed = 5.0f;
             }
-            if (this.blinkAnimationStateRed <= 32832) {
-                this.pulseAnimationStateRed = 32832;
+            if (this.blinkAnimationStateRed <= 4.0f) {
+                this.pulseAnimationStateRed = 4.0f;
             }
-            this.blinkAnimationStateRed = this.pulseAnimationStateRed == 32832 ? (this.blinkAnimationStateRed += -842216387) : (this.blinkAnimationStateRed -= -842216387);
+            this.blinkAnimationStateRed = this.pulseAnimationStateRed == 4.0f ? (this.blinkAnimationStateRed += 0.1f) : (this.blinkAnimationStateRed -= 0.1f);
             this.phevCableColor = this.blinkAnimationStateRed;
         }
     }
@@ -291,34 +287,33 @@ implements AnimationListener {
             if (this.blinkAnimationStateGreen > 1.0f) {
                 this.blinkAnimationStateGreen = 0.0f;
             }
-            if (this.blinkAnimationStateGreen >= 63) {
+            if (this.blinkAnimationStateGreen >= 0.5f) {
                 this.phevCableColor = 0.0f;
             }
-            this.blinkAnimationStateGreen += -842216387;
+            this.blinkAnimationStateGreen += 0.1f;
         }
         if (this.animationColor == 2.0f) {
-            this.phevCableColor = 16448;
-            if (this.blinkAnimationStateYellow > 16448) {
+            this.phevCableColor = 3.0f;
+            if (this.blinkAnimationStateYellow > 3.0f) {
                 this.blinkAnimationStateYellow = 2.0f;
             }
-            if (this.blinkAnimationStateYellow >= 8256) {
+            if (this.blinkAnimationStateYellow >= 2.5f) {
                 this.phevCableColor = 2.0f;
             }
-            this.blinkAnimationStateYellow += -842216387;
+            this.blinkAnimationStateYellow += 0.1f;
         }
-        if (this.animationColor == 16448) {
-            this.phevCableColor = 41024;
-            if (this.blinkAnimationStateRed > 41024) {
-                this.blinkAnimationStateRed = 32832;
+        if (this.animationColor == 3.0f) {
+            this.phevCableColor = 5.0f;
+            if (this.blinkAnimationStateRed > 5.0f) {
+                this.blinkAnimationStateRed = 4.0f;
             }
-            if (this.blinkAnimationStateRed >= 36928) {
-                this.phevCableColor = 32832;
+            if (this.blinkAnimationStateRed >= 4.5f) {
+                this.phevCableColor = 4.0f;
             }
-            this.blinkAnimationStateRed += -842216387;
+            this.blinkAnimationStateRed += 0.1f;
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
     }
@@ -327,7 +322,6 @@ implements AnimationListener {
         this.renderer = pHEVLoadingRedererHigh;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -348,31 +342,25 @@ implements AnimationListener {
         return this.phevBatteryLevel;
     }
 
-    @Override
     public void setX(int n) {
         this.layoutX = n;
     }
 
-    @Override
     public int getX() {
         return this.layoutX;
     }
 
-    @Override
     public void setY(int n) {
         this.layoutY = n;
     }
 
-    @Override
     public int getY() {
         return this.layoutY;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 

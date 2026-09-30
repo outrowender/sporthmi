@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKBatteryStateSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKBatteryState;
 import org.dsi.ifc.carcomfort.RDKResidualBatteryLifetime;
 
 public class RDKResidualBatteryLifetimeSerializer {
-    public static void putOptionalRDKResidualBatteryLifetime(ISerializer iSerializer, RDKResidualBatteryLifetime rDKResidualBatteryLifetime) {
+    public static void putOptionalRDKResidualBatteryLifetime(ISerializer iSerializer, RDKResidualBatteryLifetime rDKResidualBatteryLifetime) throws SerializerException {
         boolean bl = rDKResidualBatteryLifetime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class RDKResidualBatteryLifetimeSerializer {
         }
     }
 
-    public static void putOptionalRDKResidualBatteryLifetimeVarArray(ISerializer iSerializer, RDKResidualBatteryLifetime[] rDKResidualBatteryLifetimeArray) {
+    public static void putOptionalRDKResidualBatteryLifetimeVarArray(ISerializer iSerializer, RDKResidualBatteryLifetime[] rDKResidualBatteryLifetimeArray) throws SerializerException {
         boolean bl = rDKResidualBatteryLifetimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class RDKResidualBatteryLifetimeSerializer {
         }
     }
 
-    public static RDKResidualBatteryLifetime getOptionalRDKResidualBatteryLifetime(IDeserializer iDeserializer) {
+    public static RDKResidualBatteryLifetime getOptionalRDKResidualBatteryLifetime(IDeserializer iDeserializer) throws SerializerException {
         RDKResidualBatteryLifetime rDKResidualBatteryLifetime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class RDKResidualBatteryLifetimeSerializer {
         return rDKResidualBatteryLifetime;
     }
 
-    public static RDKResidualBatteryLifetime[] getOptionalRDKResidualBatteryLifetimeVarArray(IDeserializer iDeserializer) {
+    public static RDKResidualBatteryLifetime[] getOptionalRDKResidualBatteryLifetimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKResidualBatteryLifetime[] rDKResidualBatteryLifetimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

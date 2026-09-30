@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.radio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.radio.DSITIMTunerReply;
 import de.esolutions.fw.comm.dsi.radio.impl.DSITIMTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSITIMTunerReply {
         super(n, (class$org$dsi$ifc$radio$DSITIMTunerListener == null ? (class$org$dsi$ifc$radio$DSITIMTunerListener = DSITIMTunerDispatcher.class$("org.dsi.ifc.radio.DSITIMTunerListener")) : class$org$dsi$ifc$radio$DSITIMTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateTIMMessageList(TIMMessage[] tIMMessageArray, int n) {
+    public void updateTIMMessageList(TIMMessage[] tIMMessageArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -59,8 +58,7 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void updateTIMStatus(TIMStatus tIMStatus, int n) {
+    public void updateTIMStatus(TIMStatus tIMStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -88,8 +86,7 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void updateTIMMemoUsage(TIMMemoUsage tIMMemoUsage, int n) {
+    public void updateTIMMemoUsage(TIMMemoUsage tIMMemoUsage, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -117,8 +114,7 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void updateTIMAvailable(int n, int n2) {
+    public void updateTIMAvailable(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -146,8 +142,7 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void playback(int n) {
+    public void playback(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -163,8 +158,7 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -180,14 +174,13 @@ implements DSITIMTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITIMTunerListener dSITIMTunerListener = (DSITIMTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITIMTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITIMTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITIMTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITIMTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITIMTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITIMTunerListener, new Object[]{string, string2});
                     continue;
                 }

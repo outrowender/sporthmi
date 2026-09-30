@@ -4,41 +4,34 @@
 package edu.emory.mathcs.backport.java.util;
 
 import edu.emory.mathcs.backport.java.util.AbstractMap;
-import edu.emory.mathcs.backport.java.util.AbstractMap$SimpleImmutableEntry;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.emory.mathcs.backport.java.util.NavigableMap;
 import edu.emory.mathcs.backport.java.util.NavigableSet;
-import edu.emory.mathcs.backport.java.util.TreeMap$AscendingKeySet;
-import edu.emory.mathcs.backport.java.util.TreeMap$AscendingSubMap;
-import edu.emory.mathcs.backport.java.util.TreeMap$DescendingSubMap;
-import edu.emory.mathcs.backport.java.util.TreeMap$Entry;
-import edu.emory.mathcs.backport.java.util.TreeMap$EntrySet;
-import edu.emory.mathcs.backport.java.util.TreeMap$IOIterator;
-import edu.emory.mathcs.backport.java.util.TreeMap$IteratorIOException;
-import edu.emory.mathcs.backport.java.util.TreeMap$IteratorNoClassException;
-import edu.emory.mathcs.backport.java.util.TreeMap$KeySet;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractSet;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 public class TreeMap
 extends AbstractMap
 implements NavigableMap,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 919286545866124006L;
     private final Comparator comparator;
-    private transient TreeMap$Entry root;
+    private transient Entry root;
     private transient int size = 0;
     private transient int modCount = 0;
-    private transient TreeMap$EntrySet entrySet;
-    private transient TreeMap$KeySet navigableKeySet;
+    private transient EntrySet entrySet;
+    private transient KeySet navigableKeySet;
     private transient NavigableMap descendingMap;
     private transient Comparator reverseComparator;
 
@@ -60,19 +53,16 @@ Serializable {
         this.putAll(map);
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
     public void clear() {
         this.root = null;
         this.size = 0;
         ++this.modCount;
     }
 
-    @Override
     public Object clone() {
         TreeMap treeMap;
         try {
@@ -90,251 +80,247 @@ Serializable {
         return treeMap;
     }
 
-    @Override
     public Object put(Object object, Object object2) {
         if (this.root == null) {
-            this.root = new TreeMap$Entry(object, object2);
+            this.root = new Entry(object, object2);
             ++this.size;
             ++this.modCount;
             return null;
         }
-        TreeMap$Entry treeMap$Entry = this.root;
+        Entry entry = this.root;
         while (true) {
             int n;
-            if ((n = TreeMap.compare(object, treeMap$Entry.getKey(), this.comparator)) == 0) {
-                return treeMap$Entry.setValue(object2);
+            if ((n = TreeMap.compare(object, entry.getKey(), this.comparator)) == 0) {
+                return entry.setValue(object2);
             }
             if (n <= 0) {
-                if (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-                    treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+                if (entry.left != null) {
+                    entry = entry.left;
                     continue;
                 }
                 ++this.size;
                 ++this.modCount;
-                TreeMap$Entry treeMap$Entry2 = new TreeMap$Entry(object, object2);
-                TreeMap$Entry.access$102(treeMap$Entry2, treeMap$Entry);
-                TreeMap$Entry.access$002(treeMap$Entry, treeMap$Entry2);
-                this.fixAfterInsertion(treeMap$Entry2);
+                Entry entry2 = new Entry(object, object2);
+                entry2.parent = entry;
+                entry.left = entry2;
+                this.fixAfterInsertion(entry2);
                 return null;
             }
-            if (TreeMap$Entry.access$200(treeMap$Entry) == null) break;
-            treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+            if (entry.right == null) break;
+            entry = entry.right;
         }
         ++this.size;
         ++this.modCount;
-        TreeMap$Entry treeMap$Entry3 = new TreeMap$Entry(object, object2);
-        TreeMap$Entry.access$102(treeMap$Entry3, treeMap$Entry);
-        TreeMap$Entry.access$202(treeMap$Entry, treeMap$Entry3);
-        this.fixAfterInsertion(treeMap$Entry3);
+        Entry entry3 = new Entry(object, object2);
+        entry3.parent = entry;
+        entry.right = entry3;
+        this.fixAfterInsertion(entry3);
         return null;
     }
 
-    @Override
     public Object get(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getEntry(object);
-        return treeMap$Entry == null ? null : treeMap$Entry.getValue();
+        Entry entry = this.getEntry(object);
+        return entry == null ? null : entry.getValue();
     }
 
-    @Override
     public boolean containsKey(Object object) {
         return this.getEntry(object) != null;
     }
 
-    @Override
     public Set entrySet() {
         if (this.entrySet == null) {
-            this.entrySet = new TreeMap$EntrySet(this);
+            this.entrySet = new EntrySet();
         }
         return this.entrySet;
     }
 
-    private static TreeMap$Entry successor(TreeMap$Entry treeMap$Entry) {
-        if (TreeMap$Entry.access$200(treeMap$Entry) != null) {
-            treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
-            while (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-                treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+    private static Entry successor(Entry entry) {
+        if (entry.right != null) {
+            entry = entry.right;
+            while (entry.left != null) {
+                entry = entry.left;
             }
-            return treeMap$Entry;
+            return entry;
         }
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-        while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$200(treeMap$Entry2)) {
-            treeMap$Entry = treeMap$Entry2;
-            treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+        Entry entry2 = entry.parent;
+        while (entry2 != null && entry == entry2.right) {
+            entry = entry2;
+            entry2 = entry2.parent;
         }
-        return treeMap$Entry2;
+        return entry2;
     }
 
-    private static TreeMap$Entry predecessor(TreeMap$Entry treeMap$Entry) {
-        if (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-            treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
-            while (TreeMap$Entry.access$200(treeMap$Entry) != null) {
-                treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+    private static Entry predecessor(Entry entry) {
+        if (entry.left != null) {
+            entry = entry.left;
+            while (entry.right != null) {
+                entry = entry.right;
             }
-            return treeMap$Entry;
+            return entry;
         }
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-        while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$000(treeMap$Entry2)) {
-            treeMap$Entry = treeMap$Entry2;
-            treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+        Entry entry2 = entry.parent;
+        while (entry2 != null && entry == entry2.left) {
+            entry = entry2;
+            entry2 = entry2.parent;
         }
-        return treeMap$Entry2;
+        return entry2;
     }
 
-    private TreeMap$Entry getEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.root;
+    private Entry getEntry(Object object) {
+        Entry entry = this.root;
         if (this.comparator != null) {
             while (true) {
-                if (treeMap$Entry == null) {
+                if (entry == null) {
                     return null;
                 }
-                int n = this.comparator.compare(object, TreeMap$Entry.access$400(treeMap$Entry));
+                int n = this.comparator.compare(object, entry.key);
                 if (n == 0) {
-                    return treeMap$Entry;
+                    return entry;
                 }
-                treeMap$Entry = n < 0 ? TreeMap$Entry.access$000(treeMap$Entry) : TreeMap$Entry.access$200(treeMap$Entry);
+                entry = n < 0 ? entry.left : entry.right;
             }
         }
         Comparable comparable = (Comparable)object;
-        while (treeMap$Entry != null) {
-            int n = comparable.compareTo(TreeMap$Entry.access$400(treeMap$Entry));
+        while (entry != null) {
+            int n = comparable.compareTo(entry.key);
             if (n == 0) {
-                return treeMap$Entry;
+                return entry;
             }
-            treeMap$Entry = n < 0 ? TreeMap$Entry.access$000(treeMap$Entry) : TreeMap$Entry.access$200(treeMap$Entry);
+            entry = n < 0 ? entry.left : entry.right;
         }
         return null;
     }
 
-    private TreeMap$Entry getHigherEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.root;
-        if (treeMap$Entry == null) {
+    private Entry getHigherEntry(Object object) {
+        Entry entry = this.root;
+        if (entry == null) {
             return null;
         }
         while (true) {
             int n;
-            if ((n = TreeMap.compare(object, TreeMap$Entry.access$400(treeMap$Entry), this.comparator)) < 0) {
-                if (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-                    treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+            if ((n = TreeMap.compare(object, entry.key, this.comparator)) < 0) {
+                if (entry.left != null) {
+                    entry = entry.left;
                     continue;
                 }
-                return treeMap$Entry;
+                return entry;
             }
-            if (TreeMap$Entry.access$200(treeMap$Entry) == null) break;
-            treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+            if (entry.right == null) break;
+            entry = entry.right;
         }
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-        while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$200(treeMap$Entry2)) {
-            treeMap$Entry = treeMap$Entry2;
-            treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+        Entry entry2 = entry.parent;
+        while (entry2 != null && entry == entry2.right) {
+            entry = entry2;
+            entry2 = entry2.parent;
         }
-        return treeMap$Entry2;
+        return entry2;
     }
 
-    private TreeMap$Entry getFirstEntry() {
-        TreeMap$Entry treeMap$Entry = this.root;
-        if (treeMap$Entry == null) {
+    private Entry getFirstEntry() {
+        Entry entry = this.root;
+        if (entry == null) {
             return null;
         }
-        while (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-            treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+        while (entry.left != null) {
+            entry = entry.left;
         }
-        return treeMap$Entry;
+        return entry;
     }
 
-    private TreeMap$Entry getLastEntry() {
-        TreeMap$Entry treeMap$Entry = this.root;
-        if (treeMap$Entry == null) {
+    private Entry getLastEntry() {
+        Entry entry = this.root;
+        if (entry == null) {
             return null;
         }
-        while (TreeMap$Entry.access$200(treeMap$Entry) != null) {
-            treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+        while (entry.right != null) {
+            entry = entry.right;
         }
-        return treeMap$Entry;
+        return entry;
     }
 
-    private TreeMap$Entry getCeilingEntry(Object object) {
-        TreeMap$Entry treeMap$Entry;
+    private Entry getCeilingEntry(Object object) {
+        Entry entry;
         block5: {
-            treeMap$Entry = this.root;
-            if (treeMap$Entry == null) {
+            entry = this.root;
+            if (entry == null) {
                 return null;
             }
             while (true) {
                 int n;
-                if ((n = TreeMap.compare(object, TreeMap$Entry.access$400(treeMap$Entry), this.comparator)) < 0) {
-                    if (TreeMap$Entry.access$000(treeMap$Entry) != null) {
-                        treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+                if ((n = TreeMap.compare(object, entry.key, this.comparator)) < 0) {
+                    if (entry.left != null) {
+                        entry = entry.left;
                         continue;
                     }
-                    return treeMap$Entry;
+                    return entry;
                 }
                 if (n <= 0) break block5;
-                if (TreeMap$Entry.access$200(treeMap$Entry) == null) break;
-                treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+                if (entry.right == null) break;
+                entry = entry.right;
             }
-            TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-            while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$200(treeMap$Entry2)) {
-                treeMap$Entry = treeMap$Entry2;
-                treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+            Entry entry2 = entry.parent;
+            while (entry2 != null && entry == entry2.right) {
+                entry = entry2;
+                entry2 = entry2.parent;
             }
-            return treeMap$Entry2;
+            return entry2;
         }
-        return treeMap$Entry;
+        return entry;
     }
 
-    private TreeMap$Entry getLowerEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.root;
-        if (treeMap$Entry == null) {
+    private Entry getLowerEntry(Object object) {
+        Entry entry = this.root;
+        if (entry == null) {
             return null;
         }
         while (true) {
             int n;
-            if ((n = TreeMap.compare(object, TreeMap$Entry.access$400(treeMap$Entry), this.comparator)) > 0) {
-                if (TreeMap$Entry.access$200(treeMap$Entry) != null) {
-                    treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+            if ((n = TreeMap.compare(object, entry.key, this.comparator)) > 0) {
+                if (entry.right != null) {
+                    entry = entry.right;
                     continue;
                 }
-                return treeMap$Entry;
+                return entry;
             }
-            if (TreeMap$Entry.access$000(treeMap$Entry) == null) break;
-            treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+            if (entry.left == null) break;
+            entry = entry.left;
         }
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-        while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$000(treeMap$Entry2)) {
-            treeMap$Entry = treeMap$Entry2;
-            treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+        Entry entry2 = entry.parent;
+        while (entry2 != null && entry == entry2.left) {
+            entry = entry2;
+            entry2 = entry2.parent;
         }
-        return treeMap$Entry2;
+        return entry2;
     }
 
-    private TreeMap$Entry getFloorEntry(Object object) {
-        TreeMap$Entry treeMap$Entry;
+    private Entry getFloorEntry(Object object) {
+        Entry entry;
         block5: {
-            treeMap$Entry = this.root;
-            if (treeMap$Entry == null) {
+            entry = this.root;
+            if (entry == null) {
                 return null;
             }
             while (true) {
                 int n;
-                if ((n = TreeMap.compare(object, TreeMap$Entry.access$400(treeMap$Entry), this.comparator)) > 0) {
-                    if (TreeMap$Entry.access$200(treeMap$Entry) != null) {
-                        treeMap$Entry = TreeMap$Entry.access$200(treeMap$Entry);
+                if ((n = TreeMap.compare(object, entry.key, this.comparator)) > 0) {
+                    if (entry.right != null) {
+                        entry = entry.right;
                         continue;
                     }
-                    return treeMap$Entry;
+                    return entry;
                 }
                 if (n >= 0) break block5;
-                if (TreeMap$Entry.access$000(treeMap$Entry) == null) break;
-                treeMap$Entry = TreeMap$Entry.access$000(treeMap$Entry);
+                if (entry.left == null) break;
+                entry = entry.left;
             }
-            TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry);
-            while (treeMap$Entry2 != null && treeMap$Entry == TreeMap$Entry.access$000(treeMap$Entry2)) {
-                treeMap$Entry = treeMap$Entry2;
-                treeMap$Entry2 = TreeMap$Entry.access$100(treeMap$Entry2);
+            Entry entry2 = entry.parent;
+            while (entry2 != null && entry == entry2.left) {
+                entry = entry2;
+                entry2 = entry2.parent;
             }
-            return treeMap$Entry2;
+            return entry2;
         }
-        return treeMap$Entry;
+        return entry;
     }
 
     void buildFromSorted(Iterator iterator, int n) {
@@ -349,248 +335,248 @@ Serializable {
         this.root = TreeMap.createFromSorted(iterator, n, 0, n2);
     }
 
-    private static TreeMap$Entry createFromSorted(Iterator iterator, int n, int n2, int n3) {
+    private static Entry createFromSorted(Iterator iterator, int n, int n2, int n3) {
         ++n2;
         if (n == 0) {
             return null;
         }
         int n4 = n - 1 >> 1;
         int n5 = n - 1 - n4;
-        TreeMap$Entry treeMap$Entry = TreeMap.createFromSorted(iterator, n4, n2, n3);
-        Map$Entry map$Entry = (Map$Entry)iterator.next();
-        TreeMap$Entry treeMap$Entry2 = TreeMap.createFromSorted(iterator, n5, n2, n3);
-        TreeMap$Entry treeMap$Entry3 = new TreeMap$Entry(map$Entry.getKey(), map$Entry.getValue());
-        if (treeMap$Entry != null) {
-            TreeMap$Entry.access$002(treeMap$Entry3, treeMap$Entry);
-            TreeMap$Entry.access$102(treeMap$Entry, treeMap$Entry3);
+        Entry entry = TreeMap.createFromSorted(iterator, n4, n2, n3);
+        Map.Entry entry2 = (Map.Entry)iterator.next();
+        Entry entry3 = TreeMap.createFromSorted(iterator, n5, n2, n3);
+        Entry entry4 = new Entry(entry2.getKey(), entry2.getValue());
+        if (entry != null) {
+            entry4.left = entry;
+            entry.parent = entry4;
         }
-        if (treeMap$Entry2 != null) {
-            TreeMap$Entry.access$202(treeMap$Entry3, treeMap$Entry2);
-            TreeMap$Entry.access$102(treeMap$Entry2, treeMap$Entry3);
+        if (entry3 != null) {
+            entry4.right = entry3;
+            entry3.parent = entry4;
         }
         if (n2 == n3) {
-            TreeMap$Entry.access$502(treeMap$Entry3, false);
+            entry4.color = false;
         }
-        return treeMap$Entry3;
+        return entry4;
     }
 
-    private void delete(TreeMap$Entry treeMap$Entry) {
-        TreeMap$Entry treeMap$Entry2;
-        if (TreeMap$Entry.access$000(treeMap$Entry) == null && TreeMap$Entry.access$200(treeMap$Entry) == null && TreeMap$Entry.access$100(treeMap$Entry) == null) {
+    private void delete(Entry entry) {
+        Entry entry2;
+        if (entry.left == null && entry.right == null && entry.parent == null) {
             this.root = null;
             this.size = 0;
             ++this.modCount;
             return;
         }
-        if (TreeMap$Entry.access$000(treeMap$Entry) != null && TreeMap$Entry.access$200(treeMap$Entry) != null) {
-            treeMap$Entry2 = TreeMap.successor(treeMap$Entry);
-            TreeMap$Entry.access$402(treeMap$Entry, TreeMap$Entry.access$400(treeMap$Entry2));
-            TreeMap$Entry.access$602(treeMap$Entry, TreeMap$Entry.access$600(treeMap$Entry2));
-            treeMap$Entry = treeMap$Entry2;
+        if (entry.left != null && entry.right != null) {
+            entry2 = TreeMap.successor(entry);
+            entry.key = entry2.key;
+            entry.element = entry2.element;
+            entry = entry2;
         }
-        if (TreeMap$Entry.access$000(treeMap$Entry) == null && TreeMap$Entry.access$200(treeMap$Entry) == null) {
-            if (TreeMap$Entry.access$500(treeMap$Entry)) {
-                this.fixAfterDeletion(treeMap$Entry);
+        if (entry.left == null && entry.right == null) {
+            if (entry.color) {
+                this.fixAfterDeletion(entry);
             }
-            if (TreeMap$Entry.access$100(treeMap$Entry) != null) {
-                if (treeMap$Entry == TreeMap$Entry.access$000(TreeMap$Entry.access$100(treeMap$Entry))) {
-                    TreeMap$Entry.access$002(TreeMap$Entry.access$100(treeMap$Entry), null);
-                } else if (treeMap$Entry == TreeMap$Entry.access$200(TreeMap$Entry.access$100(treeMap$Entry))) {
-                    TreeMap$Entry.access$202(TreeMap$Entry.access$100(treeMap$Entry), null);
+            if (entry.parent != null) {
+                if (entry == entry.parent.left) {
+                    entry.parent.left = null;
+                } else if (entry == entry.parent.right) {
+                    entry.parent.right = null;
                 }
-                TreeMap$Entry.access$102(treeMap$Entry, null);
+                entry.parent = null;
             }
         } else {
-            treeMap$Entry2 = TreeMap$Entry.access$000(treeMap$Entry);
-            if (treeMap$Entry2 == null) {
-                treeMap$Entry2 = TreeMap$Entry.access$200(treeMap$Entry);
+            entry2 = entry.left;
+            if (entry2 == null) {
+                entry2 = entry.right;
             }
-            TreeMap$Entry.access$102(treeMap$Entry2, TreeMap$Entry.access$100(treeMap$Entry));
-            if (TreeMap$Entry.access$100(treeMap$Entry) == null) {
-                this.root = treeMap$Entry2;
-            } else if (treeMap$Entry == TreeMap$Entry.access$000(TreeMap$Entry.access$100(treeMap$Entry))) {
-                TreeMap$Entry.access$002(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+            entry2.parent = entry.parent;
+            if (entry.parent == null) {
+                this.root = entry2;
+            } else if (entry == entry.parent.left) {
+                entry.parent.left = entry2;
             } else {
-                TreeMap$Entry.access$202(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+                entry.parent.right = entry2;
             }
-            TreeMap$Entry.access$002(treeMap$Entry, null);
-            TreeMap$Entry.access$202(treeMap$Entry, null);
-            TreeMap$Entry.access$102(treeMap$Entry, null);
-            if (TreeMap$Entry.access$500(treeMap$Entry)) {
-                this.fixAfterDeletion(treeMap$Entry2);
+            entry.left = null;
+            entry.right = null;
+            entry.parent = null;
+            if (entry.color) {
+                this.fixAfterDeletion(entry2);
             }
         }
         --this.size;
         ++this.modCount;
     }
 
-    static boolean colorOf(TreeMap$Entry treeMap$Entry) {
-        return treeMap$Entry == null ? true : TreeMap$Entry.access$500(treeMap$Entry);
+    static boolean colorOf(Entry entry) {
+        return entry == null ? true : entry.color;
     }
 
-    static TreeMap$Entry parentOf(TreeMap$Entry treeMap$Entry) {
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$100(treeMap$Entry);
+    static Entry parentOf(Entry entry) {
+        return entry == null ? null : entry.parent;
     }
 
-    private static void setColor(TreeMap$Entry treeMap$Entry, boolean bl) {
-        if (treeMap$Entry != null) {
-            TreeMap$Entry.access$502(treeMap$Entry, bl);
+    private static void setColor(Entry entry, boolean bl) {
+        if (entry != null) {
+            entry.color = bl;
         }
     }
 
-    private static TreeMap$Entry leftOf(TreeMap$Entry treeMap$Entry) {
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$000(treeMap$Entry);
+    private static Entry leftOf(Entry entry) {
+        return entry == null ? null : entry.left;
     }
 
-    private static TreeMap$Entry rightOf(TreeMap$Entry treeMap$Entry) {
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$200(treeMap$Entry);
+    private static Entry rightOf(Entry entry) {
+        return entry == null ? null : entry.right;
     }
 
-    private final void rotateLeft(TreeMap$Entry treeMap$Entry) {
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$200(treeMap$Entry);
-        TreeMap$Entry.access$202(treeMap$Entry, TreeMap$Entry.access$000(treeMap$Entry2));
-        if (TreeMap$Entry.access$000(treeMap$Entry2) != null) {
-            TreeMap$Entry.access$102(TreeMap$Entry.access$000(treeMap$Entry2), treeMap$Entry);
+    private final void rotateLeft(Entry entry) {
+        Entry entry2 = entry.right;
+        entry.right = entry2.left;
+        if (entry2.left != null) {
+            entry2.left.parent = entry;
         }
-        TreeMap$Entry.access$102(treeMap$Entry2, TreeMap$Entry.access$100(treeMap$Entry));
-        if (TreeMap$Entry.access$100(treeMap$Entry) == null) {
-            this.root = treeMap$Entry2;
-        } else if (TreeMap$Entry.access$000(TreeMap$Entry.access$100(treeMap$Entry)) == treeMap$Entry) {
-            TreeMap$Entry.access$002(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+        entry2.parent = entry.parent;
+        if (entry.parent == null) {
+            this.root = entry2;
+        } else if (entry.parent.left == entry) {
+            entry.parent.left = entry2;
         } else {
-            TreeMap$Entry.access$202(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+            entry.parent.right = entry2;
         }
-        TreeMap$Entry.access$002(treeMap$Entry2, treeMap$Entry);
-        TreeMap$Entry.access$102(treeMap$Entry, treeMap$Entry2);
+        entry2.left = entry;
+        entry.parent = entry2;
     }
 
-    private final void rotateRight(TreeMap$Entry treeMap$Entry) {
-        TreeMap$Entry treeMap$Entry2 = TreeMap$Entry.access$000(treeMap$Entry);
-        TreeMap$Entry.access$002(treeMap$Entry, TreeMap$Entry.access$200(treeMap$Entry2));
-        if (TreeMap$Entry.access$200(treeMap$Entry2) != null) {
-            TreeMap$Entry.access$102(TreeMap$Entry.access$200(treeMap$Entry2), treeMap$Entry);
+    private final void rotateRight(Entry entry) {
+        Entry entry2 = entry.left;
+        entry.left = entry2.right;
+        if (entry2.right != null) {
+            entry2.right.parent = entry;
         }
-        TreeMap$Entry.access$102(treeMap$Entry2, TreeMap$Entry.access$100(treeMap$Entry));
-        if (TreeMap$Entry.access$100(treeMap$Entry) == null) {
-            this.root = treeMap$Entry2;
-        } else if (TreeMap$Entry.access$200(TreeMap$Entry.access$100(treeMap$Entry)) == treeMap$Entry) {
-            TreeMap$Entry.access$202(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+        entry2.parent = entry.parent;
+        if (entry.parent == null) {
+            this.root = entry2;
+        } else if (entry.parent.right == entry) {
+            entry.parent.right = entry2;
         } else {
-            TreeMap$Entry.access$002(TreeMap$Entry.access$100(treeMap$Entry), treeMap$Entry2);
+            entry.parent.left = entry2;
         }
-        TreeMap$Entry.access$202(treeMap$Entry2, treeMap$Entry);
-        TreeMap$Entry.access$102(treeMap$Entry, treeMap$Entry2);
+        entry2.right = entry;
+        entry.parent = entry2;
     }
 
-    private final void fixAfterInsertion(TreeMap$Entry treeMap$Entry) {
-        TreeMap$Entry.access$502(treeMap$Entry, false);
-        TreeMap$Entry treeMap$Entry2 = treeMap$Entry;
-        while (treeMap$Entry2 != null && treeMap$Entry2 != this.root && !TreeMap$Entry.access$500(TreeMap$Entry.access$100(treeMap$Entry2))) {
-            TreeMap$Entry treeMap$Entry3;
-            if (TreeMap.parentOf(treeMap$Entry2) == TreeMap.leftOf(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)))) {
-                treeMap$Entry3 = TreeMap.rightOf(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)));
-                if (!TreeMap.colorOf(treeMap$Entry3)) {
-                    TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-                    TreeMap.setColor(treeMap$Entry3, true);
-                    TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)), false);
-                    treeMap$Entry2 = TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2));
+    private final void fixAfterInsertion(Entry entry) {
+        entry.color = false;
+        Entry entry2 = entry;
+        while (entry2 != null && entry2 != this.root && !entry2.parent.color) {
+            Entry entry3;
+            if (TreeMap.parentOf(entry2) == TreeMap.leftOf(TreeMap.parentOf(TreeMap.parentOf(entry2)))) {
+                entry3 = TreeMap.rightOf(TreeMap.parentOf(TreeMap.parentOf(entry2)));
+                if (!TreeMap.colorOf(entry3)) {
+                    TreeMap.setColor(TreeMap.parentOf(entry2), true);
+                    TreeMap.setColor(entry3, true);
+                    TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(entry2)), false);
+                    entry2 = TreeMap.parentOf(TreeMap.parentOf(entry2));
                     continue;
                 }
-                if (treeMap$Entry2 == TreeMap.rightOf(TreeMap.parentOf(treeMap$Entry2))) {
-                    treeMap$Entry2 = TreeMap.parentOf(treeMap$Entry2);
-                    this.rotateLeft(treeMap$Entry2);
+                if (entry2 == TreeMap.rightOf(TreeMap.parentOf(entry2))) {
+                    entry2 = TreeMap.parentOf(entry2);
+                    this.rotateLeft(entry2);
                 }
-                TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-                TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)), false);
-                if (TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)) == null) continue;
-                this.rotateRight(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)));
+                TreeMap.setColor(TreeMap.parentOf(entry2), true);
+                TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(entry2)), false);
+                if (TreeMap.parentOf(TreeMap.parentOf(entry2)) == null) continue;
+                this.rotateRight(TreeMap.parentOf(TreeMap.parentOf(entry2)));
                 continue;
             }
-            treeMap$Entry3 = TreeMap.leftOf(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)));
-            if (!TreeMap.colorOf(treeMap$Entry3)) {
-                TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-                TreeMap.setColor(treeMap$Entry3, true);
-                TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)), false);
-                treeMap$Entry2 = TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2));
+            entry3 = TreeMap.leftOf(TreeMap.parentOf(TreeMap.parentOf(entry2)));
+            if (!TreeMap.colorOf(entry3)) {
+                TreeMap.setColor(TreeMap.parentOf(entry2), true);
+                TreeMap.setColor(entry3, true);
+                TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(entry2)), false);
+                entry2 = TreeMap.parentOf(TreeMap.parentOf(entry2));
                 continue;
             }
-            if (treeMap$Entry2 == TreeMap.leftOf(TreeMap.parentOf(treeMap$Entry2))) {
-                treeMap$Entry2 = TreeMap.parentOf(treeMap$Entry2);
-                this.rotateRight(treeMap$Entry2);
+            if (entry2 == TreeMap.leftOf(TreeMap.parentOf(entry2))) {
+                entry2 = TreeMap.parentOf(entry2);
+                this.rotateRight(entry2);
             }
-            TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-            TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)), false);
-            if (TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)) == null) continue;
-            this.rotateLeft(TreeMap.parentOf(TreeMap.parentOf(treeMap$Entry2)));
+            TreeMap.setColor(TreeMap.parentOf(entry2), true);
+            TreeMap.setColor(TreeMap.parentOf(TreeMap.parentOf(entry2)), false);
+            if (TreeMap.parentOf(TreeMap.parentOf(entry2)) == null) continue;
+            this.rotateLeft(TreeMap.parentOf(TreeMap.parentOf(entry2)));
         }
-        TreeMap$Entry.access$502(this.root, true);
+        this.root.color = true;
     }
 
-    private final TreeMap$Entry fixAfterDeletion(TreeMap$Entry treeMap$Entry) {
-        TreeMap$Entry treeMap$Entry2 = treeMap$Entry;
-        while (treeMap$Entry2 != this.root && TreeMap.colorOf(treeMap$Entry2)) {
-            TreeMap$Entry treeMap$Entry3;
-            if (treeMap$Entry2 == TreeMap.leftOf(TreeMap.parentOf(treeMap$Entry2))) {
-                treeMap$Entry3 = TreeMap.rightOf(TreeMap.parentOf(treeMap$Entry2));
-                if (!TreeMap.colorOf(treeMap$Entry3)) {
-                    TreeMap.setColor(treeMap$Entry3, true);
-                    TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), false);
-                    this.rotateLeft(TreeMap.parentOf(treeMap$Entry2));
-                    treeMap$Entry3 = TreeMap.rightOf(TreeMap.parentOf(treeMap$Entry2));
+    private final Entry fixAfterDeletion(Entry entry) {
+        Entry entry2 = entry;
+        while (entry2 != this.root && TreeMap.colorOf(entry2)) {
+            Entry entry3;
+            if (entry2 == TreeMap.leftOf(TreeMap.parentOf(entry2))) {
+                entry3 = TreeMap.rightOf(TreeMap.parentOf(entry2));
+                if (!TreeMap.colorOf(entry3)) {
+                    TreeMap.setColor(entry3, true);
+                    TreeMap.setColor(TreeMap.parentOf(entry2), false);
+                    this.rotateLeft(TreeMap.parentOf(entry2));
+                    entry3 = TreeMap.rightOf(TreeMap.parentOf(entry2));
                 }
-                if (TreeMap.colorOf(TreeMap.leftOf(treeMap$Entry3)) && TreeMap.colorOf(TreeMap.rightOf(treeMap$Entry3))) {
-                    TreeMap.setColor(treeMap$Entry3, false);
-                    treeMap$Entry2 = TreeMap.parentOf(treeMap$Entry2);
+                if (TreeMap.colorOf(TreeMap.leftOf(entry3)) && TreeMap.colorOf(TreeMap.rightOf(entry3))) {
+                    TreeMap.setColor(entry3, false);
+                    entry2 = TreeMap.parentOf(entry2);
                     continue;
                 }
-                if (TreeMap.colorOf(TreeMap.rightOf(treeMap$Entry3))) {
-                    TreeMap.setColor(TreeMap.leftOf(treeMap$Entry3), true);
-                    TreeMap.setColor(treeMap$Entry3, false);
-                    this.rotateRight(treeMap$Entry3);
-                    treeMap$Entry3 = TreeMap.rightOf(TreeMap.parentOf(treeMap$Entry2));
+                if (TreeMap.colorOf(TreeMap.rightOf(entry3))) {
+                    TreeMap.setColor(TreeMap.leftOf(entry3), true);
+                    TreeMap.setColor(entry3, false);
+                    this.rotateRight(entry3);
+                    entry3 = TreeMap.rightOf(TreeMap.parentOf(entry2));
                 }
-                TreeMap.setColor(treeMap$Entry3, TreeMap.colorOf(TreeMap.parentOf(treeMap$Entry2)));
-                TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-                TreeMap.setColor(TreeMap.rightOf(treeMap$Entry3), true);
-                this.rotateLeft(TreeMap.parentOf(treeMap$Entry2));
-                treeMap$Entry2 = this.root;
+                TreeMap.setColor(entry3, TreeMap.colorOf(TreeMap.parentOf(entry2)));
+                TreeMap.setColor(TreeMap.parentOf(entry2), true);
+                TreeMap.setColor(TreeMap.rightOf(entry3), true);
+                this.rotateLeft(TreeMap.parentOf(entry2));
+                entry2 = this.root;
                 continue;
             }
-            treeMap$Entry3 = TreeMap.leftOf(TreeMap.parentOf(treeMap$Entry2));
-            if (!TreeMap.colorOf(treeMap$Entry3)) {
-                TreeMap.setColor(treeMap$Entry3, true);
-                TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), false);
-                this.rotateRight(TreeMap.parentOf(treeMap$Entry2));
-                treeMap$Entry3 = TreeMap.leftOf(TreeMap.parentOf(treeMap$Entry2));
+            entry3 = TreeMap.leftOf(TreeMap.parentOf(entry2));
+            if (!TreeMap.colorOf(entry3)) {
+                TreeMap.setColor(entry3, true);
+                TreeMap.setColor(TreeMap.parentOf(entry2), false);
+                this.rotateRight(TreeMap.parentOf(entry2));
+                entry3 = TreeMap.leftOf(TreeMap.parentOf(entry2));
             }
-            if (TreeMap.colorOf(TreeMap.rightOf(treeMap$Entry3)) && TreeMap.colorOf(TreeMap.leftOf(treeMap$Entry3))) {
-                TreeMap.setColor(treeMap$Entry3, false);
-                treeMap$Entry2 = TreeMap.parentOf(treeMap$Entry2);
+            if (TreeMap.colorOf(TreeMap.rightOf(entry3)) && TreeMap.colorOf(TreeMap.leftOf(entry3))) {
+                TreeMap.setColor(entry3, false);
+                entry2 = TreeMap.parentOf(entry2);
                 continue;
             }
-            if (TreeMap.colorOf(TreeMap.leftOf(treeMap$Entry3))) {
-                TreeMap.setColor(TreeMap.rightOf(treeMap$Entry3), true);
-                TreeMap.setColor(treeMap$Entry3, false);
-                this.rotateLeft(treeMap$Entry3);
-                treeMap$Entry3 = TreeMap.leftOf(TreeMap.parentOf(treeMap$Entry2));
+            if (TreeMap.colorOf(TreeMap.leftOf(entry3))) {
+                TreeMap.setColor(TreeMap.rightOf(entry3), true);
+                TreeMap.setColor(entry3, false);
+                this.rotateLeft(entry3);
+                entry3 = TreeMap.leftOf(TreeMap.parentOf(entry2));
             }
-            TreeMap.setColor(treeMap$Entry3, TreeMap.colorOf(TreeMap.parentOf(treeMap$Entry2)));
-            TreeMap.setColor(TreeMap.parentOf(treeMap$Entry2), true);
-            TreeMap.setColor(TreeMap.leftOf(treeMap$Entry3), true);
-            this.rotateRight(TreeMap.parentOf(treeMap$Entry2));
-            treeMap$Entry2 = this.root;
+            TreeMap.setColor(entry3, TreeMap.colorOf(TreeMap.parentOf(entry2)));
+            TreeMap.setColor(TreeMap.parentOf(entry2), true);
+            TreeMap.setColor(TreeMap.leftOf(entry3), true);
+            this.rotateRight(TreeMap.parentOf(entry2));
+            entry2 = this.root;
         }
-        TreeMap.setColor(treeMap$Entry2, true);
+        TreeMap.setColor(entry2, true);
         return this.root;
     }
 
-    private TreeMap$Entry getMatchingEntry(Object object) {
-        if (!(object instanceof Map$Entry)) {
+    private Entry getMatchingEntry(Object object) {
+        if (!(object instanceof Map.Entry)) {
             return null;
         }
-        Map$Entry map$Entry = (Map$Entry)object;
-        TreeMap$Entry treeMap$Entry = this.getEntry(map$Entry.getKey());
-        return treeMap$Entry != null && TreeMap.eq(treeMap$Entry.getValue(), map$Entry.getValue()) ? treeMap$Entry : null;
+        Map.Entry entry = (Map.Entry)object;
+        Entry entry2 = this.getEntry(entry.getKey());
+        return entry2 != null && TreeMap.eq(entry2.getValue(), entry.getValue()) ? entry2 : null;
     }
 
     private static boolean eq(Object object, Object object2) {
@@ -601,133 +587,112 @@ Serializable {
         return comparator == null ? ((Comparable)object).compareTo(object2) : comparator.compare(object, object2);
     }
 
-    @Override
-    public Map$Entry lowerEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getLowerEntry(object);
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry lowerEntry(Object object) {
+        Entry entry = this.getLowerEntry(object);
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
     public Object lowerKey(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getLowerEntry(object);
-        return treeMap$Entry == null ? null : treeMap$Entry.getKey();
+        Entry entry = this.getLowerEntry(object);
+        return entry == null ? null : entry.getKey();
     }
 
-    @Override
-    public Map$Entry floorEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getFloorEntry(object);
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry floorEntry(Object object) {
+        Entry entry = this.getFloorEntry(object);
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
     public Object floorKey(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getFloorEntry(object);
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$400(treeMap$Entry);
+        Entry entry = this.getFloorEntry(object);
+        return entry == null ? null : entry.key;
     }
 
-    @Override
-    public Map$Entry ceilingEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getCeilingEntry(object);
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry ceilingEntry(Object object) {
+        Entry entry = this.getCeilingEntry(object);
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
     public Object ceilingKey(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getCeilingEntry(object);
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$400(treeMap$Entry);
+        Entry entry = this.getCeilingEntry(object);
+        return entry == null ? null : entry.key;
     }
 
-    @Override
-    public Map$Entry higherEntry(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getHigherEntry(object);
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry higherEntry(Object object) {
+        Entry entry = this.getHigherEntry(object);
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
     public Object higherKey(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getHigherEntry(object);
-        return treeMap$Entry == null ? null : TreeMap$Entry.access$400(treeMap$Entry);
+        Entry entry = this.getHigherEntry(object);
+        return entry == null ? null : entry.key;
     }
 
-    @Override
-    public Map$Entry firstEntry() {
-        TreeMap$Entry treeMap$Entry = this.getFirstEntry();
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry firstEntry() {
+        Entry entry = this.getFirstEntry();
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
-    public Map$Entry lastEntry() {
-        TreeMap$Entry treeMap$Entry = this.getLastEntry();
-        return treeMap$Entry == null ? null : new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
+    public Map.Entry lastEntry() {
+        Entry entry = this.getLastEntry();
+        return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
     }
 
-    @Override
-    public Map$Entry pollFirstEntry() {
-        TreeMap$Entry treeMap$Entry = this.getFirstEntry();
-        if (treeMap$Entry == null) {
+    public Map.Entry pollFirstEntry() {
+        Entry entry = this.getFirstEntry();
+        if (entry == null) {
             return null;
         }
-        AbstractMap$SimpleImmutableEntry abstractMap$SimpleImmutableEntry = new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
-        this.delete(treeMap$Entry);
-        return abstractMap$SimpleImmutableEntry;
+        AbstractMap.SimpleImmutableEntry simpleImmutableEntry = new AbstractMap.SimpleImmutableEntry(entry);
+        this.delete(entry);
+        return simpleImmutableEntry;
     }
 
-    @Override
-    public Map$Entry pollLastEntry() {
-        TreeMap$Entry treeMap$Entry = this.getLastEntry();
-        if (treeMap$Entry == null) {
+    public Map.Entry pollLastEntry() {
+        Entry entry = this.getLastEntry();
+        if (entry == null) {
             return null;
         }
-        AbstractMap$SimpleImmutableEntry abstractMap$SimpleImmutableEntry = new AbstractMap$SimpleImmutableEntry(treeMap$Entry);
-        this.delete(treeMap$Entry);
-        return abstractMap$SimpleImmutableEntry;
+        AbstractMap.SimpleImmutableEntry simpleImmutableEntry = new AbstractMap.SimpleImmutableEntry(entry);
+        this.delete(entry);
+        return simpleImmutableEntry;
     }
 
-    @Override
     public NavigableMap descendingMap() {
         NavigableMap navigableMap = this.descendingMap;
         if (navigableMap == null) {
-            this.descendingMap = navigableMap = new TreeMap$DescendingSubMap(this, true, null, true, true, null, true);
+            this.descendingMap = navigableMap = new DescendingSubMap(true, null, true, true, null, true);
         }
         return navigableMap;
     }
 
-    @Override
     public NavigableSet descendingKeySet() {
         return this.descendingMap().navigableKeySet();
     }
 
-    @Override
     public SortedMap subMap(Object object, Object object2) {
         return this.subMap(object, true, object2, false);
     }
 
-    @Override
     public SortedMap headMap(Object object) {
         return this.headMap(object, false);
     }
 
-    @Override
     public SortedMap tailMap(Object object) {
         return this.tailMap(object, true);
     }
 
-    @Override
     public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
-        return new TreeMap$AscendingSubMap(this, false, object, bl, false, object2, bl2);
+        return new AscendingSubMap(false, object, bl, false, object2, bl2);
     }
 
-    @Override
     public NavigableMap headMap(Object object, boolean bl) {
-        return new TreeMap$AscendingSubMap(this, true, null, true, false, object, bl);
+        return new AscendingSubMap(true, null, true, false, object, bl);
     }
 
-    @Override
     public NavigableMap tailMap(Object object, boolean bl) {
-        return new TreeMap$AscendingSubMap(this, false, object, bl, true, null, true);
+        return new AscendingSubMap(false, object, bl, true, null, true);
     }
 
-    @Override
     public Comparator comparator() {
         return this.comparator;
     }
@@ -739,30 +704,26 @@ Serializable {
         return this.reverseComparator;
     }
 
-    @Override
     public Object firstKey() {
-        TreeMap$Entry treeMap$Entry = this.getFirstEntry();
-        if (treeMap$Entry == null) {
+        Entry entry = this.getFirstEntry();
+        if (entry == null) {
             throw new NoSuchElementException();
         }
-        return TreeMap$Entry.access$400(treeMap$Entry);
+        return entry.key;
     }
 
-    @Override
     public Object lastKey() {
-        TreeMap$Entry treeMap$Entry = this.getLastEntry();
-        if (treeMap$Entry == null) {
+        Entry entry = this.getLastEntry();
+        if (entry == null) {
             throw new NoSuchElementException();
         }
-        return TreeMap$Entry.access$400(treeMap$Entry);
+        return entry.key;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-    @Override
     public boolean containsValue(Object object) {
         if (this.root == null) {
             return false;
@@ -770,38 +731,36 @@ Serializable {
         return object == null ? TreeMap.containsNull(this.root) : TreeMap.containsValue(this.root, object);
     }
 
-    private static boolean containsNull(TreeMap$Entry treeMap$Entry) {
-        if (TreeMap$Entry.access$600(treeMap$Entry) == null) {
+    private static boolean containsNull(Entry entry) {
+        if (entry.element == null) {
             return true;
         }
-        if (TreeMap$Entry.access$000(treeMap$Entry) != null && TreeMap.containsNull(TreeMap$Entry.access$000(treeMap$Entry))) {
+        if (entry.left != null && TreeMap.containsNull(entry.left)) {
             return true;
         }
-        return TreeMap$Entry.access$200(treeMap$Entry) != null && TreeMap.containsNull(TreeMap$Entry.access$200(treeMap$Entry));
+        return entry.right != null && TreeMap.containsNull(entry.right);
     }
 
-    private static boolean containsValue(TreeMap$Entry treeMap$Entry, Object object) {
-        if (object.equals(TreeMap$Entry.access$600(treeMap$Entry))) {
+    private static boolean containsValue(Entry entry, Object object) {
+        if (object.equals(entry.element)) {
             return true;
         }
-        if (TreeMap$Entry.access$000(treeMap$Entry) != null && TreeMap.containsValue(TreeMap$Entry.access$000(treeMap$Entry), object)) {
+        if (entry.left != null && TreeMap.containsValue(entry.left, object)) {
             return true;
         }
-        return TreeMap$Entry.access$200(treeMap$Entry) != null && TreeMap.containsValue(TreeMap$Entry.access$200(treeMap$Entry), object);
+        return entry.right != null && TreeMap.containsValue(entry.right, object);
     }
 
-    @Override
     public Object remove(Object object) {
-        TreeMap$Entry treeMap$Entry = this.getEntry(object);
-        if (treeMap$Entry == null) {
+        Entry entry = this.getEntry(object);
+        if (entry == null) {
             return null;
         }
-        Object object2 = treeMap$Entry.getValue();
-        this.delete(treeMap$Entry);
+        Object object2 = entry.getValue();
+        this.delete(entry);
         return object2;
     }
 
-    @Override
     public void putAll(Map map) {
         SortedMap sortedMap;
         if (map instanceof SortedMap && TreeMap.eq(this.comparator, (sortedMap = (SortedMap)map).comparator())) {
@@ -811,102 +770,1292 @@ Serializable {
         super.putAll(map);
     }
 
-    @Override
     public Set keySet() {
         return this.navigableKeySet();
     }
 
-    @Override
     public NavigableSet navigableKeySet() {
         if (this.navigableKeySet == null) {
-            this.navigableKeySet = new TreeMap$AscendingKeySet(this);
+            this.navigableKeySet = new AscendingKeySet();
         }
         return this.navigableKeySet;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeInt(this.size);
-        TreeMap$Entry treeMap$Entry = this.getFirstEntry();
-        while (treeMap$Entry != null) {
-            objectOutputStream.writeObject(TreeMap$Entry.access$400(treeMap$Entry));
-            objectOutputStream.writeObject(TreeMap$Entry.access$600(treeMap$Entry));
-            treeMap$Entry = TreeMap.successor(treeMap$Entry);
+        Entry entry = this.getFirstEntry();
+        while (entry != null) {
+            objectOutputStream.writeObject(entry.key);
+            objectOutputStream.writeObject(entry.element);
+            entry = TreeMap.successor(entry);
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         int n = objectInputStream.readInt();
         try {
-            this.buildFromSorted(new TreeMap$IOIterator(objectInputStream, n), n);
+            this.buildFromSorted(new IOIterator(objectInputStream, n), n);
         }
-        catch (TreeMap$IteratorIOException treeMap$IteratorIOException) {
-            throw treeMap$IteratorIOException.getException();
+        catch (IteratorIOException iteratorIOException) {
+            throw iteratorIOException.getException();
         }
-        catch (TreeMap$IteratorNoClassException treeMap$IteratorNoClassException) {
-            throw treeMap$IteratorNoClassException.getException();
+        catch (IteratorNoClassException iteratorNoClassException) {
+            throw iteratorNoClassException.getException();
         }
     }
 
-    static /* synthetic */ boolean access$300(Object object, Object object2) {
-        return TreeMap.eq(object, object2);
+    public static class Entry
+    implements Map.Entry,
+    Cloneable,
+    Serializable {
+        private static final boolean RED = false;
+        private static final boolean BLACK = true;
+        private Object key;
+        private Object element;
+        private boolean color;
+        private Entry left;
+        private Entry right;
+        private Entry parent;
+
+        public Entry(Object object, Object object2) {
+            this.key = object;
+            this.element = object2;
+            this.color = true;
+        }
+
+        protected Object clone() throws CloneNotSupportedException {
+            Entry entry = new Entry(this.key, this.element);
+            entry.color = this.color;
+            return entry;
+        }
+
+        public final Object getKey() {
+            return this.key;
+        }
+
+        public final Object getValue() {
+            return this.element;
+        }
+
+        public final Object setValue(Object object) {
+            Object object2 = this.element;
+            this.element = object;
+            return object2;
+        }
+
+        public boolean equals(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return false;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            return TreeMap.eq(this.key, entry.getKey()) && TreeMap.eq(this.element, entry.getValue());
+        }
+
+        public int hashCode() {
+            return (this.key == null ? 0 : this.key.hashCode()) ^ (this.element == null ? 0 : this.element.hashCode());
+        }
+
+        public String toString() {
+            return new StringBuffer().append(this.key).append("=").append(this.element).toString();
+        }
     }
 
-    static /* synthetic */ int access$700(TreeMap treeMap) {
-        return treeMap.modCount;
+    abstract class KeySet
+    extends AbstractSet
+    implements NavigableSet {
+        KeySet() {
+        }
+
+        public int size() {
+            return TreeMap.this.size();
+        }
+
+        public boolean isEmpty() {
+            return TreeMap.this.isEmpty();
+        }
+
+        public void clear() {
+            TreeMap.this.clear();
+        }
+
+        public boolean contains(Object object) {
+            return TreeMap.this.getEntry(object) != null;
+        }
+
+        public boolean remove(Object object) {
+            Entry entry = TreeMap.this.getEntry(object);
+            if (entry == null) {
+                return false;
+            }
+            TreeMap.this.delete(entry);
+            return true;
+        }
+
+        public SortedSet subSet(Object object, Object object2) {
+            return this.subSet(object, true, object2, false);
+        }
+
+        public SortedSet headSet(Object object) {
+            return this.headSet(object, false);
+        }
+
+        public SortedSet tailSet(Object object) {
+            return this.tailSet(object, true);
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$800(TreeMap$Entry entry) {
-        return TreeMap.successor(entry);
+    private class SubMap
+    extends AbstractMap
+    implements Serializable,
+    NavigableMap {
+        private static final long serialVersionUID = -6520786458950516097L;
+        final Object fromKey = null;
+        final Object toKey = null;
+
+        SubMap() {
+        }
+
+        private Object readResolve() {
+            return new AscendingSubMap(this.fromKey == null, this.fromKey, true, this.toKey == null, this.toKey, false);
+        }
+
+        public Map.Entry lowerEntry(Object object) {
+            throw new Error();
+        }
+
+        public Object lowerKey(Object object) {
+            throw new Error();
+        }
+
+        public Map.Entry floorEntry(Object object) {
+            throw new Error();
+        }
+
+        public Object floorKey(Object object) {
+            throw new Error();
+        }
+
+        public Map.Entry ceilingEntry(Object object) {
+            throw new Error();
+        }
+
+        public Object ceilingKey(Object object) {
+            throw new Error();
+        }
+
+        public Map.Entry higherEntry(Object object) {
+            throw new Error();
+        }
+
+        public Object higherKey(Object object) {
+            throw new Error();
+        }
+
+        public Map.Entry firstEntry() {
+            throw new Error();
+        }
+
+        public Map.Entry lastEntry() {
+            throw new Error();
+        }
+
+        public Map.Entry pollFirstEntry() {
+            throw new Error();
+        }
+
+        public Map.Entry pollLastEntry() {
+            throw new Error();
+        }
+
+        public NavigableMap descendingMap() {
+            throw new Error();
+        }
+
+        public NavigableSet navigableKeySet() {
+            throw new Error();
+        }
+
+        public NavigableSet descendingKeySet() {
+            throw new Error();
+        }
+
+        public Set entrySet() {
+            throw new Error();
+        }
+
+        public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
+            throw new Error();
+        }
+
+        public NavigableMap headMap(Object object, boolean bl) {
+            throw new Error();
+        }
+
+        public NavigableMap tailMap(Object object, boolean bl) {
+            throw new Error();
+        }
+
+        public SortedMap subMap(Object object, Object object2) {
+            throw new Error();
+        }
+
+        public SortedMap headMap(Object object) {
+            throw new Error();
+        }
+
+        public SortedMap tailMap(Object object) {
+            throw new Error();
+        }
+
+        public Comparator comparator() {
+            throw new Error();
+        }
+
+        public Object firstKey() {
+            throw new Error();
+        }
+
+        public Object lastKey() {
+            throw new Error();
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$900(TreeMap$Entry entry) {
-        return TreeMap.predecessor(entry);
+    class EntrySet
+    extends AbstractSet {
+        EntrySet() {
+        }
+
+        public int size() {
+            return TreeMap.this.size();
+        }
+
+        public boolean isEmpty() {
+            return TreeMap.this.isEmpty();
+        }
+
+        public void clear() {
+            TreeMap.this.clear();
+        }
+
+        public Iterator iterator() {
+            return new EntryIterator(TreeMap.this.getFirstEntry());
+        }
+
+        public boolean contains(Object object) {
+            return TreeMap.this.getMatchingEntry(object) != null;
+        }
+
+        public boolean remove(Object object) {
+            Entry entry = TreeMap.this.getMatchingEntry(object);
+            if (entry == null) {
+                return false;
+            }
+            TreeMap.this.delete(entry);
+            return true;
+        }
     }
 
-    static /* synthetic */ void access$1000(TreeMap treeMap, TreeMap$Entry entry) {
-        treeMap.delete(entry);
+    class ValueSet
+    extends AbstractSet {
+        ValueSet() {
+        }
+
+        public int size() {
+            return TreeMap.this.size();
+        }
+
+        public boolean isEmpty() {
+            return TreeMap.this.isEmpty();
+        }
+
+        public void clear() {
+            TreeMap.this.clear();
+        }
+
+        public boolean contains(Object object) {
+            Entry entry = TreeMap.this.getFirstEntry();
+            while (entry != null) {
+                if (TreeMap.eq(object, entry.element)) {
+                    return true;
+                }
+                entry = TreeMap.successor(entry);
+            }
+            return false;
+        }
+
+        public Iterator iterator() {
+            return new ValueIterator(TreeMap.this.getFirstEntry());
+        }
+
+        public boolean remove(Object object) {
+            Entry entry = TreeMap.this.getFirstEntry();
+            while (entry != null) {
+                if (TreeMap.eq(object, entry.element)) {
+                    TreeMap.this.delete(entry);
+                    return true;
+                }
+                entry = TreeMap.successor(entry);
+            }
+            return false;
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1100(TreeMap treeMap) {
-        return treeMap.getFirstEntry();
+    static class IOIterator
+    implements Iterator {
+        final ObjectInputStream ois;
+        int remaining;
+
+        IOIterator(ObjectInputStream objectInputStream, int n) {
+            this.ois = objectInputStream;
+            this.remaining = n;
+        }
+
+        public boolean hasNext() {
+            return this.remaining > 0;
+        }
+
+        public Object next() {
+            if (this.remaining <= 0) {
+                throw new NoSuchElementException();
+            }
+            --this.remaining;
+            try {
+                return new AbstractMap.SimpleImmutableEntry(this.ois.readObject(), this.ois.readObject());
+            }
+            catch (IOException iOException) {
+                throw new IteratorIOException(iOException);
+            }
+            catch (ClassNotFoundException classNotFoundException) {
+                throw new IteratorNoClassException(classNotFoundException);
+            }
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1200(TreeMap treeMap, Object object) {
-        return treeMap.getMatchingEntry(object);
+    class KeyIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        KeyIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.nextEntry().key;
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1300(TreeMap treeMap) {
-        return treeMap.getLastEntry();
+    class EntryIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        EntryIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.nextEntry();
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1400(TreeMap treeMap, Object object) {
-        return treeMap.getEntry(object);
+    class ValueIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        ValueIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.nextEntry().element;
+        }
     }
 
-    static /* synthetic */ Comparator access$1500(TreeMap treeMap) {
-        return treeMap.comparator;
+    class AscendingKeySet
+    extends KeySet {
+        AscendingKeySet() {
+        }
+
+        public Iterator iterator() {
+            return new KeyIterator(TreeMap.this.getFirstEntry());
+        }
+
+        public Iterator descendingIterator() {
+            return new DescendingKeyIterator(TreeMap.this.getFirstEntry());
+        }
+
+        public Object lower(Object object) {
+            return TreeMap.this.lowerKey(object);
+        }
+
+        public Object floor(Object object) {
+            return TreeMap.this.floorKey(object);
+        }
+
+        public Object ceiling(Object object) {
+            return TreeMap.this.ceilingKey(object);
+        }
+
+        public Object higher(Object object) {
+            return TreeMap.this.higherKey(object);
+        }
+
+        public Object first() {
+            return TreeMap.this.firstKey();
+        }
+
+        public Object last() {
+            return TreeMap.this.lastKey();
+        }
+
+        public Comparator comparator() {
+            return TreeMap.this.comparator();
+        }
+
+        public Object pollFirst() {
+            Map.Entry entry = TreeMap.this.pollFirstEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public Object pollLast() {
+            Map.Entry entry = TreeMap.this.pollLastEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
+            return (NavigableSet)TreeMap.this.subMap(object, bl, object2, bl2).keySet();
+        }
+
+        public NavigableSet headSet(Object object, boolean bl) {
+            return (NavigableSet)TreeMap.this.headMap(object, bl).keySet();
+        }
+
+        public NavigableSet tailSet(Object object, boolean bl) {
+            return (NavigableSet)TreeMap.this.tailMap(object, bl).keySet();
+        }
+
+        public NavigableSet descendingSet() {
+            return (NavigableSet)TreeMap.this.descendingMap().keySet();
+        }
     }
 
-    static /* synthetic */ int access$1600(Object object, Object object2, Comparator comparator) {
-        return TreeMap.compare(object, object2, comparator);
+    class AscendingSubMap
+    extends NavigableSubMap {
+        AscendingSubMap(boolean bl, Object object, boolean bl2, boolean bl3, Object object2, boolean bl4) {
+            super(bl, object, bl2, bl3, object2, bl4);
+        }
+
+        public Comparator comparator() {
+            return TreeMap.this.comparator;
+        }
+
+        protected Entry first() {
+            return this.absLowest();
+        }
+
+        protected Entry last() {
+            return this.absHighest();
+        }
+
+        protected Entry lower(Object object) {
+            return this.absLower(object);
+        }
+
+        protected Entry floor(Object object) {
+            return this.absFloor(object);
+        }
+
+        protected Entry ceiling(Object object) {
+            return this.absCeiling(object);
+        }
+
+        protected Entry higher(Object object) {
+            return this.absHigher(object);
+        }
+
+        protected Entry uncheckedHigher(Entry entry) {
+            return TreeMap.successor(entry);
+        }
+
+        public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("fromKey out of range");
+            }
+            if (!this.inRange(object2, bl2)) {
+                throw new IllegalArgumentException("toKey out of range");
+            }
+            return new AscendingSubMap(false, object, bl, false, object2, bl2);
+        }
+
+        public NavigableMap headMap(Object object, boolean bl) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("toKey out of range");
+            }
+            return new AscendingSubMap(this.fromStart, this.fromKey, this.fromInclusive, false, object, bl);
+        }
+
+        public NavigableMap tailMap(Object object, boolean bl) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("fromKey out of range");
+            }
+            return new AscendingSubMap(false, object, bl, this.toEnd, this.toKey, this.toInclusive);
+        }
+
+        public NavigableMap descendingMap() {
+            if (this.descendingMap == null) {
+                this.descendingMap = new DescendingSubMap(this.fromStart, this.fromKey, this.fromInclusive, this.toEnd, this.toKey, this.toInclusive);
+            }
+            return this.descendingMap;
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1700(TreeMap treeMap, Object object) {
-        return treeMap.getCeilingEntry(object);
+    private abstract class NavigableSubMap
+    extends AbstractMap
+    implements NavigableMap,
+    Serializable {
+        private static final long serialVersionUID = -6520786458950516097L;
+        final Object fromKey;
+        final Object toKey;
+        final boolean fromStart;
+        final boolean toEnd;
+        final boolean fromInclusive;
+        final boolean toInclusive;
+        transient int cachedSize = -1;
+        transient int cacheVersion;
+        transient SubEntrySet entrySet;
+        transient NavigableMap descendingMap;
+        transient NavigableSet navigableKeySet;
+
+        NavigableSubMap(boolean bl, Object object, boolean bl2, boolean bl3, Object object2, boolean bl4) {
+            if (!bl && !bl3) {
+                if (TreeMap.compare(object, object2, TreeMap.this.comparator) > 0) {
+                    throw new IllegalArgumentException("fromKey > toKey");
+                }
+            } else {
+                if (!bl) {
+                    TreeMap.compare(object, object, TreeMap.this.comparator);
+                }
+                if (!bl3) {
+                    TreeMap.compare(object2, object2, TreeMap.this.comparator);
+                }
+            }
+            this.fromStart = bl;
+            this.toEnd = bl3;
+            this.fromKey = object;
+            this.toKey = object2;
+            this.fromInclusive = bl2;
+            this.toInclusive = bl4;
+        }
+
+        final Entry checkLoRange(Entry entry) {
+            return entry == null || this.absTooLow(entry.key) ? null : entry;
+        }
+
+        final Entry checkHiRange(Entry entry) {
+            return entry == null || this.absTooHigh(entry.key) ? null : entry;
+        }
+
+        final boolean inRange(Object object) {
+            return !this.absTooLow(object) && !this.absTooHigh(object);
+        }
+
+        final boolean inRangeExclusive(Object object) {
+            return !(!this.fromStart && TreeMap.compare(object, this.fromKey, TreeMap.this.comparator) < 0 || !this.toEnd && TreeMap.compare(this.toKey, object, TreeMap.this.comparator) < 0);
+        }
+
+        final boolean inRange(Object object, boolean bl) {
+            return bl ? this.inRange(object) : this.inRangeExclusive(object);
+        }
+
+        private boolean absTooHigh(Object object) {
+            if (this.toEnd) {
+                return false;
+            }
+            int n = TreeMap.compare(object, this.toKey, TreeMap.this.comparator);
+            return n > 0 || n == 0 && !this.toInclusive;
+        }
+
+        private boolean absTooLow(Object object) {
+            if (this.fromStart) {
+                return false;
+            }
+            int n = TreeMap.compare(object, this.fromKey, TreeMap.this.comparator);
+            return n < 0 || n == 0 && !this.fromInclusive;
+        }
+
+        protected abstract Entry first();
+
+        protected abstract Entry last();
+
+        protected abstract Entry lower(Object var1);
+
+        protected abstract Entry floor(Object var1);
+
+        protected abstract Entry ceiling(Object var1);
+
+        protected abstract Entry higher(Object var1);
+
+        protected abstract Entry uncheckedHigher(Entry var1);
+
+        final Entry absLowest() {
+            return this.checkHiRange(this.fromStart ? TreeMap.this.getFirstEntry() : (this.fromInclusive ? TreeMap.this.getCeilingEntry(this.fromKey) : TreeMap.this.getHigherEntry(this.fromKey)));
+        }
+
+        final Entry absHighest() {
+            return this.checkLoRange(this.toEnd ? TreeMap.this.getLastEntry() : (this.toInclusive ? TreeMap.this.getFloorEntry(this.toKey) : TreeMap.this.getLowerEntry(this.toKey)));
+        }
+
+        final Entry absLower(Object object) {
+            return this.absTooHigh(object) ? this.absHighest() : this.checkLoRange(TreeMap.this.getLowerEntry(object));
+        }
+
+        final Entry absFloor(Object object) {
+            return this.absTooHigh(object) ? this.absHighest() : this.checkLoRange(TreeMap.this.getFloorEntry(object));
+        }
+
+        final Entry absCeiling(Object object) {
+            return this.absTooLow(object) ? this.absLowest() : this.checkHiRange(TreeMap.this.getCeilingEntry(object));
+        }
+
+        final Entry absHigher(Object object) {
+            return this.absTooLow(object) ? this.absLowest() : this.checkHiRange(TreeMap.this.getHigherEntry(object));
+        }
+
+        public Map.Entry firstEntry() {
+            Entry entry = this.first();
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object firstKey() {
+            Entry entry = this.first();
+            if (entry == null) {
+                throw new NoSuchElementException();
+            }
+            return entry.key;
+        }
+
+        public Map.Entry lastEntry() {
+            Entry entry = this.last();
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object lastKey() {
+            Entry entry = this.last();
+            if (entry == null) {
+                throw new NoSuchElementException();
+            }
+            return entry.key;
+        }
+
+        public Map.Entry pollFirstEntry() {
+            Entry entry = this.first();
+            if (entry == null) {
+                return null;
+            }
+            AbstractMap.SimpleImmutableEntry simpleImmutableEntry = new AbstractMap.SimpleImmutableEntry(entry);
+            TreeMap.this.delete(entry);
+            return simpleImmutableEntry;
+        }
+
+        public Map.Entry pollLastEntry() {
+            Entry entry = this.last();
+            if (entry == null) {
+                return null;
+            }
+            AbstractMap.SimpleImmutableEntry simpleImmutableEntry = new AbstractMap.SimpleImmutableEntry(entry);
+            TreeMap.this.delete(entry);
+            return simpleImmutableEntry;
+        }
+
+        public Map.Entry lowerEntry(Object object) {
+            Entry entry = this.lower(object);
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object lowerKey(Object object) {
+            Entry entry = this.lower(object);
+            return entry == null ? null : entry.key;
+        }
+
+        public Map.Entry floorEntry(Object object) {
+            Entry entry = this.floor(object);
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object floorKey(Object object) {
+            Entry entry = this.floor(object);
+            return entry == null ? null : entry.key;
+        }
+
+        public Map.Entry ceilingEntry(Object object) {
+            Entry entry = this.ceiling(object);
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object ceilingKey(Object object) {
+            Entry entry = this.ceiling(object);
+            return entry == null ? null : entry.key;
+        }
+
+        public Map.Entry higherEntry(Object object) {
+            Entry entry = this.higher(object);
+            return entry == null ? null : new AbstractMap.SimpleImmutableEntry(entry);
+        }
+
+        public Object higherKey(Object object) {
+            Entry entry = this.higher(object);
+            return entry == null ? null : entry.key;
+        }
+
+        public NavigableSet descendingKeySet() {
+            return this.descendingMap().navigableKeySet();
+        }
+
+        public SortedMap subMap(Object object, Object object2) {
+            return this.subMap(object, true, object2, false);
+        }
+
+        public SortedMap headMap(Object object) {
+            return this.headMap(object, false);
+        }
+
+        public SortedMap tailMap(Object object) {
+            return this.tailMap(object, true);
+        }
+
+        public int size() {
+            if (this.cachedSize < 0 || this.cacheVersion != TreeMap.this.modCount) {
+                this.cachedSize = this.recalculateSize();
+                this.cacheVersion = TreeMap.this.modCount;
+            }
+            return this.cachedSize;
+        }
+
+        private int recalculateSize() {
+            Entry entry = this.absHighest();
+            Object object = entry != null ? entry.key : null;
+            int n = 0;
+            Entry entry2 = this.absLowest();
+            while (entry2 != null) {
+                ++n;
+                entry2 = entry2.key == object ? null : TreeMap.successor(entry2);
+            }
+            return n;
+        }
+
+        public boolean isEmpty() {
+            return this.absLowest() == null;
+        }
+
+        public boolean containsKey(Object object) {
+            return this.inRange(object) && TreeMap.this.containsKey(object);
+        }
+
+        public Object get(Object object) {
+            if (!this.inRange(object)) {
+                return null;
+            }
+            return TreeMap.this.get(object);
+        }
+
+        public Object put(Object object, Object object2) {
+            if (!this.inRange(object)) {
+                throw new IllegalArgumentException("Key out of range");
+            }
+            return TreeMap.this.put(object, object2);
+        }
+
+        public Object remove(Object object) {
+            if (!this.inRange(object)) {
+                return null;
+            }
+            return TreeMap.this.remove(object);
+        }
+
+        public Set entrySet() {
+            if (this.entrySet == null) {
+                this.entrySet = new SubEntrySet();
+            }
+            return this.entrySet;
+        }
+
+        public Set keySet() {
+            return this.navigableKeySet();
+        }
+
+        public NavigableSet navigableKeySet() {
+            if (this.navigableKeySet == null) {
+                this.navigableKeySet = new SubKeySet();
+            }
+            return this.navigableKeySet;
+        }
+
+        private Entry getMatchingSubEntry(Object object) {
+            if (!(object instanceof Map.Entry)) {
+                return null;
+            }
+            Map.Entry entry = (Map.Entry)object;
+            Object object2 = entry.getKey();
+            if (!this.inRange(object2)) {
+                return null;
+            }
+            Entry entry2 = TreeMap.this.getEntry(object2);
+            return entry2 != null && TreeMap.eq(entry2.getValue(), entry.getValue()) ? entry2 : null;
+        }
+
+        class SubKeySet
+        extends AbstractSet
+        implements NavigableSet {
+            SubKeySet() {
+            }
+
+            public int size() {
+                return NavigableSubMap.this.size();
+            }
+
+            public boolean isEmpty() {
+                return NavigableSubMap.this.isEmpty();
+            }
+
+            public void clear() {
+                NavigableSubMap.this.clear();
+            }
+
+            public boolean contains(Object object) {
+                return TreeMap.this.getEntry(object) != null;
+            }
+
+            public boolean remove(Object object) {
+                if (!NavigableSubMap.this.inRange(object)) {
+                    return false;
+                }
+                Entry entry = TreeMap.this.getEntry(object);
+                if (entry == null) {
+                    return false;
+                }
+                TreeMap.this.delete(entry);
+                return true;
+            }
+
+            public SortedSet subSet(Object object, Object object2) {
+                return this.subSet(object, true, object2, false);
+            }
+
+            public SortedSet headSet(Object object) {
+                return this.headSet(object, false);
+            }
+
+            public SortedSet tailSet(Object object) {
+                return this.tailSet(object, true);
+            }
+
+            public Iterator iterator() {
+                return new SubKeyIterator(NavigableSubMap.this.entrySet().iterator());
+            }
+
+            public Iterator descendingIterator() {
+                return new SubKeyIterator(NavigableSubMap.this.descendingMap().entrySet().iterator());
+            }
+
+            public Object lower(Object object) {
+                return NavigableSubMap.this.lowerKey(object);
+            }
+
+            public Object floor(Object object) {
+                return NavigableSubMap.this.floorKey(object);
+            }
+
+            public Object ceiling(Object object) {
+                return NavigableSubMap.this.ceilingKey(object);
+            }
+
+            public Object higher(Object object) {
+                return NavigableSubMap.this.higherKey(object);
+            }
+
+            public Object first() {
+                return NavigableSubMap.this.firstKey();
+            }
+
+            public Object last() {
+                return NavigableSubMap.this.lastKey();
+            }
+
+            public Comparator comparator() {
+                return NavigableSubMap.this.comparator();
+            }
+
+            public Object pollFirst() {
+                Map.Entry entry = NavigableSubMap.this.pollFirstEntry();
+                return entry == null ? null : entry.getKey();
+            }
+
+            public Object pollLast() {
+                Map.Entry entry = NavigableSubMap.this.pollLastEntry();
+                return entry == null ? null : entry.getKey();
+            }
+
+            public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
+                return (NavigableSet)NavigableSubMap.this.subMap(object, bl, object2, bl2).keySet();
+            }
+
+            public NavigableSet headSet(Object object, boolean bl) {
+                return (NavigableSet)NavigableSubMap.this.headMap(object, bl).keySet();
+            }
+
+            public NavigableSet tailSet(Object object, boolean bl) {
+                return (NavigableSet)NavigableSubMap.this.tailMap(object, bl).keySet();
+            }
+
+            public NavigableSet descendingSet() {
+                return (NavigableSet)NavigableSubMap.this.descendingMap().keySet();
+            }
+        }
+
+        class SubEntrySet
+        extends AbstractSet {
+            SubEntrySet() {
+            }
+
+            public int size() {
+                return NavigableSubMap.this.size();
+            }
+
+            public boolean isEmpty() {
+                return NavigableSubMap.this.isEmpty();
+            }
+
+            public boolean contains(Object object) {
+                return NavigableSubMap.this.getMatchingSubEntry(object) != null;
+            }
+
+            public boolean remove(Object object) {
+                Entry entry = NavigableSubMap.this.getMatchingSubEntry(object);
+                if (entry == null) {
+                    return false;
+                }
+                TreeMap.this.delete(entry);
+                return true;
+            }
+
+            public Iterator iterator() {
+                return new SubEntryIterator();
+            }
+        }
+
+        class SubKeyIterator
+        implements Iterator {
+            final Iterator itr;
+
+            SubKeyIterator(Iterator iterator) {
+                this.itr = iterator;
+            }
+
+            public boolean hasNext() {
+                return this.itr.hasNext();
+            }
+
+            public Object next() {
+                return ((Map.Entry)this.itr.next()).getKey();
+            }
+
+            public void remove() {
+                this.itr.remove();
+            }
+        }
+
+        class SubEntryIterator
+        extends BaseEntryIterator
+        implements Iterator {
+            final Object terminalKey;
+
+            SubEntryIterator() {
+                super(NavigableSubMap.this.first());
+                Entry entry = NavigableSubMap.this.last();
+                this.terminalKey = entry == null ? null : entry.key;
+            }
+
+            public boolean hasNext() {
+                return this.cursor != null;
+            }
+
+            public Object next() {
+                Entry entry = this.cursor;
+                if (entry == null) {
+                    throw new NoSuchElementException();
+                }
+                if (this.expectedModCount != TreeMap.this.modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                this.cursor = entry.key == this.terminalKey ? null : NavigableSubMap.this.uncheckedHigher(entry);
+                this.lastRet = entry;
+                return entry;
+            }
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1800(TreeMap treeMap, Object object) {
-        return treeMap.getHigherEntry(object);
+    class DescendingKeySet
+    extends KeySet {
+        DescendingKeySet() {
+        }
+
+        public Iterator iterator() {
+            return new DescendingKeyIterator(TreeMap.this.getLastEntry());
+        }
+
+        public Iterator descendingIterator() {
+            return new KeyIterator(TreeMap.this.getFirstEntry());
+        }
+
+        public Object lower(Object object) {
+            return TreeMap.this.higherKey(object);
+        }
+
+        public Object floor(Object object) {
+            return TreeMap.this.ceilingKey(object);
+        }
+
+        public Object ceiling(Object object) {
+            return TreeMap.this.floorKey(object);
+        }
+
+        public Object higher(Object object) {
+            return TreeMap.this.lowerKey(object);
+        }
+
+        public Object first() {
+            return TreeMap.this.lastKey();
+        }
+
+        public Object last() {
+            return TreeMap.this.firstKey();
+        }
+
+        public Comparator comparator() {
+            return TreeMap.this.descendingMap().comparator();
+        }
+
+        public Object pollFirst() {
+            Map.Entry entry = TreeMap.this.pollLastEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public Object pollLast() {
+            Map.Entry entry = TreeMap.this.pollFirstEntry();
+            return entry == null ? null : entry.getKey();
+        }
+
+        public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
+            return (NavigableSet)TreeMap.this.descendingMap().subMap(object, bl, object2, bl2).keySet();
+        }
+
+        public NavigableSet headSet(Object object, boolean bl) {
+            return (NavigableSet)TreeMap.this.descendingMap().headMap(object, bl).keySet();
+        }
+
+        public NavigableSet tailSet(Object object, boolean bl) {
+            return (NavigableSet)TreeMap.this.descendingMap().tailMap(object, bl).keySet();
+        }
+
+        public NavigableSet descendingSet() {
+            return (NavigableSet)TreeMap.this.keySet();
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$1900(TreeMap treeMap, Object object) {
-        return treeMap.getFloorEntry(object);
+    class DescendingSubMap
+    extends NavigableSubMap {
+        DescendingSubMap(boolean bl, Object object, boolean bl2, boolean bl3, Object object2, boolean bl4) {
+            super(bl, object, bl2, bl3, object2, bl4);
+        }
+
+        public Comparator comparator() {
+            return TreeMap.this.reverseComparator();
+        }
+
+        protected Entry first() {
+            return this.absHighest();
+        }
+
+        protected Entry last() {
+            return this.absLowest();
+        }
+
+        protected Entry lower(Object object) {
+            return this.absHigher(object);
+        }
+
+        protected Entry floor(Object object) {
+            return this.absCeiling(object);
+        }
+
+        protected Entry ceiling(Object object) {
+            return this.absFloor(object);
+        }
+
+        protected Entry higher(Object object) {
+            return this.absLower(object);
+        }
+
+        protected Entry uncheckedHigher(Entry entry) {
+            return TreeMap.predecessor(entry);
+        }
+
+        public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("fromKey out of range");
+            }
+            if (!this.inRange(object2, bl2)) {
+                throw new IllegalArgumentException("toKey out of range");
+            }
+            return new DescendingSubMap(false, object2, bl2, false, object, bl);
+        }
+
+        public NavigableMap headMap(Object object, boolean bl) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("toKey out of range");
+            }
+            return new DescendingSubMap(false, object, bl, this.toEnd, this.toKey, this.toInclusive);
+        }
+
+        public NavigableMap tailMap(Object object, boolean bl) {
+            if (!this.inRange(object, bl)) {
+                throw new IllegalArgumentException("fromKey out of range");
+            }
+            return new DescendingSubMap(this.fromStart, this.fromKey, this.fromInclusive, false, object, bl);
+        }
+
+        public NavigableMap descendingMap() {
+            if (this.descendingMap == null) {
+                this.descendingMap = new AscendingSubMap(this.fromStart, this.fromKey, this.fromInclusive, this.toEnd, this.toKey, this.toInclusive);
+            }
+            return this.descendingMap;
+        }
     }
 
-    static /* synthetic */ TreeMap$Entry access$2000(TreeMap treeMap, Object object) {
-        return treeMap.getLowerEntry(object);
+    private class BaseEntryIterator {
+        Entry cursor;
+        Entry lastRet;
+        int expectedModCount;
+
+        BaseEntryIterator(Entry entry) {
+            this.cursor = entry;
+            this.expectedModCount = TreeMap.this.modCount;
+        }
+
+        public boolean hasNext() {
+            return this.cursor != null;
+        }
+
+        Entry nextEntry() {
+            Entry entry = this.cursor;
+            if (entry == null) {
+                throw new NoSuchElementException();
+            }
+            if (this.expectedModCount != TreeMap.this.modCount) {
+                throw new ConcurrentModificationException();
+            }
+            this.cursor = TreeMap.successor(entry);
+            this.lastRet = entry;
+            return entry;
+        }
+
+        Entry prevEntry() {
+            Entry entry = this.cursor;
+            if (entry == null) {
+                throw new NoSuchElementException();
+            }
+            if (this.expectedModCount != TreeMap.this.modCount) {
+                throw new ConcurrentModificationException();
+            }
+            this.cursor = TreeMap.predecessor(entry);
+            this.lastRet = entry;
+            return entry;
+        }
+
+        public void remove() {
+            if (this.lastRet == null) {
+                throw new IllegalStateException();
+            }
+            if (this.expectedModCount != TreeMap.this.modCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (this.lastRet.left != null && this.lastRet.right != null && this.cursor != null) {
+                this.cursor = this.lastRet;
+            }
+            TreeMap.this.delete(this.lastRet);
+            this.lastRet = null;
+            ++this.expectedModCount;
+        }
+    }
+
+    class DescendingEntrySet
+    extends EntrySet {
+        DescendingEntrySet() {
+        }
+
+        public Iterator iterator() {
+            return new DescendingEntryIterator(TreeMap.this.getLastEntry());
+        }
+    }
+
+    static class IteratorIOException
+    extends RuntimeException {
+        IteratorIOException(IOException iOException) {
+            super(iOException);
+        }
+
+        IOException getException() {
+            return (IOException)this.getCause();
+        }
+    }
+
+    class DescendingKeyIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        DescendingKeyIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.prevEntry().key;
+        }
+    }
+
+    class DescendingEntryIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        DescendingEntryIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.prevEntry();
+        }
+    }
+
+    class DescendingValueIterator
+    extends BaseEntryIterator
+    implements Iterator {
+        DescendingValueIterator(Entry entry) {
+            super(entry);
+        }
+
+        public Object next() {
+            return this.prevEntry().element;
+        }
+    }
+
+    static class IteratorNoClassException
+    extends RuntimeException {
+        IteratorNoClassException(ClassNotFoundException classNotFoundException) {
+            super(classNotFoundException);
+        }
+
+        ClassNotFoundException getException() {
+            return (ClassNotFoundException)this.getCause();
+        }
     }
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.WCPanelStatesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCPanelListRecord;
 import org.dsi.ifc.carparkingsystem.WCPanelStates;
 
 public class WCPanelListRecordSerializer {
-    public static void putOptionalWCPanelListRecord(ISerializer iSerializer, WCPanelListRecord wCPanelListRecord) {
+    public static void putOptionalWCPanelListRecord(ISerializer iSerializer, WCPanelListRecord wCPanelListRecord) throws SerializerException {
         boolean bl = wCPanelListRecord == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class WCPanelListRecordSerializer {
         }
     }
 
-    public static void putOptionalWCPanelListRecordVarArray(ISerializer iSerializer, WCPanelListRecord[] wCPanelListRecordArray) {
+    public static void putOptionalWCPanelListRecordVarArray(ISerializer iSerializer, WCPanelListRecord[] wCPanelListRecordArray) throws SerializerException {
         boolean bl = wCPanelListRecordArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class WCPanelListRecordSerializer {
         }
     }
 
-    public static WCPanelListRecord getOptionalWCPanelListRecord(IDeserializer iDeserializer) {
+    public static WCPanelListRecord getOptionalWCPanelListRecord(IDeserializer iDeserializer) throws SerializerException {
         WCPanelListRecord wCPanelListRecord = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class WCPanelListRecordSerializer {
         return wCPanelListRecord;
     }
 
-    public static WCPanelListRecord[] getOptionalWCPanelListRecordVarArray(IDeserializer iDeserializer) {
+    public static WCPanelListRecord[] getOptionalWCPanelListRecordVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCPanelListRecord[] wCPanelListRecordArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,7 +5,7 @@ package de.esolutions.hmi.widgets.audi.evo;
 
 public class InvalidCarCodingException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public InvalidCarCodingException() {
     }

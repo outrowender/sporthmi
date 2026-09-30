@@ -30,68 +30,54 @@ implements IWrappedLayer {
         this.index = n3;
     }
 
-    @Override
     public boolean isLayoutDirectionLeftToRight() {
         return this.leftToRight;
     }
 
-    @Override
     public void setLayerOpacity(float f2) {
         this.node.setOpacity(f2);
     }
 
-    @Override
     public void setLayoutDirectionLeftToRight(boolean bl) {
         this.leftToRight = bl;
         this.updateLtrNode();
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void updateLtrNode() {
-        float f2 = this.leftToRight ? 1.0f : (float)32959;
+        float f2 = this.leftToRight ? 1.0f : -1.0f;
         int n = this.leftToRight ? 0 : this.getLTRNode().getScreenWidth();
         this.getLTRNode().setScale(f2, 1.0f, 1.0f);
         this.getLTRNode().setPosition(n, 0.0f, 0.0f);
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public IWrappedNode3D getNode() {
         return this.getLTRNode();
     }
 
-    @Override
     public int getWidth() {
         return this.width;
     }
 
-    @Override
     public int getHeight() {
         return this.height;
     }
 
-    @Override
     public int getIndex() {
         return this.index;
     }
 
-    @Override
     public boolean invalidateObject() {
         return this.node.invalidateObject();
     }
 
-    @Override
     public void setInvalid(boolean bl) {
         this.invalid = bl;
     }
 
-    @Override
     public boolean isInvalid() {
         return this.invalid;
     }
@@ -104,17 +90,14 @@ implements IWrappedLayer {
         return (int)this.node.getX();
     }
 
-    @Override
     public IWrappedNode3D getMainNode() {
         return this.node;
     }
 
-    @Override
     public IWrappedViewport getViewport() {
         return this.viewport;
     }
 
-    @Override
     public void setViewport(IWrappedViewport iWrappedViewport) {
         this.viewport = iWrappedViewport;
     }

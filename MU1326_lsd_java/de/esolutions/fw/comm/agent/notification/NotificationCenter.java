@@ -6,8 +6,6 @@ package de.esolutions.fw.comm.agent.notification;
 import de.esolutions.fw.comm.agent.config.CommConfig;
 import de.esolutions.fw.comm.agent.notification.INotification;
 import de.esolutions.fw.comm.agent.notification.INotificationCallback;
-import de.esolutions.fw.comm.agent.notification.NotificationCenter$NotifyTimeOutHandler;
-import de.esolutions.fw.comm.agent.notification.NotificationCenter$ServiceInstanceListenerEntry;
 import de.esolutions.fw.comm.agent.notification.ProxyListenerNotification;
 import de.esolutions.fw.comm.agent.notification.ServiceInstanceListenerNotification;
 import de.esolutions.fw.comm.agent.notification.ServiceListenerNotification;
@@ -25,9 +23,9 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.MapList;
 import de.esolutions.fw.util.commons.queue.QueueShutdownException;
 import de.esolutions.fw.util.commons.queue.QueueWorker;
+import de.esolutions.fw.util.commons.timeout.ITimeOutHandler;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.commons.timeout.TimeOutTimer;
-import de.esolutions.fw.util.commons.timeout.TimeOutTimer$TimeOutTask;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -76,17 +74,17 @@ extends QueueWorker {
     public synchronized void registerServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) {
         String string = this.getServiceInstanceTag(serviceInstanceID);
         CommAgentTracing.NOTIFICATION.log((short)1, "registerServiceInstanceListener: id=%1 tag=%2 listener=%3", serviceInstanceID, (Object)string, (Object)iServiceInstanceListener);
-        NotificationCenter$ServiceInstanceListenerEntry notificationCenter$ServiceInstanceListenerEntry = new NotificationCenter$ServiceInstanceListenerEntry(this, iServiceInstanceListener, serviceInstanceID);
-        if (!this.serviceInstanceListeners.contains(string, notificationCenter$ServiceInstanceListenerEntry)) {
-            this.serviceInstanceListeners.add(string, notificationCenter$ServiceInstanceListenerEntry);
+        ServiceInstanceListenerEntry serviceInstanceListenerEntry = new ServiceInstanceListenerEntry(iServiceInstanceListener, serviceInstanceID);
+        if (!this.serviceInstanceListeners.contains(string, serviceInstanceListenerEntry)) {
+            this.serviceInstanceListeners.add(string, serviceInstanceListenerEntry);
         }
     }
 
     public synchronized void unregisterServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) {
         String string = this.getServiceInstanceTag(serviceInstanceID);
         CommAgentTracing.NOTIFICATION.log((short)1, "unregisterServiceInstanceListener: id=%1 tag=%2 listener=%3", serviceInstanceID, (Object)string, (Object)iServiceInstanceListener);
-        NotificationCenter$ServiceInstanceListenerEntry notificationCenter$ServiceInstanceListenerEntry = new NotificationCenter$ServiceInstanceListenerEntry(this, iServiceInstanceListener, serviceInstanceID);
-        this.serviceInstanceListeners.remove(string, notificationCenter$ServiceInstanceListenerEntry);
+        ServiceInstanceListenerEntry serviceInstanceListenerEntry = new ServiceInstanceListenerEntry(iServiceInstanceListener, serviceInstanceID);
+        this.serviceInstanceListeners.remove(string, serviceInstanceListenerEntry);
     }
 
     public synchronized void unregisterAllServiceInstanceListeners(ServiceInstanceID serviceInstanceID) {
@@ -150,9 +148,9 @@ extends QueueWorker {
         ArrayList arrayList = new ArrayList();
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
-            NotificationCenter$ServiceInstanceListenerEntry notificationCenter$ServiceInstanceListenerEntry = (NotificationCenter$ServiceInstanceListenerEntry)iterator.next();
-            if (!serviceIKChecker.isCompatible("Report", notificationCenter$ServiceInstanceListenerEntry.instanceID, serviceInstanceID)) continue;
-            arrayList.add(notificationCenter$ServiceInstanceListenerEntry.listener);
+            ServiceInstanceListenerEntry serviceInstanceListenerEntry = (ServiceInstanceListenerEntry)iterator.next();
+            if (!serviceIKChecker.isCompatible("Report", serviceInstanceListenerEntry.instanceID, serviceInstanceID)) continue;
+            arrayList.add(serviceInstanceListenerEntry.listener);
         }
         this.addNotification(new ServiceInstanceListenerNotification(serviceInstanceID, arrayList, bl, s));
     }
@@ -229,13 +227,12 @@ extends QueueWorker {
         this.addNotification(new ServiceListenerNotification(iService, arrayList, n));
     }
 
-    @Override
     protected void handleQueuedObject(Object object) {
         INotification iNotification = (INotification)object;
         long l = this.monoTime.getCurrentTime();
-        TimeOutTimer$TimeOutTask timeOutTimer$TimeOutTask = null;
+        TimeOutTimer.TimeOutTask timeOutTask = null;
         if (this.timer != null) {
-            timeOutTimer$TimeOutTask = this.timer.schedule(new NotificationCenter$NotifyTimeOutHandler(this, iNotification), this.notifyTimeout);
+            timeOutTask = this.timer.schedule(new NotifyTimeOutHandler(iNotification), this.notifyTimeout);
         }
         try {
             iNotification.performNotification();
@@ -244,11 +241,48 @@ extends QueueWorker {
         catch (Throwable throwable) {
             CommAgentTracing.NOTIFICATION.log((short)4, "COMM notification callee failed: %1", throwable);
         }
-        if (timeOutTimer$TimeOutTask != null) {
-            timeOutTimer$TimeOutTask.disarm();
+        if (timeOutTask != null) {
+            timeOutTask.disarm();
         }
         long l2 = this.monoTime.getCurrentTime();
         CommAgentTracing.NOTIFICATION.log((short)0, "  notification duration %1 ms", new Long(l2 - l));
+    }
+
+    protected class NotifyTimeOutHandler
+    implements ITimeOutHandler {
+        private INotification notification;
+
+        public NotifyTimeOutHandler(INotification iNotification) {
+            this.notification = iNotification;
+        }
+
+        public void timeoutOccurred(Thread thread) {
+            CommAgentTracing.NOTIFICATION.log((short)4, "notification timeout detected:\n  notification=%1\n  thread=%2 timeout=%3 ms", this.notification, (Object)thread, (Object)new Integer(NotificationCenter.this.notifyTimeout));
+        }
+    }
+
+    private class ServiceInstanceListenerEntry {
+        public final IServiceInstanceListener listener;
+        public final ServiceInstanceID instanceID;
+
+        public ServiceInstanceListenerEntry(IServiceInstanceListener iServiceInstanceListener, ServiceInstanceID serviceInstanceID) {
+            this.listener = iServiceInstanceListener;
+            this.instanceID = serviceInstanceID;
+        }
+
+        public boolean equals(Object object) {
+            if (!(object instanceof ServiceInstanceListenerEntry)) {
+                return false;
+            }
+            ServiceInstanceListenerEntry serviceInstanceListenerEntry = (ServiceInstanceListenerEntry)object;
+            return serviceInstanceListenerEntry.listener == this.listener && serviceInstanceListenerEntry.instanceID.equals(this.instanceID);
+        }
+
+        public int hashCode() {
+            int n = 1;
+            n += 7 * this.listener.hashCode();
+            return n += 41 * this.instanceID.hashCode();
+        }
     }
 }
 

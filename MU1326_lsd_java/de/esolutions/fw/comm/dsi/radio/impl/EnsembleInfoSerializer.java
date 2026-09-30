@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.EnsembleInfo;
 
 public class EnsembleInfoSerializer {
-    public static void putOptionalEnsembleInfo(ISerializer iSerializer, EnsembleInfo ensembleInfo) {
+    public static void putOptionalEnsembleInfo(ISerializer iSerializer, EnsembleInfo ensembleInfo) throws SerializerException {
         boolean bl = ensembleInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class EnsembleInfoSerializer {
         }
     }
 
-    public static void putOptionalEnsembleInfoVarArray(ISerializer iSerializer, EnsembleInfo[] ensembleInfoArray) {
+    public static void putOptionalEnsembleInfoVarArray(ISerializer iSerializer, EnsembleInfo[] ensembleInfoArray) throws SerializerException {
         boolean bl = ensembleInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class EnsembleInfoSerializer {
         }
     }
 
-    public static EnsembleInfo getOptionalEnsembleInfo(IDeserializer iDeserializer) {
+    public static EnsembleInfo getOptionalEnsembleInfo(IDeserializer iDeserializer) throws SerializerException {
         EnsembleInfo ensembleInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class EnsembleInfoSerializer {
         return ensembleInfo;
     }
 
-    public static EnsembleInfo[] getOptionalEnsembleInfoVarArray(IDeserializer iDeserializer) {
+    public static EnsembleInfo[] getOptionalEnsembleInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EnsembleInfo[] ensembleInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -48,12 +48,12 @@ IWidgetLogChannel {
         }
         this.calculateCarType();
         this.initialized = true;
-        this.logCarCoding.log(1078071040, "CarCodingHelper#checkInitialization %1", (Object)this);
+        this.logCarCoding.log(1000000, "CarCodingHelper#checkInitialization %1", (Object)this);
         return true;
     }
 
     protected void getCodingFromVMOptions() {
-        this.logCarCoding.log(1078071040, "CarCodingHelper#checkInitialization simulation is running, checking vmoptions");
+        this.logCarCoding.log(1000000, "CarCodingHelper#checkInitialization simulation is running, checking vmoptions");
         int n = this.framework.getScreenRes();
         if (n == 4) {
             this.readVMOptionsWithDefaults(3, 3, 4, 0);
@@ -95,7 +95,7 @@ IWidgetLogChannel {
         }
     }
 
-    private int calculateCarTypeImpl() {
+    private int calculateCarTypeImpl() throws InvalidCarCodingException {
         if (this.carClass == 2) {
             if (this.carGeneration == 7 && this.carDerivate == 6) {
                 return 13;
@@ -171,7 +171,7 @@ IWidgetLogChannel {
             }
         }
         this.logCarCoding.log(1000, "CarCodingHelper#calculateCarType unknown car type:  %1", (Object)this);
-        throw new InvalidCarCodingException(new StringBuffer().append("UNKNOWN CAR TYPE: ").append(this.toString()).toString());
+        throw new InvalidCarCodingException("UNKNOWN CAR TYPE: " + this.toString());
     }
 
     public String toString() {
@@ -184,13 +184,11 @@ IWidgetLogChannel {
         return buffer.toString();
     }
 
-    @Override
     public int getCarType() {
         this.checkInitialization();
         return this.carType;
     }
 
-    @Override
     public String getKanziCarID() {
         int n = 0;
         switch (this.carType) {
@@ -223,61 +221,51 @@ IWidgetLogChannel {
         return buffer.toString();
     }
 
-    @Override
     public boolean isR8orTT() {
         this.checkInitialization();
         return this.isTT() || this.isR8();
     }
 
-    @Override
     public boolean isTT() {
         this.checkInitialization();
         return this.carType == 20 || this.carType == 21;
     }
 
-    @Override
     public boolean isR8() {
         this.checkInitialization();
         return this.carType == 40 || this.carType == 42 || this.carType == 44 || this.carType == 41 || this.carType == 43;
     }
 
-    @Override
     public boolean isB9() {
         this.checkInitialization();
         return this.carType == 30 || this.carType == 32 || this.carType == 31 || this.carType == 33 || this.carType == 34 || this.carType == 35;
     }
 
-    @Override
     public boolean isPHEVCar() {
         this.checkInitialization();
         return this.carType == 11 || this.carType == 44 || this.carType == 54 || this.carType == 14;
     }
 
-    @Override
     public boolean isQ7() {
         this.checkInitialization();
         return this.carType == 10 || this.carType == 11;
     }
 
-    @Override
     public boolean isA3() {
         this.checkInitialization();
         return this.carType == 53 || this.carType == 50 || this.carType == 51 || this.carType == 54 || this.carType == 52;
     }
 
-    @Override
     public boolean isQ2() {
         this.checkInitialization();
         return this.carType == 13;
     }
 
-    @Override
     public boolean isQ5() {
         this.checkInitialization();
         return this.carType == 12 || this.carType == 14;
     }
 
-    @Override
     public boolean hasGyro() {
         this.checkInitialization();
         return this.carType == 12 || this.carType == 14 || this.carType == 10 || this.carType == 11 || this.carType == 13;

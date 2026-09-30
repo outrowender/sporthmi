@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class InitMessage
 extends AbstractMessage {
@@ -19,18 +20,16 @@ extends AbstractMessage {
         this.protocolRevision = by;
     }
 
-    public InitMessage(IDeserializer iDeserializer, boolean bl) {
+    public InitMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.INIT, iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt8(this.protocolRevision);
         iSerializer.putInt16(this.agentID);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.protocolRevision = iDeserializer.getInt8();
         this.agentID = iDeserializer.getInt16();
     }

@@ -11,29 +11,28 @@ import de.audi.atip.util.StringUtilities;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler$CharsetListener;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler$StaticUserCharsetMode;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler$UserCharsetMode;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AsianInputMethod;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TouchCharSetAndTTSHandler {
-    protected static final String TTS_TONE_NEGATIVE;
-    public static final int CS_LATIN;
-    public static final int CS_CYRILLIC;
-    public static final int CS_ARABIC;
-    public static final int CS_PINYIN;
-    public static final int CS_STROKE;
-    public static final int CS_ZHUYIN;
-    public static final int CS_HIRAGANA;
-    public static final int CS_JAMO;
-    public static final int LANGUAGE_INDICATOR_NO_ICON;
-    public static final int LANGUAGE_INDICATOR_LATIN;
-    public static final int LANGUAGE_INDICATOR_CYRILIC;
-    public static final int LANGUAGE_INDICATOR_ARABIC;
+    protected static final String TTS_TONE_NEGATIVE = "<audio src=\"TouchpadToneNegative.wav\"/>";
+    public static final int CS_LATIN = 0;
+    public static final int CS_CYRILLIC = 1;
+    public static final int CS_ARABIC = 2;
+    public static final int CS_PINYIN = 3;
+    public static final int CS_STROKE = 4;
+    public static final int CS_ZHUYIN = 5;
+    public static final int CS_HIRAGANA = 6;
+    public static final int CS_JAMO = 7;
+    public static final int LANGUAGE_INDICATOR_NO_ICON = 0;
+    public static final int LANGUAGE_INDICATOR_LATIN = 1;
+    public static final int LANGUAGE_INDICATOR_CYRILIC = 2;
+    public static final int LANGUAGE_INDICATOR_ARABIC = 3;
     private String ttsTextDelete = "l\u00f6schen";
     private HMITerminal terminal;
-    private final TouchCharSetAndTTSHandler$UserCharsetMode userCharsetMode;
+    private final UserCharsetMode userCharsetMode;
     private final Language currentSystemLanguage;
     private long ttsDeleteTimestamp = -1L;
 
@@ -42,13 +41,13 @@ public class TouchCharSetAndTTSHandler {
     }
 
     public TouchCharSetAndTTSHandler(HMITerminal hMITerminal, boolean bl) {
-        this(hMITerminal, AbstractWidget.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI"), TouchCharSetAndTTSHandler$StaticUserCharsetMode.access$000(), bl);
+        this(hMITerminal, AbstractWidget.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI"), StaticUserCharsetMode.INSTANCE, bl);
     }
 
-    protected TouchCharSetAndTTSHandler(HMITerminal hMITerminal, Language language, TouchCharSetAndTTSHandler$UserCharsetMode touchCharSetAndTTSHandler$UserCharsetMode, boolean bl) {
+    protected TouchCharSetAndTTSHandler(HMITerminal hMITerminal, Language language, UserCharsetMode userCharsetMode, boolean bl) {
         this.terminal = hMITerminal;
         this.ttsTextDelete = AbstractWidget.hmiService.getText(871);
-        this.userCharsetMode = touchCharSetAndTTSHandler$UserCharsetMode;
+        this.userCharsetMode = userCharsetMode;
         this.currentSystemLanguage = language;
         this.setInitialCharset(bl);
     }
@@ -67,12 +66,12 @@ public class TouchCharSetAndTTSHandler {
         this.updateRecognizerLanguage();
     }
 
-    public void addCharsetListener(TouchCharSetAndTTSHandler$CharsetListener touchCharSetAndTTSHandler$CharsetListener) {
-        this.userCharsetMode.addCharsetListener(touchCharSetAndTTSHandler$CharsetListener);
+    public void addCharsetListener(CharsetListener charsetListener) {
+        this.userCharsetMode.addCharsetListener(charsetListener);
     }
 
-    public void removeCharsetListener(TouchCharSetAndTTSHandler$CharsetListener touchCharSetAndTTSHandler$CharsetListener) {
-        this.userCharsetMode.removeCharsetListener(touchCharSetAndTTSHandler$CharsetListener);
+    public void removeCharsetListener(CharsetListener charsetListener) {
+        this.userCharsetMode.removeCharsetListener(charsetListener);
     }
 
     private void ttsOutput(String string, String string2, String string3, int n) {
@@ -106,18 +105,18 @@ public class TouchCharSetAndTTSHandler {
         if (StringUtilities.isNullOrEmpty(string)) {
             this.ttsNegativeTone();
         } else {
-            this.ttsOutput(string, null, "<audio src=\"TouchpadToneNegative.wav\"/>", 1);
+            this.ttsOutput(string, null, TTS_TONE_NEGATIVE, 1);
         }
     }
 
     private void ttsNegativeTone() {
         ITTSHandler iTTSHandler = this.terminal.getTTSHandler();
-        iTTSHandler.speak(0, "", null, null, "<audio src=\"TouchpadToneNegative.wav\"/>", false, 1);
+        iTTSHandler.speak(0, "", null, null, TTS_TONE_NEGATIVE, false, 1);
     }
 
     public void sayDelete() {
         long l = AbstractWidget.framework.getMonotonicTime();
-        if (this.ttsDeleteTimestamp == -1L || l - this.ttsDeleteTimestamp > 0) {
+        if (this.ttsDeleteTimestamp == -1L || l - this.ttsDeleteTimestamp > 500L) {
             this.ttsDeleteTimestamp = l;
             this.ttsOutput(this.ttsTextDelete, null, null, 0, false);
         }
@@ -128,7 +127,7 @@ public class TouchCharSetAndTTSHandler {
         String string = matchspellerModelGUI.getPhonemeText();
         String string2 = matchspellerModelGUI.getText();
         String string3 = matchspellerModelGUI.getPhonemeAlphabet();
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchCharSetAndTTSHandler#trySpeakFullMatchWithPhonemes fullmatch=%1, phonemeText=%2, enteredCharsString=%3", bl, (Object)string, (Object)string2);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchCharSetAndTTSHandler#trySpeakFullMatchWithPhonemes fullmatch=%1, phonemeText=%2, enteredCharsString=%3", bl, (Object)string, (Object)string2);
         if (!bl || string == null && string2 == null) {
             return false;
         }
@@ -258,11 +257,11 @@ public class TouchCharSetAndTTSHandler {
                         break;
                     }
                     string = "en_GB";
-                    IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchCharSetAndTTSHandler#setRecognizerLanguage fall back to %1", (Object)string);
+                    IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchCharSetAndTTSHandler#setRecognizerLanguage fall back to %1", (Object)string);
                 }
             }
         }
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchCharSetAndTTSHandler#setRecognizerLanguage new recognizerLanguage: language: %1, langCode: %2", (Object)string, (long)n);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchCharSetAndTTSHandler#setRecognizerLanguage new recognizerLanguage: language: %1, langCode: %2", (Object)string, (long)n);
         if (this.terminal != null && this.terminal.getKbdService() != null) {
             this.terminal.getKbdService().setRecognizerLanguage(string, n);
         }
@@ -346,13 +345,13 @@ public class TouchCharSetAndTTSHandler {
 
     public int getFocusPropertyForCurrentCharset() {
         if (this.userCharsetMode.getCharset() == 0) {
-            return 1993280504;
+            return -133443722;
         }
         if (this.userCharsetMode.getCharset() == 1) {
-            return 890195297;
+            return 1632440117;
         }
         if (this.userCharsetMode.getCharset() == 2) {
-            return 411154709;
+            return 364478744;
         }
         return -1;
     }
@@ -385,110 +384,110 @@ public class TouchCharSetAndTTSHandler {
         return n == 14 || n == 23 || n == 24 || n == 12 || n == 16 || n == 15 || n == 13 || n == 17 || n == 25;
     }
 
-    public SpellerController$SpellerButtonType getAsianToggleSpellerButtonType() {
+    public SpellerController.SpellerButtonType getAsianToggleSpellerButtonType() {
         int n = this.currentSystemLanguage.getLanguageIndex();
         int n2 = this.userCharsetMode.getCharset();
         switch (n2) {
             case 3: {
                 if (14 != n && 15 != n) break;
-                return SpellerController$SpellerButtonType.TOGGLE_PINYIN_TO_LATIN;
+                return SpellerController.SpellerButtonType.TOGGLE_PINYIN_TO_LATIN;
             }
             case 4: {
                 if (23 != n) break;
-                return SpellerController$SpellerButtonType.TOGGLE_STROKE_TO_LATIN;
+                return SpellerController.SpellerButtonType.TOGGLE_STROKE_TO_LATIN;
             }
             case 6: {
                 if (12 != n && 13 != n) break;
-                return SpellerController$SpellerButtonType.TOGGLE_JAPAN_TO_LATIN;
+                return SpellerController.SpellerButtonType.TOGGLE_JAPAN_TO_LATIN;
             }
             case 5: {
                 if (24 != n && 25 != n) break;
-                return SpellerController$SpellerButtonType.TOGGLE_TAIWAN_TO_LATIN;
+                return SpellerController.SpellerButtonType.TOGGLE_TAIWAN_TO_LATIN;
             }
             case 7: {
                 if (16 != n && 17 != n) break;
-                return SpellerController$SpellerButtonType.TOGGLE_KOREA_TO_LATIN;
+                return SpellerController.SpellerButtonType.TOGGLE_KOREA_TO_LATIN;
             }
             case 0: {
                 switch (n) {
                     case 14: 
                     case 15: {
-                        return SpellerController$SpellerButtonType.TOGGLE_LATIN_TO_PINYIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_LATIN_TO_PINYIN;
                     }
                     case 23: {
-                        return SpellerController$SpellerButtonType.TOGGLE_LATIN_TO_STROKE;
+                        return SpellerController.SpellerButtonType.TOGGLE_LATIN_TO_STROKE;
                     }
                     case 12: 
                     case 13: {
-                        return SpellerController$SpellerButtonType.TOGGLE_LATIN_TO_JAPAN;
+                        return SpellerController.SpellerButtonType.TOGGLE_LATIN_TO_JAPAN;
                     }
                     case 24: 
                     case 25: {
-                        return SpellerController$SpellerButtonType.TOGGLE_LATIN_TO_TAIWAN;
+                        return SpellerController.SpellerButtonType.TOGGLE_LATIN_TO_TAIWAN;
                     }
                     case 16: 
                     case 17: {
-                        return SpellerController$SpellerButtonType.TOGGLE_LATIN_TO_KOREA;
+                        return SpellerController.SpellerButtonType.TOGGLE_LATIN_TO_KOREA;
                     }
                 }
                 IWidgetLogChannel.tpLogChannelInternal.log(10000, "TouchCharSetAndTTSHandler#getAsianToggleSpellerButtonType: unknown language index %1", (long)n);
-                return SpellerController$SpellerButtonType.NULL;
+                return SpellerController.SpellerButtonType.NULL;
             }
             default: {
                 IWidgetLogChannel.tpLogChannelInternal.log(10000, "TouchCharSetAndTTSHandler#getAsianToggleSpellerButtonType: unknown character set %1", (long)n2);
-                return SpellerController$SpellerButtonType.NULL;
+                return SpellerController.SpellerButtonType.NULL;
             }
         }
-        return SpellerController$SpellerButtonType.NULL;
+        return SpellerController.SpellerButtonType.NULL;
     }
 
-    public SpellerController$SpellerButtonType getAsianToggleToSpellerButtonType() {
+    public SpellerController.SpellerButtonType getAsianToggleToSpellerButtonType() {
         int n = this.currentSystemLanguage.getLanguageIndex();
         int n2 = this.userCharsetMode.getCharset();
         switch (n2) {
             case 3: {
-                return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_PINYIN_PINYIN;
+                return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_PINYIN_PINYIN;
             }
             case 4: {
-                return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_STROKE_STROKE;
+                return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_STROKE_STROKE;
             }
             case 6: {
-                return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_KANJI_JAPAN;
+                return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_KANJI_JAPAN;
             }
             case 5: {
-                return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_ZHUYIN_ZHUYIN;
+                return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_ZHUYIN_ZHUYIN;
             }
             case 7: {
-                return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_JAMO_KOREA;
+                return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_JAMO_KOREA;
             }
             case 0: {
                 switch (n) {
                     case 14: 
                     case 15: {
-                        return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_PINYIN_LATIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_PINYIN_LATIN;
                     }
                     case 23: {
-                        return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_STROKE_LATIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_STROKE_LATIN;
                     }
                     case 12: 
                     case 13: {
-                        return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_KANJI_LATIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_KANJI_LATIN;
                     }
                     case 24: 
                     case 25: {
-                        return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_ZHUYIN_LATIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_ZHUYIN_LATIN;
                     }
                     case 16: 
                     case 17: {
-                        return SpellerController$SpellerButtonType.TOGGLE_TO_SPELLER_JAMO_LATIN;
+                        return SpellerController.SpellerButtonType.TOGGLE_TO_SPELLER_JAMO_LATIN;
                     }
                 }
                 IWidgetLogChannel.tpLogChannelInternal.log(10000, "TouchCharSetAndTTSHandler#getAsianToggleSpellerButtonType: unknown language index %1", (long)n);
-                return SpellerController$SpellerButtonType.NULL;
+                return SpellerController.SpellerButtonType.NULL;
             }
         }
         IWidgetLogChannel.tpLogChannelInternal.log(10000, "TouchCharSetAndTTSHandler#getAsianToggleToSpellerButtonType: unknown character set %1", (long)n2);
-        return SpellerController$SpellerButtonType.NULL;
+        return SpellerController.SpellerButtonType.NULL;
     }
 
     public boolean isTraditionalChineseSystemLanguage() {
@@ -535,6 +534,63 @@ public class TouchCharSetAndTTSHandler {
     public boolean isAsiaLocalInput() {
         AsianInputMethod asianInputMethod = this.getAsianInputMethodForInternalLanguage();
         return asianInputMethod == AsianInputMethod.PINYIN || asianInputMethod == AsianInputMethod.HIRAGANA || asianInputMethod == AsianInputMethod.JAMO || asianInputMethod == AsianInputMethod.STROKE || asianInputMethod == AsianInputMethod.ZHUYIN;
+    }
+
+    public static interface CharsetListener {
+        public void userCharsetChanged(int var1);
+    }
+
+    static interface UserCharsetMode {
+        public int getCharset();
+
+        public void setCharset(int var1);
+
+        public Language getStoredSystemLanguage();
+
+        public void setStoredSystemLanguage(Language var1);
+
+        public void addCharsetListener(CharsetListener var1);
+
+        public void removeCharsetListener(CharsetListener var1);
+    }
+
+    private static class StaticUserCharsetMode
+    implements UserCharsetMode {
+        private static final UserCharsetMode INSTANCE = new StaticUserCharsetMode();
+        private static int userCharsetMode = -1;
+        private static Language userCharsetModeLanguage = null;
+        private List eventListeners = new ArrayList();
+
+        private StaticUserCharsetMode() {
+        }
+
+        public int getCharset() {
+            return userCharsetMode;
+        }
+
+        public void setCharset(int n) {
+            boolean bl = n != userCharsetMode;
+            userCharsetMode = n;
+            for (int i2 = 0; bl && i2 < this.eventListeners.size(); ++i2) {
+                ((CharsetListener)this.eventListeners.get(i2)).userCharsetChanged(n);
+            }
+        }
+
+        public Language getStoredSystemLanguage() {
+            return userCharsetModeLanguage;
+        }
+
+        public void setStoredSystemLanguage(Language language) {
+            userCharsetModeLanguage = language;
+        }
+
+        public void addCharsetListener(CharsetListener charsetListener) {
+            this.eventListeners.add(charsetListener);
+        }
+
+        public void removeCharsetListener(CharsetListener charsetListener) {
+            this.eventListeners.remove(charsetListener);
+        }
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavPhoneData;
 
 public class NavPhoneDataSerializer {
-    public static void putOptionalNavPhoneData(ISerializer iSerializer, NavPhoneData navPhoneData) {
+    public static void putOptionalNavPhoneData(ISerializer iSerializer, NavPhoneData navPhoneData) throws SerializerException {
         boolean bl = navPhoneData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavPhoneDataSerializer {
         }
     }
 
-    public static void putOptionalNavPhoneDataVarArray(ISerializer iSerializer, NavPhoneData[] navPhoneDataArray) {
+    public static void putOptionalNavPhoneDataVarArray(ISerializer iSerializer, NavPhoneData[] navPhoneDataArray) throws SerializerException {
         boolean bl = navPhoneDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavPhoneDataSerializer {
         }
     }
 
-    public static NavPhoneData getOptionalNavPhoneData(IDeserializer iDeserializer) {
+    public static NavPhoneData getOptionalNavPhoneData(IDeserializer iDeserializer) throws SerializerException {
         NavPhoneData navPhoneData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavPhoneDataSerializer {
         return navPhoneData;
     }
 
-    public static NavPhoneData[] getOptionalNavPhoneDataVarArray(IDeserializer iDeserializer) {
+    public static NavPhoneData[] getOptionalNavPhoneDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavPhoneData[] navPhoneDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -16,7 +16,7 @@ implements BAPEntity {
     public boolean dvbTvMutingLowSignal;
     public boolean dabMutingLowSignal;
     public boolean muting;
-    private static final int MUTE_MUTE_STATE_BITSIZE;
+    private static final int MUTE_MUTE_STATE_BITSIZE = 8;
 
     public Mute_MuteState() {
         this.internalReset();
@@ -39,12 +39,10 @@ implements BAPEntity {
         this.muting = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Mute_MuteState mute_MuteState = (Mute_MuteState)bAPEntity;
         return this.onlineRadioMutingLowSignal == mute_MuteState.onlineRadioMutingLowSignal && this.ibocMutingLowSignal == mute_MuteState.ibocMutingLowSignal && this.mutingDueToActivePhoneCall == mute_MuteState.mutingDueToActivePhoneCall && this.ibocIsNotInSync == mute_MuteState.ibocIsNotInSync && this.sdarsMutingLowSignal == mute_MuteState.sdarsMutingLowSignal && this.dvbTvMutingLowSignal == mute_MuteState.dvbTvMutingLowSignal && this.dabMutingLowSignal == mute_MuteState.dabMutingLowSignal && this.muting == mute_MuteState.muting;
@@ -53,7 +51,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Mute_MuteState:");
@@ -108,13 +105,11 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.onlineRadioMutingLowSignal);
         bitStream.pushBoolean(this.ibocMutingLowSignal);
@@ -126,7 +121,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.muting);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.onlineRadioMutingLowSignal = bitStream.popFrontBoolean();
         this.ibocMutingLowSignal = bitStream.popFrontBoolean();

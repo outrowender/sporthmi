@@ -7,10 +7,8 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PlaceholderMenuMultiItem;
 
 public interface PlaceholderMenuListManager {
-    default public void listModelChanged(PlaceholderMenuMultiItem placeholderMenuMultiItem, ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void listModelChanged(PlaceholderMenuMultiItem var1, ModelUpdateEvent var2);
 
-    default public void subListModelChanged(PlaceholderMenuMultiItem placeholderMenuMultiItem, PlaceholderMenuMultiItem placeholderMenuMultiItem2, ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void subListModelChanged(PlaceholderMenuMultiItem var1, PlaceholderMenuMultiItem var2, ModelUpdateEvent var3);
 }
 

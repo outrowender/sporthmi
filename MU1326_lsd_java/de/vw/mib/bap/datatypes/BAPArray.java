@@ -8,10 +8,8 @@ import de.vw.mib.bap.datatypes.BAPDataType;
 
 public interface BAPArray
 extends BAPDataType {
-    default public void setArrayHeader(ArrayHeader arrayHeader) {
-    }
+    public void setArrayHeader(ArrayHeader var1);
 
-    default public ArrayHeader getArrayHeader() {
-    }
+    public ArrayHeader getArrayHeader();
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.ProfileInfo;
 
 public class ProfileInfoSerializer {
-    public static void putOptionalProfileInfo(ISerializer iSerializer, ProfileInfo profileInfo) {
+    public static void putOptionalProfileInfo(ISerializer iSerializer, ProfileInfo profileInfo) throws SerializerException {
         boolean bl = profileInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ProfileInfoSerializer {
         }
     }
 
-    public static void putOptionalProfileInfoVarArray(ISerializer iSerializer, ProfileInfo[] profileInfoArray) {
+    public static void putOptionalProfileInfoVarArray(ISerializer iSerializer, ProfileInfo[] profileInfoArray) throws SerializerException {
         boolean bl = profileInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ProfileInfoSerializer {
         }
     }
 
-    public static ProfileInfo getOptionalProfileInfo(IDeserializer iDeserializer) {
+    public static ProfileInfo getOptionalProfileInfo(IDeserializer iDeserializer) throws SerializerException {
         ProfileInfo profileInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class ProfileInfoSerializer {
         return profileInfo;
     }
 
-    public static ProfileInfo[] getOptionalProfileInfoVarArray(IDeserializer iDeserializer) {
+    public static ProfileInfo[] getOptionalProfileInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ProfileInfo[] profileInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

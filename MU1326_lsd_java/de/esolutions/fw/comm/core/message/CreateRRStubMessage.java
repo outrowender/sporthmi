@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.core.message.InstanceIDTool;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class CreateRRStubMessage
 extends AbstractMessage {
@@ -18,7 +19,7 @@ extends AbstractMessage {
     private ServiceInstanceID instanceID;
     private ServiceInstanceID replyInstanceID;
 
-    public CreateRRStubMessage(IDeserializer iDeserializer, boolean bl) {
+    public CreateRRStubMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.CREATE_RRSTUB, iDeserializer, bl);
     }
 
@@ -31,8 +32,7 @@ extends AbstractMessage {
         this.replyInstanceID = serviceInstanceID2;
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.agentID);
         iSerializer.putInt16(this.proxyID);
         InstanceIDTool.serializeUUID(this.instanceID, iSerializer);
@@ -40,8 +40,7 @@ extends AbstractMessage {
         iSerializer.putInt16(this.stubID);
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.agentID = iDeserializer.getInt16();
         this.proxyID = iDeserializer.getInt16();
         this.instanceID = InstanceIDTool.deserializeUUID(iDeserializer);

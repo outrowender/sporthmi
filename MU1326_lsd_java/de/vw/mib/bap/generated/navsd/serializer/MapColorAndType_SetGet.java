@@ -10,25 +10,25 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MapColorAndType_SetGet
 implements SetGetProperty {
     public int colour;
-    private static final int COLOUR_BITSIZE;
-    public static final int COLOUR_DAY;
-    public static final int COLOUR_NIGHT;
-    public static final int COLOUR_AUTO;
+    private static final int COLOUR_BITSIZE = 8;
+    public static final int COLOUR_DAY = 0;
+    public static final int COLOUR_NIGHT = 1;
+    public static final int COLOUR_AUTO = 2;
     public int activeMapType;
-    private static final int ACTIVE_MAP_TYPE_BITSIZE;
-    public static final int ACTIVE_MAP_TYPE_DESTINATION;
-    public static final int ACTIVE_MAP_TYPE_POSITION_2D;
-    public static final int ACTIVE_MAP_TYPE_POSITION_3D;
-    public static final int ACTIVE_MAP_TYPE_OVERVIEW;
-    public static final int ACTIVE_MAP_TYPE_RANGE_MAP;
+    private static final int ACTIVE_MAP_TYPE_BITSIZE = 8;
+    public static final int ACTIVE_MAP_TYPE_DESTINATION = 0;
+    public static final int ACTIVE_MAP_TYPE_POSITION_2D = 1;
+    public static final int ACTIVE_MAP_TYPE_POSITION_3D = 2;
+    public static final int ACTIVE_MAP_TYPE_OVERVIEW = 3;
+    public static final int ACTIVE_MAP_TYPE_RANGE_MAP = 4;
     public int mainMapSetup;
-    private static final int MAIN_MAP_SETUP_BITSIZE;
-    public static final int MAIN_MAP_SETUP_INIT_NO_MAP_IN_ASG;
-    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_ASG;
-    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_FSG;
-    public static final int MAIN_MAP_SETUP_NOT_SUPPORTED;
+    private static final int MAIN_MAP_SETUP_BITSIZE = 8;
+    public static final int MAIN_MAP_SETUP_INIT_NO_MAP_IN_ASG = 0;
+    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_ASG = 1;
+    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_FSG = 2;
+    public static final int MAIN_MAP_SETUP_NOT_SUPPORTED = 255;
     public int reserve;
-    private static final int RESERVE_BITSIZE;
+    private static final int RESERVE_BITSIZE = 8;
 
     public MapColorAndType_SetGet() {
         this.internalReset();
@@ -47,12 +47,10 @@ implements SetGetProperty {
         this.reserve = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MapColorAndType_SetGet mapColorAndType_SetGet = (MapColorAndType_SetGet)bAPEntity;
         return this.colour == mapColorAndType_SetGet.colour && this.activeMapType == mapColorAndType_SetGet.activeMapType && this.mainMapSetup == mapColorAndType_SetGet.mainMapSetup && this.reserve == mapColorAndType_SetGet.reserve;
@@ -61,7 +59,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MapColorAndType_SetGet:");
@@ -136,7 +133,6 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -145,7 +141,6 @@ implements SetGetProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.colour);
         bitStream.pushByte((byte)this.activeMapType);
@@ -153,7 +148,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.reserve);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.colour = bitStream.popFrontByte();
         this.activeMapType = bitStream.popFrontByte();
@@ -165,7 +159,6 @@ implements SetGetProperty {
         return 43;
     }
 
-    @Override
     public int getFunctionId() {
         return MapColorAndType_SetGet.functionId();
     }

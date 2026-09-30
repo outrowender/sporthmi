@@ -11,6 +11,7 @@ import de.esolutions.fw.comm.agent.tracing.CommAgentTracing;
 import de.esolutions.fw.comm.comm.broker.v4.Agent;
 import de.esolutions.fw.comm.comm.broker.v4.AgentUpdateEvent;
 import de.esolutions.fw.comm.comm.broker.v4.UpdateEvent;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public class AgentServiceImpl
 implements Agent {
@@ -20,7 +21,6 @@ implements Agent {
         this.listener = iBrokerServiceListener;
     }
 
-    @Override
     public void serviceUpdate(UpdateEvent[] updateEventArray) {
         if (updateEventArray == null) {
             return;
@@ -29,7 +29,7 @@ implements Agent {
         for (int i2 = 0; i2 < updateEventArray.length; ++i2) {
             int n;
             int n2;
-            short s = (short)(updateEventArray[i2].home_agent_id & 0xFFFF0000);
+            short s = (short)(updateEventArray[i2].home_agent_id & 0xFFFF);
             switch (updateEventArray[i2].action) {
                 case 2: {
                     n2 = 2;
@@ -75,16 +75,15 @@ implements Agent {
         this.listener.serviceUpdate(brokerServiceUpdateArray);
     }
 
-    @Override
-    public void agentUpdate(AgentUpdateEvent[] agentUpdateEventArray) {
+    public void agentUpdate(AgentUpdateEvent[] agentUpdateEventArray) throws MethodException {
         if (agentUpdateEventArray == null) {
             return;
         }
         BrokerAgentUpdate[] brokerAgentUpdateArray = new BrokerAgentUpdate[agentUpdateEventArray.length];
         for (int i2 = 0; i2 < agentUpdateEventArray.length; ++i2) {
             AgentUpdateEvent agentUpdateEvent = agentUpdateEventArray[i2];
-            short s = (short)(agentUpdateEvent.getAgent_id() & 0xFFFF0000);
-            short s2 = (short)(agentUpdateEvent.getAgent_epoch() & 0xFFFF0000);
+            short s = (short)(agentUpdateEvent.getAgent_id() & 0xFFFF);
+            short s2 = (short)(agentUpdateEvent.getAgent_epoch() & 0xFFFF);
             brokerAgentUpdateArray[i2] = new BrokerAgentUpdate(s, s2);
         }
         this.listener.agentUpdate(brokerAgentUpdateArray);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.MascotConfiguration;
 
 public class MascotConfigurationSerializer {
-    public static void putOptionalMascotConfiguration(ISerializer iSerializer, MascotConfiguration mascotConfiguration) {
+    public static void putOptionalMascotConfiguration(ISerializer iSerializer, MascotConfiguration mascotConfiguration) throws SerializerException {
         boolean bl = mascotConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MascotConfigurationSerializer {
         }
     }
 
-    public static void putOptionalMascotConfigurationVarArray(ISerializer iSerializer, MascotConfiguration[] mascotConfigurationArray) {
+    public static void putOptionalMascotConfigurationVarArray(ISerializer iSerializer, MascotConfiguration[] mascotConfigurationArray) throws SerializerException {
         boolean bl = mascotConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MascotConfigurationSerializer {
         }
     }
 
-    public static MascotConfiguration getOptionalMascotConfiguration(IDeserializer iDeserializer) {
+    public static MascotConfiguration getOptionalMascotConfiguration(IDeserializer iDeserializer) throws SerializerException {
         MascotConfiguration mascotConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MascotConfigurationSerializer {
         return mascotConfiguration;
     }
 
-    public static MascotConfiguration[] getOptionalMascotConfigurationVarArray(IDeserializer iDeserializer) {
+    public static MascotConfiguration[] getOptionalMascotConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         MascotConfiguration[] mascotConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

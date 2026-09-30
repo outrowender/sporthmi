@@ -15,10 +15,9 @@ implements ISingleTransportFactory {
     private String fileName;
 
     public TSSingleTransportFactory(String string, String string2) {
-        this.fileName = new StringBuffer().append(string).append("/connect/").append(string2).toString();
+        this.fileName = string + "/connect/" + string2;
     }
 
-    @Override
     public ITransport createTransport() {
         TSTransport tSTransport = new TSTransport(this.fileName);
         ITransport iTransport = new PacketTransport(tSTransport);
@@ -26,9 +25,8 @@ implements ISingleTransportFactory {
         return iTransport;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[File:").append(this.fileName).append("]").toString();
+        return "[File:" + this.fileName + "]";
     }
 }
 

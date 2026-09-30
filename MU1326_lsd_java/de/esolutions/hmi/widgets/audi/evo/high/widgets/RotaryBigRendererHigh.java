@@ -16,22 +16,22 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.RotaryRenderer;
 public class RotaryBigRendererHigh
 extends AbstractRotaryRendererHigh
 implements RotaryRenderer {
-    public static final int PREFERRED_WIDTH;
-    public static final int PREFERRED_HEIGHT;
-    private static final float MIN_ANGLE_COLOR;
-    private static final float MAX_ANGLE_COLOR;
-    private static final String TEMPLATE_NODE_PATH_ROTATOR_BIG;
-    private static final String TEMPLATE_NODE_PATH_ROTATOR_MEDIUM;
-    private static final String EAL_NODE_NAME;
-    public static final int ROTARY_BIG_TYPE_DEFAULT;
-    public static final int ROTARY_BIG_TYPE_VIDEO_BRIGHTNESS;
-    public static final int ROTARY_BIG_TYPE_VIDEO_CONTRAST;
-    public static final int ROTARY_BIG_TYPE_VIDEO_SATURATION;
-    public static final int ROTARY_BIG_TYPE_DISTANCE_WARNER;
-    public static final int ROTARY_BIG_TYPE_COLOR;
-    private static final int VIDEO_ICON_TYPE_BRIGHTNESS;
-    private static final int VIDEO_ICON_TYPE_CONTRAST;
-    private static final int VIDEO_ICON_TYPE_SATURATION;
+    public static final int PREFERRED_WIDTH = 100;
+    public static final int PREFERRED_HEIGHT = 100;
+    private static final float MIN_ANGLE_COLOR = 45.0f;
+    private static final float MAX_ANGLE_COLOR = 315.0f;
+    private static final String TEMPLATE_NODE_PATH_ROTATOR_BIG = "Prefabs/generic_rotator_big";
+    private static final String TEMPLATE_NODE_PATH_ROTATOR_MEDIUM = "Prefabs/generic_rotator_medium";
+    private static final String EAL_NODE_NAME = "rotaryBig";
+    public static final int ROTARY_BIG_TYPE_DEFAULT = -1;
+    public static final int ROTARY_BIG_TYPE_VIDEO_BRIGHTNESS = 1;
+    public static final int ROTARY_BIG_TYPE_VIDEO_CONTRAST = 2;
+    public static final int ROTARY_BIG_TYPE_VIDEO_SATURATION = 3;
+    public static final int ROTARY_BIG_TYPE_DISTANCE_WARNER = 4;
+    public static final int ROTARY_BIG_TYPE_COLOR = 5;
+    private static final int VIDEO_ICON_TYPE_BRIGHTNESS = 1;
+    private static final int VIDEO_ICON_TYPE_CONTRAST = 2;
+    private static final int VIDEO_ICON_TYPE_SATURATION = 3;
     private boolean showMedialPosition = false;
     private int rotaryType = -1;
     private INode3D colorNode;
@@ -40,7 +40,6 @@ implements RotaryRenderer {
         super(rotaryController);
     }
 
-    @Override
     protected IWrappedNode3D createNode(IWrappedNode3D iWrappedNode3D, int n) {
         INode2D iNode2D;
         IWrappedNode3D iWrappedNode3D2 = super.createNode(iWrappedNode3D, n);
@@ -52,7 +51,6 @@ implements RotaryRenderer {
         return iWrappedNode3D2;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -80,12 +78,12 @@ implements RotaryRenderer {
             logChannel.log(10000, "RotaryBigRendererHigh#applyProperties: Cannot configure number of scales because the step is 0 (modelId=%1)", (long)this.controller.getModelID());
         }
         float f4 = this.controller.getRenderOpacity();
-        f4 = this.controller.isEnabled() ? f4 : f4 * 63;
+        f4 = this.controller.isEnabled() ? f4 : f4 * 0.5f;
         this.node.setOpacity(f4);
         this.node.setScale(this.controller.getScaleFactor(), this.controller.getScaleFactor(), 1.0f);
         switch (this.rotaryType) {
             case -1: {
-                this.setProperty("rotator_videoIcon", 32959);
+                this.setProperty("rotator_videoIcon", -1.0f);
                 this.setProperty("rotator_distanceScales", false);
                 this.setProperty("rotator_colorMode", false);
                 break;
@@ -103,14 +101,14 @@ implements RotaryRenderer {
                 break;
             }
             case 3: {
-                this.setProperty("rotator_videoIcon", 16448);
+                this.setProperty("rotator_videoIcon", 3.0f);
                 this.setProperty("rotator_distanceScales", false);
                 this.setProperty("rotator_colorMode", false);
                 break;
             }
             case 4: {
                 this.setProperty("rotator_distanceScales", this.controller.showDistanceIndicatorLine());
-                this.setProperty("rotator_videoIcon", 32959);
+                this.setProperty("rotator_videoIcon", -1.0f);
                 this.setProperty("rotator_colorMode", false);
                 break;
             }
@@ -128,12 +126,12 @@ implements RotaryRenderer {
                     int n11 = (this.controller.getColorRowAtIndex(i2).getInteger(2) & 0xFF) << 8;
                     int n12 = n9 | n10 | n11 | n8;
                     if (i2 < 10) {
-                        this.propertyCache.setColorProperty(this.colorNode, new StringBuffer().append("ambient_color0").append(i2).toString(), n12);
+                        this.propertyCache.setColorProperty(this.colorNode, "ambient_color0" + i2, n12);
                         continue;
                     }
-                    this.propertyCache.setColorProperty(this.colorNode, new StringBuffer().append("ambient_color").append(i2).toString(), n12);
+                    this.propertyCache.setColorProperty(this.colorNode, "ambient_color" + i2, n12);
                 }
-                this.setProperty("rotator_videoIcon", 32959);
+                this.setProperty("rotator_videoIcon", -1.0f);
                 this.setProperty("rotator_distanceScales", false);
                 this.colorNode.setVisible(true);
                 break;
@@ -141,17 +139,15 @@ implements RotaryRenderer {
         }
     }
 
-    @Override
     protected String getTemplateNodePath() {
         if (this.rotaryType == 1 || this.rotaryType == 2 || this.rotaryType == 3) {
-            return "Prefabs/generic_rotator_medium";
+            return TEMPLATE_NODE_PATH_ROTATOR_MEDIUM;
         }
-        return "Prefabs/generic_rotator_big";
+        return TEMPLATE_NODE_PATH_ROTATOR_BIG;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "rotaryBig";
+        return EAL_NODE_NAME;
     }
 
     public void setShowMedialPosition(boolean bl) {
@@ -166,32 +162,28 @@ implements RotaryRenderer {
         this.rotaryType = n;
     }
 
-    @Override
     public int getPreferredWidth() {
         return 100;
     }
 
-    @Override
     public int getPreferredHeight() {
         return 100;
     }
 
-    @Override
     protected float calculateAngle(int n) {
         if (this.getRotaryType() == 5 && this.controller.getAmbientColorNum() >= 3) {
-            int n2 = 34627 / (float)this.controller.getAmbientColorNum();
-            int n3 = 13378 + n2 / 2.0f;
-            int n4 = 8428867 - n2 / 2.0f;
-            int n5 = n3;
+            float f2 = 270.0f / (float)this.controller.getAmbientColorNum();
+            float f3 = 45.0f + f2 / 2.0f;
+            float f4 = 315.0f - f2 / 2.0f;
+            float f5 = f3;
             if (this.controller.getMaxPosition() > this.controller.getMinPosition()) {
-                n5 = n3 + (n4 - n3) / (float)(this.controller.getMaxPosition() - this.controller.getMinPosition()) * (float)(n - this.controller.getMinPosition());
+                f5 = f3 + (f4 - f3) / (float)(this.controller.getMaxPosition() - this.controller.getMinPosition()) * (float)(n - this.controller.getMinPosition());
             }
-            return n5;
+            return f5;
         }
         return super.calculateAngle(n);
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         if (this.colorNode != null) {
@@ -200,12 +192,10 @@ implements RotaryRenderer {
         this.colorNode = null;
     }
 
-    @Override
     public int getPreferredWidth(HMITerminalImpl hMITerminalImpl) {
         return this.getPreferredWidth();
     }
 
-    @Override
     public int getPreferredHeight(HMITerminalImpl hMITerminalImpl) {
         return this.getPreferredHeight();
     }

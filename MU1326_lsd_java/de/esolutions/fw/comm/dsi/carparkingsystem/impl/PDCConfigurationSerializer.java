@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCManeuverAssistSerializ
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCSupportedFunctionsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCConfiguration;
 import org.dsi.ifc.carparkingsystem.PDCContinueDrivingAssist;
 import org.dsi.ifc.carparkingsystem.PDCManeuverAssist;
 import org.dsi.ifc.carparkingsystem.PDCSupportedFunctions;
 
 public class PDCConfigurationSerializer {
-    public static void putOptionalPDCConfiguration(ISerializer iSerializer, PDCConfiguration pDCConfiguration) {
+    public static void putOptionalPDCConfiguration(ISerializer iSerializer, PDCConfiguration pDCConfiguration) throws SerializerException {
         boolean bl = pDCConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class PDCConfigurationSerializer {
         }
     }
 
-    public static void putOptionalPDCConfigurationVarArray(ISerializer iSerializer, PDCConfiguration[] pDCConfigurationArray) {
+    public static void putOptionalPDCConfigurationVarArray(ISerializer iSerializer, PDCConfiguration[] pDCConfigurationArray) throws SerializerException {
         boolean bl = pDCConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class PDCConfigurationSerializer {
         }
     }
 
-    public static PDCConfiguration getOptionalPDCConfiguration(IDeserializer iDeserializer) {
+    public static PDCConfiguration getOptionalPDCConfiguration(IDeserializer iDeserializer) throws SerializerException {
         PDCConfiguration pDCConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -81,7 +82,7 @@ public class PDCConfigurationSerializer {
         return pDCConfiguration;
     }
 
-    public static PDCConfiguration[] getOptionalPDCConfigurationVarArray(IDeserializer iDeserializer) {
+    public static PDCConfiguration[] getOptionalPDCConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCConfiguration[] pDCConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

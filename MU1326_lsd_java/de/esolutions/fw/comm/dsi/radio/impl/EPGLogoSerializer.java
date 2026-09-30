@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.radio.impl.EPGLogoDescriptorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.EPGLogo;
 import org.dsi.ifc.radio.EPGLogoDescriptor;
 
 public class EPGLogoSerializer {
-    public static void putOptionalEPGLogo(ISerializer iSerializer, EPGLogo ePGLogo) {
+    public static void putOptionalEPGLogo(ISerializer iSerializer, EPGLogo ePGLogo) throws SerializerException {
         boolean bl = ePGLogo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class EPGLogoSerializer {
         }
     }
 
-    public static void putOptionalEPGLogoVarArray(ISerializer iSerializer, EPGLogo[] ePGLogoArray) {
+    public static void putOptionalEPGLogoVarArray(ISerializer iSerializer, EPGLogo[] ePGLogoArray) throws SerializerException {
         boolean bl = ePGLogoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class EPGLogoSerializer {
         }
     }
 
-    public static EPGLogo getOptionalEPGLogo(IDeserializer iDeserializer) {
+    public static EPGLogo getOptionalEPGLogo(IDeserializer iDeserializer) throws SerializerException {
         EPGLogo ePGLogo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class EPGLogoSerializer {
         return ePGLogo;
     }
 
-    public static EPGLogo[] getOptionalEPGLogoVarArray(IDeserializer iDeserializer) {
+    public static EPGLogo[] getOptionalEPGLogoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGLogo[] ePGLogoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,21 +6,22 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.PriorityQueue;
 import edu.emory.mathcs.backport.java.util.concurrent.BlockingQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.PriorityBlockingQueue$Itr;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class PriorityBlockingQueue
 extends AbstractQueue
 implements BlockingQueue,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5595510919245408276L;
     private final PriorityQueue q;
     private final ReentrantLock lock = new ReentrantLock(true);
     private final Condition notEmpty = this.lock.newCondition();
@@ -43,7 +44,6 @@ Serializable {
         this.q = new PriorityQueue(collection);
     }
 
-    @Override
     public boolean add(Object object) {
         return this.offer(object);
     }
@@ -51,7 +51,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean offer(Object object) {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -69,12 +68,10 @@ Serializable {
         }
     }
 
-    @Override
     public void put(Object object) {
         this.offer(object);
     }
 
-    @Override
     public boolean offer(Object object, long l, TimeUnit timeUnit) {
         return this.offer(object);
     }
@@ -82,7 +79,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object poll() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -98,8 +94,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Object take() {
+    public Object take() throws InterruptedException {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lockInterruptibly();
         try {
@@ -127,8 +122,7 @@ Serializable {
     /*
      * Exception decompiling
      */
-    @Override
-    public Object poll(long var1_1, TimeUnit var3_2) {
+    public Object poll(long var1_1, TimeUnit var3_2) throws InterruptedException {
         /*
          * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
          * 
@@ -154,7 +148,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object peek() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -174,7 +167,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int size() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -187,15 +179,13 @@ Serializable {
         }
     }
 
-    @Override
     public int remainingCapacity() {
-        return -129;
+        return Integer.MAX_VALUE;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean remove(Object object) {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -211,7 +201,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean contains(Object object) {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -227,7 +216,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -243,7 +231,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String toString() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -259,7 +246,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection) {
         if (collection == null) {
             throw new NullPointerException();
@@ -287,7 +273,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int drainTo(Collection collection, int n) {
         if (collection == null) {
             throw new NullPointerException();
@@ -317,7 +302,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -332,7 +316,6 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object[] toArray(Object[] objectArray) {
         ReentrantLock reentrantLock = this.lock;
         reentrantLock.lock();
@@ -345,15 +328,14 @@ Serializable {
         }
     }
 
-    @Override
     public Iterator iterator() {
-        return new PriorityBlockingQueue$Itr(this, this.toArray());
+        return new Itr(this.toArray());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         this.lock.lock();
         try {
             objectOutputStream.defaultWriteObject();
@@ -372,16 +354,54 @@ Serializable {
         }
     }
 
-    static /* synthetic */ ReentrantLock access$000(PriorityBlockingQueue priorityBlockingQueue) {
-        return priorityBlockingQueue.lock;
-    }
-
-    static /* synthetic */ PriorityQueue access$100(PriorityBlockingQueue priorityBlockingQueue) {
-        return priorityBlockingQueue.q;
-    }
-
     static {
         $assertionsDisabled = !(class$edu$emory$mathcs$backport$java$util$concurrent$PriorityBlockingQueue == null ? (class$edu$emory$mathcs$backport$java$util$concurrent$PriorityBlockingQueue = PriorityBlockingQueue.class$("edu.emory.mathcs.backport.java.util.concurrent.PriorityBlockingQueue")) : class$edu$emory$mathcs$backport$java$util$concurrent$PriorityBlockingQueue).desiredAssertionStatus();
+    }
+
+    private class Itr
+    implements Iterator {
+        final Object[] array;
+        int cursor;
+        int lastRet = -1;
+
+        Itr(Object[] objectArray) {
+            this.array = objectArray;
+        }
+
+        public boolean hasNext() {
+            return this.cursor < this.array.length;
+        }
+
+        public Object next() {
+            if (this.cursor >= this.array.length) {
+                throw new NoSuchElementException();
+            }
+            this.lastRet = this.cursor;
+            return this.array[this.cursor++];
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void remove() {
+            if (this.lastRet < 0) {
+                throw new IllegalStateException();
+            }
+            Object object = this.array[this.lastRet];
+            this.lastRet = -1;
+            PriorityBlockingQueue.this.lock.lock();
+            try {
+                Iterator iterator = PriorityBlockingQueue.this.q.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next() != object) continue;
+                    iterator.remove();
+                    return;
+                }
+            }
+            finally {
+                PriorityBlockingQueue.this.lock.unlock();
+            }
+        }
     }
 }
 

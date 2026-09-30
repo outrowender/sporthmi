@@ -23,17 +23,14 @@ implements INameService {
         this.idMap = new HashMap();
     }
 
-    @Override
     public short getMyID() {
         return this.myID;
     }
 
-    @Override
     public String getMyProcName() {
         return this.myProcName;
     }
 
-    @Override
     public String getMyNodeName() {
         return this.myNodeName;
     }
@@ -43,17 +40,14 @@ implements INameService {
         this.idMap.put(new Short(s), string);
     }
 
-    @Override
     public synchronized String mapIDToName(short s) {
         return (String)this.idMap.get(new Short(s));
     }
 
-    @Override
     public synchronized Short mapNameToID(String string) {
         return (Short)this.nameMap.get(string);
     }
 
-    @Override
     public synchronized String[] getNodeNames() {
         return new String[]{this.myNodeName};
     }

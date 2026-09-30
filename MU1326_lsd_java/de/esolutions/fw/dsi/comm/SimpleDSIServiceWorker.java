@@ -18,21 +18,17 @@ implements IDSIServiceWorker {
         this.name = string;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public int getUseCount() {
         return this.serviceCount;
     }
 
-    @Override
     public void start() {
     }
 
-    @Override
     public void stop() {
     }
 }

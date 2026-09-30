@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconSteeringWheelHeater;
 
 public class AirconSteeringWheelHeaterSerializer {
-    public static void putOptionalAirconSteeringWheelHeater(ISerializer iSerializer, AirconSteeringWheelHeater airconSteeringWheelHeater) {
+    public static void putOptionalAirconSteeringWheelHeater(ISerializer iSerializer, AirconSteeringWheelHeater airconSteeringWheelHeater) throws SerializerException {
         boolean bl = airconSteeringWheelHeater == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class AirconSteeringWheelHeaterSerializer {
         }
     }
 
-    public static void putOptionalAirconSteeringWheelHeaterVarArray(ISerializer iSerializer, AirconSteeringWheelHeater[] airconSteeringWheelHeaterArray) {
+    public static void putOptionalAirconSteeringWheelHeaterVarArray(ISerializer iSerializer, AirconSteeringWheelHeater[] airconSteeringWheelHeaterArray) throws SerializerException {
         boolean bl = airconSteeringWheelHeaterArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class AirconSteeringWheelHeaterSerializer {
         }
     }
 
-    public static AirconSteeringWheelHeater getOptionalAirconSteeringWheelHeater(IDeserializer iDeserializer) {
+    public static AirconSteeringWheelHeater getOptionalAirconSteeringWheelHeater(IDeserializer iDeserializer) throws SerializerException {
         AirconSteeringWheelHeater airconSteeringWheelHeater = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class AirconSteeringWheelHeaterSerializer {
         return airconSteeringWheelHeater;
     }
 
-    public static AirconSteeringWheelHeater[] getOptionalAirconSteeringWheelHeaterVarArray(IDeserializer iDeserializer) {
+    public static AirconSteeringWheelHeater[] getOptionalAirconSteeringWheelHeaterVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconSteeringWheelHeater[] airconSteeringWheelHeaterArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

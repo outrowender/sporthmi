@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.EPGProgramInfo;
 
 public class EPGProgramInfoSerializer {
-    public static void putOptionalEPGProgramInfo(ISerializer iSerializer, EPGProgramInfo ePGProgramInfo) {
+    public static void putOptionalEPGProgramInfo(ISerializer iSerializer, EPGProgramInfo ePGProgramInfo) throws SerializerException {
         boolean bl = ePGProgramInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class EPGProgramInfoSerializer {
         }
     }
 
-    public static void putOptionalEPGProgramInfoVarArray(ISerializer iSerializer, EPGProgramInfo[] ePGProgramInfoArray) {
+    public static void putOptionalEPGProgramInfoVarArray(ISerializer iSerializer, EPGProgramInfo[] ePGProgramInfoArray) throws SerializerException {
         boolean bl = ePGProgramInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class EPGProgramInfoSerializer {
         }
     }
 
-    public static EPGProgramInfo getOptionalEPGProgramInfo(IDeserializer iDeserializer) {
+    public static EPGProgramInfo getOptionalEPGProgramInfo(IDeserializer iDeserializer) throws SerializerException {
         EPGProgramInfo ePGProgramInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class EPGProgramInfoSerializer {
         return ePGProgramInfo;
     }
 
-    public static EPGProgramInfo[] getOptionalEPGProgramInfoVarArray(IDeserializer iDeserializer) {
+    public static EPGProgramInfo[] getOptionalEPGProgramInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGProgramInfo[] ePGProgramInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

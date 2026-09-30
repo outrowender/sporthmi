@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.speech.onlinesds.impl;
 import de.esolutions.fw.comm.asi.speech.onlinesds.AudioFormat;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AudioFormatSerializer {
-    public static void putOptionalAudioFormat(ISerializer iSerializer, AudioFormat audioFormat) {
+    public static void putOptionalAudioFormat(ISerializer iSerializer, AudioFormat audioFormat) throws SerializerException {
         boolean bl = audioFormat == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class AudioFormatSerializer {
         }
     }
 
-    public static void putOptionalAudioFormatVarArray(ISerializer iSerializer, AudioFormat[] audioFormatArray) {
+    public static void putOptionalAudioFormatVarArray(ISerializer iSerializer, AudioFormat[] audioFormatArray) throws SerializerException {
         boolean bl = audioFormatArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class AudioFormatSerializer {
         }
     }
 
-    public static AudioFormat getOptionalAudioFormat(IDeserializer iDeserializer) {
+    public static AudioFormat getOptionalAudioFormat(IDeserializer iDeserializer) throws SerializerException {
         AudioFormat audioFormat = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class AudioFormatSerializer {
         return audioFormat;
     }
 
-    public static AudioFormat[] getOptionalAudioFormatVarArray(IDeserializer iDeserializer) {
+    public static AudioFormat[] getOptionalAudioFormatVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioFormat[] audioFormatArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

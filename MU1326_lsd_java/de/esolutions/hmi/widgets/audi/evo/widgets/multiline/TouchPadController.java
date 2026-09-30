@@ -36,12 +36,10 @@ implements IInputTextInfoProvider {
         this.renderer = iTouchPadRenderer;
     }
 
-    @Override
     public boolean isFocused() {
         return true;
     }
 
-    @Override
     protected void initConnect(InitializationContext initializationContext) {
         super.initConnect(initializationContext);
         this.setRecognizerMode();
@@ -76,12 +74,10 @@ implements IInputTextInfoProvider {
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -112,7 +108,7 @@ implements IInputTextInfoProvider {
                                 n3 += (int)iMultilineTextFiledRenderer.getAbsLineIdxPos(sChar.line + 1) + 4 - (this.getWidth() - iMultilineTextFiledRenderer.getLineHeight()) / 2;
                             } else {
                                 n2 += sChar.x + sChar.w;
-                                n3 = (int)((float)n3 + (iMultilineTextFiledRenderer.getAbsLineIdxPos(sChar.line) + 32832 - (float)((this.getWidth() - iMultilineTextFiledRenderer.getLineHeight()) / 2)));
+                                n3 = (int)((float)n3 + (iMultilineTextFiledRenderer.getAbsLineIdxPos(sChar.line) + 4.0f - (float)((this.getWidth() - iMultilineTextFiledRenderer.getLineHeight()) / 2)));
                             }
                         }
                     } else {
@@ -134,7 +130,6 @@ implements IInputTextInfoProvider {
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         this.setVisible(true);
         this.setOnScreen(true);
@@ -149,11 +144,10 @@ implements IInputTextInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         String string = touchEvent.getRecognizedCharacters();
         if (string != null && string.length() > 0) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchPadController#touchpadCharactersRecognized: recognizedCharacters=%1", (Object)string);
+            tpLogChannelKeypanel.log(10000000, "TouchPadController#touchpadCharactersRecognized: recognizedCharacters=%1", (Object)string);
             String string2 = null;
             try {
                 this.prpEngine.process(touchEvent.getRecognizedCharacters(), touchEvent.getCharacterConfidence(), this.fingerTraceWidget.isMinStrokeReached());
@@ -161,10 +155,10 @@ implements IInputTextInfoProvider {
                 if (this.parent instanceof MultilineTextFieldController) {
                     TouchCharSetAndTTSHandler touchCharSetAndTTSHandler = ((MultilineTextFieldController)this.parent).getTouchUtil();
                     if (!this.getMLCursor().mtxAquireLock()) {
-                        tpLogChannelInternal.log(-1601830656, "TouchPadController#touchPadCharactersRecognized: could not acquire lock");
+                        tpLogChannelInternal.log(100000, "TouchPadController#touchPadCharactersRecognized: could not acquire lock");
                     }
                     if (string2 != null && string2.length() > 0) {
-                        logMessagingMultiline.log(-2137614336, "MultiLineTextFieldController#touchPadCharactersRecognized filteredChars=%1", (Object)string2);
+                        logMessagingMultiline.log(10000000, "MultiLineTextFieldController#touchPadCharactersRecognized filteredChars=%1", (Object)string2);
                         if (string2.charAt(0) == '\b') {
                             touchCharSetAndTTSHandler.sayDelete();
                         } else {
@@ -192,7 +186,6 @@ implements IInputTextInfoProvider {
         this.updatePosition();
     }
 
-    @Override
     public String getCurrentWord() {
         int[] nArray;
         char[] cArray;
@@ -204,19 +197,16 @@ implements IInputTextInfoProvider {
         return string;
     }
 
-    @Override
     public String getCurrentText() {
         DoubleCursor doubleCursor = this.getMLCursor();
         String string = doubleCursor != null ? doubleCursor.getString() : "";
         return string;
     }
 
-    @Override
     public boolean isStartOfText() {
         return this.getCurrentText().length() <= 0;
     }
 
-    @Override
     public boolean isStartOfWord() {
         char c2;
         String string = this.getCurrentText();
@@ -230,7 +220,6 @@ implements IInputTextInfoProvider {
         return bl;
     }
 
-    @Override
     public int getKeyboardType() {
         return this.kbdType;
     }
@@ -268,17 +257,14 @@ implements IInputTextInfoProvider {
         }
     }
 
-    @Override
     public boolean isEmpty() {
         return this.getTextLength() == 0;
     }
 
-    @Override
     public String getCurrentDisplayString() {
         return this.getCurrentText();
     }
 
-    @Override
     public int getTextLength() {
         return this.getCurrentText().length();
     }

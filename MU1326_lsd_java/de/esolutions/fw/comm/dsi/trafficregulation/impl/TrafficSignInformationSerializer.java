@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.trafficregulation.impl;
 import de.esolutions.fw.comm.dsi.trafficregulation.impl.SpeedLimitInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.trafficregulation.SpeedLimitInfo;
 import org.dsi.ifc.trafficregulation.TrafficSignInformation;
 
 public class TrafficSignInformationSerializer {
-    public static void putOptionalTrafficSignInformation(ISerializer iSerializer, TrafficSignInformation trafficSignInformation) {
+    public static void putOptionalTrafficSignInformation(ISerializer iSerializer, TrafficSignInformation trafficSignInformation) throws SerializerException {
         boolean bl = trafficSignInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class TrafficSignInformationSerializer {
         }
     }
 
-    public static void putOptionalTrafficSignInformationVarArray(ISerializer iSerializer, TrafficSignInformation[] trafficSignInformationArray) {
+    public static void putOptionalTrafficSignInformationVarArray(ISerializer iSerializer, TrafficSignInformation[] trafficSignInformationArray) throws SerializerException {
         boolean bl = trafficSignInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class TrafficSignInformationSerializer {
         }
     }
 
-    public static TrafficSignInformation getOptionalTrafficSignInformation(IDeserializer iDeserializer) {
+    public static TrafficSignInformation getOptionalTrafficSignInformation(IDeserializer iDeserializer) throws SerializerException {
         TrafficSignInformation trafficSignInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -105,7 +106,7 @@ public class TrafficSignInformationSerializer {
         return trafficSignInformation;
     }
 
-    public static TrafficSignInformation[] getOptionalTrafficSignInformationVarArray(IDeserializer iDeserializer) {
+    public static TrafficSignInformation[] getOptionalTrafficSignInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrafficSignInformation[] trafficSignInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

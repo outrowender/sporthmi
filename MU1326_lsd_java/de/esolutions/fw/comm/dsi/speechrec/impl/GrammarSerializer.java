@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.Grammar;
 
 public class GrammarSerializer {
-    public static void putOptionalGrammar(ISerializer iSerializer, Grammar grammar) {
+    public static void putOptionalGrammar(ISerializer iSerializer, Grammar grammar) throws SerializerException {
         boolean bl = grammar == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class GrammarSerializer {
         }
     }
 
-    public static void putOptionalGrammarVarArray(ISerializer iSerializer, Grammar[] grammarArray) {
+    public static void putOptionalGrammarVarArray(ISerializer iSerializer, Grammar[] grammarArray) throws SerializerException {
         boolean bl = grammarArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class GrammarSerializer {
         }
     }
 
-    public static Grammar getOptionalGrammar(IDeserializer iDeserializer) {
+    public static Grammar getOptionalGrammar(IDeserializer iDeserializer) throws SerializerException {
         Grammar grammar = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class GrammarSerializer {
         return grammar;
     }
 
-    public static Grammar[] getOptionalGrammarVarArray(IDeserializer iDeserializer) {
+    public static Grammar[] getOptionalGrammarVarArray(IDeserializer iDeserializer) throws SerializerException {
         Grammar[] grammarArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

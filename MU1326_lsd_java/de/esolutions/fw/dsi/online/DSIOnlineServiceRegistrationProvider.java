@@ -29,28 +29,23 @@ implements DSIOnlineServiceRegistration {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIOnlineServiceRegistration == null ? (class$org$dsi$ifc$online$DSIOnlineServiceRegistration = DSIOnlineServiceRegistrationProvider.class$("org.dsi.ifc.online.DSIOnlineServiceRegistration")) : class$org$dsi$ifc$online$DSIOnlineServiceRegistration).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOnlineServiceRegistrationProxy(this.instance, (DSIOnlineServiceRegistrationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getOnlineApplicationList() {
         try {
             this.proxy.getOnlineApplicationList();
@@ -60,7 +55,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getOnlineApplication(String string) {
         try {
             this.proxy.getOnlineApplication(string);
@@ -70,7 +64,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setOnlineApplicationState(String string, int n) {
         try {
             this.proxy.setOnlineApplicationState(string, n);
@@ -80,7 +73,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void activateLicense(OSRLicense oSRLicense) {
         try {
             this.proxy.activateLicense(oSRLicense);
@@ -90,7 +82,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setDemandState(String string, boolean bl) {
         try {
             this.proxy.setDemandState(string, bl);
@@ -100,7 +91,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setDemandStateServiceID(String string, boolean bl) {
         try {
             this.proxy.setDemandStateServiceID(string, bl);
@@ -110,7 +100,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setApplicationProperties(String string, OSRApplicationProperties[] oSRApplicationPropertiesArray) {
         try {
             this.proxy.setApplicationProperties(string, oSRApplicationPropertiesArray);
@@ -120,7 +109,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void addOrUpdateApplicationProperty(String string, OSRApplicationProperties oSRApplicationProperties) {
         try {
             this.proxy.addOrUpdateApplicationProperty(string, oSRApplicationProperties);
@@ -130,7 +118,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setCredential(String string, String string2, String string3) {
         try {
             this.proxy.setCredential(string, string2, string3);
@@ -140,7 +127,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void download(String string, String string2, String string3, long l, long l2) {
         try {
             this.proxy.download(string, string2, string3, l, l2);
@@ -150,7 +136,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void downloadRaw(String string, String string2, String string3, long l, long l2) {
         try {
             this.proxy.downloadRaw(string, string2, string3, l, l2);
@@ -160,7 +145,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void validateOwner(String string) {
         try {
             this.proxy.validateOwner(string);
@@ -170,7 +154,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void validateOwnerForce(boolean bl) {
         try {
             this.proxy.validateOwnerForce(bl);
@@ -180,7 +163,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void checkOwnersVerification() {
         try {
             this.proxy.checkOwnersVerification();
@@ -190,7 +172,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void createUserWithPairingCode(String string, String string2) {
         try {
             this.proxy.createUserWithPairingCode(string, string2);
@@ -200,7 +181,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void createUserWithUserPassword(String string, String string2, String string3) {
         try {
             this.proxy.createUserWithUserPassword(string, string2, string3);
@@ -210,7 +190,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void checkPassword(OSRUser oSRUser, String string, boolean bl) {
         try {
             this.proxy.checkPassword(oSRUser, string, bl);
@@ -220,7 +199,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void checkPairingCode(OSRUser oSRUser, String string, boolean bl) {
         try {
             this.proxy.checkPairingCode(oSRUser, string, bl);
@@ -230,7 +208,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setPrivacyFlags(OSRUser oSRUser, int n) {
         try {
             this.proxy.setPrivacyFlags(oSRUser, n);
@@ -240,7 +217,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setAutoLogin(OSRUser oSRUser, OSRDevice[] oSRDeviceArray) {
         try {
             this.proxy.setAutoLogin(oSRUser, oSRDeviceArray);
@@ -250,7 +226,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void login(OSRUser oSRUser) {
         try {
             this.proxy.login(oSRUser);
@@ -260,7 +235,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void logout(OSRUser oSRUser) {
         try {
             this.proxy.logout(oSRUser);
@@ -270,7 +244,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void logoutAuthScheme(String string) {
         try {
             this.proxy.logoutAuthScheme(string);
@@ -280,7 +253,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getUsers(String string) {
         try {
             this.proxy.getUsers(string);
@@ -290,7 +262,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void removeUser(OSRUser oSRUser) {
         try {
             this.proxy.removeUser(oSRUser);
@@ -300,7 +271,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void performPortalRegistration(String string) {
         try {
             this.proxy.performPortalRegistration(string);
@@ -310,7 +280,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getLicense(String string) {
         try {
             this.proxy.getLicense(string);
@@ -320,7 +289,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getLicenses(boolean bl, boolean bl2) {
         try {
             this.proxy.getLicenses(bl, bl2);
@@ -330,7 +298,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void precheckOnlineServiceServiceID(String string, String string2) {
         try {
             this.proxy.precheckOnlineServiceServiceID(string, string2);
@@ -340,7 +307,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void precheckOnlineServiceSymbolicName(String string, String string2) {
         try {
             this.proxy.precheckOnlineServiceSymbolicName(string, string2);
@@ -350,7 +316,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void precheckOnlineService(String string) {
         try {
             this.proxy.precheckOnlineService(string);
@@ -360,7 +325,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getProfileFolder(OSRUser oSRUser, String string) {
         try {
             this.proxy.getProfileFolder(oSRUser, string);
@@ -370,7 +334,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getCredentialsFromHeader(int n, String[] stringArray) {
         try {
             this.proxy.getCredentialsFromHeader(n, stringArray);
@@ -380,7 +343,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getCredentialsFromAuthScheme(int n) {
         try {
             this.proxy.getCredentialsFromAuthScheme(n);
@@ -390,7 +352,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getServiceURL(String string) {
         try {
             this.proxy.getServiceURL(string);
@@ -400,7 +361,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void resetToFactorySettings(String string) {
         try {
             this.proxy.resetToFactorySettings(string);
@@ -410,7 +370,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -420,7 +379,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setServiceState(String string, int n) {
         try {
             this.proxy.setServiceState(string, n);
@@ -430,7 +388,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setServiceStateSymbolicName(String string, int n) {
         try {
             this.proxy.setServiceStateSymbolicName(string, n);
@@ -440,7 +397,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setActivePrivacyCategoryMask(int n) {
         try {
             this.proxy.setActivePrivacyCategoryMask(n);
@@ -450,7 +406,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void submitServiceStateChangesToBackend() {
         try {
             this.proxy.submitServiceStateChangesToBackend();
@@ -460,7 +415,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -470,7 +424,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -480,7 +433,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -490,7 +442,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -500,7 +451,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setGPSUseMode(int n) {
         try {
             this.proxy.setGPSUseMode(n);
@@ -510,7 +460,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setInventoryFinished(boolean bl) {
         try {
             this.proxy.setInventoryFinished(bl);
@@ -520,7 +469,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setSPIN(String string, String string2, String string3) {
         try {
             this.proxy.setSPIN(string, string2, string3);
@@ -530,7 +478,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void getSPINHash(String string, String string2, int n, String string3) {
         try {
             this.proxy.getSPINHash(string, string2, n, string3);
@@ -540,7 +487,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -550,7 +496,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -560,7 +505,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -570,7 +514,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -580,7 +523,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -590,7 +532,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -600,7 +541,6 @@ implements DSIOnlineServiceRegistration {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

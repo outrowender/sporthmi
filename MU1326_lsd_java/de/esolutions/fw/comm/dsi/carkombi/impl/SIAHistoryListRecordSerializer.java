@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.SIAServiceAttributesSerializer;
 import de.esolutions.fw.comm.dsi.carkombi.impl.SIAServiceTypesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAHistoryListRecord;
 import org.dsi.ifc.carkombi.SIAServiceAttributes;
 import org.dsi.ifc.carkombi.SIAServiceTypes;
 
 public class SIAHistoryListRecordSerializer {
-    public static void putOptionalSIAHistoryListRecord(ISerializer iSerializer, SIAHistoryListRecord sIAHistoryListRecord) {
+    public static void putOptionalSIAHistoryListRecord(ISerializer iSerializer, SIAHistoryListRecord sIAHistoryListRecord) throws SerializerException {
         boolean bl = sIAHistoryListRecord == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class SIAHistoryListRecordSerializer {
         }
     }
 
-    public static void putOptionalSIAHistoryListRecordVarArray(ISerializer iSerializer, SIAHistoryListRecord[] sIAHistoryListRecordArray) {
+    public static void putOptionalSIAHistoryListRecordVarArray(ISerializer iSerializer, SIAHistoryListRecord[] sIAHistoryListRecordArray) throws SerializerException {
         boolean bl = sIAHistoryListRecordArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class SIAHistoryListRecordSerializer {
         }
     }
 
-    public static SIAHistoryListRecord getOptionalSIAHistoryListRecord(IDeserializer iDeserializer) {
+    public static SIAHistoryListRecord getOptionalSIAHistoryListRecord(IDeserializer iDeserializer) throws SerializerException {
         SIAHistoryListRecord sIAHistoryListRecord = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class SIAHistoryListRecordSerializer {
         return sIAHistoryListRecord;
     }
 
-    public static SIAHistoryListRecord[] getOptionalSIAHistoryListRecordVarArray(IDeserializer iDeserializer) {
+    public static SIAHistoryListRecord[] getOptionalSIAHistoryListRecordVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAHistoryListRecord[] sIAHistoryListRecordArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

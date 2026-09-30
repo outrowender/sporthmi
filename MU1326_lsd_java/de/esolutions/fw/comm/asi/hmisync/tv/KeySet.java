@@ -32,7 +32,7 @@ public class KeySet {
     }
 
     public String toString() {
-        return new StringBuffer("KeySet{").append("terminalID=").append(this.terminalID).append(", keyIDs=").append("[").append(this.keyIDs == null ? "null" : new StringBuffer().append("size=").append(this.keyIDs.length).toString()).append("]").append("}").toString();
+        return "KeySet{" + "terminalID=" + this.terminalID + ", keyIDs=" + "[" + (this.keyIDs == null ? "null" : "size=" + this.keyIDs.length) + "]" + "}";
     }
 }
 

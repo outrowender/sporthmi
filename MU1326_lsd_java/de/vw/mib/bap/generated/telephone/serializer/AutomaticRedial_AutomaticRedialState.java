@@ -8,9 +8,9 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class AutomaticRedial_AutomaticRedialState
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean automaticRedialActive;
-    private static final int AUTOMATIC_REDIAL_AUTOMATIC_REDIAL_STATE_BITSIZE;
+    private static final int AUTOMATIC_REDIAL_AUTOMATIC_REDIAL_STATE_BITSIZE = 8;
 
     public AutomaticRedial_AutomaticRedialState() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements BAPEntity {
         this.automaticRedialActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AutomaticRedial_AutomaticRedialState automaticRedial_AutomaticRedialState = (AutomaticRedial_AutomaticRedialState)bAPEntity;
         return this.automaticRedialActive == automaticRedial_AutomaticRedialState.automaticRedialActive;
@@ -40,7 +38,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AutomaticRedial_AutomaticRedialState:");
@@ -53,19 +50,16 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.automaticRedialActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.automaticRedialActive = bitStream.popFrontBoolean();

@@ -11,7 +11,7 @@ public class MenuViewport {
 
     public MenuViewport(MenuItemIndex menuItemIndex, MenuItemIndex menuItemIndex2) {
         if (menuItemIndex == null != (menuItemIndex2 == null)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Viewport bounds must either both or none be null. Start: ").append(menuItemIndex).append(", End: ").append(menuItemIndex2).toString());
+            throw new IllegalArgumentException("Viewport bounds must either both or none be null. Start: " + menuItemIndex + ", End: " + menuItemIndex2);
         }
         this.start = menuItemIndex;
         this.end = menuItemIndex2;
@@ -42,7 +42,7 @@ public class MenuViewport {
     }
 
     public String toString() {
-        return new StringBuffer().append(this.start).append(" / ").append(this.end).toString();
+        return this.start + " / " + this.end;
     }
 
     public boolean equals(Object object) {

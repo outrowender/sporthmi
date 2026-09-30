@@ -10,7 +10,6 @@ import java.security.interfaces.RSAKey;
 public interface RSAPrivateKey
 extends PrivateKey,
 RSAKey {
-    default public BigInteger getPrivateExponent() {
-    }
+    public BigInteger getPrivateExponent();
 }
 

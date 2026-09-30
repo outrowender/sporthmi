@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carparkingsystem;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carparkingsystem.DSICarParkingSystemReply;
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.DSICarParkingSystemReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -56,13 +57,11 @@ implements DSICarParkingSystemReply {
         super(n, (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener == null ? (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener = DSICarParkingSystemDispatcher.class$("org.dsi.ifc.carparkingsystem.DSICarParkingSystemListener")) : class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
+    public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -90,8 +89,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDefaultParkingMode(int n, int n2) {
+    public void updatePDCDefaultParkingMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -119,8 +117,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFrequenceFront(int n, int n2) {
+    public void updatePDCFrequenceFront(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -148,8 +145,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFrequenceRear(int n, int n2) {
+    public void updatePDCFrequenceRear(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -177,8 +173,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFrequenceRight(int n, int n2) {
+    public void updatePDCFrequenceRight(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -206,8 +201,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFrequenceLeft(int n, int n2) {
+    public void updatePDCFrequenceLeft(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -235,8 +229,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCVolumeFront(int n, int n2) {
+    public void updatePDCVolumeFront(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -264,8 +257,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCVolumeRear(int n, int n2) {
+    public void updatePDCVolumeRear(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -293,8 +285,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCVolumeRight(int n, int n2) {
+    public void updatePDCVolumeRight(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -322,8 +313,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCVolumeLeft(int n, int n2) {
+    public void updatePDCVolumeLeft(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -351,8 +341,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCMute(boolean bl, int n) {
+    public void updatePDCMute(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -380,8 +369,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSystemOnOff(boolean bl, int n) {
+    public void updatePDCSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -409,8 +397,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCTrailerHitched(boolean bl, int n) {
+    public void updatePDCTrailerHitched(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -438,8 +425,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
+    public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -467,8 +453,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
+    public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -496,8 +481,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
+    public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -525,8 +509,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
+    public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -554,8 +537,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
+    public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -583,8 +565,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
+    public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -612,8 +593,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
+    public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -641,8 +621,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
+    public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -670,8 +649,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCOPSAutoActivation(boolean bl, int n) {
+    public void updatePDCOPSAutoActivation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -699,8 +677,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCCrashWarning(PDCCrashWarning pDCCrashWarning, int n) {
+    public void updatePDCCrashWarning(PDCCrashWarning pDCCrashWarning, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -728,8 +705,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSteeringInformation(PDCSteeringInformation pDCSteeringInformation, int n) {
+    public void updatePDCSteeringInformation(PDCSteeringInformation pDCSteeringInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -757,8 +733,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFlankGuard(boolean bl, int n) {
+    public void updatePDCFlankGuard(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -786,8 +761,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSoundReproduction(PDCSoundReproduction pDCSoundReproduction, int n) {
+    public void updatePDCSoundReproduction(PDCSoundReproduction pDCSoundReproduction, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -815,8 +789,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCInfo(PDCInfo pDCInfo, int n) {
+    public void updatePDCInfo(PDCInfo pDCInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -844,8 +817,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCFailure(boolean bl, int n) {
+    public void updatePDCFailure(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -873,8 +845,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
+    public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -902,8 +873,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
+    public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -931,8 +901,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
+    public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -960,8 +929,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
+    public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -989,8 +957,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCWallDetection(PDCWallDetection pDCWallDetection, int n) {
+    public void updatePDCWallDetection(PDCWallDetection pDCWallDetection, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -1018,8 +985,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPLAMessage(int n, int n2) {
+    public void updatePDCPLAMessage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1047,8 +1013,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSoundFront(PDCSound pDCSound, int n) {
+    public void updatePDCSoundFront(PDCSound pDCSound, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1076,8 +1041,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSoundRear(PDCSound pDCSound, int n) {
+    public void updatePDCSoundRear(PDCSound pDCSound, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1105,8 +1069,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSoundLeft(PDCSound pDCSound, int n) {
+    public void updatePDCSoundLeft(PDCSound pDCSound, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -1134,8 +1097,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCSoundRight(PDCSound pDCSound, int n) {
+    public void updatePDCSoundRight(PDCSound pDCSound, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(58);
@@ -1163,8 +1125,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus, int n) {
+    public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(59);
@@ -1192,8 +1153,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPLABargraph(PDCPLABargraph pDCPLABargraph, int n) {
+    public void updatePDCPLABargraph(PDCPLABargraph pDCPLABargraph, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(60);
@@ -1221,8 +1181,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPLAParkmodeSelection(int n, int n2) {
+    public void updatePDCPLAParkmodeSelection(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(61);
@@ -1250,8 +1209,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPLASystemState(PDCPLASystemState pDCPLASystemState, int n) {
+    public void updatePDCPLASystemState(PDCPLASystemState pDCPLASystemState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -1279,8 +1237,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCOPSVisualisationPosition(int n, int n2) {
+    public void updatePDCOPSVisualisationPosition(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(65);
@@ -1308,8 +1265,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCOffroadMode(boolean bl, int n) {
+    public void updatePDCOffroadMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -1337,8 +1293,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCParkboxVisualisation(boolean bl, int n) {
+    public void updatePDCParkboxVisualisation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -1366,8 +1321,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSFollowUpTime(int n, int n2) {
+    public void updateVPSFollowUpTime(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -1395,8 +1349,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSVideoInfo(VPSVideoInfo vPSVideoInfo, int n) {
+    public void updateVPSVideoInfo(VPSVideoInfo vPSVideoInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -1424,8 +1377,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSColor(int n, int n2) {
+    public void updateVPSColor(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -1453,8 +1405,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSContrast(int n, int n2) {
+    public void updateVPSContrast(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -1482,8 +1433,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSBrightness(int n, int n2) {
+    public void updateVPSBrightness(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -1511,8 +1461,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDefaultModeRV(VPSDefaultMode vPSDefaultMode, int n) {
+    public void updateVPSDefaultModeRV(VPSDefaultMode vPSDefaultMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -1540,8 +1489,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDefaultModeSV(VPSDefaultMode vPSDefaultMode, int n) {
+    public void updateVPSDefaultModeSV(VPSDefaultMode vPSDefaultMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -1569,8 +1517,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDefaultModeFV(VPSDefaultMode vPSDefaultMode, int n) {
+    public void updateVPSDefaultModeFV(VPSDefaultMode vPSDefaultMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1598,8 +1545,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDefaultModeBV(VPSDefaultMode vPSDefaultMode, int n) {
+    public void updateVPSDefaultModeBV(VPSDefaultMode vPSDefaultMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1627,8 +1573,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDefaultView(int n, int n2) {
+    public void updateVPSDefaultView(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1656,8 +1601,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSDynamicParkingMode(VPSDynParkingMode vPSDynParkingMode, int n) {
+    public void updateVPSDynamicParkingMode(VPSDynParkingMode vPSDynParkingMode, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1685,8 +1629,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSOPSOverlay(VPSOPSOverlay vPSOPSOverlay, int n) {
+    public void updateVPSOPSOverlay(VPSOPSOverlay vPSOPSOverlay, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1714,8 +1657,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSSystemOnOff(boolean bl, int n) {
+    public void updateVPSSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1743,8 +1685,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSFailure(boolean bl, int n) {
+    public void updateVPSFailure(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1772,8 +1713,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSExtCamConfig(int n, int n2) {
+    public void updateVPSExtCamConfig(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -1801,8 +1741,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSExtCamManActivation(boolean bl, int n) {
+    public void updateVPSExtCamManActivation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(67);
@@ -1830,8 +1769,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPS3DBirdview(int n, int n2, int n3) {
+    public void updateVPS3DBirdview(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(68);
@@ -1859,8 +1797,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSSystemState(boolean bl, int n) {
+    public void updateVPSSystemState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(69);
@@ -1888,8 +1825,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSCameraStates(VPSCameraStates vPSCameraStates, int n) {
+    public void updateVPSCameraStates(VPSCameraStates vPSCameraStates, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(70);
@@ -1917,8 +1853,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateParkingPopupContent(DisplayContent displayContent, int n) {
+    public void updateParkingPopupContent(DisplayContent displayContent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1946,8 +1881,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void requestParkingPopup(DisplayContent displayContent) {
+    public void requestParkingPopup(DisplayContent displayContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1963,8 +1897,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeParkingPopup(DisplayContent displayContent) {
+    public void acknowledgeParkingPopup(DisplayContent displayContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1980,8 +1913,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void responseLifeMonitoring(boolean bl) {
+    public void responseLifeMonitoring(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1997,8 +1929,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgePdcSetFactoryDefault(boolean bl) {
+    public void acknowledgePdcSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2014,8 +1945,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeVpsSetFactoryDefault(boolean bl) {
+    public void acknowledgeVpsSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2031,8 +1961,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateARAFailure(boolean bl, int n) {
+    public void updateARAFailure(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -2060,8 +1989,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateARAInfo(ARAInfo aRAInfo, int n) {
+    public void updateARAInfo(ARAInfo aRAInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -2089,8 +2017,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateARACurrentTrailerAngle(ARACurrentTrailerAngle aRACurrentTrailerAngle, int n) {
+    public void updateARACurrentTrailerAngle(ARACurrentTrailerAngle aRACurrentTrailerAngle, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -2118,8 +2045,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateARATargetTrailerAngle(int n, int n2) {
+    public void updateARATargetTrailerAngle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -2147,8 +2073,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCManeuverAssistConfig(int n, int n2) {
+    public void updatePDCManeuverAssistConfig(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(71);
@@ -2176,8 +2101,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCManeuverAssist(boolean bl, int n) {
+    public void updatePDCManeuverAssist(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(72);
@@ -2205,8 +2129,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCManeuverAssistState(PDCManeuverAssistState pDCManeuverAssistState, int n) {
+    public void updatePDCManeuverAssistState(PDCManeuverAssistState pDCManeuverAssistState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(73);
@@ -2234,8 +2157,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCManeuverAssistMessage(int n, int n2) {
+    public void updatePDCManeuverAssistMessage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(74);
@@ -2263,8 +2185,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCIPAMessage(int n, int n2) {
+    public void updatePDCIPAMessage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(75);
@@ -2292,8 +2213,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCContinueDrivingAssist(int n, int n2) {
+    public void updatePDCContinueDrivingAssist(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(76);
@@ -2321,8 +2241,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCIpaConfig(int n, int n2) {
+    public void updatePDCIpaConfig(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(77);
@@ -2350,8 +2269,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updatePDCPiloPaSystemState(PDCPiloPaSystemState pDCPiloPaSystemState, int n) {
+    public void updatePDCPiloPaSystemState(PDCPiloPaSystemState pDCPiloPaSystemState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(78);
@@ -2379,8 +2297,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning, int n) {
+    public void updateVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(79);
@@ -2408,8 +2325,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateVPSRimProtection(VPSRimProtection vPSRimProtection, int n) {
+    public void updateVPSRimProtection(VPSRimProtection vPSRimProtection, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(80);
@@ -2437,8 +2353,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCViewOptions(WCViewOptions wCViewOptions, int n) {
+    public void updateWCViewOptions(WCViewOptions wCViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(102);
@@ -2466,8 +2381,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCSystemOnOff(boolean bl, int n) {
+    public void updateWCSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(89);
@@ -2495,8 +2409,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCAutoActivation(boolean bl, int n) {
+    public void updateWCAutoActivation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(90);
@@ -2524,8 +2437,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCPopupContent(int n, int n2) {
+    public void updateWCPopupContent(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(91);
@@ -2553,8 +2465,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCMessage(int n, int n2) {
+    public void updateWCMessage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(92);
@@ -2582,8 +2493,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCPanelPosition(WCPanelInfo wCPanelInfo, int n) {
+    public void updateWCPanelPosition(WCPanelInfo wCPanelInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(93);
@@ -2611,8 +2521,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCSetFactoryDefault(boolean bl) {
+    public void acknowledgeWCSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2628,8 +2537,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void requestWCPopup(int n) {
+    public void requestWCPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2645,8 +2553,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCPopup(int n) {
+    public void acknowledgeWCPopup(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2662,8 +2569,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCPanelListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
+    public void updateWCPanelListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(96);
@@ -2691,8 +2597,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCPanelListTotalNumberOfElements(int n, int n2) {
+    public void updateWCPanelListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(97);
@@ -2720,8 +2625,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCVehiclePanelInfo(WCVehiclePanelInfo wCVehiclePanelInfo, int n) {
+    public void updateWCVehiclePanelInfo(WCVehiclePanelInfo wCVehiclePanelInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(94);
@@ -2749,8 +2653,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCPinPukState(WCPinPukState wCPinPukState, int n) {
+    public void updateWCPinPukState(WCPinPukState wCPinPukState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(95);
@@ -2778,8 +2681,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCScanningProgress(int n, int n2) {
+    public void updateWCScanningProgress(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(98);
@@ -2807,8 +2709,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void updateWCSoftwareUpdateProgress(int n, int n2) {
+    public void updateWCSoftwareUpdateProgress(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(99);
@@ -2836,8 +2737,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCEnterPinPuk(int n) {
+    public void acknowledgeWCEnterPinPuk(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2853,8 +2753,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCScanning(int n) {
+    public void acknowledgeWCScanning(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2870,8 +2769,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCPairing(int n) {
+    public void acknowledgeWCPairing(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2887,8 +2785,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCSoftwareUpdate(int n) {
+    public void acknowledgeWCSoftwareUpdate(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2904,8 +2801,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCChangePin(int n) {
+    public void acknowledgeWCChangePin(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2921,8 +2817,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void acknowledgeWCChangePanelName(int n) {
+    public void acknowledgeWCChangePanelName(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2938,8 +2833,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void responseWCPanelList(CarArrayListUpdateInfo carArrayListUpdateInfo, WCPanelListRecord[] wCPanelListRecordArray) {
+    public void responseWCPanelList(CarArrayListUpdateInfo carArrayListUpdateInfo, WCPanelListRecord[] wCPanelListRecordArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2955,8 +2849,7 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2972,14 +2865,13 @@ implements DSICarParkingSystemReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarParkingSystemListener dSICarParkingSystemListener = (DSICarParkingSystemListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarParkingSystemDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarParkingSystemDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarParkingSystemListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarParkingSystemDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarParkingSystemDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarParkingSystemListener, new Object[]{string, string2});
                     continue;
                 }

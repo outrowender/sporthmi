@@ -9,13 +9,10 @@ import de.vw.mib.bap.functions.MethodListener;
 import de.vw.mib.bap.functions.PropertyListener;
 
 public interface BAPFunctionControllerDelegate {
-    default public ArrayListener getArrayListener(BAPFunctionController bAPFunctionController) {
-    }
+    public ArrayListener getArrayListener(BAPFunctionController var1);
 
-    default public MethodListener getMethodListener(BAPFunctionController bAPFunctionController) {
-    }
+    public MethodListener getMethodListener(BAPFunctionController var1);
 
-    default public PropertyListener getPropertyListener(BAPFunctionController bAPFunctionController) {
-    }
+    public PropertyListener getPropertyListener(BAPFunctionController var1);
 }
 

@@ -30,8 +30,7 @@ DSIBluetoothC {
         return this.proxy;
     }
 
-    @Override
-    public void abortConnectService(String string) {
+    public void abortConnectService(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -42,13 +41,11 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)0, genericSerializable);
     }
 
-    @Override
-    public void abortInquiry() {
+    public void abortInquiry() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void requestAcceptIncomingServiceRequest(String string, int n, boolean bl) {
+    public void requestAcceptIncomingServiceRequest(String string, int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -61,8 +58,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void requestConnectService(String string, int n, int n2) {
+    public void requestConnectService(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -75,8 +71,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)55, genericSerializable);
     }
 
-    @Override
-    public void requestConnectServiceToInstance(String string, int n, int n2) {
+    public void requestConnectServiceToInstance(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -89,8 +84,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void requestDisconnectService(String string, int n) {
+    public void requestDisconnectService(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -102,8 +96,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void requestGetServices(String string) {
+    public void requestGetServices(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -114,8 +107,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void requestInquiry(int n, int n2, int n3) {
+    public void requestInquiry(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -128,8 +120,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void requestPasskeyResponse(String string, String string2, int n) {
+    public void requestPasskeyResponse(String string, String string2, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -142,8 +133,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void requestReconnectSuspend(boolean bl) {
+    public void requestReconnectSuspend(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -154,8 +144,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void requestRemoveAuthentication(String string) {
+    public void requestRemoveAuthentication(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -166,13 +155,11 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void requestRestoreFactorySettings() {
+    public void requestRestoreFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)17, null);
     }
 
-    @Override
-    public void requestSetA2DPUserSetting(boolean bl) {
+    public void requestSetA2DPUserSetting(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -183,8 +170,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void requestSwitchBTState(int n) {
+    public void requestSwitchBTState(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -195,8 +181,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setAccessibleMode(int n) {
+    public void setAccessibleMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -207,8 +192,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setUserFriendlyName(String string) {
+    public void setUserFriendlyName(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -219,8 +203,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void requestSetPriorizedDeviceReconnect(boolean bl, String string) {
+    public void requestSetPriorizedDeviceReconnect(boolean bl, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -232,8 +215,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -244,8 +226,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -256,13 +237,11 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)36, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -273,8 +252,7 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -285,13 +263,11 @@ DSIBluetoothC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.MailboxDialingNumber;
 
 public class MailboxDialingNumberSerializer {
-    public static void putOptionalMailboxDialingNumber(ISerializer iSerializer, MailboxDialingNumber mailboxDialingNumber) {
+    public static void putOptionalMailboxDialingNumber(ISerializer iSerializer, MailboxDialingNumber mailboxDialingNumber) throws SerializerException {
         boolean bl = mailboxDialingNumber == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class MailboxDialingNumberSerializer {
         }
     }
 
-    public static void putOptionalMailboxDialingNumberVarArray(ISerializer iSerializer, MailboxDialingNumber[] mailboxDialingNumberArray) {
+    public static void putOptionalMailboxDialingNumberVarArray(ISerializer iSerializer, MailboxDialingNumber[] mailboxDialingNumberArray) throws SerializerException {
         boolean bl = mailboxDialingNumberArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class MailboxDialingNumberSerializer {
         }
     }
 
-    public static MailboxDialingNumber getOptionalMailboxDialingNumber(IDeserializer iDeserializer) {
+    public static MailboxDialingNumber getOptionalMailboxDialingNumber(IDeserializer iDeserializer) throws SerializerException {
         MailboxDialingNumber mailboxDialingNumber = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class MailboxDialingNumberSerializer {
         return mailboxDialingNumber;
     }
 
-    public static MailboxDialingNumber[] getOptionalMailboxDialingNumberVarArray(IDeserializer iDeserializer) {
+    public static MailboxDialingNumber[] getOptionalMailboxDialingNumberVarArray(IDeserializer iDeserializer) throws SerializerException {
         MailboxDialingNumber[] mailboxDialingNumberArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

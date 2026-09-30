@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.EmailData;
 
 public class EmailDataSerializer {
-    public static void putOptionalEmailData(ISerializer iSerializer, EmailData emailData) {
+    public static void putOptionalEmailData(ISerializer iSerializer, EmailData emailData) throws SerializerException {
         boolean bl = emailData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class EmailDataSerializer {
         }
     }
 
-    public static void putOptionalEmailDataVarArray(ISerializer iSerializer, EmailData[] emailDataArray) {
+    public static void putOptionalEmailDataVarArray(ISerializer iSerializer, EmailData[] emailDataArray) throws SerializerException {
         boolean bl = emailDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class EmailDataSerializer {
         }
     }
 
-    public static EmailData getOptionalEmailData(IDeserializer iDeserializer) {
+    public static EmailData getOptionalEmailData(IDeserializer iDeserializer) throws SerializerException {
         EmailData emailData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class EmailDataSerializer {
         return emailData;
     }
 
-    public static EmailData[] getOptionalEmailDataVarArray(IDeserializer iDeserializer) {
+    public static EmailData[] getOptionalEmailDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         EmailData[] emailDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerGoogleCtrl;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerGoogleCtrlC;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerGoogleCtrlReply;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerGoogleCtrlProxy$1;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerGoogleCtrlReplyService;
+import de.esolutions.fw.comm.dsi.map.impl.RectSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.Rect;
@@ -32,13 +34,11 @@ DSIMapViewerGoogleCtrlC {
         return this.proxy;
     }
 
-    @Override
-    public void requestClearCache() {
+    public void requestClearCache() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -49,8 +49,7 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setLayerVisibility(int[] nArray) {
+    public void setLayerVisibility(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -61,8 +60,7 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setConnectionInformation(int n) {
+    public void setConnectionInformation(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -73,8 +71,7 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void loadKml(String[] stringArray) {
+    public void loadKml(String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalStringVarArray(stringArray);
@@ -85,14 +82,19 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setCopyrightPosition(Rect rect, int n, int n2) {
-        DSIMapViewerGoogleCtrlProxy$1 dSIMapViewerGoogleCtrlProxy$1 = new DSIMapViewerGoogleCtrlProxy$1(this, rect, n, n2);
-        this.proxy.remoteCallMethod((short)20, dSIMapViewerGoogleCtrlProxy$1);
+    public void setCopyrightPosition(final Rect rect, final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -103,8 +105,7 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -115,13 +116,11 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -132,8 +131,7 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -144,13 +142,11 @@ DSIMapViewerGoogleCtrlC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

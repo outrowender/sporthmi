@@ -3,10 +3,9 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.security.BasicPermission;
 import java.security.Permission;
@@ -16,7 +15,7 @@ import java.util.StringTokenizer;
 
 public final class PropertyPermission
 extends BasicPermission {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 885438825399942851L;
     private transient boolean read;
     private transient boolean write;
     private static final ObjectStreamField[] serialPersistentFields;
@@ -61,7 +60,6 @@ extends BasicPermission {
         }
     }
 
-    @Override
     public boolean equals(Object object) {
         if (super.equals(object)) {
             PropertyPermission propertyPermission = (PropertyPermission)object;
@@ -70,17 +68,14 @@ extends BasicPermission {
         return false;
     }
 
-    @Override
     public String getActions() {
         return this.read ? (this.write ? "read,write" : "read") : "write";
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         if (super.implies(permission)) {
             PropertyPermission propertyPermission = (PropertyPermission)permission;
@@ -89,20 +84,19 @@ extends BasicPermission {
         return false;
     }
 
-    @Override
     public PermissionCollection newPermissionCollection() {
         return new PropertyPermissionCollection();
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("actions", this.getActions());
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("actions", this.getActions());
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        String string = (String)objectInputStream$GetField.get("actions", "");
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        String string = (String)getField.get("actions", "");
         this.decodeActions(string);
     }
 }

@@ -10,18 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class HangupCall_StartResult
 implements StartResultMethod {
     public int callId;
-    private static final int CALL_ID_BITSIZE;
-    public static final int CALL_ID_CALL0;
-    public static final int CALL_ID_CALL1;
-    public static final int CALL_ID_CALL2;
-    public static final int CALL_ID_CALL3;
-    public static final int CALL_ID_CALL4;
-    public static final int CALL_ID_CALL5;
-    public static final int CALL_ID_CALL6;
-    public static final int CALL_ID_ALL_ACTIVE_CALLS;
-    public static final int CALL_ID_ALL_HELD_CALLS;
-    public static final int CALL_ID_ALL_ACTIVE_HELD_CALLS;
-    public static final int CALL_ID_ALL_CALLS;
+    private static final int CALL_ID_BITSIZE = 8;
+    public static final int CALL_ID_CALL0 = 0;
+    public static final int CALL_ID_CALL1 = 1;
+    public static final int CALL_ID_CALL2 = 2;
+    public static final int CALL_ID_CALL3 = 3;
+    public static final int CALL_ID_CALL4 = 4;
+    public static final int CALL_ID_CALL5 = 5;
+    public static final int CALL_ID_CALL6 = 6;
+    public static final int CALL_ID_ALL_ACTIVE_CALLS = 252;
+    public static final int CALL_ID_ALL_HELD_CALLS = 253;
+    public static final int CALL_ID_ALL_ACTIVE_HELD_CALLS = 254;
+    public static final int CALL_ID_ALL_CALLS = 255;
 
     public HangupCall_StartResult() {
         this.internalReset();
@@ -37,12 +37,10 @@ implements StartResultMethod {
         this.callId = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         HangupCall_StartResult hangupCall_StartResult = (HangupCall_StartResult)bAPEntity;
         return this.callId == hangupCall_StartResult.callId;
@@ -51,7 +49,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("HangupCall_StartResult:");
@@ -108,18 +105,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.callId);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.callId = bitStream.popFrontByte();
     }
@@ -128,7 +122,6 @@ implements StartResultMethod {
         return 29;
     }
 
-    @Override
     public int getFunctionId() {
         return HangupCall_StartResult.functionId();
     }

@@ -5,47 +5,36 @@ package de.esolutions.fw.comm.asi.hmisync.media;
 
 import de.esolutions.fw.comm.asi.hmisync.media.MediaEntry;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMediaBrowserReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "d77696f4-48c5-4b8c-9855-fe17f312507c";
+    public static final String IPL_COMM_INTERFACE_KEY = "45baad1f-9553-5ee9-b624-8c7cb4344305";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.2.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void responseChangeFolder(boolean bl) {
-    }
+    public void responseChangeFolder(boolean var1) throws MethodException;
 
-    default public void responseAddSelection(boolean bl) {
-    }
+    public void responseAddSelection(boolean var1) throws MethodException;
 
-    default public void responseList(boolean bl, int n, MediaEntry[] mediaEntryArray) {
-    }
+    public void responseList(boolean var1, int var2, MediaEntry[] var3) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateActiveSlot(MediaSourceSlot mediaSourceSlot, boolean bl) {
-    }
+    public void updateActiveSlot(MediaSourceSlot var1, boolean var2) throws MethodException;
 
-    default public void updateBrowseMode(int n, boolean bl) {
-    }
+    public void updateBrowseMode(int var1, boolean var2) throws MethodException;
 
-    default public void updateDatabaseMode(boolean bl, boolean bl2) {
-    }
+    public void updateDatabaseMode(boolean var1, boolean var2) throws MethodException;
 
-    default public void updateRawMode(boolean bl, boolean bl2) {
-    }
+    public void updateRawMode(boolean var1, boolean var2) throws MethodException;
 
-    default public void updateBrowseFolder(MediaEntry[] mediaEntryArray, boolean bl) {
-    }
+    public void updateBrowseFolder(MediaEntry[] var1, boolean var2) throws MethodException;
 
-    default public void updateListSize(int n, boolean bl) {
-    }
+    public void updateListSize(int var1, boolean var2) throws MethodException;
 }
 

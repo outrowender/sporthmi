@@ -4,7 +4,6 @@
 package edu.emory.mathcs.backport.java.util.concurrent;
 
 public interface Callable {
-    default public Object call() {
-    }
+    public Object call() throws Exception;
 }
 

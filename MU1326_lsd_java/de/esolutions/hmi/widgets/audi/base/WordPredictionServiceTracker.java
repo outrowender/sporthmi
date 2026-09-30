@@ -23,9 +23,8 @@ implements ServiceTrackerCustomizer {
         this.logChan = logChannel;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.getLogChannel().log(1078071040, "[WordPredictionServiceTracker#addingService] service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
+        this.getLogChannel().log(1000000, "[WordPredictionServiceTracker#addingService] service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IWordPrediction) {
             WordPredictionServiceTracker.setWordPrediction((IWordPrediction)object);
@@ -35,19 +34,17 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.getLogChannel().log(1078071040, "[WordPredictionServiceTracker#removedService] service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
+        this.getLogChannel().log(1000000, "[WordPredictionServiceTracker#removedService] service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
         WordPredictionServiceTracker.setWordPrediction(null);
         this.bundleContext.ungetService(serviceReference);
     }
 
     public void startTracking() {
-        this.getLogChannel().log(1078071040, "[WordPredictionServiceTracker#startTracking] tracking service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
+        this.getLogChannel().log(1000000, "[WordPredictionServiceTracker#startTracking] tracking service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
@@ -57,7 +54,7 @@ implements ServiceTrackerCustomizer {
     }
 
     public void stopTracking() {
-        this.getLogChannel().log(1078071040, "[WordPredictionServiceTracker#stopTracking] tracking service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
+        this.getLogChannel().log(1000000, "[WordPredictionServiceTracker#stopTracking] tracking service: %1", (Object)(class$de$audi$atip$wordprediction$IWordPrediction == null ? (class$de$audi$atip$wordprediction$IWordPrediction = WordPredictionServiceTracker.class$("de.audi.atip.wordprediction.IWordPrediction")) : class$de$audi$atip$wordprediction$IWordPrediction).getName());
         if (this.serviceTracker != null) {
             this.serviceTracker.close();
             this.serviceTracker = null;

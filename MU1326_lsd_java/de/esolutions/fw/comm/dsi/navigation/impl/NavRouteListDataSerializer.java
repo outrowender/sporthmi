@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavRouteListDataIconSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavRouteListData;
 import org.dsi.ifc.navigation.NavRouteListDataIcon;
 
 public class NavRouteListDataSerializer {
-    public static void putOptionalNavRouteListData(ISerializer iSerializer, NavRouteListData navRouteListData) {
+    public static void putOptionalNavRouteListData(ISerializer iSerializer, NavRouteListData navRouteListData) throws SerializerException {
         boolean bl = navRouteListData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class NavRouteListDataSerializer {
         }
     }
 
-    public static void putOptionalNavRouteListDataVarArray(ISerializer iSerializer, NavRouteListData[] navRouteListDataArray) {
+    public static void putOptionalNavRouteListDataVarArray(ISerializer iSerializer, NavRouteListData[] navRouteListDataArray) throws SerializerException {
         boolean bl = navRouteListDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class NavRouteListDataSerializer {
         }
     }
 
-    public static NavRouteListData getOptionalNavRouteListData(IDeserializer iDeserializer) {
+    public static NavRouteListData getOptionalNavRouteListData(IDeserializer iDeserializer) throws SerializerException {
         NavRouteListData navRouteListData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -109,7 +110,7 @@ public class NavRouteListDataSerializer {
         return navRouteListData;
     }
 
-    public static NavRouteListData[] getOptionalNavRouteListDataVarArray(IDeserializer iDeserializer) {
+    public static NavRouteListData[] getOptionalNavRouteListDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavRouteListData[] navRouteListDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

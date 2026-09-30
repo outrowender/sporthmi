@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PU_Action_Result
 implements ResultMethod {
     public int pu_ActionResult;
-    private static final int PU_ACTION_RESULT_BITSIZE;
-    public static final int PU_ACTION_RESULT_SUCCESSFUL;
-    public static final int PU_ACTION_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED;
-    public static final int PU_ACTION_RESULT_ABORT_SUCCESSFUL;
-    public static final int PU_ACTION_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int PU_ACTION_RESULT_BITSIZE = 8;
+    public static final int PU_ACTION_RESULT_SUCCESSFUL = 0;
+    public static final int PU_ACTION_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED = 1;
+    public static final int PU_ACTION_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int PU_ACTION_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.pu_ActionResult;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.pu_ActionResult = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PU_Action_Result pU_Action_Result = (PU_Action_Result)bAPEntity;
         return this.pu_ActionResult == pU_Action_Result.pu_ActionResult;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PU_Action_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.pu_ActionResult);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.pu_ActionResult = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 20;
     }
 
-    @Override
     public int getFunctionId() {
         return PU_Action_Result.functionId();
     }

@@ -4,7 +4,6 @@
 package java.security;
 
 public interface PrivilegedExceptionAction {
-    default public Object run() {
-    }
+    public Object run() throws Exception;
 }
 

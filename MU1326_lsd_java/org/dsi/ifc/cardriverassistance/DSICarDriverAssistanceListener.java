@@ -26,271 +26,182 @@ import org.dsi.ifc.global.CarBCSpeed;
 
 public interface DSICarDriverAssistanceListener
 extends DSIListener {
-    default public void updateACCViewOptions(ACCViewOptions aCCViewOptions, int n) {
-    }
+    public void updateACCViewOptions(ACCViewOptions var1, int var2);
 
-    default public void updateACCGongState(boolean bl, int n) {
-    }
+    public void updateACCGongState(boolean var1, int var2);
 
-    default public void updateACCGongVolume(int n, int n2) {
-    }
+    public void updateACCGongVolume(int var1, int var2);
 
-    default public void updateACCDrivingProgram(int n, int n2) {
-    }
+    public void updateACCDrivingProgram(int var1, int var2);
 
-    default public void updateACCTimeGap(int n, int n2) {
-    }
+    public void updateACCTimeGap(int var1, int var2);
 
-    default public void updateACCDefaultMode(int n, int n2) {
-    }
+    public void updateACCDefaultMode(int var1, int var2);
 
-    default public void updateACCCurveAssist(boolean bl, int n) {
-    }
+    public void updateACCCurveAssist(boolean var1, int var2);
 
-    default public void updateACCSpeedLimitAdoption(boolean bl, int n) {
-    }
+    public void updateACCSpeedLimitAdoption(boolean var1, int var2);
 
-    default public void updateACCTrafficJamAssist(boolean bl, int n) {
-    }
+    public void updateACCTrafficJamAssist(boolean var1, int var2);
 
-    default public void updateACCSpeedLimitOffset(int n, int n2) {
-    }
+    public void updateACCSpeedLimitOffset(int var1, int var2);
 
-    default public void updateACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning, int n) {
-    }
+    public void updateACCDistanceWarning(ACCDistanceWarning var1, int var2);
 
-    default public void updatePACCSensibility(boolean bl, int n) {
-    }
+    public void updatePACCSensibility(boolean var1, int var2);
 
-    default public void updatePACCMaxSpeed(CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updatePACCMaxSpeed(CarBCSpeed var1, int var2);
 
-    default public void updatePACCMeanVelocity(CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updatePACCMeanVelocity(CarBCSpeed var1, int var2);
 
-    default public void updatePACCMeanConsumption(CarBCConsumption carBCConsumption, int n) {
-    }
+    public void updatePACCMeanConsumption(CarBCConsumption var1, int var2);
 
-    default public void updatePACCCoastingPercentage(int n, int n2) {
-    }
+    public void updatePACCCoastingPercentage(int var1, int var2);
 
-    default public void updatePACCDrivingProgram(int n, int n2) {
-    }
+    public void updatePACCDrivingProgram(int var1, int var2);
 
-    default public void updatePACCSystemState(int n, int n2) {
-    }
+    public void updatePACCSystemState(int var1, int var2);
 
-    default public void acknowledgeACCSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeACCSetFactoryDefault(boolean var1);
 
-    default public void updateAWVDistanceWarning(boolean bl, int n) {
-    }
+    public void updateAWVDistanceWarning(boolean var1, int var2);
 
-    default public void updateAWVViewOptions(AWVViewOptions aWVViewOptions, int n) {
-    }
+    public void updateAWVViewOptions(AWVViewOptions var1, int var2);
 
-    default public void updateAWVSystem(int n, int n2) {
-    }
+    public void updateAWVSystem(int var1, int var2);
 
-    default public void updateAWVWarning(boolean bl, int n) {
-    }
+    public void updateAWVWarning(boolean var1, int var2);
 
-    default public void updateAWVGong(boolean bl, int n) {
-    }
+    public void updateAWVGong(boolean var1, int var2);
 
-    default public void updateAWVGongVolume(int n, int n2) {
-    }
+    public void updateAWVGongVolume(int var1, int var2);
 
-    default public void updateAWVBrakeJerk(boolean bl, int n) {
-    }
+    public void updateAWVBrakeJerk(boolean var1, int var2);
 
-    default public void updateAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake, int n) {
-    }
+    public void updateAWVEmergencyBrake(AWVEmergencyBrake var1, int var2);
 
-    default public void updateAWVWarningTimegap(int n, int n2) {
-    }
+    public void updateAWVWarningTimegap(int var1, int var2);
 
-    default public void acknowledgeAWVSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeAWVSetFactoryDefault(boolean var1);
 
-    default public void updateSWAViewOptions(SWAViewOptions sWAViewOptions, int n) {
-    }
+    public void updateSWAViewOptions(SWAViewOptions var1, int var2);
 
-    default public void updateSWABrightness(int n, int n2) {
-    }
+    public void updateSWABrightness(int var1, int var2);
 
-    default public void updateSWAWarningTime(int n, int n2) {
-    }
+    public void updateSWAWarningTime(int var1, int var2);
 
-    default public void updateSWAFrequency(int n, int n2) {
-    }
+    public void updateSWAFrequency(int var1, int var2);
 
-    default public void updateSWASystem(int n, int n2) {
-    }
+    public void updateSWASystem(int var1, int var2);
 
-    default public void updateSWAGongState(boolean bl, int n) {
-    }
+    public void updateSWAGongState(boolean var1, int var2);
 
-    default public void updateSWAGongVolume(int n, int n2) {
-    }
+    public void updateSWAGongVolume(int var1, int var2);
 
-    default public void updateSWARCTASensorData(SWARCTASensorData sWARCTASensorData, int n) {
-    }
+    public void updateSWARCTASensorData(SWARCTASensorData var1, int var2);
 
-    default public void updateSWARCTA(boolean bl, int n) {
-    }
+    public void updateSWARCTA(boolean var1, int var2);
 
-    default public void updateSWAExitAssist(boolean bl, int n) {
-    }
+    public void updateSWAExitAssist(boolean var1, int var2);
 
-    default public void updateNVViewOptions(NVViewOptions nVViewOptions, int n) {
-    }
+    public void updateNVViewOptions(NVViewOptions var1, int var2);
 
-    default public void updateNVActivation(boolean bl, int n) {
-    }
+    public void updateNVActivation(boolean var1, int var2);
 
-    default public void updateNVContrast(int n, int n2) {
-    }
+    public void updateNVContrast(int var1, int var2);
 
-    default public void updateNVBrightness(int n, int n2) {
-    }
+    public void updateNVBrightness(int var1, int var2);
 
-    default public void updateNVObjectDetection(NVObjectDetection nVObjectDetection, int n) {
-    }
+    public void updateNVObjectDetection(NVObjectDetection var1, int var2);
 
-    default public void updateNVColorPA(int n, int n2) {
-    }
+    public void updateNVColorPA(int var1, int var2);
 
-    default public void updateNVDesignPA(int n, int n2) {
-    }
+    public void updateNVDesignPA(int var1, int var2);
 
-    default public void updateNVDisplay(int n, int n2) {
-    }
+    public void updateNVDisplay(int var1, int var2);
 
-    default public void updateNVZoomPanning(int n, int n2) {
-    }
+    public void updateNVZoomPanning(int var1, int var2);
 
-    default public void updateNVSound(int n, int n2) {
-    }
+    public void updateNVSound(int var1, int var2);
 
-    default public void updateNVSymbol(boolean bl, int n) {
-    }
+    public void updateNVSymbol(boolean var1, int var2);
 
-    default public void acknowledgeNVSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeNVSetFactoryDefault(boolean var1);
 
-    default public void updateNVSystem(boolean bl, int n) {
-    }
+    public void updateNVSystem(boolean var1, int var2);
 
-    default public void updateNVWarningTimegap(int n, int n2) {
-    }
+    public void updateNVWarningTimegap(int var1, int var2);
 
-    default public void updateLDWHCAViewOptions(LDWHCAViewOptions lDWHCAViewOptions, int n) {
-    }
+    public void updateLDWHCAViewOptions(LDWHCAViewOptions var1, int var2);
 
-    default public void updateLDWWarningTime(int n, int n2) {
-    }
+    public void updateLDWWarningTime(int var1, int var2);
 
-    default public void updateLDWSteeringWheelVibration(int n, int n2) {
-    }
+    public void updateLDWSteeringWheelVibration(int var1, int var2);
 
-    default public void updateHCAInterventionStyle(int n, int n2) {
-    }
+    public void updateHCAInterventionStyle(int var1, int var2);
 
-    default public void updateHCAToleranceLevel(int n, int n2) {
-    }
+    public void updateHCAToleranceLevel(int var1, int var2);
 
-    default public void acknowledgeLdwhcaSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeLdwhcaSetFactoryDefault(boolean var1);
 
-    default public void updateLDWHCASystemOnOff(boolean bl, int n) {
-    }
+    public void updateLDWHCASystemOnOff(boolean var1, int var2);
 
-    default public void updateLDWHCAWarningSound(boolean bl, int n, int n2) {
-    }
+    public void updateLDWHCAWarningSound(boolean var1, int var2, int var3);
 
-    default public void updateTSDViewOptions(TSDViewOptions tSDViewOptions, int n) {
-    }
+    public void updateTSDViewOptions(TSDViewOptions var1, int var2);
 
-    default public void updateTSDSystemOnOff(boolean bl, int n) {
-    }
+    public void updateTSDSystemOnOff(boolean var1, int var2);
 
-    default public void updateTSDTrailerDetection(boolean bl, int n) {
-    }
+    public void updateTSDTrailerDetection(boolean var1, int var2);
 
-    default public void updateTSDSign1(TSDSignFct tSDSignFct, int n) {
-    }
+    public void updateTSDSign1(TSDSignFct var1, int var2);
 
-    default public void updateTSDSign2(TSDSignFct tSDSignFct, int n) {
-    }
+    public void updateTSDSign2(TSDSignFct var1, int var2);
 
-    default public void updateTSDSign3(TSDSignFct tSDSignFct, int n) {
-    }
+    public void updateTSDSign3(TSDSignFct var1, int var2);
 
-    default public void updateTSDSign4(TSDSignFct tSDSignFct, int n) {
-    }
+    public void updateTSDSign4(TSDSignFct var1, int var2);
 
-    default public void updateTSDSign5(TSDSignFct tSDSignFct, int n) {
-    }
+    public void updateTSDSign5(TSDSignFct var1, int var2);
 
-    default public void updateTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter, int n) {
-    }
+    public void updateTSDRoadSignFilter(TSDRoadSignFilter var1, int var2);
 
-    default public void acknowledgeTsdSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeTsdSetFactoryDefault(boolean var1);
 
-    default public void updateTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updateTSDSpeedWarningThreshold(boolean var1, CarBCSpeed var2, int var3);
 
-    default public void updateTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updateTSDTrailerSpeedLimit(CarBCSpeed var1, int var2);
 
-    default public void updateTSDSystemMessages(TSDSystemMessages tSDSystemMessages, int n) {
-    }
+    public void updateTSDSystemMessages(TSDSystemMessages var1, int var2);
 
-    default public void updateTSDSpeedWarningAcoustics(boolean bl, int n) {
-    }
+    public void updateTSDSpeedWarningAcoustics(boolean var1, int var2);
 
-    default public void updateMKEViewOptions(MKEViewOptions mKEViewOptions, int n) {
-    }
+    public void updateMKEViewOptions(MKEViewOptions var1, int var2);
 
-    default public void updateMKESystemOnOff(boolean bl, int n) {
-    }
+    public void updateMKESystemOnOff(boolean var1, int var2);
 
-    default public void acknowledgeMKESetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeMKESetFactoryDefault(boolean var1);
 
-    default public void updatePAViewOptions(PAViewOptions pAViewOptions, int n) {
-    }
+    public void updatePAViewOptions(PAViewOptions var1, int var2);
 
-    default public void updatePASystemOnOff(boolean bl, int n) {
-    }
+    public void updatePASystemOnOff(boolean var1, int var2);
 
-    default public void acknowledgePASetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgePASetFactoryDefault(boolean var1);
 
-    default public void updatePAConfigInformation(boolean bl, int n) {
-    }
+    public void updatePAConfigInformation(boolean var1, int var2);
 
-    default public void updatePAConfigWarning(boolean bl, int n) {
-    }
+    public void updatePAConfigWarning(boolean var1, int var2);
 
-    default public void updatePAWarningTimegap(int n, int n2) {
-    }
+    public void updatePAWarningTimegap(int var1, int var2);
 
-    default public void updateCurveAssistSystemOnOff(boolean bl, int n) {
-    }
+    public void updateCurveAssistSystemOnOff(boolean var1, int var2);
 
-    default public void acknowledgeCurveAssistSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeCurveAssistSetFactoryDefault(boolean var1);
 
-    default public void updateFTAViewOptions(FTAViewOptions fTAViewOptions, int n) {
-    }
+    public void updateFTAViewOptions(FTAViewOptions var1, int var2);
 
-    default public void updateFTASystemOnOff(boolean bl, int n) {
-    }
+    public void updateFTASystemOnOff(boolean var1, int var2);
 
-    default public void updateFTASensorData(FTASensorData fTASensorData, int n) {
-    }
+    public void updateFTASensorData(FTASensorData var1, int var2);
 }
 

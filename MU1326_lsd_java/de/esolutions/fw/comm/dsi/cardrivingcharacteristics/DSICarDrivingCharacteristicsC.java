@@ -3,133 +3,93 @@
  */
 package de.esolutions.fw.comm.dsi.cardrivingcharacteristics;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaListUpdateInfo;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaProgButton;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithoutOptionMask;
 import org.dsi.ifc.cardrivingcharacteristics.TADMaxMinAngleReset;
 
 public interface DSICarDrivingCharacteristicsC {
-    default public void setSuspensionControlLiftMode(boolean bl) {
-    }
+    public void setSuspensionControlLiftMode(boolean var1) throws MethodException;
 
-    default public void setSuspensionControlCarJackMode(boolean bl) {
-    }
+    public void setSuspensionControlCarJackMode(boolean var1) throws MethodException;
 
-    default public void setSuspensionControlTrailerMode(boolean bl) {
-    }
+    public void setSuspensionControlTrailerMode(boolean var1) throws MethodException;
 
-    default public void setSuspensionControlLoadingMode(boolean bl) {
-    }
+    public void setSuspensionControlLoadingMode(boolean var1) throws MethodException;
 
-    default public void setSuspensionControlActiveProfile(int n) {
-    }
+    public void setSuspensionControlActiveProfile(int var1) throws MethodException;
 
-    default public void setSuspensionControlSnowChainMode(boolean bl) {
-    }
+    public void setSuspensionControlSnowChainMode(boolean var1) throws MethodException;
 
-    default public void setSuspensionControlActiveMode(int n) {
-    }
+    public void setSuspensionControlActiveMode(int var1) throws MethodException;
 
-    default public void seteABCEasyEntry(boolean bl) {
-    }
+    public void seteABCEasyEntry(boolean var1) throws MethodException;
 
-    default public void seteABCPitchControl(boolean bl) {
-    }
+    public void seteABCPitchControl(boolean var1) throws MethodException;
 
-    default public void seteABCSpecialPosition(boolean bl) {
-    }
+    public void seteABCSpecialPosition(boolean var1) throws MethodException;
 
-    default public void seteABCPreview(int n) {
-    }
+    public void seteABCPreview(int var1) throws MethodException;
 
-    default public void setCharismaActiveProfile(int n) {
-    }
+    public void setCharismaActiveProfile(int var1) throws MethodException;
 
-    default public void setCharismaActiveOperationMode(int n) {
-    }
+    public void setCharismaActiveOperationMode(int var1) throws MethodException;
 
-    default public void setCharismaTrailerSetting(boolean bl) {
-    }
+    public void setCharismaTrailerSetting(boolean var1) throws MethodException;
 
-    default public void setCharismaProgButton(CharismaProgButton charismaProgButton) {
-    }
+    public void setCharismaProgButton(CharismaProgButton var1) throws MethodException;
 
-    default public void requestCharismaProfileFunction(int n, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
-    }
+    public void requestCharismaProfileFunction(int var1, CharismaSetupTableWithoutOptionMask[] var2) throws MethodException;
 
-    default public void requestCharismaList(CharismaListUpdateInfo charismaListUpdateInfo) {
-    }
+    public void requestCharismaList(CharismaListUpdateInfo var1) throws MethodException;
 
-    default public void showCharismaPopup(int n, int n2) {
-    }
+    public void showCharismaPopup(int var1, int var2) throws MethodException;
 
-    default public void cancelCharismaPopup(int n, int n2) {
-    }
+    public void cancelCharismaPopup(int var1, int var2) throws MethodException;
 
-    default public void setCharismaSetFactoryDefault() {
-    }
+    public void setCharismaSetFactoryDefault() throws MethodException;
 
-    default public void setCharismaSound(boolean bl) {
-    }
+    public void setCharismaSound(boolean var1) throws MethodException;
 
-    default public void showTADPopup(int n, int n2) {
-    }
+    public void showTADPopup(int var1, int var2) throws MethodException;
 
-    default public void cancelTADPopup(int n, int n2) {
-    }
+    public void cancelTADPopup(int var1, int var2) throws MethodException;
 
-    default public void setTADSetFactoryDefault() {
-    }
+    public void setTADSetFactoryDefault() throws MethodException;
 
-    default public void setTADMaxMinAngleReset(TADMaxMinAngleReset tADMaxMinAngleReset) {
-    }
+    public void setTADMaxMinAngleReset(TADMaxMinAngleReset var1) throws MethodException;
 
-    default public void setHMIIsReady(boolean bl) {
-    }
+    public void setHMIIsReady(boolean var1) throws MethodException;
 
-    default public void setSpoilerSetFactoryDefault() {
-    }
+    public void setSpoilerSetFactoryDefault() throws MethodException;
 
-    default public void setSpoilerPositionSelection(int n) {
-    }
+    public void setSpoilerPositionSelection(int var1) throws MethodException;
 
-    default public void setSpoilerActuation(boolean bl) {
-    }
+    public void setSpoilerActuation(boolean var1) throws MethodException;
 
-    default public void setSpoilerSystemOnOff(boolean bl) {
-    }
+    public void setSpoilerSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setSoundSetFactoryDefault() {
-    }
+    public void setSoundSetFactoryDefault() throws MethodException;
 
-    default public void setSoundStyle(int n) {
-    }
+    public void setSoundStyle(int var1) throws MethodException;
 
-    default public void setSoundSystemOnOff(boolean bl) {
-    }
+    public void setSoundSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setSoundOnOff(boolean bl) {
-    }
+    public void setSoundOnOff(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

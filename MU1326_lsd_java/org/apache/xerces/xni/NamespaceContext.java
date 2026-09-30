@@ -9,31 +9,22 @@ public interface NamespaceContext {
     public static final String XML_URI = "http://www.w3.org/XML/1998/namespace".intern();
     public static final String XMLNS_URI = "http://www.w3.org/2000/xmlns/".intern();
 
-    default public void pushContext() {
-    }
+    public void pushContext();
 
-    default public void popContext() {
-    }
+    public void popContext();
 
-    default public boolean declarePrefix(String string, String string2) {
-    }
+    public boolean declarePrefix(String var1, String var2);
 
-    default public String getURI(String string) {
-    }
+    public String getURI(String var1);
 
-    default public String getPrefix(String string) {
-    }
+    public String getPrefix(String var1);
 
-    default public int getDeclaredPrefixCount() {
-    }
+    public int getDeclaredPrefixCount();
 
-    default public String getDeclaredPrefixAt(int n) {
-    }
+    public String getDeclaredPrefixAt(int var1);
 
-    default public Enumeration getAllPrefixes() {
-    }
+    public Enumeration getAllPrefixes();
 
-    default public void reset() {
-    }
+    public void reset();
 }
 

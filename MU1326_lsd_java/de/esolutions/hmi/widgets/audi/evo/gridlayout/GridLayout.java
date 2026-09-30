@@ -50,12 +50,10 @@ IViewSizeAnimatable {
         this.rowConstraints = new AxisConstraints(n2);
     }
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         this.layoutInternal(abstractWidget.getWidth(), abstractWidget.getHeight());
     }
 
-    @Override
     public int[][] simulateLayout(int n, int n2) {
         return this.simulateLayout(n, n2, true);
     }
@@ -64,27 +62,22 @@ IViewSizeAnimatable {
         return this.simulateLayoutInternal(n, n2, bl);
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         return this.calculateSizeInternal(this.state, n);
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, boolean bl, int n) {
         return this.calculateSizeInternal(this.calculateState(this.isBigStage(), bl), n);
     }
 
-    @Override
     public int calculateTabulator(AbstractWidget abstractWidget, int n) {
         return this.calculateTabulatorInternal(abstractWidget.getWidth(), abstractWidget.getHeight(), n);
     }
 
-    @Override
     public int[] calculateRows(int n, int n2) {
         return super.calculateRows(n, n2);
     }
 
-    @Override
     public int[] calculateColumns(int n, int n2) {
         return super.calculateColumns(n, n2);
     }
@@ -149,7 +142,6 @@ IViewSizeAnimatable {
         return this.widgets;
     }
 
-    @Override
     public AbstractWidget[] getSimulationWidgets() {
         ArrayList arrayList = new ArrayList(this.widgets.length);
         for (int i2 = 0; i2 < this.widgets.length; ++i2) {
@@ -164,7 +156,6 @@ IViewSizeAnimatable {
         return (AbstractWidget[])arrayList.toArray(new AbstractWidget[arrayList.size()]);
     }
 
-    @Override
     protected void simulateSetBounds(Object object, int n, int n2, int n3, int n4, List list, boolean bl) {
         if (!bl || object instanceof AbstractWidget) {
             list.add(new int[]{n, n2, n3, n4});
@@ -181,7 +172,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     protected void simulateHideWidgets(Object object, List list) {
         if (object instanceof AbstractWidget) {
             list.add(null);
@@ -193,7 +183,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     protected int getPreferredWidth(Object object) {
         if (object instanceof AbstractWidgetController) {
             return ((AbstractWidgetController)object).getPreferredWidth();
@@ -201,10 +190,9 @@ IViewSizeAnimatable {
         if (object instanceof GridLayout) {
             return ((GridLayout)object).calculateSize(null, -1)[0];
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown grid cell: ").append(object).toString());
+        throw new IllegalArgumentException("Unknown grid cell: " + object);
     }
 
-    @Override
     protected int getPreferredHeight(Object object, int n) {
         if (n > 0) {
             if (object instanceof PreferredDynamicHeight) {
@@ -218,7 +206,6 @@ IViewSizeAnimatable {
         return this.getPreferredHeight(object);
     }
 
-    @Override
     protected int getPreferredHeight(Object object) {
         if (object instanceof AbstractWidgetController) {
             return ((AbstractWidgetController)object).getPreferredHeight();
@@ -226,10 +213,9 @@ IViewSizeAnimatable {
         if (object instanceof GridLayout) {
             return ((GridLayout)object).calculateSize(null, -1)[1];
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown grid cell: ").append(object).toString());
+        throw new IllegalArgumentException("Unknown grid cell: " + object);
     }
 
-    @Override
     protected boolean hasDynamicHeight(Object object) {
         if (object instanceof AbstractWidgetController) {
             if (object instanceof PreferredDynamicHeight) {
@@ -240,10 +226,9 @@ IViewSizeAnimatable {
         if (object instanceof GridLayout) {
             return ((GridLayout)object).hasDynamicHeight();
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown grid cell: ").append(object).toString());
+        throw new IllegalArgumentException("Unknown grid cell: " + object);
     }
 
-    @Override
     protected int getBaseline(Object object) {
         if (object instanceof BaselineWidget) {
             return ((BaselineWidget)object).getBaseline();
@@ -251,7 +236,6 @@ IViewSizeAnimatable {
         return this.getPreferredHeight(object);
     }
 
-    @Override
     protected boolean isWidgetVisible(Object object) {
         if (object instanceof AbstractWidgetController) {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)object;
@@ -260,7 +244,6 @@ IViewSizeAnimatable {
         return true;
     }
 
-    @Override
     protected boolean widgetHasContent(Object object) {
         if (object instanceof IEmptyableWidget) {
             return ((IEmptyableWidget)object).hasContent();
@@ -276,7 +259,6 @@ IViewSizeAnimatable {
         return true;
     }
 
-    @Override
     protected void setBounds(Object object, int n, int n2, int n3, int n4) {
         if (object instanceof AbstractWidget) {
             AbstractWidget abstractWidget = (AbstractWidget)object;
@@ -288,11 +270,10 @@ IViewSizeAnimatable {
             gridLayout.yOffset = this.yOffset + n2;
             gridLayout.layoutInternal(n3, n4);
         } else {
-            throw new IllegalArgumentException(new StringBuffer().append("Unknown grid cell: ").append(object).toString());
+            throw new IllegalArgumentException("Unknown grid cell: " + object);
         }
     }
 
-    @Override
     protected void hideWidget(Object object) {
         if (object instanceof AbstractWidget) {
             AbstractWidget abstractWidget = (AbstractWidget)object;
@@ -304,11 +285,10 @@ IViewSizeAnimatable {
                 abstractWidgetArray[i2].setOnScreen(false);
             }
         } else {
-            throw new IllegalArgumentException(new StringBuffer().append("Unknown grid cell: ").append(object).toString());
+            throw new IllegalArgumentException("Unknown grid cell: " + object);
         }
     }
 
-    @Override
     public void setExpanded(boolean bl) {
         this.setState(this.calculateState(this.isBigStage(), bl));
         if (this.widgets != null) {
@@ -319,7 +299,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void flushCache() {
         super.flushCache();
         if (this.widgets != null) {
@@ -359,26 +338,22 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         this.updateViewSize(fArray);
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         this.updateViewSize(fArray);
     }
 
     private void updateViewSize(float[] fArray) {
-        boolean bl = fArray[0] < 63;
+        boolean bl = fArray[0] < 0.5f;
         this.setBigStage(bl);
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 

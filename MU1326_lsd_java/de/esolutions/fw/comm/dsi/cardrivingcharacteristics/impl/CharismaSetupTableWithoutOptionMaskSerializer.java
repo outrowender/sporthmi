@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithoutOptionMask;
 
 public class CharismaSetupTableWithoutOptionMaskSerializer {
-    public static void putOptionalCharismaSetupTableWithoutOptionMask(ISerializer iSerializer, CharismaSetupTableWithoutOptionMask charismaSetupTableWithoutOptionMask) {
+    public static void putOptionalCharismaSetupTableWithoutOptionMask(ISerializer iSerializer, CharismaSetupTableWithoutOptionMask charismaSetupTableWithoutOptionMask) throws SerializerException {
         boolean bl = charismaSetupTableWithoutOptionMask == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CharismaSetupTableWithoutOptionMaskSerializer {
         }
     }
 
-    public static void putOptionalCharismaSetupTableWithoutOptionMaskVarArray(ISerializer iSerializer, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
+    public static void putOptionalCharismaSetupTableWithoutOptionMaskVarArray(ISerializer iSerializer, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) throws SerializerException {
         boolean bl = charismaSetupTableWithoutOptionMaskArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CharismaSetupTableWithoutOptionMaskSerializer {
         }
     }
 
-    public static CharismaSetupTableWithoutOptionMask getOptionalCharismaSetupTableWithoutOptionMask(IDeserializer iDeserializer) {
+    public static CharismaSetupTableWithoutOptionMask getOptionalCharismaSetupTableWithoutOptionMask(IDeserializer iDeserializer) throws SerializerException {
         CharismaSetupTableWithoutOptionMask charismaSetupTableWithoutOptionMask = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CharismaSetupTableWithoutOptionMaskSerializer {
         return charismaSetupTableWithoutOptionMask;
     }
 
-    public static CharismaSetupTableWithoutOptionMask[] getOptionalCharismaSetupTableWithoutOptionMaskVarArray(IDeserializer iDeserializer) {
+    public static CharismaSetupTableWithoutOptionMask[] getOptionalCharismaSetupTableWithoutOptionMaskVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

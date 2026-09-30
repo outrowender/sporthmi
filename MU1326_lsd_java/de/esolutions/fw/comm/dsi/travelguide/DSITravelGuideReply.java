@@ -3,30 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.travelguide;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.travelguide.TravelGuideMemoryListElement;
 
 public interface DSITravelGuideReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "9e6ce532-4a34-5e70-9afe-46d5debc1126";
+    public static final String IPL_COMM_INTERFACE_KEY = "5c1eb755-beb0-51c7-b069-79b0037789b9";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.0";
 
-    default public void importTravelGuideResult(int n, int n2) {
-    }
+    public void importTravelGuideResult(int var1, int var2) throws MethodException;
 
-    default public void updateTravelGuideMemoryListElement(TravelGuideMemoryListElement travelGuideMemoryListElement, int n, int n2) {
-    }
+    public void updateTravelGuideMemoryListElement(TravelGuideMemoryListElement var1, int var2, int var3) throws MethodException;
 
-    default public void deleteTravelGuideResult(int n) {
-    }
+    public void deleteTravelGuideResult(int var1) throws MethodException;
 
-    default public void updateTravelGuideMemoryList(TravelGuideMemoryListElement[] travelGuideMemoryListElementArray, int n) {
-    }
+    public void updateTravelGuideMemoryList(TravelGuideMemoryListElement[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

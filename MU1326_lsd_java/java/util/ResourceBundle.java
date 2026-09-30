@@ -10,26 +10,24 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle$1;
-import java.util.ResourceBundle$2;
-import java.util.ResourceBundle$MissingBundle;
 
 public abstract class ResourceBundle {
     protected ResourceBundle parent;
     private Locale locale;
-    private static ResourceBundle MISSING = new ResourceBundle$MissingBundle();
-    private static ResourceBundle MISSINGBASE = new ResourceBundle$MissingBundle();
+    private static ResourceBundle MISSING = new MissingBundle();
+    private static ResourceBundle MISSINGBASE = new MissingBundle();
     private static Hashtable bootCache = new Hashtable();
     private static Method getCacheMethod = ResourceBundle.initGetCacheMethod();
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
 
-    public static final ResourceBundle getBundle(String string) {
+    public static final ResourceBundle getBundle(String string) throws MissingResourceException {
         return ResourceBundle.getBundleImpl(string, Locale.getDefault(), VM.callerClassLoader());
     }
 
@@ -37,7 +35,7 @@ public abstract class ResourceBundle {
         return ResourceBundle.getBundleImpl(string, locale, VM.callerClassLoader());
     }
 
-    public static ResourceBundle getBundle(String string, Locale locale, ClassLoader classLoader) {
+    public static ResourceBundle getBundle(String string, Locale locale, ClassLoader classLoader) throws MissingResourceException {
         if (classLoader == null) {
             throw new NullPointerException();
         }
@@ -55,7 +53,7 @@ public abstract class ResourceBundle {
         throw new NullPointerException();
     }
 
-    private static ResourceBundle getBundleImpl(String string, Locale locale, ClassLoader classLoader) {
+    private static ResourceBundle getBundleImpl(String string, Locale locale, ClassLoader classLoader) throws MissingResourceException {
         if (string != null) {
             ResourceBundle resourceBundle;
             String string2;
@@ -79,8 +77,7 @@ public abstract class ResourceBundle {
         throw new NullPointerException();
     }
 
-    public abstract Enumeration getKeys() {
-    }
+    public abstract Enumeration getKeys();
 
     public Locale getLocale() {
         return this.locale;
@@ -96,7 +93,7 @@ public abstract class ResourceBundle {
             }
             resourceBundle = resourceBundle2;
         } while ((resourceBundle2 = resourceBundle2.parent) != null);
-        object = super.getClass().getName();
+        object = resourceBundle.getClass().getName();
         throw new MissingResourceException(Msg.getString("K0406", string, object), (String)object, string);
     }
 
@@ -108,7 +105,7 @@ public abstract class ResourceBundle {
         return (String[])this.getObject(string);
     }
 
-    private static ResourceBundle handleGetBundle(String string, String string2, boolean bl, ClassLoader classLoader) {
+    private static ResourceBundle handleGetBundle(String string, String string2, boolean bl, final ClassLoader classLoader) {
         Object object;
         Object object2;
         ResourceBundle resourceBundle = null;
@@ -163,7 +160,16 @@ public abstract class ResourceBundle {
         if (resourceBundle == null) {
             object2 = string3.replace('.', '/');
             object = null;
-            object = (InputStream)AccessController.doPrivileged(new ResourceBundle$1(classLoader, (String)object2));
+            object = (InputStream)AccessController.doPrivileged(new PrivilegedAction((String)object2){
+                private final /* synthetic */ String val$fileName;
+                {
+                    this.val$fileName = string;
+                }
+
+                public Object run() {
+                    return classLoader == null ? ClassLoader.getSystemResourceAsStream(new StringBuffer(String.valueOf(this.val$fileName)).append(".properties").toString()) : classLoader.getResourceAsStream(new StringBuffer(String.valueOf(this.val$fileName)).append(".properties").toString());
+                }
+            });
             if (object != null) {
                 try {
                     try {
@@ -194,11 +200,31 @@ public abstract class ResourceBundle {
     }
 
     private static Method initGetCacheMethod() {
-        return (Method)AccessController.doPrivileged(new ResourceBundle$2());
+        return (Method)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                try {
+                    Class clazz = class$1;
+                    if (clazz == null) {
+                        try {
+                            clazz = class$1 = Class.forName("java.lang.ClassLoader");
+                        }
+                        catch (ClassNotFoundException classNotFoundException) {
+                            throw new NoClassDefFoundError(classNotFoundException.getMessage());
+                        }
+                    }
+                    Method method = clazz.getDeclaredMethod("getBundleCache", new Class[0]);
+                    method.setAccessible(true);
+                    return method;
+                }
+                catch (NoSuchMethodException noSuchMethodException) {
+                    return null;
+                }
+            }
+        });
     }
 
-    protected abstract Object handleGetObject(String string) {
-    }
+    protected abstract Object handleGetObject(String var1);
 
     protected void setParent(ResourceBundle resourceBundle) {
         this.parent = resourceBundle;
@@ -234,6 +260,20 @@ public abstract class ResourceBundle {
             }
         }
         this.locale = new Locale(string2, string3, string4);
+    }
+
+    static class MissingBundle
+    extends ResourceBundle {
+        MissingBundle() {
+        }
+
+        public Enumeration getKeys() {
+            return null;
+        }
+
+        public Object handleGetObject(String string) {
+            return null;
+        }
     }
 }
 

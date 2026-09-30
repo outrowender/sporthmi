@@ -4,18 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
 import de.audi.atip.util.StringUtilities;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ReusableInstanceCache$IReusable;
+import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.hmi.widgets.audi.evo.widgets.ReusableInstanceCache;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerCharsetDefinition;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$Char;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$AbstractExpandableItem$CharSet;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ICharacterSpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerBand;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ISpellerItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SingleCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ToggleCharsetButtonItem;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerIterator;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractToneAndCaseTogglingTable;
@@ -26,22 +18,21 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchPredictionLine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchResultLine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IWordPredictionDataFetcher;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerBandState;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$ISpellerBandAsia;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$SpellerBandImplAsia;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$TouchPredictionLine;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerControllerAsia$TouchResultsLine;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchControllerAsia;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchControllerFocusState;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.ICharacterConverter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SpellerControllerAsia
 extends SpellerController
 implements IConversionDataFetcherListener {
-    private static final int STROKE_JOKER_INDEX_IN_SPELLERCHARSETASIA;
+    private static final int STROKE_JOKER_INDEX_IN_SPELLERCHARSETASIA = 6;
     private SpellerBandState currentSpellerState;
-    private SpellerController$ISpellerBand defaultSpellerBand;
+    private SpellerController.ISpellerBand defaultSpellerBand;
     private ITouchResultLine touchResultsLine;
     private AsianInputMethod currentInputMethod = AsianInputMethod.NO_CONVERSION;
     private boolean conversionLineFocused;
@@ -53,11 +44,10 @@ implements IConversionDataFetcherListener {
     private boolean showWordPredictionResultsForTouch = false;
     private boolean truffleSearch = false;
 
-    @Override
     protected void initializeWidget() {
         if (this.getCurrentSpellerBand() == null) {
             List list = SpellerCharsetDefinition.initSpellerBand(this.spellerMode, -1);
-            this.setCurrentSpellerBand(new SpellerControllerAsia$SpellerBandImplAsia(this, list, this.hasOKButton()), false);
+            this.setCurrentSpellerBand(new SpellerBandImplAsia(list, this.hasOKButton()), false);
         }
         super.initializeWidget();
         this.defaultSpellerBand = this.getCurrentSpellerBand();
@@ -80,7 +70,6 @@ implements IConversionDataFetcherListener {
         }
     }
 
-    @Override
     protected void updateValidChars(String string, String string2, boolean bl) {
         this.originalValidChars = string;
         if (this.getSpellerMode() == 11 && SpellerControllerAsia.isJp()) {
@@ -89,17 +78,16 @@ implements IConversionDataFetcherListener {
         super.updateValidChars(string, string2, bl);
     }
 
-    @Override
-    protected void enableParentIfNeeded(SpellerController$SingleCharItem spellerController$SingleCharItem, boolean bl) {
-        if (bl && spellerController$SingleCharItem.hasParent() && spellerController$SingleCharItem.getParent() instanceof SpellerController$AbstractExpandableItem$Char) {
-            SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = (SpellerController$AbstractExpandableItem$Char)spellerController$SingleCharItem.getParent();
-            if (!spellerController$AbstractExpandableItem$Char.isClosed()) {
-                this.disableGroupFatherCharacterAfterExpandIfNeed(spellerController$AbstractExpandableItem$Char);
+    protected void enableParentIfNeeded(SpellerController.SingleCharItem singleCharItem, boolean bl) {
+        if (bl && singleCharItem.hasParent() && singleCharItem.getParent() instanceof SpellerController.AbstractExpandableItem.Char) {
+            SpellerController.AbstractExpandableItem.Char char_ = (SpellerController.AbstractExpandableItem.Char)singleCharItem.getParent();
+            if (!char_.isClosed()) {
+                this.disableGroupFatherCharacterAfterExpandIfNeed(char_);
             } else {
-                spellerController$SingleCharItem.getParent().setEnabled(bl);
+                singleCharItem.getParent().setEnabled(bl);
             }
         } else {
-            spellerController$SingleCharItem.getParent().setEnabled(bl);
+            singleCharItem.getParent().setEnabled(bl);
         }
     }
 
@@ -119,7 +107,7 @@ implements IConversionDataFetcherListener {
             this.getTouchPredictionLine().clear();
         }
         if (spellerBandState.isUsingDefaultSpellerBand()) {
-            if (!(this.getCurrentSpellerBand() instanceof SpellerControllerAsia$ISpellerBandAsia)) {
+            if (!(this.getCurrentSpellerBand() instanceof ISpellerBandAsia)) {
                 spellerLogChannel.log(10000, "SpellerControllerAsia#switchSpellerBand: Current speller band is incompitable with ISpellerBandAsia, can not switch speller band!");
             } else {
                 this.defaultSpellerBand = this.getCurrentSpellerBand();
@@ -156,19 +144,19 @@ implements IConversionDataFetcherListener {
         }
     }
 
-    protected void focusToCharSetToggleButtonIfPossible(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
-        if (spellerController$SpellerButtonType.isCharsetToggleButton()) {
+    protected void focusToCharSetToggleButtonIfPossible(SpellerController.SpellerButtonType spellerButtonType) {
+        if (spellerButtonType.isCharsetToggleButton()) {
             List list = this.getCurrentSpellerBand().getSpellerItems();
             for (int i2 = 0; i2 < list.size(); ++i2) {
-                SpellerController$ButtonItem spellerController$ButtonItem;
-                if (!(list.get(i2) instanceof SpellerController$ButtonItem) || !((SpellerController$ISpellerItem)list.get(i2)).isEnabled() || !(spellerController$ButtonItem = (SpellerController$ButtonItem)list.get(i2)).getButtonType().isCharsetToggleButton()) continue;
-                this.moveCursorToItem(spellerController$ButtonItem);
+                SpellerController.ButtonItem buttonItem;
+                if (!(list.get(i2) instanceof SpellerController.ButtonItem) || !((SpellerController.ISpellerItem)list.get(i2)).isEnabled() || !(buttonItem = (SpellerController.ButtonItem)list.get(i2)).getButtonType().isCharsetToggleButton()) continue;
+                this.moveCursorToItem(buttonItem);
                 break;
             }
         }
     }
 
-    public void toggleTouchResultLineToSpeller(SpellerController$SpellerButtonType spellerController$SpellerButtonType) {
+    public void toggleTouchResultLineToSpeller(SpellerController.SpellerButtonType spellerButtonType) {
         int n;
         if (this.touchCharSetAndTTSHandler.isEnglishSystemLanguage()) {
             n = 0;
@@ -201,7 +189,6 @@ implements IConversionDataFetcherListener {
         return this.parent instanceof TouchControllerAsia;
     }
 
-    @Override
     public void setSpellerBandLanguage(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
         super.setSpellerBandLanguage(touchCharSetAndTTSHandler);
         this.currentInputMethod = touchCharSetAndTTSHandler.getAsianInputMethodForInternalLanguage();
@@ -210,15 +197,14 @@ implements IConversionDataFetcherListener {
         this.getTouchResultLine().updateToggleButton(touchCharSetAndTTSHandler);
     }
 
-    @Override
-    protected SpellerController$ISpellerBand getSpellerBandForLanguage(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
+    protected SpellerController.ISpellerBand getSpellerBandForLanguage(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
         int n = touchCharSetAndTTSHandler.getInternalLanguage();
         int n2 = this.getSpellerMode();
         List list = SpellerCharsetDefinition.initSpellerBandAsia(n2, n);
         this.initializeListItems(n2, touchCharSetAndTTSHandler, list);
-        SpellerControllerAsia$SpellerBandImplAsia spellerControllerAsia$SpellerBandImplAsia = new SpellerControllerAsia$SpellerBandImplAsia(this, list, this.hasOKButton());
-        spellerControllerAsia$SpellerBandImplAsia.setSpellerBandInternalLanguage(n);
-        return spellerControllerAsia$SpellerBandImplAsia;
+        SpellerBandImplAsia spellerBandImplAsia = new SpellerBandImplAsia(list, this.hasOKButton());
+        spellerBandImplAsia.setSpellerBandInternalLanguage(n);
+        return spellerBandImplAsia;
     }
 
     private void initializeListItems(int n, TouchCharSetAndTTSHandler touchCharSetAndTTSHandler, List list) {
@@ -229,19 +215,19 @@ implements IConversionDataFetcherListener {
     }
 
     private static void removeJokerForStrokeInputWithoutWordPrediction(List list) {
-        SpellerController$ICharacterSpellerItem spellerController$ICharacterSpellerItem;
+        SpellerController.ICharacterSpellerItem iCharacterSpellerItem;
         if (spellerLogChannel.isDebug2()) {
-            spellerLogChannel.log(-2137614336, "SpellerControllerAsia#disableJokerForStrokeInputWithoutWordPrediction: disable joker stroke!");
+            spellerLogChannel.log(10000000, "SpellerControllerAsia#disableJokerForStrokeInputWithoutWordPrediction: disable joker stroke!");
         }
-        if ((spellerController$ICharacterSpellerItem = (SpellerController$ICharacterSpellerItem)list.get(6)).getChar(true).equals("*")) {
+        if ((iCharacterSpellerItem = (SpellerController.ICharacterSpellerItem)list.get(6)).getChar(true).equals("*")) {
             list.remove(6);
         }
     }
 
     private static void addToggleButtonIfNeeded(int n, TouchCharSetAndTTSHandler touchCharSetAndTTSHandler, List list) {
         if (n == 0 || n == 10 || n == 11 && (touchCharSetAndTTSHandler.isTraditionalChineseSystemLanguage() || touchCharSetAndTTSHandler.isSystemLanguageKorean())) {
-            SpellerController$ToggleCharsetButtonItem spellerController$ToggleCharsetButtonItem = SpellerController$ToggleCharsetButtonItem.createInstance(touchCharSetAndTTSHandler);
-            list.add(0, spellerController$ToggleCharsetButtonItem);
+            SpellerController.ToggleCharsetButtonItem toggleCharsetButtonItem = SpellerController.ToggleCharsetButtonItem.createInstance(touchCharSetAndTTSHandler);
+            list.add(0, toggleCharsetButtonItem);
         }
     }
 
@@ -258,7 +244,6 @@ implements IConversionDataFetcherListener {
         return bl;
     }
 
-    @Override
     public boolean isSmallBandCentered() {
         return false;
     }
@@ -267,59 +252,58 @@ implements IConversionDataFetcherListener {
         this.getCurrentSpellerState().getBehavior().touchPadFilteredCharactersRecognized(string, this);
     }
 
-    @Override
-    protected void handlePressItem(SpellerController$ISpellerItem spellerController$ISpellerItem) {
-        this.getCurrentSpellerState().getBehavior().handlePressItem(spellerController$ISpellerItem, this);
+    protected void handlePressItem(SpellerController.ISpellerItem iSpellerItem) {
+        this.getCurrentSpellerState().getBehavior().handlePressItem(iSpellerItem, this);
     }
 
-    protected void callSuperHandlePressItem(SpellerController$ISpellerItem spellerController$ISpellerItem) {
+    protected void callSuperHandlePressItem(SpellerController.ISpellerItem iSpellerItem) {
         if (this.currentInputMethod == AsianInputMethod.HIRAGANA || this.currentInputMethod == AsianInputMethod.JAMO) {
-            if (!spellerController$ISpellerItem.isEnabled()) {
-                spellerLogChannel.log(-2137614336, "SpellerControllerAsia#callSuperHandlePressItem: ignore press event on disabled item: %1", (Object)spellerController$ISpellerItem);
+            if (!iSpellerItem.isEnabled()) {
+                spellerLogChannel.log(10000000, "SpellerControllerAsia#callSuperHandlePressItem: ignore press event on disabled item: %1", (Object)iSpellerItem);
                 return;
             }
-            if (spellerController$ISpellerItem instanceof SpellerController$AbstractExpandableItem$Char) {
-                this.toggleOpeningExpandableItem((SpellerController$AbstractExpandableItem$Char)spellerController$ISpellerItem);
-            } else if (spellerController$ISpellerItem instanceof SpellerController$AbstractExpandableItem$CharSet) {
-                SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char = this.getLatestOpenExpandableCharItem();
-                super.handlePressItem(spellerController$ISpellerItem);
-                if (spellerController$AbstractExpandableItem$Char != null) {
-                    this.enableGroupFatherCharacterAfterCloseIfNeed(spellerController$AbstractExpandableItem$Char);
+            if (iSpellerItem instanceof SpellerController.AbstractExpandableItem.Char) {
+                this.toggleOpeningExpandableItem((SpellerController.AbstractExpandableItem.Char)iSpellerItem);
+            } else if (iSpellerItem instanceof SpellerController.AbstractExpandableItem.CharSet) {
+                SpellerController.AbstractExpandableItem.Char char_ = this.getLatestOpenExpandableCharItem();
+                super.handlePressItem(iSpellerItem);
+                if (char_ != null) {
+                    this.enableGroupFatherCharacterAfterCloseIfNeed(char_);
                 }
             } else {
-                super.handlePressItem(spellerController$ISpellerItem);
+                super.handlePressItem(iSpellerItem);
             }
         } else {
-            super.handlePressItem(spellerController$ISpellerItem);
+            super.handlePressItem(iSpellerItem);
         }
     }
 
-    private void toggleOpeningExpandableItem(SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char) {
+    private void toggleOpeningExpandableItem(SpellerController.AbstractExpandableItem.Char char_) {
         boolean bl;
-        spellerLogChannel.log(-2137614336, "SpellerControllerAsia#toggleOpeningExpandableItem: press expandable item: %1", (Object)spellerController$AbstractExpandableItem$Char);
-        SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char2 = this.getLatestOpenExpandableCharItem();
-        if (spellerController$AbstractExpandableItem$Char2 != null && !spellerController$AbstractExpandableItem$Char2.equals(spellerController$AbstractExpandableItem$Char)) {
-            this.closeSpellerExandableItem(spellerController$AbstractExpandableItem$Char2);
-            this.enableGroupFatherCharacterAfterCloseIfNeed(spellerController$AbstractExpandableItem$Char2);
+        spellerLogChannel.log(10000000, "SpellerControllerAsia#toggleOpeningExpandableItem: press expandable item: %1", (Object)char_);
+        SpellerController.AbstractExpandableItem.Char char_2 = this.getLatestOpenExpandableCharItem();
+        if (char_2 != null && !char_2.equals(char_)) {
+            this.closeSpellerExandableItem(char_2);
+            this.enableGroupFatherCharacterAfterCloseIfNeed(char_2);
         }
-        if (bl = spellerController$AbstractExpandableItem$Char.isClosed()) {
-            this.expandSpellerExpandableItem(spellerController$AbstractExpandableItem$Char);
-            this.disableGroupFatherCharacterAfterExpandIfNeed(spellerController$AbstractExpandableItem$Char);
-            SpellerControllerAsia$ISpellerBandAsia spellerControllerAsia$ISpellerBandAsia = (SpellerControllerAsia$ISpellerBandAsia)this.getCurrentSpellerBand();
-            spellerControllerAsia$ISpellerBandAsia.adjustDeleteButton(spellerController$AbstractExpandableItem$Char, true);
+        if (bl = char_.isClosed()) {
+            this.expandSpellerExpandableItem(char_);
+            this.disableGroupFatherCharacterAfterExpandIfNeed(char_);
+            ISpellerBandAsia iSpellerBandAsia = (ISpellerBandAsia)this.getCurrentSpellerBand();
+            iSpellerBandAsia.adjustDeleteButton(char_, true);
         } else {
-            super.handlePressItem(spellerController$AbstractExpandableItem$Char);
+            super.handlePressItem(char_);
         }
     }
 
-    private void disableGroupFatherCharacterAfterExpandIfNeed(SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char) {
-        boolean bl = SpellerControllerAsia.isItemEnabledWithNVCFilter(spellerController$AbstractExpandableItem$Char, this.originalValidChars);
-        spellerController$AbstractExpandableItem$Char.setEnabled(bl);
+    private void disableGroupFatherCharacterAfterExpandIfNeed(SpellerController.AbstractExpandableItem.Char char_) {
+        boolean bl = SpellerControllerAsia.isItemEnabledWithNVCFilter(char_, this.originalValidChars);
+        char_.setEnabled(bl);
         this.setCompositesDirty(true);
     }
 
-    private static boolean isItemEnabledWithNVCFilter(SpellerController$ICharacterSpellerItem spellerController$ICharacterSpellerItem, String string) {
-        String string2 = spellerController$ICharacterSpellerItem.getChar(true);
+    private static boolean isItemEnabledWithNVCFilter(SpellerController.ICharacterSpellerItem iCharacterSpellerItem, String string) {
+        String string2 = iCharacterSpellerItem.getChar(true);
         boolean bl = SpellerControllerAsia.isJp() ? AbstractToneAndCaseTogglingTable.isEnabledWithNVCFilter(string2, string) : SpellerControllerAsia.isInNvc(string2, string);
         return bl;
     }
@@ -334,29 +318,28 @@ implements IConversionDataFetcherListener {
         return string2.indexOf(string) >= 0;
     }
 
-    private void enableGroupFatherCharacterAfterCloseIfNeed(SpellerController$AbstractExpandableItem$Char spellerController$AbstractExpandableItem$Char) {
-        boolean bl = SpellerControllerAsia.isItemEnabledWithNVCFilter(spellerController$AbstractExpandableItem$Char, this.originalValidChars);
+    private void enableGroupFatherCharacterAfterCloseIfNeed(SpellerController.AbstractExpandableItem.Char char_) {
+        boolean bl = SpellerControllerAsia.isItemEnabledWithNVCFilter(char_, this.originalValidChars);
         if (!bl) {
-            SpellerController$ISpellerItem spellerController$ISpellerItem;
-            Iterator iterator = spellerController$AbstractExpandableItem$Char.getSubBand().iterator();
-            while (!(!iterator.hasNext() || (spellerController$ISpellerItem = (SpellerController$ISpellerItem)iterator.next()) instanceof SpellerController$ICharacterSpellerItem && (bl = SpellerControllerAsia.isItemEnabledWithNVCFilter((SpellerController$ICharacterSpellerItem)spellerController$ISpellerItem, this.originalValidChars)))) {
+            SpellerController.ISpellerItem iSpellerItem;
+            Iterator iterator = char_.getSubBand().iterator();
+            while (!(!iterator.hasNext() || (iSpellerItem = (SpellerController.ISpellerItem)iterator.next()) instanceof SpellerController.ICharacterSpellerItem && (bl = SpellerControllerAsia.isItemEnabledWithNVCFilter((SpellerController.ICharacterSpellerItem)iSpellerItem, this.originalValidChars)))) {
             }
         }
-        spellerController$AbstractExpandableItem$Char.setEnabled(bl);
+        char_.setEnabled(bl);
         this.setCompositesDirty(true);
     }
 
-    private SpellerController$AbstractExpandableItem$Char getLatestOpenExpandableCharItem() {
+    private SpellerController.AbstractExpandableItem.Char getLatestOpenExpandableCharItem() {
         SpellerIterator spellerIterator = this.getSpellerIterator(true);
         while (spellerIterator.hasNext()) {
-            SpellerController$ISpellerItem spellerController$ISpellerItem = (SpellerController$ISpellerItem)spellerIterator.next();
-            if (!(spellerController$ISpellerItem instanceof SpellerController$AbstractExpandableItem$Char) || ((SpellerController$AbstractExpandableItem$Char)spellerController$ISpellerItem).isClosed()) continue;
-            return (SpellerController$AbstractExpandableItem$Char)spellerController$ISpellerItem;
+            SpellerController.ISpellerItem iSpellerItem = (SpellerController.ISpellerItem)spellerIterator.next();
+            if (!(iSpellerItem instanceof SpellerController.AbstractExpandableItem.Char) || ((SpellerController.AbstractExpandableItem.Char)iSpellerItem).isClosed()) continue;
+            return (SpellerController.AbstractExpandableItem.Char)iSpellerItem;
         }
         return null;
     }
 
-    @Override
     protected void moveCursor(float f2, boolean bl) {
         super.moveCursor(f2, bl);
     }
@@ -365,7 +348,6 @@ implements IConversionDataFetcherListener {
         return this.getCurrentSpellerState().isUsingDefaultSpellerBand();
     }
 
-    @Override
     public void closed() {
         super.closed();
         if (this.getCurrentSpellerState() != null) {
@@ -373,12 +355,12 @@ implements IConversionDataFetcherListener {
         }
     }
 
-    protected SpellerController$ToggleCharsetButtonItem getCharsetToggleButton() {
+    protected SpellerController.ToggleCharsetButtonItem getCharsetToggleButton() {
         SpellerIterator spellerIterator = this.getSpellerIterator(true);
         while (spellerIterator.hasNext()) {
-            SpellerController$ISpellerItem spellerController$ISpellerItem = (SpellerController$ISpellerItem)spellerIterator.next();
-            if (!(spellerController$ISpellerItem instanceof SpellerController$ToggleCharsetButtonItem)) continue;
-            return (SpellerController$ToggleCharsetButtonItem)spellerController$ISpellerItem;
+            SpellerController.ISpellerItem iSpellerItem = (SpellerController.ISpellerItem)spellerIterator.next();
+            if (!(iSpellerItem instanceof SpellerController.ToggleCharsetButtonItem)) continue;
+            return (SpellerController.ToggleCharsetButtonItem)iSpellerItem;
         }
         return null;
     }
@@ -425,7 +407,6 @@ implements IConversionDataFetcherListener {
         return this.conversionLineFocused;
     }
 
-    @Override
     protected SpellerIterator getCurrentSpellerIterator() {
         return this.getSpellerIterator(null, false, true);
     }
@@ -463,7 +444,7 @@ implements IConversionDataFetcherListener {
         }
         if (this.touchResultsLine == null) {
             boolean bl = SpellerControllerAsia.isSpaceItemEnabledAtSpellerBand(this.getCurrentSpellerBand());
-            this.touchResultsLine = new SpellerControllerAsia$TouchResultsLine(this);
+            this.touchResultsLine = new TouchResultsLine(this);
             this.touchResultsLine.setSpaceItemEnabled(bl);
         }
         return this.touchResultsLine;
@@ -471,7 +452,7 @@ implements IConversionDataFetcherListener {
 
     public ITouchPredictionLine getTouchPredictionLine() {
         if (this.touchPredictionLine == null) {
-            this.touchPredictionLine = new SpellerControllerAsia$TouchPredictionLine(this, this.wordPredictionDataFetcher, this.isTruffleSearch());
+            this.touchPredictionLine = new TouchPredictionLine(this, this.wordPredictionDataFetcher, this.isTruffleSearch());
         }
         return this.touchPredictionLine;
     }
@@ -480,98 +461,91 @@ implements IConversionDataFetcherListener {
         this.touchResultsLine = iTouchResultLine;
     }
 
-    private static boolean isSpaceItemEnabledAtSpellerBand(SpellerController$ISpellerBand spellerController$ISpellerBand) {
+    private static boolean isSpaceItemEnabledAtSpellerBand(SpellerController.ISpellerBand iSpellerBand) {
         boolean bl = false;
-        List list = spellerController$ISpellerBand.getSpellerItems();
+        List list = iSpellerBand.getSpellerItems();
         if (list != null && !list.isEmpty()) {
             for (int i2 = 0; i2 < list.size(); ++i2) {
-                if (!(list.get(i2) instanceof SpellerController$SingleCharItem) || !((SpellerController$SingleCharItem)list.get(i2)).getChar(true).equals(" ")) continue;
-                bl = ((SpellerController$SingleCharItem)list.get(i2)).isEnabled();
+                if (!(list.get(i2) instanceof SpellerController.SingleCharItem) || !((SpellerController.SingleCharItem)list.get(i2)).getChar(true).equals(" ")) continue;
+                bl = ((SpellerController.SingleCharItem)list.get(i2)).isEnabled();
                 break;
             }
         }
         return bl;
     }
 
-    @Override
-    protected void handleSingleCharItemPressed(SpellerController$SingleCharItem spellerController$SingleCharItem) {
+    protected void handleSingleCharItemPressed(SpellerController.SingleCharItem singleCharItem) {
     }
 
     protected void notifyCharacterPressed(String string, boolean bl, boolean bl2) {
         this.spellerListenerNotifier.characterPressed(string, bl, bl2);
     }
 
-    @Override
-    protected void notifyCharacterPressed(SpellerController$ICharacterSpellerItem spellerController$ICharacterSpellerItem, boolean bl, boolean bl2) {
+    protected void notifyCharacterPressed(SpellerController.ICharacterSpellerItem iCharacterSpellerItem, boolean bl, boolean bl2) {
         boolean bl3 = false;
         String string = "";
-        bl3 = this.needJokerReplacement(spellerController$ICharacterSpellerItem);
+        bl3 = this.needJokerReplacement(iCharacterSpellerItem);
         if (bl3) {
             String string2 = string = "*(-[[|]]Joker*:)";
             this.notifyCharacterPressed(string2, bl, bl2);
         } else {
-            super.notifyCharacterPressed(spellerController$ICharacterSpellerItem, bl, bl2);
+            super.notifyCharacterPressed(iCharacterSpellerItem, bl, bl2);
         }
     }
 
-    private boolean needJokerReplacement(SpellerController$ICharacterSpellerItem spellerController$ICharacterSpellerItem) {
+    private boolean needJokerReplacement(SpellerController.ICharacterSpellerItem iCharacterSpellerItem) {
         boolean bl;
-        boolean bl2 = bl = this.isJokerStrokeEnabled(this.touchCharSetAndTTSHandler) && spellerController$ICharacterSpellerItem.getChar(true).equalsIgnoreCase("*") && spellerController$ICharacterSpellerItem instanceof SpellerController$SingleCharItem;
+        boolean bl2 = bl = this.isJokerStrokeEnabled(this.touchCharSetAndTTSHandler) && iCharacterSpellerItem.getChar(true).equalsIgnoreCase("*") && iCharacterSpellerItem instanceof SpellerController.SingleCharItem;
         if (bl) {
-            SpellerController$SingleCharItem spellerController$SingleCharItem = (SpellerController$SingleCharItem)spellerController$ICharacterSpellerItem;
-            bl &= !spellerController$SingleCharItem.hasParent();
+            SpellerController.SingleCharItem singleCharItem = (SpellerController.SingleCharItem)iCharacterSpellerItem;
+            bl &= !singleCharItem.hasParent();
         }
         return bl;
     }
 
     public void setToneCaseToggleButtonStatus(boolean bl) {
-        SpellerController$ISpellerItem spellerController$ISpellerItem = this.getJPToneCaseToggleButton();
-        if (spellerController$ISpellerItem != null) {
-            spellerController$ISpellerItem.setEnabled(bl);
+        SpellerController.ISpellerItem iSpellerItem = this.getJPToneCaseToggleButton();
+        if (iSpellerItem != null) {
+            iSpellerItem.setEnabled(bl);
             this.setCompositesDirty(true);
         }
     }
 
-    protected SpellerController$ISpellerItem getJPToneCaseToggleButton() {
+    protected SpellerController.ISpellerItem getJPToneCaseToggleButton() {
         if (this.getCurrentSpellerBand() != null) {
             List list = this.getCurrentSpellerBand().getSpellerItems();
             for (int i2 = 0; i2 < list.size(); ++i2) {
-                SpellerController$ISpellerItem spellerController$ISpellerItem = (SpellerController$ISpellerItem)list.get(i2);
-                if (!(spellerController$ISpellerItem instanceof SpellerController$ButtonItem) || SpellerController$SpellerButtonType.JP_TONE_LOWER_CASE_TOGGLE != ((SpellerController$ButtonItem)spellerController$ISpellerItem).getButtonType()) continue;
-                return spellerController$ISpellerItem;
+                SpellerController.ISpellerItem iSpellerItem = (SpellerController.ISpellerItem)list.get(i2);
+                if (!(iSpellerItem instanceof SpellerController.ButtonItem) || SpellerController.SpellerButtonType.JP_TONE_LOWER_CASE_TOGGLE != ((SpellerController.ButtonItem)iSpellerItem).getButtonType()) continue;
+                return iSpellerItem;
             }
         }
         return null;
     }
 
-    @Override
     protected boolean releasePressedItem() {
         return super.releasePressedItem();
     }
 
-    @Override
     protected boolean isSugguestionValidAtCurrentSpellerFocus(String string, String string2) {
         if (spellerLogChannel.isDebug()) {
-            spellerLogChannel.log(-2137614336, "SpellerControllerAsia#isSugguestionValidAtCurrentSpellerFocus currentText='%1' / autoCompletion='%2' / valid=%3", (Object)string, (Object)string2, (Object)Boolean.toString(true));
+            spellerLogChannel.log(10000000, "SpellerControllerAsia#isSugguestionValidAtCurrentSpellerFocus currentText='%1' / autoCompletion='%2' / valid=%3", (Object)string, (Object)string2, (Object)Boolean.toString(true));
         }
         return true;
     }
 
-    @Override
-    protected void handleCursorPositionForAutoCompletion(SpellerController$ISpellerItem spellerController$ISpellerItem) {
-        if (null != spellerController$ISpellerItem && !(this.getCurrentSpellerBand() instanceof SpellerControllerAsia$TouchResultsLine)) {
-            super.handleCursorPositionForAutoCompletion(spellerController$ISpellerItem);
+    protected void handleCursorPositionForAutoCompletion(SpellerController.ISpellerItem iSpellerItem) {
+        if (null != iSpellerItem && !(this.getCurrentSpellerBand() instanceof TouchResultsLine)) {
+            super.handleCursorPositionForAutoCompletion(iSpellerItem);
         }
     }
 
-    @Override
     public void onConversionAvailableChange(String string, List list) {
         if (this.getCurrentSpellerState() == SpellerBandState.TOUCH_PREDICTION_LINE) {
             this.getTouchPredictionLine().setResultItems(list);
         }
     }
 
-    @Override
     public void onNextValidCharactersChange(String string, String string2, String string3) {
         this.updateValidChars(string2, string3);
     }
@@ -612,48 +586,359 @@ implements IConversionDataFetcherListener {
         }
     }
 
-    static /* synthetic */ SpellerController$ISpellerItem access$000(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.targetCursorItem;
+    public static interface ISpellerBandAsia
+    extends SpellerController.ISpellerBand {
+        public void adjustDeleteButton(SpellerController.ISpellerItem var1, boolean var2);
     }
 
-    static /* synthetic */ SpellerController$ISpellerItem access$100(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.targetCursorItem;
+    public static class TouchResultsLine
+    implements ITouchResultLine {
+        protected static final int CLOSE_BUTTON_INDEX = 0;
+        protected static final int TOGGLE_BUTTON_INDEX = 1;
+        protected static final int SPACE_ITEM_INDEX = 2;
+        protected static final int DELETE_BUTTON_INDEX = 3;
+        private static final int DEFAULT_MAX_TOUCHRESULTS = 5;
+        protected final int maxTouchResults;
+        protected List items;
+        private SpellerController.ISpellerItem currentFocusedItem;
+        private boolean upperCase;
+        private SpellerController.ISpellerItem spaceCharItem;
+        protected final SpellerControllerAsia speller;
+
+        protected TouchResultsLine(SpellerControllerAsia spellerControllerAsia, int n) {
+            this.items = new ArrayList(this.getAmountOfStaticItems() + n);
+            this.items.add(SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.CLOSE));
+            this.items.add(SpellerController.ToggleToSpellerButtonItem.createInstance(spellerControllerAsia.touchCharSetAndTTSHandler));
+            this.spaceCharItem = SpellerController.SingleCharItem.createInstance(" ", " ");
+            this.items.add(this.spaceCharItem);
+            this.items.add(SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.DELETE));
+            this.upperCase = true;
+            this.currentFocusedItem = (SpellerController.ISpellerItem)this.items.get(0);
+            this.maxTouchResults = n;
+            this.speller = spellerControllerAsia;
+        }
+
+        protected TouchResultsLine(SpellerControllerAsia spellerControllerAsia) {
+            this(spellerControllerAsia, 5);
+        }
+
+        public boolean isResultItem(SpellerController.ISpellerItem iSpellerItem) {
+            if (!this.items.contains(iSpellerItem)) {
+                return false;
+            }
+            return iSpellerItem instanceof SpellerController.ICharacterSpellerItem && this.items.indexOf(iSpellerItem) > 3;
+        }
+
+        public void updateToggleButton(TouchCharSetAndTTSHandler touchCharSetAndTTSHandler) {
+            SpellerController.ISpellerItem iSpellerItem = this.getToggleButton();
+            if (iSpellerItem instanceof SpellerController.ToggleToSpellerButtonItem) {
+                ((SpellerController.ToggleToSpellerButtonItem)iSpellerItem).setTouchCharSetAndTTSHandler(touchCharSetAndTTSHandler);
+            }
+        }
+
+        public boolean isToggleButton(SpellerController.ISpellerItem iSpellerItem) {
+            return this.items.get(1) == iSpellerItem;
+        }
+
+        public SpellerController.ISpellerItem getToggleButton() {
+            return (SpellerController.ISpellerItem)this.items.get(1);
+        }
+
+        public SpellerController.ICharacterSpellerItem getSpaceItem() {
+            return (SpellerController.ICharacterSpellerItem)this.items.get(2);
+        }
+
+        public List getSpellerItems() {
+            return this.items;
+        }
+
+        public SpellerController.ISpellerItem getCurrentFocusedItem() {
+            return this.currentFocusedItem;
+        }
+
+        public void setCurrentFocusedItem(SpellerController.ISpellerItem iSpellerItem) {
+            this.currentFocusedItem = iSpellerItem;
+        }
+
+        public SpellerController.ISpellerItem getOkItem() {
+            return null;
+        }
+
+        public SpellerController.ISpellerItem getCloseButton() {
+            return (SpellerController.ISpellerItem)this.items.get(0);
+        }
+
+        public SpellerController.ISpellerItem getDeleteButton() {
+            return (SpellerController.ISpellerItem)this.items.get(3);
+        }
+
+        public SpellerController.ISpellerItem getDeleteButtonNeighbor() {
+            return this.hasResultItems() ? (SpellerController.ISpellerItem)this.items.get(4) : null;
+        }
+
+        public boolean isUpperCase() {
+            return this.upperCase;
+        }
+
+        public void setIsUpperCase(boolean bl) {
+            this.upperCase = bl;
+        }
+
+        public void setResultItems(List list) {
+            this.deleteOldResultItemsIfPresent();
+            if (list.size() > 1) {
+                Iterator iterator = list.iterator();
+                for (int i2 = 0; iterator.hasNext() && i2 < this.maxTouchResults; ++i2) {
+                    String string = (String)iterator.next();
+                    this.items.add(SpellerController.SingleCharItem.createInstance(string));
+                }
+            }
+            this.speller.changeSpellerBand(this);
+        }
+
+        public void setResultItems(String string) {
+            this.deleteOldResultItemsIfPresent();
+            String string2 = TouchResultsLine.hasDuplicates(string) ? TouchResultsLine.removeDuplicateCharacters(string) : string;
+            int n = string2.length();
+            if (n > 1) {
+                for (int i2 = 0; i2 < n && i2 < this.maxTouchResults; ++i2) {
+                    String string3 = string2.substring(i2, i2 + 1);
+                    this.items.add(SpellerController.SingleCharItem.createInstance(string3));
+                }
+            }
+            this.speller.changeSpellerBand(this);
+        }
+
+        private static boolean hasDuplicates(String string) {
+            if (StringUtilities.isNullOrEmpty(string) || string.length() == 1) {
+                return false;
+            }
+            char[] cArray = string.toCharArray();
+            for (int i2 = 0; i2 < cArray.length; ++i2) {
+                char c2 = cArray[i2];
+                for (int i3 = i2 + 1; i3 < cArray.length; ++i3) {
+                    if (c2 != cArray[i3]) continue;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        protected static String removeDuplicateCharacters(String string) {
+            LinkedHashSet linkedHashSet = new LinkedHashSet();
+            for (int i2 = 0; i2 < string.length(); ++i2) {
+                linkedHashSet.add(new Character(string.charAt(i2)));
+            }
+            Buffer buffer = new Buffer();
+            Iterator iterator = linkedHashSet.iterator();
+            while (iterator.hasNext()) {
+                buffer.append(iterator.next());
+            }
+            return buffer.toString();
+        }
+
+        protected final void setCurrentFocusedItem(int n) {
+            this.setCurrentFocusedItem((SpellerController.ISpellerItem)this.items.get(n));
+        }
+
+        public void deleteOldResultItemsIfPresent() {
+            if (this.hasResultItems()) {
+                for (int i2 = this.items.size() - 1; i2 >= this.getAmountOfStaticItems(); --i2) {
+                    ReusableInstanceCache.IReusable iReusable = (ReusableInstanceCache.IReusable)this.items.remove(i2);
+                    SpellerControllerAsia.addToSpellerItemCache(iReusable);
+                }
+            }
+        }
+
+        public final boolean hasResultItems() {
+            return this.items.size() > this.getAmountOfStaticItems();
+        }
+
+        protected int getAmountOfStaticItems() {
+            return 4;
+        }
+
+        public void resetInitialItem(boolean bl) {
+            if (this.hasResultItems()) {
+                this.setCurrentFocusedItem(this.getAmountOfStaticItems());
+            } else {
+                this.setCurrentFocusedItem(3);
+            }
+        }
+
+        public boolean hasMovingDeleteButton() {
+            return false;
+        }
+
+        public void itemPressed(SpellerController.ISpellerItem iSpellerItem) {
+        }
+
+        public String getFirstResultOrEmptyString() {
+            if (!this.hasResultItems()) {
+                return "";
+            }
+            return ((SpellerController.SingleCharItem)this.items.get(this.getAmountOfStaticItems())).getChar(true);
+        }
+
+        public void autoCompletionAccepted() {
+            this.setResultItems("");
+        }
+
+        public void setSpaceItemEnabled(boolean bl) {
+            this.spaceCharItem.setEnabled(bl);
+        }
+
+        public void free(boolean bl) {
+            if (bl) {
+                SpellerControllerAsia.addToSpellerItemCache(this.items);
+                this.items = Collections.EMPTY_LIST;
+            }
+        }
+
+        public List getResultItems() {
+            if (!this.hasResultItems()) {
+                return Collections.EMPTY_LIST;
+            }
+            return this.items.subList(this.getAmountOfStaticItems(), this.items.size());
+        }
+
+        public SpellerController.ISpellerItem getLeftButton() {
+            return null;
+        }
+
+        public SpellerController.ISpellerItem getRightButton() {
+            return null;
+        }
     }
 
-    static /* synthetic */ SpellerController$ISpellerItem access$200(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.targetCursorItem;
+    public class SpellerBandImplAsia
+    extends SpellerController.SpellerBandImpl
+    implements ISpellerBandAsia {
+        private int spellerBandInternalLanguage;
+
+        public SpellerBandImplAsia(List list, boolean bl) {
+            super(list, bl);
+        }
+
+        protected SpellerBandImplAsia(List list, boolean bl, boolean bl2, boolean bl3) {
+            super(list, bl, bl2, bl3);
+        }
+
+        public int getSpellerBandInternalLanguage() {
+            return this.spellerBandInternalLanguage;
+        }
+
+        public void setSpellerBandInternalLanguage(int n) {
+            this.spellerBandInternalLanguage = n;
+        }
+
+        public void itemPressed(SpellerController.ISpellerItem iSpellerItem) {
+            if (SpellerControllerAsia.this.targetCursorItem == null || this.deletePosItem == SpellerControllerAsia.this.targetCursorItem) {
+                return;
+            }
+            if (SpellerControllerAsia.this.targetCursorItem instanceof SpellerController.SingleCharItem) {
+                SpellerController.SingleCharItem singleCharItem = (SpellerController.SingleCharItem)SpellerControllerAsia.this.targetCursorItem;
+                if (singleCharItem.getParent() instanceof SpellerController.AbstractExpandableItem.Char) {
+                    this.moveDeleteButton(SpellerControllerAsia.this.targetCursorItem, true);
+                } else {
+                    super.itemPressed(iSpellerItem);
+                }
+            } else {
+                super.itemPressed(iSpellerItem);
+            }
+        }
+
+        public void adjustDeleteButton(SpellerController.ISpellerItem iSpellerItem, boolean bl) {
+            super.moveDeleteButton(iSpellerItem, bl);
+        }
     }
 
-    static /* synthetic */ SpellerController$ISpellerItem access$300(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.targetCursorItem;
-    }
+    public static final class TouchPredictionLine
+    extends TouchResultsLine
+    implements ITouchPredictionLine {
+        private final IWordPredictionDataFetcher wordPredictionDataFetcher;
+        private boolean outdatedData = false;
+        private boolean isTruffleSearchMode = false;
+        private SpellerController.ButtonItem truffleButton = null;
+        private int lastTimeFocusItem = 3;
 
-    static /* synthetic */ SpellerController$ISpellerItem access$400(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.targetCursorItem;
-    }
+        public TouchPredictionLine(SpellerControllerAsia spellerControllerAsia, IWordPredictionDataFetcher iWordPredictionDataFetcher, boolean bl) {
+            this(spellerControllerAsia, iWordPredictionDataFetcher, 20, bl);
+        }
 
-    static /* synthetic */ TouchCharSetAndTTSHandler access$500(SpellerControllerAsia spellerControllerAsia) {
-        return spellerControllerAsia.touchCharSetAndTTSHandler;
-    }
+        protected TouchPredictionLine(SpellerControllerAsia spellerControllerAsia, IWordPredictionDataFetcher iWordPredictionDataFetcher, int n, boolean bl) {
+            super(spellerControllerAsia, n);
+            this.isTruffleSearchMode = bl;
+            if (bl) {
+                this.truffleButton = SpellerController.ButtonItem.createInstance(SpellerController.SpellerButtonType.ASIA_ACCEPT_TRUFFLE_SUGGESTION);
+                this.items.add(this.truffleButton);
+                this.truffleButton.setEnabled(false);
+            }
+            this.wordPredictionDataFetcher = iWordPredictionDataFetcher == null ? IWordPredictionDataFetcher.NULL : iWordPredictionDataFetcher;
+        }
 
-    static /* synthetic */ void access$600(SpellerControllerAsia spellerControllerAsia, SpellerController$ISpellerBand spellerController$ISpellerBand) {
-        spellerControllerAsia.changeSpellerBand(spellerController$ISpellerBand);
-    }
+        public void itemPressed(SpellerController.ISpellerItem iSpellerItem) {
+            this.lastTimeFocusItem = this.items.indexOf(iSpellerItem);
+            if (this.lastTimeFocusItem > 3 || this.lastTimeFocusItem < 2) {
+                this.lastTimeFocusItem = 3;
+            }
+        }
 
-    static /* synthetic */ void access$700(SpellerControllerAsia spellerControllerAsia, SpellerController$ISpellerBand spellerController$ISpellerBand) {
-        spellerControllerAsia.changeSpellerBand(spellerController$ISpellerBand);
-    }
+        public void resetInitialItem(boolean bl) {
+            if (this.hasResultItems()) {
+                super.resetInitialItem(bl);
+            } else {
+                this.setCurrentFocusedItem(this.lastTimeFocusItem);
+            }
+        }
 
-    static /* synthetic */ void access$800(ReusableInstanceCache$IReusable reusableInstanceCache$IReusable) {
-        SpellerControllerAsia.addToSpellerItemCache(reusableInstanceCache$IReusable);
-    }
+        public void updateWordPredictionContext(String string, String string2) {
+            this.wordPredictionDataFetcher.updateWordPredictionContext(string, string2, 20);
+        }
 
-    static /* synthetic */ void access$900(List list) {
-        SpellerControllerAsia.addToSpellerItemCache(list);
-    }
+        public void setResultItems(List list) {
+            this.deleteOldResultItemsIfPresent();
+            if (!list.isEmpty()) {
+                Iterator iterator = list.iterator();
+                for (int i2 = 0; iterator.hasNext() && i2 < this.maxTouchResults; ++i2) {
+                    String string = (String)iterator.next();
+                    this.items.add(SpellerController.SingleCharItem.createInstance(string));
+                }
+            }
+            this.speller.changeSpellerBand(this);
+            this.setOutdatedData(false);
+        }
 
-    static /* synthetic */ void access$1000(SpellerControllerAsia spellerControllerAsia, SpellerController$ISpellerBand spellerController$ISpellerBand) {
-        spellerControllerAsia.changeSpellerBand(spellerController$ISpellerBand);
+        public void clear() {
+            this.deleteOldResultItemsIfPresent();
+        }
+
+        public boolean isOutdatedData() {
+            return this.outdatedData;
+        }
+
+        public void setOutdatedData(boolean bl) {
+            this.outdatedData = bl;
+        }
+
+        protected int getAmountOfStaticItems() {
+            int n = super.getAmountOfStaticItems();
+            return this.isTruffleSearchMode ? n + 1 : n;
+        }
+
+        public void onSuggestionChange(boolean bl) {
+            if (this.truffleButton != null) {
+                this.truffleButton.setEnabled(bl);
+            }
+        }
+
+        public SpellerController.ISpellerItem getTruffleButton() {
+            return this.truffleButton;
+        }
+
+        public IWordPredictionDataFetcher getWordPredictionDataFetcher() {
+            return this.wordPredictionDataFetcher;
+        }
     }
 }
 

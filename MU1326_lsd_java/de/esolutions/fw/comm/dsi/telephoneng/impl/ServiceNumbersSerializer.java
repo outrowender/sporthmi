@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.ServiceNumbers;
 
 public class ServiceNumbersSerializer {
-    public static void putOptionalServiceNumbers(ISerializer iSerializer, ServiceNumbers serviceNumbers) {
+    public static void putOptionalServiceNumbers(ISerializer iSerializer, ServiceNumbers serviceNumbers) throws SerializerException {
         boolean bl = serviceNumbers == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ServiceNumbersSerializer {
         }
     }
 
-    public static void putOptionalServiceNumbersVarArray(ISerializer iSerializer, ServiceNumbers[] serviceNumbersArray) {
+    public static void putOptionalServiceNumbersVarArray(ISerializer iSerializer, ServiceNumbers[] serviceNumbersArray) throws SerializerException {
         boolean bl = serviceNumbersArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ServiceNumbersSerializer {
         }
     }
 
-    public static ServiceNumbers getOptionalServiceNumbers(IDeserializer iDeserializer) {
+    public static ServiceNumbers getOptionalServiceNumbers(IDeserializer iDeserializer) throws SerializerException {
         ServiceNumbers serviceNumbers = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ServiceNumbersSerializer {
         return serviceNumbers;
     }
 
-    public static ServiceNumbers[] getOptionalServiceNumbersVarArray(IDeserializer iDeserializer) {
+    public static ServiceNumbers[] getOptionalServiceNumbersVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceNumbers[] serviceNumbersArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

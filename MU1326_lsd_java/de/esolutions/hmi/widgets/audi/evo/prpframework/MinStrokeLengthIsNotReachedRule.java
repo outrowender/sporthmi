@@ -9,12 +9,10 @@ import java.util.List;
 
 public class MinStrokeLengthIsNotReachedRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object) {
         this.execute(list, object, false);
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (!bl && !list.isEmpty()) {
             RecognizerResult recognizerResult = (RecognizerResult)list.get(0);
@@ -35,12 +33,10 @@ extends AbstractPRPRule {
         list.add(recognizerResult);
     }
 
-    @Override
     public boolean isMinimumStokeLengthSensitive() {
         return false;
     }
 
-    @Override
     public String getRuleName() {
         return "Min-Stroke-Length-IsNot-Meet-Rule";
     }

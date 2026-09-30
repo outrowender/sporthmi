@@ -10,49 +10,41 @@ import org.dsi.ifc.exboxm.PublicDeviceAddress;
 
 public interface DSIExBoxM
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_AUDIOREQUEST;
-    public static final int ATTR_DISPLAYREQUEST;
-    public static final int ATTR_OPERATIONSTATE;
-    public static final int ATTR_ACTIVESOURCETYPE;
-    public static final int ATTR_CURRENTSTATIONINFO;
-    public static final int ATTR_MOBILEDEVICELINKSTATUS;
-    public static final int ATTR_PUBLICDEVICEADDRESS;
-    public static final int RT_DISPLAYCONTROL;
-    public static final int RT_DISPLAYCURRENTVOLUME;
-    public static final int RT_AUDIOREQUESTREJECTED;
-    public static final int RT_DISPLAYREQUESTREJECTED;
-    public static final int RT_VOLUMERANGE;
-    public static final int RT_RESETTOFACTORY;
-    public static final int RT_SETMOBILEDEVICELINK;
-    public static final int RT_REQUESTCONNECTIONCONTROL;
-    public static final int RP_RESPONSEDISPLAYCONTROL;
-    public static final int RP_RESPONSEVOLUMERANGE;
-    public static final int RP_RESPONSERESETTOFACTORY;
-    public static final int RP_RESPONSECONNECTIONCONTROL;
+    public static final String VERSION = "2.11.8";
+    public static final int ATTR_AUDIOREQUEST = 1;
+    public static final int ATTR_DISPLAYREQUEST = 2;
+    public static final int ATTR_OPERATIONSTATE = 4;
+    public static final int ATTR_ACTIVESOURCETYPE = 5;
+    public static final int ATTR_CURRENTSTATIONINFO = 6;
+    public static final int ATTR_MOBILEDEVICELINKSTATUS = 7;
+    public static final int ATTR_PUBLICDEVICEADDRESS = 8;
+    public static final int RT_DISPLAYCONTROL = 1000;
+    public static final int RT_DISPLAYCURRENTVOLUME = 1001;
+    public static final int RT_AUDIOREQUESTREJECTED = 1005;
+    public static final int RT_DISPLAYREQUESTREJECTED = 1006;
+    public static final int RT_VOLUMERANGE = 1007;
+    public static final int RT_RESETTOFACTORY = 1008;
+    public static final int RT_SETMOBILEDEVICELINK = 1009;
+    public static final int RT_REQUESTCONNECTIONCONTROL = 1010;
+    public static final int RP_RESPONSEDISPLAYCONTROL = 2000;
+    public static final int RP_RESPONSEVOLUMERANGE = 2002;
+    public static final int RP_RESPONSERESETTOFACTORY = 2003;
+    public static final int RP_RESPONSECONNECTIONCONTROL = 2004;
 
-    default public void displayControl(int n) {
-    }
+    public void displayControl(int var1);
 
-    default public void displayCurrentVolume(int n, int n2) {
-    }
+    public void displayCurrentVolume(int var1, int var2);
 
-    default public void audioRequestRejected(int n, int n2) {
-    }
+    public void audioRequestRejected(int var1, int var2);
 
-    default public void displayRequestRejected(int n) {
-    }
+    public void displayRequestRejected(int var1);
 
-    default public void volumeRange(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
-    }
+    public void volumeRange(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8);
 
-    default public void resetToFactory() {
-    }
+    public void resetToFactory();
 
-    default public void setMobileDeviceLink(MobileDeviceLinkStatus mobileDeviceLinkStatus) {
-    }
+    public void setMobileDeviceLink(MobileDeviceLinkStatus var1);
 
-    default public void requestConnectionControl(ConnectionControl connectionControl, PublicDeviceAddress publicDeviceAddress) {
-    }
+    public void requestConnectionControl(ConnectionControl var1, PublicDeviceAddress var2);
 }
 

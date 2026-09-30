@@ -10,10 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbEdit;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbEditC;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbEditReply;
-import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbEditProxy$1;
-import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbEditProxy$2;
-import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbEditProxy$3;
+import de.esolutions.fw.comm.dsi.organizer.impl.AdbEntrySerializer;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbEditReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.AdbEntry;
@@ -34,14 +34,18 @@ DSIAdbEditC {
         return this.proxy;
     }
 
-    @Override
-    public void insertEntry(AdbEntry adbEntry, int n) {
-        DSIAdbEditProxy$1 dSIAdbEditProxy$1 = new DSIAdbEditProxy$1(this, adbEntry, n);
-        this.proxy.remoteCallMethod((short)17, dSIAdbEditProxy$1);
+    public void insertEntry(final AdbEntry adbEntry, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void getEntries(long[] lArray, int n, int n2) {
+    public void getEntries(long[] lArray, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -54,8 +58,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void getEntryDataSets(long[] lArray, int n, int n2) {
+    public void getEntryDataSets(long[] lArray, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -68,14 +71,18 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void changeEntry(AdbEntry adbEntry, int n) {
-        DSIAdbEditProxy$2 dSIAdbEditProxy$2 = new DSIAdbEditProxy$2(this, adbEntry, n);
-        this.proxy.remoteCallMethod((short)15, dSIAdbEditProxy$2);
+    public void changeEntry(final AdbEntry adbEntry, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void copyEntry(long l) {
+    public void copyEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -86,8 +93,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void deleteEntries(long[] lArray, int n, int n2) {
+    public void deleteEntries(long[] lArray, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -100,14 +106,17 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setSpeedDial(AdbEntry adbEntry) {
-        DSIAdbEditProxy$3 dSIAdbEditProxy$3 = new DSIAdbEditProxy$3(this, adbEntry);
-        this.proxy.remoteCallMethod((short)18, dSIAdbEditProxy$3);
+    public void setSpeedDial(final AdbEntry adbEntry) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AdbEntrySerializer.putOptionalAdbEntry(iSerializer, adbEntry);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void deleteSpeedDial(int n) {
+    public void deleteSpeedDial(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -118,8 +127,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void getEntryByReferenceId(String string) {
+    public void getEntryByReferenceId(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -130,8 +138,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -142,8 +149,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -154,13 +160,11 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -171,8 +175,7 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -183,13 +186,11 @@ DSIAdbEditC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

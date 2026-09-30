@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.waveplayer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.waveplayer.DSIWavePlayerReply;
 import de.esolutions.fw.comm.dsi.waveplayer.impl.DSIWavePlayerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIWavePlayerReply {
         super(n, (class$org$dsi$ifc$waveplayer$DSIWavePlayerListener == null ? (class$org$dsi$ifc$waveplayer$DSIWavePlayerListener = DSIWavePlayerDispatcher.class$("org.dsi.ifc.waveplayer.DSIWavePlayerListener")) : class$org$dsi$ifc$waveplayer$DSIWavePlayerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updatePlayTone(int n, int n2) {
+    public void updatePlayTone(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIWavePlayerReply {
         }
     }
 
-    @Override
-    public void updateAudioRequest(int n, int n2) {
+    public void updateAudioRequest(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIWavePlayerReply {
         }
     }
 
-    @Override
-    public void setPlayTone(int n) {
+    public void setPlayTone(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -102,8 +99,7 @@ implements DSIWavePlayerReply {
         }
     }
 
-    @Override
-    public void audioTriggerResponse(int n) {
+    public void audioTriggerResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -119,8 +115,7 @@ implements DSIWavePlayerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -136,14 +131,13 @@ implements DSIWavePlayerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIWavePlayerListener dSIWavePlayerListener = (DSIWavePlayerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIWavePlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIWavePlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIWavePlayerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIWavePlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIWavePlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIWavePlayerListener, new Object[]{string, string2});
                     continue;
                 }

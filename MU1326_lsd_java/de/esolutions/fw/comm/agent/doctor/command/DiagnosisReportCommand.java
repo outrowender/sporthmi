@@ -16,22 +16,18 @@ import java.util.zip.ZipOutputStream;
 
 public class DiagnosisReportCommand
 extends AbstractAgentDiagnosisCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"diagnosis_report", "dr"};
     }
 
-    @Override
     public String getDescription() {
         return "generate a diagnosis report";
     }
 
-    @Override
     public String getUsage() {
         return "['brief'] ['size'] ['zip'] [<output_file>]";
     }
 
-    @Override
     protected void handleWithAgentDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         Object object;
         boolean bl = false;
@@ -74,16 +70,16 @@ extends AbstractAgentDiagnosisCommand {
                 }
                 printStream2.close();
                 byte[] byArray = byteArrayOutputStream.toByteArray();
-                printStream.println(new StringBuffer().append("report size: generated ").append(byArray.length).append(" bytes in ").append(l3).append(" ms").toString());
+                printStream.println("report size: generated " + byArray.length + " bytes in " + l3 + " ms");
                 if (string != null) {
-                    printStream.println(new StringBuffer().append("writing to '").append(string).append("'").toString());
+                    printStream.println("writing to '" + string + "'");
                     FileOutputStream fileOutputStream = new FileOutputStream(string);
                     fileOutputStream.write(byArray);
                     fileOutputStream.close();
                 }
             }
             catch (IOException iOException) {
-                printStream.println(new StringBuffer().append("ERROR writing file: ").append(iOException).toString());
+                printStream.println("ERROR writing file: " + iOException);
             }
         } else {
             DiagnosisReportGenerator diagnosisReportGenerator = new DiagnosisReportGenerator(printStream, bl);

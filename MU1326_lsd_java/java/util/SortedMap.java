@@ -8,22 +8,16 @@ import java.util.Map;
 
 public interface SortedMap
 extends Map {
-    default public Comparator comparator() {
-    }
+    public Comparator comparator();
 
-    default public Object firstKey() {
-    }
+    public Object firstKey();
 
-    default public SortedMap headMap(Object object) {
-    }
+    public SortedMap headMap(Object var1);
 
-    default public Object lastKey() {
-    }
+    public Object lastKey();
 
-    default public SortedMap subMap(Object object, Object object2) {
-    }
+    public SortedMap subMap(Object var1, Object var2);
 
-    default public SortedMap tailMap(Object object) {
-    }
+    public SortedMap tailMap(Object var1);
 }
 

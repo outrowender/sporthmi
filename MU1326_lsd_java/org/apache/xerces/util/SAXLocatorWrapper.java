@@ -23,7 +23,6 @@ implements XMLLocator {
         return this.fLocator;
     }
 
-    @Override
     public String getPublicId() {
         if (this.fLocator != null) {
             return this.fLocator.getPublicId();
@@ -31,7 +30,6 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public String getLiteralSystemId() {
         if (this.fLocator != null) {
             return this.fLocator.getSystemId();
@@ -39,17 +37,14 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public String getBaseSystemId() {
         return null;
     }
 
-    @Override
     public String getExpandedSystemId() {
         return this.getLiteralSystemId();
     }
 
-    @Override
     public int getLineNumber() {
         if (this.fLocator != null) {
             return this.fLocator.getLineNumber();
@@ -57,7 +52,6 @@ implements XMLLocator {
         return -1;
     }
 
-    @Override
     public int getColumnNumber() {
         if (this.fLocator != null) {
             return this.fLocator.getColumnNumber();
@@ -65,12 +59,10 @@ implements XMLLocator {
         return -1;
     }
 
-    @Override
     public int getCharacterOffset() {
         return -1;
     }
 
-    @Override
     public String getEncoding() {
         if (this.fLocator2 != null) {
             return this.fLocator2.getEncoding();
@@ -78,7 +70,6 @@ implements XMLLocator {
         return null;
     }
 
-    @Override
     public String getXMLVersion() {
         if (this.fLocator2 != null) {
             return this.fLocator2.getXMLVersion();

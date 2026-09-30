@@ -21,7 +21,6 @@ extends AbstractDSIAdapterDiagnosisCommand {
         return this.errorLog;
     }
 
-    @Override
     protected void handleWithDSIAdapterDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         this.errorLog = this.getDiagnosis().getErrorLog();
         if (this.errorLog != null) {
@@ -32,7 +31,6 @@ extends AbstractDSIAdapterDiagnosisCommand {
         }
     }
 
-    protected abstract void handleWithDSIAdapterErrorLog(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithDSIAdapterErrorLog(DoctorShell var1, String[] var2, PrintStream var3);
 }
 

@@ -19,7 +19,6 @@ IWidgetLogChannel,
 WidgetConstants {
     public static final ChoiceModelKeyHandler CHOICE_MODEL_HANDLER_INSTANCE = new ChoiceModelKeyHandler();
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -31,16 +30,15 @@ WidgetConstants {
         }
         int n2 = this.getNewModelValue(abstractWidgetController);
         if (n2 == -1) {
-            menuItemLogCh.log(-1601830656, "ChoiceModelKeyHandler#keyPressed: don't call model because new model value would be -1. modelID: %1, keyCode: %2", (long)choiceModelGUI.getID(), (long)n);
+            menuItemLogCh.log(100000, "ChoiceModelKeyHandler#keyPressed: don't call model because new model value would be -1. modelID: %1, keyCode: %2", (long)choiceModelGUI.getID(), (long)n);
             return;
         }
         int n3 = abstractWidgetController.getTerminalImpl().getTerminalID();
-        menuItemLogCh.log(1078071040, "ChoiceModelKeyHandler#keyPressed: call model. modelID: %1, new model value: %2, keyCode: %3", (long)choiceModelGUI.getID(), (long)n2, (long)n);
+        menuItemLogCh.log(1000000, "ChoiceModelKeyHandler#keyPressed: call model. modelID: %1, new model value: %2, keyCode: %3", (long)choiceModelGUI.getID(), (long)n2, (long)n);
         choiceModelGUI.itemSelected(n2, n3);
         keyEvent.consume(false);
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
     }
 
@@ -65,11 +63,9 @@ WidgetConstants {
         return -1;
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

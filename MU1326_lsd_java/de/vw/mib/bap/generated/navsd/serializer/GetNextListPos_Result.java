@@ -10,19 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class GetNextListPos_Result
 implements ResultMethod {
     public int getNextListPos_Result;
-    private static final int GET_NEXT_LIST_POS_RESULT_BITSIZE;
-    public static final int GET_NEXT_LIST_POS_RESULT_SUCCESSFUL;
-    public static final int GET_NEXT_LIST_POS_RESULT_NOT_SUCCESSFUL;
-    public static final int GET_NEXT_LIST_POS_RESULT_ABORT_SUCCESSFUL;
-    public static final int GET_NEXT_LIST_POS_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int GET_NEXT_LIST_POS_RESULT_BITSIZE = 8;
+    public static final int GET_NEXT_LIST_POS_RESULT_SUCCESSFUL = 0;
+    public static final int GET_NEXT_LIST_POS_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int GET_NEXT_LIST_POS_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int GET_NEXT_LIST_POS_RESULT_ABORT_NOT_SUCCESSFUL = 3;
     public int currentPos;
-    private static final int CURRENT_POS_BITSIZE;
+    private static final int CURRENT_POS_BITSIZE = 16;
     public int nextPos;
-    private static final int NEXT_POS_BITSIZE;
+    private static final int NEXT_POS_BITSIZE = 16;
     public int absoluteListPos;
-    private static final int ABSOLUTE_LIST_POS_BITSIZE;
+    private static final int ABSOLUTE_LIST_POS_BITSIZE = 16;
 
-    @Override
     public int getResultCode() {
         return this.getNextListPos_Result;
     }
@@ -44,12 +43,10 @@ implements ResultMethod {
         this.absoluteListPos = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         GetNextListPos_Result getNextListPos_Result = (GetNextListPos_Result)bAPEntity;
         return this.getNextListPos_Result == getNextListPos_Result.getNextListPos_Result && this.currentPos == getNextListPos_Result.currentPos && this.nextPos == getNextListPos_Result.nextPos && this.absoluteListPos == getNextListPos_Result.absoluteListPos;
@@ -58,7 +55,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("GetNextListPos_Result:");
@@ -93,7 +89,6 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -102,7 +97,6 @@ implements ResultMethod {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.getNextListPos_Result);
         bitStream.pushShort((short)this.currentPos);
@@ -110,7 +104,6 @@ implements ResultMethod {
         bitStream.pushShort((short)this.absoluteListPos);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.getNextListPos_Result = bitStream.popFrontByte();
         this.currentPos = bitStream.popFrontShort();
@@ -122,7 +115,6 @@ implements ResultMethod {
         return 41;
     }
 
-    @Override
     public int getFunctionId() {
         return GetNextListPos_Result.functionId();
     }

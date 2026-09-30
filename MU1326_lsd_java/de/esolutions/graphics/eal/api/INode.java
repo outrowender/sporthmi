@@ -24,12 +24,10 @@ extends IObject {
         return iNode == null ? 0L : iNode.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -41,7 +39,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -74,7 +71,6 @@ extends IObject {
         return ealswigJNI.eal_api_INode_isVisible(this.swigCPtr, this);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_INode_isValid(this.swigCPtr, this);
     }
@@ -109,7 +105,6 @@ extends IObject {
         ealswigJNI.eal_api_INode_printAllProperties(this.swigCPtr, this);
     }
 
-    @Override
     public boolean equals(IObject iObject) {
         return ealswigJNI.eal_api_INode_equals(this.swigCPtr, this, IObject.getCPtr(iObject), iObject);
     }
@@ -142,7 +137,6 @@ extends IObject {
         return ealswigJNI.eal_api_INode_getOpacityRecursive(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode_dispose(this.swigCPtr, this);
     }
@@ -165,6 +159,52 @@ extends IObject {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static final class blendMode_t {
+        public static final blendMode_t BLENDMODE_OPAQUE = new blendMode_t("BLENDMODE_OPAQUE");
+        public static final blendMode_t BLENDMODE_ALPHA = new blendMode_t("BLENDMODE_ALPHA");
+        public static final blendMode_t BLENDMODE_ADDITIVE = new blendMode_t("BLENDMODE_ADDITIVE");
+        private static blendMode_t[] swigValues = new blendMode_t[]{BLENDMODE_OPAQUE, BLENDMODE_ALPHA, BLENDMODE_ADDITIVE};
+        private static int swigNext = 0;
+        private final int swigValue;
+        private final String swigName;
+
+        public final int swigValue() {
+            return this.swigValue;
+        }
+
+        public String toString() {
+            return this.swigName;
+        }
+
+        public static blendMode_t swigToEnum(int n) {
+            if (n < swigValues.length && n >= 0 && blendMode_t.swigValues[n].swigValue == n) {
+                return swigValues[n];
+            }
+            for (int i2 = 0; i2 < swigValues.length; ++i2) {
+                if (blendMode_t.swigValues[i2].swigValue != n) continue;
+                return swigValues[i2];
+            }
+            throw new IllegalArgumentException("No enum " + (class$de$esolutions$graphics$eal$api$INode$blendMode_t == null ? (class$de$esolutions$graphics$eal$api$INode$blendMode_t = INode.class$("de.esolutions.graphics.eal.api.INode$blendMode_t")) : class$de$esolutions$graphics$eal$api$INode$blendMode_t) + " with value " + n);
+        }
+
+        private blendMode_t(String string) {
+            this.swigName = string;
+            this.swigValue = swigNext++;
+        }
+
+        private blendMode_t(String string, int n) {
+            this.swigName = string;
+            this.swigValue = n;
+            swigNext = n + 1;
+        }
+
+        private blendMode_t(String string, blendMode_t blendMode_t2) {
+            this.swigName = string;
+            this.swigValue = blendMode_t2.swigValue;
+            swigNext = this.swigValue + 1;
         }
     }
 }

@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 import de.esolutions.fw.util.transport.IReadable;
 import de.esolutions.fw.util.transport.IWriteable;
@@ -22,7 +23,7 @@ public abstract class AbstractMessage {
         return this.type;
     }
 
-    public final void serialize(ISerializer iSerializer) {
+    public final void serialize(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt8(this.type.toByte());
         this.serializeElements(iSerializer);
         IWriteable iWriteable = iSerializer.getAttachedBuffer();
@@ -31,7 +32,7 @@ public abstract class AbstractMessage {
         }
     }
 
-    public final void deserialize(IDeserializer iDeserializer) {
+    public final void deserialize(IDeserializer iDeserializer) throws SerializerException {
         this.deserializeElements(iDeserializer);
         IReadable iReadable = iDeserializer.getAttachedBuffer();
         if (iReadable != null) {
@@ -39,14 +40,11 @@ public abstract class AbstractMessage {
         }
     }
 
-    protected abstract void serializeElements(ISerializer iSerializer) {
-    }
+    protected abstract void serializeElements(ISerializer var1) throws SerializerException;
 
-    protected abstract void deserializeElements(IDeserializer iDeserializer) {
-    }
+    protected abstract void deserializeElements(IDeserializer var1) throws SerializerException;
 
-    public abstract void toStringBuffer(Buffer buffer) {
-    }
+    public abstract void toStringBuffer(Buffer var1);
 
     public String toString() {
         Buffer buffer = new Buffer();

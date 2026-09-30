@@ -10,7 +10,6 @@ import java.util.List;
 
 public class PhoneFirstSymbolRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -25,12 +24,10 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Phone-First-Symbol-Rule";
     }
 
-    @Override
     public int getValidity() {
         return 1;
     }

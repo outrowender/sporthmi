@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.AMFMRadioText;
 
 public class AMFMRadioTextSerializer {
-    public static void putOptionalAMFMRadioText(ISerializer iSerializer, AMFMRadioText aMFMRadioText) {
+    public static void putOptionalAMFMRadioText(ISerializer iSerializer, AMFMRadioText aMFMRadioText) throws SerializerException {
         boolean bl = aMFMRadioText == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AMFMRadioTextSerializer {
         }
     }
 
-    public static void putOptionalAMFMRadioTextVarArray(ISerializer iSerializer, AMFMRadioText[] aMFMRadioTextArray) {
+    public static void putOptionalAMFMRadioTextVarArray(ISerializer iSerializer, AMFMRadioText[] aMFMRadioTextArray) throws SerializerException {
         boolean bl = aMFMRadioTextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AMFMRadioTextSerializer {
         }
     }
 
-    public static AMFMRadioText getOptionalAMFMRadioText(IDeserializer iDeserializer) {
+    public static AMFMRadioText getOptionalAMFMRadioText(IDeserializer iDeserializer) throws SerializerException {
         AMFMRadioText aMFMRadioText = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AMFMRadioTextSerializer {
         return aMFMRadioText;
     }
 
-    public static AMFMRadioText[] getOptionalAMFMRadioTextVarArray(IDeserializer iDeserializer) {
+    public static AMFMRadioText[] getOptionalAMFMRadioTextVarArray(IDeserializer iDeserializer) throws SerializerException {
         AMFMRadioText[] aMFMRadioTextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

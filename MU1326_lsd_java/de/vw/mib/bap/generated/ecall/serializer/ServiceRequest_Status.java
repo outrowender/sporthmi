@@ -14,7 +14,7 @@ public final class ServiceRequest_Status
 implements StatusProperty {
     public ServiceRequest_ServiceType serviceType = new ServiceRequest_ServiceType();
     public int durationBeforeCallStart;
-    public static final int DURATION_BEFORE_CALL_START_MIN;
+    public static final int DURATION_BEFORE_CALL_START_MIN = 0;
     public ServiceRequest_Extension1 extension1 = new ServiceRequest_Extension1();
     public ServiceRequest_Extension2 extension2 = new ServiceRequest_Extension2();
 
@@ -32,7 +32,6 @@ implements StatusProperty {
         this.durationBeforeCallStart = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.serviceType.reset();
@@ -40,7 +39,6 @@ implements StatusProperty {
         this.extension2.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceRequest_Status serviceRequest_Status = (ServiceRequest_Status)bAPEntity;
         return this.serviceType.equalTo(serviceRequest_Status.serviceType) && this.durationBeforeCallStart == serviceRequest_Status.durationBeforeCallStart && this.extension1.equalTo(serviceRequest_Status.extension1) && this.extension2.equalTo(serviceRequest_Status.extension2);
@@ -49,7 +47,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceRequest_Status");
@@ -60,12 +57,10 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.serviceType.serialize(bitStream);
         bitStream.pushByte((byte)this.durationBeforeCallStart);
@@ -73,7 +68,6 @@ implements StatusProperty {
         this.extension2.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.serviceType.deserialize(bitStream);
         this.durationBeforeCallStart = bitStream.popFrontByte();
@@ -85,7 +79,6 @@ implements StatusProperty {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return ServiceRequest_Status.functionId();
     }

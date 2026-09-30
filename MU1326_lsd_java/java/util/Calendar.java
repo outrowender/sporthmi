@@ -4,10 +4,9 @@
 package java.util;
 
 import com.ibm.oti.util.ExtendedResourceBundle;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.TimeZone;
 public abstract class Calendar
 implements Serializable,
 Cloneable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -1807547505821590642L;
     protected boolean areFieldsSet = false;
     protected int[] fields = new int[17];
     protected boolean[] isSet = new boolean[17];
@@ -30,55 +29,54 @@ Cloneable {
     private int firstDayOfWeek;
     private int minimalDaysInFirstWeek;
     private TimeZone zone;
-    public static final int JANUARY;
-    public static final int FEBRUARY;
-    public static final int MARCH;
-    public static final int APRIL;
-    public static final int MAY;
-    public static final int JUNE;
-    public static final int JULY;
-    public static final int AUGUST;
-    public static final int SEPTEMBER;
-    public static final int OCTOBER;
-    public static final int NOVEMBER;
-    public static final int DECEMBER;
-    public static final int UNDECIMBER;
-    public static final int SUNDAY;
-    public static final int MONDAY;
-    public static final int TUESDAY;
-    public static final int WEDNESDAY;
-    public static final int THURSDAY;
-    public static final int FRIDAY;
-    public static final int SATURDAY;
-    public static final int ERA;
-    public static final int YEAR;
-    public static final int MONTH;
-    public static final int WEEK_OF_YEAR;
-    public static final int WEEK_OF_MONTH;
-    public static final int DATE;
-    public static final int DAY_OF_MONTH;
-    public static final int DAY_OF_YEAR;
-    public static final int DAY_OF_WEEK;
-    public static final int DAY_OF_WEEK_IN_MONTH;
-    public static final int AM_PM;
-    public static final int HOUR;
-    public static final int HOUR_OF_DAY;
-    public static final int MINUTE;
-    public static final int SECOND;
-    public static final int MILLISECOND;
-    public static final int ZONE_OFFSET;
-    public static final int DST_OFFSET;
-    public static final int FIELD_COUNT;
-    public static final int AM;
-    public static final int PM;
-    private static String[] fieldNames;
+    public static final int JANUARY = 0;
+    public static final int FEBRUARY = 1;
+    public static final int MARCH = 2;
+    public static final int APRIL = 3;
+    public static final int MAY = 4;
+    public static final int JUNE = 5;
+    public static final int JULY = 6;
+    public static final int AUGUST = 7;
+    public static final int SEPTEMBER = 8;
+    public static final int OCTOBER = 9;
+    public static final int NOVEMBER = 10;
+    public static final int DECEMBER = 11;
+    public static final int UNDECIMBER = 12;
+    public static final int SUNDAY = 1;
+    public static final int MONDAY = 2;
+    public static final int TUESDAY = 3;
+    public static final int WEDNESDAY = 4;
+    public static final int THURSDAY = 5;
+    public static final int FRIDAY = 6;
+    public static final int SATURDAY = 7;
+    public static final int ERA = 0;
+    public static final int YEAR = 1;
+    public static final int MONTH = 2;
+    public static final int WEEK_OF_YEAR = 3;
+    public static final int WEEK_OF_MONTH = 4;
+    public static final int DATE = 5;
+    public static final int DAY_OF_MONTH = 5;
+    public static final int DAY_OF_YEAR = 6;
+    public static final int DAY_OF_WEEK = 7;
+    public static final int DAY_OF_WEEK_IN_MONTH = 8;
+    public static final int AM_PM = 9;
+    public static final int HOUR = 10;
+    public static final int HOUR_OF_DAY = 11;
+    public static final int MINUTE = 12;
+    public static final int SECOND = 13;
+    public static final int MILLISECOND = 14;
+    public static final int ZONE_OFFSET = 15;
+    public static final int DST_OFFSET = 16;
+    public static final int FIELD_COUNT = 17;
+    public static final int AM = 0;
+    public static final int PM = 1;
+    private static String[] fieldNames = new String[]{"ERA=", "YEAR=", "MONTH=", "WEEK_OF_YEAR=", "WEEK_OF_MONTH=", "DAY_OF_MONTH=", "DAY_OF_YEAR=", "DAY_OF_WEEK=", "DAY_OF_WEEK_IN_MONTH=", "AM_PM=", "HOUR=", "HOUR_OF_DAY", "MINUTE=", "SECOND=", "MILLISECOND=", "ZONE_OFFSET=", "DST_OFFSET="};
     private static final ObjectStreamField[] serialPersistentFields;
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
     static /* synthetic */ Class class$2;
 
     static {
-        fieldNames = new String[]{"ERA=", "YEAR=", "MONTH=", "WEEK_OF_YEAR=", "WEEK_OF_MONTH=", "DAY_OF_MONTH=", "DAY_OF_YEAR=", "DAY_OF_WEEK=", "DAY_OF_WEEK_IN_MONTH=", "AM_PM=", "HOUR=", "HOUR_OF_DAY", "MINUTE=", "SECOND=", "MILLISECOND=", "ZONE_OFFSET=", "DST_OFFSET="};
         ObjectStreamField[] objectStreamFieldArray = new ObjectStreamField[11];
         objectStreamFieldArray[0] = new ObjectStreamField("areFieldsSet", Boolean.TYPE);
         Class clazz = class$0;
@@ -137,8 +135,7 @@ Cloneable {
         this.setMinimalDaysInFirstWeek((Integer)extendedResourceBundle.getObject(com.ibm.oti.locale.Locale.MINIMAL_DAYS));
     }
 
-    public abstract void add(int n, int n2) {
-    }
+    public abstract void add(int var1, int var2);
 
     public boolean after(Object object) {
         if (!(object instanceof Calendar)) {
@@ -201,11 +198,9 @@ Cloneable {
         }
     }
 
-    protected abstract void computeFields() {
-    }
+    protected abstract void computeFields();
 
-    protected abstract void computeTime() {
-    }
+    protected abstract void computeTime();
 
     public boolean equals(Object object) {
         if (this == object) {
@@ -267,8 +262,7 @@ Cloneable {
         return this.firstDayOfWeek;
     }
 
-    public abstract int getGreatestMinimum(int n) {
-    }
+    public abstract int getGreatestMinimum(int var1);
 
     public static synchronized Calendar getInstance() {
         return new GregorianCalendar();
@@ -286,18 +280,15 @@ Cloneable {
         return new GregorianCalendar(timeZone, locale);
     }
 
-    public abstract int getLeastMaximum(int n) {
-    }
+    public abstract int getLeastMaximum(int var1);
 
-    public abstract int getMaximum(int n) {
-    }
+    public abstract int getMaximum(int var1);
 
     public int getMinimalDaysInFirstWeek() {
         return this.minimalDaysInFirstWeek;
     }
 
-    public abstract int getMinimum(int n) {
-    }
+    public abstract int getMinimum(int var1);
 
     public final Date getTime() {
         return new Date(this.getTimeInMillis());
@@ -341,8 +332,7 @@ Cloneable {
         }
     }
 
-    public abstract void roll(int n, boolean bl) {
-    }
+    public abstract void roll(int var1, boolean var2);
 
     public void set(int n, int n2) {
         this.fields[n] = n2;
@@ -403,7 +393,7 @@ Cloneable {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(new StringBuffer(String.valueOf(super.getClass().getName())).append("[time=").append(this.isTimeSet ? String.valueOf(this.time) : "?").append(",areFieldsSet=").append(this.areFieldsSet).append(",lenient=").append(this.lenient).append(",zone=").append(this.zone).append(",firstDayOfWeek=").append(this.firstDayOfWeek).append(",minimalDaysInFirstWeek=").append(this.minimalDaysInFirstWeek).toString());
+        StringBuffer stringBuffer = new StringBuffer(new StringBuffer(String.valueOf(this.getClass().getName())).append("[time=").append(this.isTimeSet ? String.valueOf(this.time) : "?").append(",areFieldsSet=").append(this.areFieldsSet).append(",lenient=").append(this.lenient).append(",zone=").append(this.zone).append(",firstDayOfWeek=").append(this.firstDayOfWeek).append(",minimalDaysInFirstWeek=").append(this.minimalDaysInFirstWeek).toString());
         int n = 0;
         while (n < 17) {
             stringBuffer.append(',');
@@ -420,34 +410,34 @@ Cloneable {
         return stringBuffer.toString();
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         this.complete();
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("areFieldsSet", this.areFieldsSet);
-        objectOutputStream$PutField.put("fields", this.fields);
-        objectOutputStream$PutField.put("firstDayOfWeek", this.firstDayOfWeek);
-        objectOutputStream$PutField.put("isSet", this.isSet);
-        objectOutputStream$PutField.put("isTimeSet", this.isTimeSet);
-        objectOutputStream$PutField.put("lenient", this.lenient);
-        objectOutputStream$PutField.put("minimalDaysInFirstWeek", this.minimalDaysInFirstWeek);
-        objectOutputStream$PutField.put("nextStamp", 2);
-        objectOutputStream$PutField.put("serialVersionOnStream", 1);
-        objectOutputStream$PutField.put("time", this.time);
-        objectOutputStream$PutField.put("zone", this.zone);
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("areFieldsSet", this.areFieldsSet);
+        putField.put("fields", this.fields);
+        putField.put("firstDayOfWeek", this.firstDayOfWeek);
+        putField.put("isSet", this.isSet);
+        putField.put("isTimeSet", this.isTimeSet);
+        putField.put("lenient", this.lenient);
+        putField.put("minimalDaysInFirstWeek", this.minimalDaysInFirstWeek);
+        putField.put("nextStamp", 2);
+        putField.put("serialVersionOnStream", 1);
+        putField.put("time", this.time);
+        putField.put("zone", this.zone);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        this.areFieldsSet = objectInputStream$GetField.get("areFieldsSet", false);
-        this.fields = (int[])objectInputStream$GetField.get("fields", null);
-        this.firstDayOfWeek = objectInputStream$GetField.get("firstDayOfWeek", 1);
-        this.isSet = (boolean[])objectInputStream$GetField.get("isSet", null);
-        this.isTimeSet = objectInputStream$GetField.get("isTimeSet", false);
-        this.lenient = objectInputStream$GetField.get("lenient", true);
-        this.minimalDaysInFirstWeek = objectInputStream$GetField.get("minimalDaysInFirstWeek", 1);
-        this.time = objectInputStream$GetField.get("time", 0L);
-        this.zone = (TimeZone)objectInputStream$GetField.get("zone", null);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        this.areFieldsSet = getField.get("areFieldsSet", false);
+        this.fields = (int[])getField.get("fields", null);
+        this.firstDayOfWeek = getField.get("firstDayOfWeek", 1);
+        this.isSet = (boolean[])getField.get("isSet", null);
+        this.isTimeSet = getField.get("isTimeSet", false);
+        this.lenient = getField.get("lenient", true);
+        this.minimalDaysInFirstWeek = getField.get("minimalDaysInFirstWeek", 1);
+        this.time = getField.get("time", 0L);
+        this.zone = (TimeZone)getField.get("zone", null);
     }
 }
 

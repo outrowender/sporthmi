@@ -10,13 +10,13 @@ import de.vw.mib.bap.stream.BitStream;
 public final class EmailState_Status
 implements StatusProperty {
     public int storageState;
-    private static final int STORAGE_STATE_BITSIZE;
-    public static final int STORAGE_STATE_EMAIL_STORAGE_AVAILABLE;
-    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL;
-    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL_EMAIL_PENDING_1;
-    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL_EMAIL_PENDING_2;
+    private static final int STORAGE_STATE_BITSIZE = 8;
+    public static final int STORAGE_STATE_EMAIL_STORAGE_AVAILABLE = 0;
+    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL = 1;
+    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL_EMAIL_PENDING_1 = 2;
+    public static final int STORAGE_STATE_EMAIL_STORAGE_FULL_EMAIL_PENDING_2 = 3;
     public int numberOfNewEmail;
-    private static final int NUMBER_OF_NEW_EMAIL_BITSIZE;
+    private static final int NUMBER_OF_NEW_EMAIL_BITSIZE = 16;
 
     public EmailState_Status() {
         this.internalReset();
@@ -33,12 +33,10 @@ implements StatusProperty {
         this.numberOfNewEmail = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         EmailState_Status emailState_Status = (EmailState_Status)bAPEntity;
         return this.storageState == emailState_Status.storageState && this.numberOfNewEmail == emailState_Status.numberOfNewEmail;
@@ -47,7 +45,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("EmailState_Status:");
@@ -78,20 +75,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.storageState);
         bitStream.pushShort((short)this.numberOfNewEmail);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.storageState = bitStream.popFrontByte();
         this.numberOfNewEmail = bitStream.popFrontShort();
@@ -101,7 +95,6 @@ implements StatusProperty {
         return 22;
     }
 
-    @Override
     public int getFunctionId() {
         return EmailState_Status.functionId();
     }

@@ -4,16 +4,12 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface IViewSizeAnimatable {
-    default public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
-    }
+    public void setViewSizeAnimation(float var1, float[] var2, float[] var3, boolean var4);
 
-    default public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
-    }
+    public void setViewSizeAnimationFinished(float[] var1, boolean var2);
 
-    default public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
-    }
+    public void viewSizeTargetChanged(float[] var1, float[] var2, boolean var3);
 
-    default public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
-    }
+    public void viewSizeAnimationStarted(float var1, float[] var2, float[] var3);
 }
 

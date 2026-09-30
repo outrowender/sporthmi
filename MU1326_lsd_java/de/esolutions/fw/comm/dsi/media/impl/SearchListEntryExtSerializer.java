@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.media.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.media.SearchListEntryExt;
 
 public class SearchListEntryExtSerializer {
-    public static void putOptionalSearchListEntryExt(ISerializer iSerializer, SearchListEntryExt searchListEntryExt) {
+    public static void putOptionalSearchListEntryExt(ISerializer iSerializer, SearchListEntryExt searchListEntryExt) throws SerializerException {
         boolean bl = searchListEntryExt == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class SearchListEntryExtSerializer {
         }
     }
 
-    public static void putOptionalSearchListEntryExtVarArray(ISerializer iSerializer, SearchListEntryExt[] searchListEntryExtArray) {
+    public static void putOptionalSearchListEntryExtVarArray(ISerializer iSerializer, SearchListEntryExt[] searchListEntryExtArray) throws SerializerException {
         boolean bl = searchListEntryExtArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class SearchListEntryExtSerializer {
         }
     }
 
-    public static SearchListEntryExt getOptionalSearchListEntryExt(IDeserializer iDeserializer) {
+    public static SearchListEntryExt getOptionalSearchListEntryExt(IDeserializer iDeserializer) throws SerializerException {
         SearchListEntryExt searchListEntryExt = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -77,7 +78,7 @@ public class SearchListEntryExtSerializer {
         return searchListEntryExt;
     }
 
-    public static SearchListEntryExt[] getOptionalSearchListEntryExtVarArray(IDeserializer iDeserializer) {
+    public static SearchListEntryExt[] getOptionalSearchListEntryExtVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchListEntryExt[] searchListEntryExtArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

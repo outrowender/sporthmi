@@ -10,43 +10,30 @@ import org.dsi.ifc.browser.PathInfo;
 
 public interface DSIBrowserBookmarkListener
 extends DSIListener {
-    default public void listBookmarksResult(String string, Bookmark[] bookmarkArray, int n) {
-    }
+    public void listBookmarksResult(String var1, Bookmark[] var2, int var3);
 
-    default public void bookmarkListInvalid() {
-    }
+    public void bookmarkListInvalid();
 
-    default public void addBookmarkResult(Bookmark bookmark, int n) {
-    }
+    public void addBookmarkResult(Bookmark var1, int var2);
 
-    default public void editBookmarkResult(Bookmark bookmark, int n) {
-    }
+    public void editBookmarkResult(Bookmark var1, int var2);
 
-    default public void deleteBookmarkResult(Bookmark bookmark, int n) {
-    }
+    public void deleteBookmarkResult(Bookmark var1, int var2);
 
-    default public void createFolderResult(Bookmark bookmark, int n) {
-    }
+    public void createFolderResult(Bookmark var1, int var2);
 
-    default public void deleteFolderResult(String string, int n) {
-    }
+    public void deleteFolderResult(String var1, int var2);
 
-    default public void renameFolderResult(String string, int n) {
-    }
+    public void renameFolderResult(String var1, int var2);
 
-    default public void exportBookmarksResult(PathInfo pathInfo, int n) {
-    }
+    public void exportBookmarksResult(PathInfo var1, int var2);
 
-    default public void updateExportBookmarksProgress(PathInfo pathInfo, int n, int n2) {
-    }
+    public void updateExportBookmarksProgress(PathInfo var1, int var2, int var3);
 
-    default public void importBookmarksResult(PathInfo pathInfo, ImportReport importReport, int n) {
-    }
+    public void importBookmarksResult(PathInfo var1, ImportReport var2, int var3);
 
-    default public void updateImportBookmarksProgress(PathInfo pathInfo, int n, int n2) {
-    }
+    public void updateImportBookmarksProgress(PathInfo var1, int var2, int var3);
 
-    default public void getQuotaInformationResult(int n, int n2, int n3) {
-    }
+    public void getQuotaInformationResult(int var1, int var2, int var3);
 }
 

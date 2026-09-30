@@ -16,7 +16,6 @@ implements IWidgetKeyHandler,
 IWidgetLogChannel {
     public static final StateMachineKeyHandler STATE_MACHINE_HANDLER_INSTANCE = new StateMachineKeyHandler();
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -30,19 +29,16 @@ IWidgetLogChannel {
                 AbstractWidget.hmiService.fireSMEvent(n3, n2);
             }
         } else {
-            menuItemLogCh.log(1078071040, "StateMachineKeyHandler#keyPressed no event configured, keyPressed event is not processed and not consumed");
+            menuItemLogCh.log(1000000, "StateMachineKeyHandler#keyPressed no event configured, keyPressed event is not processed and not consumed");
         }
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

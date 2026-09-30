@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface ThrottlingState
 extends IEnum {
-    public static final int THROTTLING_UNKNOWN;
-    public static final int THROTTLING_ACTIVE;
-    public static final int THROTTLING_NOT_ACTIVE;
+    public static final int THROTTLING_UNKNOWN = 0;
+    public static final int THROTTLING_ACTIVE = 1;
+    public static final int THROTTLING_NOT_ACTIVE = 2;
 }
 

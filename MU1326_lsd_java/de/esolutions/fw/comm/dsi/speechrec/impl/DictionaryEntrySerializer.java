@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 import de.esolutions.fw.comm.dsi.speechrec.impl.PhoneticEntrySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.DictionaryEntry;
 import org.dsi.ifc.speechrec.PhoneticEntry;
 
 public class DictionaryEntrySerializer {
-    public static void putOptionalDictionaryEntry(ISerializer iSerializer, DictionaryEntry dictionaryEntry) {
+    public static void putOptionalDictionaryEntry(ISerializer iSerializer, DictionaryEntry dictionaryEntry) throws SerializerException {
         boolean bl = dictionaryEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DictionaryEntrySerializer {
         }
     }
 
-    public static void putOptionalDictionaryEntryVarArray(ISerializer iSerializer, DictionaryEntry[] dictionaryEntryArray) {
+    public static void putOptionalDictionaryEntryVarArray(ISerializer iSerializer, DictionaryEntry[] dictionaryEntryArray) throws SerializerException {
         boolean bl = dictionaryEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DictionaryEntrySerializer {
         }
     }
 
-    public static DictionaryEntry getOptionalDictionaryEntry(IDeserializer iDeserializer) {
+    public static DictionaryEntry getOptionalDictionaryEntry(IDeserializer iDeserializer) throws SerializerException {
         DictionaryEntry dictionaryEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class DictionaryEntrySerializer {
         return dictionaryEntry;
     }
 
-    public static DictionaryEntry[] getOptionalDictionaryEntryVarArray(IDeserializer iDeserializer) {
+    public static DictionaryEntry[] getOptionalDictionaryEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         DictionaryEntry[] dictionaryEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

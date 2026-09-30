@@ -10,7 +10,7 @@ import org.w3c.dom.ProcessingInstruction;
 public class ProcessingInstructionImpl
 extends CharacterDataImpl
 implements ProcessingInstruction {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 7554435174099981510L;
     protected String target;
 
     public ProcessingInstructionImpl(CoreDocumentImpl coreDocumentImpl, String string, String string2) {
@@ -18,12 +18,10 @@ implements ProcessingInstruction {
         this.target = string;
     }
 
-    @Override
     public short getNodeType() {
         return 7;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -31,7 +29,6 @@ implements ProcessingInstruction {
         return this.target;
     }
 
-    @Override
     public String getTarget() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -39,7 +36,6 @@ implements ProcessingInstruction {
         return this.target;
     }
 
-    @Override
     public String getData() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -47,12 +43,10 @@ implements ProcessingInstruction {
         return this.data;
     }
 
-    @Override
     public void setData(String string) {
         this.setNodeValue(string);
     }
 
-    @Override
     public String getBaseURI() {
         if (this.needsSyncData()) {
             this.synchronizeData();

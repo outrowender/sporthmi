@@ -7,11 +7,11 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eNavCalibrationState
 extends IEnum {
-    public static final int NAV_NO_CALIBRATION;
-    public static final int NAV_CALIBRATION_SENSORS_CALIBRATED;
-    public static final int NAV_CALIBRATION_POSITIONING_POSSIBLE;
-    public static final int NAV_CALIBRATION_POSITIONING_POSSIBLE_WITHOUT_GPS;
-    public static final int NAV_CALIBRATION_NEARLY_FINISHED;
-    public static final int NAV_CALIBRATION_COMPLETE;
+    public static final int NAV_NO_CALIBRATION = 0;
+    public static final int NAV_CALIBRATION_SENSORS_CALIBRATED = 1;
+    public static final int NAV_CALIBRATION_POSITIONING_POSSIBLE = 2;
+    public static final int NAV_CALIBRATION_POSITIONING_POSSIBLE_WITHOUT_GPS = 3;
+    public static final int NAV_CALIBRATION_NEARLY_FINISHED = 4;
+    public static final int NAV_CALIBRATION_COMPLETE = 5;
 }
 

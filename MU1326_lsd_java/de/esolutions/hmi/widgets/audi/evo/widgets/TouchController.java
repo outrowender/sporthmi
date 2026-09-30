@@ -60,19 +60,15 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerButtonArgument;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SuggestionController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchCharSetAndTTSHandler$CharsetListener;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchController$MenuCallback;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerDebugInfo;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory$AnimationListenerImpl;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory$IUserHintPartialPopupListener;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory$TimerListenerImpl;
 import de.esolutions.hmi.widgets.audi.evo.widgets.TouchInputData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IInputLocker;
 import de.esolutions.hmi.widgets.audi.evo.widgets.factories.FingerTraceControllerFactory;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuCallback;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuCallbackProvider;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuItemSingle;
+import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuCallbackAdapter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import java.util.Iterator;
@@ -85,11 +81,11 @@ IViewSizeAnimatable,
 ATIPEventListener,
 ITouchInputDataChangeHandler,
 IInputLocker,
-TouchCharSetAndTTSHandler$CharsetListener,
+TouchCharSetAndTTSHandler.CharsetListener,
 ILockingListener {
-    public static final int SPELLER_Y_OFFSET_MMIKOMBI;
-    private static final float SPELLER_FADE_IN_POINT;
-    public static final int TOUCHFIELD_HEIGHT;
+    public static final int SPELLER_Y_OFFSET_MMIKOMBI = 4;
+    private static final float SPELLER_FADE_IN_POINT = 0.7f;
+    public static final int TOUCHFIELD_HEIGHT = 60;
     private int topImageSmallIndex = -1;
     private int topImageBigIndex = -1;
     private int topImageSmallIndexKB = -1;
@@ -97,61 +93,61 @@ ILockingListener {
     private boolean isTopImageVisible = true;
     private String topImageLabelText = null;
     private ModelStubController topImageLabelTextItem = null;
-    private static final int ROLE_TOP_IMAGE_LABEL_TEXT;
+    private static final int ROLE_TOP_IMAGE_LABEL_TEXT = 2;
     private boolean isLockingActive = false;
-    public static final int LOCK_NOTHING;
-    public static final int LOCK_SPELLER;
-    public static final int LOCK_TOUCH;
-    public static final int LOCK_ANY;
+    public static final int LOCK_NOTHING = 0;
+    public static final int LOCK_SPELLER = 1;
+    public static final int LOCK_TOUCH = 2;
+    public static final int LOCK_ANY = 3;
     private int lockLevel = 0;
-    public static final int TOUCH_CONTROLLER_SCREEN_LEVEL_1;
-    public static final int TOUCH_CONTROLLER_SCREEN_LEVEL_2;
+    public static final int TOUCH_CONTROLLER_SCREEN_LEVEL_1 = 1;
+    public static final int TOUCH_CONTROLLER_SCREEN_LEVEL_2 = 2;
     private int touchControllerScreenLevel = 1;
     private ModelStubController lockSpellerInputModel = null;
     private ModelStubController lockAllInputModel = null;
-    private static final int NO_SPELLER_INPUT_POPUP;
-    private static final int NO_GENERAL_INPUT_POPUP;
-    public static final int MODE_MATCH_SPELLER_GENERAL;
-    public static final int MODE_MATCH_SPELLER_NAV_DEST_COUNTRY;
-    public static final int MODE_MATCH_SPELLER_NAV_DEST_CITY;
-    public static final int MODE_MATCH_SPELLER_NAV_DEST_STREET;
-    public static final int MODE_MATCH_SPELLER_NAV_DEST_HOUSENUMBER;
-    public static final int MODE_MATCH_SPELLER_PHONE_STANDARD;
-    public static final int MODE_MATCH_SPELLER_JP_MAPCODE;
-    public static final int MODE_MATCH_SPELLER_JP_PHONE_SEARCH;
-    public static final int MODE_FREETEXT_GENERAL;
-    public static final int MODE_FREETEXT_SSID;
-    public static final int MODE_SEARCHTEXT_GENERAL;
-    public static final int MODE_SEARCHTEXT_FAVORITES;
-    public static final int MODE_SEARCHTEXT_ADRESSBOOK;
-    public static final int MODE_SEARCHTEXT_NAVI;
-    public static final int MODE_SEARCHTEXT_PHONE;
-    public static final int MODE_SEARCHTEXT_SMS_EMAIL;
-    public static final int MODE_SEARCHTEXT_GOOGLE_ONLINE;
-    public static final int MODE_SEARCHTEXT_PHONE_LIST;
-    public static final int MODE_PIN_INPUT;
-    public static final int MODE_PASSWORD_INPUT_GENERAL;
-    public static final int MODE_PASSWORD_INPUT_WLAN_APN;
-    public static final int MODE_PASSWORD_INPUT_WLAN_CLIENT;
-    public static final int MODE_PASSWORD_INPUT_VEHICLE_CODE;
-    public static final int MODE_MESSAGING_MULTILINE;
-    public static final int MODE_MESSAGING_EMAIL_RECIPIENT;
-    public static final int MODE_MESSAGING_SMS_RECIPIENT;
-    public static final int MODE_DTMF_INPUT;
-    public static final int MODE_PHONE_NUMBER_INPUT;
-    private static final int SPELLER_HEIGHT;
-    public static final int RIGHT_OFFSET_SPELLER;
-    private static final int MATCH_COUNT_AUTOMATIC_SPELLER_CLOSE;
-    public static final int LASTMODE_TOUCHINPUT;
-    public static final int LASTMODE_SPELLER;
-    private static final int TOP_IMAGE_SMALL_INDEX;
-    private static final int TOP_IMAGE_BIG_INDEX;
-    private static final int TOP_IMAGE_SMALL_INDEX_KB;
-    private static final int TOP_IMAGE_BIG_INDEX_KB;
+    private static final int NO_SPELLER_INPUT_POPUP = 192;
+    private static final int NO_GENERAL_INPUT_POPUP = 191;
+    public static final int MODE_MATCH_SPELLER_GENERAL = 16;
+    public static final int MODE_MATCH_SPELLER_NAV_DEST_COUNTRY = 17;
+    public static final int MODE_MATCH_SPELLER_NAV_DEST_CITY = 18;
+    public static final int MODE_MATCH_SPELLER_NAV_DEST_STREET = 19;
+    public static final int MODE_MATCH_SPELLER_NAV_DEST_HOUSENUMBER = 20;
+    public static final int MODE_MATCH_SPELLER_PHONE_STANDARD = 21;
+    public static final int MODE_MATCH_SPELLER_JP_MAPCODE = 22;
+    public static final int MODE_MATCH_SPELLER_JP_PHONE_SEARCH = 23;
+    public static final int MODE_FREETEXT_GENERAL = 32;
+    public static final int MODE_FREETEXT_SSID = 33;
+    public static final int MODE_SEARCHTEXT_GENERAL = 48;
+    public static final int MODE_SEARCHTEXT_FAVORITES = 49;
+    public static final int MODE_SEARCHTEXT_ADRESSBOOK = 50;
+    public static final int MODE_SEARCHTEXT_NAVI = 51;
+    public static final int MODE_SEARCHTEXT_PHONE = 52;
+    public static final int MODE_SEARCHTEXT_SMS_EMAIL = 53;
+    public static final int MODE_SEARCHTEXT_GOOGLE_ONLINE = 54;
+    public static final int MODE_SEARCHTEXT_PHONE_LIST = 55;
+    public static final int MODE_PIN_INPUT = 64;
+    public static final int MODE_PASSWORD_INPUT_GENERAL = 80;
+    public static final int MODE_PASSWORD_INPUT_WLAN_APN = 81;
+    public static final int MODE_PASSWORD_INPUT_WLAN_CLIENT = 82;
+    public static final int MODE_PASSWORD_INPUT_VEHICLE_CODE = 83;
+    public static final int MODE_MESSAGING_MULTILINE = 96;
+    public static final int MODE_MESSAGING_EMAIL_RECIPIENT = 97;
+    public static final int MODE_MESSAGING_SMS_RECIPIENT = 98;
+    public static final int MODE_DTMF_INPUT = 113;
+    public static final int MODE_PHONE_NUMBER_INPUT = 114;
+    private static final int SPELLER_HEIGHT = 35;
+    public static final int RIGHT_OFFSET_SPELLER = 37;
+    private static final int MATCH_COUNT_AUTOMATIC_SPELLER_CLOSE = 5;
+    public static final int LASTMODE_TOUCHINPUT = 0;
+    public static final int LASTMODE_SPELLER = 1;
+    private static final int TOP_IMAGE_SMALL_INDEX = 3;
+    private static final int TOP_IMAGE_BIG_INDEX = 4;
+    private static final int TOP_IMAGE_SMALL_INDEX_KB = 5;
+    private static final int TOP_IMAGE_BIG_INDEX_KB = 6;
     private boolean openSpellerInitiallyIfNoTouchpad = false;
-    public static final int CURSOR_VERTICAL_INDENT;
-    private static final Object userHintCursorHideReason;
-    private static int truffleInputCount;
+    public static final int CURSOR_VERTICAL_INDENT = 1;
+    private static final Object userHintCursorHideReason = "TouchController_UserHintShown";
+    private static int truffleInputCount = 0;
     private int touchpadMode = 32;
     private IRenderer renderer;
     protected String matchSpellerValidChars = "";
@@ -191,10 +187,10 @@ ILockingListener {
     private float cursorOpacity = 0.0f;
     private Job takeBackSmallStageJob = null;
     private TimerEvent takeBackSmallStageTimerEvent = null;
-    private static final long TAKE_ME_BACK_TO_SMALL_STAGE_DEFAULT_DELAY;
+    private static final long TAKE_ME_BACK_TO_SMALL_STAGE_DEFAULT_DELAY = 10000L;
     private Job hidePinByStarJob = null;
     private TimerEvent hidePinByStarTimerEvent = null;
-    private static final int HIDE_PIN_BY_STAR_DELAY;
+    private static final int HIDE_PIN_BY_STAR_DELAY = 3000;
     private boolean isPinReplacedByStar = false;
     private boolean isCursorVisible = true;
     private boolean isCursorAtInitialPosition = true;
@@ -204,29 +200,29 @@ ILockingListener {
     private boolean blockSpellerInput = false;
     protected char lastInput;
     protected long lastBackspaceTime = 0L;
-    protected static final long LAST_BACKSPACE_TIME_DELAY;
+    protected static final long LAST_BACKSPACE_TIME_DELAY = 1500L;
     protected final TouchControllerListenerFactory listenerFactory;
-    protected final TouchControllerListenerFactory$AnimationListenerImpl animationListener;
-    protected final TouchControllerListenerFactory$IUserHintPartialPopupListener userHintPartialPopupListener;
+    protected final TouchControllerListenerFactory.AnimationListenerImpl animationListener;
+    protected final TouchControllerListenerFactory.IUserHintPartialPopupListener userHintPartialPopupListener;
     private final IRightDrawerActionReceiver rightDrawerActionReceiver;
-    protected final TouchControllerListenerFactory$TimerListenerImpl timerListener;
+    protected final TouchControllerListenerFactory.TimerListenerImpl timerListener;
     private final ISpellerListener spellerListener;
     private final FingerTraceListener fingerTraceListener;
     private String descriptiveText2 = null;
     private String stringRepresentation;
     private boolean openSpellerOnOtherScreen = false;
     private boolean useAdditionalDatabaseForWordPrediction = false;
-    public static final int POI_ADDITIONAL_DATABASE_ID;
-    public static final int CONTACT_ADDITIONAL_DATABASE_ID;
-    public static final int MEDIA_ADDITIONAL_DATABASE_ID;
-    private static final int LOCK_INFO_MESSAGE_INDEX;
+    public static final int POI_ADDITIONAL_DATABASE_ID = 0;
+    public static final int CONTACT_ADDITIONAL_DATABASE_ID = 1;
+    public static final int MEDIA_ADDITIONAL_DATABASE_ID = 2;
+    private static final int LOCK_INFO_MESSAGE_INDEX = 0;
     private int additionalDatabaseForWordPredictionID = -1;
-    private static final String VANITY_LIST;
+    private static final String VANITY_LIST = "0123456789*+#";
     private boolean switchedLanguageVanityNum = false;
     private char preChange;
     private boolean isLastInputByTouch = false;
     private int initialMatchCount = -1;
-    private final TouchController$MenuCallback menuCallback = new TouchController$MenuCallback(this, null);
+    private final MenuCallback menuCallback = new MenuCallback();
 
     public TouchController() {
         this(new TouchInputData());
@@ -252,16 +248,13 @@ ILockingListener {
         return extHMITerminalEvo.getRendererFactory();
     }
 
-    @Override
     public int getSizeForTabulator(int n) {
         return -1;
     }
 
-    @Override
     public void showExtended(boolean bl) {
     }
 
-    @Override
     public int getPreferredHeight(boolean bl, int n) {
         int n2 = this.getTouchInputFieldHeight();
         float f2 = Math.max(this.getSpellerOpenProgress(), this.getInfoLineProgress());
@@ -272,7 +265,7 @@ ILockingListener {
 
     public float getMMIKombiExtraHeight() {
         float f2 = 0.0f;
-        f2 = this.isG24() ? this.getSpellerOpenProgress() * 49217 : (this.isG22() ? this.getSpellerOpenProgress() * 49217 : this.getSpellerOpenProgress() * 16449);
+        f2 = this.isG24() ? this.getSpellerOpenProgress() * 24.0f : (this.isG22() ? this.getSpellerOpenProgress() * 24.0f : this.getSpellerOpenProgress() * 12.0f);
         return f2;
     }
 
@@ -284,7 +277,6 @@ ILockingListener {
         return n;
     }
 
-    @Override
     public final IFocusedPropertyObject getProperty() {
         if (!this.isEnabled() || this.speller == null) {
             return null;
@@ -294,14 +286,14 @@ ILockingListener {
         }
         IntList intList = new IntList(5);
         if (!this.inputFieldData.isEmpty()) {
-            intList.add(144238384);
+            intList.add(820484104);
         }
         if (this.isRightDrawerConditionSpellerOpen()) {
-            intList.add(-28217558);
+            intList.add(711938558);
         }
         intList.add(this.touchUtil.getFocusPropertyForCurrentCharset());
         if (!this.isCharsetSwitchingAvailable()) {
-            intList.add(-1540166366);
+            intList.add(585970340);
         }
         this.focusPropertyObject.setProperties(intList.toArray());
         this.focusPropertyObject.setActionReceiverWidget(this.rightDrawerActionReceiver);
@@ -310,7 +302,7 @@ ILockingListener {
     }
 
     protected int getRightDrawerCategoryForThisWidget() {
-        return -657864606;
+        return 1657326040;
     }
 
     protected boolean isRightDrawerConditionSpellerOpen() {
@@ -326,26 +318,23 @@ ILockingListener {
         return bl;
     }
 
-    @Override
     public boolean isSelected() {
         return false;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     protected void initializeWidget() {
         int n;
         int n2;
-        tpLogChannelInternal.log(1078071040, "TouchController#initializeWidget: Touchpadmode=%2, InputData=%1", (Object)this.inputFieldData, (long)this.touchpadMode);
+        tpLogChannelInternal.log(1000000, "TouchController#initializeWidget: Touchpadmode=%2, InputData=%1", (Object)this.inputFieldData, (long)this.touchpadMode);
         this.calculateInfoTextChoices();
         if (this.terminal.getKbdService() != null) {
             this.kbdType = this.terminal.getKbdService().getCurrentKeyboardType();
             this.inputFieldData.setKbdType(this.kbdType);
-            tpLogChannelInternal.log(1078071040, "TouchController#initializeWidget: kbdType=%1", (long)this.kbdType);
+            tpLogChannelInternal.log(1000000, "TouchController#initializeWidget: kbdType=%1", (long)this.kbdType);
         }
         this.firstChar = true;
         if (this.initContext.isReinit()) {
@@ -403,7 +392,6 @@ ILockingListener {
         }
     }
 
-    @Override
     protected void propagateConnected(InitializationContext initializationContext) {
         super.propagateConnected(initializationContext);
         this.preOpenSpellerByModel();
@@ -424,7 +412,7 @@ ILockingListener {
                     this.openSpeller(false);
                 }
                 spellerModelGUI.setSpellerInitiallyOpen(false);
-                tpLogChannelInternal.log(-2137614336, "TouchController#preOpenSpellerByModel: [MODEL COMMUNICATION ->] called setSpellerInitiallyOpen with argument false.");
+                tpLogChannelInternal.log(10000000, "TouchController#preOpenSpellerByModel: [MODEL COMMUNICATION ->] called setSpellerInitiallyOpen with argument false.");
             }
         }
         if (this.openSpellerInitial()) {
@@ -456,16 +444,16 @@ ILockingListener {
 
     private void doShowInitialHint() {
         boolean bl = this.isVisibleInHierarchy();
-        tpLogChannelInternal.log(-2137614336, "TouchController#doShowInitialHint: isVisibleInHierarchy: %1, touchController: %2", bl, (Object)this);
+        tpLogChannelInternal.log(10000000, "TouchController#doShowInitialHint: isVisibleInHierarchy: %1, touchController: %2", bl, (Object)this);
         if (bl && this.isVisibleOnCurrentStage() && !this.isSDSActive() && this.terminal.getViewSizeManager() != null && this.isBigStage()) {
             ChoiceModelApp choiceModelApp;
             if (this.touchpadMode == 52 || this.touchpadMode == 55 || this.touchpadMode == 21) {
                 ChoiceModelApp choiceModelApp2 = this.terminal.getFramework().getHMIService().getChoiceModel(3848);
                 if (choiceModelApp2 != null && choiceModelApp2.getValue() == 0) {
                     this.terminal.getUserHintHandler().requestInitialHint(96, this.userHintPartialPopupListener);
-                    tpLogChannelInternal.log(-2137614336, "TouchController#doShowInitialHint: showing initial phone hint");
+                    tpLogChannelInternal.log(10000000, "TouchController#doShowInitialHint: showing initial phone hint");
                 }
-            } else if (this.touchpadMode == 51 && (choiceModelApp = this.terminal.getFramework().getHMIService().getChoiceModel(-417528320)) != null && choiceModelApp.getValue() != 2) {
+            } else if (this.touchpadMode == 51 && (choiceModelApp = this.terminal.getFramework().getHMIService().getChoiceModel(400871)) != null && choiceModelApp.getValue() != 2) {
                 this.terminal.getUserHintHandler().requestInitialHint(97, this.userHintPartialPopupListener);
             }
         }
@@ -504,7 +492,6 @@ ILockingListener {
         this.chosenInfoLineTextSDSIndex = this.infoTextSDSIDs != null && this.infoTextSDSIDs.length > 0 ? (int)(framework.getMonotonicTimeSource().getCurrentTime() % (long)this.infoTextSDSIDs.length) : 0;
     }
 
-    @Override
     protected void initConnect(InitializationContext initializationContext) {
         super.initConnect(initializationContext);
         if (this.fingerTraceWidget == null) {
@@ -520,7 +507,7 @@ ILockingListener {
         }
         if (this.speller != null && this.speller.getSpellerMode() == 0 && (this.touchpadMode == 16 || this.touchpadMode == 18 || this.touchpadMode == 17 || this.touchpadMode == 19)) {
             this.speller.setSpellerMode(11);
-            tpLogChannelInternal.log(-2137614336, "TouchController#initConnect: changed speller mode to MODE_MATCHSPELLER, touchpad mode was %1", (long)this.touchpadMode);
+            tpLogChannelInternal.log(10000000, "TouchController#initConnect: changed speller mode to MODE_MATCHSPELLER, touchpad mode was %1", (long)this.touchpadMode);
         }
     }
 
@@ -530,7 +517,6 @@ ILockingListener {
         this.fingerTraceWidget.registerFTListener(this.fingerTraceListener);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateButtonStates();
@@ -540,14 +526,13 @@ ILockingListener {
         this.setInputLock(false);
         if (this.model instanceof MatchspellerModelGUI) {
             this.initialMatchCount = ((MatchspellerModelGUI)this.model).getMatchCount();
-            tpLogChannelInternal.log(-2137614336, "TouchController#connected initial match count: %1", (long)this.initialMatchCount);
+            tpLogChannelInternal.log(10000000, "TouchController#connected initial match count: %1", (long)this.initialMatchCount);
         }
         this.touchUtil.addCharsetListener(this);
         this.calculateLockLevel();
         LockingManager.registerListener(this);
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (this.hasBounds(n, n2, n3, n4)) {
             return;
@@ -558,7 +543,6 @@ ILockingListener {
         this.setHeight(n4);
     }
 
-    @Override
     public void setY(int n) {
         int n2 = this.y;
         super.setY(n);
@@ -574,7 +558,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void setX(int n) {
         int n2 = this.x;
         super.setX(n);
@@ -586,7 +569,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void setHeight(int n) {
         int n2 = this.height;
         super.setHeight(n);
@@ -598,7 +580,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void setWidth(int n) {
         int n2 = this.width;
         super.setWidth(n);
@@ -617,9 +598,8 @@ ILockingListener {
         return this.parent.getWidth() - 37;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        tpLogChannelInternal.log(-2137614336, "TouchController#processModelUpdateEvent: [MODEL COMMUNICATION <-] processing event %1", (Object)modelUpdateEvent);
+        tpLogChannelInternal.log(10000000, "TouchController#processModelUpdateEvent: [MODEL COMMUNICATION <-] processing event %1", (Object)modelUpdateEvent);
         super.processModelUpdateEvent(modelUpdateEvent);
         if (modelUpdateEvent.getModelId() == this.getModelID()) {
             int n;
@@ -658,7 +638,7 @@ ILockingListener {
             this.updateLockLevelFromModelStub(this.lockAllInputModel, 3);
             this.setCompositesDirty(true);
         }
-        tpLogChannelInternal.log(-2137614336, "#TouchController#processModelUpdateEvent: event was consumed: %1", modelUpdateEvent.isConsumed());
+        tpLogChannelInternal.log(10000000, "#TouchController#processModelUpdateEvent: event was consumed: %1", modelUpdateEvent.isConsumed());
     }
 
     private void calculateLockLevel() {
@@ -666,7 +646,7 @@ ILockingListener {
         if (this.touchControllerScreenLevel == 2) {
             this.updateLockLevelFromModelStub(this.lockAllInputModel, 3);
         }
-        logLocking.log(-2137614336, "TouchController#calculateLockLevel: new lock level=%1", (long)this.lockLevel);
+        logLocking.log(10000000, "TouchController#calculateLockLevel: new lock level=%1", (long)this.lockLevel);
     }
 
     private void updateLockLevelFromModelStub(ModelStubController modelStubController, int n) {
@@ -675,7 +655,7 @@ ILockingListener {
             if (((ChoiceModelGUI)object).getValue() == 1) {
                 this.lockLevel = n;
             }
-            logLocking.log(-2137614336, "TouchController#updateLockLevelFromModelStub: modelStub=%1, oldLockLevel=%2, newLockLevel=%3", (Object)modelStubController, (long)this.lockLevel, (long)n);
+            logLocking.log(10000000, "TouchController#updateLockLevelFromModelStub: modelStub=%1, oldLockLevel=%2, newLockLevel=%3", (Object)modelStubController, (long)this.lockLevel, (long)n);
         }
     }
 
@@ -691,7 +671,7 @@ ILockingListener {
                     return true;
                 }
             }
-            logLocking.log(-1601830656, "TouchController#isSpellerInputAllowed: unknown lock level is set: %1", (long)this.lockLevel);
+            logLocking.log(100000, "TouchController#isSpellerInputAllowed: unknown lock level is set: %1", (long)this.lockLevel);
         }
         return true;
     }
@@ -708,12 +688,11 @@ ILockingListener {
                     return true;
                 }
             }
-            logLocking.log(-1601830656, "TouchController#isTouchInputAllowed: unknown lock level is set: %1", (long)this.lockLevel);
+            logLocking.log(100000, "TouchController#isTouchInputAllowed: unknown lock level is set: %1", (long)this.lockLevel);
         }
         return true;
     }
 
-    @Override
     public void isLockingActive(boolean bl, boolean bl2) {
         this.isLockingActive = bl;
         if (this.isLockingActive && this.lockLevel != 0) {
@@ -728,14 +707,13 @@ ILockingListener {
         if (this.speller != null) {
             this.speller.setEnabled(this.isSpellerInputAllowed());
         } else {
-            logLocking.log(-1601830656, "TouchController#lockingActive: speller couldn't set enabled=%1 because the object is null", this.isSpellerInputAllowed());
+            logLocking.log(100000, "TouchController#lockingActive: speller couldn't set enabled=%1 because the object is null", this.isSpellerInputAllowed());
         }
         this.updateInfoLineState(true);
         this.setCompositesDirty(true);
-        logLocking.log(-2137614336, "TouchController#lockingActive: isLockingActive=%1 lockLevel=%2", this.isLockingActive, (long)this.lockLevel);
+        logLocking.log(10000000, "TouchController#lockingActive: isLockingActive=%1 lockLevel=%2", this.isLockingActive, (long)this.lockLevel);
     }
 
-    @Override
     public boolean isInterestedOnTimerEvents() {
         return false;
     }
@@ -744,7 +722,7 @@ ILockingListener {
         if (n <= 3 && n >= 0) {
             this.lockLevel = n;
         } else {
-            logLocking.log(-1601830656, "TouchController#setLockLevel: unknown lock level was set: locklevel=%1", (long)n);
+            logLocking.log(100000, "TouchController#setLockLevel: unknown lock level was set: locklevel=%1", (long)n);
         }
     }
 
@@ -768,7 +746,7 @@ ILockingListener {
                 break;
             }
             default: {
-                logLocking.log(1078071040, "TouchController#showNoInputPopup: no popup for the locklevel = %1 defined", (long)this.lockLevel);
+                logLocking.log(1000000, "TouchController#showNoInputPopup: no popup for the locklevel = %1 defined", (long)this.lockLevel);
             }
         }
     }
@@ -785,7 +763,7 @@ ILockingListener {
         MatchspellerModelGUI matchspellerModelGUI;
         int n;
         if (!this.isSpellerClosed() && (n = (matchspellerModelGUI = (MatchspellerModelGUI)this.model).getMatchCount()) <= 5 && this.lastInput != '\b' && !this.shouldBlockJump5Rule()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#updateMatchCount closing speller because of jump-5 rule");
+            tpLogChannelInternal.log(10000000, "TouchController#updateMatchCount closing speller because of jump-5 rule");
             this.closeSpeller(true, false);
         }
     }
@@ -796,21 +774,21 @@ ILockingListener {
             String string = spellerModelGUI.getTruffleSuggestion();
             if (!this.blockSuggestions && this.speller != null && !this.isSpellerClosed() && this.isJoystickKeypanel() && this.isSpellerInputAllowed()) {
                 String string2 = spellerModelGUI.getCompletionText();
-                tpLogChannelInternal.log(-2137614336, "#TouchController#updateSuggestions: set new autocompletion at speller: %1", (Object)string2);
+                tpLogChannelInternal.log(10000000, "#TouchController#updateSuggestions: set new autocompletion at speller: %1", (Object)string2);
                 this.speller.setAutoCompletionText(string2, this.getCurrentTextForSuggestion());
             }
             this.currentSuggestedNewSearchString = spellerModelGUI.getSuggestedNewSearchString();
             if (this.isSuggestionValid(string, this.currentSuggestedNewSearchString)) {
                 this.currentSuggestion = this.inputFieldData.doCaseBalancingForSuggestion(string);
                 if (tpLogChannelInternal.isDebug()) {
-                    tpLogChannelInternal.log(-2137614336, "#TouchController#updateSuggestions: set new suggestion=%1 / current text is: %2", (Object)this.currentSuggestion, (Object)this.inputFieldData.getCurrentText());
+                    tpLogChannelInternal.log(10000000, "#TouchController#updateSuggestions: set new suggestion=%1 / current text is: %2", (Object)this.currentSuggestion, (Object)this.inputFieldData.getCurrentText());
                 }
                 if (truffleInputCount >= 2 && this.inputFieldData.getTextLength() >= 2 && !TouchController.isAsia()) {
                     this.showUserHintAnimation(98);
                 }
             } else {
                 if (tpLogChannelInternal.isDebug()) {
-                    tpLogChannelInternal.log(-2137614336, "#TouchController#updateSuggestions: suggestion (%1) is not valid for current text (%2)", (Object)string, (Object)this.inputFieldData.getCurrentText());
+                    tpLogChannelInternal.log(10000000, "#TouchController#updateSuggestions: suggestion (%1) is not valid for current text (%2)", (Object)string, (Object)this.inputFieldData.getCurrentText());
                 }
                 this.currentSuggestion = null;
             }
@@ -827,7 +805,7 @@ ILockingListener {
     protected void speakAutocompletion() {
         boolean bl = this.touchUtil.trySpeakFullMatchWithPhonemes((MatchspellerModelGUI)this.model);
         if (!bl && !StringUtilities.isNullOrEmpty(this.stringToSpeak)) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#speakAutocompletion stringToSpeak: %1", (Object)this.stringToSpeak);
+            tpLogChannelInternal.log(10000000, "TouchController#speakAutocompletion stringToSpeak: %1", (Object)this.stringToSpeak);
             this.touchUtil.speak(this.stringToSpeak);
         }
     }
@@ -836,21 +814,21 @@ ILockingListener {
         MatchspellerModelGUI matchspellerModelGUI = (MatchspellerModelGUI)this.model;
         this.matchSpellerValidChars = matchspellerModelGUI.getValidChars();
         this.propagateValidChars(false);
-        tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#updateValidChars validChars: %1", (Object)this.matchSpellerValidChars);
+        tpLogChannelInternal.log(10000000, "TouchControllerAsia#updateValidChars validChars: %1", (Object)this.matchSpellerValidChars);
     }
 
     protected final void updateValueFromModel() {
         int n;
         String string = null;
         int n2 = 0;
-        int n3 = -129;
+        int n3 = Integer.MAX_VALUE;
         boolean bl = this.inputFieldData.isEmpty();
         if (this.model instanceof SpellerModelGUI) {
             string = ((SpellerModelGUI)this.model).getText();
             n2 = ((SpellerModelGUI)this.model).getMinLength();
             n3 = ((SpellerModelGUI)this.model).getMaxLength();
             if (string == null) {
-                tpLogChannelInternal.log(1078071040, "TouchController#updateValueFromModel: model text (modelID=%1) is null; using EMPTY_STRING instead", (long)this.modelID);
+                tpLogChannelInternal.log(1000000, "TouchController#updateValueFromModel: model text (modelID=%1) is null; using EMPTY_STRING instead", (long)this.modelID);
                 string = "";
             }
         } else {
@@ -860,7 +838,7 @@ ILockingListener {
         }
         this.inputFieldData.setMinimumTextLength(n2);
         this.inputFieldData.setMaximumTextLength(n3);
-        tpLogChannelInternal.log(-2137614336, "TouchController#updateValueFromModel: enteredText=%1 | modelText=%2", (Object)this.getEnteredString(), (Object)string);
+        tpLogChannelInternal.log(10000000, "TouchController#updateValueFromModel: enteredText=%1 | modelText=%2", (Object)this.getEnteredString(), (Object)string);
         if (this.getEnteredString() != null && string != null && this.getEnteredString().length() < string.length()) {
             n = this.getEnteredString().length();
             String string2 = string.substring(n >= 1 ? n - 1 : n);
@@ -872,8 +850,8 @@ ILockingListener {
             this.stringToSpeak = buffer.toString();
             this.setEnteredString(string);
         }
-        tpLogChannelInternal.log(-2137614336, "TouchController#updateValueFromModel: update touchfield from model: value=%1 modelID=%2", (Object)string, (long)this.modelID);
-        tpLogChannelInternal.log(-2137614336, "TouchController#updateValueFromModel: update touchfield from model: minLength=%1; maxLength=%2", (long)n2, (long)n3);
+        tpLogChannelInternal.log(10000000, "TouchController#updateValueFromModel: update touchfield from model: value=%1 modelID=%2", (Object)string, (long)this.modelID);
+        tpLogChannelInternal.log(10000000, "TouchController#updateValueFromModel: update touchfield from model: minLength=%1; maxLength=%2", (long)n2, (long)n3);
         int n4 = n = string.length() == 0 ? 1 : 0;
         if (n != 0) {
             this.clear(false);
@@ -885,7 +863,7 @@ ILockingListener {
             }
             this.setCompositesDirty(true);
         } else {
-            tpLogChannelInternal.log(-2137614336, "TouchController#updateValueFromModel: ignore value from model, because we are the master of the text for mode NAVI_TRUFFLES");
+            tpLogChannelInternal.log(10000000, "TouchController#updateValueFromModel: ignore value from model, because we are the master of the text for mode NAVI_TRUFFLES");
         }
         this.propagateValidChars(false);
         this.updateButtonStates();
@@ -922,7 +900,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof ModelStubController) {
             return;
@@ -946,14 +923,13 @@ ILockingListener {
                     break;
                 }
                 default: {
-                    tpLogChannelInternal.log(-1601830656, "TouchController#add: no model with the given role=%1 exists", (long)n);
+                    tpLogChannelInternal.log(100000, "TouchController#add: no model with the given role=%1 exists", (long)n);
                 }
             }
         }
         super.add(abstractWidget);
     }
 
-    @Override
     public void predisconnecting() {
         this.timerListener.preDisconnecting();
         this.terminal.getUserHintHandler().removeCurrentUserHint();
@@ -961,7 +937,6 @@ ILockingListener {
         super.predisconnecting();
     }
 
-    @Override
     public void disconnecting() {
         this.isSDSActive = false;
         this.matchSpellerValidChars = "";
@@ -988,10 +963,10 @@ ILockingListener {
             if (screenMainArea != null) {
                 screenMainArea.getScreenAreaWidget().setOnScreen(bl);
             } else {
-                tpLogChannelInternal.log(-1601830656, "TouchController#setTitleAreaVisible TtitleArea is NULL!");
+                tpLogChannelInternal.log(100000, "TouchController#setTitleAreaVisible TtitleArea is NULL!");
             }
         } else {
-            tpLogChannelInternal.log(-1601830656, "TouchController#setTitleAreaVisible initContext or screen is NULL");
+            tpLogChannelInternal.log(100000, "TouchController#setTitleAreaVisible initContext or screen is NULL");
         }
     }
 
@@ -1026,7 +1001,7 @@ ILockingListener {
         this.restartUserHintIdleJob();
         char c2 = '\u0000';
         if (string != null && string.length() > 0) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#touchpadCharactersRecognized: recognizedCharacters=[%1] CharacterConfidence=[%2]", (Object)string, (Object)touchEvent.getCharacterConfidence());
+            tpLogChannelKeypanel.log(10000000, "TouchController#touchpadCharactersRecognized: recognizedCharacters=[%1] CharacterConfidence=[%2]", (Object)string, (Object)touchEvent.getCharacterConfidence());
             if (this.isMatchSpellerMode() && !TouchController.isAsia()) {
                 this.prpEngine.process(string, touchEvent.getCharacterConfidence(), StringUtility.concatenate('\b', this.matchSpellerValidChars), bl2);
             } else {
@@ -1036,7 +1011,7 @@ ILockingListener {
             if (TouchController.isAllowedMinCharSizeCharacter(string) && this.inputFieldData.isStartOfText()) {
                 string2 = "";
             }
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#touchpadCharactersRecognized: filteredCharacters=%1", (Object)string2);
+            tpLogChannelKeypanel.log(10000000, "TouchController#touchpadCharactersRecognized: filteredCharacters=%1", (Object)string2);
             this.setFastDelete(true);
             this.processTouchResult(string2);
             c2 = TouchController.getMostPlausibleCharacter(string2);
@@ -1044,7 +1019,7 @@ ILockingListener {
             this.invalidateParentLayout();
             touchEvent.consume(true);
             if (this.isSDSMultimodal() || string2 == null || string2.length() == 0) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchController#touchpadCharactersRecognized: continue SDS dialog");
+                tpLogChannelKeypanel.log(10000000, "TouchController#touchpadCharactersRecognized: continue SDS dialog");
                 touchEvent.setSdsAction(3);
             }
         } else if (string != null && string.length() == 0) {
@@ -1056,13 +1031,12 @@ ILockingListener {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         this.touchPadCharactersRecognizedAction(touchEvent, false);
     }
 
     private boolean isFastDeleteGuesture(String string) {
-        return !this.fingerTraceWidget.exceededMinStrokeLength() && string != null && string.length() > 0 && this.lastInput == '\b' && string.charAt(0) == '\b' && framework.getMonotonicTime() - this.lastBackspaceTime < 0;
+        return !this.fingerTraceWidget.exceededMinStrokeLength() && string != null && string.length() > 0 && this.lastInput == '\b' && string.charAt(0) == '\b' && framework.getMonotonicTime() - this.lastBackspaceTime < 1500L;
     }
 
     protected void processEmptyTouchResult() {
@@ -1098,12 +1072,12 @@ ILockingListener {
             this.hidePinByStarTimerEvent = new TimerEvent(this);
         }
         this.cancelHidePinTimer();
-        this.hidePinByStarJob = hmiService.getEventDispatcher().postEvent(this.hidePinByStarTimerEvent, 0);
+        this.hidePinByStarJob = hmiService.getEventDispatcher().postEvent(this.hidePinByStarTimerEvent, 3000L);
     }
 
     protected void stringEntered(String string, String[] stringArray) {
         if (string == null || string.length() == 0 || this.isInputLocked()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#stringEntered return because inputString is Empty or cuz blockSpellerInput=%1", this.isInputLocked());
+            tpLogChannelKeypanel.log(10000000, "TouchController#stringEntered return because inputString is Empty or cuz blockSpellerInput=%1", this.isInputLocked());
             return;
         }
         char c2 = string.charAt(string.length() - 1);
@@ -1112,7 +1086,7 @@ ILockingListener {
             return;
         }
         if (this.isPasswordField() && !this.isWlanPasswordField() && !this.isPinReplacedByStar) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
+            tpLogChannelInternal.log(10000000, "TouchController#stringEntered: hide already entered characters (if it's a Password field)");
             this.inputFieldData.hideCharacters();
         }
         this.inputFieldData.insertString(string, stringArray, true);
@@ -1144,7 +1118,7 @@ ILockingListener {
     }
 
     private boolean isInVanityList(char c2) {
-        return "0123456789*+#".indexOf(c2) > -1;
+        return VANITY_LIST.indexOf(c2) > -1;
     }
 
     protected boolean isCurrentSpellerLanguageLatinBased() {
@@ -1162,8 +1136,8 @@ ILockingListener {
             if (this.prpEngine != null) {
                 string2 = this.prpEngine.getSpeechTopMatch();
             }
-            tpLogChannelInternal.log(-2137614336, "TouchController#processTouchResult: negative tone because of empty result inputfield empty, minStrokeExceeded=%1", this.fingerTraceWidget.isMinStrokeReached());
-            tpLogChannelInternal.log(-2137614336, "TouchController#processTouchResult: charToSpeak=%1", (Object)string2);
+            tpLogChannelInternal.log(10000000, "TouchController#processTouchResult: negative tone because of empty result inputfield empty, minStrokeExceeded=%1", this.fingerTraceWidget.isMinStrokeReached());
+            tpLogChannelInternal.log(10000000, "TouchController#processTouchResult: charToSpeak=%1", (Object)string2);
             if (this.fingerTraceWidget.exceededMinStrokeLength()) {
                 this.touchUtil.speakCharWithNegativeTone(string2);
             }
@@ -1175,7 +1149,7 @@ ILockingListener {
         char c2 = string.charAt(0);
         if (this.isTextMaxLengthMet() && c2 != '\b') {
             String string3 = Character.toString(c2);
-            tpLogChannelInternal.log(-2137614336, "TouchController#processTouchResult: max text length reached speak char('%1') followed by negative tone", (Object)string3);
+            tpLogChannelInternal.log(10000000, "TouchController#processTouchResult: max text length reached speak char('%1') followed by negative tone", (Object)string3);
             if (this.fingerTraceWidget.isMinStrokeReached()) {
                 this.touchUtil.speakCharWithNegativeTone(string3);
             }
@@ -1215,7 +1189,7 @@ ILockingListener {
             }
         }
         if (c2 == '\b') {
-            tpLogChannelInternal.log(-2137614336, "TouchController#processTouchResult speak 'L\u00f6schen'");
+            tpLogChannelInternal.log(10000000, "TouchController#processTouchResult speak 'L\u00f6schen'");
             this.touchUtil.sayDelete();
             this.stringToSpeak = null;
         } else if (!this.suppressTTSOutput()) {
@@ -1226,7 +1200,7 @@ ILockingListener {
             }
         } else {
             this.stringToSpeak = null;
-            tpLogChannelInternal.log(-2137614336, "TouchController#processTouchResult: do not speak character because we are in password mode");
+            tpLogChannelInternal.log(10000000, "TouchController#processTouchResult: do not speak character because we are in password mode");
         }
     }
 
@@ -1257,21 +1231,21 @@ ILockingListener {
     }
 
     protected final void showUserHintAnimation(int n) {
-        tpLogChannelKeypanel.log(-2137614336, "TouchController#showUserHintAnimation(%1) isTouchpadKeypanel=%2", (Object)String.valueOf(n), (Object)String.valueOf(this.isTouchpadKeypanelWithActiveStatus()));
+        tpLogChannelKeypanel.log(10000000, "TouchController#showUserHintAnimation(%1) isTouchpadKeypanel=%2", (Object)String.valueOf(n), (Object)String.valueOf(this.isTouchpadKeypanelWithActiveStatus()));
         if (!this.shouldRender()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#showUserHintAnimation: not showing user hint (id=%1) because field is not visible", (long)n);
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: not showing user hint (id=%1) because field is not visible", (long)n);
             return;
         }
         if (!this.isTruffleSearch() && !this.isStd()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#showUserHintAnimation: not showing user hint (id=%1) because this is not a truffle field", (long)n);
+            tpLogChannelInternal.log(10000000, "TouchController#showUserHintAnimation: not showing user hint (id=%1) because this is not a truffle field", (long)n);
             return;
         }
         IUserHintHandler iUserHintHandler = this.terminal.getUserHintHandler();
         if (iUserHintHandler != null) {
             int n2 = TouchController.getAbsoluteX(this) + this.getWidth();
             int n3 = TouchController.getAbsoluteY(this) + this.getHeight() + this.getHintYOffset();
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: hintID: ").append(n).append(", getAbsoluteY(this): ").append(TouchController.getAbsoluteY(this)).append(", this.getHeight(): ").append(this.getHeight()).append(", getHintYOffset():").append(this.getHintYOffset()).toString());
-            tpLogChannelInternal.log(-2137614336, new StringBuffer().append("TouchController#showUserHintAnimation: hintID: ").append(n).append(", rightBorderWidget: ").append(n2).append(", bottomBorderOfWidget: ").append(n3).toString());
+            tpLogChannelInternal.log(10000000, new StringBuffer().append("TouchController#showUserHintAnimation: hintID: ").append(n).append(", getAbsoluteY(this): ").append(TouchController.getAbsoluteY(this)).append(", this.getHeight(): ").append(this.getHeight()).append(", getHintYOffset():").append(this.getHintYOffset()).toString());
+            tpLogChannelInternal.log(10000000, new StringBuffer().append("TouchController#showUserHintAnimation: hintID: ").append(n).append(", rightBorderWidget: ").append(n2).append(", bottomBorderOfWidget: ").append(n3).toString());
             iUserHintHandler.requestHintAnimation(n, n2, n3);
         } else {
             tpLogChannelInternal.log(10000, "TouchController#showUserHintAnimation: not able to show user hint (id=%1), because user hint handler is null!", (long)n);
@@ -1323,24 +1297,24 @@ ILockingListener {
 
     private void takeMeBackToSmallStage() {
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#takeMeBackToSmallStage: isFocused=%1 | spellerOpen=%1, spellerClosed=%2 / jobCanceled=%3", this.isFocused(), this.isSpellerOpen(), this.takeBackSmallStageJob.isCanceled());
+            tpLogChannelInternal.log(10000000, "TouchController#takeMeBackToSmallStage: isFocused=%1 | spellerOpen=%1, spellerClosed=%2 / jobCanceled=%3", this.isFocused(), this.isSpellerOpen(), this.takeBackSmallStageJob.isCanceled());
         }
         if (!this.isFocused() || this.isSpellerOpen() || this.animationListener.isSpellerOpening() || !this.inputFieldData.isEmpty()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#takeMeBackToSmallStage: abort!");
+            tpLogChannelInternal.log(10000000, "TouchController#takeMeBackToSmallStage: abort!");
             return;
         }
         this.terminal.getViewSizeManager().unrequestLargeViewSize(11);
     }
 
     private void restartTakeBackSmallStageJob() {
-        tpLogChannelInternal.log(-2137614336, "TouchController#restartTakeBackSmallStageJob");
+        tpLogChannelInternal.log(10000000, "TouchController#restartTakeBackSmallStageJob");
         this.stopTakeBackSmallStageJob();
         this.takeBackSmallStageTimerEvent = new TimerEvent(this);
-        this.takeBackSmallStageJob = framework.getHMIService().getEventDispatcher().postEvent(this.takeBackSmallStageTimerEvent, 0);
+        this.takeBackSmallStageJob = framework.getHMIService().getEventDispatcher().postEvent(this.takeBackSmallStageTimerEvent, 10000L);
     }
 
     private void stopTakeBackSmallStageJob() {
-        tpLogChannelInternal.log(-2137614336, "TouchController#stopTakeBackSmallStageJob");
+        tpLogChannelInternal.log(10000000, "TouchController#stopTakeBackSmallStageJob");
         if (this.takeBackSmallStageTimerEvent != null) {
             this.takeBackSmallStageTimerEvent.consume();
             this.takeBackSmallStageTimerEvent = null;
@@ -1353,7 +1327,7 @@ ILockingListener {
 
     private void updateTakeBackSmallStageTimer() {
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#updateTakeBackSmallStageJob: spellerOpen(ing)=%1, spellerClosed=%2 / focused=%3", this.animationListener.isSpellerOpening() || this.isSpellerOpen(), this.isSpellerClosed(), this.isFocused());
+            tpLogChannelInternal.log(10000000, "TouchController#updateTakeBackSmallStageJob: spellerOpen(ing)=%1, spellerClosed=%2 / focused=%3", this.animationListener.isSpellerOpening() || this.isSpellerOpen(), this.isSpellerClosed(), this.isFocused());
         }
         if (this.animationListener.isSpellerOpening() || this.isSpellerOpen() || !this.inputFieldData.isEmpty() || !this.isFocused()) {
             this.stopTakeBackSmallStageJob();
@@ -1406,24 +1380,24 @@ ILockingListener {
             String string2 = string;
             char c3 = TouchController.calculateLastCharacterInRightCase(string2, c2);
             if (tpLogChannelInternal.isDebug()) {
-                tpLogChannelInternal.log(-2137614336, "TouchController#updateModelText [MODEL COMMUNICATION ->] writing to Model: modelString: %1 / lastCharacter=%2", (Object)string2, (Object)StringUtility.sanitizeCharacterForLogging(c3));
+                tpLogChannelInternal.log(10000000, "TouchController#updateModelText [MODEL COMMUNICATION ->] writing to Model: modelString: %1 / lastCharacter=%2", (Object)string2, (Object)StringUtility.sanitizeCharacterForLogging(c3));
             }
             SpellerModelGUI spellerModelGUI = (SpellerModelGUI)this.model;
             spellerModelGUI.textChanged(string2, c3, this.terminal.getTerminalID());
             this.setInputLock(true);
             if (this.isSDSActive()) {
                 if (tpLogChannelInternal.isDebug()) {
-                    tpLogChannelInternal.log(-2137614336, "TouchController#updateModelText notify SDS about text change: modelString: %1 / lastCharacter=%2", (Object)string2, (Object)StringUtility.sanitizeCharacterForLogging(c3));
+                    tpLogChannelInternal.log(10000000, "TouchController#updateModelText notify SDS about text change: modelString: %1 / lastCharacter=%2", (Object)string2, (Object)StringUtility.sanitizeCharacterForLogging(c3));
                 }
                 AbstractWidget.sdsService.textChanged(spellerModelGUI.getID(), string2, c3);
-                tpLogChannelInternal.log(-2137614336, "TouchController#updateModelText notify SDS about text change - method returned");
+                tpLogChannelInternal.log(10000000, "TouchController#updateModelText notify SDS about text change - method returned");
             }
             this.setEnteredString(string2);
         }
         if (c2 == '\b' && this.inputFieldData.isEmpty()) {
             this.firstChar = true;
             if (this.isSpellerClosed()) {
-                tpLogChannelInternal.log(-2137614336, "TouchController#updateModelText: restart IconDelayTimer");
+                tpLogChannelInternal.log(10000000, "TouchController#updateModelText: restart IconDelayTimer");
                 this.timerListener.restartShowIconAfterFingerTraceCleanDelayTimer();
             }
         }
@@ -1439,13 +1413,12 @@ ILockingListener {
         return string.charAt(string.length() - 1);
     }
 
-    @Override
     public final void keyPressed(KeyEvent keyEvent) {
         if (this.shallIgnoreEvents()) {
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#keyPressed: Key Event ignored");
+            tpLogChannelKeypanel.log(10000000, "TouchController#keyPressed: Key Event ignored");
             return;
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchController#keyPressed evt: %1, model: %2", (Object)keyEvent, this.model);
+        tpLogChannelKeypanel.log(10000000, "TouchController#keyPressed evt: %1, model: %2", (Object)keyEvent, this.model);
         if (keyEvent.isConsumed()) {
             return;
         }
@@ -1523,13 +1496,12 @@ ILockingListener {
         return this.currentSuggestion;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         this.hideFingerTrace();
         if (this.shallIgnoreEvents()) {
             return;
         }
-        tpLogChannelKeypanel.log(-2137614336, "TouchController#keyReleased evt: %1, model: %2", (Object)keyEvent, this.model);
+        tpLogChannelKeypanel.log(10000000, "TouchController#keyReleased evt: %1, model: %2", (Object)keyEvent, this.model);
         if (keyEvent.getKeyCode() == 15 && this.timerListener.isHKBackLongPressJobRunning()) {
             this.timerListener.cancelHKBackLongPressTimer();
             this.handleHKBackShortPress();
@@ -1558,7 +1530,6 @@ ILockingListener {
         return this.touchpadMode == 113;
     }
 
-    @Override
     public final void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.shallIgnoreEvents()) {
             return;
@@ -1587,7 +1558,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public final void keyMoved(JoystickEvent joystickEvent) {
         if (this.shallIgnoreEvents() || joystickEvent.isConsumed()) {
             return;
@@ -1611,7 +1581,7 @@ ILockingListener {
             this.closeSpeller();
             joystickEvent.consume(true);
         } else if (this.isSpellerOpen() && joystickEvent.getDirection() == 2 && this.speller.shallShowAutoCompletion()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#handleMoveEvent currentSuggestedNewSearchString: %1", (Object)this.currentSuggestedNewSearchString);
+            tpLogChannelInternal.log(10000000, "TouchController#handleMoveEvent currentSuggestedNewSearchString: %1", (Object)this.currentSuggestedNewSearchString);
             String string = null;
             string = this.isSpellerOpen() && this.currentSuggestedNewSearchString != null ? this.currentSuggestedNewSearchString : this.speller.getAutoCompletion();
             this.handleAutoCompletion(string);
@@ -1640,7 +1610,7 @@ ILockingListener {
         if (this.parent instanceof MenuController && this.isConnectedSubtree()) {
             MenuController menuController = (MenuController)this.parent;
             MenuItemIndex menuItemIndex = menuController.getMenuItemIndex(this);
-            menuLogCh.log(-2137614336, "TouchController#moveFieldToTopOfMenu: scroll speller item to top: %1", (Object)menuItemIndex);
+            menuLogCh.log(10000000, "TouchController#moveFieldToTopOfMenu: scroll speller item to top: %1", (Object)menuItemIndex);
             menuController.focusItemImmediately(menuItemIndex, FocusAdvice.VIEWPORT_FIRST_POSITION);
         }
     }
@@ -1656,7 +1626,7 @@ ILockingListener {
             Iterator iterator = menuController.iterator(menuItemIndex, true, false);
             if (iterator.hasNext()) {
                 MenuItemIndex menuItemIndex2 = (MenuItemIndex)iterator.next();
-                menuLogCh.log(-2137614336, "TouchController#focusFirstMenuLineAfterTouchfield: focus next item (index: %1) after touchfield", (Object)menuItemIndex2);
+                menuLogCh.log(10000000, "TouchController#focusFirstMenuLineAfterTouchfield: focus next item (index: %1) after touchfield", (Object)menuItemIndex2);
                 if (bl) {
                     menuController.focusItem(menuItemIndex2);
                 } else {
@@ -1665,14 +1635,14 @@ ILockingListener {
                 return true;
             }
             this.startCursorBlinkAnimation();
-            tpLogChannelInternal.log(1078071040, "TouchController#focusFirstMenuLineAfterTouchfield: Cannot focus first menu line after touchField. There seems to be none!");
+            tpLogChannelInternal.log(1000000, "TouchController#focusFirstMenuLineAfterTouchfield: Cannot focus first menu line after touchField. There seems to be none!");
             return false;
         }
         return false;
     }
 
     protected void handleAutoCompletion(String string) {
-        tpLogChannelInternal.log(-2137614336, "TouchController#handleAutoCompletion: completion=%1", (Object)string);
+        tpLogChannelInternal.log(10000000, "TouchController#handleAutoCompletion: completion=%1", (Object)string);
         this.inputFieldData.clear(false);
         this.inputFieldData.insertAutoCompletion(string);
         this.speller.getCurrentSpellerBand().autoCompletionAccepted();
@@ -1695,7 +1665,7 @@ ILockingListener {
             bl &= !this.inputFieldData.isEmpty();
         }
         if (tpLogChannelInternal.isDebug()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#isSuggestionValid: suggestion =%1 / current touch input data is: %2 / suggestedNewSearchString = %3 / validSuggestion = %4", (Object)string, (Object)this.inputFieldData, (Object)string2, (Object)String.valueOf(bl));
+            tpLogChannelInternal.log(10000000, "TouchController#isSuggestionValid: suggestion =%1 / current touch input data is: %2 / suggestedNewSearchString = %3 / validSuggestion = %4", (Object)string, (Object)this.inputFieldData, (Object)string2, (Object)String.valueOf(bl));
         }
         return bl;
     }
@@ -1722,7 +1692,7 @@ ILockingListener {
 
     public void setTouchpadMode(int n) {
         if (n >= 16) {
-            spellerLogChannel.log(-2137614336, "TouchController#setTouchpadMode: changing speller mode from %1 to %2", (long)this.touchpadMode, (long)n);
+            spellerLogChannel.log(10000000, "TouchController#setTouchpadMode: changing speller mode from %1 to %2", (long)this.touchpadMode, (long)n);
             this.touchpadMode = n;
             boolean bl = this.isPasswordField() && !this.isWlanPasswordField();
             this.inputFieldData.setPasswordMode(bl);
@@ -1739,7 +1709,7 @@ ILockingListener {
     }
 
     protected void handleSpellerState(boolean bl, boolean bl2) {
-        tpLogChannelInternal.log(1078071040, "TouchController#handleSpellerState: isFadeIn=%1; animate=%2", bl, bl2);
+        tpLogChannelInternal.log(1000000, "TouchController#handleSpellerState: isFadeIn=%1; animate=%2", bl, bl2);
         if (this.speller == null) {
             return;
         }
@@ -1780,9 +1750,9 @@ ILockingListener {
         this.animationListener.setStartSpellerOpenProgress(this.getSpellerOpenProgress());
         AbstractAnimation abstractAnimation = this.animationListener.getSpellerOpenAnimation();
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, 77, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, 77, false, this);
         }
     }
 
@@ -1802,14 +1772,14 @@ ILockingListener {
         if (this.model instanceof SpellerModelGUI) {
             int n = bl ? 4711 : 4712;
             ((SpellerModelGUI)this.model).commandPressed(n, this.terminal.getTerminalID());
-            tpLogChannelInternal.log(-2137614336, "TouchController#notifyAppAboutSpellerState [MODEL COMMUNICATION ->] commandPressed=%1 (COMMAND_SPELLER_OPENED=%2, COMMAND_SPELLER_CLOSED=%3)", (long)n, (long)0, (long)0);
+            tpLogChannelInternal.log(10000000, "TouchController#notifyAppAboutSpellerState [MODEL COMMUNICATION ->] commandPressed=%1 (COMMAND_SPELLER_OPENED=%2, COMMAND_SPELLER_CLOSED=%3)", (long)n, 4711L, 4712L);
         }
         this.updateTakeBackSmallStageTimer();
     }
 
     private boolean requestBigStage(boolean bl) {
         if (this.terminal.getViewSizeManager() != null) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#requestBigStage: Request large stage, because of speller opening or touch input!");
+            tpLogChannelInternal.log(10000000, "TouchController#requestBigStage: Request large stage, because of speller opening or touch input!");
             if (!this.terminal.getViewSizeManager().isRequestActive(11)) {
                 this.terminal.getViewSizeManager().requestLargeViewSize(11);
             }
@@ -1822,7 +1792,7 @@ ILockingListener {
     }
 
     protected void propagateValidChars(boolean bl) {
-        tpLogChannelInternal.log(-2137614336, "TouchController#propagateValidChars validChars='%2' blocked=%1", this.isInputLocked(), (Object)this.matchSpellerValidChars);
+        tpLogChannelInternal.log(10000000, "TouchController#propagateValidChars validChars='%2' blocked=%1", this.isInputLocked(), (Object)this.matchSpellerValidChars);
         if (!this.isSpellerClosed() || bl && this.speller != null) {
             if (this.isTextMaxLengthMet() || !this.isSpellerInputAllowed()) {
                 this.speller.updateValidChars("", true);
@@ -1847,7 +1817,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public void animate(int n, float f2) {
         this.animationListener.animate(n, f2, 0);
     }
@@ -1876,7 +1845,7 @@ ILockingListener {
 
     public void clear(boolean bl) {
         boolean bl2 = !bl;
-        tpLogChannelInternal.log(-2137614336, "TouchController#clear: Clear textfieldContent - isModelTriggered=%1", bl2);
+        tpLogChannelInternal.log(10000000, "TouchController#clear: Clear textfieldContent - isModelTriggered=%1", bl2);
         this.clearInputData(bl2);
         this.clearSuggestion();
         if (bl2) {
@@ -1899,7 +1868,7 @@ ILockingListener {
 
     public void hideFingerTrace() {
         if (this.fingerTraceWidget != null) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#hideFingerTrace: called!");
+            tpLogChannelInternal.log(10000000, "TouchController#hideFingerTrace: called!");
             this.fingerTraceWidget.hideFingerTrace();
         }
     }
@@ -1907,15 +1876,15 @@ ILockingListener {
     public void okPressed(SpellerButtonArgument spellerButtonArgument) {
         int n = this.inputFieldData.getTextLength();
         if (this.model instanceof SpellerModelGUI && n >= this.inputFieldData.getMinimumTextLength() && n <= this.inputFieldData.getMaximumTextLength()) {
-            tpLogChannelKeypanel.log(1078071040, "TouchController#keyPressed [MODEL COMMUNICATION ->] calling keyTyped at SpellerModelGUI");
+            tpLogChannelKeypanel.log(1000000, "TouchController#keyPressed [MODEL COMMUNICATION ->] calling keyTyped at SpellerModelGUI");
             SpellerModelGUI spellerModelGUI = (SpellerModelGUI)this.model;
             spellerModelGUI.keyTyped(0, this.terminal.getTerminalID());
             if (spellerButtonArgument != null) {
-                tpLogChannelKeypanel.log(-2137614336, "TouchController#okPressed button argument executing");
+                tpLogChannelKeypanel.log(10000000, "TouchController#okPressed button argument executing");
                 spellerButtonArgument.execute();
             }
         } else {
-            tpLogChannelKeypanel.log(-2137614336, "TouchController#keyPressed NOT calling keyTyped at model (model=%1, minLength=%2, maxLength=%3)", this.model, (long)this.inputFieldData.getMinimumTextLength(), (long)this.inputFieldData.getMaximumTextLength());
+            tpLogChannelKeypanel.log(10000000, "TouchController#keyPressed NOT calling keyTyped at model (model=%1, minLength=%2, maxLength=%3)", this.model, (long)this.inputFieldData.getMinimumTextLength(), (long)this.inputFieldData.getMaximumTextLength());
         }
     }
 
@@ -1975,12 +1944,10 @@ ILockingListener {
         this.glassplateInsetsBottom = n;
     }
 
-    @Override
     public int getGlassplateInsets(boolean bl) {
         return bl ? this.glassplateInsetsTop : this.glassplateInsetsBottom;
     }
 
-    @Override
     public int getMargin(boolean bl) {
         int n = bl ? this.getMarginTop() : this.getMarginBottom();
         return n + 1;
@@ -1989,7 +1956,6 @@ ILockingListener {
     public void setSpellerAlwaysOpen(boolean bl) {
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (this.shallIgnoreEvents()) {
             return;
@@ -2007,7 +1973,6 @@ ILockingListener {
         return !this.isEnabled() || !this.isFocused();
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (this.shallIgnoreEvents()) {
             return;
@@ -2021,7 +1986,6 @@ ILockingListener {
         this.restartUserHintIdleJob();
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (this.shallIgnoreEvents()) {
             return;
@@ -2037,17 +2001,16 @@ ILockingListener {
     protected final void spellerCharacterFocused(char c2) {
         if (this.model instanceof SpellerModelGUI) {
             if (tpLogChannelInternal.isDebug()) {
-                tpLogChannelInternal.log(-2137614336, "TouchController#spellerCharacterFocused [MODEL COMMUNICATION ->] focusedCharacter called and propagated to model with character: '%1'!", (Object)StringUtility.sanitizeCharacterForLogging(c2));
+                tpLogChannelInternal.log(10000000, "TouchController#spellerCharacterFocused [MODEL COMMUNICATION ->] focusedCharacter called and propagated to model with character: '%1'!", (Object)StringUtility.sanitizeCharacterForLogging(c2));
             }
             ((SpellerModelGUI)this.model).focusedCharacter(c2, this.getTerminal().getTerminalID());
         }
     }
 
-    @Override
     public void setFocused(boolean bl) {
         boolean bl2 = this.isFocused() != bl;
         super.setFocused(bl);
-        tpLogChannelInternal.log(-2137614336, "TouchController#setFocused: called with focused=%1; focusChanged=%2", bl, bl2);
+        tpLogChannelInternal.log(10000000, "TouchController#setFocused: called with focused=%1; focusChanged=%2", bl, bl2);
         if (bl2) {
             this.isCursorVisible = bl;
             if (!bl) {
@@ -2074,7 +2037,6 @@ ILockingListener {
         this.updateRecognizerMode();
     }
 
-    @Override
     protected boolean shouldPropagatePaint() {
         return true;
     }
@@ -2086,7 +2048,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -2185,7 +2146,6 @@ ILockingListener {
         return this.inputFieldData.getCursorPos();
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (bl) {
             if (fArray2[0] == 1.0f) {
@@ -2196,16 +2156,14 @@ ILockingListener {
     }
 
     protected void handleBigStageAndSpellerOpen() {
-        tpLogChannelInternal.log(-2137614336, "TouchController#setViewSizeAnimation: Opening speller on large stage!");
+        tpLogChannelInternal.log(10000000, "TouchController#setViewSizeAnimation: Opening speller on large stage!");
         this.handleSpellerState(true, false);
         this.openSpellerAfterViewSizeChange = false;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (fArray[0] == 1.0f && !this.isSportSkin()) {
             this.terminal.getViewSizeManager().unrequestLargeViewSize(11);
@@ -2227,7 +2185,6 @@ ILockingListener {
         return false;
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
         if (fArray2[0] == 1.0f) {
             this.terminal.getUserHintHandler().removeCurrentUserHint();
@@ -2238,7 +2195,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public int getSdsItemSelectedAction() {
         return this.isSDSMultimodal() ? 3 : this.sdsItemSelectedAction;
     }
@@ -2247,12 +2203,10 @@ ILockingListener {
         this.sdsItemSelectedAction = n;
     }
 
-    @Override
     public boolean hasInfolineText() {
         return false;
     }
 
-    @Override
     public String getInfolineText() {
         return null;
     }
@@ -2327,7 +2281,6 @@ ILockingListener {
         return this.smartDeleteCaseSensitive;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         boolean bl2 = this.isEnabled();
         super.setEnabled(bl);
@@ -2361,26 +2314,24 @@ ILockingListener {
         if (bl) {
             this.terminal.getUserHintHandler().removeCurrentUserHint();
             if (this.isTruffleSearch()) {
-                tpLogChannelInternal.log(1078071040, "TouchController#setSDSActive: clear touchfield because SDS gets active in a truffle field (touchpadMode=%2, modelID=%1)", (long)this.modelID, (long)this.touchpadMode);
+                tpLogChannelInternal.log(1000000, "TouchController#setSDSActive: clear touchfield because SDS gets active in a truffle field (touchpadMode=%2, modelID=%1)", (long)this.modelID, (long)this.touchpadMode);
                 this.clear(true);
             }
         }
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void setInputLock(boolean bl) {
         if (bl && this.model instanceof MatchspellerModel) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#setInputLock: LOCK. model=%1", this.model);
+            tpLogChannelInternal.log(10000000, "TouchController#setInputLock: LOCK. model=%1", this.model);
             this.blockSpellerInput = true;
         } else {
-            tpLogChannelInternal.log(-2137614336, "TouchController#setInputLock: UNLOCK. model=%1", this.model);
+            tpLogChannelInternal.log(10000000, "TouchController#setInputLock: UNLOCK. model=%1", this.model);
             this.blockSpellerInput = false;
         }
         TouchControllerDebugInfo.showLockDebugInfo(this.terminal, this, this.blockSpellerInput);
     }
 
-    @Override
     public boolean isInputLocked() {
         return this.blockSpellerInput;
     }
@@ -2392,24 +2343,22 @@ ILockingListener {
         return AbstractWidget.sdsService != null && AbstractWidget.sdsService.isSDSActive();
     }
 
-    @Override
     public boolean isFocusable() {
         return true;
     }
 
     public void handleSpellerLastMode() {
         if (this.spellerLastMode == 1 && this.isEnabled() && this.isSpellerInputAllowed()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#handleSpellerLastMode: Open Speller because of last mode!");
+            tpLogChannelInternal.log(10000000, "TouchController#handleSpellerLastMode: Open Speller because of last mode!");
             this.openSpeller(true);
         }
     }
 
     protected final void setSpellerLastMode(int n) {
-        tpLogChannelInternal.log(-2137614336, "TouchController#setSpellerLastMode: new spellerLastMode is %1!", (long)n);
+        tpLogChannelInternal.log(10000000, "TouchController#setSpellerLastMode: new spellerLastMode is %1!", (long)n);
         this.spellerLastMode = n;
     }
 
-    @Override
     public int getOptionIconYOffset() {
         return 0;
     }
@@ -2424,7 +2373,6 @@ ILockingListener {
         this.infoLineChoiceModelID = n;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (!bl) {
             this.forceCloseSpeller();
@@ -2441,9 +2389,8 @@ ILockingListener {
         }
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
-        tpLogChannelInternal.log(1078071040, "Touchcontroller#handleFocusChanged: evt:%1   state:%2", (long)n, (long)n2);
+        tpLogChannelInternal.log(1000000, "Touchcontroller#handleFocusChanged: evt:%1   state:%2", (long)n, (long)n2);
         if (n == 1 && n2 != 16) {
             this.hideFingerTrace();
             this.stopCursorBlinkAnimation();
@@ -2457,7 +2404,7 @@ ILockingListener {
                 this.isCursorVisible = true;
                 this.calculateCursorPosition();
             }
-            tpLogChannelInternal.log(-2137614336, "Touchcontroller#handleFocusChanged Focus gained. Trying to show Userhint");
+            tpLogChannelInternal.log(10000000, "Touchcontroller#handleFocusChanged Focus gained. Trying to show Userhint");
             this.doShowInitialHint();
         }
     }
@@ -2488,13 +2435,12 @@ ILockingListener {
         return this.isCursorAtInitialPosition;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (tpLogChannelInternal.isDebug()) {
             if (this.takeBackSmallStageJob != null) {
-                tpLogChannelInternal.log(-2137614336, "TouchController#processEvent timerCalceled=%1", this.takeBackSmallStageJob.isCanceled());
+                tpLogChannelInternal.log(10000000, "TouchController#processEvent timerCalceled=%1", this.takeBackSmallStageJob.isCanceled());
             } else {
-                tpLogChannelInternal.log(-2137614336, "TouchController#processEvent no timer available");
+                tpLogChannelInternal.log(10000000, "TouchController#processEvent no timer available");
             }
         }
         if (aTIPEvent.equals(this.takeBackSmallStageTimerEvent)) {
@@ -2548,7 +2494,6 @@ ILockingListener {
         return 2;
     }
 
-    @Override
     public void setOptionsIconSpace(int n) {
     }
 
@@ -2577,7 +2522,7 @@ ILockingListener {
     protected final void handleSpellerOpenProgressChange(float f2) {
         if (this.speller != null) {
             if (f2 > 0.0f) {
-                float f3 = (f2 - 0x3333333F) * 0x55555540;
+                float f3 = (f2 - 0.7f) * 3.3333333f;
                 f3 = Math.max(0.0f, f3);
                 this.speller.setOpacity(f3);
                 this.speller.setVisible(true);
@@ -2689,7 +2634,6 @@ ILockingListener {
         return this.isSpellerClosed() ? (this.isG24() ? 80 : 60) : 0;
     }
 
-    @Override
     public final void touchInputDataChanged(int n, boolean bl, String string, String string2) {
         if (!this.isConnected()) {
             return;
@@ -2710,7 +2654,7 @@ ILockingListener {
         }
         if (n == 1 && bl) {
             if (!this.modelNeedsTextUpdate(string2)) {
-                tpLogChannelInternal.log(-1601830656, "TouchController#handleTouchInputDataChanged: ignoring UPDATE_TYPE_TEXT_CHANGED (text=\"%1\") notification, because model text is already up-to-date.", (Object)string2);
+                tpLogChannelInternal.log(100000, "TouchController#handleTouchInputDataChanged: ignoring UPDATE_TYPE_TEXT_CHANGED (text=\"%1\") notification, because model text is already up-to-date.", (Object)string2);
                 return;
             }
             this.stringToSpeak = null;
@@ -2773,7 +2717,7 @@ ILockingListener {
             }
         }
         boolean bl = this.inputFieldData != null ? this.inputFieldData.isEmpty() : true;
-        tpLogChannelInternal.log(-2137614336, "TouchController#handleTouchInputDataChanged currentCharSet:%2 updateType:%3 inputEmptyOrNULL=%1", bl, (Object)string2, (Object)string);
+        tpLogChannelInternal.log(10000000, "TouchController#handleTouchInputDataChanged currentCharSet:%2 updateType:%3 inputEmptyOrNULL=%1", bl, (Object)string2, (Object)string);
     }
 
     protected final boolean isOpenSpellerAfterViewSizeChange() {
@@ -2784,7 +2728,6 @@ ILockingListener {
         return this.matchSpellerValidChars;
     }
 
-    @Override
     public int getNoCursorArea(boolean bl) {
         return bl ? this.getTopImageHeight() : 0;
     }
@@ -2866,12 +2809,10 @@ ILockingListener {
         this.isLastInputByTouch = bl;
     }
 
-    @Override
     public IMenuCallback getMenuCallback() {
         return this.menuCallback;
     }
 
-    @Override
     public void userCharsetChanged(int n) {
         this.setCompositesDirty(true);
     }
@@ -2892,18 +2833,22 @@ ILockingListener {
         return framework.getSysConst(522) == 4;
     }
 
-    static /* synthetic */ int access$002(TouchController touchController, int n) {
-        touchController.initialMatchCount = n;
-        return touchController.initialMatchCount;
-    }
+    private final class MenuCallback
+    extends MenuCallbackAdapter {
+        private MenuCallback() {
+        }
 
-    static /* synthetic */ int access$000(TouchController touchController) {
-        return touchController.initialMatchCount;
-    }
+        public void menuLayouted() {
+            if (this.shouldExecuteInitialJump5()) {
+                IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchController.MenuCallback#menuLayouted initially focus first menu item because of jump-5 rule");
+                TouchController.this.focusFirstMenuLineAfterTouchfield(true);
+            }
+            TouchController.this.initialMatchCount = -1;
+        }
 
-    static {
-        userHintCursorHideReason = "TouchController_UserHintShown";
-        truffleInputCount = 0;
+        private boolean shouldExecuteInitialJump5() {
+            return TouchController.this.initialMatchCount > 0 && TouchController.this.initialMatchCount <= 5 && TouchController.this.isVisibleInHierarchy() && TouchController.this.isFocused() && !TouchController.this.userHintPartialPopupListener.isUserHintShown();
+        }
     }
 }
 

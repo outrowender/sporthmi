@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.bluetooth;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.bluetooth.DSIBluetoothReply;
 import de.esolutions.fw.comm.dsi.bluetooth.impl.DSIBluetoothReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -29,13 +30,11 @@ implements DSIBluetoothReply {
         super(n, (class$org$dsi$ifc$bluetooth$DSIBluetoothListener == null ? (class$org$dsi$ifc$bluetooth$DSIBluetoothListener = DSIBluetoothDispatcher.class$("org.dsi.ifc.bluetooth.DSIBluetoothListener")) : class$org$dsi$ifc$bluetooth$DSIBluetoothListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseAbortConnectService(int n) {
+    public void responseAbortConnectService(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -51,8 +50,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseAbortInquiry(int n) {
+    public void responseAbortInquiry(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -68,8 +66,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseAcceptIncomingServiceRequest(int n) {
+    public void responseAcceptIncomingServiceRequest(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -85,8 +82,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseConnectService(String string, String string2, int n, int n2, int n3) {
+    public void responseConnectService(String string, String string2, int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -102,8 +98,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) {
+    public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -119,8 +114,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseDisconnectService(String string, int n, int n2) {
+    public void responseDisconnectService(String string, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -136,8 +130,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseGetServices(String string, String string2, int n, int n2) {
+    public void responseGetServices(String string, String string2, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -153,8 +146,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseInquiry(int n, int n2) {
+    public void responseInquiry(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -170,8 +162,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responsePasskeyResponse(String string, String string2, int n) {
+    public void responsePasskeyResponse(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -187,8 +178,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseRemoveAuthentication(String string, String string2, int n) {
+    public void responseRemoveAuthentication(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -204,8 +194,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
+    public void responseRestoreFactorySettings(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -221,8 +210,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseSetA2DPUserSetting(int n) {
+    public void responseSetA2DPUserSetting(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -238,8 +226,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseSetAccessibleMode(int n) {
+    public void responseSetAccessibleMode(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -255,8 +242,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseSwitchBTState(int n) {
+    public void responseSwitchBTState(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -272,8 +258,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void removeAuthenticationNoSupport(String string, String string2) {
+    public void removeAuthenticationNoSupport(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -289,8 +274,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateAccessibleMode(int n, boolean bl, int n2) {
+    public void updateAccessibleMode(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -318,8 +302,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateBTState(int n, int n2) {
+    public void updateBTState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -347,8 +330,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
+    public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -376,8 +358,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateHUCandBTHSState(int n, int n2) {
+    public void updateHUCandBTHSState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -405,8 +386,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) {
+    public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -434,8 +414,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) {
+    public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -463,8 +442,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
+    public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -492,8 +470,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
+    public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -521,8 +498,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) {
+    public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -550,8 +526,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateSupportedBTProfiles(int n, int n2) {
+    public void updateSupportedBTProfiles(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -579,8 +554,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
+    public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -608,8 +582,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateUserFriendlyName(String string, int n) {
+    public void updateUserFriendlyName(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -637,8 +610,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updateA2DPUserSetting(boolean bl, int n) {
+    public void updateA2DPUserSetting(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -666,8 +638,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
+    public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -695,8 +666,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void deviceDisonnectionInfo(String string, String string2, int n) {
+    public void deviceDisonnectionInfo(String string, String string2, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -712,8 +682,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void serviceRejectNoSupport(String string, String string2) {
+    public void serviceRejectNoSupport(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -729,8 +698,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseReconnectSuspend(int n) {
+    public void responseReconnectSuspend(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -746,8 +714,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void responseSetPriorizedDeviceReconnect(int n) {
+    public void responseSetPriorizedDeviceReconnect(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -763,8 +730,7 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -780,14 +746,13 @@ implements DSIBluetoothReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIBluetoothListener dSIBluetoothListener = (DSIBluetoothListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBluetoothDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBluetoothDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIBluetoothListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBluetoothDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBluetoothDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIBluetoothListener, new Object[]{string, string2});
                     continue;
                 }

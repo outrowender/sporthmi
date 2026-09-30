@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PoiOnlineRecognitionListElement;
 
 public class PoiOnlineRecognitionListElementSerializer {
-    public static void putOptionalPoiOnlineRecognitionListElement(ISerializer iSerializer, PoiOnlineRecognitionListElement poiOnlineRecognitionListElement) {
+    public static void putOptionalPoiOnlineRecognitionListElement(ISerializer iSerializer, PoiOnlineRecognitionListElement poiOnlineRecognitionListElement) throws SerializerException {
         boolean bl = poiOnlineRecognitionListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PoiOnlineRecognitionListElementSerializer {
         }
     }
 
-    public static void putOptionalPoiOnlineRecognitionListElementVarArray(ISerializer iSerializer, PoiOnlineRecognitionListElement[] poiOnlineRecognitionListElementArray) {
+    public static void putOptionalPoiOnlineRecognitionListElementVarArray(ISerializer iSerializer, PoiOnlineRecognitionListElement[] poiOnlineRecognitionListElementArray) throws SerializerException {
         boolean bl = poiOnlineRecognitionListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PoiOnlineRecognitionListElementSerializer {
         }
     }
 
-    public static PoiOnlineRecognitionListElement getOptionalPoiOnlineRecognitionListElement(IDeserializer iDeserializer) {
+    public static PoiOnlineRecognitionListElement getOptionalPoiOnlineRecognitionListElement(IDeserializer iDeserializer) throws SerializerException {
         PoiOnlineRecognitionListElement poiOnlineRecognitionListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PoiOnlineRecognitionListElementSerializer {
         return poiOnlineRecognitionListElement;
     }
 
-    public static PoiOnlineRecognitionListElement[] getOptionalPoiOnlineRecognitionListElementVarArray(IDeserializer iDeserializer) {
+    public static PoiOnlineRecognitionListElement[] getOptionalPoiOnlineRecognitionListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         PoiOnlineRecognitionListElement[] poiOnlineRecognitionListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -9,46 +9,32 @@ import org.dsi.ifc.picturestore.PictureEntryInfo;
 
 public interface DSIPictureViewerListener
 extends DSIListener {
-    default public void updateViewerState(int n, int n2) {
-    }
+    public void updateViewerState(int var1, int var2);
 
-    default public void updateScrollMode(int n, int n2) {
-    }
+    public void updateScrollMode(int var1, int var2);
 
-    default public void updateListPosition(long l, int n, int n2) {
-    }
+    public void updateListPosition(long var1, int var3, int var4);
 
-    default public void updateNumEntries(long l, int n) {
-    }
+    public void updateNumEntries(long var1, int var3);
 
-    default public void updateNumSelectedEntries(long l, int n) {
-    }
+    public void updateNumSelectedEntries(long var1, int var3);
 
-    default public void getPictureInfoResult(long l, PictureEntryInfo pictureEntryInfo, int n) {
-    }
+    public void getPictureInfoResult(long var1, PictureEntryInfo var3, int var4);
 
-    default public void selectionResult(int n) {
-    }
+    public void selectionResult(int var1);
 
-    default public void createFilterSetResult(int n, int n2) {
-    }
+    public void createFilterSetResult(int var1, int var2);
 
-    default public void deleteFilterSetResult(int n, int n2) {
-    }
+    public void deleteFilterSetResult(int var1, int var2);
 
-    default public void changedFilterSetResult(int n, int n2) {
-    }
+    public void changedFilterSetResult(int var1, int var2);
 
-    default public void getAvailableYearsResult(int[] nArray, int n) {
-    }
+    public void getAvailableYearsResult(int[] var1, int var2);
 
-    default public void getAvailableMonthsResult(int[] nArray, int n) {
-    }
+    public void getAvailableMonthsResult(int[] var1, int var2);
 
-    default public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2, int n3) {
-    }
+    public void listForContextWithFilterResult(int var1, ResourceLocator[] var2, int var3, int var4);
 
-    default public void deletePicturesWithFilterSetResult(int n, int n2) {
-    }
+    public void deletePicturesWithFilterSetResult(int var1, int var2);
 }
 

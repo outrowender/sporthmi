@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridInhibitReason;
 
 public class HybridInhibitReasonSerializer {
-    public static void putOptionalHybridInhibitReason(ISerializer iSerializer, HybridInhibitReason hybridInhibitReason) {
+    public static void putOptionalHybridInhibitReason(ISerializer iSerializer, HybridInhibitReason hybridInhibitReason) throws SerializerException {
         boolean bl = hybridInhibitReason == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class HybridInhibitReasonSerializer {
         }
     }
 
-    public static void putOptionalHybridInhibitReasonVarArray(ISerializer iSerializer, HybridInhibitReason[] hybridInhibitReasonArray) {
+    public static void putOptionalHybridInhibitReasonVarArray(ISerializer iSerializer, HybridInhibitReason[] hybridInhibitReasonArray) throws SerializerException {
         boolean bl = hybridInhibitReasonArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class HybridInhibitReasonSerializer {
         }
     }
 
-    public static HybridInhibitReason getOptionalHybridInhibitReason(IDeserializer iDeserializer) {
+    public static HybridInhibitReason getOptionalHybridInhibitReason(IDeserializer iDeserializer) throws SerializerException {
         HybridInhibitReason hybridInhibitReason = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class HybridInhibitReasonSerializer {
         return hybridInhibitReason;
     }
 
-    public static HybridInhibitReason[] getOptionalHybridInhibitReasonVarArray(IDeserializer iDeserializer) {
+    public static HybridInhibitReason[] getOptionalHybridInhibitReasonVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridInhibitReason[] hybridInhibitReasonArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

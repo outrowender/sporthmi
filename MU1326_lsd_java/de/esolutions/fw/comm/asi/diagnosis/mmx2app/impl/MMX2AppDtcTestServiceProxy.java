@@ -3,16 +3,18 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sTestStatusSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sTestStatus;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2AppDtcTestService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2AppDtcTestServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2AppDtcTestServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2AppDtcTestServiceProxy$1;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2AppDtcTestServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,8 +34,7 @@ MMX2AppDtcTestServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void registerForDiagnosis(int n, long[] lArray) {
+    public void registerForDiagnosis(int n, long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -45,15 +46,18 @@ MMX2AppDtcTestServiceC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void deregisterForDiagnosis() {
+    public void deregisterForDiagnosis() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void testStatus(sTestStatus sTestStatus2) {
-        MMX2AppDtcTestServiceProxy$1 mMX2AppDtcTestServiceProxy$1 = new MMX2AppDtcTestServiceProxy$1(this, sTestStatus2);
-        this.proxy.remoteCallMethod((short)10, mMX2AppDtcTestServiceProxy$1);
+    public void testStatus(final sTestStatus sTestStatus2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTestStatusSerializer.putOptionalsTestStatus(iSerializer, sTestStatus2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 }
 

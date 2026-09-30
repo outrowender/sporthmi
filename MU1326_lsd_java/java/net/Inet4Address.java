@@ -3,11 +3,12 @@
  */
 package java.net;
 
+import java.io.ObjectStreamException;
 import java.net.InetAddress;
 
 public final class Inet4Address
 extends InetAddress {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3286316764910316507L;
 
     Inet4Address(byte[] byArray) {
         this.ipaddress = byArray;
@@ -18,12 +19,10 @@ extends InetAddress {
         this.hostName = string;
     }
 
-    @Override
     public boolean isMulticastAddress() {
         return (this.ipaddress[0] & 0xF0) == 224;
     }
 
-    @Override
     public boolean isAnyLocalAddress() {
         int n = 0;
         while (n < this.ipaddress.length) {
@@ -35,79 +34,68 @@ extends InetAddress {
         return true;
     }
 
-    @Override
     public boolean isLoopbackAddress() {
         return (this.ipaddress[0] & 0xFF) == 127;
     }
 
-    @Override
     public boolean isLinkLocalAddress() {
         return (this.ipaddress[0] & 0xFF) == 169 && (this.ipaddress[1] & 0xFF) == 254;
     }
 
-    @Override
     public boolean isSiteLocalAddress() {
         return (this.ipaddress[0] & 0xFF) == 10 || (this.ipaddress[0] & 0xFF) == 172 && (this.ipaddress[1] & 0xFF) > 15 && (this.ipaddress[1] & 0xFF) < 32 || (this.ipaddress[0] & 0xFF) == 192 && (this.ipaddress[1] & 0xFF) == 168;
     }
 
-    @Override
     public boolean isMCGlobal() {
         if (!this.isMulticastAddress()) {
             return false;
         }
         int n = InetAddress.bytesToInt(this.ipaddress, 0);
-        if (n >>> 8 < 0x100E000) {
+        if (n >>> 8 < 0xE00001) {
             return false;
         }
         return n >>> 24 <= 238;
     }
 
-    @Override
     public boolean isMCNodeLocal() {
         return false;
     }
 
-    @Override
     public boolean isMCLinkLocal() {
-        return InetAddress.bytesToInt(this.ipaddress, 0) >>> 8 == 57344;
+        return InetAddress.bytesToInt(this.ipaddress, 0) >>> 8 == 0xE00000;
     }
 
-    @Override
     public boolean isMCSiteLocal() {
-        return InetAddress.bytesToInt(this.ipaddress, 0) >>> 16 == -1114112;
+        return InetAddress.bytesToInt(this.ipaddress, 0) >>> 16 == 61439;
     }
 
-    @Override
     public boolean isMCOrgLocal() {
         int n = InetAddress.bytesToInt(this.ipaddress, 0) >>> 16;
-        return n >= -1058078720 && n <= -1007747072;
+        return n >= 61376 && n <= 61379;
     }
 
-    @Override
     public String getHostAddress() {
         String string = "";
         int n = 0;
         while (n < 4) {
-            string = new StringBuffer(String.valueOf(string)).append(this.ipaddress[n] & 0xFF).toString();
+            string = String.valueOf(string) + (this.ipaddress[n] & 0xFF);
             if (n != 3) {
-                string = new StringBuffer(String.valueOf(string)).append(".").toString();
+                string = String.valueOf(string) + ".";
             }
             ++n;
         }
         return string;
     }
 
-    @Override
     public int hashCode() {
         return InetAddress.bytesToInt(this.ipaddress, 0);
     }
 
-    @Override
     public boolean equals(Object object) {
         return super.equals(object);
     }
 
-    private Object writeReplace() {
+    private Object writeReplace() throws ObjectStreamException {
         return new InetAddress(this.ipaddress, this.hostName);
     }
 }

@@ -8,13 +8,10 @@ import de.esolutions.hmi.widgets.audi.base.LayoutManager;
 
 public interface TabLayoutManager
 extends LayoutManager {
-    default public int calculateTabulator(AbstractWidget abstractWidget, int n) {
-    }
+    public int calculateTabulator(AbstractWidget var1, int var2);
 
-    default public boolean setTabulator(int n, int n2) {
-    }
+    public boolean setTabulator(int var1, int var2);
 
-    default public int[] getTabulatorIDs() {
-    }
+    public int[] getTabulatorIDs();
 }
 

@@ -4,12 +4,11 @@
 package de.esolutions.fw.comm.asi.speech.voiceencoder;
 
 import de.esolutions.fw.comm.asi.speech.voiceencoder.VoiceEncoderReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface VoiceEncoderS {
-    default public void startEncode(int n, String string, String string2, long l, VoiceEncoderReply voiceEncoderReply) {
-    }
+    public void startEncode(int var1, String var2, String var3, long var4, VoiceEncoderReply var6) throws MethodException;
 
-    default public void cancel(VoiceEncoderReply voiceEncoderReply) {
-    }
+    public void cancel(VoiceEncoderReply var1) throws MethodException;
 }
 

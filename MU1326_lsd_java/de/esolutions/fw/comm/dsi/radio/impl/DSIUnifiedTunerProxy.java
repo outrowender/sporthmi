@@ -30,8 +30,7 @@ DSIUnifiedTunerC {
         return this.proxy;
     }
 
-    @Override
-    public void selectStation(int n, long l, int n2, int n3, int n4, int n5) {
+    public void selectStation(int n, long l, int n2, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -47,8 +46,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setStationFollowingMode(int n) {
+    public void setStationFollowingMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -59,8 +57,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setListMode(int n) {
+    public void setListMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -71,8 +68,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void enableRadioTextPlus(int[] nArray) {
+    public void enableRadioTextPlus(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -83,8 +79,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setSoftLinkSwitch(int n) {
+    public void setSoftLinkSwitch(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -95,8 +90,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setRegMode(int n) {
+    public void setRegMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -107,8 +101,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void switchDeviceUsage(int n) {
+    public void switchDeviceUsage(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -119,8 +112,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -131,8 +123,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -144,8 +135,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -156,13 +146,11 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)37, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -173,8 +161,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -185,13 +172,11 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -202,8 +187,7 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -214,13 +198,11 @@ DSIUnifiedTunerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

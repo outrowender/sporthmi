@@ -26,75 +26,53 @@ import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sInfraredBeaconStateVICS
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sRadioBeaconStateVICS;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sSubsystemStates;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sUnitStateDSRC;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2NavigationAWDiagServiceS {
-    default public void responseErrorNavigation(sClientResponseError sClientResponseError2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseErrorNavigation(sClientResponseError var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseSubsystemStates(sSubsystemStates sSubsystemStates2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseSubsystemStates(sSubsystemStates var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseVersionsNavDB(sVersionsNavDB sVersionsNavDB2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseVersionsNavDB(sVersionsNavDB var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseActiveNavDB(sActiveNavDB sActiveNavDB2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseActiveNavDB(sActiveNavDB var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseGPSNoSatellite(sGPSNoSatellite sGPSNoSatellite2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseGPSNoSatellite(sGPSNoSatellite var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseGPSOffroad(sGPSOffroad sGPSOffroad2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseGPSOffroad(sGPSOffroad var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCalibrationState(sNavCalibrationState sNavCalibrationState2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseNavCalibrationState(sNavCalibrationState var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCorrectedPosition(sNavCorrectedPosition sNavCorrectedPosition2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseNavCorrectedPosition(sNavCorrectedPosition var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseNavCorrectedDirection(sNavCorrectedDirection sNavCorrectedDirection2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseNavCorrectedDirection(sNavCorrectedDirection var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseUnitStateDSRC(sUnitStateDSRC sUnitStateDSRC2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseUnitStateDSRC(sUnitStateDSRC var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseAntennaStateDSRC(sAntennaStateDSRC sAntennaStateDSRC2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseAntennaStateDSRC(sAntennaStateDSRC var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseAntennaStateVICS(sAntennaStateVICS sAntennaStateVICS2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseAntennaStateVICS(sAntennaStateVICS var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseRadioBeaconStateVICS(sRadioBeaconStateVICS sRadioBeaconStateVICS2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseRadioBeaconStateVICS(sRadioBeaconStateVICS var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseInfraredBeaconStateVICS(sInfraredBeaconStateVICS sInfraredBeaconStateVICS2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseInfraredBeaconStateVICS(sInfraredBeaconStateVICS var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseResetCalibration(sRoutineResponse sRoutineResponse2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseResetCalibration(sRoutineResponse var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseSparePartNumber(sSparePartNumber sSparePartNumber2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseSparePartNumber(sSparePartNumber var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumber(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseApplicationSoftwareVersionNumber(sApplicationSoftwareVersionNumber var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseHardwareNumber(sHardwareNumber sHardwareNumber2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseHardwareNumber(sHardwareNumber var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseHardwareVersionNumber(sHardwareVersionNumber sHardwareVersionNumber2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseHardwareVersionNumber(sHardwareVersionNumber var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseSerialNumber(sSerialNumber sSerialNumber2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseSerialNumber(sSerialNumber var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseSystemName(sSystemName sSystemName2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseSystemName(sSystemName var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseCountryRegionVersion(sNavCountryRegionVersion sNavCountryRegionVersion2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseCountryRegionVersion(sNavCountryRegionVersion var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 
-    default public void responseDeleteMemory(sRoutineResponse sRoutineResponse2, MMX2NavigationAWDiagServiceReply mMX2NavigationAWDiagServiceReply) {
-    }
+    public void responseDeleteMemory(sRoutineResponse var1, MMX2NavigationAWDiagServiceReply var2) throws MethodException;
 }
 

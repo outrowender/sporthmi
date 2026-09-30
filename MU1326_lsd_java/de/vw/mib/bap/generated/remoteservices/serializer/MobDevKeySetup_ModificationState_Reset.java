@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class MobDevKeySetup_ModificationState_Reset
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__3_BITSIZE;
+    private static final int RESERVED_BIT_1__3_BITSIZE = 3;
     public boolean canBeModified;
 
     public MobDevKeySetup_ModificationState_Reset() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.canBeModified = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeySetup_ModificationState_Reset mobDevKeySetup_ModificationState_Reset = (MobDevKeySetup_ModificationState_Reset)bAPEntity;
         return this.canBeModified == mobDevKeySetup_ModificationState_Reset.canBeModified;
@@ -39,7 +37,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeySetup_ModificationState_Reset");
@@ -47,18 +44,15 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(3);
         bitStream.pushBoolean(this.canBeModified);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(3);
         this.canBeModified = bitStream.popFrontBoolean();

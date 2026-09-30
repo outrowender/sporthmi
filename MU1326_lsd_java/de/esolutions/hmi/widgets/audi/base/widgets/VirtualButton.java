@@ -23,18 +23,18 @@ import de.esolutions.hmi.widgets.audi.base.widgets.VirtualButtonTouchHandler;
 public class VirtualButton
 extends AbstractWidgetController
 implements ITouchScreenEventListener {
-    public static final int PROCESS_EVENT_INC_MENU_ENTER;
-    public static final int PROCESS_EVENT_KEY_BACK;
-    public static final int PROCESS_EVENT_TURN;
-    public static final int PROCESS_EVENT_JOYSTICK;
-    public static final int PROCESS_EVENT_TOUCH_PAD;
-    public static final int PROCESS_EVENT_TOUCH_PAD_MOVED;
-    public static final int PROCESS_EVENT_TOUCH_PAD_RELEASED;
-    public static final int PROCESS_EVENT_SK_NW;
-    public static final int PROCESS_EVENT_SK_NE;
-    public static final int PROCESS_EVENT_SK_SE;
-    public static final int PROCESS_EVENT_SK_SW;
-    public static final int PROCESS_EVENT_KEY_MENU;
+    public static final int PROCESS_EVENT_INC_MENU_ENTER = 1;
+    public static final int PROCESS_EVENT_KEY_BACK = 2;
+    public static final int PROCESS_EVENT_TURN = 4;
+    public static final int PROCESS_EVENT_JOYSTICK = 8;
+    public static final int PROCESS_EVENT_TOUCH_PAD = 16;
+    public static final int PROCESS_EVENT_TOUCH_PAD_MOVED = 32;
+    public static final int PROCESS_EVENT_TOUCH_PAD_RELEASED = 64;
+    public static final int PROCESS_EVENT_SK_NW = 64;
+    public static final int PROCESS_EVENT_SK_NE = 128;
+    public static final int PROCESS_EVENT_SK_SE = 256;
+    public static final int PROCESS_EVENT_SK_SW = 512;
+    public static final int PROCESS_EVENT_KEY_MENU = 1024;
     private int eventConfiguration = 0;
     private boolean invertJoystickEvents = false;
     private boolean[] blockedJoystickDirections = new boolean[]{true, true, true, true, true, true, true, true, true};
@@ -47,7 +47,7 @@ implements ITouchScreenEventListener {
     private boolean handleKeyTurnAsKeyPress = false;
     private boolean enableFastIncrement = false;
     private boolean mflRollerUpIncrementsModel = true;
-    private static final int ACCUMULATION_TIME;
+    private static final int ACCUMULATION_TIME = 100;
     private int eventAccumulation = 0;
     private long lastEventTime = 0L;
     private boolean fireEventKeyTurnedForward = true;
@@ -61,7 +61,6 @@ implements ITouchScreenEventListener {
     public VirtualButton() {
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.doProcessTouchEvents() && this.terminal != null && this.terminal.getTouchInputManager() != null) {
             this.terminal.getTouchInputManager().setDesiredRecognizerMode(this, 25);
@@ -96,9 +95,8 @@ implements ITouchScreenEventListener {
         this.touchEventHandler = new VirtualButtonTouchHandler(this);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        logChannelEvent.log(-2137614336, "VirtualButton#keyPressed event = %1", (Object)keyEvent);
+        logChannelEvent.log(10000000, "VirtualButton#keyPressed event = %1", (Object)keyEvent);
         if (keyEvent.isConsumed()) {
             return;
         }
@@ -110,30 +108,30 @@ implements ITouchScreenEventListener {
         }
         if (this.model instanceof ButtonModelGUI) {
             if (this.doProcessEvent(n)) {
-                logChannel.log(-2137614336, "VirtualButton#keyPressed ButtonModelGUI connected passing pressed event to model");
+                logChannel.log(10000000, "VirtualButton#keyPressed ButtonModelGUI connected passing pressed event to model");
                 ButtonModelGUI buttonModelGUI = (ButtonModelGUI)this.model;
                 buttonModelGUI.keyPressed(n, n2);
                 buttonModelGUI.keyTyped(n, n2);
                 this.maybeConsumeEvent(keyEvent);
             } else {
-                logChannel.log(-2137614336, "VirtualButton#keyPressed ButtonModelGUI connected according to configuration pressed event is ignored by this widget");
+                logChannel.log(10000000, "VirtualButton#keyPressed ButtonModelGUI connected according to configuration pressed event is ignored by this widget");
             }
         } else if (this.model instanceof BrowserModelGUI) {
             if (this.doProcessEvent(n)) {
                 ((BrowserModelGUI)this.model).keyTyped(n, n2);
                 this.maybeConsumeEvent(keyEvent);
             } else {
-                logChannel.log(-2137614336, "VirtualButton#keyPressed VirtualButtonModelGUI connected according to configuration pressed event is ignored by this widget");
+                logChannel.log(10000000, "VirtualButton#keyPressed VirtualButtonModelGUI connected according to configuration pressed event is ignored by this widget");
             }
         } else if (this.event != 0) {
             if (this.doProcessEvent(n)) {
                 this.fireSMEvent(this.terminal.getTerminalID(), this.event);
                 this.maybeConsumeEvent(keyEvent);
             } else {
-                logChannel.log(-2137614336, "VirtualButton#keyPressed no model connected but event configured, according to configuration pressed event is ignored by this widget");
+                logChannel.log(10000000, "VirtualButton#keyPressed no model connected but event configured, according to configuration pressed event is ignored by this widget");
             }
         } else {
-            logChannel.log(-2137614336, "VirtualButton#keyPressed ignore event because no SM event configured and no supported model: %1", this.model);
+            logChannel.log(10000000, "VirtualButton#keyPressed ignore event because no SM event configured and no supported model: %1", this.model);
         }
     }
 
@@ -148,7 +146,7 @@ implements ITouchScreenEventListener {
             if (AbstractWidget.sdsService != null) {
                 keyEvent.consume();
                 keyEvent.setSdsAction(n);
-                logChannel.log(-2137614336, "VirtualButton#callSdsServiceOnKeyPress: item selected with modelID %1, sdsCommand %2", (long)this.modelID, (long)this.sdsCommand);
+                logChannel.log(10000000, "VirtualButton#callSdsServiceOnKeyPress: item selected with modelID %1, sdsCommand %2", (long)this.modelID, (long)this.sdsCommand);
                 AbstractWidget.sdsService.keyTyped(this.modelID, this.sdsCommand);
             } else {
                 logChannel.log(10000, "VirtualButton#callSdsServiceOnKeyPress: sdsService is not present, cannot call itemSelected");
@@ -174,9 +172,8 @@ implements ITouchScreenEventListener {
         return this.hasState(36) && (VirtualButton.isWheelButtonKey(n) && this.doProcessEventSource(1) || n == 15 && this.doProcessEventSource(2) || n == 12 && this.doProcessEventSource(256) || n == 10 && this.doProcessEventSource(512) || n == 11 && this.doProcessEventSource(128) || n == 9 && this.doProcessEventSource(64) || n == 30 && this.doProcessEventSource(1024));
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        logChannelEvent.log(-2137614336, "VirtualButton#keyReleased event = %1", (Object)keyEvent);
+        logChannelEvent.log(10000000, "VirtualButton#keyReleased event = %1", (Object)keyEvent);
         if (keyEvent.isConsumed() || this.model == null) {
             return;
         }
@@ -188,24 +185,23 @@ implements ITouchScreenEventListener {
                 ((ButtonModelGUI)this.model).keyReleased(n, n2);
                 this.maybeConsumeEvent(keyEvent);
             } else {
-                logChannel.log(-2137614336, "VirtualButton#keyReleased according to configuration released event is ignored by this widget. modelType: %1", (long)((HMIModelGUI)this.model).getModelType());
+                logChannel.log(10000000, "VirtualButton#keyReleased according to configuration released event is ignored by this widget. modelType: %1", (long)((HMIModelGUI)this.model).getModelType());
             }
         } else if (this.model instanceof BrowserModelGUI) {
             if (this.doProcessEvent(n)) {
                 ((BrowserModelGUI)this.model).keyReleased(n, n2);
                 this.maybeConsumeEvent(keyEvent);
             } else {
-                logChannel.log(-2137614336, "VirtualButton#keyPressed VirtualButtonModelGUI connected according to configuration pressed event is ignored by this widget");
+                logChannel.log(10000000, "VirtualButton#keyPressed VirtualButtonModelGUI connected according to configuration pressed event is ignored by this widget");
             }
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (wheelButtonEvent.getClickCount() == 0) {
             return;
         }
-        logChannelEvent.log(-2137614336, "VirtualButton#keyTurned event = %1", (Object)wheelButtonEvent);
+        logChannelEvent.log(10000000, "VirtualButton#keyTurned event = %1", (Object)wheelButtonEvent);
         if (wheelButtonEvent.isConsumed()) {
             return;
         }
@@ -225,14 +221,14 @@ implements ITouchScreenEventListener {
                     }
                 }
                 if (n == 1) {
-                    logChannelEvent.log(-2137614336, "VirtualButton#keyTurned Rangemodel Leftturn", (Object)wheelButtonEvent);
+                    logChannelEvent.log(10000000, "VirtualButton#keyTurned Rangemodel Leftturn", (Object)wheelButtonEvent);
                     if (this.rotationalDirectionClockWise) {
                         ((RangeModelGUI)this.model).decrement(this.calculateRangeModelIncrementationStep(wheelButtonEvent, (RangeModelGUI)this.model), this.terminal.getTerminalID());
                     } else {
                         ((RangeModelGUI)this.model).increment(this.calculateRangeModelIncrementationStep(wheelButtonEvent, (RangeModelGUI)this.model), this.terminal.getTerminalID());
                     }
                 } else {
-                    logChannelEvent.log(-2137614336, "VirtualButton#keyTurned Rangemodel Rightturn", (Object)wheelButtonEvent);
+                    logChannelEvent.log(10000000, "VirtualButton#keyTurned Rangemodel Rightturn", (Object)wheelButtonEvent);
                     if (this.rotationalDirectionClockWise) {
                         ((RangeModelGUI)this.model).increment(this.calculateRangeModelIncrementationStep(wheelButtonEvent, (RangeModelGUI)this.model), this.terminal.getTerminalID());
                     } else {
@@ -253,10 +249,10 @@ implements ITouchScreenEventListener {
                     this.maybeConsumeEvent(wheelButtonEvent);
                 }
             } else {
-                logChannel.log(1078071040, "VirtualButton#keyTurned unsupported model connected. model: %1 cannot process turn events", this.model);
+                logChannel.log(1000000, "VirtualButton#keyTurned unsupported model connected. model: %1 cannot process turn events", this.model);
             }
         } else {
-            logChannel.log(-2137614336, "VirtualButton#keyTurned according to configuration turn event is ignored by this widget");
+            logChannel.log(10000000, "VirtualButton#keyTurned according to configuration turn event is ignored by this widget");
         }
     }
 
@@ -266,7 +262,7 @@ implements ITouchScreenEventListener {
             return n;
         }
         long l = this.getCurrentTime();
-        if (l <= this.lastEventTime + 0) {
+        if (l <= this.lastEventTime + 100L) {
             this.eventAccumulation += n;
             this.lastEventTime = l;
         } else {
@@ -277,28 +273,27 @@ implements ITouchScreenEventListener {
         int n3 = rangeModelGUI.getMinimum();
         int n4 = rangeModelGUI.getStep();
         int n5 = n2 - n3;
-        return 1 + (int)((float)(n4 * (this.eventAccumulation - 1)) * ((float)n5 / 18499));
+        return 1 + (int)((float)(n4 * (this.eventAccumulation - 1)) * ((float)n5 / 200.0f));
     }
 
     private long getCurrentTime() {
         return AbstractWidget.framework.getMonotonicTime();
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
-        logChannelEvent.log(-2137614336, "VirtualButton#keyMoved event = %1", (Object)joystickEvent);
+        logChannelEvent.log(10000000, "VirtualButton#keyMoved event = %1", (Object)joystickEvent);
         if (joystickEvent.isConsumed() || !this.doProcessEventSource(8)) {
-            logChannel.log(-2137614336, "VirtualButton#keyMoved event is not processed because event is consumed: %1 or widget is not configured to process joystick events", joystickEvent.isConsumed());
+            logChannel.log(10000000, "VirtualButton#keyMoved event is not processed because event is consumed: %1 or widget is not configured to process joystick events", joystickEvent.isConsumed());
             return;
         }
         if (this.isJoystickDirectionBlocked(joystickEvent.getDirection())) {
-            logChannel.log(-2137614336, "VirtualButton#keyMoved event is not processed - ignored Joystick direction ( %1 )", (long)joystickEvent.getDirection());
+            logChannel.log(10000000, "VirtualButton#keyMoved event is not processed - ignored Joystick direction ( %1 )", (long)joystickEvent.getDirection());
             return;
         }
         if (this.model instanceof VirtualButtonModelGUI) {
             VirtualButtonModelGUI virtualButtonModelGUI = (VirtualButtonModelGUI)this.model;
             if (this.invertJoystickEvents) {
-                logChannel.log(-2137614336, "VirtualButton#processJoystickEvent joystick events are inverted, modelID: %1 terminalID: %2", (long)this.modelID, (long)this.terminal.getTerminalID());
+                logChannel.log(10000000, "VirtualButton#processJoystickEvent joystick events are inverted, modelID: %1 terminalID: %2", (long)this.modelID, (long)this.terminal.getTerminalID());
                 switch (joystickEvent.getDirection()) {
                     case 2: {
                         virtualButtonModelGUI.joyS(this.terminal.getTerminalID());
@@ -351,7 +346,7 @@ implements ITouchScreenEventListener {
                     }
                 }
             } else {
-                logChannel.log(-2137614336, "VirtualButton#processJoystickEvent joystick events are not inverted, modelID: %1 terminalID: %2", (long)this.modelID, (long)this.terminal.getTerminalID());
+                logChannel.log(10000000, "VirtualButton#processJoystickEvent joystick events are not inverted, modelID: %1 terminalID: %2", (long)this.modelID, (long)this.terminal.getTerminalID());
                 switch (joystickEvent.getDirection()) {
                     case 2: {
                         virtualButtonModelGUI.joyN(this.terminal.getTerminalID());
@@ -399,7 +394,7 @@ implements ITouchScreenEventListener {
                         break;
                     }
                     default: {
-                        logChannel.log(-2137614336, "VirtualButton#keyMoved unknown Joystick direction: %1 event is not processed and consumed", (long)joystickEvent.getDirection());
+                        logChannel.log(10000000, "VirtualButton#keyMoved unknown Joystick direction: %1 event is not processed and consumed", (long)joystickEvent.getDirection());
                     }
                 }
             }
@@ -448,11 +443,10 @@ implements ITouchScreenEventListener {
             this.fireSMEvent(this.terminal.getTerminalID(), this.event);
             this.maybeConsumeEvent(joystickEvent);
         } else {
-            logChannel.log(-2137614336, "VirtualButton#keyMoved ignore event because no SM event configured and no supported model: %1", this.model);
+            logChannel.log(10000000, "VirtualButton#keyMoved ignore event because no SM event configured and no supported model: %1", this.model);
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchPadPositionMoved(this.currentTouchPadX, this.currentTouchPadY, touchEvent.getX(), touchEvent.getY(), this.terminal.getTerminalID());
@@ -463,10 +457,9 @@ implements ITouchScreenEventListener {
         this.currentTouchPadY = touchEvent.getY();
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
-        logChannelEvent.log(-2137614336, "VirtualButton#touchPadPressed event = %1", (Object)touchEvent);
-        logChannel.log(-2137614336, "VirtualButton#touchPadPressed() event = %1", (Object)touchEvent);
+        logChannelEvent.log(10000000, "VirtualButton#touchPadPressed event = %1", (Object)touchEvent);
+        logChannel.log(10000000, "VirtualButton#touchPadPressed() event = %1", (Object)touchEvent);
         super.touchPadPressed(touchEvent);
         if (touchEvent.isConsumed() || this.model == null) {
             return;
@@ -488,17 +481,16 @@ implements ITouchScreenEventListener {
                         touchEvent.consume(false);
                     }
                 } else {
-                    logChannel.log(-2137614336, "VirtualButton#keyMoved ignore event because no SM event configured and no supported model: %1", this.model);
+                    logChannel.log(10000000, "VirtualButton#keyMoved ignore event because no SM event configured and no supported model: %1", this.model);
                 }
             }
         } else {
-            logChannel.log(-2137614336, "VirtualButton#touchPadPressed VirtualButtonModelGUI connected according to configuration touchScreenPressed event is ignored by this widget, (STATE_ENABLED|STATE_ACTIVE) : %1", this.hasState(36));
+            logChannel.log(10000000, "VirtualButton#touchPadPressed VirtualButtonModelGUI connected according to configuration touchScreenPressed event is ignored by this widget, (STATE_ENABLED|STATE_ACTIVE) : %1", this.hasState(36));
         }
         this.currentTouchPadX = touchEvent.getX();
         this.currentTouchPadY = touchEvent.getY();
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchPadReleased(touchEvent.getX(), touchEvent.getY(), this.terminal.getTerminalID());
@@ -529,7 +521,6 @@ implements ITouchScreenEventListener {
         this.consumeEvents = bl;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
@@ -578,45 +569,40 @@ implements ITouchScreenEventListener {
         this.fireEventKeyTurnedForward = bl;
     }
 
-    @Override
     public void touchScreenReleased(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenReleased(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenReleased(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchScreenReleased(gestureEvent.getX(), gestureEvent.getY(), this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void touchScreenFlicked(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenFlicked(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenFlicked(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
     }
 
-    @Override
     public void touchScreenPressed(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenPressed(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenPressed(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchScreenPressed(gestureEvent.getX(), gestureEvent.getY(), this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void touchScreenZoom(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenZoom(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenZoom(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             float f2 = -gestureEvent.getYDelta();
-            logChannel.log(-2137614336, "VirtualButton#touchScreenZoom new finger distance is %1, YDelta is: %2", (long)gestureEvent.getFingerDistance(), (long)gestureEvent.getYDelta());
-            float f3 = this.currentFingerDistance > gestureEvent.getFingerDistance() ? f2 / (float)this.currentFingerDistance * 51266 : f2 / (float)gestureEvent.getFingerDistance() * 51266;
+            logChannel.log(10000000, "VirtualButton#touchScreenZoom new finger distance is %1, YDelta is: %2", (long)gestureEvent.getFingerDistance(), (long)gestureEvent.getYDelta());
+            float f3 = this.currentFingerDistance > gestureEvent.getFingerDistance() ? f2 / (float)this.currentFingerDistance * 100.0f : f2 / (float)gestureEvent.getFingerDistance() * 100.0f;
             this.currentTouchPositionX = gestureEvent.getX();
             this.currentTouchPositionY = gestureEvent.getY();
             this.currentFingerDistance = gestureEvent.getFingerDistance();
-            logChannel.log(-2137614336, "VirtualButton#touchScreenZoom() - Broadcasting delta of %1 to default VirtualButtonModel.", (double)f3);
+            logChannel.log(10000000, "VirtualButton#touchScreenZoom() - Broadcasting delta of %1 to default VirtualButtonModel.", (double)f3);
             ((VirtualButtonModelGUI)this.model).touchScreenPinch(f3, gestureEvent.getX(), gestureEvent.getY(), this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void touchScreenMoved(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenMoved(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenMoved(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchScreenMoved(this.currentTouchPositionX, this.currentTouchPositionY, n, n2, this.terminal.getTerminalID());
             this.currentTouchPositionX = n;
@@ -624,21 +610,19 @@ implements ITouchScreenEventListener {
         }
     }
 
-    @Override
     public void touchScreenRotate(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenRotate(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenRotate(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
     }
 
-    @Override
     public void touchScreenPress2(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenPress2(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
+        logChannel.log(10000000, "VirtualButton#touchScreenPress2(%1, %2, %3) - called", (Object)gestureEvent, (long)n, (long)n2);
         if (this.isTouchScreenSupported() && this.model instanceof VirtualButtonModelGUI) {
             ((VirtualButtonModelGUI)this.model).touchScreenPressed(gestureEvent.getX(), gestureEvent.getY(), this.terminal.getTerminalID());
         }
     }
 
     public void touchScreenTap(GestureEvent gestureEvent, int n, int n2) {
-        logChannel.log(-2137614336, "VirtualButton#touchScreenTap(%1, %2, %3) - called", (Object)gestureEvent, (long)this.x, (long)this.y);
+        logChannel.log(10000000, "VirtualButton#touchScreenTap(%1, %2, %3) - called", (Object)gestureEvent, (long)this.x, (long)this.y);
     }
 
     public void setTouchScreenSupported(boolean bl) {

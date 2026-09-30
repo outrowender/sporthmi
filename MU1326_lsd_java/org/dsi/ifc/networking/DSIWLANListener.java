@@ -10,67 +10,46 @@ import org.dsi.ifc.networking.Profile;
 
 public interface DSIWLANListener
 extends DSIListener {
-    default public void updateRole(int n, int n2) {
-    }
+    public void updateRole(int var1, int var2);
 
-    default public void updateRFActive(int n, int n2) {
-    }
+    public void updateRFActive(int var1, int var2);
 
-    default public void updateNodeList(Node[] nodeArray, int n) {
-    }
+    public void updateNodeList(Node[] var1, int var2);
 
-    default public void updateProfile(Profile profile, int n) {
-    }
+    public void updateProfile(Profile var1, int var2);
 
-    default public void updateWlanEnabled(boolean bl, int n) {
-    }
+    public void updateWlanEnabled(boolean var1, int var2);
 
-    default public void updateStartupState(int n, int n2) {
-    }
+    public void updateStartupState(int var1, int var2);
 
-    default public void updateTrustedNetworks(String[] stringArray, String[] stringArray2, int[] nArray, int n) {
-    }
+    public void updateTrustedNetworks(String[] var1, String[] var2, int[] var3, int var4);
 
-    default public void updateDiscoveredNetwork(DiscoveredNetwork discoveredNetwork, int n) {
-    }
+    public void updateDiscoveredNetwork(DiscoveredNetwork var1, int var2);
 
-    default public void updateConnectedNetwork(String string, String string2, int n, int n2) {
-    }
+    public void updateConnectedNetwork(String var1, String var2, int var3, int var4);
 
-    default public void responseFactoryReset(int n) {
-    }
+    public void responseFactoryReset(int var1);
 
-    default public void responseSetRole(int n) {
-    }
+    public void responseSetRole(int var1);
 
-    default public void responseSetRFActive(int n) {
-    }
+    public void responseSetRFActive(int var1);
 
-    default public void responseSetProfile(int n) {
-    }
+    public void responseSetProfile(int var1);
 
-    default public void responseNetworkSearch(int n, int n2) {
-    }
+    public void responseNetworkSearch(int var1, int var2);
 
-    default public void responseAbortSearch(int n) {
-    }
+    public void responseAbortSearch(int var1);
 
-    default public void responseConnectNetwork(String string, String string2, int n) {
-    }
+    public void responseConnectNetwork(String var1, String var2, int var3);
 
-    default public void responseDisconnectNetwork(String string, String string2, int n) {
-    }
+    public void responseDisconnectNetwork(String var1, String var2, int var3);
 
-    default public void responseDeleteTrustedNetwork(String string, String string2, int n) {
-    }
+    public void responseDeleteTrustedNetwork(String var1, String var2, int var3);
 
-    default public void responseActivateWps(int n) {
-    }
+    public void responseActivateWps(int var1);
 
-    default public void updateWPSRunning(int n, int n2) {
-    }
+    public void updateWPSRunning(int var1, int var2);
 
-    default public void updateWPSStoppedAndConnecting(String string, String string2, int n) {
-    }
+    public void updateWPSStoppedAndConnecting(String var1, String var2, int var3);
 }
 

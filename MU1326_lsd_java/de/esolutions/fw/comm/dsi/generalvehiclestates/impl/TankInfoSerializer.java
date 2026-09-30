@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.generalvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.generalvehiclestates.TankInfo;
 
 public class TankInfoSerializer {
-    public static void putOptionalTankInfo(ISerializer iSerializer, TankInfo tankInfo) {
+    public static void putOptionalTankInfo(ISerializer iSerializer, TankInfo tankInfo) throws SerializerException {
         boolean bl = tankInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TankInfoSerializer {
         }
     }
 
-    public static void putOptionalTankInfoVarArray(ISerializer iSerializer, TankInfo[] tankInfoArray) {
+    public static void putOptionalTankInfoVarArray(ISerializer iSerializer, TankInfo[] tankInfoArray) throws SerializerException {
         boolean bl = tankInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TankInfoSerializer {
         }
     }
 
-    public static TankInfo getOptionalTankInfo(IDeserializer iDeserializer) {
+    public static TankInfo getOptionalTankInfo(IDeserializer iDeserializer) throws SerializerException {
         TankInfo tankInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TankInfoSerializer {
         return tankInfo;
     }
 
-    public static TankInfo[] getOptionalTankInfoVarArray(IDeserializer iDeserializer) {
+    public static TankInfo[] getOptionalTankInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         TankInfo[] tankInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

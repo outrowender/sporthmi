@@ -8,7 +8,6 @@ import de.audi.atip.log.LogChannel;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.LRUCache;
-import de.esolutions.hmi.widgets.audi.base.eal.LRUCacheEAL$Item;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,8 +16,8 @@ import java.util.Map;
 public class LRUCacheEAL
 implements LRUCache {
     Map myHashMap = new HashMap();
-    LRUCacheEAL$Item listStart = new LRUCacheEAL$Item();
-    LRUCacheEAL$Item listEnd = new LRUCacheEAL$Item();
+    Item listStart = new Item();
+    Item listEnd = new Item();
     int maxSize;
     long storageSize;
     static LogChannel logHybridCalls;
@@ -49,81 +48,78 @@ implements LRUCache {
         }
     }
 
-    void removeItem(LRUCacheEAL$Item lRUCacheEAL$Item) {
-        lRUCacheEAL$Item.previous.next = lRUCacheEAL$Item.next;
-        lRUCacheEAL$Item.next.previous = lRUCacheEAL$Item.previous;
+    void removeItem(Item item) {
+        item.previous.next = item.next;
+        item.next.previous = item.previous;
         if (COLLECT_BIN_STATS) {
             // empty if block
         }
         try {
-            logHybridCalls.log(-2137614336, "LRUCacheImpl#removeItem before destroyDrawable call");
-            this.imageLoader.destroyImage(lRUCacheEAL$Item.value);
-            logHybridCalls.log(-2137614336, "LRUCacheImpl#removeItem after destroyDrawable call");
+            logHybridCalls.log(10000000, "LRUCacheImpl#removeItem before destroyDrawable call");
+            this.imageLoader.destroyImage(item.value);
+            logHybridCalls.log(10000000, "LRUCacheImpl#removeItem after destroyDrawable call");
         }
         catch (RuntimeException runtimeException) {
-            logHybridCalls.log(1000, "LRUCacheImpl#removeItem couldn't destroy bitmap with id: %1, reason was: %2", (Object)lRUCacheEAL$Item.key, (Object)runtimeException.getMessage());
+            logHybridCalls.log(1000, "LRUCacheImpl#removeItem couldn't destroy bitmap with id: %1, reason was: %2", (Object)item.key, (Object)runtimeException.getMessage());
         }
     }
 
-    void insertHead(LRUCacheEAL$Item lRUCacheEAL$Item) {
-        lRUCacheEAL$Item.previous = this.listStart;
-        lRUCacheEAL$Item.next = this.listStart.next;
-        this.listStart.next.previous = lRUCacheEAL$Item;
-        this.listStart.next = lRUCacheEAL$Item;
+    void insertHead(Item item) {
+        item.previous = this.listStart;
+        item.next = this.listStart.next;
+        this.listStart.next.previous = item;
+        this.listStart.next = item;
     }
 
-    void moveToHead(LRUCacheEAL$Item lRUCacheEAL$Item) {
-        lRUCacheEAL$Item.previous.next = lRUCacheEAL$Item.next;
-        lRUCacheEAL$Item.next.previous = lRUCacheEAL$Item.previous;
-        lRUCacheEAL$Item.previous = this.listStart;
-        lRUCacheEAL$Item.next = this.listStart.next;
-        this.listStart.next.previous = lRUCacheEAL$Item;
-        this.listStart.next = lRUCacheEAL$Item;
+    void moveToHead(Item item) {
+        item.previous.next = item.next;
+        item.next.previous = item.previous;
+        item.previous = this.listStart;
+        item.next = this.listStart.next;
+        this.listStart.next.previous = item;
+        this.listStart.next = item;
     }
 
-    @Override
     public Object get(Comparable comparable, int n, int n2) {
-        LRUCacheEAL$Item lRUCacheEAL$Item = (LRUCacheEAL$Item)this.myHashMap.get(comparable);
-        if (lRUCacheEAL$Item == null) {
+        Item item = (Item)this.myHashMap.get(comparable);
+        if (item == null) {
             return null;
         }
-        if (lRUCacheEAL$Item != this.listStart.next) {
-            this.moveToHead(lRUCacheEAL$Item);
+        if (item != this.listStart.next) {
+            this.moveToHead(item);
         }
-        this.updateScreenList(comparable, n, n2, lRUCacheEAL$Item);
-        return lRUCacheEAL$Item.value;
+        this.updateScreenList(comparable, n, n2, item);
+        return item.value;
     }
 
-    @Override
     public Object[] elements() {
         int n = 0;
-        LRUCacheEAL$Item lRUCacheEAL$Item = this.listStart.next;
-        while (lRUCacheEAL$Item != null && !lRUCacheEAL$Item.equals(this.listEnd)) {
+        Item item = this.listStart.next;
+        while (item != null && !item.equals(this.listEnd)) {
             ++n;
-            lRUCacheEAL$Item = lRUCacheEAL$Item.next;
+            item = item.next;
         }
         if (elements == null || n > elements.length) {
             elements = new Object[n];
         }
         n = 0;
-        lRUCacheEAL$Item = this.listStart.next;
-        while (lRUCacheEAL$Item != null && !lRUCacheEAL$Item.equals(this.listEnd)) {
-            LRUCacheEAL.elements[n] = lRUCacheEAL$Item.value;
+        item = this.listStart.next;
+        while (item != null && !item.equals(this.listEnd)) {
+            LRUCacheEAL.elements[n] = item.value;
             ++n;
-            lRUCacheEAL$Item = lRUCacheEAL$Item.next;
+            item = item.next;
         }
         Object[] objectArray = new Object[n];
         System.arraycopy((Object)elements, 0, (Object)objectArray, 0, n);
         return objectArray;
     }
 
-    @Override
     public void clear() {
         while (!this.myHashMap.isEmpty()) {
-            LRUCacheEAL$Item lRUCacheEAL$Item = this.listEnd.previous;
-            this.myHashMap.remove(lRUCacheEAL$Item.key);
-            this.storageSize -= lRUCacheEAL$Item.size;
-            this.removeItem(lRUCacheEAL$Item);
+            Item item = this.listEnd.previous;
+            this.myHashMap.remove(item.key);
+            this.storageSize -= item.size;
+            this.removeItem(item);
         }
         for (int i2 = 0; i2 < this.requestedItemsPerTerminal.length; ++i2) {
             Map map = this.requestedItemsPerTerminal[i2];
@@ -132,61 +128,60 @@ implements LRUCache {
         }
     }
 
-    @Override
     public void put(Comparable comparable, Object object, int n, int n2, int n3, int n4, int n5) {
-        LRUCacheEAL$Item lRUCacheEAL$Item;
-        logLRUCache.log(-2137614336, "LRUCacheImpl#put next bitmap with ID: %1", (Object)comparable);
+        Item item;
+        logLRUCache.log(10000000, "LRUCacheImpl#put next bitmap with ID: %1", (Object)comparable);
         if (COLLECT_BIN_STATS) {
             // empty if block
         }
-        if ((lRUCacheEAL$Item = (LRUCacheEAL$Item)this.myHashMap.get(comparable)) != null) {
-            lRUCacheEAL$Item.value = object;
-            lRUCacheEAL$Item.size = n;
-            this.moveToHead(lRUCacheEAL$Item);
-            this.updateScreenList(comparable, n4, n5, lRUCacheEAL$Item);
+        if ((item = (Item)this.myHashMap.get(comparable)) != null) {
+            item.value = object;
+            item.size = n;
+            this.moveToHead(item);
+            this.updateScreenList(comparable, n4, n5, item);
             return;
         }
-        lRUCacheEAL$Item = this.listEnd.previous;
-        while (this.storageSize + (long)n > (long)this.maxSize && lRUCacheEAL$Item != null && !lRUCacheEAL$Item.equals(this.listStart)) {
-            LRUCacheEAL$Item lRUCacheEAL$Item2 = lRUCacheEAL$Item.previous;
-            if (lRUCacheEAL$Item.referenceCounter == 0) {
-                this.removeItemAndAdjustSize(lRUCacheEAL$Item);
-            } else if (lRUCacheEAL$Item.referenceCounter == 1 && this.isItemReferencedFromSameScreenInSameTerminal(lRUCacheEAL$Item.key, n4, n5)) {
-                this.removeReferenceFromSameTerminal(lRUCacheEAL$Item.key, n4, n5);
-                if (lRUCacheEAL$Item.referenceCounter == 0) {
-                    this.removeItemAndAdjustSize(lRUCacheEAL$Item);
+        item = this.listEnd.previous;
+        while (this.storageSize + (long)n > (long)this.maxSize && item != null && !item.equals(this.listStart)) {
+            Item item2 = item.previous;
+            if (item.referenceCounter == 0) {
+                this.removeItemAndAdjustSize(item);
+            } else if (item.referenceCounter == 1 && this.isItemReferencedFromSameScreenInSameTerminal(item.key, n4, n5)) {
+                this.removeReferenceFromSameTerminal(item.key, n4, n5);
+                if (item.referenceCounter == 0) {
+                    this.removeItemAndAdjustSize(item);
                 } else {
-                    logLRUCache.log(-2137614336, "LRUCacheImpl#put can't remove item after decreasing reference: %1 because refCounter is: %2", (Object)lRUCacheEAL$Item.key, (long)lRUCacheEAL$Item.referenceCounter);
+                    logLRUCache.log(10000000, "LRUCacheImpl#put can't remove item after decreasing reference: %1 because refCounter is: %2", (Object)item.key, (long)item.referenceCounter);
                 }
             } else {
-                logLRUCache.log(-2137614336, "LRUCacheImpl#put can't remove item: %1 because refCounter is: %2", (Object)lRUCacheEAL$Item.key, (long)lRUCacheEAL$Item.referenceCounter);
+                logLRUCache.log(10000000, "LRUCacheImpl#put can't remove item: %1 because refCounter is: %2", (Object)item.key, (long)item.referenceCounter);
             }
-            lRUCacheEAL$Item = lRUCacheEAL$Item2;
+            item = item2;
         }
-        LRUCacheEAL$Item lRUCacheEAL$Item3 = new LRUCacheEAL$Item(comparable, object, n);
-        this.insertHead(lRUCacheEAL$Item3);
-        this.myHashMap.put(comparable, lRUCacheEAL$Item3);
-        this.updateScreenList(comparable, n4, n5, lRUCacheEAL$Item3);
+        Item item3 = new Item(comparable, object, n);
+        this.insertHead(item3);
+        this.myHashMap.put(comparable, item3);
+        this.updateScreenList(comparable, n4, n5, item3);
         this.storageSize += (long)n;
     }
 
-    private void removeItemAndAdjustSize(LRUCacheEAL$Item lRUCacheEAL$Item) {
-        logLRUCache.log(-2137614336, "LRUCacheImpl#put before remove current storage size is: %2, trying to remove: %1", (Object)lRUCacheEAL$Item.key, this.storageSize);
-        this.storageSize -= lRUCacheEAL$Item.size;
-        this.myHashMap.remove(lRUCacheEAL$Item.key);
-        this.removeItem(lRUCacheEAL$Item);
-        logLRUCache.log(-2137614336, "LRUCacheImpl#put after remove current storage size is: %2, trying to remove: %1", (Object)lRUCacheEAL$Item.key, this.storageSize);
+    private void removeItemAndAdjustSize(Item item) {
+        logLRUCache.log(10000000, "LRUCacheImpl#put before remove current storage size is: %2, trying to remove: %1", (Object)item.key, this.storageSize);
+        this.storageSize -= item.size;
+        this.myHashMap.remove(item.key);
+        this.removeItem(item);
+        logLRUCache.log(10000000, "LRUCacheImpl#put after remove current storage size is: %2, trying to remove: %1", (Object)item.key, this.storageSize);
     }
 
-    private void updateScreenList(Comparable comparable, int n, int n2, LRUCacheEAL$Item lRUCacheEAL$Item) {
+    private void updateScreenList(Comparable comparable, int n, int n2, Item item) {
         HashMap hashMap = (HashMap)this.requestedItemsPerTerminal[n2].get(new Integer(n));
         if (hashMap == null) {
             hashMap = new HashMap();
             this.requestedItemsPerTerminal[n2].put(new Integer(n), hashMap);
         }
         if (hashMap.get(comparable) == null) {
-            hashMap.put(comparable, lRUCacheEAL$Item);
-            ++lRUCacheEAL$Item.referenceCounter;
+            hashMap.put(comparable, item);
+            ++item.referenceCounter;
         }
     }
 
@@ -196,24 +191,22 @@ implements LRUCache {
     }
 
     private void removeReferenceFromSameTerminal(Comparable comparable, int n, int n2) {
-        logLRUCache.log(-2137614336, "LRUCacheImpl#removeReferenceFromSameTerminal for screeen: %2 and id: %1", (Object)comparable, (long)n);
+        logLRUCache.log(10000000, "LRUCacheImpl#removeReferenceFromSameTerminal for screeen: %2 and id: %1", (Object)comparable, (long)n);
         HashMap hashMap = (HashMap)this.requestedItemsPerTerminal[n2].get(new Integer(n));
-        LRUCacheEAL$Item lRUCacheEAL$Item = (LRUCacheEAL$Item)hashMap.get(comparable);
-        if (lRUCacheEAL$Item != null) {
-            --lRUCacheEAL$Item.referenceCounter;
-            if (lRUCacheEAL$Item.referenceCounter < 0) {
-                logLRUCache.log(-2137614336, "LRUCacheImpl#removeReferenceFromSameTerminal problem with refcounter for screeen: %2 and id: %1", (Object)lRUCacheEAL$Item.key, (long)n);
+        Item item = (Item)hashMap.get(comparable);
+        if (item != null) {
+            --item.referenceCounter;
+            if (item.referenceCounter < 0) {
+                logLRUCache.log(10000000, "LRUCacheImpl#removeReferenceFromSameTerminal problem with refcounter for screeen: %2 and id: %1", (Object)item.key, (long)n);
             }
             hashMap.remove(comparable);
         }
     }
 
-    @Override
     public int size() {
         return this.myHashMap.size();
     }
 
-    @Override
     public void decrementRefCounters(int n, int n2) {
         Integer n3 = new Integer(n);
         HashMap hashMap = (HashMap)this.requestedItemsPerTerminal[n2].get(n3);
@@ -221,41 +214,40 @@ implements LRUCache {
             Collection collection = hashMap.values();
             Iterator iterator = collection.iterator();
             while (iterator.hasNext()) {
-                LRUCacheEAL$Item lRUCacheEAL$Item = (LRUCacheEAL$Item)iterator.next();
-                --lRUCacheEAL$Item.referenceCounter;
-                if (lRUCacheEAL$Item.referenceCounter >= 0) continue;
-                logLRUCache.log(-2137614336, "LRUCacheImpl#decrementRefCounters problem with refcounter for screeen: %2 and id: %1", (Object)lRUCacheEAL$Item.key, (long)n);
+                Item item = (Item)iterator.next();
+                --item.referenceCounter;
+                if (item.referenceCounter >= 0) continue;
+                logLRUCache.log(10000000, "LRUCacheImpl#decrementRefCounters problem with refcounter for screeen: %2 and id: %1", (Object)item.key, (long)n);
             }
             this.requestedItemsPerTerminal[n2].remove(n3);
         }
     }
 
-    public LRUCacheEAL$Item[] getItems() {
+    public Item[] getItems() {
         int n = 0;
-        LRUCacheEAL$Item lRUCacheEAL$Item = this.listStart.next;
-        while (lRUCacheEAL$Item != null && !lRUCacheEAL$Item.equals(this.listEnd)) {
+        Item item = this.listStart.next;
+        while (item != null && !item.equals(this.listEnd)) {
             ++n;
-            lRUCacheEAL$Item = lRUCacheEAL$Item.next;
+            item = item.next;
         }
         if (n == 0) {
             return null;
         }
         if (elements == null || n != elements.length) {
-            elements = new LRUCacheEAL$Item[n];
+            elements = new Item[n];
         }
         n = 0;
-        lRUCacheEAL$Item = this.listStart.next;
-        while (lRUCacheEAL$Item != null && !lRUCacheEAL$Item.equals(this.listEnd)) {
-            LRUCacheEAL.elements[n] = lRUCacheEAL$Item;
+        item = this.listStart.next;
+        while (item != null && !item.equals(this.listEnd)) {
+            LRUCacheEAL.elements[n] = item;
             ++n;
-            lRUCacheEAL$Item = lRUCacheEAL$Item.next;
+            item = item.next;
         }
-        LRUCacheEAL$Item[] lRUCacheEAL$ItemArray = new LRUCacheEAL$Item[n];
-        System.arraycopy((Object)elements, 0, (Object)lRUCacheEAL$ItemArray, 0, n);
-        return lRUCacheEAL$ItemArray;
+        Item[] itemArray = new Item[n];
+        System.arraycopy((Object)elements, 0, (Object)itemArray, 0, n);
+        return itemArray;
     }
 
-    @Override
     public long getStorageSize() {
         return this.storageSize;
     }
@@ -264,6 +256,24 @@ implements LRUCache {
         logBinSizes = IWidgetLogChannel.binSizeLogChannel;
         logLRUCache = IWidgetLogChannel.lRULogChannel;
         COLLECT_BIN_STATS = System.getProperty("collectBinStats") != null;
+    }
+
+    static class Item {
+        public Comparable key;
+        public Object value;
+        public long size;
+        public Item previous;
+        public Item next;
+        public int referenceCounter;
+
+        public Item(Comparable comparable, Object object, long l) {
+            this.key = comparable;
+            this.value = object;
+            this.size = l;
+        }
+
+        public Item() {
+        }
     }
 }
 

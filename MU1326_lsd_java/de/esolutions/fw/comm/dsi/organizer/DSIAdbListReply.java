@@ -3,50 +3,39 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbViewSize;
 import org.dsi.ifc.organizer.DataSet;
 import org.dsi.ifc.organizer.IndexInformation;
 
 public interface DSIAdbListReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "42dbbcd2-3ea6-5bd5-bf1c-1688f4fb8458";
+    public static final String IPL_COMM_INTERFACE_KEY = "1f064d36-4f05-57d2-af73-a3c0a190b478";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateViewSize(AdbViewSize adbViewSize, int n) {
-    }
+    public void updateViewSize(AdbViewSize var1, int var2) throws MethodException;
 
-    default public void invalidData(int n) {
-    }
+    public void invalidData(int var1) throws MethodException;
 
-    default public void stopSpellerResult(int n, int n2) {
-    }
+    public void stopSpellerResult(int var1, int var2) throws MethodException;
 
-    default public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-    }
+    public void spellerResult(int var1, int var2, DataSet[] var3, int var4, String var5, String var6) throws MethodException;
 
-    default public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
-    }
+    public void validateSpellerCharsResult(int var1, int var2, String var3, String var4) throws MethodException;
 
-    default public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
-    }
+    public void getViewWindowResult(int var1, DataSet[] var2, int var3) throws MethodException;
 
-    default public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) {
-    }
+    public void getSpellerViewWindowResult(int var1, int var2, DataSet[] var3, int var4) throws MethodException;
 
-    default public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) {
-    }
+    public void getValidHanziCharsWindowResult(int var1, int var2, int var3, String var4, int var5) throws MethodException;
 
-    default public void setListStyleResult(int n) {
-    }
+    public void setListStyleResult(int var1) throws MethodException;
 
-    default public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) {
-    }
+    public void updateAlphabeticalIndex(IndexInformation[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

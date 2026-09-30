@@ -15,7 +15,7 @@ public class Annotation {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append("[value=").append(this.value).append(']').toString();
+        return String.valueOf(this.getClass().getName()) + "[value=" + this.value + ']';
     }
 }
 

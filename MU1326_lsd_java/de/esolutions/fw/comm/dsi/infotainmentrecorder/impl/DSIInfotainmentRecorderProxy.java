@@ -30,8 +30,7 @@ DSIInfotainmentRecorderC {
         return this.proxy;
     }
 
-    @Override
-    public void logPanelName(String string) {
+    public void logPanelName(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -42,8 +41,7 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void logKeyEvent(int n, int n2, int n3) {
+    public void logKeyEvent(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -56,8 +54,7 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void backupTrigger(int n) {
+    public void backupTrigger(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -68,8 +65,7 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void enableTrigger(boolean bl, int n) {
+    public void enableTrigger(boolean bl, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -81,13 +77,11 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void logInit() {
+    public void logInit() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -98,8 +92,7 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -110,13 +103,11 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -127,8 +118,7 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -139,13 +129,11 @@ DSIInfotainmentRecorderC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

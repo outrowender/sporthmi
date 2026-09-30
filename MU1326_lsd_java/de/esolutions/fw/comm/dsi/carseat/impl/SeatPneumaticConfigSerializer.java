@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carseat.impl.MassageConfigSerializer;
 import de.esolutions.fw.comm.dsi.carseat.impl.VisualizationConfigSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageConfig;
 import org.dsi.ifc.carseat.SeatPneumaticConfig;
 import org.dsi.ifc.carseat.VisualizationConfig;
 
 public class SeatPneumaticConfigSerializer {
-    public static void putOptionalSeatPneumaticConfig(ISerializer iSerializer, SeatPneumaticConfig seatPneumaticConfig) {
+    public static void putOptionalSeatPneumaticConfig(ISerializer iSerializer, SeatPneumaticConfig seatPneumaticConfig) throws SerializerException {
         boolean bl = seatPneumaticConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SeatPneumaticConfigSerializer {
         }
     }
 
-    public static void putOptionalSeatPneumaticConfigVarArray(ISerializer iSerializer, SeatPneumaticConfig[] seatPneumaticConfigArray) {
+    public static void putOptionalSeatPneumaticConfigVarArray(ISerializer iSerializer, SeatPneumaticConfig[] seatPneumaticConfigArray) throws SerializerException {
         boolean bl = seatPneumaticConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SeatPneumaticConfigSerializer {
         }
     }
 
-    public static SeatPneumaticConfig getOptionalSeatPneumaticConfig(IDeserializer iDeserializer) {
+    public static SeatPneumaticConfig getOptionalSeatPneumaticConfig(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticConfig seatPneumaticConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SeatPneumaticConfigSerializer {
         return seatPneumaticConfig;
     }
 
-    public static SeatPneumaticConfig[] getOptionalSeatPneumaticConfigVarArray(IDeserializer iDeserializer) {
+    public static SeatPneumaticConfig[] getOptionalSeatPneumaticConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticConfig[] seatPneumaticConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

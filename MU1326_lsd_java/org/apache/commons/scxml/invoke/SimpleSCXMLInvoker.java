@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.apache.commons.scxml.Context;
 import org.apache.commons.scxml.Evaluator;
 import org.apache.commons.scxml.SCInstance;
@@ -29,30 +28,27 @@ import org.xml.sax.SAXException;
 public class SimpleSCXMLInvoker
 implements Invoker,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String parentStateId;
     private String eventPrefix;
     private SCInstance parentSCInstance;
     private SCXMLExecutor executor;
     private boolean cancelled;
-    private static String invokePrefix;
-    private static String invokeDone;
-    private static String invokeCancelResponse;
+    private static String invokePrefix = ".invoke.";
+    private static String invokeDone = "done";
+    private static String invokeCancelResponse = "cancel.response";
 
-    @Override
     public void setParentStateId(String string) {
         this.parentStateId = string;
-        this.eventPrefix = new StringBuffer().append(this.parentStateId).append(invokePrefix).toString();
+        this.eventPrefix = this.parentStateId + invokePrefix;
         this.cancelled = false;
     }
 
-    @Override
     public void setSCInstance(SCInstance sCInstance) {
         this.parentSCInstance = sCInstance;
     }
 
-    @Override
-    public void invoke(String string, Map map) {
+    public void invoke(String string, Map map) throws InvokerException {
         SCXML sCXML = null;
         try {
             sCXML = SCXMLParser.parse(new URL(string), new SimpleErrorHandler());
@@ -71,13 +67,13 @@ Serializable {
         Context context = evaluator.newContext(null);
         Object object = map.entrySet().iterator();
         while (object.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)object.next();
-            context.setLocal((String)map$Entry.getKey(), map$Entry.getValue());
+            Map.Entry entry = (Map.Entry)object.next();
+            context.setLocal((String)entry.getKey(), entry.getValue());
         }
         this.executor.setRootContext(context);
         this.executor.setStateMachine(sCXML);
         this.executor.addListener(sCXML, (SCXMLListener)new SimpleSCXMLListener());
-        this.executor.registerInvokerClass("scxml", super.getClass());
+        this.executor.registerInvokerClass("scxml", this.getClass());
         try {
             this.executor.go();
         }
@@ -85,13 +81,12 @@ Serializable {
             throw new InvokerException(modelException.getMessage(), modelException.getCause());
         }
         if (this.executor.getCurrentStatus().isFinal()) {
-            object = new TriggerEvent(new StringBuffer().append(this.eventPrefix).append(invokeDone).toString(), 3);
+            object = new TriggerEvent(this.eventPrefix + invokeDone, 3);
             new AsyncTrigger(this.parentSCInstance.getExecutor(), (TriggerEvent)object).start();
         }
     }
 
-    @Override
-    public void parentEvents(TriggerEvent[] triggerEventArray) {
+    public void parentEvents(TriggerEvent[] triggerEventArray) throws InvokerException {
         if (this.cancelled) {
             return;
         }
@@ -103,22 +98,15 @@ Serializable {
             throw new InvokerException(modelException.getMessage(), modelException.getCause());
         }
         if (!bl && this.executor.getCurrentStatus().isFinal()) {
-            TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(this.eventPrefix).append(invokeDone).toString(), 3);
+            TriggerEvent triggerEvent = new TriggerEvent(this.eventPrefix + invokeDone, 3);
             new AsyncTrigger(this.parentSCInstance.getExecutor(), triggerEvent).start();
         }
     }
 
-    @Override
-    public void cancel() {
+    public void cancel() throws InvokerException {
         this.cancelled = true;
-        TriggerEvent triggerEvent = new TriggerEvent(new StringBuffer().append(this.eventPrefix).append(invokeCancelResponse).toString(), 3);
+        TriggerEvent triggerEvent = new TriggerEvent(this.eventPrefix + invokeCancelResponse, 3);
         new AsyncTrigger(this.parentSCInstance.getExecutor(), triggerEvent).start();
-    }
-
-    static {
-        invokePrefix = ".invoke.";
-        invokeDone = "done";
-        invokeCancelResponse = "cancel.response";
     }
 }
 

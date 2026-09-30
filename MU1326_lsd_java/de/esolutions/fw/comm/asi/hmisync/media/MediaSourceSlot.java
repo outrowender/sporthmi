@@ -82,7 +82,7 @@ public class MediaSourceSlot {
     }
 
     public String toString() {
-        return new StringBuffer("MediaSourceSlot{").append("source=").append(this.source).append(", slotIdx=").append(this.slotIdx).append(", mediaType=").append(this.mediaType).append(", deviceIdx=").append(this.deviceIdx).append(", state=").append(this.state).append(", flags=").append(this.flags).append(", name=").append(this.name).append("}").toString();
+        return "MediaSourceSlot{" + "source=" + this.source + ", slotIdx=" + this.slotIdx + ", mediaType=" + this.mediaType + ", deviceIdx=" + this.deviceIdx + ", state=" + this.state + ", flags=" + this.flags + ", name=" + this.name + "}";
     }
 }
 

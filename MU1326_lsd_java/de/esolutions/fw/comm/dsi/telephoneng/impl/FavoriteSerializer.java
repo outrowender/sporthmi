@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.Favorite;
 
 public class FavoriteSerializer {
-    public static void putOptionalFavorite(ISerializer iSerializer, Favorite favorite) {
+    public static void putOptionalFavorite(ISerializer iSerializer, Favorite favorite) throws SerializerException {
         boolean bl = favorite == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class FavoriteSerializer {
         }
     }
 
-    public static void putOptionalFavoriteVarArray(ISerializer iSerializer, Favorite[] favoriteArray) {
+    public static void putOptionalFavoriteVarArray(ISerializer iSerializer, Favorite[] favoriteArray) throws SerializerException {
         boolean bl = favoriteArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class FavoriteSerializer {
         }
     }
 
-    public static Favorite getOptionalFavorite(IDeserializer iDeserializer) {
+    public static Favorite getOptionalFavorite(IDeserializer iDeserializer) throws SerializerException {
         Favorite favorite = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class FavoriteSerializer {
         return favorite;
     }
 
-    public static Favorite[] getOptionalFavoriteVarArray(IDeserializer iDeserializer) {
+    public static Favorite[] getOptionalFavoriteVarArray(IDeserializer iDeserializer) throws SerializerException {
         Favorite[] favoriteArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

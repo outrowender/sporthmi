@@ -27,11 +27,11 @@ extends AnimationParametersEvoHigh {
         int n4 = 3;
         int n5 = 4;
         int n6 = 5;
-        this.animationParameters[57][n] = 16448;
-        this.animationParameters[57][n2] = 61505;
-        this.animationParameters[57][n3] = 41024;
-        this.animationParameters[57][n4] = 24900;
-        this.animationParameters[57][n5] = 24900;
+        this.animationParameters[57][n] = 3.0f;
+        this.animationParameters[57][n2] = 30.0f;
+        this.animationParameters[57][n3] = 5.0f;
+        this.animationParameters[57][n4] = 900.0f;
+        this.animationParameters[57][n5] = 900.0f;
         this.animationParameters[57][n6] = 1.0f;
     }
 }

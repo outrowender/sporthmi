@@ -24,7 +24,7 @@ extends LayoutContainerController
 implements IViewSizeAnimatable {
     int currentHMIApplication = -1;
     int currentHMIContext = -1;
-    public static final int SEPARATOR_BITMAP_INDEX;
+    public static final int SEPARATOR_BITMAP_INDEX = 0;
     private List titleWidgets = Collections.EMPTY_LIST;
     private List breadcrumbWidgets = Collections.EMPTY_LIST;
     private List leftIconWidgets = Collections.EMPTY_LIST;
@@ -40,7 +40,6 @@ implements IViewSizeAnimatable {
         this.setLayoutManager(new TitleBarLayout());
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.terminal != null) {
@@ -49,7 +48,6 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     protected void initializeWidget() {
         boolean bl = ((AbstractScreenWidget)this.initContext.getScreen()).getScreenMode() == 2;
         for (int i2 = 0; i2 < this.titleWidgets.size(); ++i2) {
@@ -60,7 +58,6 @@ implements IViewSizeAnimatable {
         this.propagateNowPlayingStateToLabels();
     }
 
-    @Override
     public void disconnecting() {
         this.nowPlayingState = 0.0f;
         super.disconnecting();
@@ -98,7 +95,6 @@ implements IViewSizeAnimatable {
         this.add(abstractWidgetController);
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         this.titleWidgets.remove(abstractWidget);
         this.breadcrumbWidgets.remove(abstractWidget);
@@ -166,13 +162,11 @@ implements IViewSizeAnimatable {
         return (TitleBarLayout)this.getLayoutManager();
     }
 
-    @Override
     public void invalidateChildrenBounds() {
         super.invalidateChildrenBounds();
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (!this.isAnimating) {
             boolean bl2;
@@ -187,7 +181,6 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         boolean bl2;
         this.isAnimating = false;
@@ -236,7 +229,7 @@ implements IViewSizeAnimatable {
     private void propagateNowPlayingStateToLabels(AbstractWidget abstractWidget) {
         LabelController labelController;
         if (abstractWidget instanceof LabelController && this.hasNowPlayingText(labelController = (LabelController)abstractWidget)) {
-            boolean bl = this.nowPlayingState > 63;
+            boolean bl = this.nowPlayingState > 0.5f;
             labelController.setModel(Util.createInteger(bl ? 1 : 0));
             labelController.updateContent();
             this.fadeForNowPlayingScreen = true;
@@ -269,20 +262,19 @@ implements IViewSizeAnimatable {
 
     public float getNowPlayingOpacity() {
         if (this.fadeForNowPlayingScreen) {
-            int n;
-            float f2 = this.nowPlayingState;
-            if (f2 > 63) {
-                f2 = 1.0f - f2;
+            float f2;
+            float f3 = this.nowPlayingState;
+            if (f3 > 0.5f) {
+                f3 = 1.0f - f3;
             }
-            if (f2 > (n = -842249154)) {
+            if (f3 > (f2 = 0.2f)) {
                 return 0.0f;
             }
-            return 1.0f - f2 / n;
+            return 1.0f - f3 / f2;
         }
         return 1.0f;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.terminal != null) {
             int n = this.terminal.getFramework().getHMIService().getChoiceModel(138).getValue();

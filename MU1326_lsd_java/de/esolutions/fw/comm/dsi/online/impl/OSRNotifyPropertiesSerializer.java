@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRNotifyProperties;
 
 public class OSRNotifyPropertiesSerializer {
-    public static void putOptionalOSRNotifyProperties(ISerializer iSerializer, OSRNotifyProperties oSRNotifyProperties) {
+    public static void putOptionalOSRNotifyProperties(ISerializer iSerializer, OSRNotifyProperties oSRNotifyProperties) throws SerializerException {
         boolean bl = oSRNotifyProperties == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class OSRNotifyPropertiesSerializer {
         }
     }
 
-    public static void putOptionalOSRNotifyPropertiesVarArray(ISerializer iSerializer, OSRNotifyProperties[] oSRNotifyPropertiesArray) {
+    public static void putOptionalOSRNotifyPropertiesVarArray(ISerializer iSerializer, OSRNotifyProperties[] oSRNotifyPropertiesArray) throws SerializerException {
         boolean bl = oSRNotifyPropertiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class OSRNotifyPropertiesSerializer {
         }
     }
 
-    public static OSRNotifyProperties getOptionalOSRNotifyProperties(IDeserializer iDeserializer) {
+    public static OSRNotifyProperties getOptionalOSRNotifyProperties(IDeserializer iDeserializer) throws SerializerException {
         OSRNotifyProperties oSRNotifyProperties = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class OSRNotifyPropertiesSerializer {
         return oSRNotifyProperties;
     }
 
-    public static OSRNotifyProperties[] getOptionalOSRNotifyPropertiesVarArray(IDeserializer iDeserializer) {
+    public static OSRNotifyProperties[] getOptionalOSRNotifyPropertiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRNotifyProperties[] oSRNotifyPropertiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

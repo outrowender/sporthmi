@@ -3,24 +3,21 @@
  */
 package de.esolutions.fw.comm.dsi.browser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.browser.SearchHit;
 
 public interface DSIBrowserBoardbookReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "03f95510-eeb3-5745-b7b4-d75d7d980f85";
+    public static final String IPL_COMM_INTERFACE_KEY = "4cab68e7-314f-5431-9fb3-c957c73e6c7e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.18";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.18";
 
-    default public void indicateSearchResults(String string, int n, SearchHit[] searchHitArray, int n2) {
-    }
+    public void indicateSearchResults(String var1, int var2, SearchHit[] var3, int var4) throws MethodException;
 
-    default public void updateBoardbookStatus(int n, int n2) {
-    }
+    public void updateBoardbookStatus(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

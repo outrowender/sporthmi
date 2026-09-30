@@ -7,22 +7,16 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 
 public interface Lock {
-    default public void lock() {
-    }
+    public void lock();
 
-    default public void lockInterruptibly() {
-    }
+    public void lockInterruptibly() throws InterruptedException;
 
-    default public boolean tryLock() {
-    }
+    public boolean tryLock();
 
-    default public boolean tryLock(long l, TimeUnit timeUnit) {
-    }
+    public boolean tryLock(long var1, TimeUnit var3) throws InterruptedException;
 
-    default public void unlock() {
-    }
+    public void unlock();
 
-    default public Condition newCondition() {
-    }
+    public Condition newCondition();
 }
 

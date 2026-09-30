@@ -32,7 +32,7 @@ public class sBluetoothDeviceName {
     }
 
     public String toString() {
-        return new StringBuffer("sBluetoothDeviceName{").append("mac=").append(this.mac).append(", name=").append(this.name).append("}").toString();
+        return "sBluetoothDeviceName{" + "mac=" + this.mac + ", name=" + this.name + "}";
     }
 }
 

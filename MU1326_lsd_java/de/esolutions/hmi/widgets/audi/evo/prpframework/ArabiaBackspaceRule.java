@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ArabiaBackspaceRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (!AbstractWidget.isArabia() || list.size() <= 0) {
             return;
@@ -38,7 +37,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Arabia-Backspace-Rule";
     }

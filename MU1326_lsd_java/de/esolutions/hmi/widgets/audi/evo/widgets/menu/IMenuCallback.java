@@ -8,25 +8,18 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateDelta;
 
 public interface IMenuCallback {
-    default public void menuLayouted() {
-    }
+    public void menuLayouted();
 
-    default public void viewportUpdated(boolean bl) {
-    }
+    public void viewportUpdated(boolean var1);
 
-    default public void setActiveMenuController(MenuController menuController) {
-    }
+    public void setActiveMenuController(MenuController var1);
 
-    default public void menuFocusChanged(MenuItemIndex menuItemIndex) {
-    }
+    public void menuFocusChanged(MenuItemIndex var1);
 
-    default public void menuFocusChangeFinished() {
-    }
+    public void menuFocusChangeFinished();
 
-    default public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
-    }
+    public void menuSelectionChanged(MenuItemIndex var1, Long var2, MenuUpdateDelta var3);
 
-    default public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
-    }
+    public void setHideOverlayDecoratorDuringScrolling(boolean var1);
 }
 

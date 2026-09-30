@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.jexl.parser;
 
@@ -21,13 +18,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         Object object = ((SimpleNode)this.jjtGetChild(0)).value(jexlContext);
         if (object instanceof Byte) {
             byte by = (Byte)object;

@@ -36,12 +36,10 @@ implements ICallMethodSerializeCallback {
         this.callCount = n;
     }
 
-    @Override
     public void beginSerializeCallMethodPayload(short s, short s2, ISerializer iSerializer) {
         this.offset = iSerializer.getDirectPos();
     }
 
-    @Override
     public void endSerializeCallMethodPayload(short s, short s2, ISerializer iSerializer) {
         if (commMessageTracing == null) {
             return;

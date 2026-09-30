@@ -24,7 +24,6 @@ extends AbstractWidgetController {
     private float clipAngle;
     private boolean clipAngleAvailable;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -33,7 +32,6 @@ extends AbstractWidgetController {
         this.renderer = iARARenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.model == null || !(this.model instanceof TiledListModelGUI)) {
@@ -79,10 +77,9 @@ extends AbstractWidgetController {
         this.maxAngleAvailable = this.getListModelRowBooleanValue(tiledListModelGUI, 7);
         this.clipAngle = this.getListModelRowIntValue(tiledListModelGUI, 8);
         this.clipAngleAvailable = this.getListModelRowBooleanValue(tiledListModelGUI, 9);
-        logChannelParking.log(-2137614336, "ARAController#updateValues: values updated");
+        logChannelParking.log(10000000, "ARAController#updateValues: values updated");
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!(this.model instanceof TiledListModelGUI)) {
             logChannelParking.log(10000, "ARAController#processModelUpdateEvent: only models of type TiledListModelGUI are supported");
@@ -94,7 +91,6 @@ extends AbstractWidgetController {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         if (this.renderer != null) {
@@ -102,7 +98,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.renderer != null) {
@@ -110,7 +105,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         if (this.renderer != null) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingTheftWarningSettings;
 
 public class DoorLockingTheftWarningSettingsSerializer {
-    public static void putOptionalDoorLockingTheftWarningSettings(ISerializer iSerializer, DoorLockingTheftWarningSettings doorLockingTheftWarningSettings) {
+    public static void putOptionalDoorLockingTheftWarningSettings(ISerializer iSerializer, DoorLockingTheftWarningSettings doorLockingTheftWarningSettings) throws SerializerException {
         boolean bl = doorLockingTheftWarningSettings == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DoorLockingTheftWarningSettingsSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingTheftWarningSettingsVarArray(ISerializer iSerializer, DoorLockingTheftWarningSettings[] doorLockingTheftWarningSettingsArray) {
+    public static void putOptionalDoorLockingTheftWarningSettingsVarArray(ISerializer iSerializer, DoorLockingTheftWarningSettings[] doorLockingTheftWarningSettingsArray) throws SerializerException {
         boolean bl = doorLockingTheftWarningSettingsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DoorLockingTheftWarningSettingsSerializer {
         }
     }
 
-    public static DoorLockingTheftWarningSettings getOptionalDoorLockingTheftWarningSettings(IDeserializer iDeserializer) {
+    public static DoorLockingTheftWarningSettings getOptionalDoorLockingTheftWarningSettings(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingTheftWarningSettings doorLockingTheftWarningSettings = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DoorLockingTheftWarningSettingsSerializer {
         return doorLockingTheftWarningSettings;
     }
 
-    public static DoorLockingTheftWarningSettings[] getOptionalDoorLockingTheftWarningSettingsVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingTheftWarningSettings[] getOptionalDoorLockingTheftWarningSettingsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingTheftWarningSettings[] doorLockingTheftWarningSettingsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

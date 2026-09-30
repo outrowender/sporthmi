@@ -6,15 +6,13 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
 import de.esolutions.fw.comm.asi.diagnosis.ooc.sTemperatureMMX;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2OocDiagServiceC {
-    default public void responseErrorOoc(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorOoc(sClientResponseError var1) throws MethodException;
 
-    default public void responseTemperatureMMX(sTemperatureMMX sTemperatureMMX2) {
-    }
+    public void responseTemperatureMMX(sTemperatureMMX var1) throws MethodException;
 
-    default public void responseDeleteMemory(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseDeleteMemory(sRoutineResponse var1) throws MethodException;
 }
 

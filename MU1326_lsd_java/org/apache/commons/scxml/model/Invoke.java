@@ -18,7 +18,7 @@ public class Invoke
 implements NamespacePrefixesHolder,
 PathResolverHolder,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String targettype;
     private String src;
     private String srcexpr;
@@ -73,22 +73,18 @@ Serializable {
         this.finalize = finalize;
     }
 
-    @Override
     public PathResolver getPathResolver() {
         return this.pathResolver;
     }
 
-    @Override
     public void setPathResolver(PathResolver pathResolver) {
         this.pathResolver = pathResolver;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }

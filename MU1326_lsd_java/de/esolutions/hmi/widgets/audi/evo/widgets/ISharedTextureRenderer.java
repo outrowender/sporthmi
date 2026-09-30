@@ -7,13 +7,10 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface ISharedTextureRenderer
 extends IRenderer {
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public void setHMIBackgroundOpaque(boolean bl) {
-    }
+    public void setHMIBackgroundOpaque(boolean var1);
 
-    default public void updateSharedTexture() {
-    }
+    public void updateSharedTexture();
 }
 

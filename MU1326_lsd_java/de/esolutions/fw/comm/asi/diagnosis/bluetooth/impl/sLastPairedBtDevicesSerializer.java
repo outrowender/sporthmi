@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sLastPairedBtDevices;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sLastPairedBtDevicesSerializer {
-    public static void putOptionalsLastPairedBtDevices(ISerializer iSerializer, sLastPairedBtDevices sLastPairedBtDevices2) {
+    public static void putOptionalsLastPairedBtDevices(ISerializer iSerializer, sLastPairedBtDevices sLastPairedBtDevices2) throws SerializerException {
         boolean bl = sLastPairedBtDevices2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class sLastPairedBtDevicesSerializer {
         }
     }
 
-    public static void putOptionalsLastPairedBtDevicesVarArray(ISerializer iSerializer, sLastPairedBtDevices[] sLastPairedBtDevicesArray) {
+    public static void putOptionalsLastPairedBtDevicesVarArray(ISerializer iSerializer, sLastPairedBtDevices[] sLastPairedBtDevicesArray) throws SerializerException {
         boolean bl = sLastPairedBtDevicesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class sLastPairedBtDevicesSerializer {
         }
     }
 
-    public static sLastPairedBtDevices getOptionalsLastPairedBtDevices(IDeserializer iDeserializer) {
+    public static sLastPairedBtDevices getOptionalsLastPairedBtDevices(IDeserializer iDeserializer) throws SerializerException {
         sLastPairedBtDevices sLastPairedBtDevices2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class sLastPairedBtDevicesSerializer {
         return sLastPairedBtDevices2;
     }
 
-    public static sLastPairedBtDevices[] getOptionalsLastPairedBtDevicesVarArray(IDeserializer iDeserializer) {
+    public static sLastPairedBtDevices[] getOptionalsLastPairedBtDevicesVarArray(IDeserializer iDeserializer) throws SerializerException {
         sLastPairedBtDevices[] sLastPairedBtDevicesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

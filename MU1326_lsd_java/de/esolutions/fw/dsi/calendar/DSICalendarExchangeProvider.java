@@ -26,28 +26,23 @@ implements DSICalendarExchange {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$calendar$DSICalendarExchange == null ? (class$org$dsi$ifc$calendar$DSICalendarExchange = DSICalendarExchangeProvider.class$("org.dsi.ifc.calendar.DSICalendarExchange")) : class$org$dsi$ifc$calendar$DSICalendarExchange).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICalendarExchangeProxy(this.instance, (DSICalendarExchangeReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void parseICal(String string) {
         try {
             this.proxy.parseICal(string);
@@ -57,7 +52,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void parseICalDirectory(String string) {
         try {
             this.proxy.parseICalDirectory(string);
@@ -67,7 +61,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void exportICal(int n, int n2, long[] lArray, int n3) {
         try {
             this.proxy.exportICal(n, n2, lArray, n3);
@@ -77,7 +70,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void importICal(ResourceLocator[] resourceLocatorArray) {
         try {
             this.proxy.importICal(resourceLocatorArray);
@@ -87,7 +79,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void abortExport() {
         try {
             this.proxy.abortExport();
@@ -97,7 +88,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -107,7 +97,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -117,7 +106,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -127,7 +115,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -137,7 +124,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -147,7 +133,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -157,7 +142,6 @@ implements DSICalendarExchange {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -4,12 +4,11 @@
 package de.esolutions.fw.comm.asi.fec;
 
 import de.esolutions.fw.comm.asi.fec.FecAppMMXReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface FecAppMMXS {
-    default public void registerForFec(int n, FecAppMMXReply fecAppMMXReply) {
-    }
+    public void registerForFec(int var1, FecAppMMXReply var2) throws MethodException;
 
-    default public void checkPkgSignature(String string, short[] sArray, short[] sArray2, FecAppMMXReply fecAppMMXReply) {
-    }
+    public void checkPkgSignature(String var1, short[] var2, short[] var3, FecAppMMXReply var4) throws MethodException;
 }
 

@@ -4,30 +4,23 @@
 package de.esolutions.fw.comm.asi.navigation.esoposproviderfull;
 
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sConfig;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface EsoPosProviderFullC {
-    default public void setActive(boolean bl) {
-    }
+    public void setActive(boolean var1) throws MethodException;
 
-    default public void setConfig(sConfig sConfig2) {
-    }
+    public void setConfig(sConfig var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

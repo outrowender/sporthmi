@@ -26,28 +26,23 @@ implements DSIMediaRouter {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaRouter == null ? (class$org$dsi$ifc$media$DSIMediaRouter = DSIMediaRouterProvider.class$("org.dsi.ifc.media.DSIMediaRouter")) : class$org$dsi$ifc$media$DSIMediaRouter).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaRouterProxy(this.instance, (DSIMediaRouterReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void registerClient(int n, String string, String string2) {
         try {
             this.proxy.registerClient(n, string, string2);
@@ -57,7 +52,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void unregisterClient(int n) {
         try {
             this.proxy.unregisterClient(n);
@@ -67,7 +61,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void startStreaming(int n) {
         try {
             this.proxy.startStreaming(n);
@@ -77,7 +70,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void stopStreaming(int n) {
         try {
             this.proxy.stopStreaming(n);
@@ -87,7 +79,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void requestConfiguration(int n, int n2, int n3, int n4) {
         try {
             this.proxy.requestConfiguration(n, n2, n3, n4);
@@ -97,7 +88,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void setAudioRoutes(AudioRoute[] audioRouteArray) {
         try {
             this.proxy.setAudioRoutes(audioRouteArray);
@@ -107,7 +97,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSIMediaRouter {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

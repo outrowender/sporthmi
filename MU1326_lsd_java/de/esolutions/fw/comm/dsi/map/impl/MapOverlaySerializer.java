@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.NavRectangleSerializer;
 import de.esolutions.fw.comm.dsi.map.impl.RectSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.map.MapOverlay;
 import org.dsi.ifc.map.Rect;
 
 public class MapOverlaySerializer {
-    public static void putOptionalMapOverlay(ISerializer iSerializer, MapOverlay mapOverlay) {
+    public static void putOptionalMapOverlay(ISerializer iSerializer, MapOverlay mapOverlay) throws SerializerException {
         boolean bl = mapOverlay == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class MapOverlaySerializer {
         }
     }
 
-    public static void putOptionalMapOverlayVarArray(ISerializer iSerializer, MapOverlay[] mapOverlayArray) {
+    public static void putOptionalMapOverlayVarArray(ISerializer iSerializer, MapOverlay[] mapOverlayArray) throws SerializerException {
         boolean bl = mapOverlayArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class MapOverlaySerializer {
         }
     }
 
-    public static MapOverlay getOptionalMapOverlay(IDeserializer iDeserializer) {
+    public static MapOverlay getOptionalMapOverlay(IDeserializer iDeserializer) throws SerializerException {
         MapOverlay mapOverlay = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class MapOverlaySerializer {
         return mapOverlay;
     }
 
-    public static MapOverlay[] getOptionalMapOverlayVarArray(IDeserializer iDeserializer) {
+    public static MapOverlay[] getOptionalMapOverlayVarArray(IDeserializer iDeserializer) throws SerializerException {
         MapOverlay[] mapOverlayArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

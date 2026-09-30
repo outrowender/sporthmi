@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKWheelStatesSerializer;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.RDKWheelTemperaturesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKTireDisplayData;
 import org.dsi.ifc.carcomfort.RDKWheelPressures;
 import org.dsi.ifc.carcomfort.RDKWheelStates;
 import org.dsi.ifc.carcomfort.RDKWheelTemperatures;
 
 public class RDKTireDisplayDataSerializer {
-    public static void putOptionalRDKTireDisplayData(ISerializer iSerializer, RDKTireDisplayData rDKTireDisplayData) {
+    public static void putOptionalRDKTireDisplayData(ISerializer iSerializer, RDKTireDisplayData rDKTireDisplayData) throws SerializerException {
         boolean bl = rDKTireDisplayData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class RDKTireDisplayDataSerializer {
         }
     }
 
-    public static void putOptionalRDKTireDisplayDataVarArray(ISerializer iSerializer, RDKTireDisplayData[] rDKTireDisplayDataArray) {
+    public static void putOptionalRDKTireDisplayDataVarArray(ISerializer iSerializer, RDKTireDisplayData[] rDKTireDisplayDataArray) throws SerializerException {
         boolean bl = rDKTireDisplayDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class RDKTireDisplayDataSerializer {
         }
     }
 
-    public static RDKTireDisplayData getOptionalRDKTireDisplayData(IDeserializer iDeserializer) {
+    public static RDKTireDisplayData getOptionalRDKTireDisplayData(IDeserializer iDeserializer) throws SerializerException {
         RDKTireDisplayData rDKTireDisplayData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class RDKTireDisplayDataSerializer {
         return rDKTireDisplayData;
     }
 
-    public static RDKTireDisplayData[] getOptionalRDKTireDisplayDataVarArray(IDeserializer iDeserializer) {
+    public static RDKTireDisplayData[] getOptionalRDKTireDisplayDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKTireDisplayData[] rDKTireDisplayDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

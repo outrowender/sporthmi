@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconNozzleListCapabiliti
 import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconNozzleListStylesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconNozzleListCapabilities;
 import org.dsi.ifc.caraircondition.AirconNozzleListRecord;
 import org.dsi.ifc.caraircondition.AirconNozzleListStyles;
 
 public class AirconNozzleListRecordSerializer {
-    public static void putOptionalAirconNozzleListRecord(ISerializer iSerializer, AirconNozzleListRecord airconNozzleListRecord) {
+    public static void putOptionalAirconNozzleListRecord(ISerializer iSerializer, AirconNozzleListRecord airconNozzleListRecord) throws SerializerException {
         boolean bl = airconNozzleListRecord == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class AirconNozzleListRecordSerializer {
         }
     }
 
-    public static void putOptionalAirconNozzleListRecordVarArray(ISerializer iSerializer, AirconNozzleListRecord[] airconNozzleListRecordArray) {
+    public static void putOptionalAirconNozzleListRecordVarArray(ISerializer iSerializer, AirconNozzleListRecord[] airconNozzleListRecordArray) throws SerializerException {
         boolean bl = airconNozzleListRecordArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class AirconNozzleListRecordSerializer {
         }
     }
 
-    public static AirconNozzleListRecord getOptionalAirconNozzleListRecord(IDeserializer iDeserializer) {
+    public static AirconNozzleListRecord getOptionalAirconNozzleListRecord(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListRecord airconNozzleListRecord = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class AirconNozzleListRecordSerializer {
         return airconNozzleListRecord;
     }
 
-    public static AirconNozzleListRecord[] getOptionalAirconNozzleListRecordVarArray(IDeserializer iDeserializer) {
+    public static AirconNozzleListRecord[] getOptionalAirconNozzleListRecordVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListRecord[] airconNozzleListRecordArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

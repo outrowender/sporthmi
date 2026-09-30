@@ -32,7 +32,7 @@ public class TADVehicleInfo {
     }
 
     public String toString() {
-        return new StringBuffer("TADVehicleInfo{").append("roofLoad=").append(this.roofLoad).append(", trailer=").append(this.trailer).append("}").toString();
+        return "TADVehicleInfo{" + "roofLoad=" + this.roofLoad + ", trailer=" + this.trailer + "}";
     }
 }
 

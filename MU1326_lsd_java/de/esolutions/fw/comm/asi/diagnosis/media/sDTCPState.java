@@ -32,7 +32,7 @@ public class sDTCPState {
     }
 
     public String toString() {
-        return new StringBuffer("sDTCPState{").append("sdisSerialNumber=").append(this.sdisSerialNumber).append(", encryption_state=").append(this.encryption_state).append("}").toString();
+        return "sDTCPState{" + "sdisSerialNumber=" + this.sdisSerialNumber + ", encryption_state=" + this.encryption_state + "}";
     }
 }
 

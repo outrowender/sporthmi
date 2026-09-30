@@ -6,31 +6,22 @@ package de.esolutions.fw.util.commons.miniser;
 import de.esolutions.fw.util.commons.miniser.IMiniIntDeserializer;
 
 public interface IMiniIntSerializer {
-    default public void storeLong(long l, byte[] byArray) {
-    }
+    public void storeLong(long var1, byte[] var3);
 
-    default public void storeInt(int n, byte[] byArray) {
-    }
+    public void storeInt(int var1, byte[] var2);
 
-    default public void storeShort(short s, byte[] byArray) {
-    }
+    public void storeShort(short var1, byte[] var2);
 
-    default public void storeLong(long l, byte[] byArray, int n) {
-    }
+    public void storeLong(long var1, byte[] var3, int var4);
 
-    default public void storeInt(int n, byte[] byArray, int n2) {
-    }
+    public void storeInt(int var1, byte[] var2, int var3);
 
-    default public void storeShort(short s, byte[] byArray, int n) {
-    }
+    public void storeShort(short var1, byte[] var2, int var3);
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public IMiniIntSerializer createCompatibleSerializer() {
-    }
+    public IMiniIntSerializer createCompatibleSerializer();
 
-    default public IMiniIntDeserializer createCompatibleDeserializer() {
-    }
+    public IMiniIntDeserializer createCompatibleDeserializer();
 }
 

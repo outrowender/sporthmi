@@ -38,12 +38,10 @@ implements BAPEntity {
         this.getVTanSupportedDf3_4 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RemoteProcessCommands_SupportedCommands1 remoteProcessCommands_SupportedCommands1 = (RemoteProcessCommands_SupportedCommands1)bAPEntity;
         return this.postponeEcuUpdateSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.postponeEcuUpdateSupportedDf3_4 && this.rejectEcuUpdateSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.rejectEcuUpdateSupportedDf3_4 && this.confirmEcuUpdateSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.confirmEcuUpdateSupportedDf3_4 && this.authenticateMainUserSPinSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.authenticateMainUserSPinSupportedDf3_4 && this.postponeOnlineUpdateDownloadSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.postponeOnlineUpdateDownloadSupportedDf3_4 && this.rejectOnlineUpdateDownloadSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.rejectOnlineUpdateDownloadSupportedDf3_4 && this.confirmOnlineUpdateDownloadSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.confirmOnlineUpdateDownloadSupportedDf3_4 && this.getVTanSupportedDf3_4 == remoteProcessCommands_SupportedCommands1.getVTanSupportedDf3_4;
@@ -52,27 +50,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RemoteProcessCommands_SupportedCommands1");
-        stringBuffer.append(new StringBuffer().append("\n - postponeEcuUpdateSupportedDf3_4:").append(this.postponeEcuUpdateSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - rejectEcuUpdateSupportedDf3_4:").append(this.rejectEcuUpdateSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - confirmEcuUpdateSupportedDf3_4:").append(this.confirmEcuUpdateSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - authenticateMainUserSPinSupportedDf3_4:").append(this.authenticateMainUserSPinSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - postponeOnlineUpdateDownloadSupportedDf3_4:").append(this.postponeOnlineUpdateDownloadSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - rejectOnlineUpdateDownloadSupportedDf3_4:").append(this.rejectOnlineUpdateDownloadSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - confirmOnlineUpdateDownloadSupportedDf3_4:").append(this.confirmOnlineUpdateDownloadSupportedDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - getVTanSupportedDf3_4:").append(this.getVTanSupportedDf3_4).toString());
+        stringBuffer.append("\n - postponeEcuUpdateSupportedDf3_4:" + this.postponeEcuUpdateSupportedDf3_4);
+        stringBuffer.append("\n - rejectEcuUpdateSupportedDf3_4:" + this.rejectEcuUpdateSupportedDf3_4);
+        stringBuffer.append("\n - confirmEcuUpdateSupportedDf3_4:" + this.confirmEcuUpdateSupportedDf3_4);
+        stringBuffer.append("\n - authenticateMainUserSPinSupportedDf3_4:" + this.authenticateMainUserSPinSupportedDf3_4);
+        stringBuffer.append("\n - postponeOnlineUpdateDownloadSupportedDf3_4:" + this.postponeOnlineUpdateDownloadSupportedDf3_4);
+        stringBuffer.append("\n - rejectOnlineUpdateDownloadSupportedDf3_4:" + this.rejectOnlineUpdateDownloadSupportedDf3_4);
+        stringBuffer.append("\n - confirmOnlineUpdateDownloadSupportedDf3_4:" + this.confirmOnlineUpdateDownloadSupportedDf3_4);
+        stringBuffer.append("\n - getVTanSupportedDf3_4:" + this.getVTanSupportedDf3_4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.postponeEcuUpdateSupportedDf3_4);
         bitStream.pushBoolean(this.rejectEcuUpdateSupportedDf3_4);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.getVTanSupportedDf3_4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.postponeEcuUpdateSupportedDf3_4 = bitStream.popFrontBoolean();
         this.rejectEcuUpdateSupportedDf3_4 = bitStream.popFrontBoolean();

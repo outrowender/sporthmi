@@ -8,29 +8,24 @@ import java.util.Set;
 
 public interface ITexDescrAsyncStates
 extends TextureDescription {
-    public static final int LOADING_STATE_NONE;
-    public static final int LOADING_STATE_ABORT;
-    public static final int LOADING_STATE_ERROR;
-    public static final int LOADING_STATE_IDLE;
-    public static final int LOADING_STATE_REQUESTED;
-    public static final int LOADING_STATE_IMAGE_LOADED;
-    public static final int LOADING_STATE_FINISHED;
-    public static final int MAX_RESOLUTION_X;
-    public static final int MAX_RESOLUTION_Y;
+    public static final int LOADING_STATE_NONE = -3;
+    public static final int LOADING_STATE_ABORT = -2;
+    public static final int LOADING_STATE_ERROR = -1;
+    public static final int LOADING_STATE_IDLE = 0;
+    public static final int LOADING_STATE_REQUESTED = 1;
+    public static final int LOADING_STATE_IMAGE_LOADED = 2;
+    public static final int LOADING_STATE_FINISHED = 3;
+    public static final int MAX_RESOLUTION_X = 2048;
+    public static final int MAX_RESOLUTION_Y = 2048;
 
-    default public void abortLoading() {
-    }
+    public void abortLoading();
 
-    default public int getLoadingState() {
-    }
+    public int getLoadingState();
 
-    default public Set getIUpdatableReceiver() {
-    }
+    public Set getIUpdatableReceiver();
 
-    default public boolean removeReceiver(Object object) {
-    }
+    public boolean removeReceiver(Object var1);
 
-    default public void resetLoadingState() {
-    }
+    public void resetLoadingState();
 }
 

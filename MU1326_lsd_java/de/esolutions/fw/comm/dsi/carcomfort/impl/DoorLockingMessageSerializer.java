@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingMessage;
 
 public class DoorLockingMessageSerializer {
-    public static void putOptionalDoorLockingMessage(ISerializer iSerializer, DoorLockingMessage doorLockingMessage) {
+    public static void putOptionalDoorLockingMessage(ISerializer iSerializer, DoorLockingMessage doorLockingMessage) throws SerializerException {
         boolean bl = doorLockingMessage == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -55,7 +56,7 @@ public class DoorLockingMessageSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingMessageVarArray(ISerializer iSerializer, DoorLockingMessage[] doorLockingMessageArray) {
+    public static void putOptionalDoorLockingMessageVarArray(ISerializer iSerializer, DoorLockingMessage[] doorLockingMessageArray) throws SerializerException {
         boolean bl = doorLockingMessageArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -66,7 +67,7 @@ public class DoorLockingMessageSerializer {
         }
     }
 
-    public static DoorLockingMessage getOptionalDoorLockingMessage(IDeserializer iDeserializer) {
+    public static DoorLockingMessage getOptionalDoorLockingMessage(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingMessage doorLockingMessage = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -115,7 +116,7 @@ public class DoorLockingMessageSerializer {
         return doorLockingMessage;
     }
 
-    public static DoorLockingMessage[] getOptionalDoorLockingMessageVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingMessage[] getOptionalDoorLockingMessageVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingMessage[] doorLockingMessageArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

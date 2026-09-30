@@ -6,13 +6,10 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter;
 import java.util.List;
 
 public interface IFreetextConverter {
-    default public List getPossibleConversions(String string, int n) {
-    }
+    public List getPossibleConversions(String var1, int var2);
 
-    default public int getNumberOfConversions() {
-    }
+    public int getNumberOfConversions();
 
-    default public String getValidCharacters(String string) {
-    }
+    public String getValidCharacters(String var1);
 }
 

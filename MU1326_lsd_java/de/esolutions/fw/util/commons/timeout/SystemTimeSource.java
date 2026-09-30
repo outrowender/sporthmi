@@ -7,7 +7,6 @@ import de.esolutions.fw.util.commons.timeout.ITimeSource;
 
 public class SystemTimeSource
 implements ITimeSource {
-    @Override
     public final long getCurrentTime() {
         return System.currentTimeMillis();
     }

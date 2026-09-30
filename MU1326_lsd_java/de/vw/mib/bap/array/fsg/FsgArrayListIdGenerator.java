@@ -4,16 +4,12 @@
 package de.vw.mib.bap.array.fsg;
 
 public interface FsgArrayListIdGenerator {
-    default public int createBAPPosID(long l) {
-    }
+    public int createBAPPosID(long var1);
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public boolean isBAPPosIDValid(int n, long l) {
-    }
+    public boolean isBAPPosIDValid(int var1, long var2);
 
-    default public boolean isLongID() {
-    }
+    public boolean isLongID();
 }
 

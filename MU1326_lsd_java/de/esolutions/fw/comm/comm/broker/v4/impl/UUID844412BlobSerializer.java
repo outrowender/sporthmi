@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.comm.broker.v4.impl;
 import de.esolutions.fw.comm.comm.broker.v4.UUID844412Blob;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class UUID844412BlobSerializer {
-    public static void putOptionalUUID844412Blob(ISerializer iSerializer, UUID844412Blob uUID844412Blob) {
+    public static void putOptionalUUID844412Blob(ISerializer iSerializer, UUID844412Blob uUID844412Blob) throws SerializerException {
         boolean bl = uUID844412Blob == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class UUID844412BlobSerializer {
         }
     }
 
-    public static void putOptionalUUID844412BlobVarArray(ISerializer iSerializer, UUID844412Blob[] uUID844412BlobArray) {
+    public static void putOptionalUUID844412BlobVarArray(ISerializer iSerializer, UUID844412Blob[] uUID844412BlobArray) throws SerializerException {
         boolean bl = uUID844412BlobArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class UUID844412BlobSerializer {
         }
     }
 
-    public static UUID844412Blob getOptionalUUID844412Blob(IDeserializer iDeserializer) {
+    public static UUID844412Blob getOptionalUUID844412Blob(IDeserializer iDeserializer) throws SerializerException {
         UUID844412Blob uUID844412Blob = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class UUID844412BlobSerializer {
         return uUID844412Blob;
     }
 
-    public static UUID844412Blob[] getOptionalUUID844412BlobVarArray(IDeserializer iDeserializer) {
+    public static UUID844412Blob[] getOptionalUUID844412BlobVarArray(IDeserializer iDeserializer) throws SerializerException {
         UUID844412Blob[] uUID844412BlobArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

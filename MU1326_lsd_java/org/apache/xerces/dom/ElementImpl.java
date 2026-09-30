@@ -16,7 +16,6 @@ import org.apache.xerces.dom.NamedNodeMapImpl;
 import org.apache.xerces.dom.NodeImpl;
 import org.apache.xerces.dom.ParentNode;
 import org.apache.xerces.util.URI;
-import org.apache.xerces.util.URI$MalformedURIException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
@@ -30,7 +29,7 @@ public class ElementImpl
 extends ParentNode
 implements Element,
 TypeInfo {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 3717253516652722278L;
     protected String name;
     protected AttributeMap attributes;
 
@@ -51,12 +50,10 @@ TypeInfo {
         this.reconcileDefaultAttributes();
     }
 
-    @Override
     public short getNodeType() {
         return 1;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -64,7 +61,6 @@ TypeInfo {
         return this.name;
     }
 
-    @Override
     public NamedNodeMap getAttributes() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -75,7 +71,6 @@ TypeInfo {
         return this.attributes;
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         ElementImpl elementImpl = (ElementImpl)super.cloneNode(bl);
         if (this.attributes != null) {
@@ -84,7 +79,6 @@ TypeInfo {
         return elementImpl;
     }
 
-    @Override
     public String getBaseURI() {
         String string;
         Attr attr;
@@ -95,14 +89,14 @@ TypeInfo {
             try {
                 string = new URI(string).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 String string2;
                 String string3 = string2 = this.ownerNode != null ? this.ownerNode.getBaseURI() : null;
                 if (string2 != null) {
                     try {
                         string = new URI(new URI(string2), string).toString();
                     }
-                    catch (URI$MalformedURIException uRI$MalformedURIException2) {
+                    catch (URI.MalformedURIException malformedURIException2) {
                         return null;
                     }
                     return string;
@@ -116,14 +110,13 @@ TypeInfo {
             try {
                 return new URI((String)((Object)attr)).toString();
             }
-            catch (URI$MalformedURIException uRI$MalformedURIException) {
+            catch (URI.MalformedURIException malformedURIException) {
                 return null;
             }
         }
         return null;
     }
 
-    @Override
     protected void setOwnerDocument(CoreDocumentImpl coreDocumentImpl) {
         super.setOwnerDocument(coreDocumentImpl);
         if (this.attributes != null) {
@@ -131,7 +124,6 @@ TypeInfo {
         }
     }
 
-    @Override
     public String getAttribute(String string) {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -143,7 +135,6 @@ TypeInfo {
         return attr == null ? "" : attr.getValue();
     }
 
-    @Override
     public Attr getAttributeNode(String string) {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -154,12 +145,10 @@ TypeInfo {
         return (Attr)this.attributes.getNamedItem(string);
     }
 
-    @Override
     public NodeList getElementsByTagName(String string) {
         return new DeepNodeListImpl(this, string);
     }
 
-    @Override
     public String getTagName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -167,7 +156,6 @@ TypeInfo {
         return this.name;
     }
 
-    @Override
     public void normalize() {
         if (this.isNormalized()) {
             return;
@@ -200,7 +188,6 @@ TypeInfo {
         this.isNormalized(true);
     }
 
-    @Override
     public void removeAttribute(String string) {
         if (this.ownerDocument.errorChecking && this.isReadOnly()) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -215,8 +202,7 @@ TypeInfo {
         this.attributes.safeRemoveNamedItem(string);
     }
 
-    @Override
-    public Attr removeAttributeNode(Attr attr) {
+    public Attr removeAttributeNode(Attr attr) throws DOMException {
         if (this.ownerDocument.errorChecking && this.isReadOnly()) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
             throw new DOMException(7, string);
@@ -231,7 +217,6 @@ TypeInfo {
         return (Attr)this.attributes.removeItem(attr, true);
     }
 
-    @Override
     public void setAttribute(String string, String string2) {
         Attr attr;
         if (this.ownerDocument.errorChecking && this.isReadOnly()) {
@@ -253,8 +238,7 @@ TypeInfo {
         }
     }
 
-    @Override
-    public Attr setAttributeNode(Attr attr) {
+    public Attr setAttributeNode(Attr attr) throws DOMException {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
@@ -274,7 +258,6 @@ TypeInfo {
         return (Attr)this.attributes.setNamedItem(attr);
     }
 
-    @Override
     public String getAttributeNS(String string, String string2) {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -286,7 +269,6 @@ TypeInfo {
         return attr == null ? "" : attr.getValue();
     }
 
-    @Override
     public void setAttributeNS(String string, String string2, String string3) {
         String string4;
         String string5;
@@ -315,7 +297,7 @@ TypeInfo {
             this.attributes.setNamedItemNS(attr);
         } else {
             if (attr instanceof AttrNSImpl) {
-                ((AttrNSImpl)attr).name = string5 != null ? new StringBuffer().append(string5).append(":").append(string4).toString() : string4;
+                ((AttrNSImpl)attr).name = string5 != null ? string5 + ":" + string4 : string4;
             } else {
                 attr = new AttrNSImpl((CoreDocumentImpl)this.getOwnerDocument(), string, string2, string4);
                 this.attributes.setNamedItemNS(attr);
@@ -324,7 +306,6 @@ TypeInfo {
         }
     }
 
-    @Override
     public void removeAttributeNS(String string, String string2) {
         if (this.ownerDocument.errorChecking && this.isReadOnly()) {
             String string3 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -339,7 +320,6 @@ TypeInfo {
         this.attributes.safeRemoveNamedItemNS(string, string2);
     }
 
-    @Override
     public Attr getAttributeNodeNS(String string, String string2) {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -350,8 +330,7 @@ TypeInfo {
         return (Attr)this.attributes.getNamedItemNS(string, string2);
     }
 
-    @Override
-    public Attr setAttributeNodeNS(Attr attr) {
+    public Attr setAttributeNodeNS(Attr attr) throws DOMException {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }
@@ -391,7 +370,6 @@ TypeInfo {
         return this.attributes.getNamedItemIndex(string, string2);
     }
 
-    @Override
     public boolean hasAttributes() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -399,22 +377,18 @@ TypeInfo {
         return this.attributes != null && this.attributes.getLength() != 0;
     }
 
-    @Override
     public boolean hasAttribute(String string) {
         return this.getAttributeNode(string) != null;
     }
 
-    @Override
     public boolean hasAttributeNS(String string, String string2) {
         return this.getAttributeNodeNS(string, string2) != null;
     }
 
-    @Override
     public NodeList getElementsByTagNameNS(String string, String string2) {
         return new DeepNodeListImpl(this, string, string2);
     }
 
-    @Override
     public boolean isEqualNode(Node node) {
         if (!super.isEqualNode(node)) {
             return false;
@@ -440,7 +414,6 @@ TypeInfo {
         return true;
     }
 
-    @Override
     public void setIdAttributeNode(Attr attr, boolean bl) {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -463,7 +436,6 @@ TypeInfo {
         }
     }
 
-    @Override
     public void setIdAttribute(String string, boolean bl) {
         Attr attr;
         if (this.needsSyncData()) {
@@ -491,7 +463,6 @@ TypeInfo {
         }
     }
 
-    @Override
     public void setIdAttributeNS(String string, String string2, boolean bl) {
         Attr attr;
         if (this.needsSyncData()) {
@@ -519,22 +490,18 @@ TypeInfo {
         }
     }
 
-    @Override
     public String getTypeName() {
         return null;
     }
 
-    @Override
     public String getTypeNamespace() {
         return null;
     }
 
-    @Override
     public boolean isDerivedFrom(String string, String string2, int n) {
         return false;
     }
 
-    @Override
     public TypeInfo getSchemaTypeInfo() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -542,7 +509,6 @@ TypeInfo {
         return this;
     }
 
-    @Override
     public void setReadOnly(boolean bl, boolean bl2) {
         super.setReadOnly(bl, bl2);
         if (this.attributes != null) {
@@ -550,7 +516,6 @@ TypeInfo {
         }
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         boolean bl = this.ownerDocument.getMutationEvents();

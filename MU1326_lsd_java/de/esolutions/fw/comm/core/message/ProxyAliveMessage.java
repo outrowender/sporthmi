@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ProxyAliveMessage
 extends AbstractMessage {
@@ -17,17 +18,15 @@ extends AbstractMessage {
         this.stubID = s;
     }
 
-    public ProxyAliveMessage(IDeserializer iDeserializer, boolean bl) {
+    public ProxyAliveMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.PROXY_ALIVE, iDeserializer, bl);
     }
 
-    @Override
-    protected void serializeElements(ISerializer iSerializer) {
+    protected void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.stubID);
     }
 
-    @Override
-    protected void deserializeElements(IDeserializer iDeserializer) {
+    protected void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.stubID = iDeserializer.getInt16();
     }
 

@@ -13,14 +13,13 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.RotaryRenderer;
 public class RotaryPreviewRendererHigh
 extends AbstractRotaryRendererHigh
 implements RotaryRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/rotator_small_prefab";
+    private static final String EAL_NODE_NAME = "rotaryPreview";
 
     public RotaryPreviewRendererHigh(RotaryController rotaryController) {
         super(rotaryController);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -37,22 +36,18 @@ implements RotaryRenderer {
         this.node.setOpacity(this.controller.getRenderOpacity());
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/rotator_small_prefab";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "rotaryPreview";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.getPreferredWidth(this.getTerminal());
     }
 
-    @Override
     public int getPreferredWidth(HMITerminalImpl hMITerminalImpl) {
         return this.getConstant(hMITerminalImpl, 128);
     }
@@ -64,12 +59,10 @@ implements RotaryRenderer {
         return -1;
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.getPreferredHeight(this.getTerminal());
     }
 
-    @Override
     public int getPreferredHeight(HMITerminalImpl hMITerminalImpl) {
         return this.getConstant(hMITerminalImpl, 129);
     }

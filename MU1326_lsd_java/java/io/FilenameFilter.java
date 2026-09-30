@@ -6,7 +6,6 @@ package java.io;
 import java.io.File;
 
 public interface FilenameFilter {
-    default public boolean accept(File file, String string) {
-    }
+    public boolean accept(File var1, String var2);
 }
 

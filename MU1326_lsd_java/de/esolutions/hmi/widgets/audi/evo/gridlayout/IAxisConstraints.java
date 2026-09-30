@@ -7,95 +7,68 @@ import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 
 public interface IAxisConstraints
 extends WidgetConstants {
-    public static final int DEFAULT_SHRINK_WEIGHT;
-    public static final int DEFAULT_GROW_WEIGHT;
-    public static final int DEFAULT_GAP;
-    public static final int DEFAULT_HIDEMODE;
-    public static final int DEFAULT_ALIGNMENT;
-    public static final int DEFAULT_MAX;
-    public static final int DEFAULT_MIN;
-    public static final int DEFAULT_SIZE;
-    public static final int DEFAULT_TABULATOR_ID;
+    public static final int DEFAULT_SHRINK_WEIGHT = 1;
+    public static final int DEFAULT_GROW_WEIGHT = 0;
+    public static final int DEFAULT_GAP = 0;
+    public static final int DEFAULT_HIDEMODE = 0;
+    public static final int DEFAULT_ALIGNMENT = -1;
+    public static final int DEFAULT_MAX = -1;
+    public static final int DEFAULT_MIN = -1;
+    public static final int DEFAULT_SIZE = -1;
+    public static final int DEFAULT_TABULATOR_ID = -1;
 
-    default public boolean hasFixedSize(int n) {
-    }
+    public boolean hasFixedSize(int var1);
 
-    default public boolean isGrowing(int n) {
-    }
+    public boolean isGrowing(int var1);
 
-    default public boolean isShrinking(int n) {
-    }
+    public boolean isShrinking(int var1);
 
-    default public float getGrowWeight(int n) {
-    }
+    public float getGrowWeight(int var1);
 
-    default public boolean hasGrowWeight(int n) {
-    }
+    public boolean hasGrowWeight(int var1);
 
-    default public float getShrinkWeight(int n) {
-    }
+    public float getShrinkWeight(int var1);
 
-    default public boolean hasShrinkWeight(int n) {
-    }
+    public boolean hasShrinkWeight(int var1);
 
-    default public int getHidemode(int n) {
-    }
+    public int getHidemode(int var1);
 
-    default public boolean hasHidemode(int n) {
-    }
+    public boolean hasHidemode(int var1);
 
-    default public float getResizeWeight(boolean bl, int n) {
-    }
+    public float getResizeWeight(boolean var1, int var2);
 
-    default public boolean hasResizeWeights(boolean bl) {
-    }
+    public boolean hasResizeWeights(boolean var1);
 
-    default public int getAlignment(int n) {
-    }
+    public int getAlignment(int var1);
 
-    default public boolean hasAlignment(int n) {
-    }
+    public boolean hasAlignment(int var1);
 
-    default public int getGap(int n) {
-    }
+    public int getGap(int var1);
 
-    default public boolean hasGap(int n) {
-    }
+    public boolean hasGap(int var1);
 
-    default public int getSize(int n) {
-    }
+    public int getSize(int var1);
 
-    default public boolean hasSize(int n) {
-    }
+    public boolean hasSize(int var1);
 
-    default public int getMax(int n) {
-    }
+    public int getMax(int var1);
 
-    default public boolean hasMax(int n) {
-    }
+    public boolean hasMax(int var1);
 
-    default public int getMin(int n) {
-    }
+    public int getMin(int var1);
 
-    default public boolean hasMin(int n) {
-    }
+    public boolean hasMin(int var1);
 
-    default public int getTabulatorID(int n) {
-    }
+    public int getTabulatorID(int var1);
 
-    default public boolean hasTabulatorAtIndex(int n) {
-    }
+    public boolean hasTabulatorAtIndex(int var1);
 
-    default public boolean hasTabulatorWithID(int n) {
-    }
+    public boolean hasTabulatorWithID(int var1);
 
-    default public boolean hasTabulatorIDs() {
-    }
+    public boolean hasTabulatorIDs();
 
-    default public int[] getTabulatorIDs() {
-    }
+    public int[] getTabulatorIDs();
 
-    default public int getLength() {
-    }
+    public int getLength();
 }
 

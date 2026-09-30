@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCTotalDistance;
 
 public class BCTotalDistanceSerializer {
-    public static void putOptionalBCTotalDistance(ISerializer iSerializer, BCTotalDistance bCTotalDistance) {
+    public static void putOptionalBCTotalDistance(ISerializer iSerializer, BCTotalDistance bCTotalDistance) throws SerializerException {
         boolean bl = bCTotalDistance == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCTotalDistanceSerializer {
         }
     }
 
-    public static void putOptionalBCTotalDistanceVarArray(ISerializer iSerializer, BCTotalDistance[] bCTotalDistanceArray) {
+    public static void putOptionalBCTotalDistanceVarArray(ISerializer iSerializer, BCTotalDistance[] bCTotalDistanceArray) throws SerializerException {
         boolean bl = bCTotalDistanceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCTotalDistanceSerializer {
         }
     }
 
-    public static BCTotalDistance getOptionalBCTotalDistance(IDeserializer iDeserializer) {
+    public static BCTotalDistance getOptionalBCTotalDistance(IDeserializer iDeserializer) throws SerializerException {
         BCTotalDistance bCTotalDistance = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCTotalDistanceSerializer {
         return bCTotalDistance;
     }
 
-    public static BCTotalDistance[] getOptionalBCTotalDistanceVarArray(IDeserializer iDeserializer) {
+    public static BCTotalDistance[] getOptionalBCTotalDistanceVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCTotalDistance[] bCTotalDistanceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

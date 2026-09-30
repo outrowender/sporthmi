@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationDescriptor;
 
 public class NavLocationDescriptorSerializer {
-    public static void putOptionalNavLocationDescriptor(ISerializer iSerializer, NavLocationDescriptor navLocationDescriptor) {
+    public static void putOptionalNavLocationDescriptor(ISerializer iSerializer, NavLocationDescriptor navLocationDescriptor) throws SerializerException {
         boolean bl = navLocationDescriptor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavLocationDescriptorSerializer {
         }
     }
 
-    public static void putOptionalNavLocationDescriptorVarArray(ISerializer iSerializer, NavLocationDescriptor[] navLocationDescriptorArray) {
+    public static void putOptionalNavLocationDescriptorVarArray(ISerializer iSerializer, NavLocationDescriptor[] navLocationDescriptorArray) throws SerializerException {
         boolean bl = navLocationDescriptorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavLocationDescriptorSerializer {
         }
     }
 
-    public static NavLocationDescriptor getOptionalNavLocationDescriptor(IDeserializer iDeserializer) {
+    public static NavLocationDescriptor getOptionalNavLocationDescriptor(IDeserializer iDeserializer) throws SerializerException {
         NavLocationDescriptor navLocationDescriptor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavLocationDescriptorSerializer {
         return navLocationDescriptor;
     }
 
-    public static NavLocationDescriptor[] getOptionalNavLocationDescriptorVarArray(IDeserializer iDeserializer) {
+    public static NavLocationDescriptor[] getOptionalNavLocationDescriptorVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavLocationDescriptor[] navLocationDescriptorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

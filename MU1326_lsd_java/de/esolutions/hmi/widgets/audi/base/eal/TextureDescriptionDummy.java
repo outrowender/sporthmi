@@ -26,27 +26,22 @@ extends AbstractTextureDescription {
         this.texture = iTexture;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         return new WrappedTexture(this.texture, this, this.ealManager);
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return new int[]{(int)this.texture.getWidth(), (int)this.texture.getHeight()};
     }
 
-    @Override
     public Object getCacheKey() {
         return this;
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return null;
     }
 
-    @Override
     public IWrappedTexture getTexture(Object object) {
         return this.createTexture();
     }

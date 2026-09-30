@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.messaging;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.messaging.DSIMessagingServiceConfigurationReply;
 import de.esolutions.fw.comm.dsi.messaging.impl.DSIMessagingServiceConfigurationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIMessagingServiceConfigurationReply {
         super(n, (class$org$dsi$ifc$messaging$DSIMessagingServiceConfigurationListener == null ? (class$org$dsi$ifc$messaging$DSIMessagingServiceConfigurationListener = DSIMessagingServiceConfigurationDispatcher.class$("org.dsi.ifc.messaging.DSIMessagingServiceConfigurationListener")) : class$org$dsi$ifc$messaging$DSIMessagingServiceConfigurationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void setSMSCNumberResponse(int n) {
+    public void setSMSCNumberResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void activateStoreSmsOnSentResponse(int n) {
+    public void activateStoreSmsOnSentResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void setShortMessageValidityPeriodResponse(int n) {
+    public void setShortMessageValidityPeriodResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void activateSMSDeliveryReportResponse(int n) {
+    public void activateSMSDeliveryReportResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,8 +91,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateSMSCNumber(String string, int n) {
+    public void updateSMSCNumber(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -124,8 +119,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void setPhoneSystemRingingVolumeResponse(int n) {
+    public void setPhoneSystemRingingVolumeResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -141,8 +135,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void setPhoneSystemRingingTypeResponse(int n) {
+    public void setPhoneSystemRingingTypeResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -158,8 +151,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void activateEmailIncludeOldMailInReplyResponse(int n) {
+    public void activateEmailIncludeOldMailInReplyResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -175,8 +167,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void activateEmailEmptySubjectNotificationResponse(int n) {
+    public void activateEmailEmptySubjectNotificationResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -192,8 +183,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void changeFolderViewModeResponse(int n) {
+    public void changeFolderViewModeResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -209,8 +199,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void restoreFactorySettingsResponse(int n) {
+    public void restoreFactorySettingsResponse(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -226,8 +215,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void responseSetSmsIndications(int n) {
+    public void responseSetSmsIndications(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -243,8 +231,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void responseSetEmailIndications(int n) {
+    public void responseSetEmailIndications(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -260,8 +247,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void responseSetPushSms(int n) {
+    public void responseSetPushSms(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -277,8 +263,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateSmsDeliveryReport(boolean bl, int n) {
+    public void updateSmsDeliveryReport(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -306,8 +291,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateStoreSmsOnSent(boolean bl, int n) {
+    public void updateStoreSmsOnSent(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -335,8 +319,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateShortMessageValidityPeriod(int n, int n2) {
+    public void updateShortMessageValidityPeriod(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -364,8 +347,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updatePhoneSystemRingingVolume(int n, int n2) {
+    public void updatePhoneSystemRingingVolume(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -393,8 +375,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updatePhoneSystemRingingType(int n, int n2) {
+    public void updatePhoneSystemRingingType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -422,8 +403,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateEmailIncludeOldMailInReply(boolean bl, int n) {
+    public void updateEmailIncludeOldMailInReply(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -451,8 +431,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateEmailEmptySubjectNotification(boolean bl, int n) {
+    public void updateEmailEmptySubjectNotification(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -480,8 +459,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateFolderViewMode(int n, int n2) {
+    public void updateFolderViewMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -509,8 +487,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateAccountPreferences(int n, String string, int n2) {
+    public void updateAccountPreferences(int n, String string, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -538,8 +515,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateSmsIndications(boolean bl, int n) {
+    public void updateSmsIndications(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -567,8 +543,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updateEmailIndications(boolean bl, int n) {
+    public void updateEmailIndications(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -596,8 +571,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void updatePushSms(boolean bl, int n) {
+    public void updatePushSms(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -625,8 +599,7 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -642,14 +615,13 @@ implements DSIMessagingServiceConfigurationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMessagingServiceConfigurationListener dSIMessagingServiceConfigurationListener = (DSIMessagingServiceConfigurationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMessagingServiceConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMessagingServiceConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMessagingServiceConfigurationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMessagingServiceConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMessagingServiceConfigurationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMessagingServiceConfigurationListener, new Object[]{string, string2});
                     continue;
                 }

@@ -13,15 +13,12 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.eal.StringUtilityEAL;
+import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.CompositeRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListController2;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.NavMapInfoTextWidget$DoubleLineGridCell;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.NavMapInfoTextWidget$GridCell;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.NavMapInfoTextWidget$Spacing;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.NavMapInfoTextWidget$WidgetGridCell;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IEmptyableWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LabelController;
@@ -34,42 +31,42 @@ import java.util.List;
 public class NavMapInfoTextWidget
 extends LayoutContainerController
 implements MapTooltipConstants {
-    public static final int ROLE_PIC_NAV_IMAGE;
-    public static final int ROLE_GSV_ICON;
-    public static final int ROLE_DISTANCE;
-    public static final int ROLE_DIRECTION;
-    public static final int ROLE_LABEL_LINE1;
-    public static final int ROLE_LABEL_LINE2;
-    private static final int BITMAP_GSV_MAN;
-    private static final int BITMAP_ONLINE;
-    private static final int BITMAP_STACK;
-    private static final int BITMAP_GSV_MAN_AND_STACK;
-    private static final int BITMAP_GSV_MAN_AND_ONLINE;
-    private static final int NUMBER_OF_BITMAPS;
-    private static final int BITMAP_POI_ICON;
-    private static final int BITMAP_ROADSIGN_ICON;
-    private static final int BITMAP_TRAFFIC_ICON;
-    private static final int BITMAP_PIC_NAV_ICON;
-    public static final int MAX_ICON_HEIGHT;
-    public static final int GAP_TOP;
-    public static final int GAP_LEFT_RIGHT;
-    public static final int MAX_WIDTH_TEXT;
-    public static final int MAX_HEIGHT_SINGLE_LINE;
-    public static final int MAX_HEIGHT_DOUBLE_LINE;
-    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_800;
-    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_1024;
-    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_1440;
-    public static final int PIC_NAV_IMAGE_WIDTH;
-    public static final int PIC_NAV_IMAGE_HEIGHT;
-    public static final int WIDTH_POI_ICON;
-    public static final int WIDTH_GSV_ICON;
-    public static final int Y_LABEL1;
-    public static final int Y_LABEL2;
-    public static final int Y_LABEL1_IF_SINGLE_LINE_VISIBLE;
-    public static final int X_TEXT_PIC_NAV;
-    public static final int X_DIRECTION_ICON;
-    public static final int X_DISTANCE_LABEL;
-    public static final int X_LABEL2;
+    public static final int ROLE_PIC_NAV_IMAGE = 43536;
+    public static final int ROLE_GSV_ICON = 43537;
+    public static final int ROLE_DISTANCE = 43538;
+    public static final int ROLE_DIRECTION = 43539;
+    public static final int ROLE_LABEL_LINE1 = 43540;
+    public static final int ROLE_LABEL_LINE2 = 43541;
+    private static final int BITMAP_GSV_MAN = 0;
+    private static final int BITMAP_ONLINE = 1;
+    private static final int BITMAP_STACK = 2;
+    private static final int BITMAP_GSV_MAN_AND_STACK = 3;
+    private static final int BITMAP_GSV_MAN_AND_ONLINE = 4;
+    private static final int NUMBER_OF_BITMAPS = 3;
+    private static final int BITMAP_POI_ICON = 3;
+    private static final int BITMAP_ROADSIGN_ICON = 4;
+    private static final int BITMAP_TRAFFIC_ICON = 5;
+    private static final int BITMAP_PIC_NAV_ICON = 6;
+    public static final int MAX_ICON_HEIGHT = 26;
+    public static final int GAP_TOP = 8;
+    public static final int GAP_LEFT_RIGHT = 10;
+    public static final int MAX_WIDTH_TEXT = 290;
+    public static final int MAX_HEIGHT_SINGLE_LINE = 45;
+    public static final int MAX_HEIGHT_DOUBLE_LINE = 78;
+    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_800 = 390;
+    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_1024 = 482;
+    public static final int MAX_TOOLTIP_WIDTH_IN_SCREEN_RES_1440 = 497;
+    public static final int PIC_NAV_IMAGE_WIDTH = 73;
+    public static final int PIC_NAV_IMAGE_HEIGHT = 56;
+    public static final int WIDTH_POI_ICON = 30;
+    public static final int WIDTH_GSV_ICON = 17;
+    public static final int Y_LABEL1 = 11;
+    public static final int Y_LABEL2 = 49;
+    public static final int Y_LABEL1_IF_SINGLE_LINE_VISIBLE = 14;
+    public static final int X_TEXT_PIC_NAV = 92;
+    public static final int X_DIRECTION_ICON = 4;
+    public static final int X_DISTANCE_LABEL = 37;
+    public static final int X_LABEL2 = 152;
     private int format = -1;
     private IconLabelController poiIcon;
     private IconLabelController roadSignIcon;
@@ -92,7 +89,6 @@ implements MapTooltipConstants {
     private int ydouble;
     private int ySingle;
 
-    @Override
     public void add(AbstractWidget abstractWidget, int n) {
         super.add(abstractWidget);
         switch (n) {
@@ -121,7 +117,7 @@ implements MapTooltipConstants {
                 break;
             }
             default: {
-                navMapInfotextLogChannel.log(-2137614336, "NaviMapInfoTextWidget#add role %1 not known.", (long)n);
+                navMapInfotextLogChannel.log(10000000, "NaviMapInfoTextWidget#add role %1 not known.", (long)n);
             }
         }
         if (abstractWidget instanceof MapOverlayPlateController) {
@@ -131,7 +127,6 @@ implements MapTooltipConstants {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.setUpWidget();
         super.connected(initializationContext);
@@ -160,7 +155,6 @@ implements MapTooltipConstants {
         return framework.isTarget();
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         if (!this.isConnected()) {
             return;
@@ -170,7 +164,7 @@ implements MapTooltipConstants {
         }
         if (abstractWidget instanceof IEmptyableWidget) {
             if (((IEmptyableWidget)((Object)abstractWidget)).hasContent()) {
-                navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#invalidateLayout relayout because of IconLabel content change!");
+                navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#invalidateLayout relayout because of IconLabel content change!");
                 this.layoutElements();
             }
         } else {
@@ -179,7 +173,7 @@ implements MapTooltipConstants {
     }
 
     private void layoutElements() {
-        NavMapInfoTextWidget$GridCell navMapInfoTextWidget$GridCell;
+        GridCell gridCell;
         int n;
         if (this.label1 == null || this.label2 == null || this.gsvIcon == null || this.directionIcon == null || this.distanceLabel == null || this.picNavImage == null) {
             return;
@@ -202,10 +196,10 @@ implements MapTooltipConstants {
                 this.label2.setText("");
             }
         }
-        navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#layoutElements numberOfLine = %3, text1 = %1, text2 = %2.", (Object)this.label1.getText(), (Object)this.label2.getText(), (long)n2);
-        NavMapInfoTextWidget$DoubleLineGridCell navMapInfoTextWidget$DoubleLineGridCell = new NavMapInfoTextWidget$DoubleLineGridCell();
-        navMapInfoTextWidget$DoubleLineGridCell.line1 = new NavMapInfoTextWidget$WidgetGridCell(this.label1);
-        navMapInfoTextWidget$DoubleLineGridCell.line2 = new NavMapInfoTextWidget$WidgetGridCell(this.label2);
+        navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#layoutElements numberOfLine = %3, text1 = %1, text2 = %2.", (Object)this.label1.getText(), (Object)this.label2.getText(), (long)n2);
+        DoubleLineGridCell doubleLineGridCell = new DoubleLineGridCell();
+        doubleLineGridCell.line1 = new WidgetGridCell(this.label1);
+        doubleLineGridCell.line2 = new WidgetGridCell(this.label2);
         if (this.showDistanceAndDirection) {
             this.distanceLabel.setVisible(true);
             this.directionIcon.setVisible(true);
@@ -230,62 +224,62 @@ implements MapTooltipConstants {
                 break;
             }
             case 0: {
-                NavMapInfoTextWidget$DoubleLineGridCell navMapInfoTextWidget$DoubleLineGridCell2 = new NavMapInfoTextWidget$DoubleLineGridCell();
-                navMapInfoTextWidget$DoubleLineGridCell2.line1 = new NavMapInfoTextWidget$WidgetGridCell(this.gsvIcon, 17, 2);
-                navMapInfoTextWidget$DoubleLineGridCell2.line2 = new NavMapInfoTextWidget$WidgetGridCell(this.smallIcon2, this.smallIcon2.getPreferredWidth(), 2);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell2);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
+                DoubleLineGridCell doubleLineGridCell2 = new DoubleLineGridCell();
+                doubleLineGridCell2.line1 = new WidgetGridCell(this.gsvIcon, 17, 2);
+                doubleLineGridCell2.line2 = new WidgetGridCell(this.smallIcon2, this.smallIcon2.getPreferredWidth(), 2);
+                arrayList.add(new Spacing(9));
+                arrayList.add(doubleLineGridCell);
+                arrayList.add(new Spacing(9));
+                arrayList.add(doubleLineGridCell2);
+                arrayList.add(new Spacing(9));
                 break;
             }
             case 1: {
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(new NavMapInfoTextWidget$WidgetGridCell(this.poiIcon));
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(new NavMapInfoTextWidget$WidgetGridCell(this.gsvIcon, 17));
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
+                arrayList.add(new Spacing(9));
+                arrayList.add(new WidgetGridCell(this.poiIcon));
+                arrayList.add(new Spacing(9));
+                arrayList.add(doubleLineGridCell);
+                arrayList.add(new Spacing(9));
+                arrayList.add(new WidgetGridCell(this.gsvIcon, 17));
+                arrayList.add(new Spacing(9));
                 break;
             }
             case 2: {
-                NavMapInfoTextWidget$DoubleLineGridCell navMapInfoTextWidget$DoubleLineGridCell2 = new NavMapInfoTextWidget$DoubleLineGridCell();
-                navMapInfoTextWidget$DoubleLineGridCell2.line1 = new NavMapInfoTextWidget$WidgetGridCell(this.roadSignIcon, this.roadSignIcon.getPreferredWidth(), 2);
-                navMapInfoTextWidget$DoubleLineGridCell2.line2 = new NavMapInfoTextWidget$WidgetGridCell(this.trafficIcon, this.trafficIcon.getPreferredWidth(), 2);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(5));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell2);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(25));
+                DoubleLineGridCell doubleLineGridCell2 = new DoubleLineGridCell();
+                doubleLineGridCell2.line1 = new WidgetGridCell(this.roadSignIcon, this.roadSignIcon.getPreferredWidth(), 2);
+                doubleLineGridCell2.line2 = new WidgetGridCell(this.trafficIcon, this.trafficIcon.getPreferredWidth(), 2);
+                arrayList.add(new Spacing(5));
+                arrayList.add(doubleLineGridCell2);
+                arrayList.add(new Spacing(9));
+                arrayList.add(doubleLineGridCell);
+                arrayList.add(new Spacing(25));
                 break;
             }
             case 3: {
-                arrayList.add(new NavMapInfoTextWidget$Spacing(8));
-                arrayList.add(new NavMapInfoTextWidget$WidgetGridCell(this.picNavImage, 73));
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(navMapInfoTextWidget$DoubleLineGridCell);
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
-                arrayList.add(new NavMapInfoTextWidget$WidgetGridCell(this.gsvIcon, 17));
-                arrayList.add(new NavMapInfoTextWidget$Spacing(9));
+                arrayList.add(new Spacing(8));
+                arrayList.add(new WidgetGridCell(this.picNavImage, 73));
+                arrayList.add(new Spacing(9));
+                arrayList.add(doubleLineGridCell);
+                arrayList.add(new Spacing(9));
+                arrayList.add(new WidgetGridCell(this.gsvIcon, 17));
+                arrayList.add(new Spacing(9));
                 break;
             }
             default: {
-                navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#layoutElements Format %1 is not valid.", (long)this.format);
+                navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#layoutElements Format %1 is not valid.", (long)this.format);
             }
         }
         int n3 = 0;
         int n4 = arrayList.size();
         for (n = 0; n < n4; ++n) {
-            navMapInfoTextWidget$GridCell = (NavMapInfoTextWidget$GridCell)arrayList.get(n);
-            n3 += navMapInfoTextWidget$GridCell.getDesiredWidth();
-            navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#layoutElements cell %1 preferredWidth = %2", (long)n, (long)navMapInfoTextWidget$GridCell.getDesiredWidth());
+            gridCell = (GridCell)arrayList.get(n);
+            n3 += gridCell.getDesiredWidth();
+            navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#layoutElements cell %1 preferredWidth = %2", (long)n, (long)gridCell.getDesiredWidth());
         }
-        navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#layoutElements sumOfDesiredWidths = %1", (long)n3);
+        navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#layoutElements sumOfDesiredWidths = %1", (long)n3);
         for (n = 0; n < n4; ++n) {
-            navMapInfoTextWidget$GridCell = (NavMapInfoTextWidget$GridCell)arrayList.get(n);
-            navMapInfoTextWidget$GridCell.setAvailableWidth(navMapInfoTextWidget$GridCell.getDesiredWidth());
+            gridCell = (GridCell)arrayList.get(n);
+            gridCell.setAvailableWidth(gridCell.getDesiredWidth());
         }
         int n5 = this.changeMaxTooltipWidthBasedOnResolution();
         int n6 = 0;
@@ -293,12 +287,12 @@ implements MapTooltipConstants {
             n6 = n3 - n5;
             n3 = n5;
         }
-        navMapInfoTextWidget$DoubleLineGridCell.setAvailableWidth(navMapInfoTextWidget$DoubleLineGridCell.getDesiredWidth() - n6);
+        doubleLineGridCell.setAvailableWidth(doubleLineGridCell.getDesiredWidth() - n6);
         int n7 = 0;
         for (n = 0; n < n4; ++n) {
-            NavMapInfoTextWidget$GridCell navMapInfoTextWidget$GridCell2 = (NavMapInfoTextWidget$GridCell)arrayList.get(n);
-            navMapInfoTextWidget$GridCell2.setXPosition(n7);
-            n7 += navMapInfoTextWidget$GridCell2.getAvailableWidth();
+            GridCell gridCell2 = (GridCell)arrayList.get(n);
+            gridCell2.setXPosition(n7);
+            n7 += gridCell2.getAvailableWidth();
         }
         if (this.plate != null) {
             if (!(n2 != 1 || this.smallIcon2.isVisible() && this.gsvIcon.isVisible() || this.format == 3 || this.roadSignIcon.isVisible() && this.trafficIcon.isVisible())) {
@@ -360,11 +354,10 @@ implements MapTooltipConstants {
         return new int[]{n2, n3};
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
+        navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#processModelUpdateEvent Model-ID %1, Typ %2", (long)modelUpdateEvent.getModelId(), (long)modelUpdateEvent.getUpdateType());
         if (!this.isConnected()) {
-            navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#processModelUpdateEvent Return: Widget is not connected.");
+            navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#processModelUpdateEvent Return: Widget is not connected.");
             return;
         }
         this.processModelUpdateEvent();
@@ -408,21 +401,20 @@ implements MapTooltipConstants {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
     }
 
     private void updateContent() {
-        navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#updateContent");
+        navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#updateContent");
         if (this.model instanceof BaseListModel) {
             EvoListRow evoListRow = ((BaseListModel)this.model).getRow(0);
             if (evoListRow == null) {
-                navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#updateContent List row is null.");
+                navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#updateContent List row is null.");
                 return;
             }
             if (evoListRow.getColumnCount() != 6) {
-                navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#updateContent Number of model columns is NOK: %1", (long)evoListRow.getColumnCount());
+                navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#updateContent Number of model columns is NOK: %1", (long)evoListRow.getColumnCount());
                 return;
             }
             this.format = (Integer)evoListRow.getCell(0);
@@ -443,9 +435,9 @@ implements MapTooltipConstants {
                 ResourceLocatorModel resourceLocatorModel = (ResourceLocatorModel)this.picNavImage.getModel();
                 resourceLocatorModel.setResourceLocator(new HMIResourceLocator(-1));
             }
-            navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#updateContent Text = %1, format = %2", (Object)this.text, (long)this.format);
+            navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#updateContent Text = %1, format = %2", (Object)this.text, (long)this.format);
         } else {
-            navMapInfotextLogChannel.log(-2137614336, "NavMapInfoTextWidget#updateContent wrong model");
+            navMapInfotextLogChannel.log(10000000, "NavMapInfoTextWidget#updateContent wrong model");
         }
     }
 
@@ -474,6 +466,118 @@ implements MapTooltipConstants {
             }
         }
         return n;
+    }
+
+    static class Spacing
+    extends GridCell {
+        public Spacing(int n) {
+            this.desiredWidth = n;
+        }
+    }
+
+    static class GridCell {
+        String name = "";
+        int desiredWidth;
+        int availableWidth = -1;
+        int alignment = 1;
+
+        GridCell() {
+        }
+
+        public int getAvailableWidth() {
+            return this.availableWidth;
+        }
+
+        public int getDesiredWidth() {
+            return this.desiredWidth;
+        }
+
+        public void setAvailableWidth(int n) {
+            this.availableWidth = n;
+        }
+
+        public void setXPosition(int n) {
+        }
+    }
+
+    static class WidgetGridCell
+    extends GridCell {
+        AbstractWidgetController widget;
+
+        public int getDesiredWidth() {
+            if (this.widget != null && this.widget.isVisible()) {
+                return this.desiredWidth;
+            }
+            return 0;
+        }
+
+        public WidgetGridCell(AbstractWidgetController abstractWidgetController) {
+            if (abstractWidgetController != null) {
+                this.widget = abstractWidgetController;
+                this.desiredWidth = abstractWidgetController.getPreferredWidth();
+            }
+        }
+
+        public WidgetGridCell(AbstractWidgetController abstractWidgetController, int n) {
+            this.widget = abstractWidgetController;
+            this.desiredWidth = n;
+        }
+
+        public WidgetGridCell(AbstractWidgetController abstractWidgetController, int n, int n2) {
+            this.widget = abstractWidgetController;
+            this.desiredWidth = n;
+            this.alignment = n2;
+        }
+
+        public void setAvailableWidth(int n) {
+            this.availableWidth = n;
+            if (this.widget != null) {
+                this.widget.setWidth(n);
+            }
+        }
+
+        public void setXPosition(int n) {
+            if (this.widget != null) {
+                int n2 = 0;
+                switch (this.alignment) {
+                    case 2: {
+                        int n3 = this.getAvailableWidth();
+                        int n4 = this.widget.getPreferredWidth();
+                        n2 = (n3 - n4) / 2;
+                        break;
+                    }
+                }
+                this.widget.setX(n2 + n);
+            }
+        }
+    }
+
+    static class DoubleLineGridCell
+    extends GridCell {
+        GridCell line1;
+        GridCell line2;
+
+        DoubleLineGridCell() {
+        }
+
+        public int getAvailableWidth() {
+            return this.availableWidth;
+        }
+
+        public int getDesiredWidth() {
+            return Math.max(this.line1.getDesiredWidth(), this.line2.getDesiredWidth());
+        }
+
+        public void setAvailableWidth(int n) {
+            this.availableWidth = n;
+            this.line1.setAvailableWidth(n);
+            this.line2.setAvailableWidth(n);
+        }
+
+        public void setXPosition(int n) {
+            this.line1.setXPosition(n);
+            this.line2.setXPosition(n);
+        }
     }
 }
 

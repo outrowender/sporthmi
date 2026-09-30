@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class Calibration_SetGet
 implements SetGetProperty {
     public int calibrationState;
-    private static final int CALIBRATION_STATE_BITSIZE;
-    public static final int CALIBRATION_STATE_CALIBRATED;
-    public static final int CALIBRATION_STATE_CALIBRATION_ACTIVE;
-    public static final int CALIBRATION_STATE_INTERFERING_FIELD;
-    public static final int CALIBRATION_STATE_NOT_SUPPORTED;
+    private static final int CALIBRATION_STATE_BITSIZE = 8;
+    public static final int CALIBRATION_STATE_CALIBRATED = 0;
+    public static final int CALIBRATION_STATE_CALIBRATION_ACTIVE = 1;
+    public static final int CALIBRATION_STATE_INTERFERING_FIELD = 2;
+    public static final int CALIBRATION_STATE_NOT_SUPPORTED = 255;
 
     public Calibration_SetGet() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements SetGetProperty {
         this.calibrationState = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Calibration_SetGet calibration_SetGet = (Calibration_SetGet)bAPEntity;
         return this.calibrationState == calibration_SetGet.calibrationState;
@@ -44,7 +42,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Calibration_SetGet:");
@@ -73,18 +70,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.calibrationState);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.calibrationState = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements SetGetProperty {
         return 27;
     }
 
-    @Override
     public int getFunctionId() {
         return Calibration_SetGet.functionId();
     }

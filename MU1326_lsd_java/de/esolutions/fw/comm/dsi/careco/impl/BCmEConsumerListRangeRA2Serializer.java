@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEConsumerListRangeRA2;
 
 public class BCmEConsumerListRangeRA2Serializer {
-    public static void putOptionalBCmEConsumerListRangeRA2(ISerializer iSerializer, BCmEConsumerListRangeRA2 bCmEConsumerListRangeRA2) {
+    public static void putOptionalBCmEConsumerListRangeRA2(ISerializer iSerializer, BCmEConsumerListRangeRA2 bCmEConsumerListRangeRA2) throws SerializerException {
         boolean bl = bCmEConsumerListRangeRA2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BCmEConsumerListRangeRA2Serializer {
         }
     }
 
-    public static void putOptionalBCmEConsumerListRangeRA2VarArray(ISerializer iSerializer, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) {
+    public static void putOptionalBCmEConsumerListRangeRA2VarArray(ISerializer iSerializer, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) throws SerializerException {
         boolean bl = bCmEConsumerListRangeRA2Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BCmEConsumerListRangeRA2Serializer {
         }
     }
 
-    public static BCmEConsumerListRangeRA2 getOptionalBCmEConsumerListRangeRA2(IDeserializer iDeserializer) {
+    public static BCmEConsumerListRangeRA2 getOptionalBCmEConsumerListRangeRA2(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerListRangeRA2 bCmEConsumerListRangeRA2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BCmEConsumerListRangeRA2Serializer {
         return bCmEConsumerListRangeRA2;
     }
 
-    public static BCmEConsumerListRangeRA2[] getOptionalBCmEConsumerListRangeRA2VarArray(IDeserializer iDeserializer) {
+    public static BCmEConsumerListRangeRA2[] getOptionalBCmEConsumerListRangeRA2VarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

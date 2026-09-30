@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.generalvehiclestates;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.generalvehiclestates.DSIGeneralVehicleStatesReply;
 import de.esolutions.fw.comm.dsi.generalvehiclestates.impl.DSIGeneralVehicleStatesReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIGeneralVehicleStatesReply {
         super(n, (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener = DSIGeneralVehicleStatesDispatcher.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStatesListener")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStatesListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAirbagData(AirbagData airbagData, int n) {
+    public void updateAirbagData(AirbagData airbagData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -60,8 +59,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateTankInfo(TankInfo tankInfo, int n) {
+    public void updateTankInfo(TankInfo tankInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -89,8 +87,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDimmedHeadlight(boolean bl, int n) {
+    public void updateDimmedHeadlight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -118,8 +115,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateAcousticParkingSystem(boolean bl, int n) {
+    public void updateAcousticParkingSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -147,8 +143,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateReverseGear(boolean bl, int n) {
+    public void updateReverseGear(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -176,8 +171,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateVehicleStandstill(boolean bl, int n) {
+    public void updateVehicleStandstill(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -205,8 +199,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateCarVelocityThreshold(boolean bl, int n) {
+    public void updateCarVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -234,8 +227,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateTVVelocityThreshold(boolean bl, int n) {
+    public void updateTVVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -263,8 +255,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateHDDVelocityThreshold(boolean bl, int n) {
+    public void updateHDDVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -292,8 +283,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBrowserSlideShowVelocityThreshold(boolean bl, int n) {
+    public void updateBrowserSlideShowVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -321,8 +311,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBrowserBordBookVelocityThreshold(boolean bl, int n) {
+    public void updateBrowserBordBookVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -350,8 +339,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBrowserTravelAgentVelocityThreshold(boolean bl, int n) {
+    public void updateBrowserTravelAgentVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -379,8 +367,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBrowserWebVelocityThreshold(boolean bl, int n) {
+    public void updateBrowserWebVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -408,8 +395,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBWSVelocityThreshold(boolean bl, int n) {
+    public void updateBWSVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -437,8 +423,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateRadiotextVelocityThreshold(boolean bl, int n) {
+    public void updateRadiotextVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -466,8 +451,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDisplayDayNightDesign(boolean bl, int n) {
+    public void updateDisplayDayNightDesign(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -495,8 +479,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateBTBondingVelocityThreshold(boolean bl, int n) {
+    public void updateBTBondingVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -524,8 +507,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateMessagingVelocityThreshold(boolean bl, int n) {
+    public void updateMessagingVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -553,8 +535,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDestinationInputVelocityThreshold(boolean bl, int n) {
+    public void updateDestinationInputVelocityThreshold(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -582,8 +563,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDSSSViewOption(CarViewOption carViewOption, int n) {
+    public void updateDSSSViewOption(CarViewOption carViewOption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -611,8 +591,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateServiceKeyData(byte[] byArray, int n) {
+    public void updateServiceKeyData(byte[] byArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -640,8 +619,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateServiceKeyViewOption(CarViewOption carViewOption, int n) {
+    public void updateServiceKeyViewOption(CarViewOption carViewOption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -669,8 +647,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updatePersonalizationStatus(boolean bl, int n, int n2) {
+    public void updatePersonalizationStatus(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -698,8 +675,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateTLOViewOptions(TLOViewOptions tLOViewOptions, int n) {
+    public void updateTLOViewOptions(TLOViewOptions tLOViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -727,8 +703,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateEmergencyAssistVolLowering(int n, int n2) {
+    public void updateEmergencyAssistVolLowering(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -756,8 +731,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateParkingBrake(boolean bl, int n) {
+    public void updateParkingBrake(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -785,8 +759,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateAppConnectTrigger(int n, int n2) {
+    public void updateAppConnectTrigger(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -814,8 +787,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateSTPState(int n, int n2) {
+    public void updateSTPState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -843,8 +815,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateAutomaticGearShiftTransMode(int n, int n2) {
+    public void updateAutomaticGearShiftTransMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -872,8 +843,7 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -889,14 +859,13 @@ implements DSIGeneralVehicleStatesReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIGeneralVehicleStatesListener dSIGeneralVehicleStatesListener = (DSIGeneralVehicleStatesListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIGeneralVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIGeneralVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIGeneralVehicleStatesListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIGeneralVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIGeneralVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIGeneralVehicleStatesListener, new Object[]{string, string2});
                     continue;
                 }

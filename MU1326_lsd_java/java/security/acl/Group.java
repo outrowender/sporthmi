@@ -8,16 +8,12 @@ import java.util.Enumeration;
 
 public interface Group
 extends Principal {
-    default public boolean addMember(Principal principal) {
-    }
+    public boolean addMember(Principal var1);
 
-    default public boolean isMember(Principal principal) {
-    }
+    public boolean isMember(Principal var1);
 
-    default public Enumeration members() {
-    }
+    public Enumeration members();
 
-    default public boolean removeMember(Principal principal) {
-    }
+    public boolean removeMember(Principal var1);
 }
 

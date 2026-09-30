@@ -3,43 +3,32 @@
  */
 package de.esolutions.fw.comm.dsi.predictivenavigation;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 
 public interface DSIPredictiveNavigationC {
-    default public void setOperationMode(int n) {
-    }
+    public void setOperationMode(int var1) throws MethodException;
 
-    default public void setMaxPredictions(int n) {
-    }
+    public void setMaxPredictions(int var1) throws MethodException;
 
-    default public void clearCache() {
-    }
+    public void clearCache() throws MethodException;
 
-    default public void clearCacheByDestination(NavLocation navLocation, int n) {
-    }
+    public void clearCacheByDestination(NavLocation var1, int var2) throws MethodException;
 
-    default public void clearCacheByAge(long l) {
-    }
+    public void clearCacheByAge(long var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

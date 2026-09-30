@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tpegservices.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tpegservices.FuelPrice;
 
 public class FuelPriceSerializer {
-    public static void putOptionalFuelPrice(ISerializer iSerializer, FuelPrice fuelPrice) {
+    public static void putOptionalFuelPrice(ISerializer iSerializer, FuelPrice fuelPrice) throws SerializerException {
         boolean bl = fuelPrice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class FuelPriceSerializer {
         }
     }
 
-    public static void putOptionalFuelPriceVarArray(ISerializer iSerializer, FuelPrice[] fuelPriceArray) {
+    public static void putOptionalFuelPriceVarArray(ISerializer iSerializer, FuelPrice[] fuelPriceArray) throws SerializerException {
         boolean bl = fuelPriceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class FuelPriceSerializer {
         }
     }
 
-    public static FuelPrice getOptionalFuelPrice(IDeserializer iDeserializer) {
+    public static FuelPrice getOptionalFuelPrice(IDeserializer iDeserializer) throws SerializerException {
         FuelPrice fuelPrice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class FuelPriceSerializer {
         return fuelPrice;
     }
 
-    public static FuelPrice[] getOptionalFuelPriceVarArray(IDeserializer iDeserializer) {
+    public static FuelPrice[] getOptionalFuelPriceVarArray(IDeserializer iDeserializer) throws SerializerException {
         FuelPrice[] fuelPriceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

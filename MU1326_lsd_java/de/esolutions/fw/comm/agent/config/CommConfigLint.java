@@ -21,9 +21,9 @@ public class CommConfigLint {
     }
 
     private void errorOutput() {
-        System.out.println(new StringBuffer().append(this.errors.size()).append(" Errors detected: ").toString());
+        System.out.println(this.errors.size() + " Errors detected: ");
         for (int i2 = 0; i2 < this.errors.size(); ++i2) {
-            System.out.println(new StringBuffer().append("- ").append(this.errors.get(i2)).toString());
+            System.out.println("- " + this.errors.get(i2));
         }
     }
 
@@ -51,7 +51,7 @@ public class CommConfigLint {
         for (int i2 = 0; i2 < shortArray.length; ++i2) {
             int n = shortArray[i2].intValue();
             if (this.contains(shortArray[i2].intValue(), nArray)) continue;
-            this.errors.add(new StringBuffer().append(" Unknown ProcessId \"").append(n).append("\" configured in transport java.transport.").append(string).append(".static").toString());
+            this.errors.add(" Unknown ProcessId \"" + n + "\" configured in transport java.transport." + string + ".static");
         }
     }
 
@@ -66,7 +66,7 @@ public class CommConfigLint {
     public static void main(String[] stringArray) {
         CommConfig commConfig = CommConfig.getInstance();
         if (!commConfig.isValid()) {
-            System.out.println(new StringBuffer().append("ERROR reading config: ").append(commConfig.getFailString()).toString());
+            System.out.println("ERROR reading config: " + commConfig.getFailString());
             return;
         }
         CommConfigLint commConfigLint = new CommConfigLint(commConfig);

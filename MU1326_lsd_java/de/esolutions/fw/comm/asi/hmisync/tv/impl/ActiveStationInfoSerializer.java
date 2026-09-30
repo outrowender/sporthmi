@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.hmisync.tv.impl.AudioChannelSerializer;
 import de.esolutions.fw.comm.asi.hmisync.tv.impl.ProgramInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ActiveStationInfoSerializer {
-    public static void putOptionalActiveStationInfo(ISerializer iSerializer, ActiveStationInfo activeStationInfo) {
+    public static void putOptionalActiveStationInfo(ISerializer iSerializer, ActiveStationInfo activeStationInfo) throws SerializerException {
         boolean bl = activeStationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class ActiveStationInfoSerializer {
         }
     }
 
-    public static void putOptionalActiveStationInfoVarArray(ISerializer iSerializer, ActiveStationInfo[] activeStationInfoArray) {
+    public static void putOptionalActiveStationInfoVarArray(ISerializer iSerializer, ActiveStationInfo[] activeStationInfoArray) throws SerializerException {
         boolean bl = activeStationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class ActiveStationInfoSerializer {
         }
     }
 
-    public static ActiveStationInfo getOptionalActiveStationInfo(IDeserializer iDeserializer) {
+    public static ActiveStationInfo getOptionalActiveStationInfo(IDeserializer iDeserializer) throws SerializerException {
         ActiveStationInfo activeStationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class ActiveStationInfoSerializer {
         return activeStationInfo;
     }
 
-    public static ActiveStationInfo[] getOptionalActiveStationInfoVarArray(IDeserializer iDeserializer) {
+    public static ActiveStationInfo[] getOptionalActiveStationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ActiveStationInfo[] activeStationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

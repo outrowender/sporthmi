@@ -11,199 +11,134 @@ import org.dsi.ifc.speechrec.VDECapabilities;
 
 public interface DSISpeechRecListener
 extends DSIListener {
-    default public void responseAbort(int n) {
-    }
+    public void responseAbort(int var1);
 
-    default public void responseDeleteProfile(int n) {
-    }
+    public void responseDeleteProfile(int var1);
 
-    default public void responseDeleteVoiceTag(int n) {
-    }
+    public void responseDeleteVoiceTag(int var1);
 
-    default public void responseEnableContinuousUpdate(int n) {
-    }
+    public void responseEnableContinuousUpdate(int var1);
 
-    default public void responseGetVersion(String string) {
-    }
+    public void responseGetVersion(String var1);
 
-    default public void responseInit(int n) {
-    }
+    public void responseInit(int var1);
 
-    default public void responseInitVoiceTag(int n) {
-    }
+    public void responseInitVoiceTag(int var1);
 
-    default public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-    }
+    public void responseLoadGrammar(int var1, GrammarInfo[] var2);
 
-    default public void responseLoadProfile(int n) {
-    }
+    public void responseLoadProfile(int var1);
 
-    default public void responsePreloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-    }
+    public void responsePreloadGrammar(int var1, GrammarInfo[] var2);
 
-    default public void responseRecordVoiceTag(int n) {
-    }
+    public void responseRecordVoiceTag(int var1);
 
-    default public void responseSetLanguage(int n) {
-    }
+    public void responseSetLanguage(int var1);
 
-    default public void responseShutdown(int n) {
-    }
+    public void responseShutdown(int var1);
 
-    default public void responseStartRecognition(int n) {
-    }
+    public void responseStartRecognition(int var1);
 
-    default public void responseUnloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-    }
+    public void responseUnloadGrammar(int var1, GrammarInfo[] var2);
 
-    default public void responseUnloadProfile(int n) {
-    }
+    public void responseUnloadProfile(int var1);
 
-    default public void responseUnpreloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-    }
+    public void responseUnpreloadGrammar(int var1, GrammarInfo[] var2);
 
-    default public void responseWaitForResults(int n, NBestList nBestList) {
-    }
+    public void responseWaitForResults(int var1, NBestList var2);
 
-    default public void updateAborted(boolean bl, int n) {
-    }
+    public void updateAborted(boolean var1, int var2);
 
-    default public void updateAvailableLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableLanguages(String[] var1, int var2);
 
-    default public void updateAvailableProfiles(int[] nArray, int n) {
-    }
+    public void updateAvailableProfiles(int[] var1, int var2);
 
-    default public void updateFailure(boolean bl, int n) {
-    }
+    public void updateFailure(boolean var1, int var2);
 
-    default public void updateLanguage(String string, int n, int n2) {
-    }
+    public void updateLanguage(String var1, int var2, int var3);
 
-    default public void updateRecognizerState(int n, int n2) {
-    }
+    public void updateRecognizerState(int var1, int var2);
 
-    default public void updateAbsoluteConfidenceThreshold(int n, int n2) {
-    }
+    public void updateAbsoluteConfidenceThreshold(int var1, int var2);
 
-    default public void responseSetMaxCommandNBestListSize(int n) {
-    }
+    public void responseSetMaxCommandNBestListSize(int var1);
 
-    default public void updateMaxCommandNBestListSize(int n, int n2) {
-    }
+    public void updateMaxCommandNBestListSize(int var1, int var2);
 
-    default public void responseSetMaxSlotNBestListSize(int n) {
-    }
+    public void responseSetMaxSlotNBestListSize(int var1);
 
-    default public void updateMaxSlotNBestListSize(int n, int n2) {
-    }
+    public void updateMaxSlotNBestListSize(int var1, int var2);
 
-    default public void responseSetConfidenceRejectThreshold(int n) {
-    }
+    public void responseSetConfidenceRejectThreshold(int var1);
 
-    default public void updateConfidenceRejectThreshold(int n, int n2) {
-    }
+    public void updateConfidenceRejectThreshold(int var1, int var2);
 
-    default public void responseSetUtteranceStartTimeout(int n) {
-    }
+    public void responseSetUtteranceStartTimeout(int var1);
 
-    default public void updateUtteranceStartTimeout(int n, int n2) {
-    }
+    public void updateUtteranceStartTimeout(int var1, int var2);
 
-    default public void responseSetRecognitionTimeout(int n) {
-    }
+    public void responseSetRecognitionTimeout(int var1);
 
-    default public void updateRecognitionTimeout(int n, int n2) {
-    }
+    public void updateRecognitionTimeout(int var1, int var2);
 
-    default public void responseSetUnambiguousResultThreshold(int n) {
-    }
+    public void responseSetUnambiguousResultThreshold(int var1);
 
-    default public void updateUnambiguousResultThreshold(int n, int n2) {
-    }
+    public void updateUnambiguousResultThreshold(int var1, int var2);
 
-    default public void responseSetUnambiguousResultRange(int n) {
-    }
+    public void responseSetUnambiguousResultRange(int var1);
 
-    default public void updateUnambiguousResultRange(int n, int n2) {
-    }
+    public void updateUnambiguousResultRange(int var1, int var2);
 
-    default public void responseSetFirstLevelSize(int n) {
-    }
+    public void responseSetFirstLevelSize(int var1);
 
-    default public void updateFirstLevelSize(int n, int n2) {
-    }
+    public void updateFirstLevelSize(int var1, int var2);
 
-    default public void responseStartPostTraining(int n) {
-    }
+    public void responseStartPostTraining(int var1);
 
-    default public void responseStopPostTraining(int n) {
-    }
+    public void responseStopPostTraining(int var1);
 
-    default public void responseRequestSDSAvailability(int n, int n2) {
-    }
+    public void responseRequestSDSAvailability(int var1, int var2);
 
-    default public void updateSDSAvailability(int n, int n2) {
-    }
+    public void updateSDSAvailability(int var1, int var2);
 
-    default public void responseSetSpellingMode(int n) {
-    }
+    public void responseSetSpellingMode(int var1);
 
-    default public void responseDeleteLastSpellingBlock(int n, NBestList nBestList) {
-    }
+    public void responseDeleteLastSpellingBlock(int var1, NBestList var2);
 
-    default public void responseStartDialogue(int n) {
-    }
+    public void responseStartDialogue(int var1);
 
-    default public void responseStopDialogue(int n) {
-    }
+    public void responseStopDialogue(int var1);
 
-    default public void updateGrammarStatus(int n, boolean bl, int n2) {
-    }
+    public void updateGrammarStatus(int var1, boolean var2, int var3);
 
-    default public void updateGrammarState(GrammarStateInfo grammarStateInfo, int n) {
-    }
+    public void updateGrammarState(GrammarStateInfo var1, int var2);
 
-    default public void updateTemporaryG2PLanguageChangeActive(boolean bl, int n) {
-    }
+    public void updateTemporaryG2PLanguageChangeActive(boolean var1, int var2);
 
-    default public void responseCheckDbPartition(int n) {
-    }
+    public void responseCheckDbPartition(int var1);
 
-    default public void responseRequestGraphemicGroupAsNBestList(int n, NBestList nBestList) {
-    }
+    public void responseRequestGraphemicGroupAsNBestList(int var1, NBestList var2);
 
-    default public void responseRequestVDECapabilities(int n, VDECapabilities vDECapabilities) {
-    }
+    public void responseRequestVDECapabilities(int var1, VDECapabilities var2);
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1);
 
-    default public void responseSetDictionary(int n) {
-    }
+    public void responseSetDictionary(int var1);
 
-    default public void updateNBestList(NBestList nBestList, int n) {
-    }
+    public void updateNBestList(NBestList var1, int var2);
 
-    default public void responseSetASRParameterConfiguration(int n) {
-    }
+    public void responseSetASRParameterConfiguration(int var1);
 
-    default public void updateASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3, int n) {
-    }
+    public void updateASRParameterConfiguration(int[] var1, int[] var2, int[] var3, int var4);
 
-    default public void responseDeleteLastFlexVDEPart(int n, NBestList nBestList) {
-    }
+    public void responseDeleteLastFlexVDEPart(int var1, NBestList var2);
 
-    default public void responseClearFlexVDEHistory(int n) {
-    }
+    public void responseClearFlexVDEHistory(int var1);
 
-    default public void updateVDEMediumState(int n, int n2) {
-    }
+    public void updateVDEMediumState(int var1, int var2);
 
-    default public void updateAvailableSLMLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableSLMLanguages(String[] var1, int var2);
 
-    default public void updateOnlineCapabilities(String[] stringArray, int n) {
-    }
+    public void updateOnlineCapabilities(String[] var1, int var2);
 }
 

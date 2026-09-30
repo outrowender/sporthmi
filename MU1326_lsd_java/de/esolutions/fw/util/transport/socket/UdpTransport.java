@@ -8,6 +8,8 @@ import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.buffer.TransportBuffer;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -32,13 +34,11 @@ implements ITransport {
         this.timeOut = n3;
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
     }
 
-    @Override
-    public IReadable recv() {
+    public IReadable recv() throws IOException, TransportException {
         int n = this.getReceiveBufferSize();
         TransportBuffer transportBuffer = new TransportBuffer(n);
         DatagramPacket datagramPacket = new DatagramPacket(transportBuffer.data(), transportBuffer.size());
@@ -59,8 +59,7 @@ implements ITransport {
         return transportBuffer;
     }
 
-    @Override
-    public void open() {
+    public void open() throws IOException {
         if (!this.isOpen) {
             this.isOpen = true;
             this.socket = new DatagramSocket(this.srcPort, this.srcAddr);
@@ -68,12 +67,10 @@ implements ITransport {
         }
     }
 
-    @Override
     public boolean isOpen() {
         return this.isOpen;
     }
 
-    @Override
     public void close(boolean bl) {
         if (this.isOpen) {
             this.isOpen = false;
@@ -82,12 +79,10 @@ implements ITransport {
         }
     }
 
-    @Override
     public void flush() {
     }
 
-    @Override
-    public void send(IWriter iWriter) {
+    public void send(IWriter iWriter) throws IOException, TransportException {
         int n = iWriter.size();
         TransportBuffer transportBuffer = new TransportBuffer(n);
         iWriter.write(transportBuffer);
@@ -101,12 +96,10 @@ implements ITransport {
         }
     }
 
-    @Override
-    public void sendSync(IWriter iWriter) {
+    public void sendSync(IWriter iWriter) throws IOException, TransportException {
         this.send(iWriter);
     }
 
-    @Override
     public int maxMsgSize() {
         try {
             return this.socket.getSendBufferSize();
@@ -125,24 +118,20 @@ implements ITransport {
         }
     }
 
-    @Override
     public boolean isReliable() {
         return false;
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return true;
     }
 
-    @Override
     public boolean keepsRecordBoundaries() {
         return true;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[UDP:src=").append(this.srcAddr).append(":").append(this.srcPort).append(",tgt=").append(this.tgtAddr).append(":").append(this.tgtPort).append("]").toString();
+        return "[UDP:src=" + this.srcAddr + ":" + this.srcPort + ",tgt=" + this.tgtAddr + ":" + this.tgtPort + "]";
     }
 }
 

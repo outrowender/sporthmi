@@ -16,7 +16,6 @@ extends AbstractInternalCursorWidgetController {
     private boolean suppressModelWrites;
     private boolean suppressModelReadsOnEnteringEditableMode;
 
-    @Override
     protected void enterEditableMode() {
         if (!this.suppressModelReadsOnEnteringEditableMode && this.model instanceof MetricsModel) {
             DateMetric dateMetric = (DateMetric)((MetricsModel)this.model).getMetric();
@@ -37,7 +36,7 @@ extends AbstractInternalCursorWidgetController {
     }
 
     protected void readDataFromModel(Object object, Calendar calendar) {
-        menuItemLogCh.log(-2137614336, "%1#readDataFromModel: %2", (Object)super.getClass().getName(), object);
+        menuItemLogCh.log(10000000, "%1#readDataFromModel: %2", (Object)this.getClass().getName(), object);
         if (object != null) {
             if (object instanceof MetricsModel) {
                 AbstractMetrics abstractMetrics = ((MetricsModel)object).getMetric();
@@ -45,12 +44,12 @@ extends AbstractInternalCursorWidgetController {
                     DateMetric dateMetric = (DateMetric)abstractMetrics;
                     Date date = dateMetric.getDate();
                     calendar.setTime(date);
-                    menuItemLogCh.log(-2137614336, "AbstractTimeDateController#readDataFromModel time in model: %1", (Object)date);
+                    menuItemLogCh.log(10000000, "AbstractTimeDateController#readDataFromModel time in model: %1", (Object)date);
                 } else {
-                    menuItemLogCh.log(-2137614336, "AbstractTimeDateController#readDataFromModel Metric (%1) is not a DateMetric.", (Object)abstractMetrics);
+                    menuItemLogCh.log(10000000, "AbstractTimeDateController#readDataFromModel Metric (%1) is not a DateMetric.", (Object)abstractMetrics);
                 }
             } else {
-                menuItemLogCh.log(-2137614336, "AbstractTimeDateController#readDataFromModel Model is not a MetricsModel.");
+                menuItemLogCh.log(10000000, "AbstractTimeDateController#readDataFromModel Model is not a MetricsModel.");
             }
         }
     }
@@ -68,7 +67,7 @@ extends AbstractInternalCursorWidgetController {
     }
 
     protected void writeDataToModel() {
-        menuItemLogCh.log(-2137614336, "%1#writeDataToModel", (Object)super.getClass().getName());
+        menuItemLogCh.log(10000000, "%1#writeDataToModel", (Object)this.getClass().getName());
         if (!this.suppressModelWrites) {
             AbstractTimeDateController.writeDataToModel(this.getModel(), this.calendar, this.terminal.getTerminalID());
         }
@@ -83,10 +82,10 @@ extends AbstractInternalCursorWidgetController {
                 Date date = calendar.getTime();
                 dateMetric.setDate(date);
                 metricsModel.metricsUpdated(n);
-                menuItemLogCh.log(-2137614336, "AbstractTimeDateController#writeDataToModel new time: %1", (Object)date);
+                menuItemLogCh.log(10000000, "AbstractTimeDateController#writeDataToModel new time: %1", (Object)date);
             }
         } else {
-            menuItemLogCh.log(-1601830656, "AbstractTimeDateController#writeDataToModel wrong model connected %1.", object);
+            menuItemLogCh.log(100000, "AbstractTimeDateController#writeDataToModel wrong model connected %1.", object);
         }
     }
 }

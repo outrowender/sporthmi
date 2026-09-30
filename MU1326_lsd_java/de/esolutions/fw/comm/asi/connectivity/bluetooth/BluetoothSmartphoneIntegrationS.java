@@ -4,15 +4,13 @@
 package de.esolutions.fw.comm.asi.connectivity.bluetooth;
 
 import de.esolutions.fw.comm.asi.connectivity.bluetooth.BluetoothSmartphoneIntegrationReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface BluetoothSmartphoneIntegrationS {
-    default public void updateSmartphoneMode(int n, String[] stringArray, BluetoothSmartphoneIntegrationReply bluetoothSmartphoneIntegrationReply) {
-    }
+    public void updateSmartphoneMode(int var1, String[] var2, BluetoothSmartphoneIntegrationReply var3) throws MethodException;
 
-    default public void requestLocalBluetoothAddress(BluetoothSmartphoneIntegrationReply bluetoothSmartphoneIntegrationReply) {
-    }
+    public void requestLocalBluetoothAddress(BluetoothSmartphoneIntegrationReply var1) throws MethodException;
 
-    default public void requestPrepareConnect(String string, BluetoothSmartphoneIntegrationReply bluetoothSmartphoneIntegrationReply) {
-    }
+    public void requestPrepareConnect(String var1, BluetoothSmartphoneIntegrationReply var2) throws MethodException;
 }
 

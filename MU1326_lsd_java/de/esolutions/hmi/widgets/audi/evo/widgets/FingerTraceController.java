@@ -14,10 +14,10 @@ import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimationController;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
-import de.esolutions.hmi.widgets.audi.evo.widgets.FingerTraceController$1;
 import de.esolutions.hmi.widgets.audi.evo.widgets.FingerTraceListener;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IFingerTraceRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IFingerTraceWidget;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,14 +26,14 @@ extends AbstractWidgetController
 implements AnimationListener,
 ATIPEventListener,
 IFingerTraceWidget {
-    protected static final String FINGER_TRACE_FADE_OUT_TIMER_NAME;
-    private static final int MIN_STROKE_LENGTH_AB3;
-    private static final int MIN_STROKE_LENGTH_ALL_IN_TOUCH;
-    private static final int MIN_STROKE_LENGTH_TOUCHWHEEL;
-    private static final int TOUCH_RELEASE_TIMEOUT;
-    private static final int TYPE_FINGER_TRACE_FADE_OUT;
-    private static final int DELAY_FADE_OUT_CHARACTER;
-    private static final int DELAY_FADE_OUT_BACKSPACE;
+    protected static final String FINGER_TRACE_FADE_OUT_TIMER_NAME = "FingerTraceFadeOutTimer";
+    private static final int MIN_STROKE_LENGTH_AB3 = 100;
+    private static final int MIN_STROKE_LENGTH_ALL_IN_TOUCH = 100;
+    private static final int MIN_STROKE_LENGTH_TOUCHWHEEL = 250;
+    private static final int TOUCH_RELEASE_TIMEOUT = 2500;
+    private static final int TYPE_FINGER_TRACE_FADE_OUT = 103;
+    private static final int DELAY_FADE_OUT_CHARACTER = 1000;
+    private static final int DELAY_FADE_OUT_BACKSPACE = 500;
     private AbstractAnimation fingerTraceRepaintAnimation;
     private long lastTouchReleasedTime = -1L;
     private int minimalStrokeLength;
@@ -54,10 +54,24 @@ IFingerTraceWidget {
     private boolean canceledFadeOut = false;
     private boolean isTouchPadPressed;
     private List registeredFTListeners = new LinkedList();
-    private final FingerTraceListener ftListenerNotifier = new FingerTraceController$1(this);
+    private final FingerTraceListener ftListenerNotifier = new FingerTraceListener(){
+
+        public void onVisibilityChange() {
+            Iterator iterator = FingerTraceController.this.registeredFTListeners.iterator();
+            while (iterator.hasNext()) {
+                ((FingerTraceListener)iterator.next()).onVisibilityChange();
+            }
+        }
+
+        public void onFingerTraceHide() {
+            Iterator iterator = FingerTraceController.this.registeredFTListeners.iterator();
+            while (iterator.hasNext()) {
+                ((FingerTraceListener)iterator.next()).onFingerTraceHide();
+            }
+        }
+    };
     private float maxOpacity = 1.0f;
 
-    @Override
     public void initializeWidget() {
         this.initMinStrokeLength();
         this.lastOpacity = 0.0f;
@@ -72,7 +86,7 @@ IFingerTraceWidget {
         if (this.terminal.getKbdService() != null) {
             n = this.terminal.getKbdService().getCurrentKeyboardType();
         } else {
-            tpLogChannelInternal.log(-1601830656, "FingerTraceWidget#connect: no KbdService available - use ALL_IN_TOUCH as default keyboard type");
+            tpLogChannelInternal.log(100000, "FingerTraceWidget#connect: no KbdService available - use ALL_IN_TOUCH as default keyboard type");
             n = 6;
         }
         this.minimalStrokeLength = FingerTraceController.getMinStrokeLength(n);
@@ -93,7 +107,6 @@ IFingerTraceWidget {
         return 100;
     }
 
-    @Override
     protected void handleFocusChanged(int n, int n2, int n3) {
         if (n != 1) {
             this.lastOpacity = 0.0f;
@@ -107,7 +120,6 @@ IFingerTraceWidget {
         this.stopTouchRepaintAnimation();
     }
 
-    @Override
     public void disconnecting() {
         this.blockFingerTrace = false;
         this.stopTouchRepaintAnimation();
@@ -118,14 +130,13 @@ IFingerTraceWidget {
         super.disconnecting();
     }
 
-    @Override
     public void animate(int n, float f2) {
         boolean bl;
         if (!this.isRenderer()) {
             return;
         }
         boolean bl2 = n == 1;
-        boolean bl3 = this.lastTouchReleasedTime != -1L && framework.getMonotonicTime() - this.lastTouchReleasedTime > 0;
+        boolean bl3 = this.lastTouchReleasedTime != -1L && framework.getMonotonicTime() - this.lastTouchReleasedTime > 2500L;
         boolean bl4 = !this.parent.isFocused();
         boolean bl5 = bl2 && bl3 || bl4;
         boolean bl6 = n == 103;
@@ -156,7 +167,7 @@ IFingerTraceWidget {
             this.fingerTraceRepaintAnimation.addListener(this);
         }
         if (!this.fingerTraceRepaintAnimation.isAnimating()) {
-            tpLogChannelInternal.log(-2137614336, "FingerTraceWidget#startFingerTraceRepaintAnimation");
+            tpLogChannelInternal.log(10000000, "FingerTraceWidget#startFingerTraceRepaintAnimation");
             this.fingerTraceRepaintAnimation.startEndlessAnimation(50, this);
         }
     }
@@ -165,13 +176,12 @@ IFingerTraceWidget {
         this.lastOpacity = this.actualOpacity;
         this.lastPeepholeTransparency = this.peepholeTransparency;
         if (this.fingerTraceRepaintAnimation != null && this.fingerTraceRepaintAnimation.isAnimating()) {
-            tpLogChannelInternal.log(-2137614336, "TouchController#stopFingerTraceRepaintAnimation");
+            tpLogChannelInternal.log(10000000, "TouchController#stopFingerTraceRepaintAnimation");
             this.fingerTraceRepaintAnimation.stopAnimation();
         }
         this.resetMinStrokeLengthCalculation();
     }
 
-    @Override
     public boolean isMinStrokeReached() {
         return this.fingerTraceLength >= (long)this.minimalStrokeLength;
     }
@@ -182,11 +192,9 @@ IFingerTraceWidget {
         this.exceedMinStrokeLength = false;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         boolean bl;
         boolean bl2 = bl = n == 103 && !this.canceledFadeOut;
@@ -195,7 +203,6 @@ IFingerTraceWidget {
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -204,7 +211,6 @@ IFingerTraceWidget {
         return this.isFadeOutJobRunning;
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         boolean bl;
         boolean bl2;
@@ -222,7 +228,7 @@ IFingerTraceWidget {
             this.lastOpacity = this.actualOpacity;
             this.renderer.showFingerTrace(this.actualOpacity);
         }
-        tpLogChannelInternal.log(-2137614336, "FingerTraceWidget#touchPadPressed: touch event recognized. (palm=%1 | fingerCount=%2)", touchEvent.isPalm(), (long)touchEvent.getFingerCount());
+        tpLogChannelInternal.log(10000000, "FingerTraceWidget#touchPadPressed: touch event recognized. (palm=%1 | fingerCount=%2)", touchEvent.isPalm(), (long)touchEvent.getFingerCount());
         boolean bl6 = bl = this.isRenderer() && touchEvent.getFingerCount() == 1;
         if (touchEvent.isPalm()) {
             this.abortFingerTrace();
@@ -249,7 +255,6 @@ IFingerTraceWidget {
         }
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (!bl) {
             this.abortFingerTrace();
@@ -257,7 +262,6 @@ IFingerTraceWidget {
         super.setEnabled(bl);
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (this.blockFingerTrace || this.isPresetPopupActive()) {
             return;
@@ -278,13 +282,12 @@ IFingerTraceWidget {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         boolean bl;
         if (this.isPresetPopupActive()) {
             return;
         }
-        tpLogChannelInternal.log(-2137614336, "FingerTraceWidget#touchPadReleased: touch event released recognized. (palm=%1)", touchEvent.isPalm());
+        tpLogChannelInternal.log(10000000, "FingerTraceWidget#touchPadReleased: touch event released recognized. (palm=%1)", touchEvent.isPalm());
         this.blockFingerTrace = false;
         this.lastTouchReleasedTime = framework.getMonotonicTime();
         this.lastOpacity = this.actualOpacity;
@@ -318,17 +321,15 @@ IFingerTraceWidget {
     }
 
     private void abortFingerTrace() {
-        tpLogChannelInternal.log(-2137614336, "FingerTraceWidget#abortFingerTrace");
+        tpLogChannelInternal.log(10000000, "FingerTraceWidget#abortFingerTrace");
         this.resetMinStrokeLengthCalculation();
         this.hideFingerTrace();
     }
 
-    @Override
     public float getPeepholeTransparency() {
         return this.peepholeTransparency;
     }
 
-    @Override
     public void hideFingerTrace() {
         if (this.isRenderer()) {
             this.renderer.removeFingerTrace();
@@ -353,11 +354,9 @@ IFingerTraceWidget {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void characterRecognized(char c2) {
         if (!this.isRenderer()) {
             return;
@@ -370,9 +369,9 @@ IFingerTraceWidget {
         boolean bl3 = (bl || bl2) && this.isMinStrokeReached();
         long l = 0L;
         if (bl) {
-            l = 0;
+            l = 500L;
         } else if (bl2) {
-            l = 0;
+            l = 1000L;
         }
         if (bl3) {
             this.lastPeepholeTransparency = 1.0f;
@@ -384,12 +383,10 @@ IFingerTraceWidget {
         this.fingerTraceLength = 0L;
     }
 
-    @Override
     public boolean exceededMinStrokeLength() {
         return this.exceedMinStrokeLength;
     }
 
-    @Override
     public boolean isLineVisible() {
         if (this.renderer == null) {
             return false;
@@ -397,7 +394,6 @@ IFingerTraceWidget {
         return this.renderer.isFingerTraceVisible() || this.isTouchPadPressed;
     }
 
-    @Override
     public void setRenderer(IFingerTraceRenderer iFingerTraceRenderer) {
         this.renderer = iFingerTraceRenderer;
     }
@@ -410,7 +406,7 @@ IFingerTraceWidget {
     }
 
     private void stopFadeOutJob() {
-        tpLogChannelInternal.log(-2137614336, "TouchController#stopFadeOutJob");
+        tpLogChannelInternal.log(10000000, "TouchController#stopFadeOutJob");
         this.isFadeOutJobRunning = false;
         if (this.fadeOutEvent != null) {
             this.fadeOutEvent.consume();
@@ -422,7 +418,6 @@ IFingerTraceWidget {
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.fadeOutEvent)) {
             this.isFadeOutJobRunning = false;
@@ -438,21 +433,18 @@ IFingerTraceWidget {
             this.animationFadeOut.stopAnimation();
         }
         float f2 = this.lastOpacity;
-        this.animationFadeOut.startDynamicAnimation(f2, 51266, 103, false, this);
+        this.animationFadeOut.startDynamicAnimation(f2, 100.0f, 103, false, this);
         this.canceledFadeOut = false;
     }
 
-    @Override
     public final void registerFTListener(FingerTraceListener fingerTraceListener) {
         this.registeredFTListeners.add(fingerTraceListener);
     }
 
-    @Override
     public AbstractWidget toAbstractWidget() {
         return this;
     }
 
-    @Override
     public void writingModeEntered() {
     }
 
@@ -476,13 +468,12 @@ IFingerTraceWidget {
         this.fingerTraceLength = (long)((double)this.fingerTraceLength + Math.sqrt(n * n + n2 * n2));
         if (this.isMinStrokeReached()) {
             if (!this.exceedMinStrokeLength) {
-                tpLogChannelKeypanel.log(-2137614336, "FingerTraceWidget#calculateStroke exceedMinStrokeLength=true");
+                tpLogChannelKeypanel.log(10000000, "FingerTraceWidget#calculateStroke exceedMinStrokeLength=true");
             }
             this.exceedMinStrokeLength = true;
         }
     }
 
-    @Override
     public void setMaxOpacity(float f2) {
         this.maxOpacity = f2;
     }
@@ -507,10 +498,6 @@ IFingerTraceWidget {
 
     protected boolean isFadeOutAnimationRunning() {
         return this.animationFadeOut != null && this.animationFadeOut.isAnimating();
-    }
-
-    static /* synthetic */ List access$000(FingerTraceController fingerTraceController) {
-        return fingerTraceController.registeredFTListeners;
     }
 }
 

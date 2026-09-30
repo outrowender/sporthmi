@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.MotorwayBlinkingSettings;
 
 public class MotorwayBlinkingSettingsSerializer {
-    public static void putOptionalMotorwayBlinkingSettings(ISerializer iSerializer, MotorwayBlinkingSettings motorwayBlinkingSettings) {
+    public static void putOptionalMotorwayBlinkingSettings(ISerializer iSerializer, MotorwayBlinkingSettings motorwayBlinkingSettings) throws SerializerException {
         boolean bl = motorwayBlinkingSettings == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class MotorwayBlinkingSettingsSerializer {
         }
     }
 
-    public static void putOptionalMotorwayBlinkingSettingsVarArray(ISerializer iSerializer, MotorwayBlinkingSettings[] motorwayBlinkingSettingsArray) {
+    public static void putOptionalMotorwayBlinkingSettingsVarArray(ISerializer iSerializer, MotorwayBlinkingSettings[] motorwayBlinkingSettingsArray) throws SerializerException {
         boolean bl = motorwayBlinkingSettingsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class MotorwayBlinkingSettingsSerializer {
         }
     }
 
-    public static MotorwayBlinkingSettings getOptionalMotorwayBlinkingSettings(IDeserializer iDeserializer) {
+    public static MotorwayBlinkingSettings getOptionalMotorwayBlinkingSettings(IDeserializer iDeserializer) throws SerializerException {
         MotorwayBlinkingSettings motorwayBlinkingSettings = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class MotorwayBlinkingSettingsSerializer {
         return motorwayBlinkingSettings;
     }
 
-    public static MotorwayBlinkingSettings[] getOptionalMotorwayBlinkingSettingsVarArray(IDeserializer iDeserializer) {
+    public static MotorwayBlinkingSettings[] getOptionalMotorwayBlinkingSettingsVarArray(IDeserializer iDeserializer) throws SerializerException {
         MotorwayBlinkingSettings[] motorwayBlinkingSettingsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

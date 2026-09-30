@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.sdisConfigProvider;
 
 import de.esolutions.fw.comm.asi.sdisConfigProvider.SdisConfigProviderReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface SdisConfigProviderS {
-    default public void setNotification(SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void setNotification(SdisConfigProviderReply var1) throws MethodException;
 
-    default public void setNotification(long l, SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void setNotification(long var1, SdisConfigProviderReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void setNotification(long[] var1, SdisConfigProviderReply var2) throws MethodException;
 
-    default public void clearNotification(SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void clearNotification(SdisConfigProviderReply var1) throws MethodException;
 
-    default public void clearNotification(long l, SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void clearNotification(long var1, SdisConfigProviderReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, SdisConfigProviderReply sdisConfigProviderReply) {
-    }
+    public void clearNotification(long[] var1, SdisConfigProviderReply var2) throws MethodException;
 }
 

@@ -11,130 +11,118 @@ import org.dsi.ifc.kombifastlist.DataPhonebook;
 
 public interface DSIFastListScrollingTelephone
 extends DSIBase {
-    public static final String VERSION;
-    public static final int IN_INDICATIONPHONEBOOK;
-    public static final int IN_INDICATIONGETINITIALSTELEPHONE;
-    public static final int IN_INDICATIONNOTIFYFAVORITELISTPUSH;
-    public static final int IN_INDICATIONNOTIFYCOMBINEDNUMBERSPUSH;
-    public static final int IN_INDICATIONNOTIFYCURRENTLISTSIZETELEPHONE;
-    public static final int IN_INDICATIONPHONEBOOKJOBS;
-    public static final int RT_PUSHFUNCTIONAVAILABILITYTELEPHONE;
-    public static final int RT_PUSHMOSTOPERATIONSTATETELEPHONE;
-    public static final int RT_RESPONSEPHONEBOOK;
-    public static final int RT_RESPONSEPHONEBOOKARRAY;
-    public static final int RT_RESPONSEGETINITIALSTELEPHONE;
-    public static final int RT_PUSHUPDATEFAVORITELIST;
-    public static final int RT_PUSHCOMBINEDNUMBERS;
-    public static final int RT_PUSHCURRENTLISTSIZETELEPHONE;
-    public static final int RT_RESPONSEPHONEBOOKJOBS;
-    public static final int RT_RESPONSENOTIFYCOMBINEDNUMBERSPUSH;
-    public static final int RT_RESPONSENOTIFYCURRENTLISTSIZES;
-    public static final int RT_RESPONSENOTIFYFAVORITELISTPUSH;
-    public static final int FUNCTIONAVAILABILITY_PHONEBOOK;
-    public static final int FUNCTIONAVAILABILITY_GETINITIALS;
-    public static final int FUNCTIONAVAILABILITY_FAVORITELISTPUSH;
-    public static final int FUNCTIONAVAILABILITY_COMBINEDNUMBERSPUSH;
-    public static final int FUNCTIONAVAILABILITY_PHONEBOOKJOBS;
-    public static final int OPSTATE_NORMAL;
-    public static final int OPSTATE_OFFSTBY;
-    public static final int OPSTATE_INITIALISING;
-    public static final int OPSTATE_DEFECTIVE;
-    public static final int ASGID_DEFAULT;
-    public static final int ASGID_INSTRUMENTCLUSTER;
-    public static final int ASGID_HEADUPDISPLAY;
-    public static final int RECORDADDRESSPHONEBOOK_FULL;
-    public static final int RECORDADDRESSPHONEBOOK_PBNAMESTORAGEANYVOICETAGTELNUMBERQUANTITYADDRESSINDICATION;
-    public static final int RECORDADDRESSPHONEBOOK_TELNUMBERNVOICETAGNRESERVENNUMBERTYPEN;
-    public static final int RECORDADDRESSPHONEBOOK_PBNAMEANYVOICETAGTELNUMBERQUANTITYVOICETAGNRESERVENNUMBERTYPEN;
-    public static final int RECORDADDRESSPHONEBOOK_ANYVOICETAGTELNUMBERQUANTITYTELNUMBERNVOICETAGNRESERVENNUMBERTYPEN;
-    public static final int RECORDADDRESSPHONEBOOK_POS;
-    public static final int JOBMODIFICATION_NEW;
-    public static final int JOBMODIFICATION_CHANGE;
-    public static final int JOBMODIFICATION_CANCEL;
-    public static final int REQUESTEDLIST_PHONEBOOK;
-    public static final int REQUESTEDLIST_COMBINEDNUMBERS;
-    public static final int REQUESTEDLIST_DIALEDNUMBERS;
-    public static final int REQUESTEDLIST_FAVORITELIST;
-    public static final int REQUESTEDLIST_MISSEDCALLS;
-    public static final int REQUESTEDLIST_RECEIVEDCALLS;
-    public static final int MODE_SHIFT;
-    public static final int MODE_ARRAYDIRECTION;
-    public static final int MODE_ARRAYPOSTRANSMITTED;
-    public static final int MODE_INDEXSIZE;
-    public static final int MODE_CENTERPOSITION;
-    public static final int MODE_INDEXSIZE64BIT;
-    public static final int SENDREASON_REQUESTED;
-    public static final int SENDREASON_CHANGEDARRAY;
-    public static final int SENDREASON_JOBLIST;
-    public static final int JOBSRESULT_JOBEXECUTEDSUCCESSFULLY;
-    public static final int JOBSRESULT_JOBCANCELLEDDUETOERRORSINREQUEST;
-    public static final int JOBSRESULT_JOBCANCELLEDBYFSG;
-    public static final int JOBSRESULT_JOBCANCELLEDSUCCESSFULLYBZASG;
-    public static final int JOBSRESULT_JOBCANCELLEDUNSUCCESSFULLYALREADYINEXECUTION;
-    public static final int JOBSRESULT_ALLJOBSEXECUTEDSUCCESSFULLY;
-    public static final int JOBSRESULT_ALLJOBSCANCELLED;
-    public static final int STORAGEPB_UNDEFINED;
-    public static final int STORAGEPB_SIM;
-    public static final int STORAGEPB_MOBILEEQUIPMENT;
-    public static final int STORAGEPB_LOCALPUBLIC;
-    public static final int STORAGEPB_LOCALPRIVATE;
-    public static final int ANYVOICETAG_AVAILABILITY;
-    public static final int ANYVOICETAG_AVAILABLEFORSTANDARDNUMBER;
-    public static final int VOICETAG_AVAILABLE;
-    public static final int NUMBERTYPE_UNKNOWNNUMBERTYPE;
-    public static final int NUMBERTYPE_GENERAL;
-    public static final int NUMBERTYPE_MOBILE;
-    public static final int NUMBERTYPE_OFFICE;
-    public static final int NUMBERTYPE_HOME;
-    public static final int NUMBERTYPE_FAX;
-    public static final int NUMBERTYPE_PAGER;
-    public static final int NUMBERTYPE_CAR;
-    public static final int NUMBERTYPE_SIM;
-    public static final int NUMBERTYPE_MAINOFFICE;
-    public static final int NUMBERTYPE_MAINHOME;
-    public static final int NUMBERTYPE_CELLOFFICE;
-    public static final int NUMBERTYPE_CELLHOME;
-    public static final int NUMBERTYPE_FAXOFFICE;
-    public static final int NUMBERTYPE_FAXHOME;
-    public static final int CALLMODE_UNKNOWNCALLMODE;
-    public static final int CALLMODE_MISSEDCALL;
-    public static final int CALLMODE_RECEIVEDCALL;
-    public static final int CALLMODE_DIALEDNUMBER;
+    public static final String VERSION = "2.11.1";
+    public static final int IN_INDICATIONPHONEBOOK = 3000;
+    public static final int IN_INDICATIONGETINITIALSTELEPHONE = 3001;
+    public static final int IN_INDICATIONNOTIFYFAVORITELISTPUSH = 3002;
+    public static final int IN_INDICATIONNOTIFYCOMBINEDNUMBERSPUSH = 3003;
+    public static final int IN_INDICATIONNOTIFYCURRENTLISTSIZETELEPHONE = 3004;
+    public static final int IN_INDICATIONPHONEBOOKJOBS = 3005;
+    public static final int RT_PUSHFUNCTIONAVAILABILITYTELEPHONE = 1000;
+    public static final int RT_PUSHMOSTOPERATIONSTATETELEPHONE = 1001;
+    public static final int RT_RESPONSEPHONEBOOK = 1002;
+    public static final int RT_RESPONSEPHONEBOOKARRAY = 1003;
+    public static final int RT_RESPONSEGETINITIALSTELEPHONE = 1004;
+    public static final int RT_PUSHUPDATEFAVORITELIST = 1005;
+    public static final int RT_PUSHCOMBINEDNUMBERS = 1006;
+    public static final int RT_PUSHCURRENTLISTSIZETELEPHONE = 1007;
+    public static final int RT_RESPONSEPHONEBOOKJOBS = 1008;
+    public static final int RT_RESPONSENOTIFYCOMBINEDNUMBERSPUSH = 1009;
+    public static final int RT_RESPONSENOTIFYCURRENTLISTSIZES = 1010;
+    public static final int RT_RESPONSENOTIFYFAVORITELISTPUSH = 1011;
+    public static final int FUNCTIONAVAILABILITY_PHONEBOOK = 0;
+    public static final int FUNCTIONAVAILABILITY_GETINITIALS = 1;
+    public static final int FUNCTIONAVAILABILITY_FAVORITELISTPUSH = 2;
+    public static final int FUNCTIONAVAILABILITY_COMBINEDNUMBERSPUSH = 3;
+    public static final int FUNCTIONAVAILABILITY_PHONEBOOKJOBS = 4;
+    public static final int OPSTATE_NORMAL = 0;
+    public static final int OPSTATE_OFFSTBY = 1;
+    public static final int OPSTATE_INITIALISING = 3;
+    public static final int OPSTATE_DEFECTIVE = 15;
+    public static final int ASGID_DEFAULT = 0;
+    public static final int ASGID_INSTRUMENTCLUSTER = 1;
+    public static final int ASGID_HEADUPDISPLAY = 2;
+    public static final int RECORDADDRESSPHONEBOOK_FULL = 0;
+    public static final int RECORDADDRESSPHONEBOOK_PBNAMESTORAGEANYVOICETAGTELNUMBERQUANTITYADDRESSINDICATION = 1;
+    public static final int RECORDADDRESSPHONEBOOK_TELNUMBERNVOICETAGNRESERVENNUMBERTYPEN = 2;
+    public static final int RECORDADDRESSPHONEBOOK_PBNAMEANYVOICETAGTELNUMBERQUANTITYVOICETAGNRESERVENNUMBERTYPEN = 3;
+    public static final int RECORDADDRESSPHONEBOOK_ANYVOICETAGTELNUMBERQUANTITYTELNUMBERNVOICETAGNRESERVENNUMBERTYPEN = 4;
+    public static final int RECORDADDRESSPHONEBOOK_POS = 15;
+    public static final int JOBMODIFICATION_NEW = 0;
+    public static final int JOBMODIFICATION_CHANGE = 1;
+    public static final int JOBMODIFICATION_CANCEL = 2;
+    public static final int REQUESTEDLIST_PHONEBOOK = 0;
+    public static final int REQUESTEDLIST_COMBINEDNUMBERS = 1;
+    public static final int REQUESTEDLIST_DIALEDNUMBERS = 2;
+    public static final int REQUESTEDLIST_FAVORITELIST = 3;
+    public static final int REQUESTEDLIST_MISSEDCALLS = 4;
+    public static final int REQUESTEDLIST_RECEIVEDCALLS = 5;
+    public static final int MODE_SHIFT = 0;
+    public static final int MODE_ARRAYDIRECTION = 1;
+    public static final int MODE_ARRAYPOSTRANSMITTED = 2;
+    public static final int MODE_INDEXSIZE = 3;
+    public static final int MODE_CENTERPOSITION = 4;
+    public static final int MODE_INDEXSIZE64BIT = 5;
+    public static final int SENDREASON_REQUESTED = 0;
+    public static final int SENDREASON_CHANGEDARRAY = 1;
+    public static final int SENDREASON_JOBLIST = 2;
+    public static final int JOBSRESULT_JOBEXECUTEDSUCCESSFULLY = 0;
+    public static final int JOBSRESULT_JOBCANCELLEDDUETOERRORSINREQUEST = 1;
+    public static final int JOBSRESULT_JOBCANCELLEDBYFSG = 2;
+    public static final int JOBSRESULT_JOBCANCELLEDSUCCESSFULLYBZASG = 3;
+    public static final int JOBSRESULT_JOBCANCELLEDUNSUCCESSFULLYALREADYINEXECUTION = 4;
+    public static final int JOBSRESULT_ALLJOBSEXECUTEDSUCCESSFULLY = 10;
+    public static final int JOBSRESULT_ALLJOBSCANCELLED = 11;
+    public static final int STORAGEPB_UNDEFINED = 0;
+    public static final int STORAGEPB_SIM = 1;
+    public static final int STORAGEPB_MOBILEEQUIPMENT = 2;
+    public static final int STORAGEPB_LOCALPUBLIC = 3;
+    public static final int STORAGEPB_LOCALPRIVATE = 4;
+    public static final int ANYVOICETAG_AVAILABILITY = 0;
+    public static final int ANYVOICETAG_AVAILABLEFORSTANDARDNUMBER = 17;
+    public static final int VOICETAG_AVAILABLE = 0;
+    public static final int NUMBERTYPE_UNKNOWNNUMBERTYPE = 0;
+    public static final int NUMBERTYPE_GENERAL = 1;
+    public static final int NUMBERTYPE_MOBILE = 2;
+    public static final int NUMBERTYPE_OFFICE = 3;
+    public static final int NUMBERTYPE_HOME = 4;
+    public static final int NUMBERTYPE_FAX = 5;
+    public static final int NUMBERTYPE_PAGER = 6;
+    public static final int NUMBERTYPE_CAR = 7;
+    public static final int NUMBERTYPE_SIM = 8;
+    public static final int NUMBERTYPE_MAINOFFICE = 9;
+    public static final int NUMBERTYPE_MAINHOME = 10;
+    public static final int NUMBERTYPE_CELLOFFICE = 11;
+    public static final int NUMBERTYPE_CELLHOME = 12;
+    public static final int NUMBERTYPE_FAXOFFICE = 13;
+    public static final int NUMBERTYPE_FAXHOME = 14;
+    public static final int CALLMODE_UNKNOWNCALLMODE = 0;
+    public static final int CALLMODE_MISSEDCALL = 1;
+    public static final int CALLMODE_RECEIVEDCALL = 2;
+    public static final int CALLMODE_DIALEDNUMBER = 3;
 
-    default public void pushFunctionAvailabilityTelephone(int n) {
-    }
+    public void pushFunctionAvailabilityTelephone(int var1);
 
-    default public void pushMOSTOperationStateTelephone(short s) {
-    }
+    public void pushMOSTOperationStateTelephone(short var1);
 
-    default public void responsePhonebook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) {
-    }
+    public void responsePhonebook(int var1, int var2, int var3, int var4, int var5, long var6, int var8, int var9, int var10, int var11, int var12, int var13, int var14);
 
-    default public void responsePhonebookArray(int n, int n2, DataPhonebook[] dataPhonebookArray) {
-    }
+    public void responsePhonebookArray(int var1, int var2, DataPhonebook[] var3);
 
-    default public void responseGetInitialsTelephone(int n, int n2, int n3, int n4, DataInitials[] dataInitialsArray) {
-    }
+    public void responseGetInitialsTelephone(int var1, int var2, int var3, int var4, DataInitials[] var5);
 
-    default public void pushupdateFavoriteList(int n, int n2, DataFavoriteList[] dataFavoriteListArray) {
-    }
+    public void pushupdateFavoriteList(int var1, int var2, DataFavoriteList[] var3);
 
-    default public void pushCombinedNumbers(int n, int n2, DataCombinedNumbers[] dataCombinedNumbersArray) {
-    }
+    public void pushCombinedNumbers(int var1, int var2, DataCombinedNumbers[] var3);
 
-    default public void pushCurrentListSizeTelephone(int n, int n2, int n3) {
-    }
+    public void pushCurrentListSizeTelephone(int var1, int var2, int var3);
 
-    default public void responsePhonebookJobs(int n, int n2, int n3) {
-    }
+    public void responsePhonebookJobs(int var1, int var2, int var3);
 
-    default public void responseNotifyCombinedNumbersPush(boolean bl) {
-    }
+    public void responseNotifyCombinedNumbersPush(boolean var1);
 
-    default public void responseNotifyCurrentListSizes(boolean bl) {
-    }
+    public void responseNotifyCurrentListSizes(boolean var1);
 
-    default public void responseNotifyFavoriteListPush(boolean bl) {
-    }
+    public void responseNotifyFavoriteListPush(boolean var1);
 }
 

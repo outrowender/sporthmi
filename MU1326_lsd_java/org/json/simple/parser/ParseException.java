@@ -5,10 +5,10 @@ package org.json.simple.parser;
 
 public class ParseException
 extends Exception {
-    private static final long serialVersionUID;
-    public static final int ERROR_UNEXPECTED_CHAR;
-    public static final int ERROR_UNEXPECTED_TOKEN;
-    public static final int ERROR_UNEXPECTED_EXCEPTION;
+    private static final long serialVersionUID = -7880698968187728548L;
+    public static final int ERROR_UNEXPECTED_CHAR = 0;
+    public static final int ERROR_UNEXPECTED_TOKEN = 1;
+    public static final int ERROR_UNEXPECTED_EXCEPTION = 2;
     private int errorType;
     private Object unexpectedObject;
     private int position;
@@ -50,7 +50,6 @@ extends Exception {
         this.unexpectedObject = object;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         switch (this.errorType) {

@@ -4,10 +4,8 @@
 package java.util;
 
 public interface Enumeration {
-    default public boolean hasMoreElements() {
-    }
+    public boolean hasMoreElements();
 
-    default public Object nextElement() {
-    }
+    public Object nextElement();
 }
 

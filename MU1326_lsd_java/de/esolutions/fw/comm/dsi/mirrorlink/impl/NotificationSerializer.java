@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 import de.esolutions.fw.comm.dsi.mirrorlink.impl.ActionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.Action;
 import org.dsi.ifc.mirrorlink.Notification;
 
 public class NotificationSerializer {
-    public static void putOptionalNotification(ISerializer iSerializer, Notification notification) {
+    public static void putOptionalNotification(ISerializer iSerializer, Notification notification) throws SerializerException {
         boolean bl = notification == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class NotificationSerializer {
         }
     }
 
-    public static void putOptionalNotificationVarArray(ISerializer iSerializer, Notification[] notificationArray) {
+    public static void putOptionalNotificationVarArray(ISerializer iSerializer, Notification[] notificationArray) throws SerializerException {
         boolean bl = notificationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class NotificationSerializer {
         }
     }
 
-    public static Notification getOptionalNotification(IDeserializer iDeserializer) {
+    public static Notification getOptionalNotification(IDeserializer iDeserializer) throws SerializerException {
         Notification notification = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class NotificationSerializer {
         return notification;
     }
 
-    public static Notification[] getOptionalNotificationVarArray(IDeserializer iDeserializer) {
+    public static Notification[] getOptionalNotificationVarArray(IDeserializer iDeserializer) throws SerializerException {
         Notification[] notificationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

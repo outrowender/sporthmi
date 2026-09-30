@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.microMuteOnOff.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MicroMuteOnOff_Status microMuteOnOff_Status = (MicroMuteOnOff_Status)bAPEntity;
         return this.microMuteOnOff.equalTo(microMuteOnOff_Status.microMuteOnOff);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MicroMuteOnOff_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.microMuteOnOff.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.microMuteOnOff.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.microMuteOnOff.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return MicroMuteOnOff_Status.functionId();
     }

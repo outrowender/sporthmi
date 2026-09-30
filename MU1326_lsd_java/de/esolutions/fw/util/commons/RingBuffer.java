@@ -43,7 +43,7 @@ public class RingBuffer {
             int n2 = (this.startIdx + n) % this.getCapacity();
             return this.buffer[n2];
         }
-        throw new IndexOutOfBoundsException(new StringBuffer().append("Index out of bounds (size=").append(this.size).append(", index=").append(n).append(")").toString());
+        throw new IndexOutOfBoundsException("Index out of bounds (size=" + this.size + ", index=" + n + ")");
     }
 }
 

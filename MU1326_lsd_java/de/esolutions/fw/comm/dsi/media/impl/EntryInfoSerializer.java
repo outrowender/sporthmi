@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.media.impl;
 import de.esolutions.fw.comm.dsi.media.impl.ChapterInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.ChapterInfo;
 import org.dsi.ifc.media.EntryInfo;
 
 public class EntryInfoSerializer {
-    public static void putOptionalEntryInfo(ISerializer iSerializer, EntryInfo entryInfo) {
+    public static void putOptionalEntryInfo(ISerializer iSerializer, EntryInfo entryInfo) throws SerializerException {
         boolean bl = entryInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -55,7 +56,7 @@ public class EntryInfoSerializer {
         }
     }
 
-    public static void putOptionalEntryInfoVarArray(ISerializer iSerializer, EntryInfo[] entryInfoArray) {
+    public static void putOptionalEntryInfoVarArray(ISerializer iSerializer, EntryInfo[] entryInfoArray) throws SerializerException {
         boolean bl = entryInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -66,7 +67,7 @@ public class EntryInfoSerializer {
         }
     }
 
-    public static EntryInfo getOptionalEntryInfo(IDeserializer iDeserializer) {
+    public static EntryInfo getOptionalEntryInfo(IDeserializer iDeserializer) throws SerializerException {
         EntryInfo entryInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -113,7 +114,7 @@ public class EntryInfoSerializer {
         return entryInfo;
     }
 
-    public static EntryInfo[] getOptionalEntryInfoVarArray(IDeserializer iDeserializer) {
+    public static EntryInfo[] getOptionalEntryInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EntryInfo[] entryInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

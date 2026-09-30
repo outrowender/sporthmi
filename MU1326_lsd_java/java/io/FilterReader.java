@@ -3,6 +3,7 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.Reader;
 
 public abstract class FilterReader
@@ -17,8 +18,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.in.close();
@@ -28,8 +28,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public synchronized void mark(int n) {
+    public synchronized void mark(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.in.mark(n);
@@ -39,7 +38,6 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean markSupported() {
         Object object = this.lock;
         synchronized (object) {
@@ -50,8 +48,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             return this.in.read();
@@ -61,8 +58,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             return this.in.read(cArray, n, n2);
@@ -72,8 +68,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             return this.in.ready();
@@ -83,8 +78,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.in.reset();
@@ -94,8 +88,7 @@ extends Reader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             return this.in.skip(l);

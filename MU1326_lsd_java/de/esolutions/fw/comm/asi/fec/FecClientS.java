@@ -4,9 +4,9 @@
 package de.esolutions.fw.comm.asi.fec;
 
 import de.esolutions.fw.comm.asi.fec.SFecState;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface FecClientS {
-    default public void updateFECs(SFecState[] sFecStateArray) {
-    }
+    public void updateFECs(SFecState[] var1) throws MethodException;
 }
 

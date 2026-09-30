@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eDTCP_Keytype
 extends IEnum {
-    public static final int DTCP_KEYTYPE_NO_KEY;
-    public static final int DTCP_KEYTYPE_DEVELOPER_KEY;
-    public static final int DTCP_KEYTYPE_DTLA_KEY;
+    public static final int DTCP_KEYTYPE_NO_KEY = 0;
+    public static final int DTCP_KEYTYPE_DEVELOPER_KEY = 1;
+    public static final int DTCP_KEYTYPE_DTLA_KEY = 2;
 }
 

@@ -5,17 +5,16 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory$IRightDrawerActionReceiverTextController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerListenerFactory;
 
 public final class MultilineTextFieldRightDrawerHandler
-implements TouchControllerListenerFactory$IRightDrawerActionReceiverTextController {
+implements TouchControllerListenerFactory.IRightDrawerActionReceiverTextController {
     private MultilineTextFieldController mltCtrl;
 
     public MultilineTextFieldRightDrawerHandler(MultilineTextFieldController multilineTextFieldController) {
         this.mltCtrl = multilineTextFieldController;
     }
 
-    @Override
     public void executeAction(int n) {
         if (this.mltCtrl != null) {
             switch (n) {

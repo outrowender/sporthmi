@@ -1,13 +1,9 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
 import com.ibm.oti.util.Sorter;
-import java.io.ObjectStreamField$1;
 import java.lang.ref.WeakReference;
 
 public class ObjectStreamField
@@ -43,7 +39,6 @@ implements Comparable {
         this.typeString = string.replace('.', '/');
     }
 
-    @Override
     public int compareTo(Object object) {
         boolean bl;
         ObjectStreamField objectStreamField = (ObjectStreamField)object;
@@ -140,7 +135,7 @@ implements Comparable {
             }
             throw new RuntimeException();
         }
-        return new StringBuffer("L").append(clazz.getName()).append(';').toString().replace('.', '/');
+        return ("L" + clazz.getName() + ';').replace('.', '/');
     }
 
     public boolean isPrimitive() {
@@ -153,13 +148,20 @@ implements Comparable {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append('(').append(this.getName()).append(':').append(this.getType()).append(')').toString();
+        return String.valueOf(this.getClass().getName()) + '(' + this.getName() + ':' + this.getType() + ')';
     }
 
     static void sortFields(ObjectStreamField[] objectStreamFieldArray) {
         if (objectStreamFieldArray.length > 1) {
-            ObjectStreamField$1 objectStreamField$1 = new ObjectStreamField$1();
-            Sorter.sort(objectStreamFieldArray, objectStreamField$1);
+            Sorter.Comparator comparator = new Sorter.Comparator(){
+
+                public int compare(Object object, Object object2) {
+                    ObjectStreamField objectStreamField = (ObjectStreamField)object;
+                    ObjectStreamField objectStreamField2 = (ObjectStreamField)object2;
+                    return objectStreamField.compareTo(objectStreamField2);
+                }
+            };
+            Sorter.sort(objectStreamFieldArray, comparator);
         }
     }
 

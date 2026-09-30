@@ -52,7 +52,7 @@ public class WavebandInfo {
     }
 
     public String toString() {
-        return new StringBuffer("WavebandInfo{").append("bandId=").append(this.bandId).append(", minFrequency=").append(this.minFrequency).append(", maxFrequency=").append(this.maxFrequency).append(", stepWidth=").append(this.stepWidth).append("}").toString();
+        return "WavebandInfo{" + "bandId=" + this.bandId + ", minFrequency=" + this.minFrequency + ", maxFrequency=" + this.maxFrequency + ", stepWidth=" + this.stepWidth + "}";
     }
 }
 

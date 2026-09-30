@@ -4,6 +4,7 @@
 package java.io;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.Writer;
 
 public class CharArrayWriter
@@ -24,7 +25,6 @@ extends Writer {
         this.lock = this.buf;
     }
 
-    @Override
     public void close() {
     }
 
@@ -37,7 +37,6 @@ extends Writer {
         this.buf = cArray;
     }
 
-    @Override
     public void flush() {
     }
 
@@ -86,7 +85,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(char[] cArray, int n, int n2) {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
@@ -103,7 +101,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(int n) {
         Object object = this.lock;
         synchronized (object) {
@@ -115,7 +112,6 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void write(String string, int n, int n2) {
         if (n >= 0 && n <= string.length() && n2 >= 0 && n2 <= string.length() - n) {
             Object object = this.lock;
@@ -132,7 +128,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void writeTo(Writer writer) {
+    public void writeTo(Writer writer) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             writer.write(this.buf, 0, this.count);

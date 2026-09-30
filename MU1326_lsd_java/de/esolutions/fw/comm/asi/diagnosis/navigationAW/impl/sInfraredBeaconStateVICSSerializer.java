@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigationAW.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sInfraredBeaconStateVICS;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sInfraredBeaconStateVICSSerializer {
-    public static void putOptionalsInfraredBeaconStateVICS(ISerializer iSerializer, sInfraredBeaconStateVICS sInfraredBeaconStateVICS2) {
+    public static void putOptionalsInfraredBeaconStateVICS(ISerializer iSerializer, sInfraredBeaconStateVICS sInfraredBeaconStateVICS2) throws SerializerException {
         boolean bl = sInfraredBeaconStateVICS2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class sInfraredBeaconStateVICSSerializer {
         }
     }
 
-    public static void putOptionalsInfraredBeaconStateVICSVarArray(ISerializer iSerializer, sInfraredBeaconStateVICS[] sInfraredBeaconStateVICSArray) {
+    public static void putOptionalsInfraredBeaconStateVICSVarArray(ISerializer iSerializer, sInfraredBeaconStateVICS[] sInfraredBeaconStateVICSArray) throws SerializerException {
         boolean bl = sInfraredBeaconStateVICSArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class sInfraredBeaconStateVICSSerializer {
         }
     }
 
-    public static sInfraredBeaconStateVICS getOptionalsInfraredBeaconStateVICS(IDeserializer iDeserializer) {
+    public static sInfraredBeaconStateVICS getOptionalsInfraredBeaconStateVICS(IDeserializer iDeserializer) throws SerializerException {
         sInfraredBeaconStateVICS sInfraredBeaconStateVICS2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class sInfraredBeaconStateVICSSerializer {
         return sInfraredBeaconStateVICS2;
     }
 
-    public static sInfraredBeaconStateVICS[] getOptionalsInfraredBeaconStateVICSVarArray(IDeserializer iDeserializer) {
+    public static sInfraredBeaconStateVICS[] getOptionalsInfraredBeaconStateVICSVarArray(IDeserializer iDeserializer) throws SerializerException {
         sInfraredBeaconStateVICS[] sInfraredBeaconStateVICSArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,66 +10,47 @@ import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 import de.esolutions.fw.util.tracing.message.ITraceMessage;
 
 public interface ITraceBackend {
-    public static final int FLAGS_DECODE_MESSAGE;
-    public static final int FLAGS_ACCEPT_BULK_LOG_DATA;
-    public static final int FLAGS_ACCEPT_BULK_CREATE_ENTITY;
-    public static final int FLAGS_ACCEPT_BULK_CHANGE_LEVEL;
+    public static final int FLAGS_DECODE_MESSAGE = 1;
+    public static final int FLAGS_ACCEPT_BULK_LOG_DATA = 8;
+    public static final int FLAGS_ACCEPT_BULK_CREATE_ENTITY = 16;
+    public static final int FLAGS_ACCEPT_BULK_CHANGE_LEVEL = 32;
 
-    default public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
-    }
+    public void init(short var1, ITraceBackendListener var2, TraceConfigBackend var3);
 
-    default public void exit() {
-    }
+    public void exit();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getFlags() {
-    }
+    public int getFlags();
 
-    default public boolean connect() {
-    }
+    public boolean connect();
 
-    default public void disconnect() {
-    }
+    public void disconnect();
 
-    default public short backendFilterLevel(ITraceEntity iTraceEntity) {
-    }
+    public short backendFilterLevel(ITraceEntity var1);
 
-    default public short backendDefaultFilterLevel(short s) {
-    }
+    public short backendDefaultFilterLevel(short var1);
 
-    default public boolean adjustToChangeLevel(ITraceEntity iTraceEntity) {
-    }
+    public boolean adjustToChangeLevel(ITraceEntity var1);
 
-    default public boolean createEntity(ITraceEntity iTraceEntity) {
-    }
+    public boolean createEntity(ITraceEntity var1);
 
-    default public boolean createEntityBulk(ITraceEntity[] iTraceEntityArray) {
-    }
+    public boolean createEntityBulk(ITraceEntity[] var1);
 
-    default public boolean changeFilterLevel(TraceEntityURI traceEntityURI, short s) {
-    }
+    public boolean changeFilterLevel(TraceEntityURI var1, short var2);
 
-    default public boolean changeFilterLevelBulk(ITraceEntity[] iTraceEntityArray) {
-    }
+    public boolean changeFilterLevelBulk(ITraceEntity[] var1);
 
-    default public boolean log(ITraceMessage iTraceMessage) {
-    }
+    public boolean log(ITraceMessage var1);
 
-    default public ITraceMessage logBulk(ITraceMessage[] iTraceMessageArray) {
-    }
+    public ITraceMessage logBulk(ITraceMessage[] var1);
 
-    default public boolean droppedMessages(int n) {
-    }
+    public boolean droppedMessages(int var1);
 
-    default public void handleBreak() {
-    }
+    public void handleBreak();
 
-    default public boolean registerTimeZone(int n, int n2, String string) {
-    }
+    public boolean registerTimeZone(int var1, int var2, String var3);
 
-    default public boolean updateTimeZone(int n, long l, long l2) {
-    }
+    public boolean updateTimeZone(int var1, long var2, long var4);
 }
 

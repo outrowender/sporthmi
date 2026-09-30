@@ -1,22 +1,14 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PriviAction;
 import com.ibm.oti.util.Sorter;
-import com.ibm.oti.util.Sorter$Comparator;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectStreamClass$1;
-import java.io.ObjectStreamClass$2;
-import java.io.ObjectStreamClass$3;
-import java.io.ObjectStreamClass$4;
 import java.io.ObjectStreamField;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -34,8 +26,8 @@ import java.util.WeakHashMap;
 
 public class ObjectStreamClass
 implements Serializable {
-    static final long serialVersionUID;
-    private static final String UID_FIELD_NAME;
+    static final long serialVersionUID = -6120832682080437368L;
+    private static final String UID_FIELD_NAME = "";
     private static final int CLASS_MODIFIERS_MASK;
     private static final Class[] READ_PARAM_TYPES;
     private static final Class[] WRITE_PARAM_TYPES;
@@ -44,9 +36,9 @@ implements Serializable {
     static final Class[] UNSHARED_PARAM_TYPES;
     public static final ObjectStreamField[] NO_FIELDS;
     static final Class ARRAY_OF_FIELDS;
-    private static final String CLINIT_NAME;
-    private static final int CLINIT_MODIFIERS;
-    private static final String CLINIT_SIGNATURE;
+    private static final String CLINIT_NAME = "<clinit>";
+    private static final int CLINIT_MODIFIERS = 8;
+    private static final String CLINIT_SIGNATURE = "()V";
     private static final Class SERIALIZABLE;
     private static final Class EXTERNALIZABLE;
     static final Class STRINGCLASS;
@@ -167,8 +159,7 @@ implements Serializable {
         classesAndDescriptors = new WeakHashMap();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     ObjectStreamClass() {
     }
@@ -306,8 +297,13 @@ implements Serializable {
             if (!bl) {
                 objectArray2 = clazz.getInterfaces();
                 if (objectArray2.length > 1) {
-                    ObjectStreamClass$1 objectStreamClass$1 = new ObjectStreamClass$1();
-                    Sorter.sort(objectArray2, objectStreamClass$1);
+                    Sorter.Comparator comparator = new Sorter.Comparator(){
+
+                        public int compare(Object object, Object object2) {
+                            return ((Class)object).getName().compareTo(((Class)object2).getName());
+                        }
+                    };
+                    Sorter.sort(objectArray2, comparator);
                 }
                 int n7 = 0;
                 while (n7 < objectArray2.length) {
@@ -316,8 +312,13 @@ implements Serializable {
                 }
             }
             if (fieldArray.length > 1) {
-                objectArray2 = new ObjectStreamClass$2();
-                Sorter.sort(fieldArray, (Sorter$Comparator)objectArray2);
+                objectArray2 = new Sorter.Comparator(){
+
+                    public int compare(Object object, Object object2) {
+                        return ((Field)object).getName().compareTo(((Field)object2).getName());
+                    }
+                };
+                Sorter.sort(fieldArray, (Sorter.Comparator)objectArray2);
             }
             int n8 = 0;
             while (n8 < fieldArray.length) {
@@ -332,13 +333,18 @@ implements Serializable {
                 ++n8;
             }
             if (ObjectStreamClass.hasClinit(clazz)) {
-                ((DataOutputStream)object).writeUTF("<clinit>");
+                ((DataOutputStream)object).writeUTF(CLINIT_NAME);
                 ((DataOutputStream)object).writeInt(8);
-                ((DataOutputStream)object).writeUTF("()V");
+                ((DataOutputStream)object).writeUTF(CLINIT_SIGNATURE);
             }
             if ((objectArray = clazz.getDeclaredConstructors()).length > 1) {
-                ObjectStreamClass$3 objectStreamClass$3 = new ObjectStreamClass$3();
-                Sorter.sort(objectArray, objectStreamClass$3);
+                Sorter.Comparator comparator = new Sorter.Comparator(){
+
+                    public int compare(Object object, Object object2) {
+                        return ObjectStreamClass.getConstructorSignature((Constructor)object).compareTo(ObjectStreamClass.getConstructorSignature((Constructor)object2));
+                    }
+                };
+                Sorter.sort(objectArray, comparator);
             }
             int n10 = 0;
             while (n10 < objectArray.length) {
@@ -354,8 +360,17 @@ implements Serializable {
             }
             Object[] objectArray3 = clazz.getDeclaredMethods();
             if (objectArray3.length > 1) {
-                ObjectStreamClass$4 objectStreamClass$4 = new ObjectStreamClass$4();
-                Sorter.sort(objectArray3, objectStreamClass$4);
+                Sorter.Comparator comparator = new Sorter.Comparator(){
+
+                    public int compare(Object object, Object object2) {
+                        int n = ((Method)object).getName().compareTo(((Method)object2).getName());
+                        if (n == 0) {
+                            return ObjectStreamClass.getMethodSignature((Method)object).compareTo(ObjectStreamClass.getMethodSignature((Method)object2));
+                        }
+                        return n;
+                    }
+                };
+                Sorter.sort(objectArray3, comparator);
             }
             n5 = 0;
             while (n5 < objectArray3.length) {
@@ -404,8 +419,7 @@ implements Serializable {
         return null;
     }
 
-    static native String getConstructorSignature(Constructor constructor) {
-    }
+    static native String getConstructorSignature(Constructor var0);
 
     public ObjectStreamField getField(String string) {
         ObjectStreamField[] objectStreamFieldArray = this.fields();
@@ -440,15 +454,13 @@ implements Serializable {
         return this.loadFields;
     }
 
-    private static native String getFieldSignature(Field field) {
-    }
+    private static native String getFieldSignature(Field var0);
 
     byte getFlags() {
         return this.flags;
     }
 
-    static native String getMethodSignature(Method method) {
-    }
+    static native String getMethodSignature(Method var0);
 
     public String getName() {
         return this.className;
@@ -462,8 +474,7 @@ implements Serializable {
         return this.superclass;
     }
 
-    private static native boolean hasClinit(Class clazz) {
-    }
+    private static native boolean hasClinit(Class var0);
 
     static Method getPrivateReadObjectMethod(Class clazz) {
         try {

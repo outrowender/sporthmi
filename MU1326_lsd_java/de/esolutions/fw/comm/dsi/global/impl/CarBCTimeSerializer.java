@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCTime;
 
 public class CarBCTimeSerializer {
-    public static void putOptionalCarBCTime(ISerializer iSerializer, CarBCTime carBCTime) {
+    public static void putOptionalCarBCTime(ISerializer iSerializer, CarBCTime carBCTime) throws SerializerException {
         boolean bl = carBCTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class CarBCTimeSerializer {
         }
     }
 
-    public static void putOptionalCarBCTimeVarArray(ISerializer iSerializer, CarBCTime[] carBCTimeArray) {
+    public static void putOptionalCarBCTimeVarArray(ISerializer iSerializer, CarBCTime[] carBCTimeArray) throws SerializerException {
         boolean bl = carBCTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class CarBCTimeSerializer {
         }
     }
 
-    public static CarBCTime getOptionalCarBCTime(IDeserializer iDeserializer) {
+    public static CarBCTime getOptionalCarBCTime(IDeserializer iDeserializer) throws SerializerException {
         CarBCTime carBCTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class CarBCTimeSerializer {
         return carBCTime;
     }
 
-    public static CarBCTime[] getOptionalCarBCTimeVarArray(IDeserializer iDeserializer) {
+    public static CarBCTime[] getOptionalCarBCTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCTime[] carBCTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

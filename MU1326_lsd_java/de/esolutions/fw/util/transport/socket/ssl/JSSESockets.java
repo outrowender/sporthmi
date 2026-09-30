@@ -8,13 +8,15 @@ import de.esolutions.fw.util.transport.socket.IServerSocket;
 import de.esolutions.fw.util.transport.socket.ISocket;
 import de.esolutions.fw.util.transport.socket.SocketOptions;
 import de.esolutions.fw.util.transport.socket.ssl.ISSLCredentialProvider;
-import de.esolutions.fw.util.transport.socket.ssl.JSSESockets$Checker;
-import de.esolutions.fw.util.transport.socket.ssl.JSSESockets$ServerSocketWrapper;
-import de.esolutions.fw.util.transport.socket.ssl.JSSESockets$SocketWrapper;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import javax.net.ssl.HandshakeCompletedEvent;
+import javax.net.ssl.HandshakeCompletedListener;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
@@ -26,7 +28,7 @@ public class JSSESockets {
     private final ISSLCredentialProvider mgrs;
     private final SSLContext ctx;
 
-    public JSSESockets(SocketOptions socketOptions, ISSLCredentialProvider iSSLCredentialProvider) {
+    public JSSESockets(SocketOptions socketOptions, ISSLCredentialProvider iSSLCredentialProvider) throws IOException {
         this.opts = socketOptions;
         this.mgrs = iSSLCredentialProvider;
         try {
@@ -37,7 +39,7 @@ public class JSSESockets {
         }
     }
 
-    private SSLContext createContext() {
+    private SSLContext createContext() throws IOException, GeneralSecurityException {
         this.mgrs.init();
         KeyManagerFactory keyManagerFactory = this.mgrs.getKeyManagerFactory();
         if (keyManagerFactory == null) {
@@ -52,15 +54,15 @@ public class JSSESockets {
         return sSLContext;
     }
 
-    public IServerSocket createServerSocket(InetAddress inetAddress, int n, int n2) {
+    public IServerSocket createServerSocket(InetAddress inetAddress, int n, int n2) throws IOException {
         SSLServerSocket sSLServerSocket = (SSLServerSocket)this.ctx.getServerSocketFactory().createServerSocket(n, n2, inetAddress);
         String[] stringArray = sSLServerSocket.getEnabledCipherSuites();
         stringArray = this.filterSuites(stringArray);
         sSLServerSocket.setEnabledCipherSuites(stringArray);
-        return new JSSESockets$ServerSocketWrapper(this, sSLServerSocket);
+        return new ServerSocketWrapper(sSLServerSocket);
     }
 
-    public ISocket createSocket(InetAddress inetAddress, int n) {
+    public ISocket createSocket(InetAddress inetAddress, int n) throws IOException {
         SSLSocket sSLSocket = (SSLSocket)this.ctx.getSocketFactory().createSocket(inetAddress, n);
         String[] stringArray = sSLSocket.getEnabledCipherSuites();
         stringArray = this.filterSuites(stringArray);
@@ -70,7 +72,7 @@ public class JSSESockets {
         if (stringArray2 != null) {
             sSLSocket.setEnabledProtocols(stringArray2);
         }
-        return new JSSESockets$SocketWrapper(this, sSLSocket);
+        return new SocketWrapper(sSLSocket);
     }
 
     private String[] filterSuites(String[] stringArray) {
@@ -119,12 +121,65 @@ public class JSSESockets {
     }
 
     private void installCallback(SSLSocket sSLSocket) {
-        JSSESockets$Checker jSSESockets$Checker = new JSSESockets$Checker(null);
-        sSLSocket.addHandshakeCompletedListener(jSSESockets$Checker);
+        Checker checker = new Checker();
+        sSLSocket.addHandshakeCompletedListener(checker);
     }
 
-    static /* synthetic */ void access$000(JSSESockets jSSESockets, SSLSocket sSLSocket) {
-        jSSESockets.installCallback(sSLSocket);
+    private static class Checker
+    implements HandshakeCompletedListener {
+        private Checker() {
+        }
+
+        public void handshakeCompleted(HandshakeCompletedEvent handshakeCompletedEvent) {
+        }
+    }
+
+    private class SocketWrapper
+    implements ISocket {
+        private final SSLSocket socket;
+
+        public SocketWrapper(SSLSocket sSLSocket) throws IOException {
+            this.socket = sSLSocket;
+            JSSESockets.this.installCallback(sSLSocket);
+        }
+
+        public InputStream getInputStream() throws IOException {
+            return this.socket.getInputStream();
+        }
+
+        public OutputStream getOutputStream() throws IOException {
+            return this.socket.getOutputStream();
+        }
+
+        public void close() throws IOException {
+            this.socket.close();
+        }
+
+        public Socket getSocket() {
+            return this.socket;
+        }
+
+        public boolean isPlainSocket() {
+            return false;
+        }
+    }
+
+    private class ServerSocketWrapper
+    implements IServerSocket {
+        private final SSLServerSocket socket;
+
+        public ServerSocketWrapper(SSLServerSocket sSLServerSocket) {
+            this.socket = sSLServerSocket;
+        }
+
+        public ISocket accept() throws IOException {
+            SSLSocket sSLSocket = (SSLSocket)this.socket.accept();
+            return new SocketWrapper(sSLSocket);
+        }
+
+        public void close() throws IOException {
+            this.socket.close();
+        }
     }
 }
 

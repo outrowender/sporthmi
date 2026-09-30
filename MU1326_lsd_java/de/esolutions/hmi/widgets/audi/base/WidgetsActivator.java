@@ -5,17 +5,15 @@ package de.esolutions.hmi.widgets.audi.base;
 
 import de.audi.atip.activator.AbstractActivator;
 import de.audi.atip.activator.FrameworkException;
-import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.audi.atip.hmi.KbdService;
 import de.audi.atip.interapp.SDSService;
+import de.audi.atip.interapp.tts.TTSService;
+import de.audi.atip.interapp.tts.TTSSessionBasedService;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.hmi.evo.IHMIServiceEvo;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
-import de.esolutions.hmi.widgets.audi.base.WidgetsActivator$1;
-import de.esolutions.hmi.widgets.audi.base.WidgetsActivator$2;
-import de.esolutions.hmi.widgets.audi.base.WidgetsActivator$3;
 import de.esolutions.hmi.widgets.audi.base.WordPredictionServiceTracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -24,8 +22,8 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public abstract class WidgetsActivator
 extends AbstractActivator {
-    private static final boolean DEBUG;
-    private static final String LOG_CH_BENCHMARK;
+    private static final boolean DEBUG = false;
+    private static final String LOG_CH_BENCHMARK = "Ext.Benchmark";
     private LogChannel logChBenchmark = null;
     protected KbdService[] kbdServices = new KbdService[8];
     private SDSService sdsService;
@@ -38,15 +36,14 @@ extends AbstractActivator {
     static /* synthetic */ Class class$de$audi$atip$hmi$HMIService;
 
     public void logTimestamp(String string) {
-        if (this.logChBenchmark != null && this.logChBenchmark.getCurrentLogThreshold() >= 1078071040) {
-            this.logChBenchmark.log(1078071040, "Bundle: %1 %2 Timestamp: %3 ", (Object)this.getName(), (Object)string, this.framework.getMonotonicTime());
+        if (this.logChBenchmark != null && this.logChBenchmark.getCurrentLogThreshold() >= 1000000) {
+            this.logChBenchmark.log(1000000, "Bundle: %1 %2 Timestamp: %3 ", (Object)this.getName(), (Object)string, this.framework.getMonotonicTime());
         }
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
-        this.logChBenchmark = this.framework.getLogChannel("Ext.Benchmark");
+        this.logChBenchmark = this.framework.getLogChannel(LOG_CH_BENCHMARK);
         AbstractWidget.widgetsActivator = this;
         AbstractWidget.setFrameworkAccess(this.framework);
         KbdService kbdService = null;
@@ -73,18 +70,82 @@ extends AbstractActivator {
         this.wptracker.startTracking();
     }
 
-    private void initializeTTSServiceTracker(KbdService kbdService) {
-        this.serviceTracker = new ServiceTracker(this.getBundleContext(), new String[]{(class$de$audi$atip$interapp$tts$TTSService == null ? (class$de$audi$atip$interapp$tts$TTSService = WidgetsActivator.class$("de.audi.atip.interapp.tts.TTSService")) : class$de$audi$atip$interapp$tts$TTSService).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = WidgetsActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()}, (ServiceTrackerCustomizer)new WidgetsActivator$1(this, kbdService));
+    private void initializeTTSServiceTracker(final KbdService kbdService) {
+        this.serviceTracker = new ServiceTracker(this.getBundleContext(), new String[]{(class$de$audi$atip$interapp$tts$TTSService == null ? (class$de$audi$atip$interapp$tts$TTSService = WidgetsActivator.class$("de.audi.atip.interapp.tts.TTSService")) : class$de$audi$atip$interapp$tts$TTSService).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = WidgetsActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()}, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = WidgetsActivator.this.getBundleContext().getService(serviceReference);
+                if (object instanceof TTSService) {
+                    if (kbdService != null && kbdService.isTouchKeypanel()) {
+                        Integer n = (Integer)serviceReference.getProperty("TTS_CLIENT_ID");
+                        if (n == 0) {
+                            TTSSessionBasedService tTSSessionBasedService = (TTSSessionBasedService)object;
+                            WidgetsActivator.this.framework.getHMITerminalRegistry().setTTSService(tTSSessionBasedService);
+                            return object;
+                        }
+                    } else {
+                        WidgetsActivator.this.framework.getLogChannel("Fw.Widgets.TouchPad.Keypanel").log(1000000, "WidgetsActivator#initializeTTSServiceTracker#addingService keypanel is no touch keypanel - ignore tts service registration");
+                    }
+                } else if (object instanceof SwDiagnosisManager) {
+                    WidgetsActivator.this.registerDiagnosisGateways((SwDiagnosisManager)object);
+                    return object;
+                }
+                WidgetsActivator.this.getBundleContext().ungetService(serviceReference);
+                return object;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof TTSService) {
+                    if (object instanceof TTSSessionBasedService) {
+                        ((TTSSessionBasedService)object).stopSession();
+                    }
+                    WidgetsActivator.this.framework.getHMITerminalRegistry().setTTSService(null);
+                } else if (object instanceof SwDiagnosisManager) {
+                    WidgetsActivator.this.unregisterDiagnosisGateways((SwDiagnosisManager)object);
+                }
+            }
+        });
         this.serviceTracker.open();
     }
 
     private void initializeSDSServiceTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = WidgetsActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (ServiceTrackerCustomizer)new WidgetsActivator$2(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = WidgetsActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                WidgetsActivator.this.sdsService = (SDSService)WidgetsActivator.this.getBundleContext().getService(serviceReference);
+                AbstractWidget.setSDSService(WidgetsActivator.this.sdsService);
+                return WidgetsActivator.this.sdsService;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                WidgetsActivator.this.sdsService = null;
+                AbstractWidget.setSDSService(WidgetsActivator.this.sdsService);
+            }
+        });
         serviceTracker.open();
     }
 
     private void initializeHMIServiceTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$hmi$HMIService == null ? (class$de$audi$atip$hmi$HMIService = WidgetsActivator.class$("de.audi.atip.hmi.HMIService")) : class$de$audi$atip$hmi$HMIService).getName(), (ServiceTrackerCustomizer)new WidgetsActivator$3(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.getBundleContext(), (class$de$audi$atip$hmi$HMIService == null ? (class$de$audi$atip$hmi$HMIService = WidgetsActivator.class$("de.audi.atip.hmi.HMIService")) : class$de$audi$atip$hmi$HMIService).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                IHMIServiceEvo iHMIServiceEvo = (IHMIServiceEvo)WidgetsActivator.this.getBundleContext().getService(serviceReference);
+                WidgetsActivator.this.hmiServiceAdded(iHMIServiceEvo);
+                return iHMIServiceEvo;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         serviceTracker.open();
     }
 
@@ -96,7 +157,6 @@ extends AbstractActivator {
         AbstractWidget.setHMIService(null);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.sdsService = null;
         if (this.wptracker != null) {
@@ -110,14 +170,11 @@ extends AbstractActivator {
         super.stop(bundleContext);
     }
 
-    protected abstract void registerTerminals(KbdService kbdService) {
-    }
+    protected abstract void registerTerminals(KbdService var1);
 
-    protected abstract void registerDiagnosisGateways(SwDiagnosisManager swDiagnosisManager) {
-    }
+    protected abstract void registerDiagnosisGateways(SwDiagnosisManager var1);
 
-    protected abstract void unregisterDiagnosisGateways(SwDiagnosisManager swDiagnosisManager) {
-    }
+    protected abstract void unregisterDiagnosisGateways(SwDiagnosisManager var1);
 
     static /* synthetic */ Class class$(String string) {
         try {
@@ -126,27 +183,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IFrameworkAccess access$000(WidgetsActivator widgetsActivator) {
-        return widgetsActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$100(WidgetsActivator widgetsActivator) {
-        return widgetsActivator.framework;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$200(WidgetsActivator widgetsActivator) {
-        return widgetsActivator.framework;
-    }
-
-    static /* synthetic */ SDSService access$302(WidgetsActivator widgetsActivator, SDSService sDSService) {
-        widgetsActivator.sdsService = sDSService;
-        return widgetsActivator.sdsService;
-    }
-
-    static /* synthetic */ SDSService access$300(WidgetsActivator widgetsActivator) {
-        return widgetsActivator.sdsService;
     }
 }
 

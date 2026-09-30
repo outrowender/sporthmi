@@ -7,15 +7,12 @@ import java.io.Serializable;
 
 public interface Key
 extends Serializable {
-    public static final long serialVersionUID;
+    public static final long serialVersionUID = 6603384152749567654L;
 
-    default public String getAlgorithm() {
-    }
+    public String getAlgorithm();
 
-    default public byte[] getEncoded() {
-    }
+    public byte[] getEncoded();
 
-    default public String getFormat() {
-    }
+    public String getFormat();
 }
 

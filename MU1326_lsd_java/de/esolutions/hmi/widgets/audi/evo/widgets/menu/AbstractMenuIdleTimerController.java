@@ -44,7 +44,7 @@ extends AbstractIdleTimerController {
         if (menuController.isSDSActive()) {
             this.cancelTimer();
         } else if (this.isEnabled()) {
-            this.lc.log(-2137614336, "%1#menuSDSActiveChanged - start timer.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#menuSDSActiveChanged - start timer.", (Object)this.logPrefix);
             this.restartTimer();
         }
     }
@@ -60,7 +60,7 @@ extends AbstractIdleTimerController {
         if (this.isMoveModeActive(menuController)) {
             this.cancelTimer();
         } else if (this.isEnabled()) {
-            this.lc.log(-2137614336, "%1#menuMoveModeChanged - start timer.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#menuMoveModeChanged - start timer.", (Object)this.logPrefix);
             this.restartTimer();
         }
     }
@@ -70,12 +70,11 @@ extends AbstractIdleTimerController {
             return;
         }
         if (this.isEnabled()) {
-            this.lc.log(-2137614336, "%1#menuAnimationFinished - start timer.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#menuAnimationFinished - start timer.", (Object)this.logPrefix);
             this.restartTimer();
         }
     }
 
-    @Override
     protected boolean shouldExecuteAction() {
         if (!super.shouldExecuteAction()) {
             return false;
@@ -89,24 +88,24 @@ extends AbstractIdleTimerController {
 
     protected boolean shouldExecuteActionInMenu(MenuController menuController) {
         if (!this.fireWhenSdsActive && this.isSDSActive(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: SDS is active.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: SDS is active.", (Object)this.logPrefix);
             return false;
         }
         if (!this.fireWhenTouchfieldFocused && this.isTouchfieldFocused(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: touchfield is focused.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: touchfield is focused.", (Object)this.logPrefix);
             return false;
         }
         if (!this.fireWhenScrollAnimationRunning && this.isScrollAnimationRunning(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: scroll animation is running.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: scroll animation is running.", (Object)this.logPrefix);
             return false;
         }
         if (!this.fireWhenFocusPopupOpen && this.isFocusPopupOpen(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: focus related popup is open.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: focus related popup is open.", (Object)this.logPrefix);
             this.restartTimer();
             return false;
         }
         if (!this.fireWhenMoveModeActive && this.isMoveModeActive(menuController)) {
-            this.lc.log(-2137614336, "%1#shouldExecuteActionInMenu: move mode is open.", (Object)this.logPrefix);
+            this.lc.log(10000000, "%1#shouldExecuteActionInMenu: move mode is open.", (Object)this.logPrefix);
             return false;
         }
         return true;

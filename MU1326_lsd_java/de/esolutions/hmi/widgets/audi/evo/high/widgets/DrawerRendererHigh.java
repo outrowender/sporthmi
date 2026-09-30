@@ -16,9 +16,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerRenderer;
 public class DrawerRendererHigh
 extends ContainerRendererHigh
 implements DrawerRenderer {
-    public static final int OPTION_DRAWER;
-    public static final int SIDE_DRAWER;
-    public static final int ENTERTAINMENT_DRAWER;
+    public static final int OPTION_DRAWER = 0;
+    public static final int SIDE_DRAWER = 0;
+    public static final int ENTERTAINMENT_DRAWER = 1;
     private int renderLayer = 0;
     protected final DrawerController controller;
 
@@ -27,7 +27,6 @@ implements DrawerRenderer {
         this.controller = drawerController;
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         this.node = this.controller.isEntertainmentDrawerContent() ? this.getEALManager().createNode3D(super.getParentNode(redrawContextHigh), EALManager.createNodeName("entertainmentDrawerContent", this), 0.0f, redrawContextHigh.getCalculatedNodeIndex(this.controller.getDepth())) : this.getEALManager().createNode3D(this.getParentNode(), EALManager.createNodeName("drawer", this), 0.0f, redrawContextHigh.getCalculatedNodeIndex(this.controller.getDepth()));
     }
@@ -41,7 +40,7 @@ implements DrawerRenderer {
                 return this.getEALManager().getEntertainmentDrawerNode();
             }
         }
-        logDrawer.log(-1601830656, "DrawerRendererHigh#getParentNode: unknown render layer: %1", (long)this.renderLayer);
+        logDrawer.log(100000, "DrawerRendererHigh#getParentNode: unknown render layer: %1", (long)this.renderLayer);
         return this.getEALManager().getOptionDrawerNode();
     }
 
@@ -53,7 +52,6 @@ implements DrawerRenderer {
         this.renderLayer = n;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (abstractWidget instanceof ContainerController) {

@@ -12,7 +12,6 @@ extends Command {
         super("Quit");
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doQuit();
     }

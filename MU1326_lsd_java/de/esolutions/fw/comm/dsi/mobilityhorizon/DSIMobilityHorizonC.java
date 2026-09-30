@@ -3,44 +3,33 @@
  */
 package de.esolutions.fw.comm.dsi.mobilityhorizon;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.mobilityhorizon.ConsumptionInfo;
 import org.dsi.ifc.mobilityhorizon.MobilityHorizonLocation;
 
 public interface DSIMobilityHorizonC {
-    default public void setConsumptionInfo(ConsumptionInfo[] consumptionInfoArray) {
-    }
+    public void setConsumptionInfo(ConsumptionInfo[] var1) throws MethodException;
 
-    default public void setLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray) {
-    }
+    public void setLocations(MobilityHorizonLocation[] var1) throws MethodException;
 
-    default public void setConsideredLocationTypes(int[] nArray) {
-    }
+    public void setConsideredLocationTypes(int[] var1) throws MethodException;
 
-    default public void setDriveTrainMode(int n) {
-    }
+    public void setDriveTrainMode(int var1) throws MethodException;
 
-    default public void requestLocationRangeLevel(int n) {
-    }
+    public void requestLocationRangeLevel(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

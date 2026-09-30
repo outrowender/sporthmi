@@ -4,10 +4,9 @@
 package edu.emory.mathcs.backport.java.util;
 
 import edu.emory.mathcs.backport.java.util.AbstractCollection;
-import edu.emory.mathcs.backport.java.util.ArrayDeque$DeqIterator;
-import edu.emory.mathcs.backport.java.util.ArrayDeque$DescendingIterator;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import edu.emory.mathcs.backport.java.util.Deque;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -25,8 +24,8 @@ Serializable {
     private transient Object[] elements;
     private transient int head;
     private transient int tail;
-    private static final int MIN_INITIAL_CAPACITY;
-    private static final long serialVersionUID;
+    private static final int MIN_INITIAL_CAPACITY = 8;
+    private static final long serialVersionUID = 2340985798034038923L;
     static final /* synthetic */ boolean $assertionsDisabled;
     static /* synthetic */ Class class$edu$emory$mathcs$backport$java$util$ArrayDeque;
 
@@ -89,7 +88,6 @@ Serializable {
         this.addAll(collection);
     }
 
-    @Override
     public void addFirst(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -101,7 +99,6 @@ Serializable {
         }
     }
 
-    @Override
     public void addLast(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -113,19 +110,16 @@ Serializable {
         }
     }
 
-    @Override
     public boolean offerFirst(Object object) {
         this.addFirst(object);
         return true;
     }
 
-    @Override
     public boolean offerLast(Object object) {
         this.addLast(object);
         return true;
     }
 
-    @Override
     public Object removeFirst() {
         Object object = this.pollFirst();
         if (object == null) {
@@ -134,7 +128,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object removeLast() {
         Object object = this.pollLast();
         if (object == null) {
@@ -143,7 +136,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object pollFirst() {
         int n = this.head;
         Object object = this.elements[n];
@@ -155,7 +147,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object pollLast() {
         int n = this.tail - 1 & this.elements.length - 1;
         Object object = this.elements[n];
@@ -167,7 +158,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object getFirst() {
         Object object = this.elements[this.head];
         if (object == null) {
@@ -176,7 +166,6 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object getLast() {
         Object object = this.elements[this.tail - 1 & this.elements.length - 1];
         if (object == null) {
@@ -185,17 +174,14 @@ Serializable {
         return object;
     }
 
-    @Override
     public Object peekFirst() {
         return this.elements[this.head];
     }
 
-    @Override
     public Object peekLast() {
         return this.elements[this.tail - 1 & this.elements.length - 1];
     }
 
-    @Override
     public boolean removeFirstOccurrence(Object object) {
         Object object2;
         if (object == null) {
@@ -213,7 +199,6 @@ Serializable {
         return false;
     }
 
-    @Override
     public boolean removeLastOccurrence(Object object) {
         Object object2;
         if (object == null) {
@@ -231,43 +216,35 @@ Serializable {
         return false;
     }
 
-    @Override
     public boolean add(Object object) {
         this.addLast(object);
         return true;
     }
 
-    @Override
     public boolean offer(Object object) {
         return this.offerLast(object);
     }
 
-    @Override
     public Object remove() {
         return this.removeFirst();
     }
 
-    @Override
     public Object poll() {
         return this.pollFirst();
     }
 
-    @Override
     public Object element() {
         return this.getFirst();
     }
 
-    @Override
     public Object peek() {
         return this.peekFirst();
     }
 
-    @Override
     public void push(Object object) {
         this.addFirst(object);
     }
 
-    @Override
     public Object pop() {
         return this.removeFirst();
     }
@@ -319,27 +296,22 @@ Serializable {
         return true;
     }
 
-    @Override
     public int size() {
         return this.tail - this.head & this.elements.length - 1;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.head == this.tail;
     }
 
-    @Override
     public Iterator iterator() {
-        return new ArrayDeque$DeqIterator(this, null);
+        return new DeqIterator();
     }
 
-    @Override
     public Iterator descendingIterator() {
-        return new ArrayDeque$DescendingIterator(this, null);
+        return new DescendingIterator();
     }
 
-    @Override
     public boolean contains(Object object) {
         Object object2;
         if (object == null) {
@@ -356,12 +328,10 @@ Serializable {
         return false;
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.removeFirstOccurrence(object);
     }
 
-    @Override
     public void clear() {
         int n = this.head;
         int n2 = this.tail;
@@ -376,16 +346,14 @@ Serializable {
         }
     }
 
-    @Override
     public Object[] toArray() {
         return this.copyElements(new Object[this.size()]);
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         int n = this.size();
         if (objectArray.length < n) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), n);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), n);
         }
         this.copyElements(objectArray);
         if (objectArray.length > n) {
@@ -405,7 +373,7 @@ Serializable {
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeInt(this.size());
         int n = this.elements.length - 1;
@@ -416,7 +384,7 @@ Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         int n = objectInputStream.readInt();
         this.allocateElements(n);
@@ -436,24 +404,90 @@ Serializable {
         }
     }
 
-    static /* synthetic */ int access$200(ArrayDeque arrayDeque) {
-        return arrayDeque.head;
-    }
-
-    static /* synthetic */ int access$300(ArrayDeque arrayDeque) {
-        return arrayDeque.tail;
-    }
-
-    static /* synthetic */ Object[] access$400(ArrayDeque arrayDeque) {
-        return arrayDeque.elements;
-    }
-
-    static /* synthetic */ boolean access$500(ArrayDeque arrayDeque, int n) {
-        return arrayDeque.delete(n);
-    }
-
     static {
         $assertionsDisabled = !(class$edu$emory$mathcs$backport$java$util$ArrayDeque == null ? (class$edu$emory$mathcs$backport$java$util$ArrayDeque = ArrayDeque.class$("edu.emory.mathcs.backport.java.util.ArrayDeque")) : class$edu$emory$mathcs$backport$java$util$ArrayDeque).desiredAssertionStatus();
+    }
+
+    private class DeqIterator
+    implements Iterator {
+        private int cursor;
+        private int fence;
+        private int lastRet;
+
+        private DeqIterator() {
+            this.cursor = ArrayDeque.this.head;
+            this.fence = ArrayDeque.this.tail;
+            this.lastRet = -1;
+        }
+
+        public boolean hasNext() {
+            return this.cursor != this.fence;
+        }
+
+        public Object next() {
+            if (this.cursor == this.fence) {
+                throw new NoSuchElementException();
+            }
+            Object object = ArrayDeque.this.elements[this.cursor];
+            if (ArrayDeque.this.tail != this.fence || object == null) {
+                throw new ConcurrentModificationException();
+            }
+            this.lastRet = this.cursor;
+            this.cursor = this.cursor + 1 & ArrayDeque.this.elements.length - 1;
+            return object;
+        }
+
+        public void remove() {
+            if (this.lastRet < 0) {
+                throw new IllegalStateException();
+            }
+            if (ArrayDeque.this.delete(this.lastRet)) {
+                this.cursor = this.cursor - 1 & ArrayDeque.this.elements.length - 1;
+                this.fence = ArrayDeque.this.tail;
+            }
+            this.lastRet = -1;
+        }
+    }
+
+    private class DescendingIterator
+    implements Iterator {
+        private int cursor;
+        private int fence;
+        private int lastRet;
+
+        private DescendingIterator() {
+            this.cursor = ArrayDeque.this.tail;
+            this.fence = ArrayDeque.this.head;
+            this.lastRet = -1;
+        }
+
+        public boolean hasNext() {
+            return this.cursor != this.fence;
+        }
+
+        public Object next() {
+            if (this.cursor == this.fence) {
+                throw new NoSuchElementException();
+            }
+            this.cursor = this.cursor - 1 & ArrayDeque.this.elements.length - 1;
+            Object object = ArrayDeque.this.elements[this.cursor];
+            if (ArrayDeque.this.head != this.fence || object == null) {
+                throw new ConcurrentModificationException();
+            }
+            this.lastRet = this.cursor;
+            return object;
+        }
+
+        public void remove() {
+            if (this.lastRet < 0) {
+                throw new IllegalStateException();
+            }
+            if (!ArrayDeque.this.delete(this.lastRet)) {
+                this.cursor = this.cursor + 1 & ArrayDeque.this.elements.length - 1;
+                this.fence = ArrayDeque.this.head;
+            }
+            this.lastRet = -1;
+        }
     }
 }
 

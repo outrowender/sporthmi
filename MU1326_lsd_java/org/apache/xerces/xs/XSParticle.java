@@ -9,19 +9,14 @@ import org.apache.xerces.xs.XSTerm;
 
 public interface XSParticle
 extends XSObject {
-    default public int getMinOccurs() {
-    }
+    public int getMinOccurs();
 
-    default public int getMaxOccurs() {
-    }
+    public int getMaxOccurs();
 
-    default public boolean getMaxOccursUnbounded() {
-    }
+    public boolean getMaxOccursUnbounded();
 
-    default public XSTerm getTerm() {
-    }
+    public XSTerm getTerm();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

@@ -13,7 +13,7 @@ import java.io.RandomAccessFile;
 public class FileByteTransport
 implements IByteTransport {
     private ITransportDebug debug;
-    private static final int BUFFER_SIZE;
+    private static final int BUFFER_SIZE = 8192;
     private String fileName;
     private RandomAccessFile file;
     private boolean connected;
@@ -23,13 +23,11 @@ implements IByteTransport {
         this.connected = false;
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
     }
 
-    @Override
-    public void open() {
+    public void open() throws IOException {
         if (this.file == null) {
             this.file = new RandomAccessFile(this.fileName, "rw");
             this.connected = true;
@@ -39,8 +37,7 @@ implements IByteTransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         if (this.connected) {
             try {
                 this.file.close();
@@ -52,8 +49,7 @@ implements IByteTransport {
         }
     }
 
-    @Override
-    public int recv(byte[] byArray, Object object) {
+    public int recv(byte[] byArray, Object object) throws IOException, TransportException {
         if (this.file == null) {
             throw new TransportException("recieve without open");
         }
@@ -77,8 +73,7 @@ implements IByteTransport {
         return n;
     }
 
-    @Override
-    public void send(byte[] byArray, int n, Object object) {
+    public void send(byte[] byArray, int n, Object object) throws IOException {
         if (this.connected) {
             if (this.debug != null) {
                 try {
@@ -100,29 +95,24 @@ implements IByteTransport {
         return this.connected;
     }
 
-    @Override
     public int getSendBufferSize() {
         return 8192;
     }
 
-    @Override
     public int getReceiveBufferSize() {
         return 8192;
     }
 
-    @Override
     public boolean isReliable() {
         return true;
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return true;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[File:").append(this.fileName).append("]").toString();
+        return "[File:" + this.fileName + "]";
     }
 }
 

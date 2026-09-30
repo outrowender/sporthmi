@@ -16,10 +16,8 @@ public abstract class CRL {
         return this.type;
     }
 
-    public abstract boolean isRevoked(Certificate certificate) {
-    }
+    public abstract boolean isRevoked(Certificate var1);
 
-    public abstract String toString() {
-    }
+    public abstract String toString();
 }
 

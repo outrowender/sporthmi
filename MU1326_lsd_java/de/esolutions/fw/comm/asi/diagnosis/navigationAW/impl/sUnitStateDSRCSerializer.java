@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigationAW.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sUnitStateDSRC;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sUnitStateDSRCSerializer {
-    public static void putOptionalsUnitStateDSRC(ISerializer iSerializer, sUnitStateDSRC sUnitStateDSRC2) {
+    public static void putOptionalsUnitStateDSRC(ISerializer iSerializer, sUnitStateDSRC sUnitStateDSRC2) throws SerializerException {
         boolean bl = sUnitStateDSRC2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -49,7 +50,7 @@ public class sUnitStateDSRCSerializer {
         }
     }
 
-    public static void putOptionalsUnitStateDSRCVarArray(ISerializer iSerializer, sUnitStateDSRC[] sUnitStateDSRCArray) {
+    public static void putOptionalsUnitStateDSRCVarArray(ISerializer iSerializer, sUnitStateDSRC[] sUnitStateDSRCArray) throws SerializerException {
         boolean bl = sUnitStateDSRCArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -60,7 +61,7 @@ public class sUnitStateDSRCSerializer {
         }
     }
 
-    public static sUnitStateDSRC getOptionalsUnitStateDSRC(IDeserializer iDeserializer) {
+    public static sUnitStateDSRC getOptionalsUnitStateDSRC(IDeserializer iDeserializer) throws SerializerException {
         sUnitStateDSRC sUnitStateDSRC2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -103,7 +104,7 @@ public class sUnitStateDSRCSerializer {
         return sUnitStateDSRC2;
     }
 
-    public static sUnitStateDSRC[] getOptionalsUnitStateDSRCVarArray(IDeserializer iDeserializer) {
+    public static sUnitStateDSRC[] getOptionalsUnitStateDSRCVarArray(IDeserializer iDeserializer) throws SerializerException {
         sUnitStateDSRC[] sUnitStateDSRCArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

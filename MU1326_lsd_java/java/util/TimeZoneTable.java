@@ -9,7 +9,7 @@ import java.util.TimeZone;
 
 class TimeZoneTable
 extends TimeZone {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1486479620294421434L;
     private int rawOffset;
     private SimpleTimeZone[] timezones;
     private int[][] dateOffsets;
@@ -23,7 +23,6 @@ extends TimeZone {
         this.rawOffset = simpleTimeZoneArray[simpleTimeZoneArray.length - 1].getRawOffset();
     }
 
-    @Override
     public int getOffset(int n, int n2, int n3, int n4, int n5, int n6) {
         if (n == 1) {
             int n7 = this.dateOffsets.length - 1;
@@ -79,7 +78,6 @@ extends TimeZone {
         return n;
     }
 
-    @Override
     public boolean hasSameRules(TimeZone timeZone) {
         if (!(timeZone instanceof TimeZoneTable)) {
             return false;
@@ -112,17 +110,14 @@ extends TimeZone {
         return true;
     }
 
-    @Override
     public boolean useDaylightTime() {
         return this.timezones[this.timezones.length - 1].useDaylightTime();
     }
 
-    @Override
     public int getRawOffset() {
         return this.rawOffset;
     }
 
-    @Override
     public void setRawOffset(int n) {
         this.rawOffset = n;
         int n2 = 0;
@@ -132,7 +127,6 @@ extends TimeZone {
         }
     }
 
-    @Override
     public boolean inDaylightTime(Date date) {
         long l = date.getTime();
         int n = this.longOffsets.length - 1;
@@ -145,7 +139,6 @@ extends TimeZone {
         return this.timezones[0].inDaylightTime(date);
     }
 
-    @Override
     public int getOffset(long l) {
         int n = this.longOffsets.length - 1;
         while (n >= 0) {
@@ -159,7 +152,7 @@ extends TimeZone {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(256);
-        stringBuffer.append(super.getClass().getName());
+        stringBuffer.append(this.getClass().getName());
         stringBuffer.append('[');
         int n = 0;
         while (n < this.timezones.length) {
@@ -175,7 +168,6 @@ extends TimeZone {
         return stringBuffer.toString();
     }
 
-    @Override
     public int getDSTSavings() {
         int n = this.longOffsets.length - 1;
         while (n >= 0) {
@@ -187,7 +179,6 @@ extends TimeZone {
         return 0;
     }
 
-    @Override
     public Object clone() {
         TimeZoneTable timeZoneTable = (TimeZoneTable)super.clone();
         timeZoneTable.timezones = new SimpleTimeZone[this.timezones.length];

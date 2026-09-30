@@ -11,40 +11,28 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IFingerTraceRenderer;
 
 public interface IFingerTraceWidget
 extends TouchPadEventListener {
-    default public boolean isMinStrokeReached() {
-    }
+    public boolean isMinStrokeReached();
 
-    default public boolean exceededMinStrokeLength() {
-    }
+    public boolean exceededMinStrokeLength();
 
-    default public void writingModeEntered() {
-    }
+    public void writingModeEntered();
 
-    default public float getPeepholeTransparency() {
-    }
+    public float getPeepholeTransparency();
 
-    default public void hideFingerTrace() {
-    }
+    public void hideFingerTrace();
 
-    default public void characterRecognized(char c2) {
-    }
+    public void characterRecognized(char var1);
 
-    default public boolean isLineVisible() {
-    }
+    public boolean isLineVisible();
 
-    default public void setRenderer(IFingerTraceRenderer iFingerTraceRenderer) {
-    }
+    public void setRenderer(IFingerTraceRenderer var1);
 
-    default public IRenderer getRenderer() {
-    }
+    public IRenderer getRenderer();
 
-    default public void registerFTListener(FingerTraceListener fingerTraceListener) {
-    }
+    public void registerFTListener(FingerTraceListener var1);
 
-    default public AbstractWidget toAbstractWidget() {
-    }
+    public AbstractWidget toAbstractWidget();
 
-    default public void setMaxOpacity(float f2) {
-    }
+    public void setMaxOpacity(float var1);
 }
 

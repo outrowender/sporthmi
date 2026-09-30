@@ -17,9 +17,9 @@ public class IntrospectorBase {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public Method getMethod(Class clazz, String string, Object[] objectArray) {
+    public Method getMethod(Class clazz, String string, Object[] objectArray) throws Exception {
         if (clazz == null) {
-            throw new Exception(new StringBuffer().append("Introspector.getMethod(): Class method key was null: ").append(string).toString());
+            throw new Exception("Introspector.getMethod(): Class method key was null: " + string);
         }
         ClassMap classMap = null;
         Map map = this.classMethodMaps;

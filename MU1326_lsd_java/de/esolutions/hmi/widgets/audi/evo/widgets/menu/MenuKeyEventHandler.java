@@ -25,8 +25,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuFastScrollClickAccumulator;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemMetaData;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuKeyEventHandler$AccelerationFunctionParameters;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuKeyEventHandler$ScrollAccelerationData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuLayoutData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuUpdateRequest;
 import java.util.Iterator;
@@ -36,26 +34,26 @@ implements WidgetConstants,
 IWidgetLogChannel,
 TimerListener,
 AnimationListener {
-    private static final int CURSOR_GLASSPLATE_DISTANCE_SCROLL_TRIGGER;
-    private static final float SWIPE_SPEED_FOR_FAST_SCROLL;
-    private static final int TURN_GESTURE_MAX_CLICK_PAUSE;
-    private static final long BRAKE_TOUCH_TIMEOUT;
-    private static final long LONGPRESS_DURATION;
-    private static final long FASTSCROLL_TOUCH_GESTURE_END_TIMEOUT;
-    static final boolean USE_TOUCHEVENT_DELTATIME;
-    private static final boolean NEW_SCROLL_ALGORITHM;
+    private static final int CURSOR_GLASSPLATE_DISTANCE_SCROLL_TRIGGER = 3;
+    private static final float SWIPE_SPEED_FOR_FAST_SCROLL = 2.0f;
+    private static final int TURN_GESTURE_MAX_CLICK_PAUSE = 100;
+    private static final long BRAKE_TOUCH_TIMEOUT = 300L;
+    private static final long LONGPRESS_DURATION = 500L;
+    private static final long FASTSCROLL_TOUCH_GESTURE_END_TIMEOUT = 300L;
+    static final boolean USE_TOUCHEVENT_DELTATIME = !Boolean.getBoolean("ignoreToucheventDeltatime");
+    private static final boolean NEW_SCROLL_ALGORITHM = !"old".equals(System.getProperty("MenuScrollAlgorithm"));
     private boolean touchScrollEnabled = false;
-    public static final int DEFAULT_TOUCH_REPAINT_INTERVAL;
-    public static final int FASTSCROLL_ACCUMULATION_TIME;
-    private static final int FASTSCROLL_MIN_DISTANCE;
-    public static final int FASTSCROLL_MIN_TICKS;
-    private static final int FASTSCROLL_MIN_TIME;
-    private static final int FASTSCROLL_MAX_TIME;
-    private static final float FASTSCROLL_MIN_ACCELERATION;
-    private static final float FASTSCROLL_MAX_ACCELERATION;
-    private static final int FASTSCROLL_TOTAL_TICKS;
-    private static final int TOUCH_REPAINT_INTERVAL;
-    public static final int BRAKE_SCROLL_IN_ITEMS;
+    public static final int DEFAULT_TOUCH_REPAINT_INTERVAL = 50;
+    public static final int FASTSCROLL_ACCUMULATION_TIME = 250;
+    private static final int FASTSCROLL_MIN_DISTANCE = 3;
+    public static final int FASTSCROLL_MIN_TICKS = 4;
+    private static final int FASTSCROLL_MIN_TIME = 20;
+    private static final int FASTSCROLL_MAX_TIME = 500;
+    private static final float FASTSCROLL_MIN_ACCELERATION = 0.5f;
+    private static final float FASTSCROLL_MAX_ACCELERATION = 3.5f;
+    private static final int FASTSCROLL_TOTAL_TICKS = 28;
+    private static final int TOUCH_REPAINT_INTERVAL = Integer.getInteger("touchRepaintInterval", 50);
+    public static final int BRAKE_SCROLL_IN_ITEMS = 2;
     private MenuController menu;
     protected ScrollSubticksFilter subticksFilter;
     Timer brakeTimer;
@@ -76,8 +74,8 @@ AnimationListener {
     private MenuFastScrollClickAccumulator fastScrollClickAccumulator = new MenuFastScrollClickAccumulator();
     private boolean fastScrollAccelerationActive;
     private boolean clickAccumulationDownward;
-    private MenuKeyEventHandler$ScrollAccelerationData keyTurnFastScrollData;
-    private MenuKeyEventHandler$ScrollAccelerationData touchFastScrollData;
+    private ScrollAccelerationData keyTurnFastScrollData;
+    private ScrollAccelerationData touchFastScrollData;
     private int previousSubClickCount;
     private MenuItemIndex swipeSlowScrollScrolledInItem;
     private AbstractAnimation touchRepaintAnimation;
@@ -105,7 +103,7 @@ AnimationListener {
             this.touchContainsSwipeGesture = false;
         }
         touchEvent.consume(false);
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPressed: start touch gesture (%1)", (Object)this.menu);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPressed: start touch gesture (%1)", (Object)this.menu);
     }
 
     public void touchPadReleased(TouchEvent touchEvent) {
@@ -116,18 +114,18 @@ AnimationListener {
         }
         int n2 = this.getRelativeSwipeDistance(touchEvent);
         float f2 = this.getSwipeSpeed(n, n2);
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadReleased: deltatime: %1, distance: %2, finger: %3", (long)n, (long)n2, (long)touchEvent.getFingerCount());
+        menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadReleased: deltatime: %1, distance: %2, finger: %3", (long)n, (long)n2, (long)touchEvent.getFingerCount());
         this.stopTouchRepaintAnimation();
         this.stopCursorSwipe();
         this.cancelBrakeTimer();
         this.checkBrakeOnRelease();
         if (this.hasCoordinates(touchEvent)) {
             if (this.isCursorSwipeGesture(touchEvent) && f2 > 2.0f) {
-                MenuKeyEventHandler$ScrollAccelerationData menuKeyEventHandler$ScrollAccelerationData = this.getFastScrollDataTouch(n2);
-                menuKeyEventHandler$ScrollAccelerationData.currentGestureDistance += n2;
+                ScrollAccelerationData scrollAccelerationData = this.getFastScrollDataTouch(n2);
+                scrollAccelerationData.currentGestureDistance += n2;
             }
         } else {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#touchPadReleased: event doesn't contain coordinates");
+            menuLogCh.log(100000, "MenuKeyEventHandler#touchPadReleased: event doesn't contain coordinates");
         }
         if (!this.hasCoordinates(touchEvent)) {
             this.touchDuration += n;
@@ -145,17 +143,17 @@ AnimationListener {
             return;
         }
         if (this.touchDuration < 0) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#checkBrakeOnRelease: touchDuration is invalid: %1", (long)this.touchDuration);
-        } else if ((long)this.touchDuration < 0) {
+            menuLogCh.log(100000, "MenuKeyEventHandler#checkBrakeOnRelease: touchDuration is invalid: %1", (long)this.touchDuration);
+        } else if ((long)this.touchDuration < 300L) {
             float f2 = this.getSwipeSpeed(this.touchDuration, this.touchGestureDistanceY);
             if (f2 < 2.0f && this.isFastViewportScrollRunning() && !this.shouldStartTouchFastScroll() && !this.isCursorVisibleInViewport()) {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkBrakeOnRelease: brake fast scroll because total gesture speed %1 below fast scroll limit, total distance: %2", (double)f2, (double)this.touchGestureDistanceY, 0.0);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#checkBrakeOnRelease: brake fast scroll because total gesture speed %1 below fast scroll limit, total distance: %2", (double)f2, (double)this.touchGestureDistanceY, 0.0);
                 this.brakeFastViewportScrolling(true);
             } else {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkBrakeOnRelease: don't brake fast scroll. gesture speed: %1, total distance: %2", (double)f2, (double)this.touchGestureDistanceY, 0.0);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#checkBrakeOnRelease: don't brake fast scroll. gesture speed: %1, total distance: %2", (double)f2, (double)this.touchGestureDistanceY, 0.0);
             }
         } else {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkBrakeOnRelease: gesture time %1 over timer-timeout (%2)", (long)this.touchDuration, (long)0);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#checkBrakeOnRelease: gesture time %1 over timer-timeout (%2)", (long)this.touchDuration, 300L);
         }
     }
 
@@ -175,7 +173,7 @@ AnimationListener {
         }
         touchEvent.consume(false);
         if (this.menu.getViewport().isEmpty() || !this.menu.hasFocusedItem()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: menu is empty, ignore touch event. Viewport: %1, focus: %2, (%3)", (Object)this.menu.getViewport(), (Object)this.menu.getFocusedIndex(), (Object)this.menu);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: menu is empty, ignore touch event. Viewport: %1, focus: %2, (%3)", (Object)this.menu.getViewport(), (Object)this.menu.getFocusedIndex(), (Object)this.menu);
             return;
         }
         int n2 = this.getRelativeSwipeDistance(touchEvent);
@@ -188,24 +186,24 @@ AnimationListener {
                 if (this.isFastViewportScrollRunning()) {
                     this.startBrakeTimer();
                 }
-                MenuKeyEventHandler$ScrollAccelerationData menuKeyEventHandler$ScrollAccelerationData = this.getFastScrollDataTouch(n2);
-                menuKeyEventHandler$ScrollAccelerationData.currentGestureDistance += n2;
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: fast scroll touch speed reached. deltatime: %1, distance: %2", (long)n, (long)n2);
-            } else if (!this.isFastViewportScrollRunning() || (long)this.touchDuration > 0) {
+                ScrollAccelerationData scrollAccelerationData = this.getFastScrollDataTouch(n2);
+                scrollAccelerationData.currentGestureDistance += n2;
+                menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: fast scroll touch speed reached. deltatime: %1, distance: %2", (long)n, (long)n2);
+            } else if (!this.isFastViewportScrollRunning() || (long)this.touchDuration > 300L) {
                 if (!this.isCursorSwipeRunning()) {
-                    menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: start cursor swipe");
+                    menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: start cursor swipe");
                     this.startCursorSwipe();
                     return;
                 }
                 if (n2 != 0) {
-                    menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: do cursor swipe. deltatime: %1, distance: %2", (long)n, (long)n2);
+                    menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: do cursor swipe. deltatime: %1, distance: %2", (long)n, (long)n2);
                     this.doCursorSwipe(n2);
                 }
             } else {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: ignore slow move during gesture start. touchDuration: %1", (long)this.touchDuration);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: ignore slow move during gesture start. touchDuration: %1", (long)this.touchDuration);
             }
         } else {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#touchPadPositionMoved: stop cursor swipe. finger: %1", (long)touchEvent.getFingerCount());
+            menuLogCh.log(10000000, "MenuKeyEventHandler#touchPadPositionMoved: stop cursor swipe. finger: %1", (long)touchEvent.getFingerCount());
             this.stopCursorSwipe();
         }
     }
@@ -214,13 +212,13 @@ AnimationListener {
         long l = this.getCurrentTime();
         long l2 = l - this.lastTouchTime;
         this.lastTouchTime = l;
-        int n = (int)Math.min(l2, (long)0);
+        int n = (int)Math.min(l2, Integer.MAX_VALUE);
         if (USE_TOUCHEVENT_DELTATIME) {
             int n2 = touchEvent.getDeltaTime();
             if (n2 > 0) {
                 return n2;
             }
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#getDeltaTime: event has no deltatime. time since last event: %2, event: %1", (Object)touchEvent, (long)n);
+            menuLogCh.log(100000, "MenuKeyEventHandler#getDeltaTime: event has no deltatime. time since last event: %2, event: %1", (Object)touchEvent, (long)n);
             return n;
         }
         return n;
@@ -233,7 +231,7 @@ AnimationListener {
     public void touchPadAbandoned(TouchEvent touchEvent) {
         this.subticksFilter.touchPadAbandoned(touchEvent);
         if (this.isHandsOnRingEvent(touchEvent)) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#touchPadAbandoned: Hands left ring, so reset hDDS offset");
+            menuLogCh.log(100000, "MenuKeyEventHandler#touchPadAbandoned: Hands left ring, so reset hDDS offset");
             this.resetHDDSSubticks();
         }
     }
@@ -245,7 +243,7 @@ AnimationListener {
     public void keyPressed(KeyEvent keyEvent) {
         this.subticksFilter.keyPressed(keyEvent);
         if (this.shouldBrakeOnPress()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyPressed: brake fast scroll");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#keyPressed: brake fast scroll");
             this.brakeFastViewportScrolling(false);
             this.resetFastScroll();
             keyEvent.setSdsAction(3);
@@ -256,7 +254,7 @@ AnimationListener {
     public void keyReleased(KeyEvent keyEvent) {
         this.subticksFilter.keyReleased(keyEvent);
         if (this.shouldBrakeOnPress()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyReleased: consume event, because fast scroll is running");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#keyReleased: consume event, because fast scroll is running");
             keyEvent.consume();
         }
     }
@@ -268,15 +266,15 @@ AnimationListener {
         int n2 = wheelButtonEvent.getClickCount();
         boolean bl3 = bl2 = n != this.previousSubClickCount;
         if (n2 == 0 && !bl2) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyTurned: received duplicate event for subClickCount %1", (long)n);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#keyTurned: received duplicate event for subClickCount %1", (long)n);
             wheelButtonEvent.consume(false);
             return;
         }
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyTurned: direction: %1, clickCount: %2, subClickCount %3", (long)wheelButtonEvent.getDirection(), (long)n2, (long)n);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#keyTurned: direction: %1, clickCount: %2, subClickCount %3", (long)wheelButtonEvent.getDirection(), (long)n2, (long)n);
         wheelButtonEvent.consume(false);
         this.previousSubClickCount = n;
         if (this.menu.getViewport().isEmpty()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyTurned: viewport is empty");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#keyTurned: viewport is empty");
             return;
         }
         if (wheelButtonEvent.isVerticalDirection()) {
@@ -287,7 +285,7 @@ AnimationListener {
             boolean bl5 = bl = hMITerminalImpl.getLayout().getRotationalDirection(wheelButtonEvent.getDirection()) == (bl4 ? 1 : 2);
         }
         if (this.shouldBrakeOnTurn(n2, bl)) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#keyTurned: brake fast scroll because keyTurn in opposite direction");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#keyTurned: brake fast scroll because keyTurn in opposite direction");
             this.brakeFastViewportScrolling(false);
             this.resetFastScroll();
             return;
@@ -295,7 +293,7 @@ AnimationListener {
         int n3 = NEW_SCROLL_ALGORITHM ? this.calculateFocusChangeKeyTurnNew(n2, bl) : this.calculateFocusChangeKeyTurnOld(n2, bl);
         MenuItemIndex menuItemIndex = this.getNewFocusItem(bl, n3, true);
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#keyTurned: no focused item can be calculated (menu empty?).");
+            menuLogCh.log(100000, "MenuKeyEventHandler#keyTurned: no focused item can be calculated (menu empty?).");
             this.resetHDDSSubticks();
             return;
         }
@@ -337,7 +335,7 @@ AnimationListener {
         this.menu.manageLayout();
         int n2 = n = bl ? this.menu.getLayout().getLastVisibleItem() : this.menu.getLayout().getFirstVisibleItem();
         if (n == -1 || menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#isAlreadyBraking: focus (%1) or visible edge item (%2) not defined", (Object)menuItemIndex, (long)n);
+            menuLogCh.log(100000, "MenuKeyEventHandler#isAlreadyBraking: focus (%1) or visible edge item (%2) not defined", (Object)menuItemIndex, (long)n);
             return false;
         }
         MenuItemMetaData menuItemMetaData = (MenuItemMetaData)this.menu.getAnimationManager().getLayoutData().layoutItems.get(n);
@@ -360,12 +358,12 @@ AnimationListener {
 
     private void accumulateClicks(int n, boolean bl, long l) {
         if (bl != this.clickAccumulationDownward) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#accumulateClicks: direction changed. new direction: %1", (Object)(bl ? "down" : "up"));
+            menuLogCh.log(10000000, "MenuKeyEventHandler#accumulateClicks: direction changed. new direction: %1", (Object)(bl ? "down" : "up"));
             this.resetFastScroll();
         }
         this.clickAccumulationDownward = bl;
         if (this.fastScrollAccelerationActive) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#accumulateClicks: fast scroll already active");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#accumulateClicks: fast scroll already active");
             return;
         }
         this.fastScrollAccelerationActive = this.fastScrollClickAccumulator.keyTurned(n, l);
@@ -376,18 +374,18 @@ AnimationListener {
 
     private int calculateFastScrollInitialAcceleration(int n) {
         int n2 = n * 3;
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#calculateFastScrollInitialAcceleration: clickCount: %1, => accelerated clickCount: %2", (long)n, (long)n2);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#calculateFastScrollInitialAcceleration: clickCount: %1, => accelerated clickCount: %2", (long)n, (long)n2);
         return n2;
     }
 
     private int calculateFastScrollAcceleration(int n, long l, boolean bl) {
-        double d2 = l > 0 ? 0.01785714365541935 : (l < 0 ? 0.125 : (0.5 + 3.0 * Math.log(500.0 / (double)l) / Math.log(25.0)) / 28.0);
+        double d2 = l > 500L ? 0.01785714365541935 : (l < 20L ? 0.125 : (0.5 + 3.0 * Math.log(500.0 / (double)l) / Math.log(25.0)) / 28.0);
         if (n > 1) {
             d2 = (d2 + 1.0) * Math.pow(1.125, n - 1) - 1.0;
         }
         int n2 = this.getDestinationDistance(bl);
         int n3 = (int)Math.floor((double)n2 * d2 + 1.5);
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#calculateFastScrollAcceleration: time: %1, distance: %2, => accelerated clickCount: %3", l, (long)n2, (long)n3);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#calculateFastScrollAcceleration: time: %1, distance: %2, => accelerated clickCount: %3", l, (long)n2, (long)n3);
         return n3;
     }
 
@@ -423,7 +421,7 @@ AnimationListener {
         int n9 = n3 - this.menu.getMenuItemMargin(menuItemIndex, true) - this.menu.getMenuItemMargin(menuItemIndex, false) + this.menu.getMenuItemFilledInsets(menuItemIndex, true) + this.menu.getMenuItemFilledInsets(menuItemIndex, false);
         int n10 = n8 - n9;
         int n11 = Math.round((float)n10 * Math.abs(f2));
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#calculateHDDSCursorOffset: cursorOffsetHDDS: %1, cursorHeightOffsetHDDS: %2, subClickProgress: %3", (double)n7, (double)n11, (double)f2);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#calculateHDDSCursorOffset: cursorOffsetHDDS: %1, cursorHeightOffsetHDDS: %2, subClickProgress: %3", (double)n7, (double)n11, (double)f2);
         this.setHDDSCursorOffset(n7, n11);
     }
 
@@ -433,14 +431,14 @@ AnimationListener {
             MenuItemIndex menuItemIndex = this.menu.getFocusedIndex();
             MenuItemMetaData menuItemMetaData = menuAnimationManager.getLayoutData().findAnimationItem(menuItemIndex);
             if (menuItemMetaData == null) {
-                menuLogCh.log(-1601830656, "MenuKeyEventHandler#setHDDSCursorOffset: focused itemMetaData not found for index: %1", (Object)menuItemIndex);
+                menuLogCh.log(100000, "MenuKeyEventHandler#setHDDSCursorOffset: focused itemMetaData not found for index: %1", (Object)menuItemIndex);
             } else {
                 menuAnimationManager.adjustCursorLayoutAfter(menuItemMetaData);
                 menuAnimationManager.setCursorHeightAfter(menuAnimationManager.getLayoutData().cursorHeightAfter + n2);
                 menuAnimationManager.setCursorOffsetAfter(menuAnimationManager.getLayoutData().cursorOffsetAfter + n);
             }
         } else {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#setHDDSCursorOffset: no focused item");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#setHDDSCursorOffset: no focused item");
             menuAnimationManager.setCursorHeightAfter(0);
             menuAnimationManager.setCursorOffsetAfter(0);
         }
@@ -452,10 +450,10 @@ AnimationListener {
 
     private void executeTouchFastScroll() {
         int n = this.getLastSpeedUpdateDuration(this.touchFastScrollData, this.getCurrentTime());
-        this.calculateAcceleratedSpeed(this.touchFastScrollData, n, MenuKeyEventHandler$AccelerationFunctionParameters.TOUCH_PARAMS);
+        this.calculateAcceleratedSpeed(this.touchFastScrollData, n, AccelerationFunctionParameters.TOUCH_PARAMS);
         int n2 = this.touchFastScrollData.speed * this.touchFastScrollData.currentGestureDistance / this.getTouchpadPixelsPerMenuItem();
         MenuItemIndex menuItemIndex = this.getNewFocusItem(this.touchFastScrollData.down, n2, false);
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#executeTouchFastScroll: start fast scroll to item: %1", (Object)menuItemIndex);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#executeTouchFastScroll: start fast scroll to item: %1", (Object)menuItemIndex);
         if (menuItemIndex != null) {
             this.menu.focusItem(menuItemIndex);
         }
@@ -470,8 +468,8 @@ AnimationListener {
             return false;
         }
         int n = this.touchDuration - this.lastFastTouchTime;
-        if ((long)n > 0) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#shouldStartTouchFastScroll: ignore fastscroll by distance %1, because time since last fast event is %2", (long)this.touchFastScrollData.currentGestureDistance, (long)n);
+        if ((long)n > 300L) {
+            menuLogCh.log(10000000, "MenuKeyEventHandler#shouldStartTouchFastScroll: ignore fastscroll by distance %1, because time since last fast event is %2", (long)this.touchFastScrollData.currentGestureDistance, (long)n);
             return false;
         }
         return true;
@@ -484,11 +482,11 @@ AnimationListener {
         return 100;
     }
 
-    private MenuKeyEventHandler$ScrollAccelerationData getFastScrollDataTouch(int n) {
+    private ScrollAccelerationData getFastScrollDataTouch(int n) {
         boolean bl;
         boolean bl2 = bl = n > 0;
         if (this.touchFastScrollData == null || this.touchFastScrollData.down != bl) {
-            this.touchFastScrollData = new MenuKeyEventHandler$ScrollAccelerationData(bl);
+            this.touchFastScrollData = new ScrollAccelerationData(bl);
         }
         return this.touchFastScrollData;
     }
@@ -514,7 +512,7 @@ AnimationListener {
     private int calculateFocusChangeKeyTurnOld(int n, boolean bl) {
         int n2;
         if (this.keyTurnFastScrollData == null || this.keyTurnFastScrollData.down != bl) {
-            this.keyTurnFastScrollData = new MenuKeyEventHandler$ScrollAccelerationData(bl);
+            this.keyTurnFastScrollData = new ScrollAccelerationData(bl);
         }
         if (n != 0) {
             n2 = this.getLastSpeedUpdateDuration(this.keyTurnFastScrollData, this.getCurrentTime());
@@ -524,21 +522,21 @@ AnimationListener {
                 this.keyTurnFastScrollData.currentGestureDistance = 1;
                 this.keyTurnFastScrollData.currentGestureAccelerated = false;
             }
-            this.calculateAcceleratedSpeed(this.keyTurnFastScrollData, n2, MenuKeyEventHandler$AccelerationFunctionParameters.TURN_PARAMS);
+            this.calculateAcceleratedSpeed(this.keyTurnFastScrollData, n2, AccelerationFunctionParameters.TURN_PARAMS);
         }
         n2 = n * this.keyTurnFastScrollData.speed;
         return n2;
     }
 
-    private void calculateAcceleratedSpeed(MenuKeyEventHandler$ScrollAccelerationData menuKeyEventHandler$ScrollAccelerationData, int n, MenuKeyEventHandler$AccelerationFunctionParameters menuKeyEventHandler$AccelerationFunctionParameters) {
-        int n2 = Math.round((float)(menuKeyEventHandler$AccelerationFunctionParameters.accelerationPerStep * n) / (float)menuKeyEventHandler$AccelerationFunctionParameters.decelerateTimePerStep);
-        menuKeyEventHandler$ScrollAccelerationData.speed -= n2;
-        menuKeyEventHandler$ScrollAccelerationData.speed = Math.max(menuKeyEventHandler$ScrollAccelerationData.speed, 1);
-        if (Math.abs(menuKeyEventHandler$ScrollAccelerationData.currentGestureDistance) >= menuKeyEventHandler$AccelerationFunctionParameters.minDistanceForAccelerate && !menuKeyEventHandler$ScrollAccelerationData.currentGestureAccelerated) {
-            menuKeyEventHandler$ScrollAccelerationData.currentGestureAccelerated = true;
-            menuKeyEventHandler$ScrollAccelerationData.speed += menuKeyEventHandler$AccelerationFunctionParameters.accelerationPerStep;
-            menuKeyEventHandler$ScrollAccelerationData.speed = Math.min(menuKeyEventHandler$ScrollAccelerationData.speed, menuKeyEventHandler$AccelerationFunctionParameters.maxSpeed);
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#calculateAcceleratedSpeed: fast scroll with speed factor: %1, gesture distance: %2", (long)menuKeyEventHandler$ScrollAccelerationData.speed, (long)menuKeyEventHandler$ScrollAccelerationData.currentGestureDistance);
+    private void calculateAcceleratedSpeed(ScrollAccelerationData scrollAccelerationData, int n, AccelerationFunctionParameters accelerationFunctionParameters) {
+        int n2 = Math.round((float)(accelerationFunctionParameters.accelerationPerStep * n) / (float)accelerationFunctionParameters.decelerateTimePerStep);
+        scrollAccelerationData.speed -= n2;
+        scrollAccelerationData.speed = Math.max(scrollAccelerationData.speed, 1);
+        if (Math.abs(scrollAccelerationData.currentGestureDistance) >= accelerationFunctionParameters.minDistanceForAccelerate && !scrollAccelerationData.currentGestureAccelerated) {
+            scrollAccelerationData.currentGestureAccelerated = true;
+            scrollAccelerationData.speed += accelerationFunctionParameters.accelerationPerStep;
+            scrollAccelerationData.speed = Math.min(scrollAccelerationData.speed, accelerationFunctionParameters.maxSpeed);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#calculateAcceleratedSpeed: fast scroll with speed factor: %1, gesture distance: %2", (long)scrollAccelerationData.speed, (long)scrollAccelerationData.currentGestureDistance);
         }
     }
 
@@ -555,7 +553,7 @@ AnimationListener {
             Iterator iterator = this.menu.iterator(menuItemIndex = this.menu.getUnfocusableVisibleEdge(menuItemIndex, bl), bl, false);
             if (!iterator.hasNext()) {
                 if (!bl2) break;
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#getNewFocusItem: end of menu reached at %1. Bounce cursor, lock hDDS.", (Object)menuItemIndex);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#getNewFocusItem: end of menu reached at %1. Bounce cursor, lock hDDS.", (Object)menuItemIndex);
                 this.subticksFilter.endOfListReached();
                 this.menu.getAnimationManager().startCursorBounce(bl);
                 break;
@@ -603,7 +601,7 @@ AnimationListener {
 
     private void doCursorSwipe(int n) {
         this.changeCursorSwipeOffset(n);
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#doCursorSwipe: moved by %2, now offset %3 from item %1", (Object)this.menu.getFocusedIndex(), (long)n, (long)this.cursorSwipeOffset);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#doCursorSwipe: moved by %2, now offset %3 from item %1", (Object)this.menu.getFocusedIndex(), (long)n, (long)this.cursorSwipeOffset);
         this.checkSlowViewportAnimation();
         this.checkCursorSwipeFocusChange();
         this.adjustCursorHeight();
@@ -624,17 +622,17 @@ AnimationListener {
         int n = this.getNextSwipeItemHeight() - this.getCurrentFocusedItemHeight();
         this.cursorSwipeHeightOffset = Math.round((float)n * f2);
         if (menuLogCh.isDebug()) {
-            menuLogCh.log(-2137614336, new StringBuffer().append("MenuKeyEventHandler#adjustCursorHeight: current swipe item ").append(this.menu.getFocusedIndex()).append(" with height: %1, next swipe item ").append(this.getNextSwipeItemIndex()).append(" with height: %2, offset: ").append(this.cursorSwipeOffset).append(", progress: ").append(f2).toString(), (long)this.getCurrentFocusedItemHeight(), (long)this.getNextSwipeItemHeight());
+            menuLogCh.log(10000000, "MenuKeyEventHandler#adjustCursorHeight: current swipe item " + this.menu.getFocusedIndex() + " with height: %1, next swipe item " + this.getNextSwipeItemIndex() + " with height: %2, offset: " + this.cursorSwipeOffset + ", progress: " + f2, (long)this.getCurrentFocusedItemHeight(), (long)this.getNextSwipeItemHeight());
         }
     }
 
     private void checkCursorSwipeFocusChange() {
-        if (this.getCursorSwipeProgress() > 63) {
+        if (this.getCursorSwipeProgress() > 0.5f) {
             MenuItemIndex menuItemIndex = this.getNextSwipeItemIndex();
             if (menuItemIndex != null) {
                 if (this.menu.getViewport().contains(menuItemIndex)) {
                     int n = this.getSwipeDistanceToNextItem();
-                    menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkCursorSwipeFocusChange: moved to next item: %1, new offset: %2", (Object)menuItemIndex, (long)this.cursorSwipeOffset);
+                    menuLogCh.log(10000000, "MenuKeyEventHandler#checkCursorSwipeFocusChange: moved to next item: %1, new offset: %2", (Object)menuItemIndex, (long)this.cursorSwipeOffset);
                     int n2 = this.nextSwipeItemHeight;
                     int n3 = this.currentFocusedItemHeight;
                     MenuItemIndex menuItemIndex2 = this.menu.getFocusedIndex();
@@ -650,7 +648,7 @@ AnimationListener {
                     }
                 }
             } else {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkCursorSwipeFocusChange: end of menu reached at item: %1", (Object)this.menu.getFocusedIndex());
+                menuLogCh.log(10000000, "MenuKeyEventHandler#checkCursorSwipeFocusChange: end of menu reached at item: %1", (Object)this.menu.getFocusedIndex());
                 int n = this.getCurrentFocusedItemHeight() + this.menu.getLayout().getItemsGap();
                 int n4 = n / 2;
                 this.cursorSwipeOffset = this.isDownwardCursorSwipe() ? n4 : -n4;
@@ -659,12 +657,12 @@ AnimationListener {
     }
 
     private void checkSlowViewportAnimation() {
-        menuLayoutLogCh.log(-2137614336, "MenuKeyEventHandler#checkSlowViewportAnimation: relayout menu to get current cursorGlassplateDistance");
+        menuLayoutLogCh.log(10000000, "MenuKeyEventHandler#checkSlowViewportAnimation: relayout menu to get current cursorGlassplateDistance");
         this.menu.relayout();
         this.menu.manageLayout();
         int[] nArray = this.menu.getLayout().getFocusCursorDistanceFromGlassplate();
         if (nArray == null) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#checkSlowViewportAnimation: cursor is not visible");
+            menuLogCh.log(100000, "MenuKeyEventHandler#checkSlowViewportAnimation: cursor is not visible");
             return;
         }
         int n = nArray[0] + this.cursorSwipeOffset;
@@ -673,7 +671,7 @@ AnimationListener {
         if (n < 3) {
             if (n < 0) {
                 this.cursorSwipeOffset -= n;
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkSlowViewportAnimation: change offset by %1 to %2 to limit cursor at glassplate top", (long)n, (long)this.cursorSwipeOffset);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#checkSlowViewportAnimation: change offset by %1 to %2 to limit cursor at glassplate top", (long)n, (long)this.cursorSwipeOffset);
             }
             if (!bl && this.isFocusOutsideViewport(true)) {
                 this.startSlowViewportScroll(false);
@@ -681,7 +679,7 @@ AnimationListener {
         } else if (n2 < 3) {
             if (n2 < 0) {
                 this.cursorSwipeOffset += n2;
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#checkSlowViewportAnimation: change offset by %1 to %2 to limit cursor at glassplate bottom", (long)n2, (long)this.cursorSwipeOffset);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#checkSlowViewportAnimation: change offset by %1 to %2 to limit cursor at glassplate bottom", (long)n2, (long)this.cursorSwipeOffset);
             }
             if (!bl && this.isFocusOutsideViewport(false)) {
                 this.startSlowViewportScroll(true);
@@ -693,7 +691,7 @@ AnimationListener {
         MenuItemIndex menuItemIndex = bl ? this.menu.getViewport().start : this.menu.getViewport().end;
         MenuItemMetaData menuItemMetaData = this.menu.getAnimationManager().getLayoutData().findAnimationItem(menuItemIndex);
         if (!menuItemMetaData.isRealized()) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#isFocusOutsideViewport: viewport edge item %1 is not realized", (Object)menuItemMetaData);
+            menuLogCh.log(100000, "MenuKeyEventHandler#isFocusOutsideViewport: viewport edge item %1 is not realized", (Object)menuItemMetaData);
             return false;
         }
         if (bl) {
@@ -710,7 +708,7 @@ AnimationListener {
         boolean bl2 = this.isDownwardCursorSwipe() == bl;
         MenuItemIndex menuItemIndex2 = menuItemIndex = bl2 ? this.getNextSwipeItemIndex() : this.menu.getFocusedIndex();
         if (menuItemIndex == null) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#startSlowViewportScroll: cant scroll any more because of end of menu. Focused item: %1", (Object)this.menu.getFocusedIndex());
+            menuLogCh.log(10000000, "MenuKeyEventHandler#startSlowViewportScroll: cant scroll any more because of end of menu. Focused item: %1", (Object)this.menu.getFocusedIndex());
             return;
         }
         this.swipeSlowScrollScrolledInItem = menuItemIndex;
@@ -719,7 +717,7 @@ AnimationListener {
 
     private void stopSlowViewportScrolling() {
         if (this.isSlowViewportScrollRunning()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#stopSlowViewportScrolling: stop slow scrolling");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#stopSlowViewportScrolling: stop slow scrolling");
             this.menu.getAnimationManager().deactivateSlowViewportScrolling();
         }
     }
@@ -738,7 +736,7 @@ AnimationListener {
 
     public void animateSlowViewportScrolling(int n) {
         if (this.isCursorSwipeRunning() && this.isSlowViewportScrollRunning()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#animateSlowViewportScrolling: animate slow scroll by %2 (%1)", (Object)this.menu, (long)n);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#animateSlowViewportScrolling: animate slow scroll by %2 (%1)", (Object)this.menu, (long)n);
             this.doCursorSwipe(-n);
         }
     }
@@ -857,7 +855,7 @@ AnimationListener {
         int n2 = touchEvent.getFingerCount() == this.lastTouchFingerCount ? n - this.lastTouchY : 0;
         this.lastTouchFingerCount = touchEvent.getFingerCount();
         int n3 = Math.round((float)n2 * this.getSwipeDistanceFactor());
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#getRelativeSwipeDistance: raw swipe distance: %1, adjusted distance: %2", (long)n2, (long)n3);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#getRelativeSwipeDistance: raw swipe distance: %1, adjusted distance: %2", (long)n2, (long)n3);
         if (this.hasCoordinates(touchEvent) && n3 != 0) {
             this.lastTouchY = n;
             this.touchGestureDistanceY += n2;
@@ -876,21 +874,21 @@ AnimationListener {
         if (touchEvent.getID() == 10912) {
             return this.lastTouchY + touchEvent.getY();
         }
-        menuLogCh.log(-1601830656, "MenuKeyEventHandler#getAbsoluteY: unknown touch event type %2 for event: %1", (Object)touchEvent, (long)touchEvent.getID());
+        menuLogCh.log(100000, "MenuKeyEventHandler#getAbsoluteY: unknown touch event type %2 for event: %1", (Object)touchEvent, (long)touchEvent.getID());
         return 0;
     }
 
     private float getSwipeSpeed(int n, int n2) {
         if (n == 0) {
-            menuLogCh.log(-1601830656, "MenuKeyEventHandler#getSwipeSpeed: can not measure speed (duration=0).");
+            menuLogCh.log(100000, "MenuKeyEventHandler#getSwipeSpeed: can not measure speed (duration=0).");
             return 0.0f;
         }
         return (float)Math.abs(n2) / (float)n;
     }
 
-    private int getLastSpeedUpdateDuration(MenuKeyEventHandler$ScrollAccelerationData menuKeyEventHandler$ScrollAccelerationData, long l) {
-        int n = (int)Math.min(l - menuKeyEventHandler$ScrollAccelerationData.lastSpeedUpdateTime, (long)0);
-        menuKeyEventHandler$ScrollAccelerationData.lastSpeedUpdateTime = l;
+    private int getLastSpeedUpdateDuration(ScrollAccelerationData scrollAccelerationData, long l) {
+        int n = (int)Math.min(l - scrollAccelerationData.lastSpeedUpdateTime, Integer.MAX_VALUE);
+        scrollAccelerationData.lastSpeedUpdateTime = l;
         return n;
     }
 
@@ -908,7 +906,7 @@ AnimationListener {
         this.setTouchScrollEnabled(false);
         this.resetFastScroll();
         if (!this.touchScrollEnabled) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#connect: touch scrolling is disabled");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#connect: touch scrolling is disabled");
         }
     }
 
@@ -954,14 +952,14 @@ AnimationListener {
 
     Timer getBrakeTimer() {
         if (this.brakeTimer == null) {
-            this.brakeTimer = new Timer("BrakeGestureTimer", 0, true, new TimerSyncer(this));
+            this.brakeTimer = new Timer("BrakeGestureTimer", 300L, true, new TimerSyncer(this));
         }
         return this.brakeTimer;
     }
 
     private Timer getLongpressTimer() {
         if (this.longpressTimer == null) {
-            this.longpressTimer = new Timer("LongpressTimer", 0, true, new TimerSyncer(this));
+            this.longpressTimer = new Timer("LongpressTimer", 500L, true, new TimerSyncer(this));
         }
         return this.longpressTimer;
     }
@@ -981,7 +979,7 @@ AnimationListener {
     protected void startLongpressTimer() {
         if (!this.isLongpressTimerRunning()) {
             this.getLongpressTimer().restart();
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#startLongpressTimer: Key pressed, LongpressTimer started.");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#startLongpressTimer: Key pressed, LongpressTimer started.");
         }
     }
 
@@ -999,32 +997,30 @@ AnimationListener {
     protected boolean cancelLongpressTimer() {
         if (this.longpressTimer != null) {
             boolean bl = this.longpressTimer.cancel();
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#cancelLongpressTimer: Key released, cancel LongpressTimer (was running: %1)", bl);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#cancelLongpressTimer: Key released, cancel LongpressTimer (was running: %1)", bl);
             return bl;
         }
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#cancelLongpress: long press timer is not running");
+        menuLogCh.log(10000000, "MenuKeyEventHandler#cancelLongpress: long press timer is not running");
         return false;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.brakeTimer) {
             if (this.isFastViewportScrollRunning()) {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#fireTimer: brake fast scroll because of brake timer (%1)", (Object)this.menu);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#fireTimer: brake fast scroll because of brake timer (%1)", (Object)this.menu);
                 this.brakeFastViewportScrolling(true);
             } else {
-                menuLogCh.log(-2137614336, "MenuKeyEventHandler#fireTimer: brake timer fired, but no fast scroll running (%1)", (Object)this.menu);
+                menuLogCh.log(10000000, "MenuKeyEventHandler#fireTimer: brake timer fired, but no fast scroll running (%1)", (Object)this.menu);
             }
         }
         if (timer == this.longpressTimer) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#fireTimer: Longpress timer fired (%1)", (Object)this.menu);
+            menuLogCh.log(10000000, "MenuKeyEventHandler#fireTimer: Longpress timer fired (%1)", (Object)this.menu);
             ((DrawerFocusManager)this.menu.getTerminalImpl().getDrawerFocusManager()).getLongpressKeyHandler().handleLongpressStarted(this.menu);
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#cancelTimer called. timer: %1, menu: %2", (Object)timer, (Object)this.menu);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#cancelTimer called. timer: %1, menu: %2", (Object)timer, (Object)this.menu);
     }
 
     private void startTouchRepaintAnimation() {
@@ -1033,32 +1029,29 @@ AnimationListener {
             this.touchRepaintAnimation.addListener(this);
         }
         if (!this.touchRepaintAnimation.isAnimating()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#startTouchRepaintAnimation");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#startTouchRepaintAnimation");
             this.touchRepaintAnimation.startEndlessAnimation(TOUCH_REPAINT_INTERVAL, this.menu);
         }
     }
 
     private void stopTouchRepaintAnimation() {
         if (this.touchRepaintAnimation != null && this.touchRepaintAnimation.isAnimating()) {
-            menuLogCh.log(-2137614336, "MenuKeyEventHandler#stopTouchRepaintAnimation");
+            menuLogCh.log(10000000, "MenuKeyEventHandler#stopTouchRepaintAnimation");
             this.touchRepaintAnimation.stopAnimation();
         }
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
     public void scrollAnimationFinished() {
-        menuLogCh.log(-2137614336, "MenuKeyEventHandler#scrollAnimationFinished. Fast scroll was active: %1", this.fastScrollAccelerationActive);
+        menuLogCh.log(10000000, "MenuKeyEventHandler#scrollAnimationFinished. Fast scroll was active: %1", this.fastScrollAccelerationActive);
         this.resetFastScroll();
     }
 
@@ -1070,10 +1063,27 @@ AnimationListener {
         return this.fastScrollAccelerationActive;
     }
 
-    static {
-        USE_TOUCHEVENT_DELTATIME = !Boolean.getBoolean("ignoreToucheventDeltatime");
-        NEW_SCROLL_ALGORITHM = !"old".equals(System.getProperty("MenuScrollAlgorithm"));
-        TOUCH_REPAINT_INTERVAL = Integer.getInteger("touchRepaintInterval", 50);
+    public static class ScrollAccelerationData {
+        public static final int DEFAULT_SPEED = 1;
+        long lastSpeedUpdateTime = -1L;
+        int speed = 1;
+        int currentGestureDistance = 0;
+        boolean currentGestureAccelerated = false;
+        boolean down;
+
+        public ScrollAccelerationData(boolean bl) {
+            this.down = bl;
+        }
+    }
+
+    public static class AccelerationFunctionParameters {
+        static final AccelerationFunctionParameters TURN_PARAMS = new AccelerationFunctionParameters();
+        static final AccelerationFunctionParameters TOUCH_PARAMS = new AccelerationFunctionParameters();
+        public int decelerateTimePerStep = 800;
+        public int minDistanceForAccelerate = 5;
+        public int accelerationPerStep = 3;
+        public int maxAccelerationSteps = 3;
+        public int maxSpeed = 1 + this.accelerationPerStep * this.maxAccelerationSteps;
     }
 }
 

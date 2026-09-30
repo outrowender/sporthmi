@@ -7,49 +7,34 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSISwdlDeviceInfoListener
 extends DSIListener {
-    default public void updateSummaryChanged(String string, int n) {
-    }
+    public void updateSummaryChanged(String var1, int var2);
 
-    default public void getDevices(String[] stringArray, int[] nArray) {
-    }
+    public void getDevices(String[] var1, int[] var2);
 
-    default public void getModules(int n, String[] stringArray, int[] nArray, short[] sArray) {
-    }
+    public void getModules(int var1, String[] var2, int[] var3, short[] var4);
 
-    default public void getLanguages(int n, String[] stringArray, short s, short s2, short s3) {
-    }
+    public void getLanguages(int var1, String[] var2, short var3, short var4, short var5);
 
-    default public void getErrors(int n, int[] nArray, short[] sArray) {
-    }
+    public void getErrors(int var1, int[] var2, short[] var3);
 
-    default public void isDataModule(int n, int n2, boolean bl) {
-    }
+    public void isDataModule(int var1, int var2, boolean var3);
 
-    default public void isNoExclusiveBoloUpdate(int n, int n2, boolean bl) {
-    }
+    public void isNoExclusiveBoloUpdate(int var1, int var2, boolean var3);
 
-    default public void getVersions(int n, int n2, long[] lArray) {
-    }
+    public void getVersions(int var1, int var2, long[] var3);
 
-    default public void getTargetVersions(int n, int n2, long[] lArray) {
-    }
+    public void getTargetVersions(int var1, int var2, long[] var3);
 
-    default public void getAdditionalInfo(int n, int n2, int[] nArray) {
-    }
+    public void getAdditionalInfo(int var1, int var2, int[] var3);
 
-    default public void getFileNames(int n, int n2, String[] stringArray) {
-    }
+    public void getFileNames(int var1, int var2, String[] var3);
 
-    default public void getFileDetails(int n, int n2, int n3, long l, long l2, long l3, boolean bl, boolean bl2, String string, String string2) {
-    }
+    public void getFileDetails(int var1, int var2, int var3, long var4, long var6, long var8, boolean var10, boolean var11, String var12, String var13);
 
-    default public void getInfoFilePath(int n, String string, String string2) {
-    }
+    public void getInfoFilePath(int var1, String var2, String var3);
 
-    default public void getNumberOfPopups(int n) {
-    }
+    public void getNumberOfPopups(int var1);
 
-    default public void getPopup(int n, int n2, String string, int n3, int n4, int n5, String string2) {
-    }
+    public void getPopup(int var1, int var2, String var3, int var4, int var5, int var6, String var7);
 }
 

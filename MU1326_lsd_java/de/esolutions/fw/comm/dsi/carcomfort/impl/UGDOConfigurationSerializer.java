@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOSpecialFeaturesSerializer;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOConfiguration;
 import org.dsi.ifc.carcomfort.UGDOSpecialFeatures;
 import org.dsi.ifc.carcomfort.UGDOTransmittableElements;
 
 public class UGDOConfigurationSerializer {
-    public static void putOptionalUGDOConfiguration(ISerializer iSerializer, UGDOConfiguration uGDOConfiguration) {
+    public static void putOptionalUGDOConfiguration(ISerializer iSerializer, UGDOConfiguration uGDOConfiguration) throws SerializerException {
         boolean bl = uGDOConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class UGDOConfigurationSerializer {
         }
     }
 
-    public static void putOptionalUGDOConfigurationVarArray(ISerializer iSerializer, UGDOConfiguration[] uGDOConfigurationArray) {
+    public static void putOptionalUGDOConfigurationVarArray(ISerializer iSerializer, UGDOConfiguration[] uGDOConfigurationArray) throws SerializerException {
         boolean bl = uGDOConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class UGDOConfigurationSerializer {
         }
     }
 
-    public static UGDOConfiguration getOptionalUGDOConfiguration(IDeserializer iDeserializer) {
+    public static UGDOConfiguration getOptionalUGDOConfiguration(IDeserializer iDeserializer) throws SerializerException {
         UGDOConfiguration uGDOConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class UGDOConfigurationSerializer {
         return uGDOConfiguration;
     }
 
-    public static UGDOConfiguration[] getOptionalUGDOConfigurationVarArray(IDeserializer iDeserializer) {
+    public static UGDOConfiguration[] getOptionalUGDOConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOConfiguration[] uGDOConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlTransmittableElements;
 
 public class BatteryControlTransmittableElementsSerializer {
-    public static void putOptionalBatteryControlTransmittableElements(ISerializer iSerializer, BatteryControlTransmittableElements batteryControlTransmittableElements) {
+    public static void putOptionalBatteryControlTransmittableElements(ISerializer iSerializer, BatteryControlTransmittableElements batteryControlTransmittableElements) throws SerializerException {
         boolean bl = batteryControlTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class BatteryControlTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlTransmittableElementsVarArray(ISerializer iSerializer, BatteryControlTransmittableElements[] batteryControlTransmittableElementsArray) {
+    public static void putOptionalBatteryControlTransmittableElementsVarArray(ISerializer iSerializer, BatteryControlTransmittableElements[] batteryControlTransmittableElementsArray) throws SerializerException {
         boolean bl = batteryControlTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class BatteryControlTransmittableElementsSerializer {
         }
     }
 
-    public static BatteryControlTransmittableElements getOptionalBatteryControlTransmittableElements(IDeserializer iDeserializer) {
+    public static BatteryControlTransmittableElements getOptionalBatteryControlTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlTransmittableElements batteryControlTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class BatteryControlTransmittableElementsSerializer {
         return batteryControlTransmittableElements;
     }
 
-    public static BatteryControlTransmittableElements[] getOptionalBatteryControlTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlTransmittableElements[] getOptionalBatteryControlTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlTransmittableElements[] batteryControlTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

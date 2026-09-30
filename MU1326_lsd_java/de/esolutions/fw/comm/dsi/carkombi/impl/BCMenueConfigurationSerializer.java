@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCMenueConfiguration;
 
 public class BCMenueConfigurationSerializer {
-    public static void putOptionalBCMenueConfiguration(ISerializer iSerializer, BCMenueConfiguration bCMenueConfiguration) {
+    public static void putOptionalBCMenueConfiguration(ISerializer iSerializer, BCMenueConfiguration bCMenueConfiguration) throws SerializerException {
         boolean bl = bCMenueConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class BCMenueConfigurationSerializer {
         }
     }
 
-    public static void putOptionalBCMenueConfigurationVarArray(ISerializer iSerializer, BCMenueConfiguration[] bCMenueConfigurationArray) {
+    public static void putOptionalBCMenueConfigurationVarArray(ISerializer iSerializer, BCMenueConfiguration[] bCMenueConfigurationArray) throws SerializerException {
         boolean bl = bCMenueConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class BCMenueConfigurationSerializer {
         }
     }
 
-    public static BCMenueConfiguration getOptionalBCMenueConfiguration(IDeserializer iDeserializer) {
+    public static BCMenueConfiguration getOptionalBCMenueConfiguration(IDeserializer iDeserializer) throws SerializerException {
         BCMenueConfiguration bCMenueConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -95,7 +96,7 @@ public class BCMenueConfigurationSerializer {
         return bCMenueConfiguration;
     }
 
-    public static BCMenueConfiguration[] getOptionalBCMenueConfigurationVarArray(IDeserializer iDeserializer) {
+    public static BCMenueConfiguration[] getOptionalBCMenueConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCMenueConfiguration[] bCMenueConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

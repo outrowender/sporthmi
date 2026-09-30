@@ -25,76 +25,76 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuLayout;
 public class InstructionTextLayout
 implements LayoutManager,
 IViewSizeAnimatable {
-    private static final int DEFAULT_MAX_WIDTH;
+    private static final int DEFAULT_MAX_WIDTH = 680;
     private int maximumWidthSmallStage = 341;
     private int minimumWidthBigStage = 382;
     private int width = 1;
     private int height = 1;
     private Layout layout = null;
-    private int menuOriginalX = 128;
-    private int menuOriginalY = 128;
-    private int menuOriginalHeight = 128;
+    private int menuOriginalX = Integer.MIN_VALUE;
+    private int menuOriginalY = Integer.MIN_VALUE;
+    private int menuOriginalHeight = Integer.MIN_VALUE;
     private int scrollBarHeightOffset = 0;
-    private int hintTextOriginalX = 128;
-    private int hintTextOriginalY = 128;
+    private int hintTextOriginalX = Integer.MIN_VALUE;
+    private int hintTextOriginalY = Integer.MIN_VALUE;
     private int numberOfHintTextRows = 0;
     private int numberOfOptions = 0;
     private int maxWidth = 680;
-    private float currentWidthWeight = 0x1000000;
+    private float currentWidthWeight = Float.MIN_VALUE;
     private boolean touchfieldLayout = false;
     private int clipFromSeparator = 3;
     private int clipFromGlassPlate = -3;
-    private static final int Y_OFFSET_QVGA_SEPARATOR_4_ROWS_1_OPTION;
-    private static final int INDEX_HINT_TEXT_HEIGHT_1_LINE;
-    private static final int INDEX_HINT_TEXT_HEIGHT_2_LINE;
-    private static final int INDEX_HINT_TEXT_HEIGHT_3_LINE;
-    private static final int INDEX_HINT_TEXT_HEIGHT_4_LINE;
-    private static final int INDEX_HINT_TEXT_HEIGHT_5_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_Y_1_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_Y_2_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_Y_3_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_Y_4_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_Y_5_LINE;
-    private static final int INDEX_HINT_TEXT_MENU_HEIGHT_PER_ROW;
-    private static final int INDEX_HINT_TEXT_MENU_INIT_SIZE;
-    private static final int INDEX_HINT_TEXT_SEPARATOR_Y_OFFSET;
-    private static final int INDEX_PP_MENU_CONTENT_LEFT_OFFSET;
-    private static final int INDEX_PP_MENU_CONTENT_RIGHT_OFFSET;
-    private static final int INDEX_PP_MENU_CONTENT_RIGHT_OFFSET_SMALL_STAGE;
-    private static final int INDEX_PP_MENU_ITEM_GAP;
-    private static final int INDEX_PP_LEFT_RIGHT_INSET;
-    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_NO_OPTIONS;
-    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_MORE_OPTIONS;
-    private static final int INDEX_PP_LINE_SPACING_HINT_TEXT;
-    private static final int INDEX_PP_LINE_SPACING_OPTIONS;
-    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_NO_OPTIONS;
-    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_ONE_OPTION;
-    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_MORE_OPTIONS;
-    private static final int INDEX_TF_HINT_TEXT_HEIGHT_1_LINE;
-    private static final int INDEX_TF_HINT_TEXT_HEIGHT_2_LINE;
-    private static final int INDEX_TF_HINT_TEXT_HEIGHT_3_LINE;
-    private static final int INDEX_TF_HINT_TEXT_HEIGHT_4_LINE;
-    private static final int INDEX_TF_HINT_TEXT_HEIGHT_5_LINE;
-    private static final int INDEX_TF_HINT_TEXT_MENU_Y_1_LINE;
-    private static final int INDEX_TF_HINT_TEXT_MENU_Y_2_LINE;
-    private static final int INDEX_TF_HINT_TEXT_MENU_Y_3_LINE;
-    private static final int INDEX_TF_HINT_TEXT_MENU_Y_4_LINE;
-    private static final int INDEX_TF_HINT_TEXT_MENU_Y_5_LINE;
-    private static final int INDEX_TF_HINT_TEXT_SEPARATOR_Y_OFFSET;
-    private static final int INDEX_HINT_TEXT_LEFT_OFFSET;
-    private static final int INDEX_HINT_TEXT_RIGHT_OFFSET;
-    private static final int INDEX_PP_MENU_SEPARATOR_OFFSET;
-    private static final int INDEX_PP_SEPARATOR_LINE_OFFSET;
-    private static final int INDEX_PP_OPTIONS_HEIGHT_OFFSET;
-    private static final int INDEX_PP_TOP_BOTTOM_INSET;
-    private static final int INDEX_TF_HINT_TEXT_LINE_HEIGHT;
-    private static final int INDEX_PP_HINT_TEXT_LINE_HEIGHT;
-    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_1_LINE_OFFSET;
-    private static final int INDEX_HINT_TEXT_X_OFFSET_ICON_LEFT_SIDE;
-    private static final int INDEX_HINT_TEXT_Y_OFFSET_ICON_LEFT_SIDE;
-    private static final int INDEX_PP_HINT_TEXT_X_OFFSET_ICON_LEFT_SIDE;
-    private static final int ICON_WIDTH;
-    private static final int SMALL_STAGE_OFFSET;
+    private static final int Y_OFFSET_QVGA_SEPARATOR_4_ROWS_1_OPTION = 2;
+    private static final int INDEX_HINT_TEXT_HEIGHT_1_LINE = 0;
+    private static final int INDEX_HINT_TEXT_HEIGHT_2_LINE = 1;
+    private static final int INDEX_HINT_TEXT_HEIGHT_3_LINE = 2;
+    private static final int INDEX_HINT_TEXT_HEIGHT_4_LINE = 3;
+    private static final int INDEX_HINT_TEXT_HEIGHT_5_LINE = 4;
+    private static final int INDEX_HINT_TEXT_MENU_Y_1_LINE = 6;
+    private static final int INDEX_HINT_TEXT_MENU_Y_2_LINE = 7;
+    private static final int INDEX_HINT_TEXT_MENU_Y_3_LINE = 8;
+    private static final int INDEX_HINT_TEXT_MENU_Y_4_LINE = 9;
+    private static final int INDEX_HINT_TEXT_MENU_Y_5_LINE = 10;
+    private static final int INDEX_HINT_TEXT_MENU_HEIGHT_PER_ROW = 11;
+    private static final int INDEX_HINT_TEXT_MENU_INIT_SIZE = 12;
+    private static final int INDEX_HINT_TEXT_SEPARATOR_Y_OFFSET = 13;
+    private static final int INDEX_PP_MENU_CONTENT_LEFT_OFFSET = 14;
+    private static final int INDEX_PP_MENU_CONTENT_RIGHT_OFFSET = 15;
+    private static final int INDEX_PP_MENU_CONTENT_RIGHT_OFFSET_SMALL_STAGE = 16;
+    private static final int INDEX_PP_MENU_ITEM_GAP = 17;
+    private static final int INDEX_PP_LEFT_RIGHT_INSET = 18;
+    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_NO_OPTIONS = 19;
+    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_MORE_OPTIONS = 20;
+    private static final int INDEX_PP_LINE_SPACING_HINT_TEXT = 21;
+    private static final int INDEX_PP_LINE_SPACING_OPTIONS = 22;
+    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_NO_OPTIONS = 23;
+    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_ONE_OPTION = 24;
+    private static final int INDEX_PP_DISTANCE_TEXT_SEPARATOR_MORE_OPTIONS = 25;
+    private static final int INDEX_TF_HINT_TEXT_HEIGHT_1_LINE = 26;
+    private static final int INDEX_TF_HINT_TEXT_HEIGHT_2_LINE = 27;
+    private static final int INDEX_TF_HINT_TEXT_HEIGHT_3_LINE = 28;
+    private static final int INDEX_TF_HINT_TEXT_HEIGHT_4_LINE = 29;
+    private static final int INDEX_TF_HINT_TEXT_HEIGHT_5_LINE = 30;
+    private static final int INDEX_TF_HINT_TEXT_MENU_Y_1_LINE = 32;
+    private static final int INDEX_TF_HINT_TEXT_MENU_Y_2_LINE = 33;
+    private static final int INDEX_TF_HINT_TEXT_MENU_Y_3_LINE = 34;
+    private static final int INDEX_TF_HINT_TEXT_MENU_Y_4_LINE = 35;
+    private static final int INDEX_TF_HINT_TEXT_MENU_Y_5_LINE = 36;
+    private static final int INDEX_TF_HINT_TEXT_SEPARATOR_Y_OFFSET = 39;
+    private static final int INDEX_HINT_TEXT_LEFT_OFFSET = 40;
+    private static final int INDEX_HINT_TEXT_RIGHT_OFFSET = 41;
+    private static final int INDEX_PP_MENU_SEPARATOR_OFFSET = 42;
+    private static final int INDEX_PP_SEPARATOR_LINE_OFFSET = 43;
+    private static final int INDEX_PP_OPTIONS_HEIGHT_OFFSET = 44;
+    private static final int INDEX_PP_TOP_BOTTOM_INSET = 45;
+    private static final int INDEX_TF_HINT_TEXT_LINE_HEIGHT = 47;
+    private static final int INDEX_PP_HINT_TEXT_LINE_HEIGHT = 48;
+    private static final int INDEX_PP_HINT_TEXT_Y_OFFSET_1_LINE_OFFSET = 49;
+    private static final int INDEX_HINT_TEXT_X_OFFSET_ICON_LEFT_SIDE = 50;
+    private static final int INDEX_HINT_TEXT_Y_OFFSET_ICON_LEFT_SIDE = 51;
+    private static final int INDEX_PP_HINT_TEXT_X_OFFSET_ICON_LEFT_SIDE = 52;
+    private static final int ICON_WIDTH = 25;
+    private static final int SMALL_STAGE_OFFSET = 551;
 
     public InstructionTextLayout(Layout layout) {
         this.layout = layout;
@@ -181,7 +181,6 @@ IViewSizeAnimatable {
         return n;
     }
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         if (abstractWidget != null) {
             if (abstractWidget.getParent() instanceof PartialPopupController) {
@@ -222,7 +221,7 @@ IViewSizeAnimatable {
             if (object != null) {
                 int n7 = n3 = ((HMITerminalImpl)object).getViewSizeManager().getCurrentViewSize() == 1 ? 1 : 0;
             }
-            if (this.menuOriginalX == 128) {
+            if (this.menuOriginalX == Integer.MIN_VALUE) {
                 this.menuOriginalX = n3 != 0 ? menuController.getX() - 10 + (nArray[18] - nArray[40]) - 551 : menuController.getX() - 10 + (nArray[18] - nArray[40]);
             }
             n2 = n6 + nArray[42];
@@ -253,10 +252,10 @@ IViewSizeAnimatable {
         }
         LabelController labelController = instructionTextContoller.getHintText();
         if (labelController != null) {
-            if (this.hintTextOriginalX == 128) {
+            if (this.hintTextOriginalX == Integer.MIN_VALUE) {
                 this.hintTextOriginalX = labelController.getX();
             }
-            if (this.hintTextOriginalY == 128) {
+            if (this.hintTextOriginalY == Integer.MIN_VALUE) {
                 this.hintTextOriginalY = labelController.getY();
             }
             labelController.setX(this.hintTextOriginalX);
@@ -319,7 +318,6 @@ IViewSizeAnimatable {
         return this.numberOfHintTextRows * nArray[21] + nArray[24];
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         if (abstractWidget instanceof InstructionTextContoller) {
             this.layout(abstractWidget);
@@ -338,7 +336,7 @@ IViewSizeAnimatable {
         this.calculateRows(instructionTextContoller);
         int n = this.numberOfOptions;
         MenuController menuController = instructionTextContoller.getOptions();
-        if (this.menuOriginalY == 128) {
+        if (this.menuOriginalY == Integer.MIN_VALUE) {
             this.menuOriginalY = menuController.getY();
             this.menuOriginalHeight = menuController.getHeight();
             ScrollbarController scrollbarController = (ScrollbarController)menuController.getChildOfRole(3);
@@ -358,7 +356,7 @@ IViewSizeAnimatable {
                     case 1: {
                         switch (this.numberOfHintTextRows) {
                             case 0: {
-                                IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
+                                IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
                             }
                             case 1: 
                             case 2: 
@@ -386,7 +384,7 @@ IViewSizeAnimatable {
                     case 2: {
                         switch (this.numberOfHintTextRows) {
                             case 0: {
-                                IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
+                                IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
                             }
                             case 1: 
                             case 2: 
@@ -414,7 +412,7 @@ IViewSizeAnimatable {
                     case 3: {
                         switch (this.numberOfHintTextRows) {
                             case 0: {
-                                IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
+                                IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
                             }
                             case 1: 
                             case 2: 
@@ -442,7 +440,7 @@ IViewSizeAnimatable {
                     case 4: {
                         switch (this.numberOfHintTextRows) {
                             case 0: {
-                                IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
+                                IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
                             }
                             case 1: 
                             case 2: {
@@ -477,7 +475,7 @@ IViewSizeAnimatable {
                     case 6: {
                         switch (this.numberOfHintTextRows) {
                             case 0: {
-                                IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
+                                IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenu numberOfHintTextRows is 0 - no hint text is shown");
                             }
                             case 1: {
                                 n5 = nArray[0];
@@ -529,7 +527,7 @@ IViewSizeAnimatable {
             menuController.getLayout().setBackgroundVerticalDimension(-n2 + this.menuOriginalY, this.menuOriginalHeight);
             menuController.setHeight(n * nArray[11] + nArray[12]);
             menuController.relayout();
-            IWidgetLogChannel.menuLogCh.log(-2137614336, "InstructionTextLayout#InstructionTextLayout: refresh menu because of layout change: %1", (Object)menuController);
+            IWidgetLogChannel.menuLogCh.log(10000000, "InstructionTextLayout#InstructionTextLayout: refresh menu because of layout change: %1", (Object)menuController);
             menuController.refreshAllItems();
             object = (ScrollbarController)menuController.getChildOfRole(3);
             if (object != null) {
@@ -562,7 +560,7 @@ IViewSizeAnimatable {
             case 1: {
                 switch (n2) {
                     case 0: {
-                        IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
+                        IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
                     }
                     case 1: {
                         n4 = nArray[1];
@@ -598,7 +596,7 @@ IViewSizeAnimatable {
             case 2: {
                 switch (n2) {
                     case 0: {
-                        IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
+                        IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
                     }
                     case 1: {
                         n4 = nArray[1];
@@ -638,7 +636,7 @@ IViewSizeAnimatable {
             case 3: {
                 switch (n2) {
                     case 0: {
-                        IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
+                        IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
                     }
                     case 1: {
                         n4 = nArray[1];
@@ -678,7 +676,7 @@ IViewSizeAnimatable {
             case 4: {
                 switch (n2) {
                     case 0: {
-                        IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
+                        IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutItStd numberOfHintTextRows is 0 - no hint text is shown");
                     }
                     case 1: {
                         n4 = nArray[0];
@@ -742,7 +740,7 @@ IViewSizeAnimatable {
         }
         this.calculateRows(instructionTextContoller);
         MenuController menuController = instructionTextContoller.getOptions();
-        if (this.menuOriginalY == 128) {
+        if (this.menuOriginalY == Integer.MIN_VALUE) {
             this.menuOriginalY = menuController.getY();
             this.menuOriginalHeight = menuController.getHeight();
             ScrollbarController scrollbarController = (ScrollbarController)menuController.getChildOfRole(3);
@@ -759,7 +757,7 @@ IViewSizeAnimatable {
                 case 1: {
                     switch (this.numberOfHintTextRows) {
                         case 0: {
-                            IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
+                            IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
                         }
                         case 1: 
                         case 2: {
@@ -788,7 +786,7 @@ IViewSizeAnimatable {
                 case 2: {
                     switch (this.numberOfHintTextRows) {
                         case 0: {
-                            IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
+                            IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
                         }
                         case 1: 
                         case 2: {
@@ -810,7 +808,7 @@ IViewSizeAnimatable {
                 case 3: {
                     switch (this.numberOfHintTextRows) {
                         case 0: {
-                            IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
+                            IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
                         }
                         case 1: 
                         case 2: {
@@ -836,7 +834,7 @@ IViewSizeAnimatable {
                 case 4: {
                     switch (this.numberOfHintTextRows) {
                         case 0: {
-                            IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
+                            IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
                         }
                         case 1: {
                             n3 = nArray[26];
@@ -862,7 +860,7 @@ IViewSizeAnimatable {
                 case 6: {
                     switch (this.numberOfHintTextRows) {
                         case 0: {
-                            IWidgetLogChannel.logChannel.log(-1601830656, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
+                            IWidgetLogChannel.logChannel.log(100000, "InstructionTextLayout#layoutCenterAreaMenuTouchfield numberOfHintTextRows is 0 - no hint text is shown");
                         }
                         case 1: {
                             n3 = nArray[26];
@@ -891,7 +889,7 @@ IViewSizeAnimatable {
             glassplateController.setSeparatorYPosition(n - this.menuOriginalY + nArray[39]);
             menuController.setHeight(this.menuOriginalHeight - glassplateController.getSeparatorYPosition());
             menuController.relayout();
-            IWidgetLogChannel.menuLogCh.log(-2137614336, "InstructionTextLayout#InstructionTextLayout: refresh menu because of layout change: %1", (Object)menuController);
+            IWidgetLogChannel.menuLogCh.log(10000000, "InstructionTextLayout#InstructionTextLayout: refresh menu because of layout change: %1", (Object)menuController);
             menuController.refreshAllItems();
             ScrollbarController scrollbarController = (ScrollbarController)menuController.getChildOfRole(3);
             if (scrollbarController != null) {
@@ -941,7 +939,7 @@ IViewSizeAnimatable {
             labelController.setBounds(n6, n4, n5, n);
         } else if (instructionTextContoller.getHintTextMenu() != null) {
             MenuController menuController2 = instructionTextContoller.getHintTextMenu();
-            if (this.hintTextOriginalY == 128) {
+            if (this.hintTextOriginalY == Integer.MIN_VALUE) {
                 this.hintTextOriginalY = menuController2.getY();
             }
             int n12 = nArray[19] + nArray[49];
@@ -954,7 +952,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void flushCache() {
     }
 
@@ -964,14 +961,12 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (fArray != null && fArray.length > 0) {
             this.currentWidthWeight = fArray[0];
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (fArray != null && fArray.length > 0) {
             this.currentWidthWeight = fArray[0];
@@ -979,7 +974,7 @@ IViewSizeAnimatable {
     }
 
     private int getCurrentWidth() {
-        if (this.currentWidthWeight == 0x1000000) {
+        if (this.currentWidthWeight == Float.MIN_VALUE) {
             return this.width;
         }
         int n = this.width;
@@ -994,11 +989,9 @@ IViewSizeAnimatable {
         this.touchfieldLayout = bl;
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 }

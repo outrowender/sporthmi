@@ -11,10 +11,10 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DialNumber_StartResult
 implements StartResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public final BAPString telNumber = new BAPString(41);
-    private static final int MAX_TELNUMBER_LENGTH;
+    private static final int MAX_TELNUMBER_LENGTH = 41;
 
     public DialNumber_StartResult() {
         this.internalReset();
@@ -30,13 +30,11 @@ implements StartResultMethod {
         this.asg_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.telNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DialNumber_StartResult dialNumber_StartResult = (DialNumber_StartResult)bAPEntity;
         return this.asg_Id == dialNumber_StartResult.asg_Id && this.telNumber.equalTo(dialNumber_StartResult.telNumber);
@@ -45,7 +43,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DialNumber_StartResult");
@@ -54,18 +51,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         this.telNumber.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.telNumber.deserialize(bitStream);
@@ -75,7 +69,6 @@ implements StartResultMethod {
         return 30;
     }
 
-    @Override
     public int getFunctionId() {
         return DialNumber_StartResult.functionId();
     }

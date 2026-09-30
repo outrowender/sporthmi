@@ -19,32 +19,32 @@ import java.util.HashMap;
 
 public class FontLoaderEvoHigh
 extends FontLoaderEAL {
-    private static final String FONT_DEFAULT;
-    private static final String FONT_ESO_SPECIAL;
-    private static final String FONT_PLAIN;
-    private static final String FONT_BOLD;
-    private static final String FONT_ARABIC;
-    private static final String FONT_KOREAN;
-    private static final String FONT_JAPANESE;
-    private static final String FONT_CHINESE;
-    private static final String LUR_EU_PLAIN;
-    private static final String LUR_EU_BOLD;
-    private static final String LUR_JP_PLAIN;
-    private static final String LUR_JP_BOLD;
-    private static final String LUR_KR_PLAIN;
-    private static final String LUR_KR_BOLD;
-    private static final String LUR_CN_PLAIN;
-    private static final String LUR_CN_BOLD;
+    private static final String FONT_DEFAULT = "AudiTypeDisplayHigh-Normal_13.ttf";
+    private static final String FONT_ESO_SPECIAL = "EsoSpecial.ttf";
+    private static final String FONT_PLAIN = "AudiTypeDisplayHigh-Normal_13.ttf";
+    private static final String FONT_BOLD = "AudiTypeDisplayHigh-Bold_7.ttf";
+    private static final String FONT_ARABIC = "LT_Univers440_88perc_Arabic.ttf";
+    private static final String FONT_KOREAN = "LTUnivers_Korean_20080609.ttf";
+    private static final String FONT_JAPANESE = "LTUnivers_Japanese_20100301.ttf";
+    private static final String FONT_CHINESE = "ZYHei_GB18030_c(20131128).ttf";
+    private static final String LUR_EU_PLAIN = "variant_EU_plain.lur";
+    private static final String LUR_EU_BOLD = "variant_EU_bold.lur";
+    private static final String LUR_JP_PLAIN = "variant_JP_plain.lur";
+    private static final String LUR_JP_BOLD = "variant_JP_bold.lur";
+    private static final String LUR_KR_PLAIN = "variant_KR_plain.lur";
+    private static final String LUR_KR_BOLD = "variant_KR_bold.lur";
+    private static final String LUR_CN_PLAIN = "variant_CN_plain.lur";
+    private static final String LUR_CN_BOLD = "variant_CN_bold.lur";
     private HashMap fontGroups = new HashMap();
     private SysConstModel regionInfoModel = (SysConstModel)AbstractWidget.framework.getHMIService().getModel(442);
     private String fontPathSlashEnding;
     private boolean isSomethingMissing;
-    private static final boolean LOAD_ALL_FONTS_FOR_STANDARD;
+    private static final boolean LOAD_ALL_FONTS_FOR_STANDARD = SystemProperties.getBoolean("loadAllFontsForStandard", false);
 
     public FontLoaderEvoHigh(HMITerminalImpl hMITerminalImpl) {
         super(hMITerminalImpl);
         if (this.regionInfoModel != null) {
-            logHybridCalls.log(-2137614336, "FontLoaderEvoHigh#FontLoaderEvoHigh created. Path is %1, Region is %2", (Object)this.fontPath, (long)this.regionInfoModel.getValue());
+            logHybridCalls.log(10000000, "FontLoaderEvoHigh#FontLoaderEvoHigh created. Path is %1, Region is %2", (Object)this.fontPath, (long)this.regionInfoModel.getValue());
         } else {
             logHybridCalls.log(10000, "FontLoaderEvoHigh#FontLoaderEvoHigh Region not available.");
         }
@@ -55,22 +55,22 @@ extends FontLoaderEAL {
             n2 = 15;
         }
         String[] stringArray = new String[n2];
-        stringArray[0] = "LT_Univers440_88perc_Arabic.ttf";
-        stringArray[1] = "LTUnivers_Korean_20080609.ttf";
-        stringArray[2] = "ZYHei_GB18030_c(20131128).ttf";
-        stringArray[3] = "LTUnivers_Japanese_20100301.ttf";
-        stringArray[4] = "variant_EU_plain.lur";
-        stringArray[5] = "variant_EU_bold.lur";
-        stringArray[6] = "variant_CN_plain.lur";
-        stringArray[7] = "variant_CN_bold.lur";
-        stringArray[8] = "variant_JP_plain.lur";
-        stringArray[9] = "variant_JP_bold.lur";
-        stringArray[10] = "variant_KR_plain.lur";
-        stringArray[11] = "variant_KR_bold.lur";
+        stringArray[0] = FONT_ARABIC;
+        stringArray[1] = FONT_KOREAN;
+        stringArray[2] = FONT_CHINESE;
+        stringArray[3] = FONT_JAPANESE;
+        stringArray[4] = LUR_EU_PLAIN;
+        stringArray[5] = LUR_EU_BOLD;
+        stringArray[6] = LUR_CN_PLAIN;
+        stringArray[7] = LUR_CN_BOLD;
+        stringArray[8] = LUR_JP_PLAIN;
+        stringArray[9] = LUR_JP_BOLD;
+        stringArray[10] = LUR_KR_PLAIN;
+        stringArray[11] = LUR_KR_BOLD;
         stringArray[12] = "AudiTypeDisplayHigh-Normal_13.ttf";
-        stringArray[13] = "AudiTypeDisplayHigh-Bold_7.ttf";
+        stringArray[13] = FONT_BOLD;
         if (n == 0) {
-            stringArray[14] = "EsoSpecial.ttf";
+            stringArray[14] = FONT_ESO_SPECIAL;
         }
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             File file = new File(FontLoaderEvoHigh.concat(this.fontPathSlashEnding, stringArray[i2]));
@@ -80,7 +80,6 @@ extends FontLoaderEAL {
         }
     }
 
-    @Override
     public Object getFont(String string, int n, int n2) {
         WrappedFont wrappedFont = null;
         int n3 = this.getRegion();
@@ -98,7 +97,7 @@ extends FontLoaderEAL {
     }
 
     private IFontGroup getFontGroup(int n, int n2) {
-        String string = new StringBuffer().append(Integer.toString(n2)).append(Integer.toString(n)).toString();
+        String string = Integer.toString(n2) + Integer.toString(n);
         IFontGroup iFontGroup = null;
         Object object = this.fontGroups.get(string);
         if (object == null) {
@@ -112,94 +111,94 @@ extends FontLoaderEAL {
                             case 3: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
                                 this.addFont(iFontGroup, "AudiTypeDisplayHigh-Normal_13.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_JP_plain.lur");
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_JP_PLAIN);
                                 break block0;
                             }
                             case 4: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
                                 this.addFont(iFontGroup, "AudiTypeDisplayHigh-Normal_13.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_KR_plain.lur");
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_KR_PLAIN);
                                 break block0;
                             }
                             case 2: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
                                 this.addFont(iFontGroup, "AudiTypeDisplayHigh-Normal_13.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_CN_plain.lur");
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_CN_PLAIN);
                                 break block0;
                             }
                         }
                         iFontGroup = new IFontGroup(EALManager.getManager());
-                        this.addFont(iFontGroup, "EsoSpecial.ttf");
+                        this.addFont(iFontGroup, FONT_ESO_SPECIAL);
                         this.addFont(iFontGroup, "AudiTypeDisplayHigh-Normal_13.ttf");
-                        this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
+                        this.addFont(iFontGroup, FONT_ARABIC);
                         if (this.shouldLoadAdditionalFonts()) {
-                            this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                            this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                            this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
+                            this.addFont(iFontGroup, FONT_CHINESE);
+                            this.addFont(iFontGroup, FONT_KOREAN);
+                            this.addFont(iFontGroup, FONT_JAPANESE);
                         }
-                        this.linkUnicodeRanges(iFontGroup, "variant_EU_plain.lur");
+                        this.linkUnicodeRanges(iFontGroup, LUR_EU_PLAIN);
                         break;
                     }
                     case 1: {
                         switch (n2) {
                             case 3: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
-                                this.addFont(iFontGroup, "AudiTypeDisplayHigh-Bold_7.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_JP_bold.lur");
+                                this.addFont(iFontGroup, FONT_BOLD);
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_JP_BOLD);
                                 break block0;
                             }
                             case 4: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
-                                this.addFont(iFontGroup, "AudiTypeDisplayHigh-Bold_7.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_KR_bold.lur");
+                                this.addFont(iFontGroup, FONT_BOLD);
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_KR_BOLD);
                                 break block0;
                             }
                             case 2: {
                                 iFontGroup = new IFontGroup(EALManager.getManager());
-                                this.addFont(iFontGroup, "AudiTypeDisplayHigh-Bold_7.ttf");
-                                this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                                this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
-                                this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
-                                this.linkUnicodeRanges(iFontGroup, "variant_CN_bold.lur");
+                                this.addFont(iFontGroup, FONT_BOLD);
+                                this.addFont(iFontGroup, FONT_CHINESE);
+                                this.addFont(iFontGroup, FONT_KOREAN);
+                                this.addFont(iFontGroup, FONT_JAPANESE);
+                                this.addFont(iFontGroup, FONT_ARABIC);
+                                this.linkUnicodeRanges(iFontGroup, LUR_CN_BOLD);
                                 break block0;
                             }
                         }
                         iFontGroup = new IFontGroup(EALManager.getManager());
-                        this.addFont(iFontGroup, "EsoSpecial.ttf");
-                        this.addFont(iFontGroup, "AudiTypeDisplayHigh-Bold_7.ttf");
-                        this.addFont(iFontGroup, "LT_Univers440_88perc_Arabic.ttf");
+                        this.addFont(iFontGroup, FONT_ESO_SPECIAL);
+                        this.addFont(iFontGroup, FONT_BOLD);
+                        this.addFont(iFontGroup, FONT_ARABIC);
                         if (this.shouldLoadAdditionalFonts()) {
-                            this.addFont(iFontGroup, "ZYHei_GB18030_c(20131128).ttf");
-                            this.addFont(iFontGroup, "LTUnivers_Korean_20080609.ttf");
-                            this.addFont(iFontGroup, "LTUnivers_Japanese_20100301.ttf");
+                            this.addFont(iFontGroup, FONT_CHINESE);
+                            this.addFont(iFontGroup, FONT_KOREAN);
+                            this.addFont(iFontGroup, FONT_JAPANESE);
                         }
-                        this.linkUnicodeRanges(iFontGroup, "variant_EU_bold.lur");
+                        this.linkUnicodeRanges(iFontGroup, LUR_EU_BOLD);
                     }
                 }
             }
             if (iFontGroup != null) {
-                IWidgetLogChannel.logBenchmark.log(-2137614336, "FontloaderEvoHigh#getFontGroup created style=%1, region=%2", (long)n, (long)n2);
+                IWidgetLogChannel.logBenchmark.log(10000000, "FontloaderEvoHigh#getFontGroup created style=%1, region=%2", (long)n, (long)n2);
                 this.fontGroups.put(string, iFontGroup);
             }
         } else {
@@ -224,21 +223,17 @@ extends FontLoaderEAL {
     }
 
     private void addFont(IFontGroup iFontGroup, String string) {
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "FontloaderEvoHigh#addFont font=%1", (Object)string);
+        IWidgetLogChannel.logBenchmark.log(10000000, "FontloaderEvoHigh#addFont font=%1", (Object)string);
         iFontGroup.addFont(FontLoaderEvoHigh.concat(this.fontPathSlashEnding, string));
     }
 
     private void linkUnicodeRanges(IFontGroup iFontGroup, String string) {
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "FontloaderEvoHigh#linkUnicodeRanges lur=%1", (Object)string);
+        IWidgetLogChannel.logBenchmark.log(10000000, "FontloaderEvoHigh#linkUnicodeRanges lur=%1", (Object)string);
         iFontGroup.linkUnicodeRanges(FontLoaderEvoHigh.concat(this.fontPathSlashEnding, string));
     }
 
     private static String concat(String string, String string2) {
         return StringUtility.concatenate(string, string2);
-    }
-
-    static {
-        LOAD_ALL_FONTS_FOR_STANDARD = SystemProperties.getBoolean("loadAllFontsForStandard", false);
     }
 }
 

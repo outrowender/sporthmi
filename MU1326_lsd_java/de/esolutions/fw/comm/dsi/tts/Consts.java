@@ -4,9 +4,9 @@
 package de.esolutions.fw.comm.dsi.tts;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSITTS_LANGUAGE;
-    public static final int ATTRIBUTE_ID_DSITTS_AVAILABLELANGUAGES;
-    public static final int ATTRIBUTE_ID_DSITTS_AUDIOREQUEST;
-    public static final int ATTRIBUTE_ID_DSITTS_MARKERPASSED;
+    public static final int ATTRIBUTE_ID_DSITTS_LANGUAGE = 2;
+    public static final int ATTRIBUTE_ID_DSITTS_AVAILABLELANGUAGES = 7;
+    public static final int ATTRIBUTE_ID_DSITTS_AUDIOREQUEST = 9;
+    public static final int ATTRIBUTE_ID_DSITTS_MARKERPASSED = 10;
 }
 

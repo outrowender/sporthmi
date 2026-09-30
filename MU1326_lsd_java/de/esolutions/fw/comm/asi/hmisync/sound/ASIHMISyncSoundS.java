@@ -4,57 +4,41 @@
 package de.esolutions.fw.comm.asi.hmisync.sound;
 
 import de.esolutions.fw.comm.asi.hmisync.sound.ASIHMISyncSoundReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncSoundS {
-    default public void setBassValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setBassValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setTrebleValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setTrebleValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setBalanceValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setBalanceValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setFaderValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setFaderValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setSubwooferValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setSubwooferValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setSurroundValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setSurroundValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setNoiseCompensationValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setNoiseCompensationValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setThreeDModeValue(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setThreeDModeValue(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setSoundShape(int n, int n2, int n3, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setSoundShape(int var1, int var2, int var3, ASIHMISyncSoundReply var4) throws MethodException;
 
-    default public void setPresetPosition(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setPresetPosition(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setPresetEQ(int n, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setPresetEQ(int var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setNotification(ASIHMISyncSoundReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncSoundReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncSoundReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void clearNotification(ASIHMISyncSoundReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncSoundReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncSoundReply var2) throws MethodException;
 }
 

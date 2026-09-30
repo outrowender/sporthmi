@@ -32,7 +32,7 @@ public class sHardwareNumber {
     }
 
     public String toString() {
-        return new StringBuffer("sHardwareNumber{").append("msg_id=").append(this.msg_id).append(", number=").append(this.number).append("}").toString();
+        return "sHardwareNumber{" + "msg_id=" + this.msg_id + ", number=" + this.number + "}";
     }
 }
 

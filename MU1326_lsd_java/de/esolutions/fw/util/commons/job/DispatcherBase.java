@@ -5,8 +5,8 @@ package de.esolutions.fw.util.commons.job;
 
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
+import de.esolutions.fw.util.commons.job.BaseInterceptor;
 import de.esolutions.fw.util.commons.job.CheckBlockedInterceptor;
-import de.esolutions.fw.util.commons.job.DispatcherBase$FinishedNowInterceptor;
 import de.esolutions.fw.util.commons.job.IBlockedJobHandler;
 import de.esolutions.fw.util.commons.job.IInterceptor;
 import de.esolutions.fw.util.commons.job.IJobLogger;
@@ -23,7 +23,7 @@ import java.io.PrintStream;
 public class DispatcherBase
 implements Runnable,
 DumpInfoProvider {
-    private static final long WAIT_FOR_THREAD_SHUTDOWN;
+    private static final long WAIT_FOR_THREAD_SHUTDOWN = 10000L;
     private final String name;
     private final ITimeSource timeSource;
     private final IJobLogger log;
@@ -55,7 +55,7 @@ DumpInfoProvider {
         this.statistic = null;
         this.setBlockedHandler(0L, null);
         this.addInterceptor(iInterceptor);
-        this.addInterceptor(new DispatcherBase$FinishedNowInterceptor(iTimeSource));
+        this.addInterceptor(new FinishedNowInterceptor(iTimeSource));
     }
 
     public DispatcherBase(String string, ITimeSource iTimeSource, IJobLogger iJobLogger, JobQueue jobQueue, IInterceptor iInterceptor, Job job, ThreadPool threadPool) {
@@ -80,7 +80,7 @@ DumpInfoProvider {
 
     public final void setPriority(int n) {
         if (this.log != null) {
-            this.log.log(1078071040, "%1 set priority to %2", (Object)this, n);
+            this.log.log(1000000, "%1 set priority to %2", (Object)this, n);
         }
         this.priority = n;
         Thread thread = this.workerThread;
@@ -218,10 +218,10 @@ DumpInfoProvider {
         if (this.workerThread != null) {
             Thread thread = this.workerThread;
             if (this.log != null) {
-                this.log.log(-1601830656, "%1 Worker Thread %2 still active! Wait for it to terminate", (Object)this, this.workerThread);
+                this.log.log(100000, "%1 Worker Thread %2 still active! Wait for it to terminate", (Object)this, this.workerThread);
             }
             try {
-                super.wait(0);
+                this.wait(10000L);
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
@@ -229,9 +229,9 @@ DumpInfoProvider {
             if (this.log != null) {
                 if (this.workerThread != null) {
                     this.log.log(1000, "%1 Worker Thread %2 still active! Discarding it!", (Object)this, thread);
-                    System.err.println(new StringBuffer().append("Something interesting has happened: ").append(this).append(" Worker Thread ").append(thread).append(" is still active! It is discarded and replaced by a new thread! The old thread might cause trouble!").toString());
+                    System.err.println("Something interesting has happened: " + this + " Worker Thread " + thread + " is still active! It is discarded and replaced by a new thread! The old thread might cause trouble!");
                 } else {
-                    this.log.log(-1601830656, "%1 old Worker Thread %2 terminated!", (Object)this, thread);
+                    this.log.log(100000, "%1 old Worker Thread %2 terminated!", (Object)this, thread);
                 }
             }
         }
@@ -243,11 +243,11 @@ DumpInfoProvider {
         this.workerThread = Thread.currentThread();
         this.workerThread.setPriority(this.priority);
         if (this.log != null) {
-            this.log.log(1078071040, "%1 processing started!", this);
+            this.log.log(1000000, "%1 processing started!", this);
         }
-        this.workerThread.setName(new StringBuffer().append(Thread.currentThread().getName()).append(this.toString()).toString());
+        this.workerThread.setName(Thread.currentThread().getName() + this.toString());
         if (this.log != null) {
-            this.log.log(-2137614336, "%1 WorkerThread: %2 running with priority: %3", (Object)this, Thread.currentThread().getName(), this.priority);
+            this.log.log(10000000, "%1 WorkerThread: %2 running with priority: %3", (Object)this, Thread.currentThread().getName(), this.priority);
         }
     }
 
@@ -257,10 +257,9 @@ DumpInfoProvider {
         } else if (this.log != null) {
             this.log.log(10000, "%1 Worker Thread %2 was replaced by other thread!", (Object)this, Thread.currentThread());
         }
-        super.notifyAll();
+        this.notifyAll();
     }
 
-    @Override
     public void run() {
         this.attachWorkerThread();
         while (this.workerThread == this.pendingThread) {
@@ -282,7 +281,7 @@ DumpInfoProvider {
             }
         }
         if (this.log != null) {
-            this.log.log(1078071040, "%1 processing stopped!", this);
+            this.log.log(1000000, "%1 processing stopped!", this);
         }
         this.detachWorkerThread();
     }
@@ -314,8 +313,8 @@ DumpInfoProvider {
         buffer.append("Events queued: ").append(this.getQueue().length()).append(" due: ").append(this.getQueue().getDueJobs());
         stringArray[0] = buffer.toString();
         if (this.statistic != null) {
-            stringArray[1] = new StringBuffer().append("Events per second: ").append(this.statistic.getCurrentJobRate()).append("/s").toString();
-            stringArray[2] = new StringBuffer().append("Events busy: ").append(this.statistic.getCurrentJobLoad()).append("% delay: ").append(this.statistic.getCurrentDelay()).append("ms").toString();
+            stringArray[1] = "Events per second: " + this.statistic.getCurrentJobRate() + "/s";
+            stringArray[2] = "Events busy: " + this.statistic.getCurrentJobLoad() + "% delay: " + this.statistic.getCurrentDelay() + "ms";
         } else {
             stringArray[1] = "Events per second: --";
             stringArray[2] = "Events busy: --";
@@ -327,14 +326,33 @@ DumpInfoProvider {
         return new StatisticData(this);
     }
 
-    @Override
     public String getName() {
         return this.toString();
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         this.dump(printStream);
+    }
+
+    private static final class FinishedNowInterceptor
+    extends BaseInterceptor {
+        private final ITimeSource timeSource;
+
+        public FinishedNowInterceptor(ITimeSource iTimeSource) {
+            this.timeSource = iTimeSource;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void execute(Job job) {
+            try {
+                super.execute(job);
+            }
+            finally {
+                job.setFinished(this.timeSource.getCurrentTime());
+            }
+        }
     }
 }
 

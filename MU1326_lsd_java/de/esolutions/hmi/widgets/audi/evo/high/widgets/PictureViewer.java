@@ -24,7 +24,6 @@ extends LayoutContainerController {
     private LayoutContainerController[] lines;
     private FocusCursorController[] magnifierCursor;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof LayoutContainerController) {
             List list = abstractWidget.getChildren();
@@ -40,7 +39,6 @@ extends LayoutContainerController {
         super.add(abstractWidget);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.setUpWidget();
@@ -54,12 +52,10 @@ extends LayoutContainerController {
         return this.magnifierCursor[n];
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.pictureWall.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         super.setModel(hMIModelGUI);
         if (this.pictureWall != null) {

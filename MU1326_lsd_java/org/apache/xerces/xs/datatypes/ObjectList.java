@@ -4,13 +4,10 @@
 package org.apache.xerces.xs.datatypes;
 
 public interface ObjectList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    default public Object item(int n) {
-    }
+    public Object item(int var1);
 }
 

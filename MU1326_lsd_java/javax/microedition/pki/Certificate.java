@@ -4,28 +4,20 @@
 package javax.microedition.pki;
 
 public interface Certificate {
-    default public String getIssuer() {
-    }
+    public String getIssuer();
 
-    default public long getNotAfter() {
-    }
+    public long getNotAfter();
 
-    default public long getNotBefore() {
-    }
+    public long getNotBefore();
 
-    default public String getSerialNumber() {
-    }
+    public String getSerialNumber();
 
-    default public String getSigAlgName() {
-    }
+    public String getSigAlgName();
 
-    default public String getSubject() {
-    }
+    public String getSubject();
 
-    default public String getType() {
-    }
+    public String getType();
 
-    default public String getVersion() {
-    }
+    public String getVersion();
 }
 

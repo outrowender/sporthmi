@@ -26,8 +26,8 @@ import java.util.List;
 public class GlassplateController
 extends AbstractWidgetController
 implements DrawerAnimationListener {
-    public static final float PROPERTY_OPACITY_SEMI_OPAQUE;
-    public static final float PROPERTY_OPACITY_FULL_OPAQUE;
+    public static final float PROPERTY_OPACITY_SEMI_OPAQUE = 2.0f;
+    public static final float PROPERTY_OPACITY_FULL_OPAQUE = 3.0f;
     private IRenderer renderer;
     private float propertyOpacity = 2.0f;
     private float propertyScale = 1.0f;
@@ -50,7 +50,6 @@ implements DrawerAnimationListener {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -107,14 +106,12 @@ implements DrawerAnimationListener {
         this.isOptionGlassPlate = bl;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.checkForOptionScreen(initializationContext);
         this.terminal.getDrawerFocusManager().registerDrawerAnimationListener(this);
     }
 
-    @Override
     protected void initializeWidget() {
         this.selectionDrawerIconVisible = null;
         this.widgetRegistry = ((HMITerminalImpl)this.getTerminal()).getWidgetRegistry();
@@ -122,7 +119,7 @@ implements DrawerAnimationListener {
             if (this.getParent() != null && this.getParent().getParent() != null && this.getParent().getParent().isVisible() && this.isVisible()) {
                 this.widgetRegistry.registerWidget(this, 19, -1, this.initContext.getScreen());
             } else {
-                IWidgetLogChannel.logChannel.log(-1601830656, "GlassplateController#initializeWidget Parent is not visible, glassplate was not registered.");
+                IWidgetLogChannel.logChannel.log(100000, "GlassplateController#initializeWidget Parent is not visible, glassplate was not registered.");
             }
         }
         super.initializeWidget();
@@ -142,7 +139,6 @@ implements DrawerAnimationListener {
         return true;
     }
 
-    @Override
     public void predisconnecting() {
         if (this.isMainAreaGlassplate()) {
             this.widgetRegistry.deRegisterWidget(this, 19, -1, this.initContext.getScreen());
@@ -166,7 +162,6 @@ implements DrawerAnimationListener {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.initializeSelectionDrawerVisibleLazy();
         super.render(redrawContext);
@@ -175,7 +170,7 @@ implements DrawerAnimationListener {
     private void initializeSelectionDrawerVisibleLazy() {
         if (this.selectionDrawerIconVisible == null) {
             this.selectionDrawerIconVisible = this.calculateSelectionDrawerIconVisible();
-            logDrawer.log(-2137614336, "GlassplateController#initializeSelectionDrawerVisibleLazy: selection drawer icon visible: %1, screen: %2", (Object)this.selectionDrawerIconVisible, (long)this.getScreenId());
+            logDrawer.log(10000000, "GlassplateController#initializeSelectionDrawerVisibleLazy: selection drawer icon visible: %1, screen: %2", (Object)this.selectionDrawerIconVisible, (long)this.getScreenId());
         }
     }
 
@@ -223,7 +218,6 @@ implements DrawerAnimationListener {
         this.scdText = string;
     }
 
-    @Override
     public void disconnecting() {
         this.terminal.getDrawerFocusManager().unregisterDrawerAnimationListener(this);
         this.scdExtensionVisible = false;
@@ -281,29 +275,24 @@ implements DrawerAnimationListener {
         return null;
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         this.updateMenuOpacityOptionDrawerOpen();
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
         this.updateOptionDrawerState(fArray2);
         this.updateMenuOpacityOptionDrawerOpen();
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 4100;
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
         this.updateOptionDrawerState(fArray2);
         this.updateMenuOpacityOptionDrawerOpen();
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 

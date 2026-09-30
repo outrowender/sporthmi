@@ -10,7 +10,6 @@ import de.esolutions.fw.util.commons.job.Job;
 public class RunInterceptor
 extends BaseInterceptor
 implements IInterceptor {
-    @Override
     public void execute(Job job) {
         ((Runnable)job.getPayload()).run();
     }

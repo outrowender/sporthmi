@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.telephoneng;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.telephoneng.DSIMobileEquipmentTopologyReply;
 import de.esolutions.fw.comm.dsi.telephoneng.impl.DSIMobileEquipmentTopologyReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIMobileEquipmentTopologyReply {
         super(n, (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentTopologyListener == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentTopologyListener = DSIMobileEquipmentTopologyDispatcher.class$("org.dsi.ifc.telephoneng.DSIMobileEquipmentTopologyListener")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipmentTopologyListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseChangeTopology(int n) {
+    public void responseChangeTopology(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIMobileEquipmentTopologyReply {
         }
     }
 
-    @Override
-    public void updateTopology(int[] nArray, int n) {
+    public void updateTopology(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -73,8 +71,7 @@ implements DSIMobileEquipmentTopologyReply {
         }
     }
 
-    @Override
-    public void updateUsage(int[] nArray, int n) {
+    public void updateUsage(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -102,8 +99,7 @@ implements DSIMobileEquipmentTopologyReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -119,14 +115,13 @@ implements DSIMobileEquipmentTopologyReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMobileEquipmentTopologyListener dSIMobileEquipmentTopologyListener = (DSIMobileEquipmentTopologyListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobileEquipmentTopologyDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobileEquipmentTopologyDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMobileEquipmentTopologyListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMobileEquipmentTopologyDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMobileEquipmentTopologyDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMobileEquipmentTopologyListener, new Object[]{string, string2});
                     continue;
                 }

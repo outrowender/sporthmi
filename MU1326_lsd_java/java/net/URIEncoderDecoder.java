@@ -5,16 +5,17 @@ package java.net;
 
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
 class URIEncoderDecoder {
-    static final String digits;
-    static final String encoding;
+    static final String digits = "0123456789ABCDEF";
+    static final String encoding = "UTF8";
 
     URIEncoderDecoder() {
     }
 
-    static void validate(String string, String string2) {
+    static void validate(String string, String string2) throws URISyntaxException {
         int n = 0;
         while (n < string.length()) {
             char c2 = string.charAt(n);
@@ -37,7 +38,7 @@ class URIEncoderDecoder {
         }
     }
 
-    static void validateSimple(String string, String string2) {
+    static void validateSimple(String string, String string2) throws URISyntaxException {
         int n = 0;
         while (n < string.length()) {
             char c2 = string.charAt(n);
@@ -48,7 +49,7 @@ class URIEncoderDecoder {
         }
     }
 
-    static String quoteIllegal(String string, String string2) {
+    static String quoteIllegal(String string, String string2) throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer();
         int n = 0;
         while (n < string.length()) {
@@ -56,12 +57,12 @@ class URIEncoderDecoder {
             if (c2 >= 'a' && c2 <= 'z' || c2 >= 'A' && c2 <= 'Z' || c2 >= '0' && c2 <= '9' || string2.indexOf(c2) > -1 || c2 > '\u007f' && !Character.isSpaceChar(c2) && !Character.isISOControl(c2)) {
                 stringBuffer.append(c2);
             } else {
-                byte[] byArray = new String(new char[]{c2}).getBytes("UTF8");
+                byte[] byArray = new String(new char[]{c2}).getBytes(encoding);
                 int n2 = 0;
                 while (n2 < byArray.length) {
                     stringBuffer.append('%');
-                    stringBuffer.append("0123456789ABCDEF".charAt((byArray[n2] & 0xF0) >> 4));
-                    stringBuffer.append("0123456789ABCDEF".charAt(byArray[n2] & 0xF));
+                    stringBuffer.append(digits.charAt((byArray[n2] & 0xF0) >> 4));
+                    stringBuffer.append(digits.charAt(byArray[n2] & 0xF));
                     ++n2;
                 }
             }
@@ -70,7 +71,7 @@ class URIEncoderDecoder {
         return stringBuffer.toString();
     }
 
-    static String encodeOthers(String string) {
+    static String encodeOthers(String string) throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer();
         int n = 0;
         while (n < string.length()) {
@@ -78,12 +79,12 @@ class URIEncoderDecoder {
             if (c2 <= '\u007f') {
                 stringBuffer.append(c2);
             } else {
-                byte[] byArray = new String(new char[]{c2}).getBytes("UTF8");
+                byte[] byArray = new String(new char[]{c2}).getBytes(encoding);
                 int n2 = 0;
                 while (n2 < byArray.length) {
                     stringBuffer.append('%');
-                    stringBuffer.append("0123456789ABCDEF".charAt((byArray[n2] & 0xF0) >> 4));
-                    stringBuffer.append("0123456789ABCDEF".charAt(byArray[n2] & 0xF));
+                    stringBuffer.append(digits.charAt((byArray[n2] & 0xF0) >> 4));
+                    stringBuffer.append(digits.charAt(byArray[n2] & 0xF));
                     ++n2;
                 }
             }
@@ -92,7 +93,7 @@ class URIEncoderDecoder {
         return stringBuffer.toString();
     }
 
-    static String decode(String string) {
+    static String decode(String string) throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int n = 0;
@@ -111,7 +112,7 @@ class URIEncoderDecoder {
                     }
                     byteArrayOutputStream.write((byte)((n2 << 4) + n3));
                 } while ((n += 3) < string.length() && string.charAt(n) == '%');
-                stringBuffer.append(byteArrayOutputStream.toString("UTF8"));
+                stringBuffer.append(byteArrayOutputStream.toString(encoding));
                 continue;
             }
             stringBuffer.append(c2);

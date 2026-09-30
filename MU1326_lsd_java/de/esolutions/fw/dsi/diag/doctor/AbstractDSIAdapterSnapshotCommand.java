@@ -21,7 +21,6 @@ extends AbstractDSIAdapterDiagnosisCommand {
         return this.snapshot;
     }
 
-    @Override
     protected void handleWithDSIAdapterDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         this.snapshot = (IAdapterSnapshot)doctorShell.getState().getKey(this.ADAPTER_SNAPSHOT_STATE_NAME);
         if (this.snapshot == null) {
@@ -35,7 +34,6 @@ extends AbstractDSIAdapterDiagnosisCommand {
         }
     }
 
-    protected abstract void handleWithDSIAdapterSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithDSIAdapterSnapshot(DoctorShell var1, String[] var2, PrintStream var3);
 }
 

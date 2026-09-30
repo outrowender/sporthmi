@@ -18,49 +18,34 @@ import org.dsi.ifc.global.CarViewOption;
 
 public interface DSICarVehicleStatesListener
 extends DSIListener {
-    default public void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateOilLevelViewOption(CarViewOption var1, int var2);
 
-    default public void updateOilLevelData(OilLevelData oilLevelData, int n) {
-    }
+    public void updateOilLevelData(OilLevelData var1, int var2);
 
-    default public void updateVINViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateVINViewOption(CarViewOption var1, int var2);
 
-    default public void updateVINData(String string, int n) {
-    }
+    public void updateVINData(String var1, int var2);
 
-    default public void updateKeyViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateKeyViewOption(CarViewOption var1, int var2);
 
-    default public void updateKeyData(KeyData keyData, int n) {
-    }
+    public void updateKeyData(KeyData var1, int var2);
 
-    default public void updateDrvSchoolSystem(boolean bl, int n) {
-    }
+    public void updateDrvSchoolSystem(boolean var1, int var2);
 
-    default public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
-    }
+    public void updateVehicleInfoViewOptions(VehicleInfoViewOptions var1, int var2);
 
-    default public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
-    }
+    public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions var1, int var2);
 
-    default public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
-    }
+    public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions var1, int var2);
 
-    default public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
-    }
+    public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent var1, int var2);
 
-    default public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
-    }
+    public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent var1, int var2);
 
-    default public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
-    }
+    public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions var1, int var2);
 
-    default public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) {
-    }
+    public void updateSemiStaticVehicleData(SemiStaticVehicleData var1, int var2);
 
-    default public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
-    }
+    public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR var1, int var2);
 }
 

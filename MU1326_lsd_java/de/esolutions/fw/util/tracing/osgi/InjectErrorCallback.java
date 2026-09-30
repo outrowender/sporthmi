@@ -14,7 +14,6 @@ implements ITraceCallback {
         this.frontend = traceFrontend;
     }
 
-    @Override
     public void executeTraceCallback(int n, byte[] byArray) {
         if (this.frontend != null) {
             System.err.println("JavaTraceCore: injecting error for testing purposes...");

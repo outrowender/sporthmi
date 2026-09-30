@@ -8,11 +8,11 @@ import java.io.IOException;
 public abstract class InputStream {
     private static byte[] skipBuf;
 
-    public int available() {
+    public int available() throws IOException {
         return 0;
     }
 
-    public void close() {
+    public void close() throws IOException {
     }
 
     public void mark(int n) {
@@ -22,14 +22,13 @@ public abstract class InputStream {
         return false;
     }
 
-    public abstract int read() {
-    }
+    public abstract int read() throws IOException;
 
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (n <= byArray.length && n >= 0 && n2 >= 0 && n2 <= byArray.length - n) {
             int n3 = 0;
             while (n3 < n2) {
@@ -54,17 +53,17 @@ public abstract class InputStream {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    public synchronized void reset() {
+    public synchronized void reset() throws IOException {
         throw new IOException();
     }
 
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         int n;
         if (l <= 0L) {
             return 0L;
         }
         long l2 = 0L;
-        int n2 = n = l < 0 ? (int)l : 4096;
+        int n2 = n = l < 4096L ? (int)l : 4096;
         if (skipBuf == null || skipBuf.length < n) {
             skipBuf = new byte[n];
         }

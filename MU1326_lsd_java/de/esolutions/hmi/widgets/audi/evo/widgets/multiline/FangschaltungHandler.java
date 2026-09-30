@@ -5,26 +5,25 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.event.EventDispatcher;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.FangschaltungHandler$TimerOp;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.ITimer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.TimerHandler;
 
 public class FangschaltungHandler {
-    public static final int TIMER_IDLE;
-    public static final int TIMER_RUNNING;
-    public static final int TIMER_TIMED_OUT;
-    public static final int TIMER_CANCELED;
-    public static final int FANGSCHALTUNG_DISABLED;
-    public static final int FANGSCHALTUNG_ACTIVATE_ON_REACHING_EDGE;
-    public static final int FANGSCHALTUNG_WAIT_FOR_TIMEOUT;
-    public static final long FANGSCHALTUNG_CANCEL_TIMERS_DELTA_BETWEEN_CLICKS;
+    public static final int TIMER_IDLE = 0;
+    public static final int TIMER_RUNNING = 1;
+    public static final int TIMER_TIMED_OUT = 2;
+    public static final int TIMER_CANCELED = 3;
+    public static final int FANGSCHALTUNG_DISABLED = 0;
+    public static final int FANGSCHALTUNG_ACTIVATE_ON_REACHING_EDGE = 1;
+    public static final int FANGSCHALTUNG_WAIT_FOR_TIMEOUT = 2;
+    public static final long FANGSCHALTUNG_CANCEL_TIMERS_DELTA_BETWEEN_CLICKS = 200L;
     private int[] m_timerState = null;
     private int[] m_fangschaltungState = null;
     private long[] m_fangschaltungLastClick = new long[2];
     private boolean[] timerResets = new boolean[]{false, false};
     private int[] timerDelays = new int[]{500, 500};
     private IFrameworkAccess m_framework;
-    private ITimer[] timerOps = new ITimer[]{new FangschaltungHandler$TimerOp(this, null), new FangschaltungHandler$TimerOp(this, null)};
+    private ITimer[] timerOps = new ITimer[]{new TimerOp(), new TimerOp()};
     private TimerHandler m_timerHandler = null;
     private boolean shouldBreak = false;
 
@@ -74,7 +73,7 @@ public class FangschaltungHandler {
                 } else {
                     long l = this.m_framework.getMonotonicTime();
                     long l2 = l - this.m_fangschaltungLastClick[n];
-                    if (l2 > 0) {
+                    if (l2 > 200L) {
                         this.m_timerHandler.cancelTimer(n);
                         this.m_fangschaltungState[n] = 0;
                     } else {
@@ -88,8 +87,22 @@ public class FangschaltungHandler {
         return bl;
     }
 
-    static /* synthetic */ int[] access$000(FangschaltungHandler fangschaltungHandler) {
-        return fangschaltungHandler.m_timerState;
+    private class TimerOp
+    implements ITimer {
+        private TimerOp() {
+        }
+
+        public void onEnqueue(int n) {
+            ((FangschaltungHandler)FangschaltungHandler.this).m_timerState[n] = 1;
+        }
+
+        public void onTimeout(int n) {
+            ((FangschaltungHandler)FangschaltungHandler.this).m_timerState[n] = 2;
+        }
+
+        public void onCancel(int n) {
+            ((FangschaltungHandler)FangschaltungHandler.this).m_timerState[n] = 3;
+        }
     }
 }
 

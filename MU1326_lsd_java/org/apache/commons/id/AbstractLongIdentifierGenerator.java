@@ -10,23 +10,18 @@ implements LongIdentifierGenerator {
     protected AbstractLongIdentifierGenerator() {
     }
 
-    @Override
     public long maxValue() {
         return Long.MAX_VALUE;
     }
 
-    @Override
     public long minValue() {
         return Long.MIN_VALUE;
     }
 
-    @Override
     public Object nextIdentifier() {
         return this.nextLongIdentifier();
     }
 
-    @Override
-    public abstract Long nextLongIdentifier() {
-    }
+    public abstract Long nextLongIdentifier();
 }
 

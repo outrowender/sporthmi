@@ -72,7 +72,7 @@ public class CarConfiguration {
     }
 
     public String toString() {
-        return new StringBuffer("CarConfiguration{").append("version=").append(this.version).append(", carBrand=").append(this.carBrand).append(", carClass=").append(this.carClass).append(", carGeneration=").append(this.carGeneration).append(", carDerivate=").append(this.carDerivate).append(", carDerivateSupplement=").append(this.carDerivateSupplement).append("}").toString();
+        return "CarConfiguration{" + "version=" + this.version + ", carBrand=" + this.carBrand + ", carClass=" + this.carClass + ", carGeneration=" + this.carGeneration + ", carDerivate=" + this.carDerivate + ", carDerivateSupplement=" + this.carDerivateSupplement + "}";
     }
 }
 

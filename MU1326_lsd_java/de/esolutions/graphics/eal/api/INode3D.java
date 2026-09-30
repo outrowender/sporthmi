@@ -22,12 +22,10 @@ extends INode {
         return iNode3D == null ? 0L : iNode3D.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -39,7 +37,6 @@ extends INode {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -188,7 +185,6 @@ extends INode {
         return ealswigJNI.eal_api_INode3D_resetTransformations(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode3D_dispose(this.swigCPtr, this);
     }

@@ -13,7 +13,6 @@ extends AnimationControllerMIB2High {
         super(n);
     }
 
-    @Override
     protected AbstractAnimation createAnimation(int n) {
         return new AnimationMIB2Std(this);
     }

@@ -18,7 +18,6 @@ extends MenuItemController {
     DateSettingsWidgetController date;
     boolean pressed = false;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof TimeSettingsWidgetController) {
@@ -28,17 +27,15 @@ extends MenuItemController {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
-        menuItemLogCh.log(-2137614336, "AuxiliaryHeaterProgrammingWidgetController#connected");
+        menuItemLogCh.log(10000000, "AuxiliaryHeaterProgrammingWidgetController#connected");
         super.connected(initializationContext);
         if (!this.date.isDateValid()) {
-            menuItemLogCh.log(1078071040, "AuxiliaryHeaterProgrammingWidgetController#connected Date seems to be not valid (%1)! Date is reset to reference calendar.", (Object)this.date.getCalendar().getTime());
+            menuItemLogCh.log(1000000, "AuxiliaryHeaterProgrammingWidgetController#connected Date seems to be not valid (%1)! Date is reset to reference calendar.", (Object)this.date.getCalendar().getTime());
             AbstractTimeDateController.writeDataToModel(this.getModel(), DateSettingsWidgetController.getReferenceCalendar(), this.terminal.getTerminalID());
         }
     }
 
-    @Override
     public void disconnecting() {
         if (this.isHighlighted()) {
             this.setHighlighted(false);
@@ -48,7 +45,6 @@ extends MenuItemController {
         super.disconnecting();
     }
 
-    @Override
     public int getCurrentVisState() {
         int n = 2;
         if ((this.widgetState & 4) != 0 && (this.widgetState & 0x20) != 0) {
@@ -57,18 +53,16 @@ extends MenuItemController {
         return n;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        menuItemLogCh.log(-2137614336, "AuxiliaryHeaterProgrammingWidgetController#keyPressed KeyCode = %1", (long)keyEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "AuxiliaryHeaterProgrammingWidgetController#keyPressed KeyCode = %1", (long)keyEvent.getKeyCode());
         if (keyEvent.getKeyCode() == 17) {
             this.pressed = true;
             keyEvent.consume();
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        menuItemLogCh.log(-2137614336, "AuxiliaryHeaterProgrammingWidgetController#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "AuxiliaryHeaterProgrammingWidgetController#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
         if (this.pressed && keyEvent.getKeyCode() == 17) {
             if (this.getCurrentVisState() == 1) {
                 this.setHighlighted(true);
@@ -92,7 +86,6 @@ extends MenuItemController {
         keyEvent.consume();
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.getCurrentVisState() == 3) {
             if (wheelButtonEvent.getClickCount() == 0) {
@@ -108,7 +101,6 @@ extends MenuItemController {
         }
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (!bl) {
             this.setHighlighted(false);

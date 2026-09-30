@@ -12,37 +12,26 @@ import org.dsi.ifc.exboxm.PublicDeviceAddress;
 
 public interface DSIExBoxMListener
 extends DSIListener {
-    default public void responseDisplayControl(int n, int n2) {
-    }
+    public void responseDisplayControl(int var1, int var2);
 
-    default public void updateAudioRequest(AudioRequest audioRequest, int n) {
-    }
+    public void updateAudioRequest(AudioRequest var1, int var2);
 
-    default public void updateDisplayRequest(int n, int n2) {
-    }
+    public void updateDisplayRequest(int var1, int var2);
 
-    default public void updateOperationState(int n, int n2) {
-    }
+    public void updateOperationState(int var1, int var2);
 
-    default public void responseVolumeRange(int n) {
-    }
+    public void responseVolumeRange(int var1);
 
-    default public void responseResetToFactory(int n) {
-    }
+    public void responseResetToFactory(int var1);
 
-    default public void responseConnectionControl(ConnectionControl connectionControl) {
-    }
+    public void responseConnectionControl(ConnectionControl var1);
 
-    default public void updateActiveSourceType(int n, int n2) {
-    }
+    public void updateActiveSourceType(int var1, int var2);
 
-    default public void updateCurrentStationInfo(String string, int n, String string2, int n2, int n3, String string3, int n4, String string4, int n5, int n6) {
-    }
+    public void updateCurrentStationInfo(String var1, int var2, String var3, int var4, int var5, String var6, int var7, String var8, int var9, int var10);
 
-    default public void updateMobileDeviceLinkStatus(MobileDeviceLinkStatus mobileDeviceLinkStatus, ExBoxState exBoxState, int n) {
-    }
+    public void updateMobileDeviceLinkStatus(MobileDeviceLinkStatus var1, ExBoxState var2, int var3);
 
-    default public void updatePublicDeviceAddress(PublicDeviceAddress publicDeviceAddress, int n) {
-    }
+    public void updatePublicDeviceAddress(PublicDeviceAddress var1, int var2);
 }
 

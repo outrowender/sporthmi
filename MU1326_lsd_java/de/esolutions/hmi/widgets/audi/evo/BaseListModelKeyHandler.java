@@ -25,7 +25,6 @@ extends ButtonModelKeyHandler {
         this.checkRangeLimits = bl2;
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
         int n;
         boolean bl;
@@ -35,7 +34,7 @@ extends ButtonModelKeyHandler {
         if (baseListModel == null) {
             return;
         }
-        menuItemLogCh.log(1078071040, "BaseListModelKeyHandler#keyTurned: modelID: %1, clickCount: %2, direction: %3", (long)baseListModel.getID(), (long)n3, (long)n2);
+        menuItemLogCh.log(1000000, "BaseListModelKeyHandler#keyTurned: modelID: %1, clickCount: %2, direction: %3", (long)baseListModel.getID(), (long)n3, (long)n2);
         this.currentValue = baseListModel.getSelected() != null ? baseListModel.getSelected().getIndex() : 0;
         int n4 = baseListModel.getLength() - 1;
         boolean bl2 = bl = n2 == 0;
@@ -43,7 +42,7 @@ extends ButtonModelKeyHandler {
             n = bl ? n4 : 0;
             int n5 = bl ? n - this.currentValue : this.currentValue - n;
             if ((n5 = Math.max(0, n5)) < n3) {
-                menuItemLogCh.log(-2137614336, "BaseListModelKeyHandler#keyTurned range limit %1 reached. Reduce clickCount to: %2", (long)n, (long)n5);
+                menuItemLogCh.log(10000000, "BaseListModelKeyHandler#keyTurned range limit %1 reached. Reduce clickCount to: %2", (long)n, (long)n5);
                 n3 = n5;
             }
         }
@@ -53,7 +52,7 @@ extends ButtonModelKeyHandler {
         }
         n = abstractWidgetController.getTerminalImpl().getTerminalID();
         if (bl) {
-            menuItemLogCh.log(-2137614336, "BaseListModelKeyHandler#keyTurned calling increment at rangeModel with id: %1 clickCount: %2", (long)baseListModel.getID(), (long)n3);
+            menuItemLogCh.log(10000000, "BaseListModelKeyHandler#keyTurned calling increment at rangeModel with id: %1 clickCount: %2", (long)baseListModel.getID(), (long)n3);
             if (this.currentValue == n4) {
                 wheelButtonEvent.consume(false);
                 return;
@@ -69,7 +68,7 @@ extends ButtonModelKeyHandler {
             EvoListRow evoListRow = baseListModel.getRow(this.currentValue);
             baseListModel.itemFocused(evoListRow.getUniqueID(), 0, n);
         } else {
-            menuItemLogCh.log(-2137614336, "BaseListModelKeyHandler#keyTurned calling decrement at rangeModel with id: %1 clickCount: %2", (long)baseListModel.getID(), (long)n3);
+            menuItemLogCh.log(10000000, "BaseListModelKeyHandler#keyTurned calling decrement at rangeModel with id: %1 clickCount: %2", (long)baseListModel.getID(), (long)n3);
             if (this.currentValue == 0) {
                 wheelButtonEvent.consume(false);
                 return;
@@ -88,11 +87,9 @@ extends ButtonModelKeyHandler {
         wheelButtonEvent.consume(false);
     }
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -103,7 +100,7 @@ extends ButtonModelKeyHandler {
             return;
         }
         int n2 = abstractWidgetController.getTerminalImpl().getTerminalID();
-        menuItemLogCh.log(1078071040, "BaseListModelKeyHandler#keyReleased: call model. modelID: %1, keyCode: %2", (long)baseListModel.getID(), (long)n);
+        menuItemLogCh.log(1000000, "BaseListModelKeyHandler#keyReleased: call model. modelID: %1, keyCode: %2", (long)baseListModel.getID(), (long)n);
         EvoListRow evoListRow = baseListModel.getRow(this.currentValue);
         baseListModel.itemSelected(evoListRow.getUniqueID(), 0, n2);
         keyEvent.consume(false);

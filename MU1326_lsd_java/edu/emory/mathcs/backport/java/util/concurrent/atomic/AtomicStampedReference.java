@@ -4,53 +4,62 @@
 package edu.emory.mathcs.backport.java.util.concurrent.atomic;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicReference;
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicStampedReference$ReferenceIntegerPair;
 
 public class AtomicStampedReference {
     private final AtomicReference atomicRef;
 
     public AtomicStampedReference(Object object, int n) {
-        this.atomicRef = new AtomicReference(new AtomicStampedReference$ReferenceIntegerPair(object, n));
+        this.atomicRef = new AtomicReference(new ReferenceIntegerPair(object, n));
     }
 
     public Object getReference() {
-        return AtomicStampedReference$ReferenceIntegerPair.access$000(this.getPair());
+        return this.getPair().reference;
     }
 
     public int getStamp() {
-        return AtomicStampedReference$ReferenceIntegerPair.access$100(this.getPair());
+        return this.getPair().integer;
     }
 
     public Object get(int[] nArray) {
-        AtomicStampedReference$ReferenceIntegerPair atomicStampedReference$ReferenceIntegerPair = this.getPair();
-        nArray[0] = AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair);
-        return AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair);
+        ReferenceIntegerPair referenceIntegerPair = this.getPair();
+        nArray[0] = referenceIntegerPair.integer;
+        return referenceIntegerPair.reference;
     }
 
     public boolean weakCompareAndSet(Object object, Object object2, int n, int n2) {
-        AtomicStampedReference$ReferenceIntegerPair atomicStampedReference$ReferenceIntegerPair = this.getPair();
-        return object == AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) && n == AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair) && (object2 == AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) && n2 == AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair) || this.atomicRef.weakCompareAndSet(atomicStampedReference$ReferenceIntegerPair, new AtomicStampedReference$ReferenceIntegerPair(object2, n2)));
+        ReferenceIntegerPair referenceIntegerPair = this.getPair();
+        return object == referenceIntegerPair.reference && n == referenceIntegerPair.integer && (object2 == referenceIntegerPair.reference && n2 == referenceIntegerPair.integer || this.atomicRef.weakCompareAndSet(referenceIntegerPair, new ReferenceIntegerPair(object2, n2)));
     }
 
     public boolean compareAndSet(Object object, Object object2, int n, int n2) {
-        AtomicStampedReference$ReferenceIntegerPair atomicStampedReference$ReferenceIntegerPair = this.getPair();
-        return object == AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) && n == AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair) && (object2 == AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) && n2 == AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair) || this.atomicRef.compareAndSet(atomicStampedReference$ReferenceIntegerPair, new AtomicStampedReference$ReferenceIntegerPair(object2, n2)));
+        ReferenceIntegerPair referenceIntegerPair = this.getPair();
+        return object == referenceIntegerPair.reference && n == referenceIntegerPair.integer && (object2 == referenceIntegerPair.reference && n2 == referenceIntegerPair.integer || this.atomicRef.compareAndSet(referenceIntegerPair, new ReferenceIntegerPair(object2, n2)));
     }
 
     public void set(Object object, int n) {
-        AtomicStampedReference$ReferenceIntegerPair atomicStampedReference$ReferenceIntegerPair = this.getPair();
-        if (object != AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) || n != AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair)) {
-            this.atomicRef.set(new AtomicStampedReference$ReferenceIntegerPair(object, n));
+        ReferenceIntegerPair referenceIntegerPair = this.getPair();
+        if (object != referenceIntegerPair.reference || n != referenceIntegerPair.integer) {
+            this.atomicRef.set(new ReferenceIntegerPair(object, n));
         }
     }
 
     public boolean attemptStamp(Object object, int n) {
-        AtomicStampedReference$ReferenceIntegerPair atomicStampedReference$ReferenceIntegerPair = this.getPair();
-        return object == AtomicStampedReference$ReferenceIntegerPair.access$000(atomicStampedReference$ReferenceIntegerPair) && (n == AtomicStampedReference$ReferenceIntegerPair.access$100(atomicStampedReference$ReferenceIntegerPair) || this.atomicRef.compareAndSet(atomicStampedReference$ReferenceIntegerPair, new AtomicStampedReference$ReferenceIntegerPair(object, n)));
+        ReferenceIntegerPair referenceIntegerPair = this.getPair();
+        return object == referenceIntegerPair.reference && (n == referenceIntegerPair.integer || this.atomicRef.compareAndSet(referenceIntegerPair, new ReferenceIntegerPair(object, n)));
     }
 
-    private AtomicStampedReference$ReferenceIntegerPair getPair() {
-        return (AtomicStampedReference$ReferenceIntegerPair)this.atomicRef.get();
+    private ReferenceIntegerPair getPair() {
+        return (ReferenceIntegerPair)this.atomicRef.get();
+    }
+
+    private static class ReferenceIntegerPair {
+        private final Object reference;
+        private final int integer;
+
+        ReferenceIntegerPair(Object object, int n) {
+            this.reference = object;
+            this.integer = n;
+        }
     }
 }
 

@@ -3,6 +3,7 @@
  */
 package java.security;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.security.BasicPermissionCollection;
@@ -12,7 +13,7 @@ import java.security.PermissionCollection;
 public abstract class BasicPermission
 extends Permission
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 6279438298436773498L;
     private transient String wildcard;
 
     public BasicPermission(String string) {
@@ -33,33 +34,29 @@ implements Serializable {
         this(string);
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
         }
-        if (object != null && super.getClass() == object.getClass()) {
+        if (object != null && this.getClass() == object.getClass()) {
             return this.getName().equals(((BasicPermission)object).getName());
         }
         return false;
     }
 
-    @Override
     public String getActions() {
         return "";
     }
 
-    @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         if (this == permission) {
             return true;
         }
-        if (permission != null && super.getClass() == super.getClass()) {
+        if (permission != null && this.getClass() == permission.getClass()) {
             if (this.wildcard != null) {
                 return permission.getName().startsWith(this.wildcard);
             }
@@ -68,12 +65,11 @@ implements Serializable {
         return false;
     }
 
-    @Override
     public PermissionCollection newPermissionCollection() {
         return new BasicPermissionCollection();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         String string = this.getName();
         int n = string.length();

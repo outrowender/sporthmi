@@ -3,50 +3,37 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.map.Point;
 import org.dsi.ifc.map.Rect;
 
 public interface DSIMapViewerZoomEngineC {
-    default public void autoZoomEnable(boolean bl) {
-    }
+    public void autoZoomEnable(boolean var1) throws MethodException;
 
-    default public void manoeuvreZoomEnable(boolean bl) {
-    }
+    public void manoeuvreZoomEnable(boolean var1) throws MethodException;
 
-    default public void setViewType(int n) {
-    }
+    public void setViewType(int var1) throws MethodException;
 
-    default public void setCarPosition(Point point) {
-    }
+    public void setCarPosition(Point var1) throws MethodException;
 
-    default public void setMapRotation(short s) {
-    }
+    public void setMapRotation(short var1) throws MethodException;
 
-    default public void setMapOrientation(int n, Point point) {
-    }
+    public void setMapOrientation(int var1, Point var2) throws MethodException;
 
-    default public void setZoomArea(Rect rect) {
-    }
+    public void setZoomArea(Rect var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

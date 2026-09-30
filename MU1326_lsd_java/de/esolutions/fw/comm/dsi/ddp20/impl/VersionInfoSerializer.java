@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 import de.esolutions.fw.comm.dsi.ddp20.impl.ProjectInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.ProjectInfo;
 import org.dsi.ifc.ddp20.VersionInfo;
 
 public class VersionInfoSerializer {
-    public static void putOptionalVersionInfo(ISerializer iSerializer, VersionInfo versionInfo) {
+    public static void putOptionalVersionInfo(ISerializer iSerializer, VersionInfo versionInfo) throws SerializerException {
         boolean bl = versionInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class VersionInfoSerializer {
         }
     }
 
-    public static void putOptionalVersionInfoVarArray(ISerializer iSerializer, VersionInfo[] versionInfoArray) {
+    public static void putOptionalVersionInfoVarArray(ISerializer iSerializer, VersionInfo[] versionInfoArray) throws SerializerException {
         boolean bl = versionInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class VersionInfoSerializer {
         }
     }
 
-    public static VersionInfo getOptionalVersionInfo(IDeserializer iDeserializer) {
+    public static VersionInfo getOptionalVersionInfo(IDeserializer iDeserializer) throws SerializerException {
         VersionInfo versionInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -105,7 +106,7 @@ public class VersionInfoSerializer {
         return versionInfo;
     }
 
-    public static VersionInfo[] getOptionalVersionInfoVarArray(IDeserializer iDeserializer) {
+    public static VersionInfo[] getOptionalVersionInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         VersionInfo[] versionInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

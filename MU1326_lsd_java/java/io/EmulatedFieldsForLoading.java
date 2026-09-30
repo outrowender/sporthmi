@@ -4,11 +4,12 @@
 package java.io;
 
 import java.io.EmulatedFields;
-import java.io.ObjectInputStream$GetField;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 
 class EmulatedFieldsForLoading
-extends ObjectInputStream$GetField {
+extends ObjectInputStream.GetField {
     private ObjectStreamClass streamClass;
     private EmulatedFields emulatedFields;
 
@@ -17,8 +18,7 @@ extends ObjectInputStream$GetField {
         this.emulatedFields = new EmulatedFields(objectStreamClass.getLoadFields(), objectStreamClass.fields());
     }
 
-    @Override
-    public boolean defaulted(String string) {
+    public boolean defaulted(String string) throws IOException, IllegalArgumentException {
         return this.emulatedFields.defaulted(string);
     }
 
@@ -26,52 +26,42 @@ extends ObjectInputStream$GetField {
         return this.emulatedFields;
     }
 
-    @Override
-    public byte get(String string, byte by) {
+    public byte get(String string, byte by) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, by);
     }
 
-    @Override
-    public char get(String string, char c2) {
+    public char get(String string, char c2) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, c2);
     }
 
-    @Override
-    public double get(String string, double d2) {
+    public double get(String string, double d2) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, d2);
     }
 
-    @Override
-    public float get(String string, float f2) {
+    public float get(String string, float f2) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, f2);
     }
 
-    @Override
-    public int get(String string, int n) {
+    public int get(String string, int n) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, n);
     }
 
-    @Override
-    public long get(String string, long l) {
+    public long get(String string, long l) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, l);
     }
 
-    @Override
-    public Object get(String string, Object object) {
+    public Object get(String string, Object object) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, object);
     }
 
-    @Override
-    public short get(String string, short s) {
+    public short get(String string, short s) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, s);
     }
 
-    @Override
-    public boolean get(String string, boolean bl) {
+    public boolean get(String string, boolean bl) throws IOException, IllegalArgumentException {
         return this.emulatedFields.get(string, bl);
     }
 
-    @Override
     public ObjectStreamClass getObjectStreamClass() {
         return this.streamClass;
     }

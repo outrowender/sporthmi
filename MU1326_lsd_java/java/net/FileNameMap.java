@@ -4,7 +4,6 @@
 package java.net;
 
 public interface FileNameMap {
-    default public String getContentTypeFor(String string) {
-    }
+    public String getContentTypeFor(String var1);
 }
 

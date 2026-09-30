@@ -42,7 +42,7 @@ public class sVideoInputState {
     }
 
     public String toString() {
-        return new StringBuffer("sVideoInputState{").append("msg_id=").append(this.msg_id).append(", activeSource=").append(this.activeSource).append(", sourceState=").append(this.sourceState).append("}").toString();
+        return "sVideoInputState{" + "msg_id=" + this.msg_id + ", activeSource=" + this.activeSource + ", sourceState=" + this.sourceState + "}";
     }
 }
 

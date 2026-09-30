@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 import de.esolutions.fw.comm.dsi.tmc.impl.TmcMessageSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public class TmcListElementSerializer {
-    public static void putOptionalTmcListElement(ISerializer iSerializer, TmcListElement tmcListElement) {
+    public static void putOptionalTmcListElement(ISerializer iSerializer, TmcListElement tmcListElement) throws SerializerException {
         boolean bl = tmcListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class TmcListElementSerializer {
         }
     }
 
-    public static void putOptionalTmcListElementVarArray(ISerializer iSerializer, TmcListElement[] tmcListElementArray) {
+    public static void putOptionalTmcListElementVarArray(ISerializer iSerializer, TmcListElement[] tmcListElementArray) throws SerializerException {
         boolean bl = tmcListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class TmcListElementSerializer {
         }
     }
 
-    public static TmcListElement getOptionalTmcListElement(IDeserializer iDeserializer) {
+    public static TmcListElement getOptionalTmcListElement(IDeserializer iDeserializer) throws SerializerException {
         TmcListElement tmcListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -97,7 +98,7 @@ public class TmcListElementSerializer {
         return tmcListElement;
     }
 
-    public static TmcListElement[] getOptionalTmcListElementVarArray(IDeserializer iDeserializer) {
+    public static TmcListElement[] getOptionalTmcListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         TmcListElement[] tmcListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

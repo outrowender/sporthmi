@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.DiscoveredNetwork;
 
 public class DiscoveredNetworkSerializer {
-    public static void putOptionalDiscoveredNetwork(ISerializer iSerializer, DiscoveredNetwork discoveredNetwork) {
+    public static void putOptionalDiscoveredNetwork(ISerializer iSerializer, DiscoveredNetwork discoveredNetwork) throws SerializerException {
         boolean bl = discoveredNetwork == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DiscoveredNetworkSerializer {
         }
     }
 
-    public static void putOptionalDiscoveredNetworkVarArray(ISerializer iSerializer, DiscoveredNetwork[] discoveredNetworkArray) {
+    public static void putOptionalDiscoveredNetworkVarArray(ISerializer iSerializer, DiscoveredNetwork[] discoveredNetworkArray) throws SerializerException {
         boolean bl = discoveredNetworkArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DiscoveredNetworkSerializer {
         }
     }
 
-    public static DiscoveredNetwork getOptionalDiscoveredNetwork(IDeserializer iDeserializer) {
+    public static DiscoveredNetwork getOptionalDiscoveredNetwork(IDeserializer iDeserializer) throws SerializerException {
         DiscoveredNetwork discoveredNetwork = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class DiscoveredNetworkSerializer {
         return discoveredNetwork;
     }
 
-    public static DiscoveredNetwork[] getOptionalDiscoveredNetworkVarArray(IDeserializer iDeserializer) {
+    public static DiscoveredNetwork[] getOptionalDiscoveredNetworkVarArray(IDeserializer iDeserializer) throws SerializerException {
         DiscoveredNetwork[] discoveredNetworkArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -27,28 +27,23 @@ implements DSISearchDataProvider {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$search$DSISearchDataProvider == null ? (class$org$dsi$ifc$search$DSISearchDataProvider = DSISearchDataProviderProvider.class$("org.dsi.ifc.search.DSISearchDataProvider")) : class$org$dsi$ifc$search$DSISearchDataProvider).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISearchDataProviderProxy(this.instance, (DSISearchDataProviderReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void registerProviderSource(int n) {
         try {
             this.proxy.registerProviderSource(n);
@@ -58,7 +53,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
         try {
             this.proxy.sourceDataAvailabilityChanged(n, bl);
@@ -68,7 +62,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void invalidateAllData(int n) {
         try {
             this.proxy.invalidateAllData(n);
@@ -78,7 +71,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
         try {
             this.proxy.storeDataSets(n, dataSetArray, n2);
@@ -88,7 +80,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void storeRawDataSets(int n, RawDataSet[] rawDataSetArray, int n2) {
         try {
             this.proxy.storeRawDataSets(n, rawDataSetArray, n2);
@@ -98,7 +89,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void deleteDataSet(int n, long l) {
         try {
             this.proxy.deleteDataSet(n, l);
@@ -108,7 +98,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -118,7 +107,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -128,7 +116,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -138,7 +125,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -148,7 +134,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -158,7 +143,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -168,7 +152,6 @@ implements DSISearchDataProvider {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

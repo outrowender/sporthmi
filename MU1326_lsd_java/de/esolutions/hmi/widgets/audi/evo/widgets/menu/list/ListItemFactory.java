@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.ListCell;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 
 public interface ListItemFactory {
-    default public AbstractWidgetController createListItem(int n, ListCell[] listCellArray) {
-    }
+    public AbstractWidgetController createListItem(int var1, ListCell[] var2);
 
-    default public AbstractWidgetController createListItemNoData() {
-    }
+    public AbstractWidgetController createListItemNoData();
 }
 

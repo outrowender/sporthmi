@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.rdvdataprovider.impl;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RouteProviderSetting;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RouteProviderSettingSerializer {
-    public static void putOptionalRouteProviderSetting(ISerializer iSerializer, RouteProviderSetting routeProviderSetting) {
+    public static void putOptionalRouteProviderSetting(ISerializer iSerializer, RouteProviderSetting routeProviderSetting) throws SerializerException {
         boolean bl = routeProviderSetting == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class RouteProviderSettingSerializer {
         }
     }
 
-    public static void putOptionalRouteProviderSettingVarArray(ISerializer iSerializer, RouteProviderSetting[] routeProviderSettingArray) {
+    public static void putOptionalRouteProviderSettingVarArray(ISerializer iSerializer, RouteProviderSetting[] routeProviderSettingArray) throws SerializerException {
         boolean bl = routeProviderSettingArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class RouteProviderSettingSerializer {
         }
     }
 
-    public static RouteProviderSetting getOptionalRouteProviderSetting(IDeserializer iDeserializer) {
+    public static RouteProviderSetting getOptionalRouteProviderSetting(IDeserializer iDeserializer) throws SerializerException {
         RouteProviderSetting routeProviderSetting = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class RouteProviderSettingSerializer {
         return routeProviderSetting;
     }
 
-    public static RouteProviderSetting[] getOptionalRouteProviderSettingVarArray(IDeserializer iDeserializer) {
+    public static RouteProviderSetting[] getOptionalRouteProviderSettingVarArray(IDeserializer iDeserializer) throws SerializerException {
         RouteProviderSetting[] routeProviderSettingArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

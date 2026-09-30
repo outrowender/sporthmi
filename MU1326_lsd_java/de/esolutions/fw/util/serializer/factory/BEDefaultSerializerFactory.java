@@ -15,22 +15,18 @@ import de.esolutions.fw.util.serializer.stream.BEDefaultSerializer;
 
 public class BEDefaultSerializerFactory
 implements ISerializerFactory {
-    @Override
     public IStreamDeserializer createStreamDeserializer() {
         return new BEDefaultDeserializer();
     }
 
-    @Override
     public IStreamSerializer createStreamSerializer() {
         return new BEDefaultSerializer();
     }
 
-    @Override
     public ISerializer createExtendedSerializer() {
         return new DefaultExtendedSerializer(this.createStreamSerializer());
     }
 
-    @Override
     public IDeserializer createExtendedDeserializer() {
         return new DefaultExtendedDeserializer(this.createStreamDeserializer());
     }

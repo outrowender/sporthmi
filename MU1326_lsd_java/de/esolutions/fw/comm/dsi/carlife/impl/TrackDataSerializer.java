@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlife.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlife.TrackData;
 
 public class TrackDataSerializer {
-    public static void putOptionalTrackData(ISerializer iSerializer, TrackData trackData) {
+    public static void putOptionalTrackData(ISerializer iSerializer, TrackData trackData) throws SerializerException {
         boolean bl = trackData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class TrackDataSerializer {
         }
     }
 
-    public static void putOptionalTrackDataVarArray(ISerializer iSerializer, TrackData[] trackDataArray) {
+    public static void putOptionalTrackDataVarArray(ISerializer iSerializer, TrackData[] trackDataArray) throws SerializerException {
         boolean bl = trackDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class TrackDataSerializer {
         }
     }
 
-    public static TrackData getOptionalTrackData(IDeserializer iDeserializer) {
+    public static TrackData getOptionalTrackData(IDeserializer iDeserializer) throws SerializerException {
         TrackData trackData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class TrackDataSerializer {
         return trackData;
     }
 
-    public static TrackData[] getOptionalTrackDataVarArray(IDeserializer iDeserializer) {
+    public static TrackData[] getOptionalTrackDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrackData[] trackDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

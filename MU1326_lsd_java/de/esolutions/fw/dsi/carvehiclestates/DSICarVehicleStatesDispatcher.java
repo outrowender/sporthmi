@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carvehiclestates;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carvehiclestates.DSICarVehicleStatesReply;
 import de.esolutions.fw.comm.dsi.carvehiclestates.impl.DSICarVehicleStatesReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -33,13 +34,11 @@ implements DSICarVehicleStatesReply {
         super(n, (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener == null ? (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener = DSICarVehicleStatesDispatcher.class$("org.dsi.ifc.carvehiclestates.DSICarVehicleStatesListener")) : class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
+    public void updateOilLevelViewOption(CarViewOption carViewOption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -67,8 +66,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateOilLevelData(OilLevelData oilLevelData, int n) {
+    public void updateOilLevelData(OilLevelData oilLevelData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -96,8 +94,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateVINViewOption(CarViewOption carViewOption, int n) {
+    public void updateVINViewOption(CarViewOption carViewOption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -125,8 +122,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateVINData(String string, int n) {
+    public void updateVINData(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -154,8 +150,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateKeyViewOption(CarViewOption carViewOption, int n) {
+    public void updateKeyViewOption(CarViewOption carViewOption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -183,8 +178,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateKeyData(KeyData keyData, int n) {
+    public void updateKeyData(KeyData keyData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -212,8 +206,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDrvSchoolSystem(boolean bl, int n) {
+    public void updateDrvSchoolSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -241,8 +234,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
+    public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -270,8 +262,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
+    public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -299,8 +290,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
+    public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -328,8 +318,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
+    public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -357,8 +346,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
+    public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -386,8 +374,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
+    public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -415,8 +402,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) {
+    public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -444,8 +430,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
+    public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -473,8 +458,7 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -490,14 +474,13 @@ implements DSICarVehicleStatesReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarVehicleStatesListener dSICarVehicleStatesListener = (DSICarVehicleStatesListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarVehicleStatesListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarVehicleStatesDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarVehicleStatesListener, new Object[]{string, string2});
                     continue;
                 }

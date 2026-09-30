@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.MasterRoleRequestStruct;
 
 public class MasterRoleRequestStructSerializer {
-    public static void putOptionalMasterRoleRequestStruct(ISerializer iSerializer, MasterRoleRequestStruct masterRoleRequestStruct) {
+    public static void putOptionalMasterRoleRequestStruct(ISerializer iSerializer, MasterRoleRequestStruct masterRoleRequestStruct) throws SerializerException {
         boolean bl = masterRoleRequestStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MasterRoleRequestStructSerializer {
         }
     }
 
-    public static void putOptionalMasterRoleRequestStructVarArray(ISerializer iSerializer, MasterRoleRequestStruct[] masterRoleRequestStructArray) {
+    public static void putOptionalMasterRoleRequestStructVarArray(ISerializer iSerializer, MasterRoleRequestStruct[] masterRoleRequestStructArray) throws SerializerException {
         boolean bl = masterRoleRequestStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MasterRoleRequestStructSerializer {
         }
     }
 
-    public static MasterRoleRequestStruct getOptionalMasterRoleRequestStruct(IDeserializer iDeserializer) {
+    public static MasterRoleRequestStruct getOptionalMasterRoleRequestStruct(IDeserializer iDeserializer) throws SerializerException {
         MasterRoleRequestStruct masterRoleRequestStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MasterRoleRequestStructSerializer {
         return masterRoleRequestStruct;
     }
 
-    public static MasterRoleRequestStruct[] getOptionalMasterRoleRequestStructVarArray(IDeserializer iDeserializer) {
+    public static MasterRoleRequestStruct[] getOptionalMasterRoleRequestStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         MasterRoleRequestStruct[] masterRoleRequestStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

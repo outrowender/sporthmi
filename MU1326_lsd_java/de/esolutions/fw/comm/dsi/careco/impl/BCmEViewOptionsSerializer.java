@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.careco.impl.BCmEConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEConfiguration;
 import org.dsi.ifc.careco.BCmEViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class BCmEViewOptionsSerializer {
-    public static void putOptionalBCmEViewOptions(ISerializer iSerializer, BCmEViewOptions bCmEViewOptions) {
+    public static void putOptionalBCmEViewOptions(ISerializer iSerializer, BCmEViewOptions bCmEViewOptions) throws SerializerException {
         boolean bl = bCmEViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCmEViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalBCmEViewOptionsVarArray(ISerializer iSerializer, BCmEViewOptions[] bCmEViewOptionsArray) {
+    public static void putOptionalBCmEViewOptionsVarArray(ISerializer iSerializer, BCmEViewOptions[] bCmEViewOptionsArray) throws SerializerException {
         boolean bl = bCmEViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class BCmEViewOptionsSerializer {
         }
     }
 
-    public static BCmEViewOptions getOptionalBCmEViewOptions(IDeserializer iDeserializer) {
+    public static BCmEViewOptions getOptionalBCmEViewOptions(IDeserializer iDeserializer) throws SerializerException {
         BCmEViewOptions bCmEViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -87,7 +88,7 @@ public class BCmEViewOptionsSerializer {
         return bCmEViewOptions;
     }
 
-    public static BCmEViewOptions[] getOptionalBCmEViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static BCmEViewOptions[] getOptionalBCmEViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEViewOptions[] bCmEViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

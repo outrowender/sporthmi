@@ -18,10 +18,10 @@ import java.util.zip.ZipException;
 public class ZipOutputStream
 extends DeflaterOutputStream
 implements ZipConstants {
-    public static final int DEFLATED;
-    public static final int STORED;
-    static final int ZIPDataDescriptorFlag;
-    static final int ZIPLocalHeaderVersionNeeded;
+    public static final int DEFLATED = 8;
+    public static final int STORED = 0;
+    static final int ZIPDataDescriptorFlag = 8;
+    static final int ZIPLocalHeaderVersionNeeded = 20;
     private String comment;
     private Vector entries = new Vector();
     private int compressMethod = 8;
@@ -38,8 +38,7 @@ implements ZipConstants {
         super(outputStream, new Deflater(-1, true));
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.out != null) {
             this.finish();
             this.out.close();
@@ -48,7 +47,7 @@ implements ZipConstants {
         this.def.end();
     }
 
-    public void closeEntry() {
+    public void closeEntry() throws IOException {
         if (this.cDir == null) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -69,7 +68,7 @@ implements ZipConstants {
         this.curOffset = 30;
         if (this.currentEntry.getMethod() != 0) {
             this.curOffset += 16;
-            this.writeLong(this.out, 0);
+            this.writeLong(this.out, 134695760L);
             this.currentEntry.crc = this.crc.getValue();
             this.writeLong(this.out, this.currentEntry.crc);
             this.currentEntry.compressedSize = this.def.getTotalOut();
@@ -77,7 +76,7 @@ implements ZipConstants {
             this.currentEntry.size = this.def.getTotalIn();
             this.writeLong(this.out, this.currentEntry.size);
         }
-        this.writeLong(this.cDir, 0);
+        this.writeLong(this.cDir, 33639248L);
         this.writeShort(this.cDir, 20);
         this.writeShort(this.cDir, 20);
         this.writeShort(this.cDir, this.currentEntry.getMethod() == 0 ? 0 : 8);
@@ -123,8 +122,7 @@ implements ZipConstants {
         this.done = false;
     }
 
-    @Override
-    public void finish() {
+    public void finish() throws IOException {
         if (this.out == null) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -138,7 +136,7 @@ implements ZipConstants {
             this.closeEntry();
         }
         int n = this.cDir.size();
-        this.writeLong(this.cDir, 0);
+        this.writeLong(this.cDir, 101010256L);
         this.writeShort(this.cDir, 0);
         this.writeShort(this.cDir, 0);
         this.writeShort(this.cDir, this.entries.size());
@@ -155,7 +153,7 @@ implements ZipConstants {
         this.cDir = null;
     }
 
-    public void putNextEntry(ZipEntry zipEntry) {
+    public void putNextEntry(ZipEntry zipEntry) throws IOException {
         if (zipEntry.getMethod() == 0 || this.compressMethod == 0 && zipEntry.getMethod() == -1) {
             if (zipEntry.crc == -1L) {
                 throw new ZipException(Msg.getString("K0077"));
@@ -177,7 +175,7 @@ implements ZipConstants {
             throw new ZipException(Msg.getString("K0066", zipEntry.name));
         }
         this.nameLength = ZipOutputStream.utf8Count(zipEntry.name);
-        if (this.nameLength > -65536) {
+        if (this.nameLength > 65535) {
             throw new IllegalArgumentException(Msg.getString("K01a7", zipEntry.name));
         }
         this.def.setLevel(this.compressLevel);
@@ -186,7 +184,7 @@ implements ZipConstants {
         if (this.currentEntry.getMethod() == -1) {
             this.currentEntry.setMethod(this.compressMethod);
         }
-        this.writeLong(this.out, 0);
+        this.writeLong(this.out, 67324752L);
         this.writeShort(this.out, 20);
         this.writeShort(this.out, this.currentEntry.getMethod() == 0 ? 0 : 8);
         this.writeShort(this.out, this.currentEntry.getMethod());
@@ -223,7 +221,7 @@ implements ZipConstants {
     }
 
     public void setComment(String string) {
-        if (string.length() > -65536) {
+        if (string.length() > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0068"));
         }
         this.comment = string;
@@ -243,22 +241,21 @@ implements ZipConstants {
         this.compressMethod = n;
     }
 
-    private long writeLong(OutputStream outputStream, long l) {
-        outputStream.write((int)(l & 0));
+    private long writeLong(OutputStream outputStream, long l) throws IOException {
+        outputStream.write((int)(l & 0xFFL));
         outputStream.write((int)(l >> 8) & 0xFF);
         outputStream.write((int)(l >> 16) & 0xFF);
         outputStream.write((int)(l >> 24) & 0xFF);
         return l;
     }
 
-    private int writeShort(OutputStream outputStream, int n) {
+    private int writeShort(OutputStream outputStream, int n) throws IOException {
         outputStream.write(n & 0xFF);
         outputStream.write(n >> 8 & 0xFF);
         return n;
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (n > byArray.length || n2 < 0 || n < 0 || byArray.length - n < n2) {
             throw new IndexOutOfBoundsException();
         }

@@ -18,7 +18,6 @@ extends AbstractInfoBase {
         this.svcAgent = directoryEntry.getAgentID();
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.svcID;
     }

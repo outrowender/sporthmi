@@ -17,11 +17,9 @@ implements BufferUtil {
     private byte[] byteArray = null;
     private int byteOffset = 0;
 
-    private native short getMaxShortOfArray(int n, int n2) {
-    }
+    private native short getMaxShortOfArray(int var1, int var2);
 
-    private native boolean isNoNegativeShortArray(int n, int n2) {
-    }
+    private native boolean isNoNegativeShortArray(int var1, int var2);
 
     ShortBufferImpl(short[] sArray, int n, int n2, int n3, int n4) {
         super(n, n + n2, n3, sArray, n4);
@@ -41,7 +39,6 @@ implements BufferUtil {
         this.byteOffset = n2;
     }
 
-    @Override
     public short get() {
         if (this.position() >= this.limit()) {
             throw new BufferUnderflowException();
@@ -59,7 +56,6 @@ implements BufferUtil {
         return s;
     }
 
-    @Override
     public short get(int n) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -76,7 +72,6 @@ implements BufferUtil {
         return s;
     }
 
-    @Override
     public boolean isDirect() {
         if (this.byteBuf != null) {
             return this.byteBuf.isDirect();
@@ -84,7 +79,6 @@ implements BufferUtil {
         return false;
     }
 
-    @Override
     public ShortBuffer put(short s) {
         if (this.position() >= this.limit()) {
             throw new BufferOverflowException();
@@ -101,7 +95,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public ShortBuffer put(int n, short s) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -117,7 +110,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public ShortBuffer slice() {
         if (this.isDirect()) {
             return new ShortBufferImpl(this.byteBuf, this.remaining(), this.byteOffset + this.position() * 2);
@@ -128,7 +120,6 @@ implements BufferUtil {
         return new ShortBufferImpl(this.byteBuf, this.byteArray, this.remaining(), this.byteOffset + this.position() * 2);
     }
 
-    @Override
     public int getDirectPointer() {
         return this.isDirect() ? this.byteBuf.getDirectPointer(this.byteOffset + this.position() * 2) : 0;
     }
@@ -215,7 +206,6 @@ implements BufferUtil {
         }
     }
 
-    @Override
     public ByteOrder order() {
         if (this.byteBuf != null) {
             return this.byteBuf.order();

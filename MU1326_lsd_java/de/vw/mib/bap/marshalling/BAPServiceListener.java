@@ -4,19 +4,14 @@
 package de.vw.mib.bap.marshalling;
 
 public interface BAPServiceListener {
-    default public boolean indication(int n, int n2, int n3, int n4) {
-    }
+    public boolean indication(int var1, int var2, int var3, int var4);
 
-    default public boolean indication(int n, int n2) {
-    }
+    public boolean indication(int var1, int var2);
 
-    default public boolean indication(int n, int n2, byte[] byArray) {
-    }
+    public boolean indication(int var1, int var2, byte[] var3);
 
-    default public boolean indicationError(int n, int n2) {
-    }
+    public boolean indicationError(int var1, int var2);
 
-    default public boolean acknowledge(int n, int n2) {
-    }
+    public boolean acknowledge(int var1, int var2);
 }
 

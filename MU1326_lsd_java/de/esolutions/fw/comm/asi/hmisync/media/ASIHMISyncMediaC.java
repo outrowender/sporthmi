@@ -5,75 +5,53 @@ package de.esolutions.fw.comm.asi.hmisync.media;
 
 import de.esolutions.fw.comm.asi.hmisync.media.MediaBrowserSelectionData;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMediaC {
-    default public void activate(MediaSourceSlot mediaSourceSlot, MediaBrowserSelectionData mediaBrowserSelectionData) {
-    }
+    public void activate(MediaSourceSlot var1, MediaBrowserSelectionData var2) throws MethodException;
 
-    default public void resume() {
-    }
+    public void resume() throws MethodException;
 
-    default public void pause() {
-    }
+    public void pause() throws MethodException;
 
-    default public void skip(byte by) {
-    }
+    public void skip(byte var1) throws MethodException;
 
-    default public void seek(boolean bl) {
-    }
+    public void seek(boolean var1) throws MethodException;
 
-    default public void stopSeek() {
-    }
+    public void stopSeek() throws MethodException;
 
-    default public void mix(boolean bl) {
-    }
+    public void mix(boolean var1) throws MethodException;
 
-    default public void repeatTitle(boolean bl) {
-    }
+    public void repeatTitle(boolean var1) throws MethodException;
 
-    default public void toggleRepeatState() {
-    }
+    public void toggleRepeatState() throws MethodException;
 
-    default public void toggleShuffleState() {
-    }
+    public void toggleShuffleState() throws MethodException;
 
-    default public void setEntry(long l) {
-    }
+    public void setEntry(long var1) throws MethodException;
 
-    default public void setTimePosition(int n) {
-    }
+    public void setTimePosition(int var1) throws MethodException;
 
-    default public void touchEvent(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void touchEvent(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void executeDvdVideoCommand(int n) {
-    }
+    public void executeDvdVideoCommand(int var1) throws MethodException;
 
-    default public void requestPlayList(int n, long l, int n2) {
-    }
+    public void requestPlayList(int var1, long var2, int var4) throws MethodException;
 
-    default public void setPlaySelection(MediaBrowserSelectionData mediaBrowserSelectionData) {
-    }
+    public void setPlaySelection(MediaBrowserSelectionData var1) throws MethodException;
 
-    default public void playMoreFrom(long l, int n) {
-    }
+    public void playMoreFrom(long var1, int var3) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

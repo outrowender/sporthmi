@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.search;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.search.CarFunction;
 import org.dsi.ifc.search.Environment;
 import org.dsi.ifc.search.NavPosition;
@@ -12,103 +13,70 @@ import org.dsi.ifc.search.SearchQuery;
 import org.dsi.ifc.search.SearchResult;
 
 public interface DSISearchC {
-    default public void requestSupportedCountries() {
-    }
+    public void requestSupportedCountries() throws MethodException;
 
-    default public void setActiveSearchCountries(String[] stringArray) {
-    }
+    public void setActiveSearchCountries(String[] var1) throws MethodException;
 
-    default public void search(SearchQuery searchQuery) {
-    }
+    public void search(SearchQuery var1) throws MethodException;
 
-    default public void addToHistory(SearchResult searchResult) {
-    }
+    public void addToHistory(SearchResult var1) throws MethodException;
 
-    default public void requestSuggestion(SearchQuery searchQuery) {
-    }
+    public void requestSuggestion(SearchQuery var1) throws MethodException;
 
-    default public void cancelQuery(int n) {
-    }
+    public void cancelQuery(int var1) throws MethodException;
 
-    default public void setCurrentPosition(NavPosition navPosition) {
-    }
+    public void setCurrentPosition(NavPosition var1) throws MethodException;
 
-    default public void setRoutePoints(NavPosition[] navPositionArray) {
-    }
+    public void setRoutePoints(NavPosition[] var1) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void setActiveProfile(int n) {
-    }
+    public void setActiveProfile(int var1) throws MethodException;
 
-    default public void setCarFunctionStates(CarFunction[] carFunctionArray) {
-    }
+    public void setCarFunctionStates(CarFunction[] var1) throws MethodException;
 
-    default public void setRadioStations(int n, RadioStation[] radioStationArray) {
-    }
+    public void setRadioStations(int var1, RadioStation[] var2) throws MethodException;
 
-    default public void setSearchFilter(int n, SearchFilter searchFilter) {
-    }
+    public void setSearchFilter(int var1, SearchFilter var2) throws MethodException;
 
-    default public void prepareSources(int[] nArray) {
-    }
+    public void prepareSources(int[] var1) throws MethodException;
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings() throws MethodException;
 
-    default public void removeFromHistory(long l) {
-    }
+    public void removeFromHistory(long var1) throws MethodException;
 
-    default public void removeAllFromHistory() {
-    }
+    public void removeAllFromHistory() throws MethodException;
 
-    default public void removeAllFromHistoryBySource(int n) {
-    }
+    public void removeAllFromHistoryBySource(int var1) throws MethodException;
 
-    default public void resetAutocompletion(int n) {
-    }
+    public void resetAutocompletion(int var1) throws MethodException;
 
-    default public void createBackupFile(String string) {
-    }
+    public void createBackupFile(String var1) throws MethodException;
 
-    default public void importBackupFile(String string) {
-    }
+    public void importBackupFile(String var1) throws MethodException;
 
-    default public void setEnvironment(Environment environment) {
-    }
+    public void setEnvironment(Environment var1) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

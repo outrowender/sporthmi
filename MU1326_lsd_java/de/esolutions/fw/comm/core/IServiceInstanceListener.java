@@ -6,10 +6,8 @@ package de.esolutions.fw.comm.core;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IServiceInstanceListener {
-    default public void serviceRegistered(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void serviceRegistered(ServiceInstanceID var1, short var2);
 
-    default public void serviceUnregistered(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void serviceUnregistered(ServiceInstanceID var1, short var2);
 }
 

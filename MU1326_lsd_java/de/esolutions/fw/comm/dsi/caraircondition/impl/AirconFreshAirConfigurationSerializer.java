@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconFreshAirConfiguration;
 
 public class AirconFreshAirConfigurationSerializer {
-    public static void putOptionalAirconFreshAirConfiguration(ISerializer iSerializer, AirconFreshAirConfiguration airconFreshAirConfiguration) {
+    public static void putOptionalAirconFreshAirConfiguration(ISerializer iSerializer, AirconFreshAirConfiguration airconFreshAirConfiguration) throws SerializerException {
         boolean bl = airconFreshAirConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AirconFreshAirConfigurationSerializer {
         }
     }
 
-    public static void putOptionalAirconFreshAirConfigurationVarArray(ISerializer iSerializer, AirconFreshAirConfiguration[] airconFreshAirConfigurationArray) {
+    public static void putOptionalAirconFreshAirConfigurationVarArray(ISerializer iSerializer, AirconFreshAirConfiguration[] airconFreshAirConfigurationArray) throws SerializerException {
         boolean bl = airconFreshAirConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AirconFreshAirConfigurationSerializer {
         }
     }
 
-    public static AirconFreshAirConfiguration getOptionalAirconFreshAirConfiguration(IDeserializer iDeserializer) {
+    public static AirconFreshAirConfiguration getOptionalAirconFreshAirConfiguration(IDeserializer iDeserializer) throws SerializerException {
         AirconFreshAirConfiguration airconFreshAirConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class AirconFreshAirConfigurationSerializer {
         return airconFreshAirConfiguration;
     }
 
-    public static AirconFreshAirConfiguration[] getOptionalAirconFreshAirConfigurationVarArray(IDeserializer iDeserializer) {
+    public static AirconFreshAirConfiguration[] getOptionalAirconFreshAirConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconFreshAirConfiguration[] airconFreshAirConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

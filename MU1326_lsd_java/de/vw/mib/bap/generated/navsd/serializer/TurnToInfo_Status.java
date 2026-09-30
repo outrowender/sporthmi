@@ -11,9 +11,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class TurnToInfo_Status
 implements StatusProperty {
     public final BAPString turnToInfo = new BAPString(76);
-    private static final int MAX_TURN_TO_INFO_LENGTH;
+    private static final int MAX_TURN_TO_INFO_LENGTH = 76;
     public final BAPString signPost = new BAPString(31);
-    private static final int MAX_SIGN_POST_LENGTH;
+    private static final int MAX_SIGN_POST_LENGTH = 31;
 
     public TurnToInfo_Status() {
         this.internalReset();
@@ -28,14 +28,12 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.turnToInfo.reset();
         this.signPost.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         TurnToInfo_Status turnToInfo_Status = (TurnToInfo_Status)bAPEntity;
         return this.turnToInfo.equalTo(turnToInfo_Status.turnToInfo) && this.signPost.equalTo(turnToInfo_Status.signPost);
@@ -44,7 +42,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("TurnToInfo_Status:");
@@ -55,20 +52,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.turnToInfo.bitSize();
         return n += this.signPost.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.turnToInfo.serialize(bitStream);
         this.signPost.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.turnToInfo.deserialize(bitStream);
         this.signPost.deserialize(bitStream);
@@ -78,7 +72,6 @@ implements StatusProperty {
         return 20;
     }
 
-    @Override
     public int getFunctionId() {
         return TurnToInfo_Status.functionId();
     }

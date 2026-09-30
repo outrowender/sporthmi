@@ -33,7 +33,7 @@ public abstract class Command {
 
     public String toString() {
         long l = this.createTime - startTime;
-        return new StringBuffer().append(this.getName()).append(" ").append(this.getArgsString()).append(" ( Cmd #").append(this.serialNo).append(", time +").append(l).append(" ms )").toString();
+        return this.getName() + " " + this.getArgsString() + " ( Cmd #" + this.serialNo + ", time +" + l + " ms )";
     }
 
     public String getName() {
@@ -64,8 +64,7 @@ public abstract class Command {
         this.handler = iClientHandler;
     }
 
-    public abstract boolean handle(ICommandExecutor iCommandExecutor) {
-    }
+    public abstract boolean handle(ICommandExecutor var1);
 
     public void drop(ICommandExecutor iCommandExecutor, boolean bl) {
     }

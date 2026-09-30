@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightSetupColors;
 
 public class IntLightSetupColorsSerializer {
-    public static void putOptionalIntLightSetupColors(ISerializer iSerializer, IntLightSetupColors intLightSetupColors) {
+    public static void putOptionalIntLightSetupColors(ISerializer iSerializer, IntLightSetupColors intLightSetupColors) throws SerializerException {
         boolean bl = intLightSetupColors == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class IntLightSetupColorsSerializer {
         }
     }
 
-    public static void putOptionalIntLightSetupColorsVarArray(ISerializer iSerializer, IntLightSetupColors[] intLightSetupColorsArray) {
+    public static void putOptionalIntLightSetupColorsVarArray(ISerializer iSerializer, IntLightSetupColors[] intLightSetupColorsArray) throws SerializerException {
         boolean bl = intLightSetupColorsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class IntLightSetupColorsSerializer {
         }
     }
 
-    public static IntLightSetupColors getOptionalIntLightSetupColors(IDeserializer iDeserializer) {
+    public static IntLightSetupColors getOptionalIntLightSetupColors(IDeserializer iDeserializer) throws SerializerException {
         IntLightSetupColors intLightSetupColors = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class IntLightSetupColorsSerializer {
         return intLightSetupColors;
     }
 
-    public static IntLightSetupColors[] getOptionalIntLightSetupColorsVarArray(IDeserializer iDeserializer) {
+    public static IntLightSetupColors[] getOptionalIntLightSetupColorsVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightSetupColors[] intLightSetupColorsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

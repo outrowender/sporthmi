@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.androidauto;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.androidauto.AppState;
 import org.dsi.ifc.androidauto.AppStateRequest;
 import org.dsi.ifc.androidauto.CallState;
@@ -14,48 +15,35 @@ import org.dsi.ifc.androidauto.TrackData;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAndroidAutoReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "4b8132b6-9c15-536c-897e-0843cc6a6f3d";
+    public static final String IPL_COMM_INTERFACE_KEY = "e4cf600b-682a-591f-bebd-4b8ed93ce25d";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.3";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.3";
 
-    default public void setMode(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void setMode(Resource[] var1, AppState[] var2, int var3) throws MethodException;
 
-    default public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, int n) {
-    }
+    public void requestModeChange(ResourceRequest[] var1, AppStateRequest[] var2, int var3) throws MethodException;
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2) throws MethodException;
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2) throws MethodException;
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2) throws MethodException;
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2) throws MethodException;
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2) throws MethodException;
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnEvent(String var1, int var2, int var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void updateNavigationNextTurnDistance(int n, int n2, int n3) {
-    }
+    public void updateNavigationNextTurnDistance(int var1, int var2, int var3) throws MethodException;
 
-    default public void setExternalDestination(double d2, double d3, String string, String string2) {
-    }
+    public void setExternalDestination(double var1, double var3, String var5, String var6) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

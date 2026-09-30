@@ -32,7 +32,7 @@ public class KeyValPair {
     }
 
     public String toString() {
-        return new StringBuffer("KeyValPair{").append("key=").append(this.key).append(", val=").append(this.val).append("}").toString();
+        return "KeyValPair{" + "key=" + this.key + ", val=" + this.val + "}";
     }
 }
 

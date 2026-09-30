@@ -5,6 +5,7 @@ package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.model.ConfigScalar;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class ConfigString
 extends ConfigScalar {
@@ -14,17 +15,14 @@ extends ConfigScalar {
         this.value = string;
     }
 
-    @Override
     public boolean isString() {
         return true;
     }
 
-    @Override
     public String getString() {
         return this.value;
     }
 
-    @Override
     public String getString(String string) {
         if (this.value == null) {
             return string;
@@ -32,13 +30,12 @@ extends ConfigScalar {
         return this.value;
     }
 
-    @Override
     public String convertToString() {
         return this.value;
     }
 
     public String toString() {
-        return new StringBuffer().append("\"").append(this.value).append("\"").toString();
+        return "\"" + this.value + "\"";
     }
 
     public boolean equals(Object object) {
@@ -55,8 +52,7 @@ extends ConfigScalar {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         if (this.value == null) {
             iConfigExporter.writeNull();
         } else {

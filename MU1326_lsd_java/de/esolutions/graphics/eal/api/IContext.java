@@ -21,12 +21,10 @@ extends IObject {
         return iContext == null ? 0L : iContext.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -38,7 +36,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -76,7 +73,6 @@ extends IObject {
         return ealswigJNI.eal_api_IContext_setAnnotation(this.swigCPtr, this, bl);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IContext_isValid(this.swigCPtr, this);
     }
@@ -85,7 +81,6 @@ extends IObject {
         return ealswigJNI.eal_api_IContext_getScreenResolution(this.swigCPtr, this, displaySize_t.getCPtr(displaySize_t2), displaySize_t2);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IContext_dispose(this.swigCPtr, this);
     }

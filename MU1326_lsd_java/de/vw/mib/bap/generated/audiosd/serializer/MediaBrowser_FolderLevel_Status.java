@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaBrowser_FolderLevel_Status
 implements StatusProperty {
     public int folderLevel;
-    private static final int FOLDER_LEVEL_BITSIZE;
+    private static final int FOLDER_LEVEL_BITSIZE = 8;
     public int ref_MediaBrowser;
-    private static final int REF_MEDIA_BROWSER_BITSIZE;
+    private static final int REF_MEDIA_BROWSER_BITSIZE = 16;
     public int ref_MediaBrowser_absolutePosition;
-    private static final int REF_MEDIA_BROWSER_ABSOLUTE_POSITION_BITSIZE;
+    private static final int REF_MEDIA_BROWSER_ABSOLUTE_POSITION_BITSIZE = 16;
 
     public MediaBrowser_FolderLevel_Status() {
         this.internalReset();
@@ -32,12 +32,10 @@ implements StatusProperty {
         this.ref_MediaBrowser_absolutePosition = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaBrowser_FolderLevel_Status mediaBrowser_FolderLevel_Status = (MediaBrowser_FolderLevel_Status)bAPEntity;
         return this.folderLevel == mediaBrowser_FolderLevel_Status.folderLevel && this.ref_MediaBrowser == mediaBrowser_FolderLevel_Status.ref_MediaBrowser && this.ref_MediaBrowser_absolutePosition == mediaBrowser_FolderLevel_Status.ref_MediaBrowser_absolutePosition;
@@ -46,7 +44,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaBrowser_FolderLevel_Status:");
@@ -59,7 +56,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -67,14 +63,12 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.folderLevel);
         bitStream.pushShort((short)this.ref_MediaBrowser);
         bitStream.pushShort((short)this.ref_MediaBrowser_absolutePosition);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.folderLevel = bitStream.popFrontByte();
         this.ref_MediaBrowser = bitStream.popFrontShort();
@@ -85,7 +79,6 @@ implements StatusProperty {
         return 35;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaBrowser_FolderLevel_Status.functionId();
     }

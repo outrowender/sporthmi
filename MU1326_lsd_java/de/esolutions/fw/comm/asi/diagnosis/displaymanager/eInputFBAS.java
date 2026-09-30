@@ -7,9 +7,9 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eInputFBAS
 extends IEnum {
-    public static final int FBAS_INPUT_1;
-    public static final int FBAS_INPUT_2;
-    public static final int FBAS_INPUT_3;
-    public static final int LVDS_INPUT_1;
+    public static final int FBAS_INPUT_1 = 1;
+    public static final int FBAS_INPUT_2 = 2;
+    public static final int FBAS_INPUT_3 = 3;
+    public static final int LVDS_INPUT_1 = 4;
 }
 

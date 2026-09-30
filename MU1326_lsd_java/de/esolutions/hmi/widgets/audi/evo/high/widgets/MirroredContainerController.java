@@ -24,7 +24,6 @@ implements IDecoratorProvider {
         this.renderer = mirrorRendererHigh;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -34,19 +33,19 @@ implements IDecoratorProvider {
     }
 
     public void add(AbstractWidget abstractWidget, int n) {
-        logContainer.log(-2137614336, "MirroredContainerController#add(%1, %2) - Called", (Object)abstractWidget, (long)n);
+        logContainer.log(10000000, "MirroredContainerController#add(%1, %2) - Called", (Object)abstractWidget, (long)n);
         this.add(abstractWidget);
         switch (n) {
             case 2: {
                 if (this.menuDecoratorController != null) {
-                    logContainer.log(-1601830656, "MirroredContainerController#add() - The decorator widget has already been set successfully. Please validate, why another decorater was added.");
+                    logContainer.log(100000, "MirroredContainerController#add() - The decorator widget has already been set successfully. Please validate, why another decorater was added.");
                     return;
                 }
                 this.menuDecoratorController = abstractWidget;
                 break;
             }
             default: {
-                logContainer.log(-1601830656, "MirroredContainerController#add() - The provided role is not used within the MirroredContainerController.");
+                logContainer.log(100000, "MirroredContainerController#add() - The provided role is not used within the MirroredContainerController.");
             }
         }
     }
@@ -79,7 +78,6 @@ implements IDecoratorProvider {
         this.autoDisableMirrorOnLTR = bl;
     }
 
-    @Override
     public AbstractWidget getMenuDecorator() {
         return this.menuDecoratorController;
     }

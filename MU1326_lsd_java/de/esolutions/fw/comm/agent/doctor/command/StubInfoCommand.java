@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class StubInfoCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"stub_info", "si"};
     }
 
-    @Override
     public String getDescription() {
         return "info on stub(s)";
     }
 
-    @Override
     public String getUsage() {
         return "[stub_id|uuid][,stub_id|uuid...]";
     }
 
-    @Override
     protected void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllStubs();

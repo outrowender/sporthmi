@@ -52,7 +52,7 @@ public class sBluetoothDevices {
     }
 
     public String toString() {
-        return new StringBuffer("sBluetoothDevices{").append("msg_id=").append(this.msg_id).append(", scannedDevices=").append(this.scannedDevices).append(", pairedDevices=").append(this.pairedDevices).append(", connectedDevices=").append(this.connectedDevices).append("}").toString();
+        return "sBluetoothDevices{" + "msg_id=" + this.msg_id + ", scannedDevices=" + this.scannedDevices + ", pairedDevices=" + this.pairedDevices + ", connectedDevices=" + this.connectedDevices + "}";
     }
 }
 

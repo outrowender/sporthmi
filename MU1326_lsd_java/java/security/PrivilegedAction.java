@@ -4,7 +4,6 @@
 package java.security;
 
 public interface PrivilegedAction {
-    default public Object run() {
-    }
+    public Object run();
 }
 

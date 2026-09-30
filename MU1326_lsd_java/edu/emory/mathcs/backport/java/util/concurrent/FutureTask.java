@@ -14,10 +14,10 @@ import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils;
 
 public class FutureTask
 implements RunnableFuture {
-    private static final int READY;
-    private static final int RUNNING;
-    private static final int RAN;
-    private static final int CANCELLED;
+    private static final int READY = 0;
+    private static final int RUNNING = 1;
+    private static final int RAN = 2;
+    private static final int CANCELLED = 4;
     private final Callable callable;
     private Object result;
     private Throwable exception;
@@ -35,12 +35,10 @@ implements RunnableFuture {
         this(Executors.callable(runnable, object));
     }
 
-    @Override
     public synchronized boolean isCancelled() {
         return this.state == 4;
     }
 
-    @Override
     public synchronized boolean isDone() {
         return this.ranOrCancelled() && this.runner == null;
     }
@@ -48,7 +46,6 @@ implements RunnableFuture {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean cancel(boolean bl) {
         FutureTask futureTask = this;
         synchronized (futureTask) {
@@ -61,20 +58,18 @@ implements RunnableFuture {
                 thread.interrupt();
             }
             this.runner = null;
-            super.notifyAll();
+            this.notifyAll();
         }
         this.done();
         return true;
     }
 
-    @Override
-    public synchronized Object get() {
+    public synchronized Object get() throws InterruptedException, ExecutionException {
         this.waitFor();
         return this.getResult();
     }
 
-    @Override
-    public synchronized Object get(long l, TimeUnit timeUnit) {
+    public synchronized Object get(long l, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
         this.waitFor(timeUnit.toNanos(l));
         return this.getResult();
     }
@@ -93,7 +88,6 @@ implements RunnableFuture {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         FutureTask futureTask = this;
         synchronized (futureTask) {
@@ -157,7 +151,7 @@ implements RunnableFuture {
             this.state = 2;
             this.result = object;
             this.runner = null;
-            super.notifyAll();
+            this.notifyAll();
         }
         this.done();
     }
@@ -174,18 +168,18 @@ implements RunnableFuture {
             this.state = 2;
             this.exception = throwable;
             this.runner = null;
-            super.notifyAll();
+            this.notifyAll();
         }
         this.done();
     }
 
-    private void waitFor() {
+    private void waitFor() throws InterruptedException {
         while (!this.isDone()) {
-            super.wait();
+            this.wait();
         }
     }
 
-    private void waitFor(long l) {
+    private void waitFor(long l) throws InterruptedException, TimeoutException {
         if (l < 0L) {
             throw new IllegalArgumentException();
         }
@@ -203,7 +197,7 @@ implements RunnableFuture {
         throw new TimeoutException();
     }
 
-    private Object getResult() {
+    private Object getResult() throws ExecutionException {
         if (this.state == 4) {
             throw new CancellationException();
         }

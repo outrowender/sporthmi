@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class RepeatLastNavAnnouncement_Result
 implements ResultMethod {
     public int repeatLna_Result;
-    private static final int REPEAT_LNA_RESULT_BITSIZE;
-    public static final int REPEAT_LNA_RESULT_SUCCESSFUL;
-    public static final int REPEAT_LNA_RESULT_NOT_SUCCESSFUL;
-    public static final int REPEAT_LNA_RESULT_ABORT_SUCCESSFUL;
-    public static final int REPEAT_LNA_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int REPEAT_LNA_RESULT_BITSIZE = 8;
+    public static final int REPEAT_LNA_RESULT_SUCCESSFUL = 0;
+    public static final int REPEAT_LNA_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int REPEAT_LNA_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int REPEAT_LNA_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.repeatLna_Result;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.repeatLna_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RepeatLastNavAnnouncement_Result repeatLastNavAnnouncement_Result = (RepeatLastNavAnnouncement_Result)bAPEntity;
         return this.repeatLna_Result == repeatLastNavAnnouncement_Result.repeatLna_Result;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RepeatLastNavAnnouncement_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.repeatLna_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.repeatLna_Result = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 35;
     }
 
-    @Override
     public int getFunctionId() {
         return RepeatLastNavAnnouncement_Result.functionId();
     }

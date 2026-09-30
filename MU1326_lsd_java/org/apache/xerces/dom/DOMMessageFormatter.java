@@ -10,35 +10,35 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class DOMMessageFormatter {
-    public static final String DOM_DOMAIN;
-    public static final String XML_DOMAIN;
-    private static ResourceBundle domResourceBundle;
-    private static ResourceBundle xmlResourceBundle;
-    private static Locale locale;
+    public static final String DOM_DOMAIN = "http://www.w3.org/dom/DOMTR";
+    public static final String XML_DOMAIN = "http://www.w3.org/TR/1998/REC-xml-19980210";
+    private static ResourceBundle domResourceBundle = null;
+    private static ResourceBundle xmlResourceBundle = null;
+    private static Locale locale = null;
 
     DOMMessageFormatter() {
         locale = Locale.getDefault();
     }
 
-    public static String formatMessage(String string, String string2, Object[] objectArray) {
+    public static String formatMessage(String string, String string2, Object[] objectArray) throws MissingResourceException {
         String string3;
         ResourceBundle resourceBundle = DOMMessageFormatter.getResourceBundle(string);
         if (resourceBundle == null) {
             DOMMessageFormatter.init();
             resourceBundle = DOMMessageFormatter.getResourceBundle(string);
             if (resourceBundle == null) {
-                throw new MissingResourceException(new StringBuffer().append("Unknown domain").append(string).toString(), null, string2);
+                throw new MissingResourceException("Unknown domain" + string, null, string2);
             }
         }
         try {
-            string3 = new StringBuffer().append(string2).append(": ").append(resourceBundle.getString(string2)).toString();
+            string3 = string2 + ": " + resourceBundle.getString(string2);
             if (objectArray != null) {
                 try {
                     string3 = MessageFormat.format(string3, objectArray);
                 }
                 catch (Exception exception) {
                     string3 = resourceBundle.getString("FormatFailed");
-                    string3 = new StringBuffer().append(string3).append(" ").append(resourceBundle.getString(string2)).toString();
+                    string3 = string3 + " " + resourceBundle.getString(string2);
                 }
             }
         }
@@ -63,10 +63,10 @@ public class DOMMessageFormatter {
     }
 
     static ResourceBundle getResourceBundle(String string) {
-        if (string == "http://www.w3.org/dom/DOMTR" || string.equals("http://www.w3.org/dom/DOMTR")) {
+        if (string == DOM_DOMAIN || string.equals(DOM_DOMAIN)) {
             return domResourceBundle;
         }
-        if (string == "http://www.w3.org/TR/1998/REC-xml-19980210" || string.equals("http://www.w3.org/TR/1998/REC-xml-19980210")) {
+        if (string == XML_DOMAIN || string.equals(XML_DOMAIN)) {
             return xmlResourceBundle;
         }
         return null;
@@ -84,12 +84,6 @@ public class DOMMessageFormatter {
 
     public static void setLocale(Locale locale) {
         DOMMessageFormatter.locale = locale;
-    }
-
-    static {
-        domResourceBundle = null;
-        xmlResourceBundle = null;
-        locale = null;
     }
 }
 

@@ -23,11 +23,6 @@ import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketPermission;
 import java.net.URL;
-import java.net.URLClassLoader$1;
-import java.net.URLClassLoader$2;
-import java.net.URLClassLoader$3;
-import java.net.URLClassLoader$4;
-import java.net.URLClassLoader$5;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
@@ -35,6 +30,7 @@ import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
+import java.security.PrivilegedAction;
 import java.security.SecureClassLoader;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
@@ -46,7 +42,6 @@ import java.util.ListIterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.jar.Attributes;
-import java.util.jar.Attributes$Name;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -95,13 +90,17 @@ extends SecureClassLoader {
         return uRLArray2;
     }
 
-    @Override
-    public Enumeration findResources(String string) {
+    public Enumeration findResources(final String string) throws IOException {
         SecurityManager securityManager;
         if (string == null) {
             return null;
         }
-        Vector vector = (Vector)AccessController.doPrivileged(new URLClassLoader$1(this, string), this.currentContext);
+        Vector vector = (Vector)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return URLClassLoader.this.findResources(URLClassLoader.this.urls, string, new Vector());
+            }
+        }, this.currentContext);
         int n = vector.size();
         if (n > 0 && (securityManager = System.getSecurityManager()) != null) {
             Vector vector2 = new Vector(n);
@@ -227,7 +226,7 @@ extends SecureClassLoader {
         return null;
     }
 
-    private static byte[] getBytes(InputStream inputStream, boolean bl) {
+    private static byte[] getBytes(InputStream inputStream, boolean bl) throws IOException {
         int n;
         if (bl) {
             if (inputStream instanceof AccessibleByteArrayInputStream) {
@@ -250,7 +249,6 @@ extends SecureClassLoader {
         return byteArrayOutputStream.toByteArray();
     }
 
-    @Override
     protected PermissionCollection getPermissions(CodeSource codeSource) {
         PermissionCollection permissionCollection = super.getPermissions(codeSource);
         URL uRL = codeSource.getLocation();
@@ -295,14 +293,24 @@ extends SecureClassLoader {
         return string.length() > 0 && string.charAt(string.length() - 1) == '/';
     }
 
-    public static URLClassLoader newInstance(URL[] uRLArray) {
-        URLClassLoader uRLClassLoader = (URLClassLoader)AccessController.doPrivileged(new URLClassLoader$2(uRLArray));
+    public static URLClassLoader newInstance(final URL[] uRLArray) {
+        URLClassLoader uRLClassLoader = (URLClassLoader)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return new SubURLClassLoader(uRLArray);
+            }
+        });
         uRLClassLoader.currentContext = AccessController.getContext();
         return uRLClassLoader;
     }
 
-    public static URLClassLoader newInstance(URL[] uRLArray, ClassLoader classLoader) {
-        URLClassLoader uRLClassLoader = (URLClassLoader)AccessController.doPrivileged(new URLClassLoader$3(uRLArray, classLoader));
+    public static URLClassLoader newInstance(final URL[] uRLArray, final ClassLoader classLoader) {
+        URLClassLoader uRLClassLoader = (URLClassLoader)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return new SubURLClassLoader(uRLArray, classLoader);
+            }
+        });
         uRLClassLoader.currentContext = AccessController.getContext();
         return uRLClassLoader;
     }
@@ -332,16 +340,20 @@ extends SecureClassLoader {
         this.indexes = new Hashtable[n];
     }
 
-    @Override
-    protected Class findClass(String string) {
-        Class clazz = (Class)AccessController.doPrivileged(new URLClassLoader$4(this, string), this.currentContext);
+    protected Class findClass(final String string) throws ClassNotFoundException {
+        Class clazz = (Class)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return URLClassLoader.this.findClassImpl(URLClassLoader.this.urls, string);
+            }
+        }, this.currentContext);
         if (clazz != null) {
             return clazz;
         }
         throw new ClassNotFoundException(string);
     }
 
-    private URL createSearchURL(URL uRL) {
+    private URL createSearchURL(URL uRL) throws MalformedURLException {
         if (uRL == null) {
             return uRL;
         }
@@ -368,13 +380,17 @@ extends SecureClassLoader {
         return new URL("jar", "", -1, new StringBuffer(String.valueOf(uRL.toString())).append("!/").toString(), this.factory.createURLStreamHandler(string));
     }
 
-    @Override
-    public URL findResource(String string) {
+    public URL findResource(final String string) {
         SecurityManager securityManager;
         if (string == null) {
             return null;
         }
-        URL uRL = (URL)AccessController.doPrivileged(new URLClassLoader$5(this, string), this.currentContext);
+        URL uRL = (URL)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return URLClassLoader.this.findResourceImpl(URLClassLoader.this.urls, string);
+            }
+        }, this.currentContext);
         if (uRL != null && (securityManager = System.getSecurityManager()) != null) {
             try {
                 securityManager.checkPermission(uRL.openConnection().getPermission());
@@ -488,7 +504,7 @@ extends SecureClassLoader {
         return null;
     }
 
-    protected Package definePackage(String string, Manifest manifest, URL uRL) {
+    protected Package definePackage(String string, Manifest manifest, URL uRL) throws IllegalArgumentException {
         String string2;
         String string3;
         String string4;
@@ -503,33 +519,33 @@ extends SecureClassLoader {
             bl = true;
             attributes2 = attributes;
         }
-        if ((string7 = attributes2.getValue(Attributes$Name.SPECIFICATION_TITLE)) == null && !bl) {
-            string7 = attributes.getValue(Attributes$Name.SPECIFICATION_TITLE);
+        if ((string7 = attributes2.getValue(Attributes.Name.SPECIFICATION_TITLE)) == null && !bl) {
+            string7 = attributes.getValue(Attributes.Name.SPECIFICATION_TITLE);
         }
-        if ((string6 = attributes2.getValue(Attributes$Name.SPECIFICATION_VERSION)) == null && !bl) {
-            string6 = attributes.getValue(Attributes$Name.SPECIFICATION_VERSION);
+        if ((string6 = attributes2.getValue(Attributes.Name.SPECIFICATION_VERSION)) == null && !bl) {
+            string6 = attributes.getValue(Attributes.Name.SPECIFICATION_VERSION);
         }
-        if ((string5 = attributes2.getValue(Attributes$Name.SPECIFICATION_VENDOR)) == null && !bl) {
-            string5 = attributes.getValue(Attributes$Name.SPECIFICATION_VENDOR);
+        if ((string5 = attributes2.getValue(Attributes.Name.SPECIFICATION_VENDOR)) == null && !bl) {
+            string5 = attributes.getValue(Attributes.Name.SPECIFICATION_VENDOR);
         }
-        if ((string4 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_TITLE)) == null && !bl) {
-            string4 = attributes.getValue(Attributes$Name.IMPLEMENTATION_TITLE);
+        if ((string4 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_TITLE)) == null && !bl) {
+            string4 = attributes.getValue(Attributes.Name.IMPLEMENTATION_TITLE);
         }
-        if ((string3 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_VERSION)) == null && !bl) {
-            string3 = attributes.getValue(Attributes$Name.IMPLEMENTATION_VERSION);
+        if ((string3 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_VERSION)) == null && !bl) {
+            string3 = attributes.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
         }
-        if ((string2 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_VENDOR)) == null && !bl) {
-            string2 = attributes.getValue(Attributes$Name.IMPLEMENTATION_VENDOR);
+        if ((string2 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_VENDOR)) == null && !bl) {
+            string2 = attributes.getValue(Attributes.Name.IMPLEMENTATION_VENDOR);
         }
         return this.definePackage(string, string7, string6, string5, string4, string3, string2, this.isSealed(manifest, string8) ? uRL : null);
     }
 
     private boolean isSealed(Manifest manifest, String string) {
         Attributes attributes = manifest.getMainAttributes();
-        String string2 = attributes.getValue(Attributes$Name.SEALED);
+        String string2 = attributes.getValue(Attributes.Name.SEALED);
         boolean bl = string2 != null && string2.toLowerCase().equals("true");
         Attributes attributes2 = manifest.getAttributes(string);
-        if (attributes2 != null && (string2 = attributes2.getValue(Attributes$Name.SEALED)) != null) {
+        if (attributes2 != null && (string2 = attributes2.getValue(Attributes.Name.SEALED)) != null) {
             bl = string2.toLowerCase().equals("true");
         }
         return bl;
@@ -559,7 +575,7 @@ extends SecureClassLoader {
         return uRLArray;
     }
 
-    private ArrayList readLines(InputStream inputStream) {
+    private ArrayList readLines(InputStream inputStream) throws IOException {
         int n;
         byte[] byArray = new byte[144];
         ArrayList arrayList = new ArrayList();
@@ -589,7 +605,7 @@ extends SecureClassLoader {
         return arrayList;
     }
 
-    private URL targetURL(URL uRL, String string) {
+    private URL targetURL(URL uRL, String string) throws MalformedURLException {
         String string2 = new StringBuffer(uRL.getFile().length() + string.length()).append(uRL.getFile()).append(string).toString();
         if (JxeHandler == null) {
             try {
@@ -618,7 +634,7 @@ extends SecureClassLoader {
             }
         }
         URLStreamHandler uRLStreamHandler = null;
-        if (super.getClass() == JxeHandler) {
+        if (uRL.getStreamHandler().getClass() == JxeHandler) {
             uRLStreamHandler = uRL.getStreamHandler();
         }
         return new URL(uRL.getProtocol(), uRL.getHost(), uRL.getPort(), string2, uRLStreamHandler);
@@ -854,7 +870,7 @@ extends SecureClassLoader {
         catch (IOException iOException) {}
         String string = null;
         if (manifest != null) {
-            string = manifest.getMainAttributes().getValue(Attributes$Name.CLASS_PATH);
+            string = manifest.getMainAttributes().getValue(Attributes.Name.CLASS_PATH);
         }
         HashMap hashMap = this.extensions;
         synchronized (hashMap) {
@@ -865,6 +881,34 @@ extends SecureClassLoader {
             }
         }
         return uRLArray;
+    }
+
+    static class SubURLClassLoader
+    extends URLClassLoader {
+        private boolean checkingPackageAccess = false;
+
+        SubURLClassLoader(URL[] uRLArray) {
+            super(uRLArray, ClassLoader.getSystemClassLoader());
+        }
+
+        SubURLClassLoader(URL[] uRLArray, ClassLoader classLoader) {
+            super(uRLArray, classLoader);
+        }
+
+        protected synchronized Class loadClass(String string, boolean bl) throws ClassNotFoundException {
+            int n;
+            SecurityManager securityManager = System.getSecurityManager();
+            if (securityManager != null && !this.checkingPackageAccess && (n = string.lastIndexOf(46)) > 0) {
+                try {
+                    this.checkingPackageAccess = true;
+                    securityManager.checkPackageAccess(string.substring(0, n));
+                }
+                finally {
+                    this.checkingPackageAccess = false;
+                }
+            }
+            return super.loadClass(string, bl);
+        }
     }
 }
 

@@ -3,33 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.has;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.has.HASDataContainer;
 
 public interface DSIHASReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "e8b825cb-88b6-5891-b307-10ee3b08dd9c";
+    public static final String IPL_COMM_INTERFACE_KEY = "184e7a94-37bf-56cc-890e-bf8fe7451678";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.6";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.6";
 
-    default public void actionRequest(int n, int n2, HASDataContainer[] hASDataContainerArray) {
-    }
+    public void actionRequest(int var1, int var2, HASDataContainer[] var3) throws MethodException;
 
-    default public void subscribeRequest(int n, int n2) {
-    }
+    public void subscribeRequest(int var1, int var2) throws MethodException;
 
-    default public void unsubscribeRequest(int n) {
-    }
+    public void unsubscribeRequest(int var1) throws MethodException;
 
-    default public void unsubscribeAllRequest() {
-    }
+    public void unsubscribeAllRequest() throws MethodException;
 
-    default public void getPropertyRequest(int n) {
-    }
+    public void getPropertyRequest(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -11,576 +11,522 @@ import org.dsi.ifc.telephoneng.MailboxDialingNumber;
 
 public interface DSIMobileEquipment
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_ACCEPTCALL;
-    public static final int RT_HANGUPCALL;
-    public static final int RT_SWAPCALLS;
-    public static final int RT_SPLITCALL;
-    public static final int RT_JOINCALLS;
-    public static final int RT_DIALNUMBER;
-    public static final int RT_DIALNUMBERFROMDBENTRY;
-    public static final int RT_SENDDTMF;
-    public static final int RT_REQUESTNETWORKREGISTRATION;
-    public static final int RT_REQUESTABORTNETWORKREGISTRATION;
-    public static final int RT_REQUESTNETWORKSEARCH;
-    public static final int RT_REQUESTABORTNETWORKSEARCH;
-    public static final int RT_REQUESTCALLFORWARD;
-    public static final int RT_REQUESTCALLWAITING;
-    public static final int RT_REQUESTCLIR;
-    public static final int RT_REQUESTSERVICECODEABORT;
-    public static final int RT_REQUESTSETAUTOMATICPINENTRYACTIVE;
-    public static final int RT_REQUESTSETAUTOMATICREDIALACTIVE;
-    public static final int RT_REQUESTSETCDMATHREEWAYCALLINGSETTING;
-    public static final int RT_REQUESTSETAUTOMATICEMERGENCYCALLACTIVE;
-    public static final int RT_REQUESTSETENHANCEDPRIVACYMODE;
-    public static final int RT_REQUESTSETMAILBOXCONTENT;
-    public static final int RT_REQUESTSETPRIVACYMODE;
-    public static final int RT_REQUESTTELPOWER;
-    public static final int RT_REQUESTUNLOCKSIM;
-    public static final int RT_REQUESTCHECKSIMPINCODE;
-    public static final int RT_REQUESTCHANGESIMCODE;
-    public static final int RT_REQUESTSETHANDSFREEMODE;
-    public static final int RT_REQUESTSETMICMUTESTATE;
-    public static final int RT_REQUESTSETLANGUAGE;
-    public static final int RT_REQUESTSIMPINREQUIRED;
-    public static final int RT_RESTOREFACTORYSETTINGS;
-    public static final int RT_REQUESTUNLOCKOTHERSIM;
-    public static final int RT_REQUESTSETSIMALIASES;
-    public static final int RT_REQUESTSETMICGAINLEVEL;
-    public static final int RT_REQUESTDECREASEMICGAINLEVEL;
-    public static final int RT_REQUESTINCREASEMICGAINLEVEL;
-    public static final int RT_REQUESTSETOPTIMIZATIONMODE;
-    public static final int RT_REQUESTSETNADMODE;
-    public static final int RT_REQUESTREMOVEOTHERSIM;
-    public static final int RT_DIALOPERATOR;
-    public static final int RT_REQUESTSETPREFIXCONTENT;
-    public static final int RT_REQUESTSETPHONEREMINDERSETTING;
-    public static final int RT_REQUESTSETPREFIXACTIVATED;
-    public static final int RT_REQUESTSETPHONERINGTONE;
-    public static final int RT_REQUESTSETFAVORITES;
-    public static final int RT_REQUESTSETSIMNAME;
-    public static final int RT_REQUESTSETESIMACTIVE;
-    public static final int RT_DELETECALLSTACKSALL;
-    public static final int RT_DELETECALLSTACKSENTRY;
-    public static final int RT_RESETMISSEDCALLINDICATOR;
-    public static final int RT_REVERTCALLSTACKS;
-    public static final int RT_REQUESTSTARTSPEECHRECOGNITION;
-    public static final int RT_REQUESTSTOPSPEECHRECOGNITION;
-    public static final int ATTR_DTMFTONEPLAYING;
-    public static final int ATTR_EMERGENCYNUMBERS;
-    public static final int ATTR_SIMPINREQUIRED;
-    public static final int ATTR_ACTIVATIONSTATE;
-    public static final int ATTR_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_BATTERYCHARGELEVEL;
-    public static final int ATTR_CALLDURATIONLIST;
-    public static final int ATTR_CALLLIST;
-    public static final int ATTR_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_CRADLEPLUGINSTATE;
-    public static final int ATTR_DISCONNECTREASON;
-    public static final int ATTR_EMERGENCYCALLACTIVE;
-    public static final int ATTR_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_HANDSFREEMODE;
-    public static final int ATTR_LOCKSTATE;
-    public static final int ATTR_MAILBOXCONTENT;
-    public static final int ATTR_MICMUTESTATE;
-    public static final int ATTR_NADTEMPERATURE;
-    public static final int ATTR_PHONEINFORMATION;
-    public static final int ATTR_NETWORKPROVIDER;
-    public static final int ATTR_NETWORKTYPE;
-    public static final int ATTR_PRIVACYMODE;
-    public static final int ATTR_REGISTERSTATE;
-    public static final int ATTR_SERVICECODETYPE;
-    public static final int ATTR_SERVICENUMBERS;
-    public static final int ATTR_SIGNALQUALITY;
-    public static final int ATTR_SUPPSERVICERESPONSE;
-    public static final int ATTR_SERVICEPROVIDER;
-    public static final int ATTR_SIMALIASINFORMATION;
-    public static final int ATTR_MICGAINLEVEL;
-    public static final int ATTR_OPTIMIZATIONMODE;
-    public static final int ATTR_NADMODE;
-    public static final int ATTR_OTHERSIMAVAILABLE;
-    public static final int ATTR_PREFIXCONTENT;
-    public static final int ATTR_PHONEREMINDERSETTING;
-    public static final int ATTR_PREFIXACTIVATED;
-    public static final int ATTR_WIDEBANDSPEECH;
-    public static final int ATTR_PHONERINGTONE;
-    public static final int ATTR_FAVORITES;
-    public static final int ATTR_SAPUPGRADEACTIVE;
-    public static final int ATTR_EUICCID;
-    public static final int ATTR_ESIMMSISDN;
-    public static final int ATTR_ESIMACTIVE;
-    public static final int ATTR_ESIMB2BMODE;
-    public static final int ATTR_CALLSTACKSISREVERTED;
-    public static final int ATTR_LASTANSWEREDNUMBERS;
-    public static final int ATTR_LASTDIALEDNUMBERS;
-    public static final int ATTR_MISSEDNUMBERS;
-    public static final int ATTR_MEDATAVALIDITY;
-    public static final int ATTR_MISSEDCALLINDICATOR;
-    public static final int ATTR_SPEECHRECOGNITIONAVAILABLE;
-    public static final int ATTR_SPEECHRECOGNITIONACTIVE;
-    public static final int ATTR_SPEECHRECOGNITIONTYPE;
-    public static final int RP_RESPONSEABORTNETWORKREGISTRATION;
-    public static final int RP_RESPONSEABORTNETWORKSEARCH;
-    public static final int RP_RESPONSEACCEPTCALL;
-    public static final int RP_RESPONSECALLFORWARD;
-    public static final int RP_RESPONSECALLWAITING;
-    public static final int RP_RESPONSECHANGESIMCODE;
-    public static final int RP_RESPONSECLIR;
-    public static final int RP_RESPONSEDIALNUMBER;
-    public static final int RP_RESPONSESENDDTMF;
-    public static final int RP_RESPONSESIMPINREQUIRED;
-    public static final int RP_RESPONSEHANGUPCALL;
-    public static final int RP_RESPONSEJOINCALLS;
-    public static final int RP_RESPONSENETWORKREGISTRATION;
-    public static final int RP_RESPONSENETWORKSEARCH;
-    public static final int RP_RESPONSEUNLOCKSIM;
-    public static final int RP_RESPONSECHECKSIMPINCODE;
-    public static final int RP_RESPONSERESTOREFACTORYSETTINGS;
-    public static final int RP_RESPONSESETHANDSFREEMODE;
-    public static final int RP_RESPONSESETAUTOMATICPINENTRYACTIVE;
-    public static final int RP_RESPONSESETAUTOMATICREDIALACTIVE;
-    public static final int RP_RESPONSESERVICECODEABORT;
-    public static final int RP_RESPONSESPLITCALL;
-    public static final int RP_RESPONSESWAPCALLS;
-    public static final int RP_RESPONSETELPOWER;
-    public static final int RP_RESPONSESETCDMATHREEWAYCALLINGSETTING;
-    public static final int RP_RESPONSESETAUTOMATICEMERGENCYCALLACTIVE;
-    public static final int RP_RESPONSESETMAILBOXCONTENT;
-    public static final int RP_RESPONSESETPRIVACYMODE;
-    public static final int RP_RESPONSESETMICMUTESTATE;
-    public static final int RP_RESPONSESETOPTIMIZATIONMODE;
-    public static final int RP_RESPONSESETNADMODE;
-    public static final int RP_RESPONSEUNLOCKOTHERSIM;
-    public static final int RP_RESPONSESETSIMALIASES;
-    public static final int RP_RESPONSEREMOVEOTHERSIM;
-    public static final int RP_RESPONSEDIALOPERATOR;
-    public static final int RP_RESPONSESETPREFIXCONTENT;
-    public static final int RP_RESPONSESETPHONEREMINDERSETTING;
-    public static final int RP_RESPONSESETPREFIXACTIVATED;
-    public static final int RP_RESPONSESETPHONERINGTONE;
-    public static final int RP_RESPONSESETFAVORITES;
-    public static final int RP_RESPONSESETSIMNAME;
-    public static final int RP_RESPONSESETESIMACTIVE;
-    public static final int RP_RESPONSESTARTSPEECHRECOGNITION;
-    public static final int RP_RESPONSESTOPSPEECHRECOGNITION;
-    public static final int MEBATTERYCHARGELEVEL_UNKNOWN;
-    public static final int MEBATTERYCHARGELEVEL_0;
-    public static final int MEBATTERYCHARGELEVEL_0_19;
-    public static final int MEBATTERYCHARGELEVEL_20_39;
-    public static final int MEBATTERYCHARGELEVEL_40_59;
-    public static final int MEBATTERYCHARGELEVEL_60_79;
-    public static final int MEBATTERYCHARGELEVEL_80_100;
-    public static final int ACTIVATIONSTATE_INIT;
-    public static final int ACTIVATIONSTATE_NOT_ATTACHED;
-    public static final int ACTIVATIONSTATE_TEL_ACTIVE_CALL;
-    public static final int ACTIVATIONSTATE_PHONE_OFF;
-    public static final int ACTIVATIONSTATE_PHONE_ON;
-    public static final int ACTIVATIONSTATE_ATTACHED_NOT_READY;
-    public static final int ACTIVATIONSTATE_ATTACHED_NOT_FUNC;
-    public static final int ACTIVATIONSTATE_ME_RECONNECT;
-    public static final int TELMODE_INTERNAL_SIM;
-    public static final int TELMODE_SIMAP_BTHS;
-    public static final int TELMODE_EXTERNAL_SIMAP;
-    public static final int TELMODE_HFP;
-    public static final int TELMODE_NO_SIM_AVAILABLE;
-    public static final int TELFEAT_UNKNOWN;
-    public static final int TELFEAT_INBAND;
-    public static final int TELFEAT_REJECTCALL;
-    public static final int TELFEAT_RESPHOLD;
-    public static final int TELFEAT_THREEWAY;
-    public static final int TELFEAT_ENHCALL;
-    public static final int TELFEAT_ENHSTAT;
-    public static final int TELFEAT_ADD_TO_CONFERENCE;
-    public static final int TELFEAT_ENHCONFERENCE_TRANSFER;
-    public static final int TELFEAT_REJECTMOBILE;
-    public static final int TELDEVICE_HMI;
-    public static final int TELDEVICE_BTHS1;
-    public static final int TELDEVICE_BTHS2;
-    public static final int PHONEMODULESTATE_N_A;
-    public static final int PHONEMODULESTATE_OFF_TEMP;
-    public static final int PHONEMODULESTATE_ON;
-    public static final int PHONEMODULESTATE_OFF;
-    public static final int PHONEMODULESTATE_OFF_DIAG;
-    public static final int PHONEMODULESTATE_NOT_FUNCTION;
-    public static final int PHONEMODULESTATE_INIT;
-    public static final int PHONEMODULESTATE_SWITCHING_ON;
-    public static final int PHONEMODULESTATE_SWITCHING_OFF;
-    public static final int NADTEMPLEVEL_NORMAL;
-    public static final int NADTEMPLEVEL_UNDER;
-    public static final int NADTEMPLEVEL_WARNING;
-    public static final int NADTEMPLEVEL_HIGH;
-    public static final int NADTEMPLEVEL_UNKNOWN;
-    public static final int POWER_OFF_PERS;
-    public static final int POWER_ON_PERS;
-    public static final int LOCKSTATE_UNKNOWN;
-    public static final int LOCKSTATE_UNLOCK_INPR;
-    public static final int LOCKSTATE_NO_LOCK;
-    public static final int LOCKSTATE_PIN_REQUIRED;
-    public static final int LOCKSTATE_PIN2_REQUIRED;
-    public static final int LOCKSTATE_PUK_REQUIRED;
-    public static final int LOCKSTATE_PUK2_REQUIRED;
-    public static final int LOCKSTATE_PUK_BLOCKED;
-    public static final int LOCKSTATE_PUK2_BLOCKED;
-    public static final int LOCKSTATE_SECCO_REQUIRED;
-    public static final int LOCKSTATE_SECCO_BLOCKED;
-    public static final int LOCKSTATE_SIMNOTFUNC;
-    public static final int REGISTERSTATE_UNKNOWN;
-    public static final int REGISTERSTATE_REGISTERED;
-    public static final int REGISTERSTATE_ROAMING;
-    public static final int REGISTERSTATE_SEARCHING;
-    public static final int REGISTERSTATE_NOT_SEARCHING;
-    public static final int REGISTERSTATE_DENIED;
-    public static final int REGMODE_MANUAL;
-    public static final int REGMODE_AUTOMATIC;
-    public static final int NETTYPE_UNKNOWN;
-    public static final int NETTYPE_GSM;
-    public static final int NETTYPE_CDMA;
-    public static final int NETTYPE_PDC;
-    public static final int NETTYPE_UMTS;
-    public static final int NETTYPE_LTE;
-    public static final int NUMTYPE_NOINT;
-    public static final int NUMTYPE_INT;
-    public static final int ACCEPTMODE_SINGLE;
-    public static final int ACCEPTMODE_REPLACE;
-    public static final int ACCEPTMODE_HOLD;
-    public static final int ACCEPTMODE_RESPONSE_HOLD;
-    public static final int HANGUPMODE_REJECT;
-    public static final int HANGUPMODE_CONFERENCE;
-    public static final int HANGUPMODE_ALLCALLS;
-    public static final int DISCREASON_NORMAL;
-    public static final int DISCREASON_NOLINE;
-    public static final int DISCREASON_SYSTEM_BUSY;
-    public static final int DISCREASON_NUMBER_BUSY;
-    public static final int DISCREASON_NUMBER_NOT_ASSIGNED;
-    public static final int DISCREASON_NUMBER_NOT_REACHABLE;
-    public static final int DISCREASON_NETWORK_FAILURE;
-    public static final int DISCREASON_CALL_BARRING_ACTIVE;
-    public static final int DISCREASON_USER_NOT_RESPONDING;
-    public static final int DISCREASON_CALL_REJECTED;
-    public static final int DISCREASON_NUMBER_CHANGED;
-    public static final int DISCREASON_NUMBER_INVALID_INCOMPLETE;
-    public static final int DISCREASON_SERVICE_NOT_AVAILABLE;
-    public static final int DISCREASON_NO_INFO_AVAILABLE;
-    public static final int DISCREASON_NUMBER_TEMP_FORBIDDEN;
-    public static final int HANDSFREEMODE_HANDSFREE;
-    public static final int HANDSFREEMODE_PRIVATE_BTHS1;
-    public static final int HANDSFREEMODE_PRIVATE_BTHS2;
-    public static final int HANDSFREEMODE_PRIVATE_HS;
-    public static final int HANDSFREEMODE_PRIVATE_HFP;
-    public static final int MICMUTESTATE_ON;
-    public static final int MICMUTESTATE_OFF;
-    public static final int LOCKCODE_PIN;
-    public static final int LOCKCODE_PIN2;
-    public static final int LOCKCODE_PUK;
-    public static final int LOCKCODE_PUK2;
-    public static final int LOCKCODE_SECCO;
-    public static final int COMMCLASS_VOICE;
-    public static final int COMMCLASS_DATA;
-    public static final int COMMCLASS_FAX;
-    public static final int COMMCLASS_SMS;
-    public static final int COMMCLASS_DCS;
-    public static final int COMMCLASS_DCA;
-    public static final int COMMCLASS_DDPA;
-    public static final int COMMCLASS_DDPADA;
-    public static final int COMMCLASS_UNCONDITIONAL;
-    public static final int CWMODE_DISABLE;
-    public static final int CWMODE_ENABLE;
-    public static final int CWMODE_QUERY;
-    public static final int CLIRSTATE_PRESENTATION;
-    public static final int CLIRSTATE_INVOCATION;
-    public static final int CLIRSTATE_SUPPRESSION;
-    public static final int CLIRSTATE_QUERY;
-    public static final int CLIRNWSTATE_OFF;
-    public static final int CLIRNWSTATE_ON;
-    public static final int CLIRNWSTATE_UNKNOWN;
-    public static final int CLIRNWSTATE_RESTRICTED;
-    public static final int CLIRNWSTATE_ALLOWED;
-    public static final int SERVICESTATE_IDLE;
-    public static final int SERVICESTATE_SESSION;
-    public static final int SERVICESTATE_TERMINATED;
-    public static final int SERVICESTATE_RESPONDED;
-    public static final int SERVICESTATE_NOSUP;
-    public static final int SERVICESTATE_ERROR;
-    public static final int RESULT_OK;
-    public static final int RESULT_ABORTED;
-    public static final int RESULT_ERROR_NOSUP_PHONE;
-    public static final int RESULT_ERROR_NOSUP_NW;
-    public static final int RESULT_ERROR_UNSPECIFIED;
-    public static final int RESULT_ERROR_CODE_WRONG;
-    public static final int RESULT_ERROR_SERV_BUSY;
-    public static final int RESULT_ERROR_NOT_ALLOWED;
-    public static final int RESULT_ERROR_SIM_FAILURE;
-    public static final int RESULT_ERROR_CODE_INVALID_FORMAT;
-    public static final int RESULT_ERROR_STRING_TOO_LONG;
-    public static final int RESULT_ERROR_NO_NW_REPLY;
-    public static final int RESULT_ERROR_NO_NW_ACCESS;
-    public static final int RESULT_ERROR_INVALID_CALL_ID;
-    public static final int RESULT_ERROR_NW_REGISTRATION_NOT_ALLOWED;
-    public static final int RESULT_ERROR_PIN_IDENTICAL_PROFILE_NOT_CHANGED;
-    public static final int RESULT_ERROR_VOICE_NOT_POSSIBLE_CARPLAY_ACTIVE;
-    public static final int RESULT_ERROR_VOICE_NOT_POSSIBLE_ANDROID_AUTO_ACTIVE;
-    public static final int RESULT_ERROR_SPEECHRECOGNITION_NOT_STARTED;
-    public static final int RESULT_ERROR_SPEECH_RECOGNITION_NOT_AVAILABLE;
-    public static final int RESULT_ERROR_SPEECH_RECOGNITION_ALREADY_ACTIVE;
-    public static final int CALLSTATE_DIALING;
-    public static final int CALLSTATE_ALERTING;
-    public static final int CALLSTATE_RINGING;
-    public static final int CALLSTATE_ACTIVE;
-    public static final int CALLSTATE_DISCONNECTING;
-    public static final int CALLSTATE_HOLD;
-    public static final int CALLSTATE_AUTOREDIAL;
-    public static final int CALLSTATE_RESP_HOLD;
-    public static final int MPTY_SINGLE;
-    public static final int MPTY_CONFERENCE;
-    public static final int CALLCARRIER_NONE;
-    public static final int CALLCARRIER_PRIO;
-    public static final int CALLCARRIER_ASSOCIATED;
-    public static final int CALLTYPE_VOICE;
-    public static final int CALLTYPE_DATA;
-    public static final int CALLTYPE_FAX;
-    public static final int CALLTYPE_EMERGENCY;
-    public static final int CALLTYPE_CONFERENCE;
-    public static final int CALLTYPE_INFO;
-    public static final int CALLTYPE_BREAKDOWN;
-    public static final int CALLTYPE_OPERATOR;
-    public static final int CALLTYPE_MAILBOX;
-    public static final int CALLTYPE_NO_NUMBER;
-    public static final int PROVIDERSTATE_UNKNOWN;
-    public static final int PROVIDERSTATE_SELECTED;
-    public static final int PROVIDERSTATE_FORBIDDEN;
-    public static final int PROVIDERSTATE_AVAILABLE;
-    public static final int CWSTATE_NOT_ACTIVE;
-    public static final int CWSTATE_ACTIVE;
-    public static final int CFMODE_DISABLE;
-    public static final int CFMODE_ENABLE;
-    public static final int CFMODE_QUERY;
-    public static final int CFMODE_REGISTRATION;
-    public static final int CFMODE_ERASURE;
-    public static final int CFMODE_UNKNOWN;
-    public static final int CFCONDITION_UNCONDITIONAL;
-    public static final int CFCONDITION_MOBILE_BUSY;
-    public static final int CFCONDITION_NO_REPLY;
-    public static final int CFCONDITION_NOT_REACHABLE;
-    public static final int CFCONDITION_ALL_CFWD;
-    public static final int CFCONDITION_ALL_CCFWD;
-    public static final int CFSTATE_NOT_ACTIVE;
-    public static final int CFSTATE_ACTIVE;
-    public static final int CFSTATE_UNKNOWN;
-    public static final int FACMODE_LOCK;
-    public static final int FACMODE_UNLOCK;
-    public static final int FACMODE_QUERY;
-    public static final int FACILITY_UNKNOWN;
-    public static final int FACILITY_SC;
-    public static final int FACSTATE_NOT_ACTIVE;
-    public static final int FACSTATE_ACTIVE;
-    public static final int NETIDAVAIL_TEMP_NOT_AVAIL;
-    public static final int NETIDAVAIL_NOT_AVAIL;
-    public static final int NETIDAVAIL_AVAIL;
-    public static final int DIALNUMTYPE_NORMALCALL;
-    public static final int DIALNUMTYPE_USSD;
-    public static final int DIALNUMTYPE_SSD;
-    public static final int SERVICECODEREQTYPE_UNKNOWN;
-    public static final int SERVICECODEREQTYPE_ACTIVATION;
-    public static final int SERVICECODEREQTYPE_DEACTIVATION;
-    public static final int SERVICECODEREQTYPE_INTERROGATION;
-    public static final int SERVICECODEREQTYPE_REGISTRATION;
-    public static final int SERVICECODEREQTYPE_ERASURE;
-    public static final int CRADLEPLUGINSTATE_NOTBUILTIN;
-    public static final int CRADLEPLUGINSTATE_UNPLUGGED;
-    public static final int CRADLEPLUGINSTATE_PLUGGED;
-    public static final int CALLLISTNAMENUMBERSTATUS_VALID;
-    public static final int CALLLISTNAMENUMBERSTATUS_TEMPINVALID;
-    public static final int MBIDENTIFIERS_VOICE;
-    public static final int MBIDENTIFIERS_FAX;
-    public static final int MBIDENTIFIERS_EMAIL;
-    public static final int MBIDENTIFIERS_OTHERS;
-    public static final int OPTIMIZATIONMODE_INVALID;
-    public static final int OPTIMIZATIONMODE_AUTO;
-    public static final int OPTIMIZATIONMODE_TELEPHONE;
-    public static final int OPTIMIZATIONMODE_DATA;
-    public static final int NADMODE_INVALID;
-    public static final int NADMODE_VOICE_DATA;
-    public static final int NADMODE_DATA;
-    public static final int NADMODE_VOICE;
-    public static final int CALLSTACKS_LD;
-    public static final int CALLSTACKS_RC;
-    public static final int CALLSTACKS_MC;
-    public static final int CALLSTACKS_ALL;
-    public static final int CALLSTACKDATAVALIDITY_DATAVALID;
-    public static final int CALLSTACKDATAVALIDITY_DATAINVALID;
-    public static final int CALLSTACKORIGIN_ME;
-    public static final int CALLSTACKORIGIN_MU;
-    public static final int MOBILESPEECHRECOGNITIONSTATUS_NOT_ACTIVE;
-    public static final int MOBILESPEECHRECOGNITIONSTATUS_ACTIVE;
-    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_NOT_AVAILABLE;
-    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_AVAILABLE;
-    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_UNKNOWN;
-    public static final int MOBILESPEECHRECOGNITIONTYPE_UNKNOWN;
-    public static final int MOBILESPEECHRECOGNITIONTYPE_GENERIC;
-    public static final int MOBILESPEECHRECOGNITIONTYPE_SIRI;
-    public static final int MOBILESPEECHRECOGNITIONTYPE_GOOGLE_NOW;
+    public static final String VERSION = "2.11.9";
+    public static final int RT_ACCEPTCALL = 1000;
+    public static final int RT_HANGUPCALL = 1001;
+    public static final int RT_SWAPCALLS = 1002;
+    public static final int RT_SPLITCALL = 1003;
+    public static final int RT_JOINCALLS = 1004;
+    public static final int RT_DIALNUMBER = 1005;
+    public static final int RT_DIALNUMBERFROMDBENTRY = 1006;
+    public static final int RT_SENDDTMF = 1007;
+    public static final int RT_REQUESTNETWORKREGISTRATION = 1008;
+    public static final int RT_REQUESTABORTNETWORKREGISTRATION = 1009;
+    public static final int RT_REQUESTNETWORKSEARCH = 1010;
+    public static final int RT_REQUESTABORTNETWORKSEARCH = 1011;
+    public static final int RT_REQUESTCALLFORWARD = 1012;
+    public static final int RT_REQUESTCALLWAITING = 1013;
+    public static final int RT_REQUESTCLIR = 1014;
+    public static final int RT_REQUESTSERVICECODEABORT = 1015;
+    public static final int RT_REQUESTSETAUTOMATICPINENTRYACTIVE = 1016;
+    public static final int RT_REQUESTSETAUTOMATICREDIALACTIVE = 1017;
+    public static final int RT_REQUESTSETCDMATHREEWAYCALLINGSETTING = 1018;
+    public static final int RT_REQUESTSETAUTOMATICEMERGENCYCALLACTIVE = 1019;
+    public static final int RT_REQUESTSETENHANCEDPRIVACYMODE = 1020;
+    public static final int RT_REQUESTSETMAILBOXCONTENT = 1021;
+    public static final int RT_REQUESTSETPRIVACYMODE = 1022;
+    public static final int RT_REQUESTTELPOWER = 1023;
+    public static final int RT_REQUESTUNLOCKSIM = 1024;
+    public static final int RT_REQUESTCHECKSIMPINCODE = 1025;
+    public static final int RT_REQUESTCHANGESIMCODE = 1026;
+    public static final int RT_REQUESTSETHANDSFREEMODE = 1027;
+    public static final int RT_REQUESTSETMICMUTESTATE = 1028;
+    public static final int RT_REQUESTSETLANGUAGE = 1029;
+    public static final int RT_REQUESTSIMPINREQUIRED = 1030;
+    public static final int RT_RESTOREFACTORYSETTINGS = 1031;
+    public static final int RT_REQUESTUNLOCKOTHERSIM = 1032;
+    public static final int RT_REQUESTSETSIMALIASES = 1033;
+    public static final int RT_REQUESTSETMICGAINLEVEL = 1034;
+    public static final int RT_REQUESTDECREASEMICGAINLEVEL = 1035;
+    public static final int RT_REQUESTINCREASEMICGAINLEVEL = 1036;
+    public static final int RT_REQUESTSETOPTIMIZATIONMODE = 1037;
+    public static final int RT_REQUESTSETNADMODE = 1038;
+    public static final int RT_REQUESTREMOVEOTHERSIM = 1039;
+    public static final int RT_DIALOPERATOR = 1040;
+    public static final int RT_REQUESTSETPREFIXCONTENT = 1041;
+    public static final int RT_REQUESTSETPHONEREMINDERSETTING = 1042;
+    public static final int RT_REQUESTSETPREFIXACTIVATED = 1043;
+    public static final int RT_REQUESTSETPHONERINGTONE = 1044;
+    public static final int RT_REQUESTSETFAVORITES = 1045;
+    public static final int RT_REQUESTSETSIMNAME = 1046;
+    public static final int RT_REQUESTSETESIMACTIVE = 1047;
+    public static final int RT_DELETECALLSTACKSALL = 1048;
+    public static final int RT_DELETECALLSTACKSENTRY = 1049;
+    public static final int RT_RESETMISSEDCALLINDICATOR = 1050;
+    public static final int RT_REVERTCALLSTACKS = 1051;
+    public static final int RT_REQUESTSTARTSPEECHRECOGNITION = 1052;
+    public static final int RT_REQUESTSTOPSPEECHRECOGNITION = 1053;
+    public static final int ATTR_DTMFTONEPLAYING = 1;
+    public static final int ATTR_EMERGENCYNUMBERS = 2;
+    public static final int ATTR_SIMPINREQUIRED = 3;
+    public static final int ATTR_ACTIVATIONSTATE = 4;
+    public static final int ATTR_AUTOMATICPINENTRYACTIVE = 5;
+    public static final int ATTR_AUTOMATICREDIALACTIVE = 6;
+    public static final int ATTR_BATTERYCHARGELEVEL = 7;
+    public static final int ATTR_CALLDURATIONLIST = 8;
+    public static final int ATTR_CALLLIST = 9;
+    public static final int ATTR_CDMATHREEWAYCALLINGSETTING = 10;
+    public static final int ATTR_CRADLEPLUGINSTATE = 11;
+    public static final int ATTR_DISCONNECTREASON = 12;
+    public static final int ATTR_EMERGENCYCALLACTIVE = 13;
+    public static final int ATTR_ENHANCEDPRIVACYMODE = 14;
+    public static final int ATTR_HANDSFREEMODE = 15;
+    public static final int ATTR_LOCKSTATE = 16;
+    public static final int ATTR_MAILBOXCONTENT = 17;
+    public static final int ATTR_MICMUTESTATE = 18;
+    public static final int ATTR_NADTEMPERATURE = 19;
+    public static final int ATTR_PHONEINFORMATION = 20;
+    public static final int ATTR_NETWORKPROVIDER = 21;
+    public static final int ATTR_NETWORKTYPE = 22;
+    public static final int ATTR_PRIVACYMODE = 23;
+    public static final int ATTR_REGISTERSTATE = 24;
+    public static final int ATTR_SERVICECODETYPE = 25;
+    public static final int ATTR_SERVICENUMBERS = 26;
+    public static final int ATTR_SIGNALQUALITY = 27;
+    public static final int ATTR_SUPPSERVICERESPONSE = 28;
+    public static final int ATTR_SERVICEPROVIDER = 29;
+    public static final int ATTR_SIMALIASINFORMATION = 30;
+    public static final int ATTR_MICGAINLEVEL = 31;
+    public static final int ATTR_OPTIMIZATIONMODE = 32;
+    public static final int ATTR_NADMODE = 33;
+    public static final int ATTR_OTHERSIMAVAILABLE = 34;
+    public static final int ATTR_PREFIXCONTENT = 35;
+    public static final int ATTR_PHONEREMINDERSETTING = 36;
+    public static final int ATTR_PREFIXACTIVATED = 37;
+    public static final int ATTR_WIDEBANDSPEECH = 38;
+    public static final int ATTR_PHONERINGTONE = 39;
+    public static final int ATTR_FAVORITES = 40;
+    public static final int ATTR_SAPUPGRADEACTIVE = 41;
+    public static final int ATTR_EUICCID = 42;
+    public static final int ATTR_ESIMMSISDN = 43;
+    public static final int ATTR_ESIMACTIVE = 44;
+    public static final int ATTR_ESIMB2BMODE = 45;
+    public static final int ATTR_CALLSTACKSISREVERTED = 46;
+    public static final int ATTR_LASTANSWEREDNUMBERS = 47;
+    public static final int ATTR_LASTDIALEDNUMBERS = 48;
+    public static final int ATTR_MISSEDNUMBERS = 49;
+    public static final int ATTR_MEDATAVALIDITY = 50;
+    public static final int ATTR_MISSEDCALLINDICATOR = 51;
+    public static final int ATTR_SPEECHRECOGNITIONAVAILABLE = 52;
+    public static final int ATTR_SPEECHRECOGNITIONACTIVE = 53;
+    public static final int ATTR_SPEECHRECOGNITIONTYPE = 54;
+    public static final int RP_RESPONSEABORTNETWORKREGISTRATION = 2000;
+    public static final int RP_RESPONSEABORTNETWORKSEARCH = 2001;
+    public static final int RP_RESPONSEACCEPTCALL = 2002;
+    public static final int RP_RESPONSECALLFORWARD = 2003;
+    public static final int RP_RESPONSECALLWAITING = 2004;
+    public static final int RP_RESPONSECHANGESIMCODE = 2005;
+    public static final int RP_RESPONSECLIR = 2006;
+    public static final int RP_RESPONSEDIALNUMBER = 2007;
+    public static final int RP_RESPONSESENDDTMF = 2008;
+    public static final int RP_RESPONSESIMPINREQUIRED = 2009;
+    public static final int RP_RESPONSEHANGUPCALL = 2010;
+    public static final int RP_RESPONSEJOINCALLS = 2011;
+    public static final int RP_RESPONSENETWORKREGISTRATION = 2012;
+    public static final int RP_RESPONSENETWORKSEARCH = 2013;
+    public static final int RP_RESPONSEUNLOCKSIM = 2014;
+    public static final int RP_RESPONSECHECKSIMPINCODE = 2015;
+    public static final int RP_RESPONSERESTOREFACTORYSETTINGS = 2016;
+    public static final int RP_RESPONSESETHANDSFREEMODE = 2017;
+    public static final int RP_RESPONSESETAUTOMATICPINENTRYACTIVE = 2018;
+    public static final int RP_RESPONSESETAUTOMATICREDIALACTIVE = 2019;
+    public static final int RP_RESPONSESERVICECODEABORT = 2020;
+    public static final int RP_RESPONSESPLITCALL = 2021;
+    public static final int RP_RESPONSESWAPCALLS = 2022;
+    public static final int RP_RESPONSETELPOWER = 2023;
+    public static final int RP_RESPONSESETCDMATHREEWAYCALLINGSETTING = 2024;
+    public static final int RP_RESPONSESETAUTOMATICEMERGENCYCALLACTIVE = 2025;
+    public static final int RP_RESPONSESETMAILBOXCONTENT = 2026;
+    public static final int RP_RESPONSESETPRIVACYMODE = 2027;
+    public static final int RP_RESPONSESETMICMUTESTATE = 2028;
+    public static final int RP_RESPONSESETOPTIMIZATIONMODE = 2029;
+    public static final int RP_RESPONSESETNADMODE = 2030;
+    public static final int RP_RESPONSEUNLOCKOTHERSIM = 2031;
+    public static final int RP_RESPONSESETSIMALIASES = 2032;
+    public static final int RP_RESPONSEREMOVEOTHERSIM = 2033;
+    public static final int RP_RESPONSEDIALOPERATOR = 2034;
+    public static final int RP_RESPONSESETPREFIXCONTENT = 2035;
+    public static final int RP_RESPONSESETPHONEREMINDERSETTING = 2036;
+    public static final int RP_RESPONSESETPREFIXACTIVATED = 2037;
+    public static final int RP_RESPONSESETPHONERINGTONE = 2038;
+    public static final int RP_RESPONSESETFAVORITES = 2039;
+    public static final int RP_RESPONSESETSIMNAME = 2040;
+    public static final int RP_RESPONSESETESIMACTIVE = 2041;
+    public static final int RP_RESPONSESTARTSPEECHRECOGNITION = 2042;
+    public static final int RP_RESPONSESTOPSPEECHRECOGNITION = 2043;
+    public static final int MEBATTERYCHARGELEVEL_UNKNOWN = 255;
+    public static final int MEBATTERYCHARGELEVEL_0 = 0;
+    public static final int MEBATTERYCHARGELEVEL_0_19 = 1;
+    public static final int MEBATTERYCHARGELEVEL_20_39 = 2;
+    public static final int MEBATTERYCHARGELEVEL_40_59 = 3;
+    public static final int MEBATTERYCHARGELEVEL_60_79 = 4;
+    public static final int MEBATTERYCHARGELEVEL_80_100 = 5;
+    public static final int ACTIVATIONSTATE_INIT = 0;
+    public static final int ACTIVATIONSTATE_NOT_ATTACHED = 1;
+    public static final int ACTIVATIONSTATE_TEL_ACTIVE_CALL = 2;
+    public static final int ACTIVATIONSTATE_PHONE_OFF = 4;
+    public static final int ACTIVATIONSTATE_PHONE_ON = 5;
+    public static final int ACTIVATIONSTATE_ATTACHED_NOT_READY = 7;
+    public static final int ACTIVATIONSTATE_ATTACHED_NOT_FUNC = 9;
+    public static final int ACTIVATIONSTATE_ME_RECONNECT = 12;
+    public static final int TELMODE_INTERNAL_SIM = 0;
+    public static final int TELMODE_SIMAP_BTHS = 1;
+    public static final int TELMODE_EXTERNAL_SIMAP = 2;
+    public static final int TELMODE_HFP = 3;
+    public static final int TELMODE_NO_SIM_AVAILABLE = 4;
+    public static final int TELFEAT_UNKNOWN = 0;
+    public static final int TELFEAT_INBAND = 1;
+    public static final int TELFEAT_REJECTCALL = 2;
+    public static final int TELFEAT_RESPHOLD = 4;
+    public static final int TELFEAT_THREEWAY = 8;
+    public static final int TELFEAT_ENHCALL = 16;
+    public static final int TELFEAT_ENHSTAT = 32;
+    public static final int TELFEAT_ADD_TO_CONFERENCE = 64;
+    public static final int TELFEAT_ENHCONFERENCE_TRANSFER = 128;
+    public static final int TELFEAT_REJECTMOBILE = 256;
+    public static final int TELDEVICE_HMI = 0;
+    public static final int TELDEVICE_BTHS1 = 1;
+    public static final int TELDEVICE_BTHS2 = 2;
+    public static final int PHONEMODULESTATE_N_A = 0;
+    public static final int PHONEMODULESTATE_OFF_TEMP = 1;
+    public static final int PHONEMODULESTATE_ON = 2;
+    public static final int PHONEMODULESTATE_OFF = 3;
+    public static final int PHONEMODULESTATE_OFF_DIAG = 4;
+    public static final int PHONEMODULESTATE_NOT_FUNCTION = 5;
+    public static final int PHONEMODULESTATE_INIT = 6;
+    public static final int PHONEMODULESTATE_SWITCHING_ON = 7;
+    public static final int PHONEMODULESTATE_SWITCHING_OFF = 8;
+    public static final int NADTEMPLEVEL_NORMAL = 0;
+    public static final int NADTEMPLEVEL_UNDER = 1;
+    public static final int NADTEMPLEVEL_WARNING = 2;
+    public static final int NADTEMPLEVEL_HIGH = 3;
+    public static final int NADTEMPLEVEL_UNKNOWN = 4;
+    public static final int POWER_OFF_PERS = 0;
+    public static final int POWER_ON_PERS = 1;
+    public static final int LOCKSTATE_UNKNOWN = 0;
+    public static final int LOCKSTATE_UNLOCK_INPR = 1;
+    public static final int LOCKSTATE_NO_LOCK = 2;
+    public static final int LOCKSTATE_PIN_REQUIRED = 3;
+    public static final int LOCKSTATE_PIN2_REQUIRED = 4;
+    public static final int LOCKSTATE_PUK_REQUIRED = 5;
+    public static final int LOCKSTATE_PUK2_REQUIRED = 6;
+    public static final int LOCKSTATE_PUK_BLOCKED = 7;
+    public static final int LOCKSTATE_PUK2_BLOCKED = 8;
+    public static final int LOCKSTATE_SECCO_REQUIRED = 9;
+    public static final int LOCKSTATE_SECCO_BLOCKED = 10;
+    public static final int LOCKSTATE_SIMNOTFUNC = 11;
+    public static final int REGISTERSTATE_UNKNOWN = 0;
+    public static final int REGISTERSTATE_REGISTERED = 1;
+    public static final int REGISTERSTATE_ROAMING = 2;
+    public static final int REGISTERSTATE_SEARCHING = 3;
+    public static final int REGISTERSTATE_NOT_SEARCHING = 4;
+    public static final int REGISTERSTATE_DENIED = 5;
+    public static final int REGMODE_MANUAL = 0;
+    public static final int REGMODE_AUTOMATIC = 1;
+    public static final int NETTYPE_UNKNOWN = 0;
+    public static final int NETTYPE_GSM = 1;
+    public static final int NETTYPE_CDMA = 2;
+    public static final int NETTYPE_PDC = 3;
+    public static final int NETTYPE_UMTS = 4;
+    public static final int NETTYPE_LTE = 5;
+    public static final int NUMTYPE_NOINT = 129;
+    public static final int NUMTYPE_INT = 145;
+    public static final int ACCEPTMODE_SINGLE = 0;
+    public static final int ACCEPTMODE_REPLACE = 1;
+    public static final int ACCEPTMODE_HOLD = 2;
+    public static final int ACCEPTMODE_RESPONSE_HOLD = 3;
+    public static final int HANGUPMODE_REJECT = 0;
+    public static final int HANGUPMODE_CONFERENCE = 254;
+    public static final int HANGUPMODE_ALLCALLS = 255;
+    public static final int DISCREASON_NORMAL = 0;
+    public static final int DISCREASON_NOLINE = 1;
+    public static final int DISCREASON_SYSTEM_BUSY = 2;
+    public static final int DISCREASON_NUMBER_BUSY = 3;
+    public static final int DISCREASON_NUMBER_NOT_ASSIGNED = 4;
+    public static final int DISCREASON_NUMBER_NOT_REACHABLE = 5;
+    public static final int DISCREASON_NETWORK_FAILURE = 6;
+    public static final int DISCREASON_CALL_BARRING_ACTIVE = 7;
+    public static final int DISCREASON_USER_NOT_RESPONDING = 8;
+    public static final int DISCREASON_CALL_REJECTED = 9;
+    public static final int DISCREASON_NUMBER_CHANGED = 10;
+    public static final int DISCREASON_NUMBER_INVALID_INCOMPLETE = 11;
+    public static final int DISCREASON_SERVICE_NOT_AVAILABLE = 12;
+    public static final int DISCREASON_NO_INFO_AVAILABLE = 13;
+    public static final int DISCREASON_NUMBER_TEMP_FORBIDDEN = 14;
+    public static final int HANDSFREEMODE_HANDSFREE = 0;
+    public static final int HANDSFREEMODE_PRIVATE_BTHS1 = 1;
+    public static final int HANDSFREEMODE_PRIVATE_BTHS2 = 2;
+    public static final int HANDSFREEMODE_PRIVATE_HS = 3;
+    public static final int HANDSFREEMODE_PRIVATE_HFP = 4;
+    public static final int MICMUTESTATE_ON = 0;
+    public static final int MICMUTESTATE_OFF = 1;
+    public static final int LOCKCODE_PIN = 0;
+    public static final int LOCKCODE_PIN2 = 1;
+    public static final int LOCKCODE_PUK = 2;
+    public static final int LOCKCODE_PUK2 = 3;
+    public static final int LOCKCODE_SECCO = 4;
+    public static final int COMMCLASS_VOICE = 1;
+    public static final int COMMCLASS_DATA = 2;
+    public static final int COMMCLASS_FAX = 4;
+    public static final int COMMCLASS_SMS = 8;
+    public static final int COMMCLASS_DCS = 16;
+    public static final int COMMCLASS_DCA = 32;
+    public static final int COMMCLASS_DDPA = 64;
+    public static final int COMMCLASS_DDPADA = 128;
+    public static final int COMMCLASS_UNCONDITIONAL = 255;
+    public static final int CWMODE_DISABLE = 0;
+    public static final int CWMODE_ENABLE = 1;
+    public static final int CWMODE_QUERY = 2;
+    public static final int CLIRSTATE_PRESENTATION = 0;
+    public static final int CLIRSTATE_INVOCATION = 1;
+    public static final int CLIRSTATE_SUPPRESSION = 2;
+    public static final int CLIRSTATE_QUERY = 3;
+    public static final int CLIRNWSTATE_OFF = 0;
+    public static final int CLIRNWSTATE_ON = 1;
+    public static final int CLIRNWSTATE_UNKNOWN = 2;
+    public static final int CLIRNWSTATE_RESTRICTED = 3;
+    public static final int CLIRNWSTATE_ALLOWED = 4;
+    public static final int SERVICESTATE_IDLE = 0;
+    public static final int SERVICESTATE_SESSION = 1;
+    public static final int SERVICESTATE_TERMINATED = 2;
+    public static final int SERVICESTATE_RESPONDED = 3;
+    public static final int SERVICESTATE_NOSUP = 4;
+    public static final int SERVICESTATE_ERROR = 5;
+    public static final int RESULT_OK = 0;
+    public static final int RESULT_ABORTED = 1;
+    public static final int RESULT_ERROR_NOSUP_PHONE = 2;
+    public static final int RESULT_ERROR_NOSUP_NW = 3;
+    public static final int RESULT_ERROR_UNSPECIFIED = 4;
+    public static final int RESULT_ERROR_CODE_WRONG = 5;
+    public static final int RESULT_ERROR_SERV_BUSY = 6;
+    public static final int RESULT_ERROR_NOT_ALLOWED = 7;
+    public static final int RESULT_ERROR_SIM_FAILURE = 8;
+    public static final int RESULT_ERROR_CODE_INVALID_FORMAT = 9;
+    public static final int RESULT_ERROR_STRING_TOO_LONG = 11;
+    public static final int RESULT_ERROR_NO_NW_REPLY = 12;
+    public static final int RESULT_ERROR_NO_NW_ACCESS = 13;
+    public static final int RESULT_ERROR_INVALID_CALL_ID = 14;
+    public static final int RESULT_ERROR_NW_REGISTRATION_NOT_ALLOWED = 15;
+    public static final int RESULT_ERROR_PIN_IDENTICAL_PROFILE_NOT_CHANGED = 16;
+    public static final int RESULT_ERROR_VOICE_NOT_POSSIBLE_CARPLAY_ACTIVE = 17;
+    public static final int RESULT_ERROR_VOICE_NOT_POSSIBLE_ANDROID_AUTO_ACTIVE = 18;
+    public static final int RESULT_ERROR_SPEECHRECOGNITION_NOT_STARTED = 19;
+    public static final int RESULT_ERROR_SPEECH_RECOGNITION_NOT_AVAILABLE = 20;
+    public static final int RESULT_ERROR_SPEECH_RECOGNITION_ALREADY_ACTIVE = 21;
+    public static final int CALLSTATE_DIALING = 1;
+    public static final int CALLSTATE_ALERTING = 2;
+    public static final int CALLSTATE_RINGING = 3;
+    public static final int CALLSTATE_ACTIVE = 4;
+    public static final int CALLSTATE_DISCONNECTING = 5;
+    public static final int CALLSTATE_HOLD = 6;
+    public static final int CALLSTATE_AUTOREDIAL = 7;
+    public static final int CALLSTATE_RESP_HOLD = 8;
+    public static final int MPTY_SINGLE = 0;
+    public static final int MPTY_CONFERENCE = 1;
+    public static final int CALLCARRIER_NONE = 0;
+    public static final int CALLCARRIER_PRIO = 1;
+    public static final int CALLCARRIER_ASSOCIATED = 2;
+    public static final int CALLTYPE_VOICE = 0;
+    public static final int CALLTYPE_DATA = 1;
+    public static final int CALLTYPE_FAX = 2;
+    public static final int CALLTYPE_EMERGENCY = 3;
+    public static final int CALLTYPE_CONFERENCE = 4;
+    public static final int CALLTYPE_INFO = 5;
+    public static final int CALLTYPE_BREAKDOWN = 6;
+    public static final int CALLTYPE_OPERATOR = 7;
+    public static final int CALLTYPE_MAILBOX = 8;
+    public static final int CALLTYPE_NO_NUMBER = 9;
+    public static final int PROVIDERSTATE_UNKNOWN = 0;
+    public static final int PROVIDERSTATE_SELECTED = 1;
+    public static final int PROVIDERSTATE_FORBIDDEN = 2;
+    public static final int PROVIDERSTATE_AVAILABLE = 3;
+    public static final int CWSTATE_NOT_ACTIVE = 0;
+    public static final int CWSTATE_ACTIVE = 1;
+    public static final int CFMODE_DISABLE = 0;
+    public static final int CFMODE_ENABLE = 1;
+    public static final int CFMODE_QUERY = 2;
+    public static final int CFMODE_REGISTRATION = 3;
+    public static final int CFMODE_ERASURE = 4;
+    public static final int CFMODE_UNKNOWN = 5;
+    public static final int CFCONDITION_UNCONDITIONAL = 0;
+    public static final int CFCONDITION_MOBILE_BUSY = 1;
+    public static final int CFCONDITION_NO_REPLY = 2;
+    public static final int CFCONDITION_NOT_REACHABLE = 3;
+    public static final int CFCONDITION_ALL_CFWD = 4;
+    public static final int CFCONDITION_ALL_CCFWD = 5;
+    public static final int CFSTATE_NOT_ACTIVE = 0;
+    public static final int CFSTATE_ACTIVE = 1;
+    public static final int CFSTATE_UNKNOWN = 2;
+    public static final int FACMODE_LOCK = 0;
+    public static final int FACMODE_UNLOCK = 1;
+    public static final int FACMODE_QUERY = 2;
+    public static final int FACILITY_UNKNOWN = 0;
+    public static final int FACILITY_SC = 1;
+    public static final int FACSTATE_NOT_ACTIVE = 0;
+    public static final int FACSTATE_ACTIVE = 1;
+    public static final int NETIDAVAIL_TEMP_NOT_AVAIL = 0;
+    public static final int NETIDAVAIL_NOT_AVAIL = 1;
+    public static final int NETIDAVAIL_AVAIL = 2;
+    public static final int DIALNUMTYPE_NORMALCALL = 0;
+    public static final int DIALNUMTYPE_USSD = 1;
+    public static final int DIALNUMTYPE_SSD = 2;
+    public static final int SERVICECODEREQTYPE_UNKNOWN = 0;
+    public static final int SERVICECODEREQTYPE_ACTIVATION = 1;
+    public static final int SERVICECODEREQTYPE_DEACTIVATION = 2;
+    public static final int SERVICECODEREQTYPE_INTERROGATION = 3;
+    public static final int SERVICECODEREQTYPE_REGISTRATION = 4;
+    public static final int SERVICECODEREQTYPE_ERASURE = 5;
+    public static final int CRADLEPLUGINSTATE_NOTBUILTIN = 0;
+    public static final int CRADLEPLUGINSTATE_UNPLUGGED = 1;
+    public static final int CRADLEPLUGINSTATE_PLUGGED = 2;
+    public static final int CALLLISTNAMENUMBERSTATUS_VALID = 0;
+    public static final int CALLLISTNAMENUMBERSTATUS_TEMPINVALID = 1;
+    public static final int MBIDENTIFIERS_VOICE = 1;
+    public static final int MBIDENTIFIERS_FAX = 2;
+    public static final int MBIDENTIFIERS_EMAIL = 3;
+    public static final int MBIDENTIFIERS_OTHERS = 4;
+    public static final int OPTIMIZATIONMODE_INVALID = 0;
+    public static final int OPTIMIZATIONMODE_AUTO = 1;
+    public static final int OPTIMIZATIONMODE_TELEPHONE = 2;
+    public static final int OPTIMIZATIONMODE_DATA = 3;
+    public static final int NADMODE_INVALID = 0;
+    public static final int NADMODE_VOICE_DATA = 1;
+    public static final int NADMODE_DATA = 2;
+    public static final int NADMODE_VOICE = 3;
+    public static final int CALLSTACKS_LD = 0;
+    public static final int CALLSTACKS_RC = 1;
+    public static final int CALLSTACKS_MC = 2;
+    public static final int CALLSTACKS_ALL = 3;
+    public static final int CALLSTACKDATAVALIDITY_DATAVALID = 0;
+    public static final int CALLSTACKDATAVALIDITY_DATAINVALID = 1;
+    public static final int CALLSTACKORIGIN_ME = 0;
+    public static final int CALLSTACKORIGIN_MU = 1;
+    public static final int MOBILESPEECHRECOGNITIONSTATUS_NOT_ACTIVE = 0;
+    public static final int MOBILESPEECHRECOGNITIONSTATUS_ACTIVE = 1;
+    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_NOT_AVAILABLE = 0;
+    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_AVAILABLE = 1;
+    public static final int MOBILESPEECHRECOGNITIONAVAILABILITY_UNKNOWN = 2;
+    public static final int MOBILESPEECHRECOGNITIONTYPE_UNKNOWN = 0;
+    public static final int MOBILESPEECHRECOGNITIONTYPE_GENERIC = 1;
+    public static final int MOBILESPEECHRECOGNITIONTYPE_SIRI = 2;
+    public static final int MOBILESPEECHRECOGNITIONTYPE_GOOGLE_NOW = 3;
 
-    default public void acceptCall(int n) {
-    }
+    public void acceptCall(int var1);
 
-    default public void hangupCall(int n) {
-    }
+    public void hangupCall(int var1);
 
-    default public void swapCalls() {
-    }
+    public void swapCalls();
 
-    default public void splitCall(short s) {
-    }
+    public void splitCall(short var1);
 
-    default public void joinCalls() {
-    }
+    public void joinCalls();
 
-    default public void dialNumber(String string) {
-    }
+    public void dialNumber(String var1);
 
-    default public void dialOperator(int n, String string) {
-    }
+    public void dialOperator(int var1, String var2);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9);
 
-    default public void sendDTMF(String string) {
-    }
+    public void sendDTMF(String var1);
 
-    default public void requestNetworkRegistration(String string, int n) {
-    }
+    public void requestNetworkRegistration(String var1, int var2);
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration();
 
-    default public void requestNetworkSearch() {
-    }
+    public void requestNetworkSearch();
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch();
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray) {
-    }
+    public void requestCallForward(CFRequestData[] var1);
 
-    default public void requestCallWaiting(int n) {
-    }
+    public void requestCallWaiting(int var1);
 
-    default public void requestCLIR(int n) {
-    }
+    public void requestCLIR(int var1);
 
-    default public void requestServiceCodeAbort() {
-    }
+    public void requestServiceCodeAbort();
 
-    default public void requestSetAutomaticPinEntryActive(boolean bl) {
-    }
+    public void requestSetAutomaticPinEntryActive(boolean var1);
 
-    default public void requestSetAutomaticRedialActive(boolean bl) {
-    }
+    public void requestSetAutomaticRedialActive(boolean var1);
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1);
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1);
 
-    default public void requestSetEnhancedPrivacyMode(boolean bl) {
-    }
+    public void requestSetEnhancedPrivacyMode(boolean var1);
 
-    default public void requestSetMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray) {
-    }
+    public void requestSetMailboxContent(MailboxDialingNumber[] var1);
 
-    default public void requestSetPrivacyMode(boolean bl) {
-    }
+    public void requestSetPrivacyMode(boolean var1);
 
-    default public void requestTelPower(int n) {
-    }
+    public void requestTelPower(int var1);
 
-    default public void requestUnlockSIM(int n, String string, String string2) {
-    }
+    public void requestUnlockSIM(int var1, String var2, String var3);
 
-    default public void requestCheckSIMPINCode(String string) {
-    }
+    public void requestCheckSIMPINCode(String var1);
 
-    default public void requestChangeSIMCode(int n, String string, String string2) {
-    }
+    public void requestChangeSIMCode(int var1, String var2, String var3);
 
-    default public void requestSetHandsFreeMode(int n) {
-    }
+    public void requestSetHandsFreeMode(int var1);
 
-    default public void requestSetMICMuteState(int n) {
-    }
+    public void requestSetMICMuteState(int var1);
 
-    default public void requestSetLanguage(String string) {
-    }
+    public void requestSetLanguage(String var1);
 
-    default public void requestSIMPINRequired(String string, boolean bl) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2);
 
-    default public void restoreFactorySettings() {
-    }
+    public void restoreFactorySettings();
 
-    default public void requestSetMicGainLevel(int n) {
-    }
+    public void requestSetMicGainLevel(int var1);
 
-    default public void requestDecreaseMicGainLevel(short s) {
-    }
+    public void requestDecreaseMicGainLevel(short var1);
 
-    default public void requestIncreaseMicGainLevel(short s) {
-    }
+    public void requestIncreaseMicGainLevel(short var1);
 
-    default public void requestSetOptimizationMode(int n) {
-    }
+    public void requestSetOptimizationMode(int var1);
 
-    default public void requestUnlockOtherSIM(int n, String string) {
-    }
+    public void requestUnlockOtherSIM(int var1, String var2);
 
-    default public void requestSetSIMAliases(String string, String string2) {
-    }
+    public void requestSetSIMAliases(String var1, String var2);
 
-    default public void requestSetNADMode(int n) {
-    }
+    public void requestSetNADMode(int var1);
 
-    default public void requestRemoveOtherSIM() {
-    }
+    public void requestRemoveOtherSIM();
 
-    default public void requestSetPhoneReminderSetting(boolean bl) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1);
 
-    default public void requestSetPrefixActivated(boolean bl) {
-    }
+    public void requestSetPrefixActivated(boolean var1);
 
-    default public void requestSetPrefixContent(String string) {
-    }
+    public void requestSetPrefixContent(String var1);
 
-    default public void requestSetPhoneRingtone(int n, String string) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2);
 
-    default public void requestSetFavorites(Favorite[] favoriteArray) {
-    }
+    public void requestSetFavorites(Favorite[] var1);
 
-    default public void requestSetSIMName(String string) {
-    }
+    public void requestSetSIMName(String var1);
 
-    default public void requestSetESIMActive(boolean bl) {
-    }
+    public void requestSetESIMActive(boolean var1);
 
-    default public void deleteCallstacksAll(int n) {
-    }
+    public void deleteCallstacksAll(int var1);
 
-    default public void deleteCallstacksEntry(int n, int n2) {
-    }
+    public void deleteCallstacksEntry(int var1, int var2);
 
-    default public void resetMissedCallIndicator() {
-    }
+    public void resetMissedCallIndicator();
 
-    default public void revertCallstacks(boolean bl) {
-    }
+    public void revertCallstacks(boolean var1);
 
-    default public void requestStartSpeechRecognition() {
-    }
+    public void requestStartSpeechRecognition();
 
-    default public void requestStopSpeechRecognition() {
-    }
+    public void requestStopSpeechRecognition();
 }
 

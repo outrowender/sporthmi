@@ -25,28 +25,23 @@ implements DSITrafficRegulation {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$trafficregulation$DSITrafficRegulation == null ? (class$org$dsi$ifc$trafficregulation$DSITrafficRegulation = DSITrafficRegulationProvider.class$("org.dsi.ifc.trafficregulation.DSITrafficRegulation")) : class$org$dsi$ifc$trafficregulation$DSITrafficRegulation).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITrafficRegulationProxy(this.instance, (DSITrafficRegulationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setSpeedLimitWarning(boolean bl, boolean bl2, int n) {
         try {
             this.proxy.setSpeedLimitWarning(bl, bl2, n);
@@ -56,7 +51,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void requestRoadClassSpeedInfoForCountry(String string) {
         try {
             this.proxy.requestRoadClassSpeedInfoForCountry(string);
@@ -66,7 +60,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void setTrailerStatus(boolean bl) {
         try {
             this.proxy.setTrailerStatus(bl);
@@ -76,7 +69,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void setWarningStatus(int n, boolean bl, boolean bl2, int n2) {
         try {
             this.proxy.setWarningStatus(n, bl, bl2, n2);
@@ -86,7 +78,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -96,7 +87,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -106,7 +96,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -116,7 +105,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -126,7 +114,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -136,7 +123,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -146,7 +132,6 @@ implements DSITrafficRegulation {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -3,35 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.diagnose;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIDiagnoseSystemC {
-    default public void acknowledgeRoutine(int n, int n2, int n3, int n4) {
-    }
+    public void acknowledgeRoutine(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void resultRoutine(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void resultRoutine(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void acknowledgeActuatorTest(int n, int n2, int n3, int n4, int[] nArray, int n5) {
-    }
+    public void acknowledgeActuatorTest(int var1, int var2, int var3, int var4, int[] var5, int var6) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

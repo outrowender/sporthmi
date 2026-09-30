@@ -4,20 +4,19 @@
 package de.vw.mib.bap.generated.onlinefunctions.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.onlinefunctions.serializer.TrafficLightOnline_Speed_Status$ValidityInformation;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class TrafficLightOnline_Speed_Status
 implements StatusProperty {
     public int recommendedSpeed;
-    private static final int RECOMMENDED_SPEED_BITSIZE;
+    private static final int RECOMMENDED_SPEED_BITSIZE = 8;
     public int unit;
-    private static final int UNIT_BITSIZE;
-    public static final int UNIT_KM_H;
-    public static final int UNIT_MPH;
-    public static final int UNIT_UNIT_NOT_SUPPORTED;
-    public final TrafficLightOnline_Speed_Status$ValidityInformation validityInformation = new TrafficLightOnline_Speed_Status$ValidityInformation();
+    private static final int UNIT_BITSIZE = 8;
+    public static final int UNIT_KM_H = 0;
+    public static final int UNIT_MPH = 1;
+    public static final int UNIT_UNIT_NOT_SUPPORTED = 255;
+    public final ValidityInformation validityInformation = new ValidityInformation();
 
     public TrafficLightOnline_Speed_Status() {
         this.internalReset();
@@ -34,13 +33,11 @@ implements StatusProperty {
         this.unit = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.validityInformation.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         TrafficLightOnline_Speed_Status trafficLightOnline_Speed_Status = (TrafficLightOnline_Speed_Status)bAPEntity;
         return this.recommendedSpeed == trafficLightOnline_Speed_Status.recommendedSpeed && this.unit == trafficLightOnline_Speed_Status.unit && this.validityInformation.equalTo(trafficLightOnline_Speed_Status.validityInformation);
@@ -49,7 +46,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("TrafficLightOnline_Speed_Status:");
@@ -78,7 +74,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -86,14 +81,12 @@ implements StatusProperty {
         return n += this.validityInformation.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.recommendedSpeed);
         bitStream.pushByte((byte)this.unit);
         this.validityInformation.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.recommendedSpeed = bitStream.popFrontByte();
         this.unit = bitStream.popFrontByte();
@@ -104,9 +97,68 @@ implements StatusProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return TrafficLightOnline_Speed_Status.functionId();
+    }
+
+    public static final class ValidityInformation
+    implements BAPEntity {
+        private static final int RESERVED_BIT_1__7_BITSIZE = 7;
+        public boolean recommendedSpeedIsValid;
+        private static final int VALIDITY_INFORMATION_BITSIZE = 8;
+
+        public ValidityInformation() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public ValidityInformation(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.recommendedSpeedIsValid = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            ValidityInformation validityInformation = (ValidityInformation)bAPEntity;
+            return this.recommendedSpeedIsValid == validityInformation.recommendedSpeedIsValid;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("ValidityInformation:");
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.recommendedSpeedIsValid) {
+                stringBuffer.append("true  (RecommendedSpeed is valid");
+            } else {
+                stringBuffer.append("false  (RecommendedSpeed is invalid");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(7);
+            bitStream.pushBoolean(this.recommendedSpeedIsValid);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(7);
+            this.recommendedSpeedIsValid = bitStream.popFrontBoolean();
+        }
     }
 }
 

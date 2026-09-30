@@ -8,11 +8,10 @@ import org.dsi.ifc.travellink.GenericProperty;
 
 public interface DSITravelLinkCommon
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_REQUESTTOAPP;
-    public static final int ATTR_FROMAPP;
+    public static final String VERSION = "2.11.16";
+    public static final int RT_REQUESTTOAPP = 1000;
+    public static final int ATTR_FROMAPP = 1;
 
-    default public void requestToApp(int n, int n2, GenericProperty[] genericPropertyArray, int n3, int n4, int n5, int n6) {
-    }
+    public void requestToApp(int var1, int var2, GenericProperty[] var3, int var4, int var5, int var6, int var7);
 }
 

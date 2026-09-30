@@ -6,10 +6,8 @@ package org.apache.xerces.xni.parser;
 import org.apache.xerces.xni.XMLDocumentHandler;
 
 public interface XMLDocumentSource {
-    default public void setDocumentHandler(XMLDocumentHandler xMLDocumentHandler) {
-    }
+    public void setDocumentHandler(XMLDocumentHandler var1);
 
-    default public XMLDocumentHandler getDocumentHandler() {
-    }
+    public XMLDocumentHandler getDocumentHandler();
 }
 

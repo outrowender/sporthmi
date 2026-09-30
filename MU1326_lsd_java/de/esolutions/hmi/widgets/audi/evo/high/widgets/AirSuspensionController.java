@@ -23,11 +23,10 @@ IEmptyableWidget {
     private IAirSuspensionRenderer renderer;
     private int availableState;
     private AbstractAnimation animation;
-    static final int ANIMATION_TYPE;
+    static final int ANIMATION_TYPE = 1;
     private int blinkStatus;
     private int blinkInterval = 350;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateModelValue();
@@ -43,7 +42,6 @@ IEmptyableWidget {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = this.currentLevel;
         int n2 = this.targetLevel;
@@ -95,7 +93,6 @@ IEmptyableWidget {
         this.activityState = n;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -104,17 +101,14 @@ IEmptyableWidget {
         this.renderer = iAirSuspensionRenderer;
     }
 
-    @Override
     public void animate(int n, float f2) {
         this.blinkStatus = this.blinkStatus == 0 ? 1 : 0;
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
@@ -153,7 +147,6 @@ IEmptyableWidget {
         return this.blinkInterval;
     }
 
-    @Override
     public boolean hasContent() {
         return true;
     }
@@ -166,7 +159,6 @@ IEmptyableWidget {
         this.availableState = n;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.renderer != null) {
             return this.renderer.getPreferredWidth();
@@ -174,7 +166,6 @@ IEmptyableWidget {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.renderer != null) {
             return this.renderer.getPreferredHeight();

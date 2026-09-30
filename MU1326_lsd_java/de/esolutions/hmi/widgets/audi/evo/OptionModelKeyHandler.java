@@ -18,7 +18,6 @@ implements IWidgetKeyHandler,
 IWidgetLogChannel {
     public static final OptionModelKeyHandler OPTION_MODEL_KEY_HANDLER_INSTANCE = new OptionModelKeyHandler();
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -35,7 +34,7 @@ IWidgetLogChannel {
             int n3 = iDrawerConditionEngine.getTargetModelID();
             int n4 = iDrawerConditionEngine.getTargetRow();
             int n5 = iDrawerConditionEngine.getTargetWidgetID();
-            logDrawerCondtionEngine.log(-2137614336, "OptionModelKeyHandler#keyPressed: call model. modelID: %1, targetModelID: %2, targetRow: %3", (long)optionModelGUI.getID(), (long)n3, (long)n4);
+            logDrawerCondtionEngine.log(10000000, "OptionModelKeyHandler#keyPressed: call model. modelID: %1, targetModelID: %2, targetRow: %3", (long)optionModelGUI.getID(), (long)n3, (long)n4);
             optionModelGUI.keyPressed(n3, n4, n5, n2);
             optionModelGUI.keyTyped(n3, n4, n5, n2);
         } else {
@@ -44,7 +43,6 @@ IWidgetLogChannel {
         keyEvent.consume(false);
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() != 17) {
             return;
@@ -59,7 +57,7 @@ IWidgetLogChannel {
             int n = iDrawerConditionEngine.getTargetModelID();
             int n2 = iDrawerConditionEngine.getTargetRow();
             int n3 = iDrawerConditionEngine.getTargetWidgetID();
-            logDrawerCondtionEngine.log(-2137614336, "OptionModelKeyHandler#keyReleased: call model. modelID: %1, targetModelID: %2, targetRow: %3", (long)optionModelGUI.getID(), (long)n, (long)n2);
+            logDrawerCondtionEngine.log(10000000, "OptionModelKeyHandler#keyReleased: call model. modelID: %1, targetModelID: %2, targetRow: %3", (long)optionModelGUI.getID(), (long)n, (long)n2);
             optionModelGUI.keyReleased(n, n2, n3, hMITerminalEvo.getTerminalID());
         } else {
             logDrawerCondtionEngine.log(10000, "OptionModelKeyHandler#keyReleased drawerConditionEngine is null - model is NOT called.");
@@ -79,11 +77,9 @@ IWidgetLogChannel {
         return null;
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

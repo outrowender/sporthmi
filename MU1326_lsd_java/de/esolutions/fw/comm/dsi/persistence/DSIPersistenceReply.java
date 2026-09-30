@@ -3,79 +3,58 @@
  */
 package de.esolutions.fw.comm.dsi.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIPersistenceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "41cba447-eba6-5c69-b37a-27fd8427a88a";
+    public static final String IPL_COMM_INTERFACE_KEY = "b20e710c-fdb9-55ad-a946-afba7a636c2a";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.6";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.6";
 
-    default public void updateActiveSQLDatabaseMedium(int n, int n2) {
-    }
+    public void updateActiveSQLDatabaseMedium(int var1, int var2) throws MethodException;
 
-    default public void writeInt(int n, long l, int n2) {
-    }
+    public void writeInt(int var1, long var2, int var4) throws MethodException;
 
-    default public void readInt(int n, long l, int n2, int n3) {
-    }
+    public void readInt(int var1, long var2, int var4, int var5) throws MethodException;
 
-    default public void writeBuffer(int n, long l, int n2) {
-    }
+    public void writeBuffer(int var1, long var2, int var4) throws MethodException;
 
-    default public void readBuffer(int n, long l, byte[] byArray, int n2) {
-    }
+    public void readBuffer(int var1, long var2, byte[] var4, int var5) throws MethodException;
 
-    default public void writeString(int n, long l, int n2) {
-    }
+    public void writeString(int var1, long var2, int var4) throws MethodException;
 
-    default public void readString(int n, long l, String string, int n2) {
-    }
+    public void readString(int var1, long var2, String var4, int var5) throws MethodException;
 
-    default public void writeArray(int n, long l, int n2) {
-    }
+    public void writeArray(int var1, long var2, int var4) throws MethodException;
 
-    default public void readArray(int n, long l, int[] nArray, int n2) {
-    }
+    public void readArray(int var1, long var2, int[] var4, int var5) throws MethodException;
 
-    default public void writeStringArray(int n, long l, int n2) {
-    }
+    public void writeStringArray(int var1, long var2, int var4) throws MethodException;
 
-    default public void readStringArray(int n, long l, String[] stringArray, int n2) {
-    }
+    public void readStringArray(int var1, long var2, String[] var4, int var5) throws MethodException;
 
-    default public void getVisibleSystemLanguages(String string) {
-    }
+    public void getVisibleSystemLanguages(String var1) throws MethodException;
 
-    default public void flushSQLDatabase(int n) {
-    }
+    public void flushSQLDatabase(int var1) throws MethodException;
 
-    default public void beginTransaction(int n, int n2) {
-    }
+    public void beginTransaction(int var1, int var2) throws MethodException;
 
-    default public void endTransaction(int n, int n2) {
-    }
+    public void endTransaction(int var1, int var2) throws MethodException;
 
-    default public void valueChangedInt(int n, long l, int n2, int n3) {
-    }
+    public void valueChangedInt(int var1, long var2, int var4, int var5) throws MethodException;
 
-    default public void valueChangedString(int n, long l, String string, int n2) {
-    }
+    public void valueChangedString(int var1, long var2, String var4, int var5) throws MethodException;
 
-    default public void valueChangedArray(int n, long l, int[] nArray, int n2) {
-    }
+    public void valueChangedArray(int var1, long var2, int[] var4, int var5) throws MethodException;
 
-    default public void valueChangedStringArray(int n, long l, String[] stringArray, int n2) {
-    }
+    public void valueChangedStringArray(int var1, long var2, String[] var4, int var5) throws MethodException;
 
-    default public void valueChangedBuffer(int n, long l, byte[] byArray, int n2) {
-    }
+    public void valueChangedBuffer(int var1, long var2, byte[] var4, int var5) throws MethodException;
 
-    default public void unsubscribe(int n, int[] nArray, long[] lArray, int[] nArray2) {
-    }
+    public void unsubscribe(int var1, int[] var2, long[] var3, int[] var4) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

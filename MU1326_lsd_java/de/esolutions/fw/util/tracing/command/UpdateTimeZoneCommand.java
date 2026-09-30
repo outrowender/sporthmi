@@ -15,7 +15,6 @@ implements ITraceCommand {
         this.zone = traceTimeZone;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.updateTimeZone(this.zone);
         return false;

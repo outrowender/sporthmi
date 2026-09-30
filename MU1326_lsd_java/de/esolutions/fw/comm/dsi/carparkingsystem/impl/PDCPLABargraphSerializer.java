@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCPLABargraph;
 
 public class PDCPLABargraphSerializer {
-    public static void putOptionalPDCPLABargraph(ISerializer iSerializer, PDCPLABargraph pDCPLABargraph) {
+    public static void putOptionalPDCPLABargraph(ISerializer iSerializer, PDCPLABargraph pDCPLABargraph) throws SerializerException {
         boolean bl = pDCPLABargraph == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PDCPLABargraphSerializer {
         }
     }
 
-    public static void putOptionalPDCPLABargraphVarArray(ISerializer iSerializer, PDCPLABargraph[] pDCPLABargraphArray) {
+    public static void putOptionalPDCPLABargraphVarArray(ISerializer iSerializer, PDCPLABargraph[] pDCPLABargraphArray) throws SerializerException {
         boolean bl = pDCPLABargraphArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PDCPLABargraphSerializer {
         }
     }
 
-    public static PDCPLABargraph getOptionalPDCPLABargraph(IDeserializer iDeserializer) {
+    public static PDCPLABargraph getOptionalPDCPLABargraph(IDeserializer iDeserializer) throws SerializerException {
         PDCPLABargraph pDCPLABargraph = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PDCPLABargraphSerializer {
         return pDCPLABargraph;
     }
 
-    public static PDCPLABargraph[] getOptionalPDCPLABargraphVarArray(IDeserializer iDeserializer) {
+    public static PDCPLABargraph[] getOptionalPDCPLABargraphVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCPLABargraph[] pDCPLABargraphArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

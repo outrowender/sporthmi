@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCData;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SCDataSerializer {
-    public static void putOptionalSCData(ISerializer iSerializer, SCData sCData) {
+    public static void putOptionalSCData(ISerializer iSerializer, SCData sCData) throws SerializerException {
         boolean bl = sCData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SCDataSerializer {
         }
     }
 
-    public static void putOptionalSCDataVarArray(ISerializer iSerializer, SCData[] sCDataArray) {
+    public static void putOptionalSCDataVarArray(ISerializer iSerializer, SCData[] sCDataArray) throws SerializerException {
         boolean bl = sCDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SCDataSerializer {
         }
     }
 
-    public static SCData getOptionalSCData(IDeserializer iDeserializer) {
+    public static SCData getOptionalSCData(IDeserializer iDeserializer) throws SerializerException {
         SCData sCData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SCDataSerializer {
         return sCData;
     }
 
-    public static SCData[] getOptionalSCDataVarArray(IDeserializer iDeserializer) {
+    public static SCData[] getOptionalSCDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SCData[] sCDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

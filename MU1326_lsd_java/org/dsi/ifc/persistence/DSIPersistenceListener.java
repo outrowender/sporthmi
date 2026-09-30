@@ -7,67 +7,46 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIPersistenceListener
 extends DSIListener {
-    default public void updateActiveSQLDatabaseMedium(int n, int n2) {
-    }
+    public void updateActiveSQLDatabaseMedium(int var1, int var2);
 
-    default public void writeInt(int n, long l, int n2) {
-    }
+    public void writeInt(int var1, long var2, int var4);
 
-    default public void readInt(int n, long l, int n2, int n3) {
-    }
+    public void readInt(int var1, long var2, int var4, int var5);
 
-    default public void writeBuffer(int n, long l, int n2) {
-    }
+    public void writeBuffer(int var1, long var2, int var4);
 
-    default public void readBuffer(int n, long l, byte[] byArray, int n2) {
-    }
+    public void readBuffer(int var1, long var2, byte[] var4, int var5);
 
-    default public void writeString(int n, long l, int n2) {
-    }
+    public void writeString(int var1, long var2, int var4);
 
-    default public void readString(int n, long l, String string, int n2) {
-    }
+    public void readString(int var1, long var2, String var4, int var5);
 
-    default public void writeArray(int n, long l, int n2) {
-    }
+    public void writeArray(int var1, long var2, int var4);
 
-    default public void readArray(int n, long l, int[] nArray, int n2) {
-    }
+    public void readArray(int var1, long var2, int[] var4, int var5);
 
-    default public void writeStringArray(int n, long l, int n2) {
-    }
+    public void writeStringArray(int var1, long var2, int var4);
 
-    default public void readStringArray(int n, long l, String[] stringArray, int n2) {
-    }
+    public void readStringArray(int var1, long var2, String[] var4, int var5);
 
-    default public void getVisibleSystemLanguages(String string) {
-    }
+    public void getVisibleSystemLanguages(String var1);
 
-    default public void flushSQLDatabase(int n) {
-    }
+    public void flushSQLDatabase(int var1);
 
-    default public void beginTransaction(int n, int n2) {
-    }
+    public void beginTransaction(int var1, int var2);
 
-    default public void endTransaction(int n, int n2) {
-    }
+    public void endTransaction(int var1, int var2);
 
-    default public void valueChangedInt(int n, long l, int n2, int n3) {
-    }
+    public void valueChangedInt(int var1, long var2, int var4, int var5);
 
-    default public void valueChangedString(int n, long l, String string, int n2) {
-    }
+    public void valueChangedString(int var1, long var2, String var4, int var5);
 
-    default public void valueChangedArray(int n, long l, int[] nArray, int n2) {
-    }
+    public void valueChangedArray(int var1, long var2, int[] var4, int var5);
 
-    default public void valueChangedStringArray(int n, long l, String[] stringArray, int n2) {
-    }
+    public void valueChangedStringArray(int var1, long var2, String[] var4, int var5);
 
-    default public void valueChangedBuffer(int n, long l, byte[] byArray, int n2) {
-    }
+    public void valueChangedBuffer(int var1, long var2, byte[] var4, int var5);
 
-    default public void unsubscribe(int n, int[] nArray, long[] lArray, int[] nArray2) {
-    }
+    public void unsubscribe(int var1, int[] var2, long[] var3, int[] var4);
 }
 

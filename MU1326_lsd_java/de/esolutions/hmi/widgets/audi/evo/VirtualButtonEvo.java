@@ -12,14 +12,13 @@ public class VirtualButtonEvo
 extends VirtualButton {
     private IWidgetKeyHandler keyHandler;
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         super.keyPressed(keyEvent);
         if (keyEvent.isConsumed()) {
             return;
         }
         boolean bl = this.hasState(36);
-        logChannelEvent.log(-2137614336, "VirtualButtonEvo#keyPressed active = %1, keyHandler = %2", bl, (Object)this.keyHandler);
+        logChannelEvent.log(10000000, "VirtualButtonEvo#keyPressed active = %1, keyHandler = %2", bl, (Object)this.keyHandler);
         if (bl && this.keyHandler != null) {
             this.keyHandler.keyPressed(this, keyEvent);
             return;

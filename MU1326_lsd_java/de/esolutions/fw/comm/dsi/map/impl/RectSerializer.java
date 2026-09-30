@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.Rect;
 
 public class RectSerializer {
-    public static void putOptionalRect(ISerializer iSerializer, Rect rect) {
+    public static void putOptionalRect(ISerializer iSerializer, Rect rect) throws SerializerException {
         boolean bl = rect == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class RectSerializer {
         }
     }
 
-    public static void putOptionalRectVarArray(ISerializer iSerializer, Rect[] rectArray) {
+    public static void putOptionalRectVarArray(ISerializer iSerializer, Rect[] rectArray) throws SerializerException {
         boolean bl = rectArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class RectSerializer {
         }
     }
 
-    public static Rect getOptionalRect(IDeserializer iDeserializer) {
+    public static Rect getOptionalRect(IDeserializer iDeserializer) throws SerializerException {
         Rect rect = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class RectSerializer {
         return rect;
     }
 
-    public static Rect[] getOptionalRectVarArray(IDeserializer iDeserializer) {
+    public static Rect[] getOptionalRectVarArray(IDeserializer iDeserializer) throws SerializerException {
         Rect[] rectArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -3,39 +3,31 @@
  */
 package de.esolutions.fw.comm.asi.organizer.vcardexchange;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface VCardParserReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "c4084aff-df82-4408-b56c-2aef1da8ec7e";
+    public static final String IPL_COMM_INTERFACE_KEY = "167912de-3ac1-5a6e-8756-89022777b8bc";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.9";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.7";
 
-    default public void parseVCardResult(int n, AdbEntry adbEntry, int n2, int n3) {
-    }
+    public void parseVCardResult(int var1, AdbEntry var2, int var3, int var4) throws MethodException;
 
-    default public void parseVCardDirectoryResult(int n, AdbEntry[] adbEntryArray, int n2, int n3) {
-    }
+    public void parseVCardDirectoryResult(int var1, AdbEntry[] var2, int var3, int var4) throws MethodException;
 
-    default public void exportVCardResult(int n, String string, int n2) {
-    }
+    public void exportVCardResult(int var1, String var2, int var3) throws MethodException;
 
-    default public void exportSmallVCardResult(int n, String string, int n2) {
-    }
+    public void exportSmallVCardResult(int var1, String var2, int var3) throws MethodException;
 
-    default public void parsingFinished(int n) {
-    }
+    public void parsingFinished(int var1) throws MethodException;
 
-    default public void exportFinished(int n, int n2) {
-    }
+    public void exportFinished(int var1, int var2) throws MethodException;
 
-    default public void smallExportFinished(int n, long[] lArray, int n2, String string, int n3) {
-    }
+    public void smallExportFinished(int var1, long[] var2, int var3, String var4, int var5) throws MethodException;
 
-    default public void setBinaryContentTempPathResult(int n, String string) {
-    }
+    public void setBinaryContentTempPathResult(int var1, String var2) throws MethodException;
 
-    default public void setBinaryContentQuotaPerFileResult(int n, long l) {
-    }
+    public void setBinaryContentQuotaPerFileResult(int var1, long var2) throws MethodException;
 }
 

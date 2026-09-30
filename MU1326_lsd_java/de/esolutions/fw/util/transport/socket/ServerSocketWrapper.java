@@ -6,6 +6,7 @@ package de.esolutions.fw.util.transport.socket;
 import de.esolutions.fw.util.transport.socket.IServerSocket;
 import de.esolutions.fw.util.transport.socket.ISocket;
 import de.esolutions.fw.util.transport.socket.SocketWrapper;
+import java.io.IOException;
 import java.net.ServerSocket;
 
 public class ServerSocketWrapper
@@ -16,13 +17,11 @@ implements IServerSocket {
         this.serverSocket = serverSocket;
     }
 
-    @Override
-    public ISocket accept() {
+    public ISocket accept() throws IOException {
         return new SocketWrapper(this.serverSocket.accept());
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.serverSocket.close();
     }
 }

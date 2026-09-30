@@ -1,25 +1,19 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config;
 
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public abstract class ConfigValue {
-    public abstract boolean isNull() {
-    }
+    public abstract boolean isNull();
 
-    public abstract boolean isScalar() {
-    }
+    public abstract boolean isScalar();
 
-    public abstract boolean isArray() {
-    }
+    public abstract boolean isArray();
 
-    public abstract boolean isDictionary() {
-    }
+    public abstract boolean isDictionary();
 
     public boolean isBoolean() {
         return false;
@@ -109,7 +103,6 @@ public abstract class ConfigValue {
         return null;
     }
 
-    public abstract void export(IConfigExporter iConfigExporter) {
-    }
+    public abstract void export(IConfigExporter var1) throws WriteConfigException;
 }
 

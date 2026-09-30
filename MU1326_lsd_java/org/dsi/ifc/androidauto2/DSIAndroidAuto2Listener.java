@@ -12,55 +12,38 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAndroidAuto2Listener
 extends DSIListener {
-    default public void videoFocusRequestNotification(int n, int n2) {
-    }
+    public void videoFocusRequestNotification(int var1, int var2);
 
-    default public void videoAvailable(boolean bl, int n) {
-    }
+    public void videoAvailable(boolean var1, int var2);
 
-    default public void audioFocusRequestNotification(int n, int n2) {
-    }
+    public void audioFocusRequestNotification(int var1, int var2);
 
-    default public void audioAvailable(int n, boolean bl, int n2) {
-    }
+    public void audioAvailable(int var1, boolean var2, int var3);
 
-    default public void voiceSessionNotification(int n, int n2) {
-    }
+    public void voiceSessionNotification(int var1, int var2);
 
-    default public void microphoneRequestNotification(int n, int n2) {
-    }
+    public void microphoneRequestNotification(int var1, int var2);
 
-    default public void navFocusRequestNotification(int n, int n2) {
-    }
+    public void navFocusRequestNotification(int var1, int var2);
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2);
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2);
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2);
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2);
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2);
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2);
 
-    default public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnEvent(String var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void updateNavigationNextTurnDistance(int n, int n2, int n3) {
-    }
+    public void updateNavigationNextTurnDistance(int var1, int var2, int var3);
 
-    default public void setExternalDestination(double d2, double d3, String string, String string2, int n) {
-    }
+    public void setExternalDestination(double var1, double var3, String var5, String var6, int var7);
 
-    default public void bluetoothPairingRequest(String string, int n) {
-    }
+    public void bluetoothPairingRequest(String var1, int var2);
 }
 

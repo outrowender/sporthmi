@@ -7,15 +7,12 @@ import org.apache.commons.id.IdentifierGenerator;
 
 public interface StringIdentifierGenerator
 extends IdentifierGenerator {
-    public static final int INFINITE_MAX_LENGTH;
+    public static final int INFINITE_MAX_LENGTH = -1;
 
-    default public String nextStringIdentifier() {
-    }
+    public String nextStringIdentifier();
 
-    default public long maxLength() {
-    }
+    public long maxLength();
 
-    default public long minLength() {
-    }
+    public long minLength();
 }
 

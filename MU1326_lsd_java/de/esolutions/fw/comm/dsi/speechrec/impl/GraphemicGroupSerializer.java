@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 import de.esolutions.fw.comm.dsi.speechrec.impl.NBestSlotSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.GraphemicGroup;
 import org.dsi.ifc.speechrec.NBestSlot;
 
 public class GraphemicGroupSerializer {
-    public static void putOptionalGraphemicGroup(ISerializer iSerializer, GraphemicGroup graphemicGroup) {
+    public static void putOptionalGraphemicGroup(ISerializer iSerializer, GraphemicGroup graphemicGroup) throws SerializerException {
         boolean bl = graphemicGroup == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class GraphemicGroupSerializer {
         }
     }
 
-    public static void putOptionalGraphemicGroupVarArray(ISerializer iSerializer, GraphemicGroup[] graphemicGroupArray) {
+    public static void putOptionalGraphemicGroupVarArray(ISerializer iSerializer, GraphemicGroup[] graphemicGroupArray) throws SerializerException {
         boolean bl = graphemicGroupArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class GraphemicGroupSerializer {
         }
     }
 
-    public static GraphemicGroup getOptionalGraphemicGroup(IDeserializer iDeserializer) {
+    public static GraphemicGroup getOptionalGraphemicGroup(IDeserializer iDeserializer) throws SerializerException {
         GraphemicGroup graphemicGroup = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class GraphemicGroupSerializer {
         return graphemicGroup;
     }
 
-    public static GraphemicGroup[] getOptionalGraphemicGroupVarArray(IDeserializer iDeserializer) {
+    public static GraphemicGroup[] getOptionalGraphemicGroupVarArray(IDeserializer iDeserializer) throws SerializerException {
         GraphemicGroup[] graphemicGroupArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,246 +7,221 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAMFMTuner
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_SELECTEDSTATION;
-    public static final int ATTR_STATIONLIST;
-    public static final int ATTR_STATIONLISTMW;
-    public static final int ATTR_STATIONLISTLW;
-    public static final int ATTR_WAVEBANDINFOLIST;
-    public static final int ATTR_RADIOTEXT;
-    public static final int ATTR_AFSWITCHSTATUS;
-    public static final int ATTR_REGSWITCHSTATUS;
-    public static final int ATTR_LINKINGUSAGESTATUS;
-    public static final int ATTR_DETECTEDDEVICE;
-    public static final int ATTR_RADIOTEXTPLUS;
-    public static final int ATTR_PIIGNORESWITCHSTATUS;
-    public static final int ATTR_RDSIGNORESWITCHSTATUS;
-    public static final int ATTR_MESWITCHSTATUS;
-    public static final int ATTR_HDSTATUS;
-    public static final int ATTR_HDMODE;
-    public static final int ATTR_HDSTATIONINFO;
-    public static final int ATTR_AVAILABILITY;
-    public static final int ATTR_ELECTRONICSERIALCODE;
-    public static final int ATTR_SELECTEDSTATIONHD;
-    public static final int ATTR_PROFILESTATE;
-    public static final int WAVEBAND_UNDEFINED;
-    public static final int WAVEBAND_FM;
-    public static final int WAVEBAND_SW;
-    public static final int WAVEBAND_MW;
-    public static final int WAVEBAND_LW;
-    public static final int SEEKSTATIONMODE_UNDEFINED;
-    public static final int SEEKSTATIONMODE_UP;
-    public static final int SEEKSTATIONMODE_DOWN;
-    public static final int SEEKSTATIONMODE_ABORT;
-    public static final int SEEKSTATIONMODE_STOP;
-    public static final int SEEKSTATIONMODE_UP_NO_STOP;
-    public static final int SEEKSTATIONMODE_DOWN_NO_STOP;
-    public static final int DEVICESTATUS_UNDEFINED;
-    public static final int DEVICESTATUS_NOT_READY;
-    public static final int DEVICESTATUS_READY;
-    public static final int REGSTATUS_UNDEFINED;
-    public static final int REGSTATUS_ON;
-    public static final int REGSTATUS_OFF;
-    public static final int REGSTATUS_AUTO;
-    public static final int TUNEFREQUENCYSTEPSSTATUS_UNDEFINED;
-    public static final int TUNEFREQUENCYSTEPSSTATUS_RUNNING;
-    public static final int TUNEFREQUENCYSTEPSSTATUS_DONE;
-    public static final int TUNEFREQUENCYSTEPSSTATUS_ABORTED;
-    public static final int TUNEFREQUENCYSTEPSSTATUS_FAILURE;
-    public static final int SELECTSTATIONSTATUS_UNDEFINED;
-    public static final int SELECTSTATIONSTATUS_RUNNING;
-    public static final int SELECTSTATIONSTATUS_DONE;
-    public static final int SELECTSTATIONSTATUS_ABORTED;
-    public static final int SELECTSTATIONSTATUS_FAILURE;
-    public static final int PREPARETUNINGSTATUS_UNDEFINED;
-    public static final int PREPARETUNINGSTATUS_RUNNING;
-    public static final int PREPARETUNINGSTATUS_DONE;
-    public static final int PREPARETUNINGSTATUS_ABORTED;
-    public static final int PREPARETUNINGSTATUS_FAILURE;
-    public static final int SEEKSTATIONSTATUS_UNDEFINED;
-    public static final int SEEKSTATIONSTATUS_RUNNING;
-    public static final int SEEKSTATIONSTATUS_DONE;
-    public static final int SEEKSTATIONSTATUS_ABORTED;
-    public static final int SEEKSTATIONSTATUS_STOPPED;
-    public static final int SEEKSTATIONSTATUS_FAILURE;
-    public static final int LINKINGDEVICEUSAGE_UNDEFINED;
-    public static final int LINKINGDEVICEUSAGE_DEVICE_AVAILABLE;
-    public static final int LINKINGDEVICEUSAGE_DEVICE_USED;
-    public static final int LINKINGUSEDTYPE_UNDEFINED;
-    public static final int LINKINGUSEDTYPE_FOLLOWING_MASTER;
-    public static final int LINKINGUSEDTYPE_EXTERNAL_REQUEST;
-    public static final int LINKINGUSEDTYPE_PTY31;
-    public static final int LINKINGUSEDTYPE_TA;
-    public static final int LINKINGUSEDTYPE_OTHER_ANNOUNCEMENT;
-    public static final int LINKINGUSEDTYPE_TIM;
-    public static final int DEVICETYPE_UNDEFINED;
-    public static final int DEVICETYPE_NONE;
-    public static final int DEVICETYPE_UNKNOWN;
-    public static final int DEVICETYPE_RU;
-    public static final int DEVICETYPE_RU_HD;
-    public static final int RESETTYPE_UNDEFINED;
-    public static final int RESETTYPE_TO_DEFAULT;
-    public static final int RESETTYPE_ANONYMIZE;
-    public static final int SELECTFREQUENCYSTATUS_UNDEFINED;
-    public static final int SELECTFREQUENCYSTATUS_RUNNING;
-    public static final int SELECTFREQUENCYSTATUS_DONE;
-    public static final int SELECTFREQUENCYSTATUS_ABORTED;
-    public static final int SELECTFREQUENCYSTATUS_FAILURE;
-    public static final int SETAMBANDRANGESTATUS_UNDEFINED;
-    public static final int SETAMBANDRANGESTATUS_RUNNING;
-    public static final int SETAMBANDRANGESTATUS_DONE;
-    public static final int SETAMBANDRANGESTATUS_ABORTED;
-    public static final int SETAMBANDRANGESTATUS_FAILURE;
-    public static final int AMBANDRANGE_UNDEFINED;
-    public static final int AMBANDRANGE_EU;
-    public static final int AMBANDRANGE_NAR;
-    public static final int AMBANDRANGE_JP;
-    public static final int AMBANDRANGE_EU_GER;
-    public static final int AMBANDRANGE_AUS;
-    public static final int UPDATEMODE_UNDEFINED;
-    public static final int UPDATEMODE_START;
-    public static final int UPDATEMODE_ABORT;
-    public static final int FORCEUPDATESTATUS_UNDEFINED;
-    public static final int FORCEUPDATESTATUS_RUNNING;
-    public static final int FORCEUPDATESTATUS_DONE;
-    public static final int FORCEUPDATESTATUS_ABORTED;
-    public static final int FORCEUPDATESTATUS_FAILURE;
-    public static final int SERVICE_NONE;
-    public static final int SERVICE_MPS;
-    public static final int SERVICE_SPS2;
-    public static final int SERVICE_SPS3;
-    public static final int SERVICE_SPS4;
-    public static final int SERVICE_SPS5;
-    public static final int SERVICE_SPS6;
-    public static final int SERVICE_SPS7;
-    public static final int SERVICE_SPS8;
-    public static final int HDSTATUS_UNKNOWN;
-    public static final int HDSTATUS_ANALOG;
-    public static final int HDSTATUS_DIGITAL;
-    public static final int HDSTATUS_MUTE;
-    public static final int HDSTATUS_BGM;
-    public static final int HDMODE_UNDEF;
-    public static final int HDMODE_AUTOMATIC;
-    public static final int HDMODE_ANALOG;
-    public static final int HDMODE_DIGITAL;
-    public static final int HDMODE_BGM_OVERRIDE;
-    public static final int HDMODE_AM_OFF_FM_ON;
-    public static final int HDMODE_AM_ON_FM_OFF;
-    public static final int SUBSCRIPTION_UNDEFINED;
-    public static final int SUBSCRIPTION_UNSUBSCRIBED;
-    public static final int SUBSCRIPTION_SUBSCRIBED;
-    public static final int SUBSCRIPTION_FREE;
-    public static final int RT_TUNEFREQUENCYSTEPS;
-    public static final int RT_SELECTSTATION;
-    public static final int RT_SEEKSTATION;
-    public static final int RT_SWITCHAF;
-    public static final int RT_SWITCHREG;
-    public static final int RT_SWITCHLINKINGDEVICEUSAGE;
-    public static final int RT_RESET;
-    public static final int RT_SETAMBANDRANGE;
-    public static final int RT_PREPARETUNING;
-    public static final int RT_SELECTFREQUENCY;
-    public static final int RT_ISONPRESET;
-    public static final int RT_FORCEFMUPDATE;
-    public static final int RT_SWITCHPIIGNORE;
-    public static final int RT_FREEPRESET;
-    public static final int RT_FORCEAMUPDATE;
-    public static final int RT_SWITCHRDSIGNORE;
-    public static final int RT_SWITCHME;
-    public static final int RT_ENABLERADIOTEXTPLUS;
-    public static final int RT_SETMODEHD;
-    public static final int RT_SETERTPREFERED;
-    public static final int RT_SETERTDISPLAYABLE;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int RP_TUNEFREQUENCYSTEPSSTATUS;
-    public static final int RP_SELECTSTATIONSTATUS;
-    public static final int RP_SEEKSTATIONSTATUS;
-    public static final int RP_PREPARETUNINGSTATUS;
-    public static final int RP_SELECTFREQUENCYSTATUS;
-    public static final int RP_SETAMBANDRANGESTATUS;
-    public static final int RP_FORCEFMUPDATESTATUS;
-    public static final int RP_FORCEAMUPDATESTATUS;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
+    public static final String VERSION = "2.11.36";
+    public static final int ATTR_SELECTEDSTATION = 1;
+    public static final int ATTR_STATIONLIST = 2;
+    public static final int ATTR_STATIONLISTMW = 3;
+    public static final int ATTR_STATIONLISTLW = 4;
+    public static final int ATTR_WAVEBANDINFOLIST = 5;
+    public static final int ATTR_RADIOTEXT = 6;
+    public static final int ATTR_AFSWITCHSTATUS = 7;
+    public static final int ATTR_REGSWITCHSTATUS = 8;
+    public static final int ATTR_LINKINGUSAGESTATUS = 9;
+    public static final int ATTR_DETECTEDDEVICE = 10;
+    public static final int ATTR_RADIOTEXTPLUS = 11;
+    public static final int ATTR_PIIGNORESWITCHSTATUS = 12;
+    public static final int ATTR_RDSIGNORESWITCHSTATUS = 13;
+    public static final int ATTR_MESWITCHSTATUS = 14;
+    public static final int ATTR_HDSTATUS = 15;
+    public static final int ATTR_HDMODE = 16;
+    public static final int ATTR_HDSTATIONINFO = 17;
+    public static final int ATTR_AVAILABILITY = 18;
+    public static final int ATTR_ELECTRONICSERIALCODE = 19;
+    public static final int ATTR_SELECTEDSTATIONHD = 20;
+    public static final int ATTR_PROFILESTATE = 21;
+    public static final int WAVEBAND_UNDEFINED = 0;
+    public static final int WAVEBAND_FM = 1;
+    public static final int WAVEBAND_SW = 2;
+    public static final int WAVEBAND_MW = 3;
+    public static final int WAVEBAND_LW = 4;
+    public static final int SEEKSTATIONMODE_UNDEFINED = 0;
+    public static final int SEEKSTATIONMODE_UP = 1;
+    public static final int SEEKSTATIONMODE_DOWN = 2;
+    public static final int SEEKSTATIONMODE_ABORT = 3;
+    public static final int SEEKSTATIONMODE_STOP = 4;
+    public static final int SEEKSTATIONMODE_UP_NO_STOP = 5;
+    public static final int SEEKSTATIONMODE_DOWN_NO_STOP = 6;
+    public static final int DEVICESTATUS_UNDEFINED = 0;
+    public static final int DEVICESTATUS_NOT_READY = 1;
+    public static final int DEVICESTATUS_READY = 2;
+    public static final int REGSTATUS_UNDEFINED = 0;
+    public static final int REGSTATUS_ON = 1;
+    public static final int REGSTATUS_OFF = 2;
+    public static final int REGSTATUS_AUTO = 3;
+    public static final int TUNEFREQUENCYSTEPSSTATUS_UNDEFINED = 0;
+    public static final int TUNEFREQUENCYSTEPSSTATUS_RUNNING = 1;
+    public static final int TUNEFREQUENCYSTEPSSTATUS_DONE = 2;
+    public static final int TUNEFREQUENCYSTEPSSTATUS_ABORTED = 3;
+    public static final int TUNEFREQUENCYSTEPSSTATUS_FAILURE = 4;
+    public static final int SELECTSTATIONSTATUS_UNDEFINED = 0;
+    public static final int SELECTSTATIONSTATUS_RUNNING = 1;
+    public static final int SELECTSTATIONSTATUS_DONE = 2;
+    public static final int SELECTSTATIONSTATUS_ABORTED = 3;
+    public static final int SELECTSTATIONSTATUS_FAILURE = 4;
+    public static final int PREPARETUNINGSTATUS_UNDEFINED = 0;
+    public static final int PREPARETUNINGSTATUS_RUNNING = 1;
+    public static final int PREPARETUNINGSTATUS_DONE = 2;
+    public static final int PREPARETUNINGSTATUS_ABORTED = 3;
+    public static final int PREPARETUNINGSTATUS_FAILURE = 4;
+    public static final int SEEKSTATIONSTATUS_UNDEFINED = 0;
+    public static final int SEEKSTATIONSTATUS_RUNNING = 1;
+    public static final int SEEKSTATIONSTATUS_DONE = 2;
+    public static final int SEEKSTATIONSTATUS_ABORTED = 3;
+    public static final int SEEKSTATIONSTATUS_STOPPED = 4;
+    public static final int SEEKSTATIONSTATUS_FAILURE = 5;
+    public static final int LINKINGDEVICEUSAGE_UNDEFINED = 0;
+    public static final int LINKINGDEVICEUSAGE_DEVICE_AVAILABLE = 1;
+    public static final int LINKINGDEVICEUSAGE_DEVICE_USED = 2;
+    public static final int LINKINGUSEDTYPE_UNDEFINED = 0;
+    public static final int LINKINGUSEDTYPE_FOLLOWING_MASTER = 1;
+    public static final int LINKINGUSEDTYPE_EXTERNAL_REQUEST = 2;
+    public static final int LINKINGUSEDTYPE_PTY31 = 3;
+    public static final int LINKINGUSEDTYPE_TA = 4;
+    public static final int LINKINGUSEDTYPE_OTHER_ANNOUNCEMENT = 5;
+    public static final int LINKINGUSEDTYPE_TIM = 6;
+    public static final int DEVICETYPE_UNDEFINED = 0;
+    public static final int DEVICETYPE_NONE = 1;
+    public static final int DEVICETYPE_UNKNOWN = 2;
+    public static final int DEVICETYPE_RU = 3;
+    public static final int DEVICETYPE_RU_HD = 4;
+    public static final int RESETTYPE_UNDEFINED = 0;
+    public static final int RESETTYPE_TO_DEFAULT = 1;
+    public static final int RESETTYPE_ANONYMIZE = 2;
+    public static final int SELECTFREQUENCYSTATUS_UNDEFINED = 0;
+    public static final int SELECTFREQUENCYSTATUS_RUNNING = 1;
+    public static final int SELECTFREQUENCYSTATUS_DONE = 2;
+    public static final int SELECTFREQUENCYSTATUS_ABORTED = 3;
+    public static final int SELECTFREQUENCYSTATUS_FAILURE = 4;
+    public static final int SETAMBANDRANGESTATUS_UNDEFINED = 0;
+    public static final int SETAMBANDRANGESTATUS_RUNNING = 1;
+    public static final int SETAMBANDRANGESTATUS_DONE = 2;
+    public static final int SETAMBANDRANGESTATUS_ABORTED = 3;
+    public static final int SETAMBANDRANGESTATUS_FAILURE = 4;
+    public static final int AMBANDRANGE_UNDEFINED = 0;
+    public static final int AMBANDRANGE_EU = 2;
+    public static final int AMBANDRANGE_NAR = 1;
+    public static final int AMBANDRANGE_JP = 3;
+    public static final int AMBANDRANGE_EU_GER = 4;
+    public static final int AMBANDRANGE_AUS = 5;
+    public static final int UPDATEMODE_UNDEFINED = 0;
+    public static final int UPDATEMODE_START = 1;
+    public static final int UPDATEMODE_ABORT = 2;
+    public static final int FORCEUPDATESTATUS_UNDEFINED = 0;
+    public static final int FORCEUPDATESTATUS_RUNNING = 1;
+    public static final int FORCEUPDATESTATUS_DONE = 2;
+    public static final int FORCEUPDATESTATUS_ABORTED = 3;
+    public static final int FORCEUPDATESTATUS_FAILURE = 4;
+    public static final int SERVICE_NONE = 0;
+    public static final int SERVICE_MPS = 1;
+    public static final int SERVICE_SPS2 = 2;
+    public static final int SERVICE_SPS3 = 4;
+    public static final int SERVICE_SPS4 = 8;
+    public static final int SERVICE_SPS5 = 16;
+    public static final int SERVICE_SPS6 = 32;
+    public static final int SERVICE_SPS7 = 64;
+    public static final int SERVICE_SPS8 = 128;
+    public static final int HDSTATUS_UNKNOWN = 0;
+    public static final int HDSTATUS_ANALOG = 1;
+    public static final int HDSTATUS_DIGITAL = 2;
+    public static final int HDSTATUS_MUTE = 3;
+    public static final int HDSTATUS_BGM = 4;
+    public static final int HDMODE_UNDEF = 0;
+    public static final int HDMODE_AUTOMATIC = 1;
+    public static final int HDMODE_ANALOG = 2;
+    public static final int HDMODE_DIGITAL = 3;
+    public static final int HDMODE_BGM_OVERRIDE = 4;
+    public static final int HDMODE_AM_OFF_FM_ON = 5;
+    public static final int HDMODE_AM_ON_FM_OFF = 6;
+    public static final int SUBSCRIPTION_UNDEFINED = 0;
+    public static final int SUBSCRIPTION_UNSUBSCRIBED = 1;
+    public static final int SUBSCRIPTION_SUBSCRIBED = 2;
+    public static final int SUBSCRIPTION_FREE = 3;
+    public static final int RT_TUNEFREQUENCYSTEPS = 1000;
+    public static final int RT_SELECTSTATION = 1001;
+    public static final int RT_SEEKSTATION = 1002;
+    public static final int RT_SWITCHAF = 1003;
+    public static final int RT_SWITCHREG = 1004;
+    public static final int RT_SWITCHLINKINGDEVICEUSAGE = 1005;
+    public static final int RT_RESET = 1006;
+    public static final int RT_SETAMBANDRANGE = 1007;
+    public static final int RT_PREPARETUNING = 1008;
+    public static final int RT_SELECTFREQUENCY = 1009;
+    public static final int RT_ISONPRESET = 1010;
+    public static final int RT_FORCEFMUPDATE = 1011;
+    public static final int RT_SWITCHPIIGNORE = 1012;
+    public static final int RT_FREEPRESET = 1013;
+    public static final int RT_FORCEAMUPDATE = 1014;
+    public static final int RT_SWITCHRDSIGNORE = 1015;
+    public static final int RT_SWITCHME = 1016;
+    public static final int RT_ENABLERADIOTEXTPLUS = 1017;
+    public static final int RT_SETMODEHD = 1018;
+    public static final int RT_SETERTPREFERED = 1019;
+    public static final int RT_SETERTDISPLAYABLE = 1020;
+    public static final int RT_PROFILECHANGE = 1021;
+    public static final int RT_PROFILECOPY = 1022;
+    public static final int RT_PROFILERESET = 1023;
+    public static final int RT_PROFILERESETALL = 1024;
+    public static final int RP_TUNEFREQUENCYSTEPSSTATUS = 2000;
+    public static final int RP_SELECTSTATIONSTATUS = 2001;
+    public static final int RP_SEEKSTATIONSTATUS = 2002;
+    public static final int RP_PREPARETUNINGSTATUS = 2003;
+    public static final int RP_SELECTFREQUENCYSTATUS = 2004;
+    public static final int RP_SETAMBANDRANGESTATUS = 2005;
+    public static final int RP_FORCEFMUPDATESTATUS = 2006;
+    public static final int RP_FORCEAMUPDATESTATUS = 2007;
+    public static final int RP_PROFILECHANGED = 2008;
+    public static final int RP_PROFILECOPIED = 2009;
+    public static final int RP_PROFILERESET = 2010;
+    public static final int RP_PROFILERESETALL = 2011;
 
-    default public void tuneFrequencySteps(int n) {
-    }
+    public void tuneFrequencySteps(int var1);
 
-    default public void selectStation(int n, int n2, int n3) {
-    }
+    public void selectStation(int var1, int var2, int var3);
 
-    default public void prepareTuning(int n, int n2, int n3) {
-    }
+    public void prepareTuning(int var1, int var2, int var3);
 
-    default public void seekStation(int n) {
-    }
+    public void seekStation(int var1);
 
-    default public void switchAF(boolean bl) {
-    }
+    public void switchAF(boolean var1);
 
-    default public void switchME(boolean bl) {
-    }
+    public void switchME(boolean var1);
 
-    default public void switchREG(int n) {
-    }
+    public void switchREG(int var1);
 
-    default public void switchLinkingDeviceUsage(int n) {
-    }
+    public void switchLinkingDeviceUsage(int var1);
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1);
 
-    default public void selectFrequency(int n) {
-    }
+    public void selectFrequency(int var1);
 
-    default public void setAMBandRange(int n) {
-    }
+    public void setAMBandRange(int var1);
 
-    default public void isOnPreset(int n, int n2, int n3, String string) {
-    }
+    public void isOnPreset(int var1, int var2, int var3, String var4);
 
-    default public void forceFMUpdate(int n) {
-    }
+    public void forceFMUpdate(int var1);
 
-    default public void switchPiIgnore(boolean bl) {
-    }
+    public void switchPiIgnore(boolean var1);
 
-    default public void freePreset(int n) {
-    }
+    public void freePreset(int var1);
 
-    default public void forceAMUpdate(int n) {
-    }
+    public void forceAMUpdate(int var1);
 
-    default public void switchRDSIgnore(boolean bl) {
-    }
+    public void switchRDSIgnore(boolean var1);
 
-    default public void enableRadiotextPlus(int[] nArray) {
-    }
+    public void enableRadiotextPlus(int[] var1);
 
-    default public void setModeHD(int n) {
-    }
+    public void setModeHD(int var1);
 
-    default public void setERTPrefered(boolean bl) {
-    }
+    public void setERTPrefered(boolean var1);
 
-    default public void setERTDisplayable(boolean bl) {
-    }
+    public void setERTDisplayable(boolean var1);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

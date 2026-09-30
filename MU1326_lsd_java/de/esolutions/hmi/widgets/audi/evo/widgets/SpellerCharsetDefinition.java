@@ -4,48 +4,46 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerCharsetDefinitionEurope;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$ButtonItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SingleCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController$SpellerButtonType;
+import de.esolutions.hmi.widgets.audi.evo.widgets.SpellerController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerCharsetDefinitionAsia;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpellerCharsetDefinition {
-    protected static final int DE;
-    protected static final int EN;
-    protected static final int FR;
-    protected static final int ES;
-    protected static final int IT;
-    protected static final int CZ;
-    protected static final int NL;
-    protected static final int NO;
-    protected static final int PL;
-    protected static final int PT;
-    protected static final int SE;
-    protected static final int TR;
-    protected static final int HU;
-    protected static final int RU;
-    protected static final int AR;
-    protected static final int DK;
-    protected static final int FI;
-    protected static final int SI;
-    protected static final int RO;
-    protected static final int GR;
-    protected static final int MY;
-    protected static final int UA;
-    protected static final int PINYIN;
-    protected static final int STROKE;
-    protected static final int ZHUYIN;
-    protected static final int HIRAGANA;
-    protected static final int JAMO;
-    protected static final int KOREANENGLISH;
+    protected static final int DE = 0;
+    protected static final int EN = 1;
+    protected static final int FR = 2;
+    protected static final int ES = 3;
+    protected static final int IT = 4;
+    protected static final int CZ = 20;
+    protected static final int NL = 6;
+    protected static final int NO = 27;
+    protected static final int PL = 18;
+    protected static final int PT = 5;
+    protected static final int SE = 19;
+    protected static final int TR = 21;
+    protected static final int HU = 28;
+    protected static final int RU = 7;
+    protected static final int AR = 26;
+    protected static final int DK = 29;
+    protected static final int FI = 30;
+    protected static final int SI = 31;
+    protected static final int RO = 33;
+    protected static final int GR = 34;
+    protected static final int MY = 35;
+    protected static final int UA = 32;
+    protected static final int PINYIN = 14;
+    protected static final int STROKE = 23;
+    protected static final int ZHUYIN = 24;
+    protected static final int HIRAGANA = 12;
+    protected static final int JAMO = 16;
+    protected static final int KOREANENGLISH = 17;
 
     protected static List createCharacterBand(String string, String string2, boolean bl) {
         ArrayList arrayList = new ArrayList();
         for (int i2 = 0; i2 < string.length(); ++i2) {
-            SpellerController$SingleCharItem spellerController$SingleCharItem = !bl && string2 != null ? SpellerController$SingleCharItem.createInstance(string.substring(i2, i2 + 1), string2.substring(i2, i2 + 1)) : SpellerController$SingleCharItem.createInstance(string.substring(i2, i2 + 1));
-            arrayList.add(spellerController$SingleCharItem);
+            SpellerController.SingleCharItem singleCharItem = !bl && string2 != null ? SpellerController.SingleCharItem.createInstance(string.substring(i2, i2 + 1), string2.substring(i2, i2 + 1)) : SpellerController.SingleCharItem.createInstance(string.substring(i2, i2 + 1));
+            arrayList.add(singleCharItem);
         }
         return arrayList;
     }
@@ -121,10 +119,10 @@ public class SpellerCharsetDefinition {
 
     private static void findAndDisableShiftButton(List list) {
         for (int i2 = 0; i2 < list.size(); ++i2) {
-            SpellerController$ButtonItem spellerController$ButtonItem;
+            SpellerController.ButtonItem buttonItem;
             Object object = list.get(i2);
-            if (!(object instanceof SpellerController$ButtonItem) || (spellerController$ButtonItem = (SpellerController$ButtonItem)object).getButtonType() != SpellerController$SpellerButtonType.SHIFT) continue;
-            spellerController$ButtonItem.setEnabled(false);
+            if (!(object instanceof SpellerController.ButtonItem) || (buttonItem = (SpellerController.ButtonItem)object).getButtonType() != SpellerController.SpellerButtonType.SHIFT) continue;
+            buttonItem.setEnabled(false);
         }
     }
 

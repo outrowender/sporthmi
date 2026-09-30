@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCPLAInstructionsSeriali
 import de.esolutions.fw.comm.dsi.carparkingsystem.impl.PDCPLAParkingSpotSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCPLAInstructions;
 import org.dsi.ifc.carparkingsystem.PDCPLAParkingSpot;
 import org.dsi.ifc.carparkingsystem.PDCPLAStatus;
 
 public class PDCPLAStatusSerializer {
-    public static void putOptionalPDCPLAStatus(ISerializer iSerializer, PDCPLAStatus pDCPLAStatus) {
+    public static void putOptionalPDCPLAStatus(ISerializer iSerializer, PDCPLAStatus pDCPLAStatus) throws SerializerException {
         boolean bl = pDCPLAStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class PDCPLAStatusSerializer {
         }
     }
 
-    public static void putOptionalPDCPLAStatusVarArray(ISerializer iSerializer, PDCPLAStatus[] pDCPLAStatusArray) {
+    public static void putOptionalPDCPLAStatusVarArray(ISerializer iSerializer, PDCPLAStatus[] pDCPLAStatusArray) throws SerializerException {
         boolean bl = pDCPLAStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class PDCPLAStatusSerializer {
         }
     }
 
-    public static PDCPLAStatus getOptionalPDCPLAStatus(IDeserializer iDeserializer) {
+    public static PDCPLAStatus getOptionalPDCPLAStatus(IDeserializer iDeserializer) throws SerializerException {
         PDCPLAStatus pDCPLAStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class PDCPLAStatusSerializer {
         return pDCPLAStatus;
     }
 
-    public static PDCPLAStatus[] getOptionalPDCPLAStatusVarArray(IDeserializer iDeserializer) {
+    public static PDCPLAStatus[] getOptionalPDCPLAStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCPLAStatus[] pDCPLAStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

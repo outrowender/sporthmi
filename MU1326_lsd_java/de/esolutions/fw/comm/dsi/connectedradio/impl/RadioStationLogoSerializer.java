@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.connectedradio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.connectedradio.RadioStationLogo;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class RadioStationLogoSerializer {
-    public static void putOptionalRadioStationLogo(ISerializer iSerializer, RadioStationLogo radioStationLogo) {
+    public static void putOptionalRadioStationLogo(ISerializer iSerializer, RadioStationLogo radioStationLogo) throws SerializerException {
         boolean bl = radioStationLogo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class RadioStationLogoSerializer {
         }
     }
 
-    public static void putOptionalRadioStationLogoVarArray(ISerializer iSerializer, RadioStationLogo[] radioStationLogoArray) {
+    public static void putOptionalRadioStationLogoVarArray(ISerializer iSerializer, RadioStationLogo[] radioStationLogoArray) throws SerializerException {
         boolean bl = radioStationLogoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class RadioStationLogoSerializer {
         }
     }
 
-    public static RadioStationLogo getOptionalRadioStationLogo(IDeserializer iDeserializer) {
+    public static RadioStationLogo getOptionalRadioStationLogo(IDeserializer iDeserializer) throws SerializerException {
         RadioStationLogo radioStationLogo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class RadioStationLogoSerializer {
         return radioStationLogo;
     }
 
-    public static RadioStationLogo[] getOptionalRadioStationLogoVarArray(IDeserializer iDeserializer) {
+    public static RadioStationLogo[] getOptionalRadioStationLogoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationLogo[] radioStationLogoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

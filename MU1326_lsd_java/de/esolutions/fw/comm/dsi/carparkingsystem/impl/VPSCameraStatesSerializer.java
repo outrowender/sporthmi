@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSCameraStates;
 
 public class VPSCameraStatesSerializer {
-    public static void putOptionalVPSCameraStates(ISerializer iSerializer, VPSCameraStates vPSCameraStates) {
+    public static void putOptionalVPSCameraStates(ISerializer iSerializer, VPSCameraStates vPSCameraStates) throws SerializerException {
         boolean bl = vPSCameraStates == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class VPSCameraStatesSerializer {
         }
     }
 
-    public static void putOptionalVPSCameraStatesVarArray(ISerializer iSerializer, VPSCameraStates[] vPSCameraStatesArray) {
+    public static void putOptionalVPSCameraStatesVarArray(ISerializer iSerializer, VPSCameraStates[] vPSCameraStatesArray) throws SerializerException {
         boolean bl = vPSCameraStatesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class VPSCameraStatesSerializer {
         }
     }
 
-    public static VPSCameraStates getOptionalVPSCameraStates(IDeserializer iDeserializer) {
+    public static VPSCameraStates getOptionalVPSCameraStates(IDeserializer iDeserializer) throws SerializerException {
         VPSCameraStates vPSCameraStates = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class VPSCameraStatesSerializer {
         return vPSCameraStates;
     }
 
-    public static VPSCameraStates[] getOptionalVPSCameraStatesVarArray(IDeserializer iDeserializer) {
+    public static VPSCameraStates[] getOptionalVPSCameraStatesVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSCameraStates[] vPSCameraStatesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

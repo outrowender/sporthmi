@@ -7,31 +7,22 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAudioManagementListener
 extends DSIListener {
-    default public void errorConnection(int n, int n2, int n3) {
-    }
+    public void errorConnection(int var1, int var2, int var3);
 
-    default public void fadedIn(int n, int n2) {
-    }
+    public void fadedIn(int var1, int var2);
 
-    default public void pauseConnection(int n, int n2) {
-    }
+    public void pauseConnection(int var1, int var2);
 
-    default public void updateActiveConnection(int n, int n2, int n3) {
-    }
+    public void updateActiveConnection(int var1, int var2, int var3);
 
-    default public void updateActiveEntertainmentConnection(int n, int n2, int n3) {
-    }
+    public void updateActiveEntertainmentConnection(int var1, int var2, int var3);
 
-    default public void startConnection(int n, int n2) {
-    }
+    public void startConnection(int var1, int var2);
 
-    default public void stopConnection(int n, int n2) {
-    }
+    public void stopConnection(int var1, int var2);
 
-    default public void updateAMAvailable(int n, int n2, int n3) {
-    }
+    public void updateAMAvailable(int var1, int var2, int var3);
 
-    default public void responseVolumelock(int n, int n2, boolean bl) {
-    }
+    public void responseVolumelock(int var1, int var2, boolean var3);
 }
 

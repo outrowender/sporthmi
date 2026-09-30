@@ -6,16 +6,12 @@ package java.security.cert;
 import java.util.Set;
 
 public interface X509Extension {
-    default public boolean hasUnsupportedCriticalExtension() {
-    }
+    public boolean hasUnsupportedCriticalExtension();
 
-    default public Set getCriticalExtensionOIDs() {
-    }
+    public Set getCriticalExtensionOIDs();
 
-    default public Set getNonCriticalExtensionOIDs() {
-    }
+    public Set getNonCriticalExtensionOIDs();
 
-    default public byte[] getExtensionValue(String string) {
-    }
+    public byte[] getExtensionValue(String var1);
 }
 

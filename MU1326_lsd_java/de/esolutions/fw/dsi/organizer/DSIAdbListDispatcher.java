@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbListReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbListReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIAdbListReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbListListener == null ? (class$org$dsi$ifc$organizer$DSIAdbListListener = DSIAdbListDispatcher.class$("org.dsi.ifc.organizer.DSIAdbListListener")) : class$org$dsi$ifc$organizer$DSIAdbListListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateViewSize(AdbViewSize adbViewSize, int n) {
+    public void updateViewSize(AdbViewSize adbViewSize, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -59,8 +58,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void invalidData(int n) {
+    public void invalidData(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -76,8 +74,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void stopSpellerResult(int n, int n2) {
+    public void stopSpellerResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -93,8 +90,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
+    public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -110,8 +106,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
+    public void validateSpellerCharsResult(int n, int n2, String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -127,8 +122,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
+    public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -144,8 +138,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) {
+    public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -161,8 +154,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) {
+    public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -178,8 +170,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void setListStyleResult(int n) {
+    public void setListStyleResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -195,8 +186,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) {
+    public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -224,8 +214,7 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -241,14 +230,13 @@ implements DSIAdbListReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbListListener dSIAdbListListener = (DSIAdbListListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbListDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbListDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbListListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbListDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbListDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbListListener, new Object[]{string, string2});
                     continue;
                 }

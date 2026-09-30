@@ -10,12 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MobDevKeyControl_StartResult
 implements StartResultMethod {
     public int asg_Id;
-    public static final int ASG_ID_C_GW_OCU;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final int ASG_ID_DEFAULT_ASG;
+    public static final int ASG_ID_C_GW_OCU = 2;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final int ASG_ID_DEFAULT_ASG = 0;
     public int commandType;
-    public static final int COMMAND_TYPE_DISABLE_SMARTCARD;
-    public static final int COMMAND_TYPE_ENABLE_SMARTCARD;
+    public static final int COMMAND_TYPE_DISABLE_SMARTCARD = 2;
+    public static final int COMMAND_TYPE_ENABLE_SMARTCARD = 1;
 
     public MobDevKeyControl_StartResult() {
         this.internalReset();
@@ -32,12 +32,10 @@ implements StartResultMethod {
         this.commandType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeyControl_StartResult mobDevKeyControl_StartResult = (MobDevKeyControl_StartResult)bAPEntity;
         return this.asg_Id == mobDevKeyControl_StartResult.asg_Id && this.commandType == mobDevKeyControl_StartResult.commandType;
@@ -46,7 +44,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeyControl_StartResult");
@@ -55,18 +52,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.asg_Id);
         bitStream.pushByte((byte)this.commandType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Id = bitStream.popFrontByte();
         this.commandType = bitStream.popFrontByte();
@@ -76,7 +70,6 @@ implements StartResultMethod {
         return 26;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeyControl_StartResult.functionId();
     }

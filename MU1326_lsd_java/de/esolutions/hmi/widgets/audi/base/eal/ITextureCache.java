@@ -8,31 +8,22 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
 import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 
 public interface ITextureCache {
-    default public IWrappedTexture getTexture(TextureDescription textureDescription, Object object) {
-    }
+    public IWrappedTexture getTexture(TextureDescription var1, Object var2);
 
-    default public boolean release(IWrappedTexture iWrappedTexture, Object object) {
-    }
+    public boolean release(IWrappedTexture var1, Object var2);
 
-    default public void destroyAll() {
-    }
+    public void destroyAll();
 
-    default public IWrappedTexture getCachedTexture(TextureDescription textureDescription, Object object) {
-    }
+    public IWrappedTexture getCachedTexture(TextureDescription var1, Object var2);
 
-    default public boolean isTextureCached(TextureDescription textureDescription) {
-    }
+    public boolean isTextureCached(TextureDescription var1);
 
-    default public void dump() {
-    }
+    public void dump();
 
-    default public void dump(LogChannel logChannel) {
-    }
+    public void dump(LogChannel var1);
 
-    default public int getCacheId() {
-    }
+    public int getCacheId();
 
-    default public TextureDescription getTextureDescriptionByKey(Object object) {
-    }
+    public TextureDescription getTextureDescriptionByKey(Object var1);
 }
 

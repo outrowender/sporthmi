@@ -15,12 +15,10 @@ implements DumpInfoProvider {
         this.dsiAdmin = dSIAdmin;
     }
 
-    @Override
     public String getName() {
         return "DSIAdapter";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         if (this.dsiAdmin == null) {
             printStream.println("FATAL: No DSIAdmin found!");

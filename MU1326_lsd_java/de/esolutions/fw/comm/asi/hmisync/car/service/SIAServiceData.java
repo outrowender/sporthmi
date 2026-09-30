@@ -62,7 +62,7 @@ public class SIAServiceData {
     }
 
     public String toString() {
-        return new StringBuffer("SIAServiceData{").append("distanceStatus=").append(this.distanceStatus).append(", distance=").append(this.distance).append(", distanceUnit=").append(this.distanceUnit).append(", timeStatus=").append(this.timeStatus).append(", time=").append(this.time).append("}").toString();
+        return "SIAServiceData{" + "distanceStatus=" + this.distanceStatus + ", distance=" + this.distance + ", distanceUnit=" + this.distanceUnit + ", timeStatus=" + this.timeStatus + ", time=" + this.time + "}";
     }
 }
 

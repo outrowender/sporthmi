@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import org.apache.xerces.xni.XMLResourceIdentifier;
@@ -32,8 +33,7 @@ implements XMLEntityResolver {
         return this.fEntityResolver;
     }
 
-    @Override
-    public XMLInputSource resolveEntity(XMLResourceIdentifier xMLResourceIdentifier) {
+    public XMLInputSource resolveEntity(XMLResourceIdentifier xMLResourceIdentifier) throws XNIException, IOException {
         String string = xMLResourceIdentifier.getPublicId();
         String string2 = xMLResourceIdentifier.getExpandedSystemId();
         if (string == null && string2 == null) {

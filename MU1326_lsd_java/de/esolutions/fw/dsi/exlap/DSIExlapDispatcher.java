@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.exlap;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.exlap.DSIExlapReply;
 import de.esolutions.fw.comm.dsi.exlap.impl.DSIExlapReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIExlapReply {
         super(n, (class$org$dsi$ifc$exlap$DSIExlapListener == null ? (class$org$dsi$ifc$exlap$DSIExlapListener = DSIExlapDispatcher.class$("org.dsi.ifc.exlap.DSIExlapListener")) : class$org$dsi$ifc$exlap$DSIExlapListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void startResult(int n) {
+    public void startResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIExlapReply {
         }
     }
 
-    @Override
-    public void stopResult(int n) {
+    public void stopResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIExlapReply {
         }
     }
 
-    @Override
-    public void updateAvailableServices(Service[] serviceArray, int n) {
+    public void updateAvailableServices(Service[] serviceArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -91,8 +88,7 @@ implements DSIExlapReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -108,14 +104,13 @@ implements DSIExlapReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIExlapListener dSIExlapListener = (DSIExlapListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIExlapDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIExlapDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIExlapListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIExlapDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIExlapDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIExlapListener, new Object[]{string, string2});
                     continue;
                 }

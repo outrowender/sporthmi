@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.tv.impl;
 import de.esolutions.fw.comm.asi.hmisync.tv.KeySet;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class KeySetSerializer {
-    public static void putOptionalKeySet(ISerializer iSerializer, KeySet keySet) {
+    public static void putOptionalKeySet(ISerializer iSerializer, KeySet keySet) throws SerializerException {
         boolean bl = keySet == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class KeySetSerializer {
         }
     }
 
-    public static void putOptionalKeySetVarArray(ISerializer iSerializer, KeySet[] keySetArray) {
+    public static void putOptionalKeySetVarArray(ISerializer iSerializer, KeySet[] keySetArray) throws SerializerException {
         boolean bl = keySetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class KeySetSerializer {
         }
     }
 
-    public static KeySet getOptionalKeySet(IDeserializer iDeserializer) {
+    public static KeySet getOptionalKeySet(IDeserializer iDeserializer) throws SerializerException {
         KeySet keySet = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class KeySetSerializer {
         return keySet;
     }
 
-    public static KeySet[] getOptionalKeySetVarArray(IDeserializer iDeserializer) {
+    public static KeySet[] getOptionalKeySetVarArray(IDeserializer iDeserializer) throws SerializerException {
         KeySet[] keySetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

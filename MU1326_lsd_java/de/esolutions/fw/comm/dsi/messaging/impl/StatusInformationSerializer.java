@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.StatusInformation;
 
 public class StatusInformationSerializer {
-    public static void putOptionalStatusInformation(ISerializer iSerializer, StatusInformation statusInformation) {
+    public static void putOptionalStatusInformation(ISerializer iSerializer, StatusInformation statusInformation) throws SerializerException {
         boolean bl = statusInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class StatusInformationSerializer {
         }
     }
 
-    public static void putOptionalStatusInformationVarArray(ISerializer iSerializer, StatusInformation[] statusInformationArray) {
+    public static void putOptionalStatusInformationVarArray(ISerializer iSerializer, StatusInformation[] statusInformationArray) throws SerializerException {
         boolean bl = statusInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class StatusInformationSerializer {
         }
     }
 
-    public static StatusInformation getOptionalStatusInformation(IDeserializer iDeserializer) {
+    public static StatusInformation getOptionalStatusInformation(IDeserializer iDeserializer) throws SerializerException {
         StatusInformation statusInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class StatusInformationSerializer {
         return statusInformation;
     }
 
-    public static StatusInformation[] getOptionalStatusInformationVarArray(IDeserializer iDeserializer) {
+    public static StatusInformation[] getOptionalStatusInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         StatusInformation[] statusInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

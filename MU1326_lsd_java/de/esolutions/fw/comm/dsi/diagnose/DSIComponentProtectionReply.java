@@ -3,19 +3,18 @@
  */
 package de.esolutions.fw.comm.dsi.diagnose;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIComponentProtectionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "54043ffd-5930-5fd1-b6a9-e318c74a2c35";
+    public static final String IPL_COMM_INTERFACE_KEY = "925d4129-9d5f-5cbc-b7b4-c8e3ce749dfb";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.10";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.10";
 
-    default public void authStringResponse(String string, String string2, byte by) {
-    }
+    public void authStringResponse(String var1, String var2, byte var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

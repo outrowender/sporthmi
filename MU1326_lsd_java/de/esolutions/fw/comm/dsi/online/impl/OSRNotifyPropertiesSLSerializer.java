@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRNotifyPropertiesSL;
 
 public class OSRNotifyPropertiesSLSerializer {
-    public static void putOptionalOSRNotifyPropertiesSL(ISerializer iSerializer, OSRNotifyPropertiesSL oSRNotifyPropertiesSL) {
+    public static void putOptionalOSRNotifyPropertiesSL(ISerializer iSerializer, OSRNotifyPropertiesSL oSRNotifyPropertiesSL) throws SerializerException {
         boolean bl = oSRNotifyPropertiesSL == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class OSRNotifyPropertiesSLSerializer {
         }
     }
 
-    public static void putOptionalOSRNotifyPropertiesSLVarArray(ISerializer iSerializer, OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray) {
+    public static void putOptionalOSRNotifyPropertiesSLVarArray(ISerializer iSerializer, OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray) throws SerializerException {
         boolean bl = oSRNotifyPropertiesSLArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class OSRNotifyPropertiesSLSerializer {
         }
     }
 
-    public static OSRNotifyPropertiesSL getOptionalOSRNotifyPropertiesSL(IDeserializer iDeserializer) {
+    public static OSRNotifyPropertiesSL getOptionalOSRNotifyPropertiesSL(IDeserializer iDeserializer) throws SerializerException {
         OSRNotifyPropertiesSL oSRNotifyPropertiesSL = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class OSRNotifyPropertiesSLSerializer {
         return oSRNotifyPropertiesSL;
     }
 
-    public static OSRNotifyPropertiesSL[] getOptionalOSRNotifyPropertiesSLVarArray(IDeserializer iDeserializer) {
+    public static OSRNotifyPropertiesSL[] getOptionalOSRNotifyPropertiesSLVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

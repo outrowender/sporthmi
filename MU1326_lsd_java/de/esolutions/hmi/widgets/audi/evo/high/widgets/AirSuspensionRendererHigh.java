@@ -25,8 +25,8 @@ implements IAirSuspensionRenderer {
     private IWrappedNode3DImage target;
     private TextureDescription cachedTextureDescription;
     private int cachedWidth;
-    private static final int BAR_OFFSET;
-    private static final int TOTAL_BARGROUP_HEIGHT;
+    private static final int BAR_OFFSET = 11;
+    private static final int TOTAL_BARGROUP_HEIGHT = 49;
 
     public AirSuspensionRendererHigh(AirSuspensionController airSuspensionController) {
         this.controller = airSuspensionController;
@@ -88,7 +88,6 @@ implements IAirSuspensionRenderer {
         }
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -111,12 +110,10 @@ implements IAirSuspensionRenderer {
         }
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void disconnect() {
         int n;
         super.disconnect();
@@ -153,7 +150,6 @@ implements IAirSuspensionRenderer {
         this.cachedTextureDescription = null;
     }
 
-    @Override
     public int getPreferredWidth() {
         this.updateCachedSize();
         return this.cachedWidth;
@@ -173,7 +169,7 @@ implements IAirSuspensionRenderer {
         }
         IWrappedTexture iWrappedTexture = textureDescription.getTexture(this);
         if (iWrappedTexture == null) {
-            logChannel.log(-1601830656, "AirSuspensionRendererHigh#updateCachedSize: Texture could not be loaded for content: %1", (Object)textureDescription);
+            logChannel.log(100000, "AirSuspensionRendererHigh#updateCachedSize: Texture could not be loaded for content: %1", (Object)textureDescription);
             this.setCachedSize(textureDescription, 0);
             return;
         }
@@ -187,7 +183,6 @@ implements IAirSuspensionRenderer {
         this.cachedWidth = n;
     }
 
-    @Override
     public int getPreferredHeight() {
         return 49;
     }

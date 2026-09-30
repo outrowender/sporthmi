@@ -4,6 +4,7 @@
 package java.io;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class FilterOutputStream
@@ -14,8 +15,7 @@ extends OutputStream {
         this.out = outputStream;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         try {
             this.flush();
         }
@@ -24,18 +24,15 @@ extends OutputStream {
         }
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         this.out.flush();
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (n <= byArray.length && n >= 0 && n2 >= 0 && n2 <= byArray.length - n) {
             int n3 = 0;
             while (n3 < n2) {
@@ -47,8 +44,7 @@ extends OutputStream {
         }
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         this.out.write(n);
     }
 }

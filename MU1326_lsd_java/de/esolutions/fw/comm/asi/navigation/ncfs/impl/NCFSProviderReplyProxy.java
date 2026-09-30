@@ -4,10 +4,11 @@
 package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 
 import de.esolutions.fw.comm.asi.navigation.ncfs.NCFSProviderReply;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderReplyProxy$1;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderReplyProxy$2;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderReplyProxy$3;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderReplyProxy$4;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sBoundingBoxSerializer;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sEdgeSerializer;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sLGIEventSerializer;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sRestrictionSerializer;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sTileInfoSerializer;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sEdge;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sLGIEvent;
@@ -17,12 +18,16 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class NCFSProviderReplyProxy
 implements NCFSProviderReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.navigation.ncfs.NCFSProvider");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public NCFSProviderReplyProxy() {
@@ -30,33 +35,57 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateVZOTileIndexes(int[] nArray, sBoundingBox sBoundingBox2, int n) {
-        NCFSProviderReplyProxy$1 nCFSProviderReplyProxy$1 = new NCFSProviderReplyProxy$1(this, nArray, sBoundingBox2, n);
-        this.proxy.remoteCallMethod((short)5, nCFSProviderReplyProxy$1);
+    public void updateVZOTileIndexes(final int[] nArray, final sBoundingBox sBoundingBox2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                sBoundingBoxSerializer.putOptionalsBoundingBox(iSerializer, sBoundingBox2);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)5, iSerializable);
     }
 
-    @Override
-    public void updateVZORestrictions(sTileInfo[] sTileInfoArray, sEdge[] sEdgeArray, sRestriction[] sRestrictionArray, int n) {
-        NCFSProviderReplyProxy$2 nCFSProviderReplyProxy$2 = new NCFSProviderReplyProxy$2(this, sTileInfoArray, sEdgeArray, sRestrictionArray, n);
-        this.proxy.remoteCallMethod((short)16, nCFSProviderReplyProxy$2);
+    public void updateVZORestrictions(final sTileInfo[] sTileInfoArray, final sEdge[] sEdgeArray, final sRestriction[] sRestrictionArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTileInfoSerializer.putOptionalsTileInfoVarArray(iSerializer, sTileInfoArray);
+                sEdgeSerializer.putOptionalsEdgeVarArray(iSerializer, sEdgeArray);
+                sRestrictionSerializer.putOptionalsRestrictionVarArray(iSerializer, sRestrictionArray);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void updateLGITileIndexes(int[] nArray, sBoundingBox sBoundingBox2, int n) {
-        NCFSProviderReplyProxy$3 nCFSProviderReplyProxy$3 = new NCFSProviderReplyProxy$3(this, nArray, sBoundingBox2, n);
-        this.proxy.remoteCallMethod((short)3, nCFSProviderReplyProxy$3);
+    public void updateLGITileIndexes(final int[] nArray, final sBoundingBox sBoundingBox2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt32VarArray(nArray);
+                sBoundingBoxSerializer.putOptionalsBoundingBox(iSerializer, sBoundingBox2);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void updateLGIEvents(sTileInfo[] sTileInfoArray, sLGIEvent[] sLGIEventArray, int n) {
-        NCFSProviderReplyProxy$4 nCFSProviderReplyProxy$4 = new NCFSProviderReplyProxy$4(this, sTileInfoArray, sLGIEventArray, n);
-        this.proxy.remoteCallMethod((short)15, nCFSProviderReplyProxy$4);
+    public void updateLGIEvents(final sTileInfo[] sTileInfoArray, final sLGIEvent[] sLGIEventArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sTileInfoSerializer.putOptionalsTileInfoVarArray(iSerializer, sTileInfoArray);
+                sLGIEventSerializer.putOptionalsLGIEventVarArray(iSerializer, sLGIEventArray);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 }
 

@@ -3,109 +3,76 @@
  */
 package de.esolutions.fw.comm.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.persistence.PartitionHandle;
 
 public interface IPersistenceAC {
-    default public void open(long l, String string) {
-    }
+    public void open(long var1, String var3) throws MethodException;
 
-    default public void open(String string, String string2) {
-    }
+    public void open(String var1, String var2) throws MethodException;
 
-    default public void close(PartitionHandle partitionHandle) {
-    }
+    public void close(PartitionHandle var1) throws MethodException;
 
-    default public void version(long l) {
-    }
+    public void version(long var1) throws MethodException;
 
-    default public void version(String string) {
-    }
+    public void version(String var1) throws MethodException;
 
-    default public void purge(long l) {
-    }
+    public void purge(long var1) throws MethodException;
 
-    default public void purge(String string) {
-    }
+    public void purge(String var1) throws MethodException;
 
-    default public void beginTransaction(PartitionHandle partitionHandle) {
-    }
+    public void beginTransaction(PartitionHandle var1) throws MethodException;
 
-    default public void endTransaction(PartitionHandle partitionHandle, boolean bl) {
-    }
+    public void endTransaction(PartitionHandle var1, boolean var2) throws MethodException;
 
-    default public void endTransaction(PartitionHandle partitionHandle) {
-    }
+    public void endTransaction(PartitionHandle var1) throws MethodException;
 
-    default public void flush(PartitionHandle partitionHandle) {
-    }
+    public void flush(PartitionHandle var1) throws MethodException;
 
-    default public void exists(PartitionHandle partitionHandle, long l) {
-    }
+    public void exists(PartitionHandle var1, long var2) throws MethodException;
 
-    default public void remove(PartitionHandle partitionHandle, long l) {
-    }
+    public void remove(PartitionHandle var1, long var2) throws MethodException;
 
-    default public void setInt(PartitionHandle partitionHandle, long l, long l2) {
-    }
+    public void setInt(PartitionHandle var1, long var2, long var4) throws MethodException;
 
-    default public void getInt(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void getInt(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void getInt(PartitionHandle partitionHandle, long l) {
-    }
+    public void getInt(PartitionHandle var1, long var2) throws MethodException;
 
-    default public void getInts(PartitionHandle partitionHandle, long[] lArray, int n) {
-    }
+    public void getInts(PartitionHandle var1, long[] var2, int var3) throws MethodException;
 
-    default public void getInts(PartitionHandle partitionHandle, long[] lArray) {
-    }
+    public void getInts(PartitionHandle var1, long[] var2) throws MethodException;
 
-    default public void setString(PartitionHandle partitionHandle, long l, String string) {
-    }
+    public void setString(PartitionHandle var1, long var2, String var4) throws MethodException;
 
-    default public void getString(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void getString(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void getString(PartitionHandle partitionHandle, long l) {
-    }
+    public void getString(PartitionHandle var1, long var2) throws MethodException;
 
-    default public void getStrings(PartitionHandle partitionHandle, long[] lArray, int n) {
-    }
+    public void getStrings(PartitionHandle var1, long[] var2, int var3) throws MethodException;
 
-    default public void getStrings(PartitionHandle partitionHandle, long[] lArray) {
-    }
+    public void getStrings(PartitionHandle var1, long[] var2) throws MethodException;
 
-    default public void setBlob(PartitionHandle partitionHandle, long l, short[] sArray) {
-    }
+    public void setBlob(PartitionHandle var1, long var2, short[] var4) throws MethodException;
 
-    default public void getBlob(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void getBlob(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void getBlob(PartitionHandle partitionHandle, long l) {
-    }
+    public void getBlob(PartitionHandle var1, long var2) throws MethodException;
 
-    default public void getBlobs(PartitionHandle partitionHandle, long[] lArray, int n) {
-    }
+    public void getBlobs(PartitionHandle var1, long[] var2, int var3) throws MethodException;
 
-    default public void getBlobs(PartitionHandle partitionHandle, long[] lArray) {
-    }
+    public void getBlobs(PartitionHandle var1, long[] var2) throws MethodException;
 
-    default public void subscribe(PartitionHandle partitionHandle, long[] lArray, int n) {
-    }
+    public void subscribe(PartitionHandle var1, long[] var2, int var3) throws MethodException;
 
-    default public void subscribe(PartitionHandle partitionHandle, long[] lArray) {
-    }
+    public void subscribe(PartitionHandle var1, long[] var2) throws MethodException;
 
-    default public void unsubscribe(PartitionHandle partitionHandle, long[] lArray) {
-    }
+    public void unsubscribe(PartitionHandle var1, long[] var2) throws MethodException;
 
-    default public void unsubscribeAll(PartitionHandle partitionHandle) {
-    }
+    public void unsubscribeAll(PartitionHandle var1) throws MethodException;
 
-    default public void convert(long l, String string, String string2) {
-    }
+    public void convert(long var1, String var3, String var4) throws MethodException;
 
-    default public void convert(String string, String string2, String string3) {
-    }
+    public void convert(String var1, String var2, String var3) throws MethodException;
 }
 

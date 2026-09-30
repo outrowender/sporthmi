@@ -9,18 +9,18 @@ import de.esolutions.fw.util.commons.timeout.TimeSourceProvider;
 public class TraceCoreReplySignal {
     private int value = -1;
 
-    public synchronized void waitForSignal(int n) {
+    public synchronized void waitForSignal(int n) throws InterruptedException {
         while (this.value < n) {
-            super.wait();
+            this.wait();
         }
     }
 
-    public synchronized boolean waitForSignalWithTimeout(int n, long l) {
+    public synchronized boolean waitForSignalWithTimeout(int n, long l) throws InterruptedException {
         ITimeSource iTimeSource = TimeSourceProvider.getMonotonicTimeSource();
         long l2 = iTimeSource.getCurrentTime();
         long l3 = l;
         while (this.value < n) {
-            super.wait(l3);
+            this.wait(l3);
             if (l <= 0L) continue;
             long l4 = iTimeSource.getCurrentTime();
             long l5 = l4 - l2;
@@ -34,7 +34,7 @@ public class TraceCoreReplySignal {
 
     public synchronized void triggerSignal(int n) {
         this.value = n;
-        super.notify();
+        this.notify();
     }
 }
 

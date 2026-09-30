@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.tollcollect;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavPriceInfo;
 import org.dsi.ifc.tollcollect.TCCardDateInformation;
 import org.dsi.ifc.tollcollect.TCCardError;
@@ -11,39 +12,29 @@ import org.dsi.ifc.tollcollect.TCPaymentInfo;
 import org.dsi.ifc.tollcollect.TCPaymentInfoDetails;
 
 public interface DSITollCollectReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "0eacb804-7004-5d94-8156-35b75f566f12";
+    public static final String IPL_COMM_INTERFACE_KEY = "feda581a-b809-50c5-a988-b0dcfaa40fb5";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.0";
 
-    default public void updateCardState(int n, int n2) {
-    }
+    public void updateCardState(int var1, int var2) throws MethodException;
 
-    default public void updateCardError(TCCardError tCCardError, int n) {
-    }
+    public void updateCardError(TCCardError var1, int var2) throws MethodException;
 
-    default public void updateCardDateInformation(TCCardDateInformation tCCardDateInformation, int n) {
-    }
+    public void updateCardDateInformation(TCCardDateInformation var1, int var2) throws MethodException;
 
-    default public void updateHardwareInformation(TCHardwareInformation[] tCHardwareInformationArray, int n) {
-    }
+    public void updateHardwareInformation(TCHardwareInformation[] var1, int var2) throws MethodException;
 
-    default public void updateCurrentTollPayment(NavPriceInfo navPriceInfo, int n) {
-    }
+    public void updateCurrentTollPayment(NavPriceInfo var1, int var2) throws MethodException;
 
-    default public void requestPaymentHistoryListResult(TCPaymentInfo[] tCPaymentInfoArray) {
-    }
+    public void requestPaymentHistoryListResult(TCPaymentInfo[] var1) throws MethodException;
 
-    default public void requestPaymentHistoryDetailsResult(int n, TCPaymentInfoDetails tCPaymentInfoDetails) {
-    }
+    public void requestPaymentHistoryDetailsResult(int var1, TCPaymentInfoDetails var2) throws MethodException;
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

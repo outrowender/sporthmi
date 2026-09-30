@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PicNavSyncInfo;
 
 public class PicNavSyncInfoSerializer {
-    public static void putOptionalPicNavSyncInfo(ISerializer iSerializer, PicNavSyncInfo picNavSyncInfo) {
+    public static void putOptionalPicNavSyncInfo(ISerializer iSerializer, PicNavSyncInfo picNavSyncInfo) throws SerializerException {
         boolean bl = picNavSyncInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PicNavSyncInfoSerializer {
         }
     }
 
-    public static void putOptionalPicNavSyncInfoVarArray(ISerializer iSerializer, PicNavSyncInfo[] picNavSyncInfoArray) {
+    public static void putOptionalPicNavSyncInfoVarArray(ISerializer iSerializer, PicNavSyncInfo[] picNavSyncInfoArray) throws SerializerException {
         boolean bl = picNavSyncInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PicNavSyncInfoSerializer {
         }
     }
 
-    public static PicNavSyncInfo getOptionalPicNavSyncInfo(IDeserializer iDeserializer) {
+    public static PicNavSyncInfo getOptionalPicNavSyncInfo(IDeserializer iDeserializer) throws SerializerException {
         PicNavSyncInfo picNavSyncInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PicNavSyncInfoSerializer {
         return picNavSyncInfo;
     }
 
-    public static PicNavSyncInfo[] getOptionalPicNavSyncInfoVarArray(IDeserializer iDeserializer) {
+    public static PicNavSyncInfo[] getOptionalPicNavSyncInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PicNavSyncInfo[] picNavSyncInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

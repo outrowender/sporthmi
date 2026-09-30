@@ -21,7 +21,6 @@ extends AbstractWidgetController {
     private float numbersOpacity = 1.0f;
     private GlassplateController glassplate;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.isSdsActiveOnConnect()) {
@@ -33,17 +32,15 @@ extends AbstractWidgetController {
         if (this.parent instanceof MenuController) {
             return ((MenuController)this.parent).isSDSActive();
         }
-        menuLogCh.log(-1601830656, "MenuSDSNumbersController#isSdsActiveOnConnect: parent is not a menu (screen: %2, parent: %1)", (Object)this.parent, (long)this.getScreenId());
+        menuLogCh.log(100000, "MenuSDSNumbersController#isSdsActiveOnConnect: parent is not a menu (screen: %2, parent: %1)", (Object)this.parent, (long)this.getScreenId());
         return false;
     }
 
-    @Override
     public void predisconnecting() {
         this.setSdsActive(false);
         super.predisconnecting();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -88,7 +85,7 @@ extends AbstractWidgetController {
     }
 
     public void setSdsActive(boolean bl) {
-        menuLogCh.log(-2137614336, "MenuSDSNumbersController#setSdsActive: SDSactive: %1 (screen: %3, parent: %2)", (Object)bl, (Object)this.parent, (long)this.getScreenId());
+        menuLogCh.log(10000000, "MenuSDSNumbersController#setSdsActive: SDSactive: %1 (screen: %3, parent: %2)", (Object)bl, (Object)this.parent, (long)this.getScreenId());
         this.configureNumbersBackground(bl);
         this.configureScaling(bl);
     }
@@ -103,7 +100,7 @@ extends AbstractWidgetController {
         if (glassplateController != null) {
             glassplateController.setSdsNumbersVisible(bl ? 1.0f : 0.0f);
         } else {
-            menuLogCh.log(-1601830656, "MenuSDSNumbersController#configureGlassplate: no glassplate found (screen: %2, parent: %1)", (Object)this.parent, (long)this.getScreenId());
+            menuLogCh.log(100000, "MenuSDSNumbersController#configureGlassplate: no glassplate found (screen: %2, parent: %1)", (Object)this.parent, (long)this.getScreenId());
         }
     }
 

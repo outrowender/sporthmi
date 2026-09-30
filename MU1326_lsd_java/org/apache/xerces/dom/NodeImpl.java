@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
@@ -29,33 +30,33 @@ NodeList,
 EventTarget,
 Cloneable,
 Serializable {
-    public static final short TREE_POSITION_PRECEDING;
-    public static final short TREE_POSITION_FOLLOWING;
-    public static final short TREE_POSITION_ANCESTOR;
-    public static final short TREE_POSITION_DESCENDANT;
-    public static final short TREE_POSITION_EQUIVALENT;
-    public static final short TREE_POSITION_SAME_NODE;
-    public static final short TREE_POSITION_DISCONNECTED;
-    public static final short DOCUMENT_POSITION_DISCONNECTED;
-    public static final short DOCUMENT_POSITION_PRECEDING;
-    public static final short DOCUMENT_POSITION_FOLLOWING;
-    public static final short DOCUMENT_POSITION_CONTAINS;
-    public static final short DOCUMENT_POSITION_IS_CONTAINED;
-    public static final short DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-    static final long serialVersionUID;
-    public static final short ELEMENT_DEFINITION_NODE;
+    public static final short TREE_POSITION_PRECEDING = 1;
+    public static final short TREE_POSITION_FOLLOWING = 2;
+    public static final short TREE_POSITION_ANCESTOR = 4;
+    public static final short TREE_POSITION_DESCENDANT = 8;
+    public static final short TREE_POSITION_EQUIVALENT = 16;
+    public static final short TREE_POSITION_SAME_NODE = 32;
+    public static final short TREE_POSITION_DISCONNECTED = 0;
+    public static final short DOCUMENT_POSITION_DISCONNECTED = 1;
+    public static final short DOCUMENT_POSITION_PRECEDING = 2;
+    public static final short DOCUMENT_POSITION_FOLLOWING = 4;
+    public static final short DOCUMENT_POSITION_CONTAINS = 8;
+    public static final short DOCUMENT_POSITION_IS_CONTAINED = 16;
+    public static final short DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32;
+    static final long serialVersionUID = -6316591992167219696L;
+    public static final short ELEMENT_DEFINITION_NODE = 21;
     protected NodeImpl ownerNode;
     protected short flags;
-    protected static final short READONLY;
-    protected static final short SYNCDATA;
-    protected static final short SYNCCHILDREN;
-    protected static final short OWNED;
-    protected static final short FIRSTCHILD;
-    protected static final short SPECIFIED;
-    protected static final short IGNORABLEWS;
-    protected static final short HASSTRING;
-    protected static final short NORMALIZED;
-    protected static final short ID;
+    protected static final short READONLY = 1;
+    protected static final short SYNCDATA = 2;
+    protected static final short SYNCCHILDREN = 4;
+    protected static final short OWNED = 8;
+    protected static final short FIRSTCHILD = 16;
+    protected static final short SPECIFIED = 32;
+    protected static final short IGNORABLEWS = 64;
+    protected static final short HASSTRING = 128;
+    protected static final short NORMALIZED = 256;
+    protected static final short ID = 512;
 
     protected NodeImpl(CoreDocumentImpl coreDocumentImpl) {
         this.ownerNode = coreDocumentImpl;
@@ -64,29 +65,21 @@ Serializable {
     public NodeImpl() {
     }
 
-    @Override
-    public abstract short getNodeType() {
-    }
+    public abstract short getNodeType();
 
-    @Override
-    public abstract String getNodeName() {
-    }
+    public abstract String getNodeName();
 
-    @Override
-    public String getNodeValue() {
+    public String getNodeValue() throws DOMException {
         return null;
     }
 
-    @Override
-    public void setNodeValue(String string) {
+    public void setNodeValue(String string) throws DOMException {
     }
 
-    @Override
-    public Node appendChild(Node node) {
+    public Node appendChild(Node node) throws DOMException {
         return this.insertBefore(node, null);
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         NodeImpl nodeImpl;
         if (this.needsSyncData()) {
@@ -96,7 +89,7 @@ Serializable {
             nodeImpl = (NodeImpl)this.clone();
         }
         catch (CloneNotSupportedException cloneNotSupportedException) {
-            throw new RuntimeException(new StringBuffer().append("**Internal Error**").append(cloneNotSupportedException).toString());
+            throw new RuntimeException("**Internal Error**" + cloneNotSupportedException);
         }
         nodeImpl.ownerNode = this.ownerDocument();
         nodeImpl.isOwned(false);
@@ -105,7 +98,6 @@ Serializable {
         return nodeImpl;
     }
 
-    @Override
     public Document getOwnerDocument() {
         if (this.isOwned()) {
             return this.ownerNode.ownerDocument();
@@ -135,7 +127,6 @@ Serializable {
         return n;
     }
 
-    @Override
     public Node getParentNode() {
         return null;
     }
@@ -144,12 +135,10 @@ Serializable {
         return null;
     }
 
-    @Override
     public Node getNextSibling() {
         return null;
     }
 
-    @Override
     public Node getPreviousSibling() {
         return null;
     }
@@ -158,106 +147,85 @@ Serializable {
         return null;
     }
 
-    @Override
     public NamedNodeMap getAttributes() {
         return null;
     }
 
-    @Override
     public boolean hasAttributes() {
         return false;
     }
 
-    @Override
     public boolean hasChildNodes() {
         return false;
     }
 
-    @Override
     public NodeList getChildNodes() {
         return this;
     }
 
-    @Override
     public Node getFirstChild() {
         return null;
     }
 
-    @Override
     public Node getLastChild() {
         return null;
     }
 
-    @Override
-    public Node insertBefore(Node node, Node node2) {
+    public Node insertBefore(Node node, Node node2) throws DOMException {
         throw new DOMException(3, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "HIERARCHY_REQUEST_ERR", null));
     }
 
-    @Override
-    public Node removeChild(Node node) {
+    public Node removeChild(Node node) throws DOMException {
         throw new DOMException(8, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NOT_FOUND_ERR", null));
     }
 
-    @Override
-    public Node replaceChild(Node node, Node node2) {
+    public Node replaceChild(Node node, Node node2) throws DOMException {
         throw new DOMException(3, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "HIERARCHY_REQUEST_ERR", null));
     }
 
-    @Override
     public int getLength() {
         return 0;
     }
 
-    @Override
     public Node item(int n) {
         return null;
     }
 
-    @Override
     public void normalize() {
     }
 
-    @Override
     public boolean isSupported(String string, String string2) {
         return this.ownerDocument().getImplementation().hasFeature(string, string2);
     }
 
-    @Override
     public String getNamespaceURI() {
         return null;
     }
 
-    @Override
     public String getPrefix() {
         return null;
     }
 
-    @Override
-    public void setPrefix(String string) {
+    public void setPrefix(String string) throws DOMException {
         throw new DOMException(14, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NAMESPACE_ERR", null));
     }
 
-    @Override
     public String getLocalName() {
         return null;
     }
 
-    @Override
     public void addEventListener(String string, EventListener eventListener, boolean bl) {
         this.ownerDocument().addEventListener(this, string, eventListener, bl);
     }
 
-    @Override
     public void removeEventListener(String string, EventListener eventListener, boolean bl) {
         this.ownerDocument().removeEventListener(this, string, eventListener, bl);
     }
 
-    @Override
     public boolean dispatchEvent(Event event) {
         return this.ownerDocument().dispatchEvent(this, event);
     }
 
-    @Override
     public String getBaseURI() {
         return null;
     }
@@ -357,8 +325,7 @@ Serializable {
         return 0;
     }
 
-    @Override
-    public short compareDocumentPosition(Node node) {
+    public short compareDocumentPosition(Node node) throws DOMException {
         int n;
         DocumentType documentType;
         Node node2;
@@ -523,29 +490,25 @@ Serializable {
         return 0;
     }
 
-    @Override
-    public String getTextContent() {
+    public String getTextContent() throws DOMException {
         return this.getNodeValue();
     }
 
-    void getTextContent(StringBuffer stringBuffer) {
+    void getTextContent(StringBuffer stringBuffer) throws DOMException {
         String string = this.getNodeValue();
         if (string != null) {
             stringBuffer.append(string);
         }
     }
 
-    @Override
-    public void setTextContent(String string) {
+    public void setTextContent(String string) throws DOMException {
         this.setNodeValue(string);
     }
 
-    @Override
     public boolean isSameNode(Node node) {
         return this == node;
     }
 
-    @Override
     public boolean isDefaultNamespace(String string) {
         short s = this.getNodeType();
         switch (s) {
@@ -596,7 +559,6 @@ Serializable {
         return false;
     }
 
-    @Override
     public String lookupPrefix(String string) {
         if (string == null) {
             return null;
@@ -630,7 +592,6 @@ Serializable {
         return null;
     }
 
-    @Override
     public String lookupNamespaceURI(String string) {
         short s = this.getNodeType();
         switch (s) {
@@ -729,7 +690,6 @@ Serializable {
         return null;
     }
 
-    @Override
     public boolean isEqualNode(Node node) {
         if (node == this) {
             return true;
@@ -752,17 +712,14 @@ Serializable {
         return !(this.getNodeValue() == null ? node.getNodeValue() != null : !this.getNodeValue().equals(node.getNodeValue()));
     }
 
-    @Override
     public Object getFeature(String string, String string2) {
         return this.isSupported(string, string2) ? this : null;
     }
 
-    @Override
     public Object setUserData(String string, Object object, UserDataHandler userDataHandler) {
         return this.ownerDocument().setUserData(this, string, object, userDataHandler);
     }
 
-    @Override
     public Object getUserData(String string) {
         return this.ownerDocument().getUserData(this, string);
     }
@@ -893,10 +850,10 @@ Serializable {
     }
 
     public String toString() {
-        return new StringBuffer().append("[").append(this.getNodeName()).append(": ").append(this.getNodeValue()).append("]").toString();
+        return "[" + this.getNodeName() + ": " + this.getNodeValue() + "]";
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         if (this.needsSyncData()) {
             this.synchronizeData();
         }

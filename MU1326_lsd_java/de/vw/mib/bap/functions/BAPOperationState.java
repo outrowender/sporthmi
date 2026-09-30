@@ -4,12 +4,11 @@
 package de.vw.mib.bap.functions;
 
 public interface BAPOperationState {
-    public static final int STATE_NORMAL_OPERATION;
-    public static final int STATE_OFF_STAND_BY;
-    public static final int STATE_INITIALIZING;
-    public static final int STATE_DEFECT;
+    public static final int STATE_NORMAL_OPERATION = 0;
+    public static final int STATE_OFF_STAND_BY = 1;
+    public static final int STATE_INITIALIZING = 3;
+    public static final int STATE_DEFECT = 15;
 
-    default public int getState() {
-    }
+    public int getState();
 }
 

@@ -8,7 +8,7 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractIdleTimerController;
 
 public class SelectionMenuIdleTimerController
 extends AbstractIdleTimerController {
-    private static final int t_close_selection_menu;
+    private static final int t_close_selection_menu = 4000;
 
     public SelectionMenuIdleTimerController(LogChannel logChannel) {
         super(logChannel);
@@ -18,7 +18,6 @@ extends AbstractIdleTimerController {
         this.fireWhenSelectionDrawerOpen = true;
     }
 
-    @Override
     protected void timerFired() {
         this.terminal.getDrawerFocusManager().requestDrawerState(16);
     }

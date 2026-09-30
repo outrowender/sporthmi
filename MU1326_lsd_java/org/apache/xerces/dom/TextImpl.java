@@ -16,7 +16,7 @@ public class TextImpl
 extends CharacterDataImpl
 implements CharacterData,
 Text {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -5294980852957403469L;
 
     public TextImpl() {
     }
@@ -33,12 +33,10 @@ Text {
         this.data = string;
     }
 
-    @Override
     public short getNodeType() {
         return 3;
     }
 
-    @Override
     public String getNodeName() {
         return "#text";
     }
@@ -50,7 +48,6 @@ Text {
         this.isIgnorableWhitespace(bl);
     }
 
-    @Override
     public boolean isElementContentWhitespace() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -58,7 +55,6 @@ Text {
         return this.internalIsIgnorableWhitespace();
     }
 
-    @Override
     public String getWholeText() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -71,10 +67,10 @@ Text {
         String string = stringBuffer.toString();
         stringBuffer.setLength(0);
         this.getWholeTextForward(this.getNextSibling(), stringBuffer, this.getParentNode());
-        return new StringBuffer().append(string).append(stringBuffer.toString()).toString();
+        return string + stringBuffer.toString();
     }
 
-    protected void insertTextContent(StringBuffer stringBuffer) {
+    protected void insertTextContent(StringBuffer stringBuffer) throws DOMException {
         String string = this.getNodeValue();
         if (string != null) {
             stringBuffer.insert(0, string);
@@ -136,8 +132,7 @@ Text {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public Text replaceWholeText(String string) {
+    public Text replaceWholeText(String string) throws DOMException {
         void var3_6;
         Node node;
         if (this.needsSyncData()) {
@@ -264,8 +259,7 @@ Text {
         return this.internalIsIgnorableWhitespace();
     }
 
-    @Override
-    public Text splitText(int n) {
+    public Text splitText(int n) throws DOMException {
         if (this.isReadOnly()) {
             throw new DOMException(7, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null));
         }

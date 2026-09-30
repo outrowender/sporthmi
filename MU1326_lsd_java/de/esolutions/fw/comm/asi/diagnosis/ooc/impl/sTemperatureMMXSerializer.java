@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.ooc.impl;
 import de.esolutions.fw.comm.asi.diagnosis.ooc.sTemperatureMMX;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTemperatureMMXSerializer {
-    public static void putOptionalsTemperatureMMX(ISerializer iSerializer, sTemperatureMMX sTemperatureMMX2) {
+    public static void putOptionalsTemperatureMMX(ISerializer iSerializer, sTemperatureMMX sTemperatureMMX2) throws SerializerException {
         boolean bl = sTemperatureMMX2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sTemperatureMMXSerializer {
         }
     }
 
-    public static void putOptionalsTemperatureMMXVarArray(ISerializer iSerializer, sTemperatureMMX[] sTemperatureMMXArray) {
+    public static void putOptionalsTemperatureMMXVarArray(ISerializer iSerializer, sTemperatureMMX[] sTemperatureMMXArray) throws SerializerException {
         boolean bl = sTemperatureMMXArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sTemperatureMMXSerializer {
         }
     }
 
-    public static sTemperatureMMX getOptionalsTemperatureMMX(IDeserializer iDeserializer) {
+    public static sTemperatureMMX getOptionalsTemperatureMMX(IDeserializer iDeserializer) throws SerializerException {
         sTemperatureMMX sTemperatureMMX2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sTemperatureMMXSerializer {
         return sTemperatureMMX2;
     }
 
-    public static sTemperatureMMX[] getOptionalsTemperatureMMXVarArray(IDeserializer iDeserializer) {
+    public static sTemperatureMMX[] getOptionalsTemperatureMMXVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTemperatureMMX[] sTemperatureMMXArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

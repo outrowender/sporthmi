@@ -12,7 +12,7 @@ import org.apache.commons.id.StringIdentifierGenerator;
 public class CompositeIdentifierGenerator
 extends AbstractStringIdentifierGenerator
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 20060206L;
     private final StringIdentifierGenerator[] identifierGenerators;
 
     public static StringIdentifierGenerator getInstance(StringIdentifierGenerator[] stringIdentifierGeneratorArray) {
@@ -56,7 +56,6 @@ implements Serializable {
         this.identifierGenerators = stringIdentifierGeneratorArray;
     }
 
-    @Override
     public String nextStringIdentifier() {
         StringBuffer stringBuffer = new StringBuffer();
         for (int i2 = 0; i2 < this.identifierGenerators.length; ++i2) {
@@ -65,7 +64,6 @@ implements Serializable {
         return stringBuffer.toString();
     }
 
-    @Override
     public long maxLength() {
         long l = 0L;
         for (int i2 = 0; i2 < this.identifierGenerators.length; ++i2) {
@@ -74,7 +72,6 @@ implements Serializable {
         return l;
     }
 
-    @Override
     public long minLength() {
         long l = 0L;
         for (int i2 = 0; i2 < this.identifierGenerators.length; ++i2) {

@@ -21,7 +21,6 @@ extends AbstractMenuIdleTimerController {
         this.idleTime = 11000;
     }
 
-    @Override
     protected void timerFired() {
         MenuController menuController = this.getMenu();
         if (menuController != null) {

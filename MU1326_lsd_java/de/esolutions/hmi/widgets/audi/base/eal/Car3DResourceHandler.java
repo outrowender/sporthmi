@@ -27,7 +27,6 @@ import de.esolutions.hmi.widgets.audi.base.Layout;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimationController;
 import de.esolutions.hmi.widgets.audi.base.eal.Car3DPHEVHandler;
-import de.esolutions.hmi.widgets.audi.base.eal.Car3DResourceHandler$TranslationRotation;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.base.eal.EALPropertyCache;
 import de.esolutions.hmi.widgets.audi.base.eal.HMITerminalEAL;
@@ -36,100 +35,100 @@ import java.util.List;
 
 public class Car3DResourceHandler
 implements AnimationListener {
-    private static final int NONE;
-    private static boolean DEBUG_OUTPUT;
-    private static final boolean ANIMATED;
-    private static final int MAX_ANIMATION_TIME;
-    private static final int MIN_ANIMATION_TIME;
-    private static final int SCREEN_CHANGE_ANIMATION_TIME;
-    private static final boolean OVERWRITE_FXAA;
-    private static final boolean OVERWRITE_FXAA_VALUE;
-    private static final boolean OVERWRITE_SUPERSAMPLING;
-    private static final float OVERWRITE_SUPERSAMPLING_RATE;
-    private static final float SUPERSAMPLING_RATE_ANIMATED;
-    private static final float SUPERSAMPLING_RATE_STILL;
-    private static final boolean FXAA_STILL;
-    private static final boolean FXAA_ANIMATED;
-    private static final float STATE_OFF;
-    private static final float STATE_NO_UPDATE;
-    private static final float STATE_ACTIVE;
-    private static final int PASSIVE_INDEX;
-    private static final int SMALL_STAGE_INDEX;
-    private static final int SERVICE_INTERVAL_INDEX;
-    private static final int UGDO_INDEX;
-    private static final int OIL_LEVEL_INDEX;
-    private static final String DEFAULT_PROPERTY_NAME;
-    private static final String SMALL_STAGE_PROPERTY_NAME;
-    private static final String[] WIDGET_ID_MAPPING_LHD;
-    private static final String CAR_MENU_TRANSFORMATION_LAYER_NAME;
-    private static final String CAR_TRANSFORMATION_LAYER_NAME;
-    private static final String CAR_MENU_FBO_LAYER_NAME;
-    private static final String CAR_MENU_FBO_TEXTURE_NAME;
-    private static final String CAR_MENU_3D_SCALE_TRANSFORMATION_SHORTCUT;
-    private static final String DRIVE_SELECT_TRANSFORMATION_LAYER_NAME;
-    private static final String DRIVE_SELECT_FBO_LAYER_NAME;
-    private static final String DRIVE_SELECT_FBO_TEXTURE_NAME;
-    private static final String DRIVE_SELECT_PHEV_STATE;
-    private static final String DRIVE_SELECT_MODE_RACE;
-    private static final String DRIVE_SELECT_MODE_DYNAMIC;
-    private static final String DRIVE_SELECT_MODE_EFFICIENCY;
-    private static final String DRIVE_SELECT_MODE_COMFORT;
-    private static final String DRIVE_SELECT_GYRO_ROLL_WARNING_RANGE;
-    private static final String DRIVE_SELECT_GYRO_ROLL_HARD_WARNING;
-    private static final String DRIVE_SELECT_GYRO_ROLL_SOFT_WARNING;
-    private static final String DRIVE_SELECT_GYRO_ROLL;
-    private static final String DRIVE_SELECT_GYRO_PITCH_WARNING_RANGE;
-    private static final String DRIVE_SELECT_GYRO_PITCH_HARD_WARNING;
-    private static final String DRIVE_SELECT_GYRO_PITCH_SOFT_WARNING;
-    private static final String DRIVE_SELECT_GYRO_PITCH;
-    private static final String GARAGENTOR_ANLERNEN_INNENSPIEGEL_RHD;
-    private static final String HUD_RHD;
-    private static final String BELEGUNG_LENKRADTASTE_ROADSTER;
-    private static final String BELEGUNG_LENKRADTASTE_RHD;
-    private static final String ROTATION_Z;
-    private static final String ROTATION_Y;
-    private static final String ROTATION_X;
-    private static final String ATTENUATION;
-    private static final String TRANSLATION_Z;
-    private static final String TRANSLATION_Y;
-    private static final String TRANSLATION_X;
-    private static final String DRIVE_SELECT_MENUE_SHIFT;
-    private static final String DRIVE_SELECT_GYRO_STATE;
-    private static final String DRIVE_SELECT_STATE;
-    private static final String AMBIENT_LIGHT_STATE;
-    private static final String AMBIENT_LIGHT_FLOOR_COLOR;
-    private static final String AMBIENT_LIGHT_DOORS_COLOR;
-    private static final String AMBIENT_LIGHT_DASH_COLOR;
-    private static final String AMBIENT_LIGHT_BORDER_COLOR;
-    private static final String AMBIENT_LIGHT_BORDER_ITAFEL_COLOR;
-    private static final String AMBIENT_LIGHT_BORDER_DOOR_COLOR;
-    private static final String AMBIENT_LIGHT_BORDER_MIKO_COLOR;
-    private static final String CAR_MENUE_SUPER_SAMPLING_RATE;
-    private static final String CAR_MENUE_RHD;
-    private static final String CAR_MENUE_STATE;
-    private static final String DESATURATE;
-    private static final String LAYER_MATERIAL;
-    private static final String CAR_MENU_PROPERTY_NODE;
-    private static final String DRIVE_SELECT_PROPERTY_NODE;
-    private static final String CAR_MENU_3D_TRANSFORMATION_NODE_NAME;
-    private static final String CAR_MENU_FXAA_LAYER_NAME;
-    private static final String DRIVE_SELECT_FXAA_LAYER_NAME;
-    private static final String AMBIENT_LIGHT_LAYER_NAME;
-    private static final String FXAA_OFF_MATERIAL_NAME;
-    private static final String FXAA_ON_MATERIAL_NAME;
-    private static final float OVERLAY_OFF_VALUE;
-    private static final float OVERLAY_ON_VALUE;
-    private static final float OVERLAY_ON_VALUE_SERVICE_INTERVAL;
-    private static final int ROOT_TRANSLATION_OFFSET_X_KOMBI;
-    private static final int ROOT_TRANSLATION_OFFSET_X;
-    private static final String CAR_MENU_POINTLIGHT_0_NODE_NAME;
-    private static final String CAR_MENU_POINTLIGHT_1_NODE_NAME;
-    private static final String CAR_MENU_REFLECTION_ADJUSTMENT_NODE_NAME;
-    private static final String CAR_MENU_WINDOW_REFLECTION_ADJUSTMENT_NODE_NAME;
-    private static final String CAR_MENU_POINTLIGHT_0_ANIMATION_NAME;
-    private static final String CAR_MENU_POINTLIGHT_1_ANIMATION_NAME;
-    private static final String CAR_MENU_SCALE_ENHENCED_TRANSLATION;
-    private static final String CAR_MENU_lightConstant_ATTENUATION_NAME;
+    private static final int NONE = -1;
+    private static boolean DEBUG_OUTPUT = false;
+    private static final boolean ANIMATED = true;
+    private static final int MAX_ANIMATION_TIME = Integer.valueOf(System.getProperty("3DCarMaxAnimationTime", "700"));
+    private static final int MIN_ANIMATION_TIME = Integer.valueOf(System.getProperty("3DCarMinAnimationTime", "100"));
+    private static final int SCREEN_CHANGE_ANIMATION_TIME = 250;
+    private static final boolean OVERWRITE_FXAA = System.getProperty("3DCarFXAA") != null;
+    private static final boolean OVERWRITE_FXAA_VALUE = Boolean.getBoolean("3DCarFXAA");
+    private static final boolean OVERWRITE_SUPERSAMPLING = System.getProperty("3DCarSuperSamplingRate") != null;
+    private static final float OVERWRITE_SUPERSAMPLING_RATE = Float.valueOf(System.getProperty("3DCarSuperSamplingRate", "0.0")).floatValue();
+    private static final float SUPERSAMPLING_RATE_ANIMATED = OVERWRITE_SUPERSAMPLING ? OVERWRITE_SUPERSAMPLING_RATE : 1.5f;
+    private static final float SUPERSAMPLING_RATE_STILL = OVERWRITE_SUPERSAMPLING ? OVERWRITE_SUPERSAMPLING_RATE : 2.0f;
+    private static final boolean FXAA_STILL = OVERWRITE_FXAA ? OVERWRITE_FXAA_VALUE : true;
+    private static final boolean FXAA_ANIMATED = OVERWRITE_FXAA ? OVERWRITE_FXAA_VALUE : false;
+    private static final float STATE_OFF = 0.0f;
+    private static final float STATE_NO_UPDATE = 1.0f;
+    private static final float STATE_ACTIVE = 2.0f;
+    private static final int PASSIVE_INDEX = 42;
+    private static final int SMALL_STAGE_INDEX = 43;
+    private static final int SERVICE_INTERVAL_INDEX = 20;
+    private static final int UGDO_INDEX = 46;
+    private static final int OIL_LEVEL_INDEX = 14;
+    private static final String DEFAULT_PROPERTY_NAME = "0_Default_Position";
+    private static final String SMALL_STAGE_PROPERTY_NAME = "KB_Position";
+    private static final String[] WIDGET_ID_MAPPING_LHD = new String[]{"ACC", "Ambientebeleuchtung", "AmbientlightWizard", "Ambientebeleuchtung", "AmbientlightWizard", "AmbientlightWizard", "Aussenbeleuchtung", "Belegung_Lenkradtaste", "Einparkhilfe", "Fahrerassistenz", "Fahrzeugeinstellungen", "Fahrzeuginfo", "Klima", "Lane_Assist", "Oelstand", "Pausenempfehlung", "Audi_Pre_Sense", "Regensensor", "Reifendruckkontrolle", "Service_Kontrolle", "Serviceintervalle", "Audi_Sideassist", "Sitze", "Tempowarnung", "Umluftautomatik", "Verkehrszeichen", "Wischerwechsel", "Zentralverriegelung", "Zuheizer", "0_Default_Position", "Luftfeder_Anhaenger", "Nachtsichtassistenz", "HUD", "AdBlue", "Abstandwarner", "Anhaengermodus", "Fussraumtemperatur", "Stauassistenz", "Verbrauchstatistik", "Garagentoroeffner", "Luftfeder_Radwechsel", "PEA", "0_Default_Position", "KB_Position", "Sitzheizung", "Sitzlueftung", "Garagentor_Anlernen_Scheinwerfer_Links", "Garagentor_Anlernen_Audiringe", "Garagentor_Anlernen_Scheinwerfer_Rechts", "Garagentor_Anlernen_Innenspiegel", "Feedback_Fahrpedal", "Datum_Uhrzeit", "Fahrschulmodus"};
+    private static final String CAR_MENU_TRANSFORMATION_LAYER_NAME = "carMenue_transformation_layer";
+    private static final String CAR_TRANSFORMATION_LAYER_NAME = "car_transformation_layer";
+    private static final String CAR_MENU_FBO_LAYER_NAME = "carMenu_imageLayer";
+    private static final String CAR_MENU_FBO_TEXTURE_NAME = "carMenu_complete_FBO";
+    private static final String CAR_MENU_3D_SCALE_TRANSFORMATION_SHORTCUT = "carMenue_scale_offset";
+    private static final String DRIVE_SELECT_TRANSFORMATION_LAYER_NAME = "driveSelect_transformation_layer";
+    private static final String DRIVE_SELECT_FBO_LAYER_NAME = "driveSelect_imageLayer";
+    private static final String DRIVE_SELECT_FBO_TEXTURE_NAME = "driveSelect_complete_FBO";
+    private static final String DRIVE_SELECT_PHEV_STATE = "phev_state";
+    private static final String DRIVE_SELECT_MODE_RACE = "driveSelect_mode_race";
+    private static final String DRIVE_SELECT_MODE_DYNAMIC = "driveSelect_mode_dynamic";
+    private static final String DRIVE_SELECT_MODE_EFFICIENCY = "driveSelect_mode_efficiency";
+    private static final String DRIVE_SELECT_MODE_COMFORT = "driveSelect_mode_comfort";
+    private static final String DRIVE_SELECT_GYRO_ROLL_WARNING_RANGE = "gyro_roll_warningRange";
+    private static final String DRIVE_SELECT_GYRO_ROLL_HARD_WARNING = "gyro_roll_hardWarning";
+    private static final String DRIVE_SELECT_GYRO_ROLL_SOFT_WARNING = "gyro_roll_softWarning";
+    private static final String DRIVE_SELECT_GYRO_ROLL = "gyro_roll";
+    private static final String DRIVE_SELECT_GYRO_PITCH_WARNING_RANGE = "gyro_pitch_warningRange";
+    private static final String DRIVE_SELECT_GYRO_PITCH_HARD_WARNING = "gyro_pitch_hardWarning";
+    private static final String DRIVE_SELECT_GYRO_PITCH_SOFT_WARNING = "gyro_pitch_softWarning";
+    private static final String DRIVE_SELECT_GYRO_PITCH = "gyro_pitch";
+    private static final String GARAGENTOR_ANLERNEN_INNENSPIEGEL_RHD = "Garagentor_Anlernen_Innenspiegel_RHD";
+    private static final String HUD_RHD = "HUD_RHD";
+    private static final String BELEGUNG_LENKRADTASTE_ROADSTER = "Belegung_Lenkradtaste_Roadster";
+    private static final String BELEGUNG_LENKRADTASTE_RHD = "Belegung_Lenkradtaste_RHD";
+    private static final String ROTATION_Z = "ROTATION_Z";
+    private static final String ROTATION_Y = "ROTATION_Y";
+    private static final String ROTATION_X = "ROTATION_X";
+    private static final String ATTENUATION = "Attenuation";
+    private static final String TRANSLATION_Z = "TRANSLATION_Z";
+    private static final String TRANSLATION_Y = "TRANSLATION_Y";
+    private static final String TRANSLATION_X = "TRANSLATION_X";
+    private static final String DRIVE_SELECT_MENUE_SHIFT = "driveSelect_menue_shift";
+    private static final String DRIVE_SELECT_GYRO_STATE = "gyro_state";
+    private static final String DRIVE_SELECT_STATE = "driveSelect_state";
+    private static final String AMBIENT_LIGHT_STATE = "AmbientLight_state";
+    private static final String AMBIENT_LIGHT_FLOOR_COLOR = "AmbientLight_floor_color";
+    private static final String AMBIENT_LIGHT_DOORS_COLOR = "AmbientLight_doors_color";
+    private static final String AMBIENT_LIGHT_DASH_COLOR = "AmbientLight_dash_color";
+    private static final String AMBIENT_LIGHT_BORDER_COLOR = "AmbientLight_border_color";
+    private static final String AMBIENT_LIGHT_BORDER_ITAFEL_COLOR = "ContourLight_i_tafel";
+    private static final String AMBIENT_LIGHT_BORDER_DOOR_COLOR = "ContourLight_doors";
+    private static final String AMBIENT_LIGHT_BORDER_MIKO_COLOR = "ContourLight_miko";
+    private static final String CAR_MENUE_SUPER_SAMPLING_RATE = "car_superSamplingRate";
+    private static final String CAR_MENUE_RHD = "carMenue_RHD";
+    private static final String CAR_MENUE_STATE = "carMenue_state";
+    private static final String DESATURATE = "desaturate";
+    private static final String LAYER_MATERIAL = "LayerMaterial";
+    private static final String CAR_MENU_PROPERTY_NODE = "carMenue_Controls";
+    private static final String DRIVE_SELECT_PROPERTY_NODE = "driveSelect_Controls";
+    private static final String CAR_MENU_3D_TRANSFORMATION_NODE_NAME = "CarmenueObjects";
+    private static final String CAR_MENU_FXAA_LAYER_NAME = "carMenue_FBO_PostFX";
+    private static final String DRIVE_SELECT_FXAA_LAYER_NAME = "driveSelect_FBO_PostFX";
+    private static final String AMBIENT_LIGHT_LAYER_NAME = "AmbientLight";
+    private static final String FXAA_OFF_MATERIAL_NAME = "car_noPostFXMaterial";
+    private static final String FXAA_ON_MATERIAL_NAME = "car_PostFXMaterial";
+    private static final float OVERLAY_OFF_VALUE = 0.0f;
+    private static final float OVERLAY_ON_VALUE = 1.0f;
+    private static final float OVERLAY_ON_VALUE_SERVICE_INTERVAL = 2.0f;
+    private static final int ROOT_TRANSLATION_OFFSET_X_KOMBI = 1000;
+    private static final int ROOT_TRANSLATION_OFFSET_X = 800;
+    private static final String CAR_MENU_POINTLIGHT_0_NODE_NAME = "carMenue_PointLight0";
+    private static final String CAR_MENU_POINTLIGHT_1_NODE_NAME = "carMenue_PointLight1";
+    private static final String CAR_MENU_REFLECTION_ADJUSTMENT_NODE_NAME = "ReflectionAdjustmentNode";
+    private static final String CAR_MENU_WINDOW_REFLECTION_ADJUSTMENT_NODE_NAME = "WindowReflectionAdjustmentNode";
+    private static final String CAR_MENU_POINTLIGHT_0_ANIMATION_NAME = "Point Light0";
+    private static final String CAR_MENU_POINTLIGHT_1_ANIMATION_NAME = "Point Light1";
+    private static final String CAR_MENU_SCALE_ENHENCED_TRANSLATION = "scale_offset";
+    private static final String CAR_MENU_lightConstant_ATTENUATION_NAME = "PointLightAttenuation";
     private static String[] widgetIDMapping;
     private static INode3D[] stateNodes;
     private static String[] stateKeys;
@@ -137,10 +136,10 @@ implements AnimationListener {
     private static String[] carMenuOverlayKeys;
     private static INode2D[] desaturateNodes;
     private static String[] desaturateKeys;
-    private static Car3DResourceHandler$TranslationRotation[] carMenuTransformations;
-    private static Car3DResourceHandler$TranslationRotation interpolatedTransRot;
-    private static Car3DResourceHandler$TranslationRotation carMenuStartTransformation;
-    private static Car3DResourceHandler$TranslationRotation carMenuEndTransformation;
+    private static TranslationRotation[] carMenuTransformations;
+    private static TranslationRotation interpolatedTransRot;
+    private static TranslationRotation carMenuStartTransformation;
+    private static TranslationRotation carMenuEndTransformation;
     private static INode3D carMenu3DTransformationNode;
     private static INode3D carMenuePointLight0;
     private static INode3D carMenuePointLight1;
@@ -175,11 +174,11 @@ implements AnimationListener {
     private HMITerminalImpl terminal;
     private EALManager ealManager;
     private LogChannel logChannel3DCar = IWidgetLogChannel.logChannel3DCar;
-    private static final int ANIMATION_TYPE_ENDLESS;
-    private static final int ANIMATION_TYPE_CARMENU;
-    private static final int ANIMATION_TYPE_DRIVESELECT_SHIFT;
-    private static final int ANIMATION_TYPE_DRIVESELECT_GYRO;
-    private static final int ANIMATION_TYPE_DRIVESELECT_GRID;
+    private static final int ANIMATION_TYPE_ENDLESS = 1;
+    private static final int ANIMATION_TYPE_CARMENU = 97;
+    private static final int ANIMATION_TYPE_DRIVESELECT_SHIFT = 100;
+    private static final int ANIMATION_TYPE_DRIVESELECT_GYRO = 101;
+    private static final int ANIMATION_TYPE_DRIVESELECT_GRID = 108;
     private AbstractAnimation carMenuAnimation;
     private AbstractAnimation driveSelectShiftAnimation;
     private AbstractAnimation driveSelectGyroAnimation;
@@ -204,8 +203,8 @@ implements AnimationListener {
     private float[] contourLightColor;
     private float[] colorBrightness;
     private int ambientPackage;
-    public static final int QQ1;
-    public static final int QQ2;
+    public static final int QQ1 = 1;
+    public static final int QQ2 = 2;
     private float opacity = 1.0f;
     private float desaturation = 0.0f;
     private float scale = 1.0f;
@@ -225,7 +224,7 @@ implements AnimationListener {
     INode2DImage backgroundNode;
     INode3D driveSelectPropertyHolderNode;
     protected final EALPropertyCache propertyCache = new EALPropertyCache();
-    private float smallStageTransCenterX = 23747;
+    private float smallStageTransCenterX = -220.0f;
     private int bigStageCarMenuIndex;
     private float lastViewStageValue = 0.0f;
     private float currentViewStageValue = 0.0f;
@@ -270,7 +269,7 @@ implements AnimationListener {
             }
             return iAnimationClip;
         }
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#getAnimationClip: Could not get clip '%1'", (Object)string);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#getAnimationClip: Could not get clip '%1'", (Object)string);
         return null;
     }
 
@@ -352,32 +351,32 @@ implements AnimationListener {
         gridDefaultPosition = layout.getIntegerConstant(111);
         this.gridPosition = gridDefaultPosition;
         this.backgroundNode = ((HMITerminalEAL)((Object)this.terminal)).getEALManager().getBackgroundImageNode();
-        if (this.backgroundNode != null && this.backgroundNode.getWidth() <= 0) {
+        if (this.backgroundNode != null && this.backgroundNode.getWidth() <= 1024L) {
             this.backgroundNode = null;
         }
         if (widgetIDMapping == null) {
             widgetIDMapping = WIDGET_ID_MAPPING_LHD;
         }
-        INode2D iNode2D2 = this.getNode2D("carMenu_imageLayer");
-        carMenuTransformationLayer = this.getNode2D("carMenue_transformation_layer");
-        skinTranslationNode = this.getNode2D("car_transformation_layer");
-        materialFXAAOff = this.getMaterial("car_noPostFXMaterial");
-        materialFXAAOn = this.getMaterial("car_PostFXMaterial");
+        INode2D iNode2D2 = this.getNode2D(CAR_MENU_FBO_LAYER_NAME);
+        carMenuTransformationLayer = this.getNode2D(CAR_MENU_TRANSFORMATION_LAYER_NAME);
+        skinTranslationNode = this.getNode2D(CAR_TRANSFORMATION_LAYER_NAME);
+        materialFXAAOff = this.getMaterial(FXAA_OFF_MATERIAL_NAME);
+        materialFXAAOn = this.getMaterial(FXAA_ON_MATERIAL_NAME);
         materialNodes = new INode2D[5];
         materialKeys = new String[5];
-        Car3DResourceHandler.materialNodes[0] = iNode2D = this.getNode2D("carMenue_FBO_PostFX");
-        Car3DResourceHandler.materialKeys[0] = "LayerMaterial";
+        Car3DResourceHandler.materialNodes[0] = iNode2D = this.getNode2D(CAR_MENU_FXAA_LAYER_NAME);
+        Car3DResourceHandler.materialKeys[0] = LAYER_MATERIAL;
         desaturateNodes = new INode2D[5];
         desaturateKeys = new String[5];
         Car3DResourceHandler.desaturateNodes[0] = iNode2D2;
-        Car3DResourceHandler.desaturateKeys[0] = "desaturate";
-        INode3D iNode3D = this.getNode3D("carMenue_Controls");
-        carMenuePointLight0 = this.getNode3D("carMenue_PointLight0");
-        carMenuePointLight1 = this.getNode3D("carMenue_PointLight1");
-        reflectionAdjustmentNode = this.getNode3D("ReflectionAdjustmentNode");
-        windowReflectionAdjustmentNode = this.getNode3D("WindowReflectionAdjustmentNode");
+        Car3DResourceHandler.desaturateKeys[0] = DESATURATE;
+        INode3D iNode3D = this.getNode3D(CAR_MENU_PROPERTY_NODE);
+        carMenuePointLight0 = this.getNode3D(CAR_MENU_POINTLIGHT_0_NODE_NAME);
+        carMenuePointLight1 = this.getNode3D(CAR_MENU_POINTLIGHT_1_NODE_NAME);
+        reflectionAdjustmentNode = this.getNode3D(CAR_MENU_REFLECTION_ADJUSTMENT_NODE_NAME);
+        windowReflectionAdjustmentNode = this.getNode3D(CAR_MENU_WINDOW_REFLECTION_ADJUSTMENT_NODE_NAME);
         if (AbstractWidget.isScreenResolution800()) {
-            scaleOffsetTranslationNode = this.getNode2D("carMenue_scale_offset");
+            scaleOffsetTranslationNode = this.getNode2D(CAR_MENU_3D_SCALE_TRANSFORMATION_SHORTCUT);
         }
         if (iNode3D == null) {
             return;
@@ -385,9 +384,9 @@ implements AnimationListener {
         stateNodes = new INode3D[5];
         stateKeys = new String[5];
         Car3DResourceHandler.stateNodes[0] = iNode3D;
-        Car3DResourceHandler.stateKeys[0] = "carMenue_state";
+        Car3DResourceHandler.stateKeys[0] = CAR_MENUE_STATE;
         this.propertyCache.setProperty((INode)stateNodes[0], stateKeys[0], 0.0f);
-        this.propertyCache.setProperty((INode)iNode3D, "carMenue_RHD", AbstractWidget.isRightHandDrive() ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)iNode3D, CAR_MENUE_RHD, AbstractWidget.isRightHandDrive() ? 1.0f : 0.0f);
         int n2 = widgetIDMapping.length;
         carMenuOverlayNodes = new INode3D[n2];
         carMenuOverlayKeys = new String[n2];
@@ -396,75 +395,75 @@ implements AnimationListener {
             Car3DResourceHandler.carMenuOverlayKeys[n] = widgetIDMapping[n];
             if (carMenuOverlayNodes[n] == null) {
                 Car3DResourceHandler.carMenuOverlayNodes[n] = iNode3D;
-                Car3DResourceHandler.carMenuOverlayKeys[n] = "0_Default_Position";
+                Car3DResourceHandler.carMenuOverlayKeys[n] = DEFAULT_PROPERTY_NAME;
             }
             this.propertyCache.setProperty((INode)carMenuOverlayNodes[n], carMenuOverlayKeys[n], 0.0f);
         }
         superSamplingRateNodes = new INode3D[5];
         superSamplingRateKeys = new String[5];
         Car3DResourceHandler.superSamplingRateNodes[0] = iNode3D;
-        Car3DResourceHandler.superSamplingRateKeys[0] = "car_superSamplingRate";
-        carMenu3DTransformationNode = this.getNode3D("CarmenueObjects");
-        carMenuTransformations = new Car3DResourceHandler$TranslationRotation[n2];
+        Car3DResourceHandler.superSamplingRateKeys[0] = CAR_MENUE_SUPER_SAMPLING_RATE;
+        carMenu3DTransformationNode = this.getNode3D(CAR_MENU_3D_TRANSFORMATION_NODE_NAME);
+        carMenuTransformations = new TranslationRotation[n2];
         for (n = n2 - 1; n >= 0; --n) {
-            Car3DResourceHandler.carMenuTransformations[n] = new Car3DResourceHandler$TranslationRotation(this, null);
+            Car3DResourceHandler.carMenuTransformations[n] = new TranslationRotation();
             object = new float[1];
             IAnimationClip iAnimationClip = null;
             String string = this.mapDivergendIDMapping(n);
-            iAnimationClip = string != null ? this.getAnimationClip(new StringBuffer().append("Animation Clips/").append(string).toString()) : this.getAnimationClip(new StringBuffer().append("Animation Clips/").append(widgetIDMapping[n]).toString());
+            iAnimationClip = string != null ? this.getAnimationClip("Animation Clips/" + string) : this.getAnimationClip("Animation Clips/" + widgetIDMapping[n]);
             if (iAnimationClip == null) continue;
             int n3 = (int)iAnimationClip.getSize();
             for (int i2 = 0; i2 < n3; ++i2) {
                 IAnimation iAnimation = iAnimationClip.getAnimation(i2);
                 iAnimation.getValue(0L, (float[])object);
                 String string2 = iAnimation.getName();
-                if (string2.indexOf("CarmenueObjects") >= 0) {
+                if (string2.indexOf(CAR_MENU_3D_TRANSFORMATION_NODE_NAME) >= 0) {
                     this.setCarTranslationRotation(carMenuTransformations[n], string2, object[0]);
-                } else if (string2.indexOf("WindowReflectionAdjustmentNode") >= 0) {
+                } else if (string2.indexOf(CAR_MENU_WINDOW_REFLECTION_ADJUSTMENT_NODE_NAME) >= 0) {
                     this.setWindowReflectionTranslation(carMenuTransformations[n], string2, object[0]);
-                } else if (string2.indexOf("ReflectionAdjustmentNode") >= 0) {
+                } else if (string2.indexOf(CAR_MENU_REFLECTION_ADJUSTMENT_NODE_NAME) >= 0) {
                     this.setReflectionAdjustment(carMenuTransformations[n], string2, object[0]);
-                } else if (string2.indexOf("Point Light0") >= 0) {
+                } else if (string2.indexOf(CAR_MENU_POINTLIGHT_0_ANIMATION_NAME) >= 0) {
                     this.setPointLight0Translation(carMenuTransformations[n], string2, object[0]);
-                } else if (string2.indexOf("Point Light1") >= 0) {
+                } else if (string2.indexOf(CAR_MENU_POINTLIGHT_1_ANIMATION_NAME) >= 0) {
                     this.setPointLight1Translation(carMenuTransformations[n], string2, object[0]);
-                } else if (string2.indexOf("scale_offset") >= 0) {
+                } else if (string2.indexOf(CAR_MENU_SCALE_ENHENCED_TRANSLATION) >= 0) {
                     this.setEnhancedTranslation(carMenuTransformations[n], string2, object[0]);
                 }
                 iAnimation.dispose();
             }
             iAnimationClip.dispose();
             while (Car3DResourceHandler.carMenuTransformations[n].rotY < 0.0f) {
-                Car3DResourceHandler.carMenuTransformations[n].rotY += 46147;
+                Car3DResourceHandler.carMenuTransformations[n].rotY += 360.0f;
             }
-            while (Car3DResourceHandler.carMenuTransformations[n].rotY > 46147) {
-                Car3DResourceHandler.carMenuTransformations[n].rotY -= 46147;
+            while (Car3DResourceHandler.carMenuTransformations[n].rotY > 360.0f) {
+                Car3DResourceHandler.carMenuTransformations[n].rotY -= 360.0f;
             }
             if (!DEBUG_OUTPUT) continue;
             System.out.println(widgetIDMapping[n]);
             System.out.println(carMenuTransformations[n]);
             System.out.println("");
         }
-        finalCarMenuFBOTexture = this.getEALTexture("carMenu_complete_FBO");
-        ambientLightNode = this.getNode2D("AmbientLight");
-        INode2D iNode2D3 = this.getNode2D("driveSelect_imageLayer");
+        finalCarMenuFBOTexture = this.getEALTexture(CAR_MENU_FBO_TEXTURE_NAME);
+        ambientLightNode = this.getNode2D(AMBIENT_LIGHT_LAYER_NAME);
+        INode2D iNode2D3 = this.getNode2D(DRIVE_SELECT_FBO_LAYER_NAME);
         boolean bl = driveSelectAvailable = iNode2D3 != null;
         if (driveSelectAvailable) {
-            driveSelectTransformationLayer = this.getNode2D("driveSelect_transformation_layer");
-            this.driveSelectPropertyHolderNode = this.getNode3D("driveSelect_Controls");
+            driveSelectTransformationLayer = this.getNode2D(DRIVE_SELECT_TRANSFORMATION_LAYER_NAME);
+            this.driveSelectPropertyHolderNode = this.getNode3D(DRIVE_SELECT_PROPERTY_NODE);
             if (this.driveSelectPropertyHolderNode != null) {
                 Car3DResourceHandler.stateNodes[1] = this.driveSelectPropertyHolderNode;
-                Car3DResourceHandler.stateKeys[1] = "driveSelect_state";
+                Car3DResourceHandler.stateKeys[1] = DRIVE_SELECT_STATE;
                 this.propertyCache.setProperty((INode)stateNodes[1], stateKeys[1], 0.0f);
                 Car3DResourceHandler.desaturateNodes[1] = iNode2D3;
-                Car3DResourceHandler.desaturateKeys[1] = "desaturate";
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "carMenue_RHD", AbstractWidget.isRightHandDrive() ? 1.0f : 0.0f);
-                object = this.getNode2D("driveSelect_FBO_PostFX");
+                Car3DResourceHandler.desaturateKeys[1] = DESATURATE;
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, CAR_MENUE_RHD, AbstractWidget.isRightHandDrive() ? 1.0f : 0.0f);
+                object = this.getNode2D(DRIVE_SELECT_FXAA_LAYER_NAME);
                 Car3DResourceHandler.materialNodes[1] = object;
-                Car3DResourceHandler.materialKeys[1] = "LayerMaterial";
+                Car3DResourceHandler.materialKeys[1] = LAYER_MATERIAL;
                 Car3DResourceHandler.superSamplingRateNodes[1] = this.driveSelectPropertyHolderNode;
-                Car3DResourceHandler.superSamplingRateKeys[1] = "car_superSamplingRate";
-                driveSelectFBOTexture = this.getEALTexture("driveSelect_complete_FBO");
+                Car3DResourceHandler.superSamplingRateKeys[1] = CAR_MENUE_SUPER_SAMPLING_RATE;
+                driveSelectFBOTexture = this.getEALTexture(DRIVE_SELECT_FBO_TEXTURE_NAME);
             } else {
                 this.logChannel3DCar.log(10000, "Car3DResourceHandler#getNodesAndProperties driveSelectPropertyHolderNode is null.");
             }
@@ -475,74 +474,74 @@ implements AnimationListener {
         this.setSuperSamplingRate(1, SUPERSAMPLING_RATE_STILL);
         this.setFXAAEnabled(1, FXAA_STILL);
         this.setDriveSelectGyroProperties(this.gyroVisible);
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_state", this.gyroVisible ? 1.0f : 0.0f);
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_menue_shift", this.driveSelectDDBOpen ? 1.0f : 0.0f);
-        interpolatedTransRot = new Car3DResourceHandler$TranslationRotation(this, null);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_STATE, this.gyroVisible ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MENUE_SHIFT, this.driveSelectDDBOpen ? 1.0f : 0.0f);
+        interpolatedTransRot = new TranslationRotation();
     }
 
-    private void setPointLight0Translation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight0TransX = f2;
-        } else if (string.indexOf("TRANSLATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight0TransY = f2;
-        } else if (string.indexOf("TRANSLATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight0TransZ = f2;
-        } else if (string.indexOf("Attenuation") >= 0) {
-            car3DResourceHandler$TranslationRotation.attenuationPointLight0 = f2;
+    private void setPointLight0Translation(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.pointLight0TransX = f2;
+        } else if (string.indexOf(TRANSLATION_Y) >= 0) {
+            translationRotation.pointLight0TransY = f2;
+        } else if (string.indexOf(TRANSLATION_Z) >= 0) {
+            translationRotation.pointLight0TransZ = f2;
+        } else if (string.indexOf(ATTENUATION) >= 0) {
+            translationRotation.attenuationPointLight0 = f2;
         }
     }
 
-    private void setPointLight1Translation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight1TransX = f2;
-        } else if (string.indexOf("TRANSLATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight1TransY = f2;
-        } else if (string.indexOf("TRANSLATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.pointLight1TransZ = f2;
-        } else if (string.indexOf("Attenuation") >= 0) {
-            car3DResourceHandler$TranslationRotation.attenuationPointLight1 = f2;
+    private void setPointLight1Translation(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.pointLight1TransX = f2;
+        } else if (string.indexOf(TRANSLATION_Y) >= 0) {
+            translationRotation.pointLight1TransY = f2;
+        } else if (string.indexOf(TRANSLATION_Z) >= 0) {
+            translationRotation.pointLight1TransZ = f2;
+        } else if (string.indexOf(ATTENUATION) >= 0) {
+            translationRotation.attenuationPointLight1 = f2;
         }
     }
 
-    private void setEnhancedTranslation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.enhancedTranslationX = f2;
+    private void setEnhancedTranslation(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.enhancedTranslationX = f2;
         }
     }
 
-    private void setReflectionAdjustment(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransX = f2;
-        } else if (string.indexOf("TRANSLATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransY = f2;
-        } else if (string.indexOf("TRANSLATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransZ = f2;
+    private void setReflectionAdjustment(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.reflectionAdjustmentTransX = f2;
+        } else if (string.indexOf(TRANSLATION_Y) >= 0) {
+            translationRotation.reflectionAdjustmentTransY = f2;
+        } else if (string.indexOf(TRANSLATION_Z) >= 0) {
+            translationRotation.reflectionAdjustmentTransZ = f2;
         }
     }
 
-    private void setWindowReflectionTranslation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransX = f2;
-        } else if (string.indexOf("TRANSLATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransY = f2;
-        } else if (string.indexOf("TRANSLATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransZ = f2;
+    private void setWindowReflectionTranslation(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.windowReflectionAdjustmentTransX = f2;
+        } else if (string.indexOf(TRANSLATION_Y) >= 0) {
+            translationRotation.windowReflectionAdjustmentTransY = f2;
+        } else if (string.indexOf(TRANSLATION_Z) >= 0) {
+            translationRotation.windowReflectionAdjustmentTransZ = f2;
         }
     }
 
-    private void setCarTranslationRotation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, String string, float f2) {
-        if (string.indexOf("ROTATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.rotX = f2;
-        } else if (string.indexOf("ROTATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.rotY = f2;
-        } else if (string.indexOf("ROTATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.rotZ = f2;
-        } else if (string.indexOf("TRANSLATION_X") >= 0) {
-            car3DResourceHandler$TranslationRotation.transX = f2;
-        } else if (string.indexOf("TRANSLATION_Y") >= 0) {
-            car3DResourceHandler$TranslationRotation.transY = f2;
-        } else if (string.indexOf("TRANSLATION_Z") >= 0) {
-            car3DResourceHandler$TranslationRotation.transZ = f2;
+    private void setCarTranslationRotation(TranslationRotation translationRotation, String string, float f2) {
+        if (string.indexOf(ROTATION_X) >= 0) {
+            translationRotation.rotX = f2;
+        } else if (string.indexOf(ROTATION_Y) >= 0) {
+            translationRotation.rotY = f2;
+        } else if (string.indexOf(ROTATION_Z) >= 0) {
+            translationRotation.rotZ = f2;
+        } else if (string.indexOf(TRANSLATION_X) >= 0) {
+            translationRotation.transX = f2;
+        } else if (string.indexOf(TRANSLATION_Y) >= 0) {
+            translationRotation.transY = f2;
+        } else if (string.indexOf(TRANSLATION_Z) >= 0) {
+            translationRotation.transZ = f2;
         }
     }
 
@@ -554,18 +553,18 @@ implements AnimationListener {
         switch (n) {
             case 7: {
                 if (bl) {
-                    return "Belegung_Lenkradtaste_RHD";
+                    return BELEGUNG_LENKRADTASTE_RHD;
                 }
                 if (n2 != 21) break;
-                return "Belegung_Lenkradtaste_Roadster";
+                return BELEGUNG_LENKRADTASTE_ROADSTER;
             }
             case 32: {
                 if (!bl) break;
-                return "HUD_RHD";
+                return HUD_RHD;
             }
             case 49: {
                 if (!iCarCodingHelper.isB9() || !bl) break;
-                return "Garagentor_Anlernen_Innenspiegel_RHD";
+                return GARAGENTOR_ANLERNEN_INNENSPIEGEL_RHD;
             }
         }
         return string;
@@ -573,7 +572,7 @@ implements AnimationListener {
 
     private void setGyroVisible(boolean bl) {
         AbstractAnimation abstractAnimation;
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setGyroVisible %1", bl);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setGyroVisible %1", bl);
         if (this.gyroVisible == bl) {
             return;
         }
@@ -589,7 +588,7 @@ implements AnimationListener {
         }
         this.setSuperSamplingRate(1, SUPERSAMPLING_RATE_ANIMATED);
         this.setFXAAEnabled(1, FXAA_ANIMATED);
-        abstractAnimation.startDynamicAnimation(0.0f, 51266, 101, false, this.carViewerController);
+        abstractAnimation.startDynamicAnimation(0.0f, 100.0f, 101, false, this.carViewerController);
     }
 
     public boolean isGyroVisible() {
@@ -602,9 +601,9 @@ implements AnimationListener {
         }
         AbstractAnimation abstractAnimation = this.getDriveSelectGridAnimation();
         if (!abstractAnimation.isAnimating()) {
-            abstractAnimation.startDynamicAnimation(0.0f, 51266, 108, false, this.carViewerController);
+            abstractAnimation.startDynamicAnimation(0.0f, 100.0f, 108, false, this.carViewerController);
         }
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#startGridTranslationAnimation: Animation is started");
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#startGridTranslationAnimation: Animation is started");
     }
 
     private void setDriveSelectGyroProperties(boolean bl) {
@@ -617,33 +616,33 @@ implements AnimationListener {
         }
         if (bl && this.terminal.getCarCodingHelper().hasGyro()) {
             if (this.pitchAngleVisible) {
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch", this.gyroPitch);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_softWarning", (float)this.gyroPitchSoftWarningStartAngle);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_hardWarning", (float)this.gyroPitchHardWarningStartAngle);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_warningRange", (float)this.gyroPitchHardWarningEndAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH, this.gyroPitch);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_SOFT_WARNING, (float)this.gyroPitchSoftWarningStartAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_HARD_WARNING, (float)this.gyroPitchHardWarningStartAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_WARNING_RANGE, (float)this.gyroPitchHardWarningEndAngle);
             } else {
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_softWarning", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_hardWarning", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_pitch_warningRange", 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_SOFT_WARNING, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_HARD_WARNING, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_PITCH_WARNING_RANGE, 0.0f);
             }
             if (this.rollAngleVisible) {
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll", this.gyroRoll);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_softWarning", (float)this.gyroRollSoftWarningStartAngle);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_hardWarning", (float)this.gyroRollHardWarningStartAngle);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_warningRange", (float)this.gyroRollHardWarningEndAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL, this.gyroRoll);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_SOFT_WARNING, (float)this.gyroRollSoftWarningStartAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_HARD_WARNING, (float)this.gyroRollHardWarningStartAngle);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_WARNING_RANGE, (float)this.gyroRollHardWarningEndAngle);
             } else {
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_softWarning", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_hardWarning", 0.0f);
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_roll_warningRange", 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_SOFT_WARNING, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_HARD_WARNING, 0.0f);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_ROLL_WARNING_RANGE, 0.0f);
             }
         }
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_mode_comfort", this.selectedDriveSelectProfile == 3 ? 1.0f : 0.0f);
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_mode_efficiency", this.selectedDriveSelectProfile == 2 ? 1.0f : 0.0f);
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_mode_dynamic", this.selectedDriveSelectProfile == 5 ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MODE_COMFORT, this.selectedDriveSelectProfile == 3 ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MODE_EFFICIENCY, this.selectedDriveSelectProfile == 2 ? 1.0f : 0.0f);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MODE_DYNAMIC, this.selectedDriveSelectProfile == 5 ? 1.0f : 0.0f);
         if (this.terminal.getCarCodingHelper().isR8orTT()) {
-            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_mode_race", this.selectedDriveSelectProfile == 8 ? 1.0f : 0.0f);
+            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MODE_RACE, this.selectedDriveSelectProfile == 8 ? 1.0f : 0.0f);
         }
         this.invalidatePartialRendering();
     }
@@ -661,11 +660,11 @@ implements AnimationListener {
         this.setNodesVisible(this.visible);
         resourcesLoaded = true;
         long l3 = this.terminal.getFramework().getMonotonicTime();
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#loadResources: time for 3D car loading: %1ms (thereof %2ms scene parsing for nodes and properties)", l3 - l, l3 - l2);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#loadResources: time for 3D car loading: %1ms (thereof %2ms scene parsing for nodes and properties)", l3 - l, l3 - l2);
     }
 
     public void loadResourcesAsync(int n, int n2, String string) {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#loadResources: start loading %1 resources async", (Object)string);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#loadResources: start loading %1 resources async", (Object)string);
         this.asyncLoadStartTime = this.terminal.getFramework().getMonotonicTime();
         this.ealManager.mergeProjectAsync(n, n2, -1);
     }
@@ -686,7 +685,7 @@ implements AnimationListener {
         this.setNodesVisible(this.visible);
         resourcesLoaded = true;
         long l2 = this.terminal.getFramework().getMonotonicTime();
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#asyncMergeFinished: time for 3D car loading: %1ms (thereof %2ms scene parsing forr nodes and properties)", l2 - this.asyncLoadStartTime, l2 - l);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#asyncMergeFinished: time for 3D car loading: %1ms (thereof %2ms scene parsing forr nodes and properties)", l2 - this.asyncLoadStartTime, l2 - l);
     }
 
     private void setOffscreenRenderingEnabled(boolean bl) {
@@ -721,7 +720,7 @@ implements AnimationListener {
         this.visible = bl;
         if (this.resourcesLoaded()) {
             AbstractAnimation abstractAnimation;
-            this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setVisible %1", bl);
+            this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setVisible %1", bl);
             this.setNodesVisible(bl);
             AbstractAnimation abstractAnimation2 = this.getCarMenuAnimation();
             if (!bl && abstractAnimation2.isAnimating()) {
@@ -758,55 +757,55 @@ implements AnimationListener {
         return resourcesLoaded;
     }
 
-    private void applyTransformationRotation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation) {
-        this.applyCarMenuTransformations(car3DResourceHandler$TranslationRotation);
-        this.applyCarMenuLightTransformations(car3DResourceHandler$TranslationRotation);
-        this.applyCarMenuEnhancedTransformation(car3DResourceHandler$TranslationRotation);
+    private void applyTransformationRotation(TranslationRotation translationRotation) {
+        this.applyCarMenuTransformations(translationRotation);
+        this.applyCarMenuLightTransformations(translationRotation);
+        this.applyCarMenuEnhancedTransformation(translationRotation);
     }
 
-    private void applyCarMenuTransformations(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation) {
-        carMenu3DTransformationNode.setTranslation(car3DResourceHandler$TranslationRotation.transX, car3DResourceHandler$TranslationRotation.transY, car3DResourceHandler$TranslationRotation.transZ);
-        carMenu3DTransformationNode.setRotationXYZ(car3DResourceHandler$TranslationRotation.rotX, car3DResourceHandler$TranslationRotation.rotY, car3DResourceHandler$TranslationRotation.rotZ);
+    private void applyCarMenuTransformations(TranslationRotation translationRotation) {
+        carMenu3DTransformationNode.setTranslation(translationRotation.transX, translationRotation.transY, translationRotation.transZ);
+        carMenu3DTransformationNode.setRotationXYZ(translationRotation.rotX, translationRotation.rotY, translationRotation.rotZ);
     }
 
-    private void applyCarMenuLightTransformations(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation) {
+    private void applyCarMenuLightTransformations(TranslationRotation translationRotation) {
         if (carMenuePointLight0 != null) {
-            this.propertyCache.setProperty(carMenuePointLight0, "PointLightAttenuation", car3DResourceHandler$TranslationRotation.attenuationPointLight0, 0.0f, 0.0f);
-            carMenuePointLight0.setTranslation(car3DResourceHandler$TranslationRotation.pointLight0TransX, car3DResourceHandler$TranslationRotation.pointLight0TransY, car3DResourceHandler$TranslationRotation.pointLight0TransZ);
+            this.propertyCache.setProperty(carMenuePointLight0, CAR_MENU_lightConstant_ATTENUATION_NAME, translationRotation.attenuationPointLight0, 0.0f, 0.0f);
+            carMenuePointLight0.setTranslation(translationRotation.pointLight0TransX, translationRotation.pointLight0TransY, translationRotation.pointLight0TransZ);
         }
         if (carMenuePointLight1 != null) {
-            this.propertyCache.setProperty(carMenuePointLight1, "PointLightAttenuation", car3DResourceHandler$TranslationRotation.attenuationPointLight1, 0.0f, 0.0f);
-            carMenuePointLight1.setTranslation(car3DResourceHandler$TranslationRotation.pointLight1TransX, car3DResourceHandler$TranslationRotation.pointLight1TransY, car3DResourceHandler$TranslationRotation.pointLight1TransZ);
+            this.propertyCache.setProperty(carMenuePointLight1, CAR_MENU_lightConstant_ATTENUATION_NAME, translationRotation.attenuationPointLight1, 0.0f, 0.0f);
+            carMenuePointLight1.setTranslation(translationRotation.pointLight1TransX, translationRotation.pointLight1TransY, translationRotation.pointLight1TransZ);
         }
         if (reflectionAdjustmentNode != null) {
-            reflectionAdjustmentNode.setTranslation(car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransX, car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransY, car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransZ);
+            reflectionAdjustmentNode.setTranslation(translationRotation.reflectionAdjustmentTransX, translationRotation.reflectionAdjustmentTransY, translationRotation.reflectionAdjustmentTransZ);
         }
         if (windowReflectionAdjustmentNode != null) {
-            windowReflectionAdjustmentNode.setTranslation(car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransX, car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransY, car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransZ);
+            windowReflectionAdjustmentNode.setTranslation(translationRotation.windowReflectionAdjustmentTransX, translationRotation.windowReflectionAdjustmentTransY, translationRotation.windowReflectionAdjustmentTransZ);
         }
     }
 
-    private void applyCarMenuEnhancedTransformation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation) {
+    private void applyCarMenuEnhancedTransformation(TranslationRotation translationRotation) {
         if (scaleOffsetTranslationNode != null) {
-            scaleOffsetTranslationNode.setTranslation(car3DResourceHandler$TranslationRotation.enhancedTranslationX, 0.0f);
+            scaleOffsetTranslationNode.setTranslation(translationRotation.enhancedTranslationX, 0.0f);
         }
     }
 
-    private void prepareCarMenuTransformAnim(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation2) {
+    private void prepareCarMenuTransformAnim(TranslationRotation translationRotation, TranslationRotation translationRotation2) {
         if (carMenuStartTransformation == null) {
-            carMenuStartTransformation = new Car3DResourceHandler$TranslationRotation(this, null);
+            carMenuStartTransformation = new TranslationRotation();
         }
         if (carMenuEndTransformation == null) {
-            carMenuEndTransformation = new Car3DResourceHandler$TranslationRotation(this, null);
+            carMenuEndTransformation = new TranslationRotation();
         }
-        carMenuStartTransformation.copyValuesFrom(car3DResourceHandler$TranslationRotation);
-        carMenuEndTransformation.copyValuesFrom(car3DResourceHandler$TranslationRotation2);
+        carMenuStartTransformation.copyValuesFrom(translationRotation);
+        carMenuEndTransformation.copyValuesFrom(translationRotation2);
         if (Car3DResourceHandler.carMenuEndTransformation.rotY > Car3DResourceHandler.carMenuStartTransformation.rotY) {
-            if (Car3DResourceHandler.carMenuEndTransformation.rotY - Car3DResourceHandler.carMenuStartTransformation.rotY > 13379) {
-                Car3DResourceHandler.carMenuStartTransformation.rotY += 46147;
+            if (Car3DResourceHandler.carMenuEndTransformation.rotY - Car3DResourceHandler.carMenuStartTransformation.rotY > 180.0f) {
+                Car3DResourceHandler.carMenuStartTransformation.rotY += 360.0f;
             }
-        } else if (Car3DResourceHandler.carMenuStartTransformation.rotY - Car3DResourceHandler.carMenuEndTransformation.rotY > 13379) {
-            Car3DResourceHandler.carMenuEndTransformation.rotY += 46147;
+        } else if (Car3DResourceHandler.carMenuStartTransformation.rotY - Car3DResourceHandler.carMenuEndTransformation.rotY > 180.0f) {
+            Car3DResourceHandler.carMenuEndTransformation.rotY += 360.0f;
         }
         float f2 = Math.abs(Car3DResourceHandler.carMenuStartTransformation.rotY - Car3DResourceHandler.carMenuEndTransformation.rotY);
         float f3 = Math.abs(Car3DResourceHandler.carMenuStartTransformation.rotZ - Car3DResourceHandler.carMenuEndTransformation.rotZ);
@@ -814,9 +813,9 @@ implements AnimationListener {
         float f5 = Math.abs(Car3DResourceHandler.carMenuStartTransformation.transX - Car3DResourceHandler.carMenuEndTransformation.transX);
         float f6 = Math.abs(Car3DResourceHandler.carMenuStartTransformation.transY - Car3DResourceHandler.carMenuEndTransformation.transY);
         float f7 = Math.abs(Car3DResourceHandler.carMenuStartTransformation.transZ - Car3DResourceHandler.carMenuEndTransformation.transZ);
-        float f8 = (f5 + f6 + f7) / 16448;
-        float f9 = f4 / 13379;
-        float f10 = f8 / 4161;
+        float f8 = (f5 + f6 + f7) / 3.0f;
+        float f9 = f4 / 180.0f;
+        float f10 = f8 / 9.0f;
         float f11 = Math.max(f9, f10);
         f11 = Math.min(f11, 1.0f);
         this.currentAnimationDuration = (f11 = Math.max(f11, 0.0f)) == 0.0f ? 0 : (int)((float)MIN_ANIMATION_TIME + (float)(MAX_ANIMATION_TIME - MIN_ANIMATION_TIME) * f11);
@@ -826,7 +825,7 @@ implements AnimationListener {
     }
 
     public void setCurrentCarMenuOverlayUnanimated() {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setCurrentCarMenuOverlayUnanimated: currentCarMenuIndex is %1", (long)this.currentCarMenuIndex);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setCurrentCarMenuOverlayUnanimated: currentCarMenuIndex is %1", (long)this.currentCarMenuIndex);
         if (this.currentCarMenuIndex == 43) {
             this.bigStageCarMenuIndex = this.lastCarMenuIndex;
         }
@@ -863,11 +862,11 @@ implements AnimationListener {
         this.lastCarMenuIndex = this.currentCarMenuIndex;
         this.currentCarMenuIndex = n;
         if (this.logChannel3DCar.isDebug()) {
-            this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setActiveCarMenuOverlay: setting menuitem id %1", (long)n);
+            this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setActiveCarMenuOverlay: setting menuitem id %1", (long)n);
             if (carMenuOverlayNodes != null && carMenuOverlayNodes[n] != null) {
-                this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setActiveCarMenuOverlay: setting overlay name \"%1\"", (Object)carMenuOverlayNodes[n].getProperty(carMenuOverlayKeys[n]).getName());
+                this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setActiveCarMenuOverlay: setting overlay name \"%1\"", (Object)carMenuOverlayNodes[n].getProperty(carMenuOverlayKeys[n]).getName());
             } else {
-                this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setActiveCarMenuOverlay: carMenuOverlayNodes[%1] is null", (long)n);
+                this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setActiveCarMenuOverlay: carMenuOverlayNodes[%1] is null", (long)n);
             }
         }
         if (!this.resourcesLoaded()) {
@@ -892,46 +891,46 @@ implements AnimationListener {
             this.setSuperSamplingRate(0, SUPERSAMPLING_RATE_ANIMATED);
             this.setFXAAEnabled(0, FXAA_ANIMATED);
             abstractAnimation.setPlannedDuration(this.currentAnimationDuration);
-            abstractAnimation.startDynamicAnimation(0.0f, 51266, 97, false, this.carViewerController);
+            abstractAnimation.startDynamicAnimation(0.0f, 100.0f, 97, false, this.carViewerController);
         }
     }
 
     private void setAmbientLightProperties() {
         if (this.terminal.getCarCodingHelper().isQ2()) {
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_doors_color", new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_floor_color", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_border_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_state", 1.0f);
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DOORS_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_FLOOR_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_STATE, 1.0f);
         } else if (this.terminal.getCarCodingHelper().isR8()) {
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_doors_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_floor_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[1]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_border_color", new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_dash_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_state", this.colorBrightness[0]);
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DOORS_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_FLOOR_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[1]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_COLOR, new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DASH_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_STATE, this.colorBrightness[0]);
         } else if (this.terminal.getCarCodingHelper().isQ7()) {
             if (this.ambientPackage == 1) {
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_miko", new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_dash_color", new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_doors_color", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[0]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_doors", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[0]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_floor_color", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_i_tafel", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[3]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_state", 1.0f);
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_MIKO_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DASH_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, 0.0f));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DOORS_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[0]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_DOOR_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[0]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_FLOOR_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_ITAFEL_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[3]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_STATE, 1.0f);
             } else if (this.ambientPackage == 2) {
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_doors_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_dash_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_floor_color", new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_miko", new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_doors", new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "ContourLight_i_tafel", new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
-                this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_state", 1.0f);
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DOORS_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DASH_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_FLOOR_COLOR, new colorRGBAf(1.0f, 1.0f, 1.0f, this.colorBrightness[1]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_MIKO_COLOR, new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_DOOR_COLOR, new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_ITAFEL_COLOR, new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
+                this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_STATE, 1.0f);
             }
         } else {
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_doors_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_floor_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[1]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_border_color", new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_dash_color", new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
-            this.propertyCache.setProperty((INode)ambientLightNode, "AmbientLight_state", 1.0f);
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DOORS_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[0]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_FLOOR_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[1]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_BORDER_COLOR, new colorRGBAf(this.contourLightColor[0], this.contourLightColor[1], this.contourLightColor[2], this.colorBrightness[2]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_DASH_COLOR, new colorRGBAf(this.ambientLightColor[0], this.ambientLightColor[1], this.ambientLightColor[2], this.colorBrightness[3]));
+            this.propertyCache.setProperty((INode)ambientLightNode, AMBIENT_LIGHT_STATE, 1.0f);
         }
     }
 
@@ -972,7 +971,7 @@ implements AnimationListener {
     }
 
     public void setDriveSelectDDBOpen(boolean bl) {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setDriveSelectDDBOpen %1", bl);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setDriveSelectDDBOpen %1", bl);
         if (this.driveSelectDDBOpen == bl) {
             return;
         }
@@ -986,7 +985,7 @@ implements AnimationListener {
         }
         this.setSuperSamplingRate(1, SUPERSAMPLING_RATE_ANIMATED);
         this.setFXAAEnabled(1, FXAA_ANIMATED);
-        abstractAnimation.startDynamicAnimation(0.0f, 51266, 100, false, this.carViewerController);
+        abstractAnimation.startDynamicAnimation(0.0f, 100.0f, 100, false, this.carViewerController);
     }
 
     public void setUGDOMode(int n) {
@@ -994,7 +993,7 @@ implements AnimationListener {
     }
 
     public void setMode(int n) {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setMode %1", (long)n);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setMode %1", (long)n);
         if (this.currentMode == n) {
             return;
         }
@@ -1173,11 +1172,9 @@ implements AnimationListener {
         return this.driveSelectGridAnimation;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (n == 97) {
             this.setSuperSamplingRate(0, SUPERSAMPLING_RATE_STILL);
@@ -1192,64 +1189,64 @@ implements AnimationListener {
         } else {
             this.setSuperSamplingRate(1, SUPERSAMPLING_RATE_STILL);
             this.setFXAAEnabled(1, FXAA_STILL);
-            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_menue_shift", this.driveSelectDDBOpen ? 1.0f : 0.0f);
-            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_state", this.gyroVisible ? 1.0f : 0.0f);
+            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MENUE_SHIFT, this.driveSelectDDBOpen ? 1.0f : 0.0f);
+            this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_STATE, this.gyroVisible ? 1.0f : 0.0f);
         }
         this.invalidatePartialRendering();
         this.setOpacity(this.opacity);
     }
 
-    private void calculateTransformationRotation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation2, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation3, float f2) {
-        this.calculateCarMenuTransformation(car3DResourceHandler$TranslationRotation, car3DResourceHandler$TranslationRotation2, car3DResourceHandler$TranslationRotation3, f2);
-        this.calculateCarMenuLightTransformation(car3DResourceHandler$TranslationRotation, car3DResourceHandler$TranslationRotation2, car3DResourceHandler$TranslationRotation3, f2);
-        this.calculateCarMenuEnhancedTransformation(car3DResourceHandler$TranslationRotation, car3DResourceHandler$TranslationRotation2, car3DResourceHandler$TranslationRotation3, f2);
+    private void calculateTransformationRotation(TranslationRotation translationRotation, TranslationRotation translationRotation2, TranslationRotation translationRotation3, float f2) {
+        this.calculateCarMenuTransformation(translationRotation, translationRotation2, translationRotation3, f2);
+        this.calculateCarMenuLightTransformation(translationRotation, translationRotation2, translationRotation3, f2);
+        this.calculateCarMenuEnhancedTransformation(translationRotation, translationRotation2, translationRotation3, f2);
     }
 
-    private void calculateCarMenuTransformation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation2, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation3, float f2) {
-        car3DResourceHandler$TranslationRotation3.transX = car3DResourceHandler$TranslationRotation.transX + (car3DResourceHandler$TranslationRotation2.transX - car3DResourceHandler$TranslationRotation.transX) * f2;
-        car3DResourceHandler$TranslationRotation3.transY = car3DResourceHandler$TranslationRotation.transY + (car3DResourceHandler$TranslationRotation2.transY - car3DResourceHandler$TranslationRotation.transY) * f2;
-        car3DResourceHandler$TranslationRotation3.transZ = car3DResourceHandler$TranslationRotation.transZ + (car3DResourceHandler$TranslationRotation2.transZ - car3DResourceHandler$TranslationRotation.transZ) * f2;
-        car3DResourceHandler$TranslationRotation3.rotX = car3DResourceHandler$TranslationRotation.rotX + (car3DResourceHandler$TranslationRotation2.rotX - car3DResourceHandler$TranslationRotation.rotX) * f2;
-        car3DResourceHandler$TranslationRotation3.rotY = car3DResourceHandler$TranslationRotation.rotY + (car3DResourceHandler$TranslationRotation2.rotY - car3DResourceHandler$TranslationRotation.rotY) * f2;
-        car3DResourceHandler$TranslationRotation3.rotZ = car3DResourceHandler$TranslationRotation.rotZ + (car3DResourceHandler$TranslationRotation2.rotZ - car3DResourceHandler$TranslationRotation.rotZ) * f2;
+    private void calculateCarMenuTransformation(TranslationRotation translationRotation, TranslationRotation translationRotation2, TranslationRotation translationRotation3, float f2) {
+        translationRotation3.transX = translationRotation.transX + (translationRotation2.transX - translationRotation.transX) * f2;
+        translationRotation3.transY = translationRotation.transY + (translationRotation2.transY - translationRotation.transY) * f2;
+        translationRotation3.transZ = translationRotation.transZ + (translationRotation2.transZ - translationRotation.transZ) * f2;
+        translationRotation3.rotX = translationRotation.rotX + (translationRotation2.rotX - translationRotation.rotX) * f2;
+        translationRotation3.rotY = translationRotation.rotY + (translationRotation2.rotY - translationRotation.rotY) * f2;
+        translationRotation3.rotZ = translationRotation.rotZ + (translationRotation2.rotZ - translationRotation.rotZ) * f2;
     }
 
-    private void calculateCarMenuLightTransformation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation2, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation3, float f2) {
+    private void calculateCarMenuLightTransformation(TranslationRotation translationRotation, TranslationRotation translationRotation2, TranslationRotation translationRotation3, float f2) {
         if (carMenuePointLight0 != null) {
-            car3DResourceHandler$TranslationRotation3.pointLight0TransX = car3DResourceHandler$TranslationRotation.pointLight0TransX + (car3DResourceHandler$TranslationRotation2.pointLight0TransX - car3DResourceHandler$TranslationRotation.pointLight0TransX) * f2;
-            car3DResourceHandler$TranslationRotation3.pointLight0TransY = car3DResourceHandler$TranslationRotation.pointLight0TransY + (car3DResourceHandler$TranslationRotation2.pointLight0TransY - car3DResourceHandler$TranslationRotation.pointLight0TransY) * f2;
-            car3DResourceHandler$TranslationRotation3.pointLight0TransZ = car3DResourceHandler$TranslationRotation.pointLight0TransZ + (car3DResourceHandler$TranslationRotation2.pointLight0TransZ - car3DResourceHandler$TranslationRotation.pointLight0TransZ) * f2;
-            car3DResourceHandler$TranslationRotation3.attenuationPointLight0 = car3DResourceHandler$TranslationRotation.attenuationPointLight0 + (car3DResourceHandler$TranslationRotation2.attenuationPointLight0 - car3DResourceHandler$TranslationRotation.attenuationPointLight0) * f2;
+            translationRotation3.pointLight0TransX = translationRotation.pointLight0TransX + (translationRotation2.pointLight0TransX - translationRotation.pointLight0TransX) * f2;
+            translationRotation3.pointLight0TransY = translationRotation.pointLight0TransY + (translationRotation2.pointLight0TransY - translationRotation.pointLight0TransY) * f2;
+            translationRotation3.pointLight0TransZ = translationRotation.pointLight0TransZ + (translationRotation2.pointLight0TransZ - translationRotation.pointLight0TransZ) * f2;
+            translationRotation3.attenuationPointLight0 = translationRotation.attenuationPointLight0 + (translationRotation2.attenuationPointLight0 - translationRotation.attenuationPointLight0) * f2;
         }
         if (carMenuePointLight1 != null) {
-            car3DResourceHandler$TranslationRotation3.pointLight1TransX = car3DResourceHandler$TranslationRotation.pointLight1TransX + (car3DResourceHandler$TranslationRotation2.pointLight1TransX - car3DResourceHandler$TranslationRotation.pointLight1TransX) * f2;
-            car3DResourceHandler$TranslationRotation3.pointLight1TransY = car3DResourceHandler$TranslationRotation.pointLight1TransY + (car3DResourceHandler$TranslationRotation2.pointLight1TransY - car3DResourceHandler$TranslationRotation.pointLight1TransY) * f2;
-            car3DResourceHandler$TranslationRotation3.pointLight1TransZ = car3DResourceHandler$TranslationRotation.pointLight1TransZ + (car3DResourceHandler$TranslationRotation2.pointLight1TransZ - car3DResourceHandler$TranslationRotation.pointLight1TransZ) * f2;
-            car3DResourceHandler$TranslationRotation3.attenuationPointLight1 = car3DResourceHandler$TranslationRotation.attenuationPointLight1 + (car3DResourceHandler$TranslationRotation2.attenuationPointLight1 - car3DResourceHandler$TranslationRotation.attenuationPointLight1) * f2;
+            translationRotation3.pointLight1TransX = translationRotation.pointLight1TransX + (translationRotation2.pointLight1TransX - translationRotation.pointLight1TransX) * f2;
+            translationRotation3.pointLight1TransY = translationRotation.pointLight1TransY + (translationRotation2.pointLight1TransY - translationRotation.pointLight1TransY) * f2;
+            translationRotation3.pointLight1TransZ = translationRotation.pointLight1TransZ + (translationRotation2.pointLight1TransZ - translationRotation.pointLight1TransZ) * f2;
+            translationRotation3.attenuationPointLight1 = translationRotation.attenuationPointLight1 + (translationRotation2.attenuationPointLight1 - translationRotation.attenuationPointLight1) * f2;
         }
         if (reflectionAdjustmentNode != null) {
-            car3DResourceHandler$TranslationRotation3.reflectionAdjustmentTransX = car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransX + (car3DResourceHandler$TranslationRotation2.reflectionAdjustmentTransX - car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransX) * f2;
-            car3DResourceHandler$TranslationRotation3.reflectionAdjustmentTransY = car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransY + (car3DResourceHandler$TranslationRotation2.reflectionAdjustmentTransY - car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransY) * f2;
-            car3DResourceHandler$TranslationRotation3.reflectionAdjustmentTransZ = car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransZ + (car3DResourceHandler$TranslationRotation2.reflectionAdjustmentTransZ - car3DResourceHandler$TranslationRotation.reflectionAdjustmentTransZ) * f2;
+            translationRotation3.reflectionAdjustmentTransX = translationRotation.reflectionAdjustmentTransX + (translationRotation2.reflectionAdjustmentTransX - translationRotation.reflectionAdjustmentTransX) * f2;
+            translationRotation3.reflectionAdjustmentTransY = translationRotation.reflectionAdjustmentTransY + (translationRotation2.reflectionAdjustmentTransY - translationRotation.reflectionAdjustmentTransY) * f2;
+            translationRotation3.reflectionAdjustmentTransZ = translationRotation.reflectionAdjustmentTransZ + (translationRotation2.reflectionAdjustmentTransZ - translationRotation.reflectionAdjustmentTransZ) * f2;
         }
         if (windowReflectionAdjustmentNode != null) {
-            car3DResourceHandler$TranslationRotation3.windowReflectionAdjustmentTransX = car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransX + (car3DResourceHandler$TranslationRotation2.windowReflectionAdjustmentTransX - car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransX) * f2;
-            car3DResourceHandler$TranslationRotation3.windowReflectionAdjustmentTransY = car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransY + (car3DResourceHandler$TranslationRotation2.windowReflectionAdjustmentTransY - car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransY) * f2;
-            car3DResourceHandler$TranslationRotation3.windowReflectionAdjustmentTransZ = car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransZ + (car3DResourceHandler$TranslationRotation2.windowReflectionAdjustmentTransZ - car3DResourceHandler$TranslationRotation.windowReflectionAdjustmentTransZ) * f2;
+            translationRotation3.windowReflectionAdjustmentTransX = translationRotation.windowReflectionAdjustmentTransX + (translationRotation2.windowReflectionAdjustmentTransX - translationRotation.windowReflectionAdjustmentTransX) * f2;
+            translationRotation3.windowReflectionAdjustmentTransY = translationRotation.windowReflectionAdjustmentTransY + (translationRotation2.windowReflectionAdjustmentTransY - translationRotation.windowReflectionAdjustmentTransY) * f2;
+            translationRotation3.windowReflectionAdjustmentTransZ = translationRotation.windowReflectionAdjustmentTransZ + (translationRotation2.windowReflectionAdjustmentTransZ - translationRotation.windowReflectionAdjustmentTransZ) * f2;
         }
     }
 
-    private void calculateCarMenuEnhancedTransformation(Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation2, Car3DResourceHandler$TranslationRotation car3DResourceHandler$TranslationRotation3, float f2) {
+    private void calculateCarMenuEnhancedTransformation(TranslationRotation translationRotation, TranslationRotation translationRotation2, TranslationRotation translationRotation3, float f2) {
         if (scaleOffsetTranslationNode != null) {
-            car3DResourceHandler$TranslationRotation3.enhancedTranslationX = car3DResourceHandler$TranslationRotation.enhancedTranslationX + (car3DResourceHandler$TranslationRotation2.enhancedTranslationX - car3DResourceHandler$TranslationRotation.enhancedTranslationX) * f2;
+            translationRotation3.enhancedTranslationX = translationRotation.enhancedTranslationX + (translationRotation2.enhancedTranslationX - translationRotation.enhancedTranslationX) * f2;
         }
     }
 
     private void animateCarMenu() {
         float f2 = this.getCarMenuAnimation().getProgress();
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#animateCarMenu: progress = %1", (double)f2);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#animateCarMenu: progress = %1", (double)f2);
         if (this.currentCarMenuIndex == 20) {
-            if (f2 < 63) {
+            if (f2 < 0.5f) {
                 this.calculateTransformationRotation(carMenuStartTransformation, carMenuEndTransformation, interpolatedTransRot, 2.0f * f2);
                 this.applyTransformationRotation(interpolatedTransRot);
             } else {
@@ -1258,7 +1255,7 @@ implements AnimationListener {
                 this.propertyCache.setProperty((INode)carMenuOverlayNodes[this.currentCarMenuIndex], carMenuOverlayKeys[this.currentCarMenuIndex], 2.0f * f2);
             }
         } else if (this.lastCarMenuIndex == 20) {
-            if (f2 < 63) {
+            if (f2 < 0.5f) {
                 this.propertyCache.setProperty((INode)carMenuOverlayNodes[this.lastCarMenuIndex], carMenuOverlayKeys[this.lastCarMenuIndex], 2.0f - 2.0f * f2);
                 interpolatedTransRot.copyValuesFrom(carMenuStartTransformation);
             } else {
@@ -1267,16 +1264,16 @@ implements AnimationListener {
                 this.applyTransformationRotation(interpolatedTransRot);
             }
         } else if (this.currentCarMenuIndex == 14) {
-            if (f2 < 63) {
+            if (f2 < 0.5f) {
                 this.calculateTransformationRotation(carMenuStartTransformation, carMenuEndTransformation, interpolatedTransRot, 2.0f * f2);
                 this.applyTransformationRotation(interpolatedTransRot);
             } else {
                 interpolatedTransRot.copyValuesFrom(carMenuEndTransformation);
                 this.applyTransformationRotation(carMenuEndTransformation);
-                this.propertyCache.setProperty((INode)carMenuOverlayNodes[this.currentCarMenuIndex], carMenuOverlayKeys[this.currentCarMenuIndex], 2.0f * (f2 - 63));
+                this.propertyCache.setProperty((INode)carMenuOverlayNodes[this.currentCarMenuIndex], carMenuOverlayKeys[this.currentCarMenuIndex], 2.0f * (f2 - 0.5f));
             }
         } else if (this.lastCarMenuIndex == 14) {
-            if (f2 < 63) {
+            if (f2 < 0.5f) {
                 this.propertyCache.setProperty((INode)carMenuOverlayNodes[this.lastCarMenuIndex], carMenuOverlayKeys[this.lastCarMenuIndex], 1.0f - 2.0f * f2);
                 interpolatedTransRot.copyValuesFrom(carMenuStartTransformation);
             } else {
@@ -1306,7 +1303,7 @@ implements AnimationListener {
         if (!this.driveSelectDDBOpen) {
             f2 = 1.0f - f2;
         }
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "driveSelect_menue_shift", f2);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_MENUE_SHIFT, f2);
     }
 
     private void animateDriveSelectGyro() {
@@ -1314,7 +1311,7 @@ implements AnimationListener {
         if (!this.gyroVisible) {
             f2 = 1.0f - f2;
         }
-        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "gyro_state", f2);
+        this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, DRIVE_SELECT_GYRO_STATE, f2);
     }
 
     private void animateDriveSelectGyroGrid(boolean bl) {
@@ -1326,7 +1323,7 @@ implements AnimationListener {
         if (!this.getDriveSelectGridAnimation().isAnimating() || !this.isVisible()) {
             f2 = 1.0f;
             bl = false;
-            this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#animateDriveSelectGyroGrid: Grid is set to default position ");
+            this.logChannel3DCar.log(10000000, "Car3DResourceHandler#animateDriveSelectGyroGrid: Grid is set to default position ");
         }
         boolean bl3 = this.gridPosition > (float)gridDefaultPosition;
         boolean bl4 = bl2 = this.gridPosition < (float)gridGyroPosition;
@@ -1335,16 +1332,16 @@ implements AnimationListener {
             bl3 = this.gridPosition < (float)gridDefaultPosition;
             bl2 = this.gridPosition > (float)gridGyroPosition;
         }
-        int n = 32959;
+        float f3 = -1.0f;
         if (!bl && bl3) {
-            n = (int)((float)gridDefaultPosition - (float)(gridDefaultPosition - gridGyroPosition) * (1.0f - f2));
+            f3 = (float)gridDefaultPosition - (float)(gridDefaultPosition - gridGyroPosition) * (1.0f - f2);
         } else if (bl && bl2) {
-            n = (int)((float)gridDefaultPosition - (float)(gridDefaultPosition - gridGyroPosition) * f2);
+            f3 = (float)gridDefaultPosition - (float)(gridDefaultPosition - gridGyroPosition) * f2;
         }
-        this.gridPosition = n == 32959 ? (int)this.gridPosition : n;
+        this.gridPosition = f3 == -1.0f ? this.gridPosition : f3;
         this.backgroundNode.setTranslation(this.gridPosition, 0.0f);
         if (this.logChannel3DCar.isDebug()) {
-            this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#animateDriveSelectGyroGrid: Grid is moved to x:  %1, progress: %2", (Object)String.valueOf(this.gridPosition), (Object)String.valueOf(f2));
+            this.logChannel3DCar.log(10000000, "Car3DResourceHandler#animateDriveSelectGyroGrid: Grid is moved to x:  %1, progress: %2", (Object)String.valueOf(this.gridPosition), (Object)String.valueOf(f2));
         }
     }
 
@@ -1354,13 +1351,12 @@ implements AnimationListener {
         if (this.gyroVisible) {
             f2 = 1.0f - f2;
         }
-        if ((iNode3D = this.getNode3D("driveSelect_Controls")) != null && this.terminal.getCarCodingHelper().isPHEVCar()) {
-            this.propertyCache.setProperty((INode)iNode3D, "phev_state", f2);
+        if ((iNode3D = this.getNode3D(DRIVE_SELECT_PROPERTY_NODE)) != null && this.terminal.getCarCodingHelper().isPHEVCar()) {
+            this.propertyCache.setProperty((INode)iNode3D, DRIVE_SELECT_PHEV_STATE, f2);
             iNode3D.dispose();
         }
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         if (n == 1) {
             this.lastCarMenuIndex = this.currentCarMenuIndex;
@@ -1470,7 +1466,7 @@ implements AnimationListener {
         if (this.targetViewStage == n) {
             return;
         }
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setViewSizeTargetChanged: stage = %1", (long)n);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setViewSizeTargetChanged: stage = %1", (long)n);
         this.lastViewStageValue = this.currentViewStageValue;
         if (n == 1) {
             if (this.currentMode == 0) {
@@ -1502,7 +1498,7 @@ implements AnimationListener {
     }
 
     public void setViewSizeAnimationFinished(int n) {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setViewSizeAnimationFinished: stage = %1", (long)n);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setViewSizeAnimationFinished: stage = %1", (long)n);
         this.setSmallStagePositionPercentage(n == 0 ? 0.0f : 1.0f);
         if (this.currentMode == 1) {
             this.setFXAAEnabled(1, FXAA_STILL);
@@ -1514,13 +1510,13 @@ implements AnimationListener {
     }
 
     public void setSmallStagePositionPercentage(float f2) {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#setSmallStagePositionPercentage: %1", (double)f2);
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#setSmallStagePositionPercentage: %1", (double)f2);
         if (!this.resourcesLoaded()) {
             return;
         }
         if (this.currentMode == 1) {
             if (this.selectedDriveSelectProfile == 8) {
-                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, "KB_Position", f2);
+                this.propertyCache.setProperty((INode)this.driveSelectPropertyHolderNode, SMALL_STAGE_PROPERTY_NAME, f2);
             }
             this.setDriveSelectSmallStagePercentage(f2);
         } else {
@@ -1547,7 +1543,7 @@ implements AnimationListener {
     }
 
     public void stopAnimations() {
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#stopAnimations");
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#stopAnimations");
         if (this.carMenuAnimation != null) {
             if (this.carMenuAnimation.isAnimating()) {
                 this.carMenuAnimation.stopAnimation();
@@ -1608,27 +1604,105 @@ implements AnimationListener {
 
     public void initializePHEVHandler() {
         this.carPHEVHandler = new Car3DPHEVHandler(this.terminal, this.ealManager, this);
-        this.logChannel3DCar.log(-2137614336, "Car3DResourceHandler#initializeCarPHEVHanlder");
+        this.logChannel3DCar.log(10000000, "Car3DResourceHandler#initializeCarPHEVHanlder");
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     static {
-        DEBUG_OUTPUT = false;
-        MAX_ANIMATION_TIME = Integer.valueOf(System.getProperty("3DCarMaxAnimationTime", "700"));
-        MIN_ANIMATION_TIME = Integer.valueOf(System.getProperty("3DCarMinAnimationTime", "100"));
-        OVERWRITE_FXAA = System.getProperty("3DCarFXAA") != null;
-        OVERWRITE_FXAA_VALUE = Boolean.getBoolean("3DCarFXAA");
-        OVERWRITE_SUPERSAMPLING = System.getProperty("3DCarSuperSamplingRate") != null;
-        OVERWRITE_SUPERSAMPLING_RATE = Float.valueOf(System.getProperty("3DCarSuperSamplingRate", "0.0")).floatValue();
-        SUPERSAMPLING_RATE_ANIMATED = OVERWRITE_SUPERSAMPLING ? OVERWRITE_SUPERSAMPLING_RATE : (float)49215;
-        SUPERSAMPLING_RATE_STILL = OVERWRITE_SUPERSAMPLING ? OVERWRITE_SUPERSAMPLING_RATE : 2.0f;
-        FXAA_STILL = OVERWRITE_FXAA ? OVERWRITE_FXAA_VALUE : true;
-        FXAA_ANIMATED = OVERWRITE_FXAA ? OVERWRITE_FXAA_VALUE : false;
-        WIDGET_ID_MAPPING_LHD = new String[]{"ACC", "Ambientebeleuchtung", "AmbientlightWizard", "Ambientebeleuchtung", "AmbientlightWizard", "AmbientlightWizard", "Aussenbeleuchtung", "Belegung_Lenkradtaste", "Einparkhilfe", "Fahrerassistenz", "Fahrzeugeinstellungen", "Fahrzeuginfo", "Klima", "Lane_Assist", "Oelstand", "Pausenempfehlung", "Audi_Pre_Sense", "Regensensor", "Reifendruckkontrolle", "Service_Kontrolle", "Serviceintervalle", "Audi_Sideassist", "Sitze", "Tempowarnung", "Umluftautomatik", "Verkehrszeichen", "Wischerwechsel", "Zentralverriegelung", "Zuheizer", "0_Default_Position", "Luftfeder_Anhaenger", "Nachtsichtassistenz", "HUD", "AdBlue", "Abstandwarner", "Anhaengermodus", "Fussraumtemperatur", "Stauassistenz", "Verbrauchstatistik", "Garagentoroeffner", "Luftfeder_Radwechsel", "PEA", "0_Default_Position", "KB_Position", "Sitzheizung", "Sitzlueftung", "Garagentor_Anlernen_Scheinwerfer_Links", "Garagentor_Anlernen_Audiringe", "Garagentor_Anlernen_Scheinwerfer_Rechts", "Garagentor_Anlernen_Innenspiegel", "Feedback_Fahrpedal", "Datum_Uhrzeit", "Fahrschulmodus"};
         firstTime = true;
         resourcesLoaded = false;
+    }
+
+    private class TranslationRotation {
+        private static final float enhancedTranslationDefaultValue = 257.0f;
+        public float transX;
+        public float transY;
+        public float transZ;
+        public float rotX;
+        public float rotY;
+        public float rotZ;
+        public float pointLight0TransX;
+        public float pointLight0TransY;
+        public float pointLight0TransZ;
+        public float pointLight1TransX;
+        public float pointLight1TransY;
+        public float pointLight1TransZ;
+        public float reflectionAdjustmentTransX;
+        public float reflectionAdjustmentTransY;
+        public float reflectionAdjustmentTransZ;
+        public float windowReflectionAdjustmentTransX;
+        public float windowReflectionAdjustmentTransY;
+        public float windowReflectionAdjustmentTransZ;
+        public float attenuationPointLight0;
+        public float attenuationPointLight1;
+        public float enhancedTranslationX = 257.0f;
+
+        private TranslationRotation() {
+        }
+
+        public void copyValuesFrom(TranslationRotation translationRotation) {
+            this.transX = translationRotation.transX;
+            this.transY = translationRotation.transY;
+            this.transZ = translationRotation.transZ;
+            this.rotX = translationRotation.rotX;
+            this.rotY = translationRotation.rotY;
+            this.rotZ = translationRotation.rotZ;
+            this.pointLight0TransX = translationRotation.pointLight0TransX;
+            this.pointLight0TransY = translationRotation.pointLight0TransY;
+            this.pointLight0TransZ = translationRotation.pointLight0TransZ;
+            this.pointLight1TransX = translationRotation.pointLight1TransX;
+            this.pointLight1TransY = translationRotation.pointLight1TransY;
+            this.pointLight1TransZ = translationRotation.pointLight1TransZ;
+            this.reflectionAdjustmentTransX = translationRotation.reflectionAdjustmentTransX;
+            this.reflectionAdjustmentTransY = translationRotation.reflectionAdjustmentTransY;
+            this.reflectionAdjustmentTransZ = translationRotation.reflectionAdjustmentTransZ;
+            this.windowReflectionAdjustmentTransX = translationRotation.windowReflectionAdjustmentTransX;
+            this.windowReflectionAdjustmentTransY = translationRotation.windowReflectionAdjustmentTransY;
+            this.windowReflectionAdjustmentTransZ = translationRotation.windowReflectionAdjustmentTransZ;
+            this.attenuationPointLight0 = translationRotation.attenuationPointLight0;
+            this.attenuationPointLight1 = translationRotation.attenuationPointLight1;
+            this.enhancedTranslationX = translationRotation.enhancedTranslationX;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("tx = ");
+            buffer.append(this.transX);
+            buffer.append(", ty = ");
+            buffer.append(this.transY);
+            buffer.append(", tz = ");
+            buffer.append(this.transZ);
+            buffer.append("\nrx = ");
+            buffer.append(this.rotX);
+            buffer.append(", ry = ");
+            buffer.append(this.rotY);
+            buffer.append(", rz = ");
+            buffer.append(this.rotZ);
+            buffer.append("\nPL0x = ");
+            buffer.append(this.pointLight0TransX);
+            buffer.append(", PL0y = ");
+            buffer.append(this.pointLight0TransY);
+            buffer.append(", PL0z = ");
+            buffer.append(this.pointLight0TransZ);
+            buffer.append("\nPL1x = ");
+            buffer.append(this.pointLight1TransX);
+            buffer.append(", PL1y = ");
+            buffer.append(this.pointLight1TransY);
+            buffer.append(", PL1z = ");
+            buffer.append(this.pointLight1TransZ);
+            buffer.append("\nRefAdjustx = ");
+            buffer.append(this.reflectionAdjustmentTransX);
+            buffer.append(", RefAdjusty = ");
+            buffer.append(this.reflectionAdjustmentTransY);
+            buffer.append(", RefAdjustz = ");
+            buffer.append(this.reflectionAdjustmentTransZ);
+            buffer.append("\nWindowRefAdjustx = ");
+            buffer.append(this.windowReflectionAdjustmentTransX);
+            buffer.append(", WindowRefAdjusty = ");
+            buffer.append(this.windowReflectionAdjustmentTransY);
+            buffer.append(", WindowRefAdjustz = ");
+            buffer.append(this.windowReflectionAdjustmentTransZ);
+            return buffer.toString();
+        }
     }
 }
 

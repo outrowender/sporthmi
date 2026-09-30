@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMobileEquipmentTopologyListener
 extends DSIListener {
-    default public void responseChangeTopology(int n) {
-    }
+    public void responseChangeTopology(int var1);
 
-    default public void updateTopology(int[] nArray, int n) {
-    }
+    public void updateTopology(int[] var1, int var2);
 
-    default public void updateUsage(int[] nArray, int n) {
-    }
+    public void updateUsage(int[] var1, int var2);
 }
 

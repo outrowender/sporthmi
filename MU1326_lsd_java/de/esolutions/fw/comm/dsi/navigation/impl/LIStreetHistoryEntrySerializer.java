@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.LIExtDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LIExtData;
 import org.dsi.ifc.navigation.LIStreetHistoryEntry;
 
 public class LIStreetHistoryEntrySerializer {
-    public static void putOptionalLIStreetHistoryEntry(ISerializer iSerializer, LIStreetHistoryEntry lIStreetHistoryEntry) {
+    public static void putOptionalLIStreetHistoryEntry(ISerializer iSerializer, LIStreetHistoryEntry lIStreetHistoryEntry) throws SerializerException {
         boolean bl = lIStreetHistoryEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LIStreetHistoryEntrySerializer {
         }
     }
 
-    public static void putOptionalLIStreetHistoryEntryVarArray(ISerializer iSerializer, LIStreetHistoryEntry[] lIStreetHistoryEntryArray) {
+    public static void putOptionalLIStreetHistoryEntryVarArray(ISerializer iSerializer, LIStreetHistoryEntry[] lIStreetHistoryEntryArray) throws SerializerException {
         boolean bl = lIStreetHistoryEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LIStreetHistoryEntrySerializer {
         }
     }
 
-    public static LIStreetHistoryEntry getOptionalLIStreetHistoryEntry(IDeserializer iDeserializer) {
+    public static LIStreetHistoryEntry getOptionalLIStreetHistoryEntry(IDeserializer iDeserializer) throws SerializerException {
         LIStreetHistoryEntry lIStreetHistoryEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class LIStreetHistoryEntrySerializer {
         return lIStreetHistoryEntry;
     }
 
-    public static LIStreetHistoryEntry[] getOptionalLIStreetHistoryEntryVarArray(IDeserializer iDeserializer) {
+    public static LIStreetHistoryEntry[] getOptionalLIStreetHistoryEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         LIStreetHistoryEntry[] lIStreetHistoryEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -21,19 +21,18 @@ extends DecoratorKeyHandler {
         this.forceClosing = bl;
     }
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
-        IWidgetLogChannel.logDrawerFocus.log(-2137614336, "MenuItemBuilder#createClosingKeyHandler#keyPressed widget=%1, event=%2", (Object)abstractWidgetController, (Object)keyEvent);
+        IWidgetLogChannel.logDrawerFocus.log(10000000, "MenuItemBuilder#createClosingKeyHandler#keyPressed widget=%1, event=%2", (Object)abstractWidgetController, (Object)keyEvent);
         super.keyPressed(abstractWidgetController, keyEvent);
         if (!keyEvent.isConsumed()) {
             if (this.forceClosing) {
-                IWidgetLogChannel.logDrawerFocus.log(1078071040, "MenuItemBuilder#createClosingKeyHandler#keyPressed forcing to close drawer although event was not consumed widget=%1, event=%2", (Object)abstractWidgetController, (Object)keyEvent);
+                IWidgetLogChannel.logDrawerFocus.log(1000000, "MenuItemBuilder#createClosingKeyHandler#keyPressed forcing to close drawer although event was not consumed widget=%1, event=%2", (Object)abstractWidgetController, (Object)keyEvent);
                 keyEvent.consume();
             } else {
                 return;
             }
         }
-        IWidgetLogChannel.logDrawerFocus.log(-2137614336, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close drawer");
+        IWidgetLogChannel.logDrawerFocus.log(10000000, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close drawer");
         IDrawerFocusManagerEvo iDrawerFocusManagerEvo = ((ExtHMITerminalEvo)abstractWidgetController.getTerminal()).getDrawerFocusManager();
         if (iDrawerFocusManagerEvo != null) {
             int n = iDrawerFocusManagerEvo.getDrawerState();
@@ -41,10 +40,10 @@ extends DecoratorKeyHandler {
                 abstractWidgetController.getTerminal().getIAnimationController().setDrawerWasClosed(true);
             }
             if (n == 4 && abstractWidgetController.isInSelectionDrawer()) {
-                IWidgetLogChannel.logDrawerFocus.log(-2137614336, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close selection drawer");
+                IWidgetLogChannel.logDrawerFocus.log(10000000, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close selection drawer");
                 iDrawerFocusManagerEvo.requestDrawerClose(4);
             } else if (n == 8 && abstractWidgetController.isInOptionDrawer()) {
-                IWidgetLogChannel.logDrawerFocus.log(-2137614336, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close option drawer");
+                IWidgetLogChannel.logDrawerFocus.log(10000000, "MenuItemBuilder#createClosingKeyHandler#keyPressed trying to close option drawer");
                 if (this.closeOptionDrawerAfterScreenConnected && !this.forceClosing) {
                     iDrawerFocusManagerEvo.requestDrawerClose(8);
                 } else {

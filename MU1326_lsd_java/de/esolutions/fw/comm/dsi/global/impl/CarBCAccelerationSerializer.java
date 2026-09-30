@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCAcceleration;
 
 public class CarBCAccelerationSerializer {
-    public static void putOptionalCarBCAcceleration(ISerializer iSerializer, CarBCAcceleration carBCAcceleration) {
+    public static void putOptionalCarBCAcceleration(ISerializer iSerializer, CarBCAcceleration carBCAcceleration) throws SerializerException {
         boolean bl = carBCAcceleration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCAccelerationSerializer {
         }
     }
 
-    public static void putOptionalCarBCAccelerationVarArray(ISerializer iSerializer, CarBCAcceleration[] carBCAccelerationArray) {
+    public static void putOptionalCarBCAccelerationVarArray(ISerializer iSerializer, CarBCAcceleration[] carBCAccelerationArray) throws SerializerException {
         boolean bl = carBCAccelerationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCAccelerationSerializer {
         }
     }
 
-    public static CarBCAcceleration getOptionalCarBCAcceleration(IDeserializer iDeserializer) {
+    public static CarBCAcceleration getOptionalCarBCAcceleration(IDeserializer iDeserializer) throws SerializerException {
         CarBCAcceleration carBCAcceleration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCAccelerationSerializer {
         return carBCAcceleration;
     }
 
-    public static CarBCAcceleration[] getOptionalCarBCAccelerationVarArray(IDeserializer iDeserializer) {
+    public static CarBCAcceleration[] getOptionalCarBCAccelerationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCAcceleration[] carBCAccelerationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

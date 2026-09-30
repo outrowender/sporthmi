@@ -9,12 +9,10 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.PartialConversionHelperWi
 
 public class PartialConversionHelperWithoutUndoImpl
 extends PartialConversionHelperWithUndoImpl {
-    @Override
     public String getPartialConversion(String string) {
         return string;
     }
 
-    @Override
     public void handlePartialConversion(String string, ITouchInputDataAsia iTouchInputDataAsia, IWordPredictionAccess iWordPredictionAccess) {
         if (!this.userSelectedConversions.isEmpty()) {
             for (int i2 = 0; i2 < this.userSelectedConversions.size(); ++i2) {
@@ -25,7 +23,6 @@ extends PartialConversionHelperWithUndoImpl {
         this.userSelectedConversions.clear();
     }
 
-    @Override
     protected void handleEmptySpelling(String string, ITouchInputDataAsia iTouchInputDataAsia) {
         iTouchInputDataAsia.clearUnconvertedCharacters(false);
     }

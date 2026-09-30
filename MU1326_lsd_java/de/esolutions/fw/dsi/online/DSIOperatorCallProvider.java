@@ -26,28 +26,23 @@ implements DSIOperatorCall {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIOperatorCall == null ? (class$org$dsi$ifc$online$DSIOperatorCall = DSIOperatorCallProvider.class$("org.dsi.ifc.online.DSIOperatorCall")) : class$org$dsi$ifc$online$DSIOperatorCall).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOperatorCallProxy(this.instance, (DSIOperatorCallReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestOperatorCallResult(String string, int n) {
         try {
             this.proxy.requestOperatorCallResult(string, n);
@@ -57,7 +52,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void requestOperatorPhoneNumber(int n, OperatorCallData operatorCallData, boolean bl) {
         try {
             this.proxy.requestOperatorPhoneNumber(n, operatorCallData, bl);
@@ -67,7 +61,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -77,7 +70,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -87,7 +79,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -97,7 +88,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -107,7 +97,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -127,7 +115,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -137,7 +124,6 @@ implements DSIOperatorCall {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

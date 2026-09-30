@@ -7,6 +7,6 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface SmsTriggerType
 extends IEnum {
-    public static final int SMS_TRIGGER_JOB_PROCESSING;
+    public static final int SMS_TRIGGER_JOB_PROCESSING = 0;
 }
 

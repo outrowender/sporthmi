@@ -6,92 +6,66 @@ package de.esolutions.fw.comm.asi.hmisync.sound;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeValue;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncSoundReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "7ba5c63b-4ccf-465c-abe4-f731a4967351";
+    public static final String IPL_COMM_INTERFACE_KEY = "da12fd01-0f0a-58b3-ba2e-73b6664e9062";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.2.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.1.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateSoundState(int n, boolean bl) {
-    }
+    public void updateSoundState(int var1, boolean var2) throws MethodException;
 
-    default public void updateAmplifier(int n, boolean bl) {
-    }
+    public void updateAmplifier(int var1, boolean var2) throws MethodException;
 
-    default public void updateBassRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateBassRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateBassValue(int n, boolean bl) {
-    }
+    public void updateBassValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateTrebleRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateTrebleRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateTrebleValue(int n, boolean bl) {
-    }
+    public void updateTrebleValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateBalanceRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateBalanceRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateBalanceValue(int n, boolean bl) {
-    }
+    public void updateBalanceValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateFaderRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateFaderRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateFaderValue(int n, boolean bl) {
-    }
+    public void updateFaderValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateSubwooferRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateSubwooferRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateSubwooferValue(int n, boolean bl) {
-    }
+    public void updateSubwooferValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateSurroundRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateSurroundRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateSurroundValue(int n, boolean bl) {
-    }
+    public void updateSurroundValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateNoiseCompensationRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateNoiseCompensationRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateNoiseCompensationValue(int n, boolean bl) {
-    }
+    public void updateNoiseCompensationValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateThreeDModeRange(SoundRange soundRange, boolean bl) {
-    }
+    public void updateThreeDModeRange(SoundRange var1, boolean var2) throws MethodException;
 
-    default public void updateThreeDModeValue(int n, boolean bl) {
-    }
+    public void updateThreeDModeValue(int var1, boolean var2) throws MethodException;
 
-    default public void updateSoundShapeRange(SoundShapeRange soundShapeRange, boolean bl) {
-    }
+    public void updateSoundShapeRange(SoundShapeRange var1, boolean var2) throws MethodException;
 
-    default public void updateSoundShapeValue(SoundShapeValue soundShapeValue, boolean bl) {
-    }
+    public void updateSoundShapeValue(SoundShapeValue var1, boolean var2) throws MethodException;
 
-    default public void updatePresetPositionList(int n, boolean bl) {
-    }
+    public void updatePresetPositionList(int var1, boolean var2) throws MethodException;
 
-    default public void updatePresetPosition(int n, boolean bl) {
-    }
+    public void updatePresetPosition(int var1, boolean var2) throws MethodException;
 
-    default public void updatePresetEQList(int n, boolean bl) {
-    }
+    public void updatePresetEQList(int var1, boolean var2) throws MethodException;
 
-    default public void updatePresetEQ(int n, boolean bl) {
-    }
+    public void updatePresetEQ(int var1, boolean var2) throws MethodException;
 }
 

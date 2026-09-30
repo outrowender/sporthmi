@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.AdditionalTurnListIcon;
 
 public class AdditionalTurnListIconSerializer {
-    public static void putOptionalAdditionalTurnListIcon(ISerializer iSerializer, AdditionalTurnListIcon additionalTurnListIcon) {
+    public static void putOptionalAdditionalTurnListIcon(ISerializer iSerializer, AdditionalTurnListIcon additionalTurnListIcon) throws SerializerException {
         boolean bl = additionalTurnListIcon == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AdditionalTurnListIconSerializer {
         }
     }
 
-    public static void putOptionalAdditionalTurnListIconVarArray(ISerializer iSerializer, AdditionalTurnListIcon[] additionalTurnListIconArray) {
+    public static void putOptionalAdditionalTurnListIconVarArray(ISerializer iSerializer, AdditionalTurnListIcon[] additionalTurnListIconArray) throws SerializerException {
         boolean bl = additionalTurnListIconArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AdditionalTurnListIconSerializer {
         }
     }
 
-    public static AdditionalTurnListIcon getOptionalAdditionalTurnListIcon(IDeserializer iDeserializer) {
+    public static AdditionalTurnListIcon getOptionalAdditionalTurnListIcon(IDeserializer iDeserializer) throws SerializerException {
         AdditionalTurnListIcon additionalTurnListIcon = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AdditionalTurnListIconSerializer {
         return additionalTurnListIcon;
     }
 
-    public static AdditionalTurnListIcon[] getOptionalAdditionalTurnListIconVarArray(IDeserializer iDeserializer) {
+    public static AdditionalTurnListIcon[] getOptionalAdditionalTurnListIconVarArray(IDeserializer iDeserializer) throws SerializerException {
         AdditionalTurnListIcon[] additionalTurnListIconArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

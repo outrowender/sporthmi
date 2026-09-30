@@ -3,22 +3,19 @@
  */
 package edu.emory.mathcs.backport.java.util.concurrent;
 
+import edu.emory.mathcs.backport.java.util.concurrent.ExecutionException;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
+import edu.emory.mathcs.backport.java.util.concurrent.TimeoutException;
 
 public interface Future {
-    default public boolean cancel(boolean bl) {
-    }
+    public boolean cancel(boolean var1);
 
-    default public boolean isCancelled() {
-    }
+    public boolean isCancelled();
 
-    default public boolean isDone() {
-    }
+    public boolean isDone();
 
-    default public Object get() {
-    }
+    public Object get() throws InterruptedException, ExecutionException;
 
-    default public Object get(long l, TimeUnit timeUnit) {
-    }
+    public Object get(long var1, TimeUnit var3) throws InterruptedException, ExecutionException, TimeoutException;
 }
 

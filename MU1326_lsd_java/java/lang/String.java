@@ -1,13 +1,13 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang;
 
 import com.ibm.oti.io.CharacterConverter;
 import com.ibm.oti.util.PriviAction;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.AccessController;
@@ -18,9 +18,9 @@ public final class String
 implements Serializable,
 Comparable,
 CharSequence {
-    private static final long serialVersionUID;
-    public static final Comparator CASE_INSENSITIVE_ORDER;
-    private static final char[] ascii;
+    private static final long serialVersionUID = -6849794470754667710L;
+    public static final Comparator CASE_INSENSITIVE_ORDER = new CaseInsensitiveComparator();
+    private static final char[] ascii = new char[128];
     private final char[] value;
     private final int offset;
     private final int count;
@@ -30,8 +30,6 @@ CharSequence {
     private static final char[] upperValues;
 
     static {
-        CASE_INSENSITIVE_ORDER = new String$CaseInsensitiveComparator();
-        ascii = new char[128];
         int n = 0;
         while (n < ascii.length) {
             String.ascii[n] = (char)n;
@@ -68,7 +66,7 @@ CharSequence {
         this.count = this.value.length;
     }
 
-    public String(byte[] byArray, int n, int n2, String string) {
+    public String(byte[] byArray, int n, int n2, String string) throws UnsupportedEncodingException {
         if (string == null) {
             throw new NullPointerException();
         }
@@ -81,7 +79,7 @@ CharSequence {
         this.count = this.value.length;
     }
 
-    public String(byte[] byArray, String string) {
+    public String(byte[] byArray, String string) throws UnsupportedEncodingException {
         this(byArray, 0, byArray.length, string);
     }
 
@@ -197,7 +195,6 @@ CharSequence {
         this.count = n6;
     }
 
-    @Override
     public char charAt(int n) {
         if (n >= 0 && n < this.count) {
             return this.value[this.offset + n];
@@ -205,7 +202,6 @@ CharSequence {
         throw new StringIndexOutOfBoundsException();
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((String)object);
     }
@@ -317,11 +313,11 @@ CharSequence {
         return String.defaultConverter().convert(this.value, this.offset, this.count);
     }
 
-    public byte[] getBytes(String string) {
+    public byte[] getBytes(String string) throws UnsupportedEncodingException {
         return this.getConverter(string).convert(this.value, this.offset, this.count);
     }
 
-    private CharacterConverter getConverter(String string) {
+    private CharacterConverter getConverter(String string) throws UnsupportedEncodingException {
         CharacterConverter characterConverter = lastConverter;
         if (characterConverter == null || !characterConverter.isCalled(string)) {
             characterConverter = CharacterConverter.getConverter(string);
@@ -348,15 +344,13 @@ CharSequence {
         return this.hashCode;
     }
 
-    private native int hashCodeImpl() {
-    }
+    private native int hashCodeImpl();
 
     public int indexOf(int n) {
         return this.indexOf(n, 0);
     }
 
-    public native int indexOf(int n, int n2) {
-    }
+    public native int indexOf(int var1, int var2);
 
     public int indexOf(String string) {
         return this.indexOf(string, 0);
@@ -393,15 +387,13 @@ CharSequence {
         return n < this.count ? n : this.count;
     }
 
-    public native String intern() {
-    }
+    public native String intern();
 
     public int lastIndexOf(int n) {
         return this.lastIndexOf(n, this.count - 1);
     }
 
-    public native int lastIndexOf(int n, int n2) {
-    }
+    public native int lastIndexOf(int var1, int var2);
 
     public int lastIndexOf(String string) {
         return this.lastIndexOf(string, this.count);
@@ -438,13 +430,11 @@ CharSequence {
         return -1;
     }
 
-    @Override
     public int length() {
         return this.count;
     }
 
-    public native boolean regionMatches(int n, String string, int n2, int n3) {
-    }
+    public native boolean regionMatches(int var1, String var2, int var3, int var4);
 
     public boolean regionMatches(boolean bl, int n, String string, int n2, int n3) {
         if (!bl) {
@@ -579,7 +569,6 @@ lbl15:
         return this;
     }
 
-    @Override
     public String toString() {
         return this;
     }
@@ -620,11 +609,11 @@ lbl15:
                 if (n2 == 0) {
                     n2 = -1;
                 }
-            } else if (n >= 0xFB0000) {
-                if (n <= 117112832) {
-                    n2 = 90 + n - 0xFB0000;
-                } else if (n >= 335216640 && n <= 402325504) {
-                    n2 = 97 + n - 335216640;
+            } else if (n >= 64256) {
+                if (n <= 64262) {
+                    n2 = 90 + n - 64256;
+                } else if (n >= 64275 && n <= 64279) {
+                    n2 = 97 + n - 64275;
                 }
             }
         }
@@ -641,7 +630,7 @@ lbl15:
             int n4;
             char c2 = this.value[n2];
             int n5 = -1;
-            if (c2 >= '\u00df' && c2 <= '\u17fb0000') {
+            if (c2 >= '\u00df' && c2 <= '\ufb17') {
                 n5 = this.upperIndex(c2);
             }
             if (n5 == -1) {
@@ -720,7 +709,7 @@ lbl15:
     }
 
     public static String valueOf(double d2) {
-        return Double.toString((double)d2);
+        return Double.toString(d2);
     }
 
     public static String valueOf(float f2) {
@@ -759,7 +748,6 @@ lbl15:
         }
     }
 
-    @Override
     public CharSequence subSequence(int n, int n2) {
         return this.substring(n, n2);
     }
@@ -802,16 +790,46 @@ lbl15:
         return this.value;
     }
 
-    static /* synthetic */ char[] access$0(String string) {
-        return string.value;
+    static class ConsolePrintStream
+    extends PrintStream {
+        private static CharacterConverter converter;
+
+        static {
+            String string = System.getProperty("console.encoding");
+            if (string == null) {
+                string = "ISO8859_1";
+            }
+            converter = CharacterConverter.getDefaultConverter(string);
+        }
+
+        public ConsolePrintStream(OutputStream outputStream) {
+            super(outputStream, true);
+        }
+
+        public void print(String string) {
+            if (string == null) {
+                string = "null";
+            }
+            try {
+                this.write(converter.convert(string.value, string.offset, string.count));
+            }
+            catch (IOException iOException) {
+                this.setError();
+            }
+        }
     }
 
-    static /* synthetic */ int access$1(String string) {
-        return string.offset;
-    }
+    private static final class CaseInsensitiveComparator
+    implements Comparator,
+    Serializable {
+        static final long serialVersionUID = 8575799808933029326L;
 
-    static /* synthetic */ int access$2(String string) {
-        return string.count;
+        CaseInsensitiveComparator() {
+        }
+
+        public int compare(Object object, Object object2) {
+            return ((String)object).compareToIgnoreCase((String)object2);
+        }
     }
 }
 

@@ -7,16 +7,12 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.ITouchInputData;
 
 public interface ITouchInputDataArabia
 extends ITouchInputData {
-    default public boolean isRTL() {
-    }
+    public boolean isRTL();
 
-    default public boolean isDeleteDirectionFromRightToLeft() {
-    }
+    public boolean isDeleteDirectionFromRightToLeft();
 
-    default public void setSystemLanguageArabic(boolean bl) {
-    }
+    public void setSystemLanguageArabic(boolean var1);
 
-    default public boolean isArabicSpecialChar(char c2) {
-    }
+    public boolean isArabicSpecialChar(char var1);
 }
 

@@ -40,7 +40,7 @@ public class DirectoryEntry {
     }
 
     public String toString() {
-        return new StringBuffer().append("[").append(this.instanceID.toString()).append("@agent=").append(this.agentID).append("]").toString();
+        return "[" + this.instanceID.toString() + "@agent=" + this.agentID + "]";
     }
 }
 

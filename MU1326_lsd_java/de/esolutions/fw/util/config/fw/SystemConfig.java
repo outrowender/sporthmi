@@ -53,7 +53,7 @@ public class SystemConfig {
         this.myProcName = string;
         this.fwConfig = FrameworkConfigProvider.getInstance();
         if (!this.fwConfig.isValid()) {
-            this.failString = new StringBuffer().append("No valid framework config: ").append(this.fwConfig.getFailString()).toString();
+            this.failString = "No valid framework config: " + this.fwConfig.getFailString();
             return;
         }
         this.doTraceConfig = this.fwConfig.doTraceConfig();
@@ -184,7 +184,7 @@ public class SystemConfig {
         for (n = 0; n < this.nodeNames.length; ++n) {
             ConfigValue configValue = this.nodesConfig.getDictValue(this.nodeNames[n]);
             if (configValue == null || !configValue.isDictionary()) {
-                this.failString = new StringBuffer().append("Invalid node found: ").append(this.nodeNames[n]).toString();
+                this.failString = "Invalid node found: " + this.nodeNames[n];
                 return false;
             }
             this.nodeNameMap.put(this.nodeNames[n], configValue);
@@ -203,19 +203,19 @@ public class SystemConfig {
             ArrayList arrayList;
             ConfigValue configValue = this.procsConfig.getArrayValue(i2);
             if (configValue == null || !configValue.isDictionary()) {
-                this.failString = new StringBuffer().append("Node at index ").append(i2).append(" is ").append(configValue).toString();
+                this.failString = "Node at index " + i2 + " is " + configValue;
                 return false;
             }
             ConfigValue configValue2 = configValue.getDictValue("name");
             if (configValue2 == null || !configValue2.isString()) {
-                this.failString = new StringBuffer().append("Proc 'name' at index ").append(i2).append(" is ").append(configValue2).toString();
+                this.failString = "Proc 'name' at index " + i2 + " is " + configValue2;
                 return false;
             }
             String string = configValue2.getString();
             this.procNameMap.put(string, configValue);
             ConfigValue configValue3 = configValue.getDictValue("id");
             if (configValue3 == null || !configValue3.isInteger()) {
-                this.failString = new StringBuffer().append("Proc 'id' at '").append(string).append("' is ").append(configValue3).toString();
+                this.failString = "Proc 'id' at '" + string + "' is " + configValue3;
                 return false;
             }
             Integer n2 = configValue3.getInteger();
@@ -223,13 +223,13 @@ public class SystemConfig {
             this.procIdNameMap.put(n2, string);
             ConfigValue configValue4 = configValue.getDictValue("node");
             if (configValue4 == null || !configValue4.isString()) {
-                this.failString = new StringBuffer().append("Proc '").append(string).append("' has invalid 'node' ").append(configValue4).toString();
+                this.failString = "Proc '" + string + "' has invalid 'node' " + configValue4;
                 return false;
             }
             String string2 = configValue4.getString();
             ConfigValue configValue5 = (ConfigValue)this.nodeNameMap.get(string2);
             if (configValue5 == null) {
-                this.failString = new StringBuffer().append("Proc '").append(string).append("' has non-existing node ").append(string2).toString();
+                this.failString = "Proc '" + string + "' has non-existing node " + string2;
                 return false;
             }
             this.procNodeMap.put(configValue, configValue5);
@@ -255,7 +255,7 @@ public class SystemConfig {
             arrayList.add(string);
         }
         if (this.myProcConfig == null) {
-            this.failString = new StringBuffer().append("My own Proc '").append(this.myProcName).append("' was not found in config").toString();
+            this.failString = "My own Proc '" + this.myProcName + "' was not found in config";
             return false;
         }
         if (this.myNodeConfig == null) {
@@ -264,7 +264,7 @@ public class SystemConfig {
         }
         if (this.doTraceConfig) {
             long l2 = iTimeSource.getCurrentTime();
-            System.out.println(new StringBuffer().append("SystemConfig: parse time ").append(l2 - l).append(" ms").toString());
+            System.out.println("SystemConfig: parse time " + (l2 - l) + " ms");
         }
         return true;
     }

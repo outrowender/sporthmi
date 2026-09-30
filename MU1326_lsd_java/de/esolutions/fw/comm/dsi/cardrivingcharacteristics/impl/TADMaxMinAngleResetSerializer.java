@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.TADMaxMinAngleReset;
 
 public class TADMaxMinAngleResetSerializer {
-    public static void putOptionalTADMaxMinAngleReset(ISerializer iSerializer, TADMaxMinAngleReset tADMaxMinAngleReset) {
+    public static void putOptionalTADMaxMinAngleReset(ISerializer iSerializer, TADMaxMinAngleReset tADMaxMinAngleReset) throws SerializerException {
         boolean bl = tADMaxMinAngleReset == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TADMaxMinAngleResetSerializer {
         }
     }
 
-    public static void putOptionalTADMaxMinAngleResetVarArray(ISerializer iSerializer, TADMaxMinAngleReset[] tADMaxMinAngleResetArray) {
+    public static void putOptionalTADMaxMinAngleResetVarArray(ISerializer iSerializer, TADMaxMinAngleReset[] tADMaxMinAngleResetArray) throws SerializerException {
         boolean bl = tADMaxMinAngleResetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TADMaxMinAngleResetSerializer {
         }
     }
 
-    public static TADMaxMinAngleReset getOptionalTADMaxMinAngleReset(IDeserializer iDeserializer) {
+    public static TADMaxMinAngleReset getOptionalTADMaxMinAngleReset(IDeserializer iDeserializer) throws SerializerException {
         TADMaxMinAngleReset tADMaxMinAngleReset = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TADMaxMinAngleResetSerializer {
         return tADMaxMinAngleReset;
     }
 
-    public static TADMaxMinAngleReset[] getOptionalTADMaxMinAngleResetVarArray(IDeserializer iDeserializer) {
+    public static TADMaxMinAngleReset[] getOptionalTADMaxMinAngleResetVarArray(IDeserializer iDeserializer) throws SerializerException {
         TADMaxMinAngleReset[] tADMaxMinAngleResetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -25,28 +25,23 @@ implements DSIBrowserBoardbook {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$browser$DSIBrowserBoardbook == null ? (class$org$dsi$ifc$browser$DSIBrowserBoardbook = DSIBrowserBoardbookProvider.class$("org.dsi.ifc.browser.DSIBrowserBoardbook")) : class$org$dsi$ifc$browser$DSIBrowserBoardbook).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIBrowserBoardbookProxy(this.instance, (DSIBrowserBoardbookReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void startBoardbook(int n, String string) {
         try {
             this.proxy.startBoardbook(n, string);
@@ -56,7 +51,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -66,7 +60,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void openPage(int n) {
         try {
             this.proxy.openPage(n);
@@ -76,7 +69,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void search(String string, int n) {
         try {
             this.proxy.search(string, n);
@@ -86,7 +78,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -96,7 +87,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -106,7 +96,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -116,7 +105,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -126,7 +114,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -136,7 +123,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -146,7 +132,6 @@ implements DSIBrowserBoardbook {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

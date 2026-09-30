@@ -18,6 +18,7 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.SocketImpl;
 import java.net.SocketImplFactory;
+import java.net.UnknownHostException;
 import java.security.AccessController;
 
 public class Socket {
@@ -30,55 +31,54 @@ public class Socket {
     private boolean isInputShutdown = false;
     private boolean isOutputShutdown = false;
     private Object connectLock = new Object();
-    static final int MULTICAST_IF;
-    static final int MULTICAST_TTL;
-    static final int TCP_NODELAY;
-    static final int FLAG_SHUTDOWN;
-    static final int FLAG_BIND;
+    static final int MULTICAST_IF = 1;
+    static final int MULTICAST_TTL = 2;
+    static final int TCP_NODELAY = 4;
+    static final int FLAG_SHUTDOWN = 8;
+    static final int FLAG_BIND = 16;
 
     static {
         Socket.oneTimeInitialization(true);
     }
 
-    private static native void oneTimeInitialization(boolean bl) {
-    }
+    private static native void oneTimeInitialization(boolean var0);
 
     public Socket() {
         this.impl = factory != null ? factory.createSocketImpl() : new PlainSocketImpl2();
     }
 
-    public Socket(String string, int n) {
+    public Socket(String string, int n) throws UnknownHostException, IOException {
         this();
         InetAddress inetAddress = InetAddress.getByName(string);
         this.checkDestination(inetAddress, n);
         this.startupSocket(inetAddress, n, null, 0, true);
     }
 
-    public Socket(String string, int n, InetAddress inetAddress, int n2) {
+    public Socket(String string, int n, InetAddress inetAddress, int n2) throws IOException {
         this();
         InetAddress inetAddress2 = InetAddress.getByName(string);
         this.checkDestination(inetAddress2, n);
         this.startupSocket(inetAddress2, n, inetAddress, n2, true);
     }
 
-    public Socket(InetAddress inetAddress, int n) {
+    public Socket(InetAddress inetAddress, int n) throws IOException {
         this();
         this.checkDestination(inetAddress, n);
         this.startupSocket(inetAddress, n, null, 0, true);
     }
 
-    public Socket(InetAddress inetAddress, int n, InetAddress inetAddress2, int n2) {
+    public Socket(InetAddress inetAddress, int n, InetAddress inetAddress2, int n2) throws IOException {
         this();
         this.checkDestination(inetAddress, n);
         this.startupSocket(inetAddress, n, inetAddress2, n2, true);
     }
 
-    protected Socket(SocketImpl socketImpl) {
+    protected Socket(SocketImpl socketImpl) throws SocketException {
         this.impl = socketImpl;
     }
 
     void checkDestination(InetAddress inetAddress, int n) {
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0032"));
         }
         SecurityManager securityManager = System.getSecurityManager();
@@ -87,7 +87,7 @@ public class Socket {
         }
     }
 
-    public synchronized void close() {
+    public synchronized void close() throws IOException {
         this.isClosed = true;
         this.impl.close();
     }
@@ -99,7 +99,7 @@ public class Socket {
         return this.impl.getInetAddress();
     }
 
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         this.checkClosedAndCreate(false);
         if (this.isInputShutdown()) {
             throw new SocketException(Msg.getString("K0321"));
@@ -107,7 +107,7 @@ public class Socket {
         return this.impl.getInputStream();
     }
 
-    public boolean getKeepAlive() {
+    public boolean getKeepAlive() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Boolean)this.impl.getOption(8);
     }
@@ -126,7 +126,7 @@ public class Socket {
         return this.impl.getLocalPort();
     }
 
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws IOException {
         this.checkClosedAndCreate(false);
         return this.impl.getOutputStream();
     }
@@ -138,55 +138,49 @@ public class Socket {
         return this.impl.getPort();
     }
 
-    public int getSoLinger() {
+    public int getSoLinger() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(128);
     }
 
-    public synchronized int getReceiveBufferSize() {
+    public synchronized int getReceiveBufferSize() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(4098);
     }
 
-    public synchronized int getSendBufferSize() {
+    public synchronized int getSendBufferSize() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(4097);
     }
 
-    public synchronized int getSoTimeout() {
+    public synchronized int getSoTimeout() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Integer)this.impl.getOption(4102);
     }
 
-    public boolean getTcpNoDelay() {
+    public boolean getTcpNoDelay() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Boolean)this.impl.getOption(1);
     }
 
-    static native InetAddress getSocketLocalAddressImpl(FileDescriptor fileDescriptor, boolean bl) {
-    }
+    static native InetAddress getSocketLocalAddressImpl(FileDescriptor var0, boolean var1);
 
-    static native int getSocketLocalPortImpl(FileDescriptor fileDescriptor, boolean bl) {
-    }
+    static native int getSocketLocalPortImpl(FileDescriptor var0, boolean var1);
 
-    static native Object getSocketOptionImpl(FileDescriptor fileDescriptor, int n) {
-    }
+    static native Object getSocketOptionImpl(FileDescriptor var0, int var1);
 
-    static native void setSocketOptionImpl(FileDescriptor fileDescriptor, int n, Object object) {
-    }
+    static native void setSocketOptionImpl(FileDescriptor var0, int var1, Object var2);
 
-    public void setKeepAlive(boolean bl) {
+    public void setKeepAlive(boolean bl) throws SocketException {
         this.checkClosedAndCreate(true);
         this.impl.setOption(8, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    static native int getSocketFlags() {
-    }
+    static native int getSocketFlags();
 
-    static native void socketCloseImpl(FileDescriptor fileDescriptor) {
-    }
+    static native void socketCloseImpl(FileDescriptor var0);
 
-    public static synchronized void setSocketImplFactory(SocketImplFactory socketImplFactory) {
+    public static synchronized void setSocketImplFactory(SocketImplFactory socketImplFactory) throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSetFactory();
@@ -197,7 +191,7 @@ public class Socket {
         factory = socketImplFactory;
     }
 
-    public synchronized void setSendBufferSize(int n) {
+    public synchronized void setSendBufferSize(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 1) {
             throw new IllegalArgumentException(Msg.getString("K0035"));
@@ -205,7 +199,7 @@ public class Socket {
         this.impl.setOption(4097, new Integer(n));
     }
 
-    public synchronized void setReceiveBufferSize(int n) {
+    public synchronized void setReceiveBufferSize(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 1) {
             throw new IllegalArgumentException(Msg.getString("K0035"));
@@ -213,17 +207,17 @@ public class Socket {
         this.impl.setOption(4098, new Integer(n));
     }
 
-    public void setSoLinger(boolean bl, int n) {
+    public void setSoLinger(boolean bl, int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (!bl || n >= 0) {
         } else {
             throw new IllegalArgumentException(Msg.getString("K0045"));
         }
-        int n2 = bl ? (-65536 < n ? -65536 : n) : -1;
+        int n2 = bl ? (65535 < n ? 65535 : n) : -1;
         this.impl.setOption(128, new Integer(n2));
     }
 
-    public synchronized void setSoTimeout(int n) {
+    public synchronized void setSoTimeout(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 0) {
             throw new IllegalArgumentException(Msg.getString("K0036"));
@@ -231,7 +225,7 @@ public class Socket {
         this.impl.setOption(4102, new Integer(n));
     }
 
-    public void setTcpNoDelay(boolean bl) {
+    public void setTcpNoDelay(boolean bl) throws SocketException {
         this.checkClosedAndCreate(true);
         this.impl.setOption(1, new Boolean(bl));
     }
@@ -239,8 +233,8 @@ public class Socket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    void startupSocket(InetAddress inetAddress, int n, InetAddress inetAddress2, int n2, boolean bl) {
-        if (n2 < 0 || n2 > -65536) {
+    void startupSocket(InetAddress inetAddress, int n, InetAddress inetAddress2, int n2, boolean bl) throws IOException {
+        if (n2 < 0 || n2 > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0046"));
         }
         InetAddress inetAddress3 = inetAddress2 == null ? InetAddress.ANY : inetAddress2;
@@ -270,13 +264,13 @@ public class Socket {
         return this.impl.toString();
     }
 
-    public void shutdownInput() {
+    public void shutdownInput() throws IOException {
         this.checkClosedAndCreate(false);
         this.impl.shutdownInput();
         this.isInputShutdown = true;
     }
 
-    public void shutdownOutput() {
+    public void shutdownOutput() throws IOException {
         this.checkClosedAndCreate(false);
         this.impl.shutdownOutput();
         this.isOutputShutdown = true;
@@ -285,7 +279,7 @@ public class Socket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void checkClosedAndCreate(boolean bl) {
+    private void checkClosedAndCreate(boolean bl) throws SocketException {
         if (this.isClosed()) {
             throw new SocketException(Msg.getString("K003d"));
         }
@@ -342,7 +336,7 @@ public class Socket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void bind(SocketAddress socketAddress) {
+    public void bind(SocketAddress socketAddress) throws IOException {
         Object object;
         this.checkClosedAndCreate(true);
         if (this.isBound()) {
@@ -352,7 +346,7 @@ public class Socket {
         InetAddress inetAddress = InetAddress.ANY;
         if (socketAddress != null) {
             if (!(socketAddress instanceof InetSocketAddress)) {
-                throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+                throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
             }
             object = (InetSocketAddress)socketAddress;
             inetAddress = ((InetSocketAddress)object).getAddress();
@@ -376,14 +370,14 @@ public class Socket {
         }
     }
 
-    public void connect(SocketAddress socketAddress) {
+    public void connect(SocketAddress socketAddress) throws IOException {
         this.connect(socketAddress, 0);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void connect(SocketAddress socketAddress, int n) {
+    public void connect(SocketAddress socketAddress, int n) throws IOException {
         this.checkClosedAndCreate(true);
         if (n < 0) {
             throw new IllegalArgumentException(Msg.getString("K0036"));
@@ -395,7 +389,7 @@ public class Socket {
             throw new IllegalArgumentException(Msg.getString("K0318"));
         }
         if (!(socketAddress instanceof InetSocketAddress)) {
-            throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
         }
         InetSocketAddress inetSocketAddress = (InetSocketAddress)socketAddress;
         InetAddress inetAddress = inetSocketAddress.getAddress();
@@ -431,27 +425,27 @@ public class Socket {
         return this.isOutputShutdown;
     }
 
-    public void setReuseAddress(boolean bl) {
+    public void setReuseAddress(boolean bl) throws SocketException {
         this.checkClosedAndCreate(true);
         this.impl.setOption(4, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    public boolean getReuseAddress() {
+    public boolean getReuseAddress() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Boolean)this.impl.getOption(4);
     }
 
-    public void setOOBInline(boolean bl) {
+    public void setOOBInline(boolean bl) throws SocketException {
         this.checkClosedAndCreate(true);
         this.impl.setOption(4099, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    public boolean getOOBInline() {
+    public boolean getOOBInline() throws SocketException {
         this.checkClosedAndCreate(true);
         return (Boolean)this.impl.getOption(4099);
     }
 
-    public void setTrafficClass(int n) {
+    public void setTrafficClass(int n) throws SocketException {
         this.checkClosedAndCreate(true);
         if (n < 0 || n > 255) {
             throw new IllegalArgumentException();
@@ -459,12 +453,12 @@ public class Socket {
         this.impl.setOption(3, new Integer(n));
     }
 
-    public int getTrafficClass() {
+    public int getTrafficClass() throws SocketException {
         this.checkClosedAndCreate(true);
         return ((Number)this.impl.getOption(3)).intValue();
     }
 
-    public void sendUrgentData(int n) {
+    public void sendUrgentData(int n) throws IOException {
         if (!this.impl.supportsUrgentData()) {
             throw new SocketException(Msg.getString("K0333"));
         }

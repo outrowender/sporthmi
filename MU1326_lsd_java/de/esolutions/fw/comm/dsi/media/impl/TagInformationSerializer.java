@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.media.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.media.TagInformation;
 
 public class TagInformationSerializer {
-    public static void putOptionalTagInformation(ISerializer iSerializer, TagInformation tagInformation) {
+    public static void putOptionalTagInformation(ISerializer iSerializer, TagInformation tagInformation) throws SerializerException {
         boolean bl = tagInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -49,7 +50,7 @@ public class TagInformationSerializer {
         }
     }
 
-    public static void putOptionalTagInformationVarArray(ISerializer iSerializer, TagInformation[] tagInformationArray) {
+    public static void putOptionalTagInformationVarArray(ISerializer iSerializer, TagInformation[] tagInformationArray) throws SerializerException {
         boolean bl = tagInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -60,7 +61,7 @@ public class TagInformationSerializer {
         }
     }
 
-    public static TagInformation getOptionalTagInformation(IDeserializer iDeserializer) {
+    public static TagInformation getOptionalTagInformation(IDeserializer iDeserializer) throws SerializerException {
         TagInformation tagInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -101,7 +102,7 @@ public class TagInformationSerializer {
         return tagInformation;
     }
 
-    public static TagInformation[] getOptionalTagInformationVarArray(IDeserializer iDeserializer) {
+    public static TagInformation[] getOptionalTagInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         TagInformation[] tagInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

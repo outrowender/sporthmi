@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.StringAttribute;
 
 public class StringAttributeSerializer {
-    public static void putOptionalStringAttribute(ISerializer iSerializer, StringAttribute stringAttribute) {
+    public static void putOptionalStringAttribute(ISerializer iSerializer, StringAttribute stringAttribute) throws SerializerException {
         boolean bl = stringAttribute == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class StringAttributeSerializer {
         }
     }
 
-    public static void putOptionalStringAttributeVarArray(ISerializer iSerializer, StringAttribute[] stringAttributeArray) {
+    public static void putOptionalStringAttributeVarArray(ISerializer iSerializer, StringAttribute[] stringAttributeArray) throws SerializerException {
         boolean bl = stringAttributeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class StringAttributeSerializer {
         }
     }
 
-    public static StringAttribute getOptionalStringAttribute(IDeserializer iDeserializer) {
+    public static StringAttribute getOptionalStringAttribute(IDeserializer iDeserializer) throws SerializerException {
         StringAttribute stringAttribute = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class StringAttributeSerializer {
         return stringAttribute;
     }
 
-    public static StringAttribute[] getOptionalStringAttributeVarArray(IDeserializer iDeserializer) {
+    public static StringAttribute[] getOptionalStringAttributeVarArray(IDeserializer iDeserializer) throws SerializerException {
         StringAttribute[] stringAttributeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

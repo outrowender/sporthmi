@@ -1,11 +1,9 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.elektrobit.json.simple;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
@@ -16,6 +14,7 @@ import org.elektrobit.json.simple.JSONAware;
 import org.elektrobit.json.simple.JSONObject;
 import org.elektrobit.json.simple.JSONStreamAware;
 import org.elektrobit.json.simple.parser.JSONParser;
+import org.elektrobit.json.simple.parser.ParseException;
 
 public class JSONValue {
     public static Object parse(Reader reader) {
@@ -33,17 +32,17 @@ public class JSONValue {
         return JSONValue.parse(stringReader);
     }
 
-    public static Object parseWithException(Reader reader) {
+    public static Object parseWithException(Reader reader) throws IOException, ParseException {
         JSONParser jSONParser = new JSONParser();
         return jSONParser.parse(reader);
     }
 
-    public static Object parseWithException(String string) {
+    public static Object parseWithException(String string) throws ParseException {
         JSONParser jSONParser = new JSONParser();
         return jSONParser.parse(string);
     }
 
-    public static void writeJSONString(Object object, Writer writer) {
+    public static void writeJSONString(Object object, Writer writer) throws IOException {
         if (object == null) {
             writer.write("null");
             return;
@@ -102,7 +101,7 @@ public class JSONValue {
             return "null";
         }
         if (object instanceof String) {
-            return new StringBuffer().append("\"").append(JSONValue.escape((String)object)).append("\"").toString();
+            return "\"" + JSONValue.escape((String)object) + "\"";
         }
         if (object instanceof Double) {
             if (((Double)object).isInfinite() || ((Double)object).isNaN()) {

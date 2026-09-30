@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCAdditionalInstrument2;
 
 public class DCAdditionalInstrument2Serializer {
-    public static void putOptionalDCAdditionalInstrument2(ISerializer iSerializer, DCAdditionalInstrument2 dCAdditionalInstrument2) {
+    public static void putOptionalDCAdditionalInstrument2(ISerializer iSerializer, DCAdditionalInstrument2 dCAdditionalInstrument2) throws SerializerException {
         boolean bl = dCAdditionalInstrument2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class DCAdditionalInstrument2Serializer {
         }
     }
 
-    public static void putOptionalDCAdditionalInstrument2VarArray(ISerializer iSerializer, DCAdditionalInstrument2[] dCAdditionalInstrument2Array) {
+    public static void putOptionalDCAdditionalInstrument2VarArray(ISerializer iSerializer, DCAdditionalInstrument2[] dCAdditionalInstrument2Array) throws SerializerException {
         boolean bl = dCAdditionalInstrument2Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class DCAdditionalInstrument2Serializer {
         }
     }
 
-    public static DCAdditionalInstrument2 getOptionalDCAdditionalInstrument2(IDeserializer iDeserializer) {
+    public static DCAdditionalInstrument2 getOptionalDCAdditionalInstrument2(IDeserializer iDeserializer) throws SerializerException {
         DCAdditionalInstrument2 dCAdditionalInstrument2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class DCAdditionalInstrument2Serializer {
         return dCAdditionalInstrument2;
     }
 
-    public static DCAdditionalInstrument2[] getOptionalDCAdditionalInstrument2VarArray(IDeserializer iDeserializer) {
+    public static DCAdditionalInstrument2[] getOptionalDCAdditionalInstrument2VarArray(IDeserializer iDeserializer) throws SerializerException {
         DCAdditionalInstrument2[] dCAdditionalInstrument2Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

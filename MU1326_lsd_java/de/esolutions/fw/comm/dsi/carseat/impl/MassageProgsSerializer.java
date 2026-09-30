@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageProgs;
 
 public class MassageProgsSerializer {
-    public static void putOptionalMassageProgs(ISerializer iSerializer, MassageProgs massageProgs) {
+    public static void putOptionalMassageProgs(ISerializer iSerializer, MassageProgs massageProgs) throws SerializerException {
         boolean bl = massageProgs == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class MassageProgsSerializer {
         }
     }
 
-    public static void putOptionalMassageProgsVarArray(ISerializer iSerializer, MassageProgs[] massageProgsArray) {
+    public static void putOptionalMassageProgsVarArray(ISerializer iSerializer, MassageProgs[] massageProgsArray) throws SerializerException {
         boolean bl = massageProgsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class MassageProgsSerializer {
         }
     }
 
-    public static MassageProgs getOptionalMassageProgs(IDeserializer iDeserializer) {
+    public static MassageProgs getOptionalMassageProgs(IDeserializer iDeserializer) throws SerializerException {
         MassageProgs massageProgs = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class MassageProgsSerializer {
         return massageProgs;
     }
 
-    public static MassageProgs[] getOptionalMassageProgsVarArray(IDeserializer iDeserializer) {
+    public static MassageProgs[] getOptionalMassageProgsVarArray(IDeserializer iDeserializer) throws SerializerException {
         MassageProgs[] massageProgsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

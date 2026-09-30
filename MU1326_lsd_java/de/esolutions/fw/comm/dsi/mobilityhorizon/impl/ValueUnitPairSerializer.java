@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mobilityhorizon.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mobilityhorizon.ValueUnitPair;
 
 public class ValueUnitPairSerializer {
-    public static void putOptionalValueUnitPair(ISerializer iSerializer, ValueUnitPair valueUnitPair) {
+    public static void putOptionalValueUnitPair(ISerializer iSerializer, ValueUnitPair valueUnitPair) throws SerializerException {
         boolean bl = valueUnitPair == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ValueUnitPairSerializer {
         }
     }
 
-    public static void putOptionalValueUnitPairVarArray(ISerializer iSerializer, ValueUnitPair[] valueUnitPairArray) {
+    public static void putOptionalValueUnitPairVarArray(ISerializer iSerializer, ValueUnitPair[] valueUnitPairArray) throws SerializerException {
         boolean bl = valueUnitPairArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ValueUnitPairSerializer {
         }
     }
 
-    public static ValueUnitPair getOptionalValueUnitPair(IDeserializer iDeserializer) {
+    public static ValueUnitPair getOptionalValueUnitPair(IDeserializer iDeserializer) throws SerializerException {
         ValueUnitPair valueUnitPair = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ValueUnitPairSerializer {
         return valueUnitPair;
     }
 
-    public static ValueUnitPair[] getOptionalValueUnitPairVarArray(IDeserializer iDeserializer) {
+    public static ValueUnitPair[] getOptionalValueUnitPairVarArray(IDeserializer iDeserializer) throws SerializerException {
         ValueUnitPair[] valueUnitPairArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

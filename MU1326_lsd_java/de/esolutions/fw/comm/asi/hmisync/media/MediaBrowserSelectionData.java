@@ -42,7 +42,7 @@ public class MediaBrowserSelectionData {
     }
 
     public String toString() {
-        return new StringBuffer("MediaBrowserSelectionData{").append("browserInstance=").append(this.browserInstance).append(", trackID=").append(this.trackID).append(", seamless=").append(this.seamless).append("}").toString();
+        return "MediaBrowserSelectionData{" + "browserInstance=" + this.browserInstance + ", trackID=" + this.trackID + ", seamless=" + this.seamless + "}";
     }
 }
 

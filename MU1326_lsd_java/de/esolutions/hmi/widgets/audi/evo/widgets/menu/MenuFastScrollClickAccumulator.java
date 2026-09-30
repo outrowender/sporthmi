@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class MenuFastScrollClickAccumulator
 implements IWidgetLogChannel {
-    private static final int TIMESTAMP_EMPTY;
+    private static final int TIMESTAMP_EMPTY = 0;
     private long[] tickTimestamps = new long[4];
 
     public boolean keyTurned(int n, long l) {
@@ -17,11 +17,11 @@ implements IWidgetLogChannel {
         this.clearGarbageAfterTicks(n3);
         int n4 = n3 + n;
         if (n4 >= this.tickTimestamps.length) {
-            menuLogCh.log(-2137614336, "MenuFastScrollClickAccumulator#keyTurned: Start FastScroll. removed %1 obsolete ticks, %2 ticks remaining, with new ticks reached %3 ticks", (long)n2, (long)n3, (long)n4);
+            menuLogCh.log(10000000, "MenuFastScrollClickAccumulator#keyTurned: Start FastScroll. removed %1 obsolete ticks, %2 ticks remaining, with new ticks reached %3 ticks", (long)n2, (long)n3, (long)n4);
             return true;
         }
         this.addTicks(n3, n, l);
-        menuLogCh.log(-2137614336, "MenuFastScrollClickAccumulator#keyTurned: removed %1 obsolete ticks, %2 ticks remaining, with new ticks reached %3 ticks within timeout", (long)n2, (long)n3, (long)n4);
+        menuLogCh.log(10000000, "MenuFastScrollClickAccumulator#keyTurned: removed %1 obsolete ticks, %2 ticks remaining, with new ticks reached %3 ticks within timeout", (long)n2, (long)n3, (long)n4);
         return false;
     }
 
@@ -35,7 +35,7 @@ implements IWidgetLogChannel {
         }
         for (int i2 = 0; i2 < this.tickTimestamps.length; ++i2) {
             long l2 = l - this.tickTimestamps[i2];
-            if (l2 >= 0) continue;
+            if (l2 >= 250L) continue;
             return i2;
         }
         return this.tickTimestamps.length;

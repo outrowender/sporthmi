@@ -55,7 +55,7 @@ public class Image {
     }
 
     public String toString() {
-        return new StringBuffer("Image{").append("info=").append(this.info).append(", converted=").append(this.converted).append(", data=").append("[").append(this.data == null ? "null" : new StringBuffer().append("size=").append(this.data.length).toString()).append("]").append(", dataSize=").append(this.dataSize).append("}").toString();
+        return "Image{" + "info=" + this.info + ", converted=" + this.converted + ", data=" + "[" + (this.data == null ? "null" : "size=" + this.data.length) + "]" + ", dataSize=" + this.dataSize + "}";
     }
 }
 

@@ -7,27 +7,21 @@ import de.esolutions.fw.comm.agent.broker.IBrokerServiceListener;
 import de.esolutions.fw.comm.core.AbstractService;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface IBrokerProxyWrapper {
-    default public ServiceInstanceID getBrokerInstanceID() {
-    }
+    public ServiceInstanceID getBrokerInstanceID();
 
-    default public AbstractService createAgentService(IBrokerServiceListener iBrokerServiceListener, short s) {
-    }
+    public AbstractService createAgentService(IBrokerServiceListener var1, short var2);
 
-    default public Proxy create() {
-    }
+    public Proxy create();
 
-    default public void announce(short s) {
-    }
+    public void announce(short var1) throws MethodException;
 
-    default public void registerService(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void registerService(ServiceInstanceID var1, short var2) throws MethodException;
 
-    default public void unregisterService(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void unregisterService(ServiceInstanceID var1, short var2) throws MethodException;
 
-    default public void lookupService(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void lookupService(ServiceInstanceID var1, short var2) throws MethodException;
 }
 

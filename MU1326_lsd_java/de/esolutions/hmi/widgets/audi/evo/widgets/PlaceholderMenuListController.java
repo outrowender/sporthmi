@@ -48,12 +48,11 @@ PlaceholderMenuListManager {
     private PlaceholderMenuListController subMenuListController;
     private static final LogChannel LC;
     private IListWidgetDataAccess dataAccess;
-    private static final int INDEX_LABEL;
+    private static final int INDEX_LABEL = 1;
     private static final int[] ICON_INDICES;
     private int sdsItemSelectedAction = 0;
     private int widgetID = -1;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof PlaceholderMenuListController) {
@@ -77,26 +76,22 @@ PlaceholderMenuListManager {
         return true;
     }
 
-    @Override
     public int getSubItemCount() {
         if (this.subMenuListController == null) {
-            LC.log(-2137614336, "PlaceholderMenuListController#getSubItemCount No sublist");
+            LC.log(10000000, "PlaceholderMenuListController#getSubItemCount No sublist");
             return 0;
         }
         return this.subMenuListController.getMultiItemCount();
     }
 
-    @Override
     public boolean isMultiItem() {
         return true;
     }
 
-    @Override
     public boolean isSubItem() {
         return false;
     }
 
-    @Override
     public boolean isSelected() {
         if (!this.checkDataAccess()) {
             return false;
@@ -104,29 +99,24 @@ PlaceholderMenuListManager {
         return this.dataAccess.getSelectedIndex() != -1;
     }
 
-    @Override
     public boolean isSubSelection() {
         return false;
     }
 
-    @Override
     public String getLabelText() {
-        LC.log(-1601830656, "PlaceholderMenuListController#getLabelText MultiItem has no text.");
+        LC.log(100000, "PlaceholderMenuListController#getLabelText MultiItem has no text.");
         return null;
     }
 
-    @Override
     public void itemFocused() {
-        LC.log(-1601830656, "PlaceholderMenuListController#itemFocused MultiItem cannot be focused.");
+        LC.log(100000, "PlaceholderMenuListController#itemFocused MultiItem cannot be focused.");
     }
 
-    @Override
     public Object getIconData(int n) {
-        LC.log(-1601830656, "PlaceholderMenuListController#getIconData MultiItem does not have icons.");
+        LC.log(100000, "PlaceholderMenuListController#getIconData MultiItem does not have icons.");
         return null;
     }
 
-    @Override
     public int getMultiItemCount() {
         return this.getListModelLength();
     }
@@ -138,17 +128,14 @@ PlaceholderMenuListManager {
         return this.dataAccess.getLength();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public boolean hasSubList() {
         return this.subMenuListController != null;
     }
 
-    @Override
     public boolean isSelected(int n, int n2) {
         if (n2 == -1) {
             return this.isSelected(n);
@@ -174,7 +161,6 @@ PlaceholderMenuListManager {
         return this.dataAccess.getSelectedIndex();
     }
 
-    @Override
     public boolean isVisible(int n, int n2) {
         if (n2 == -1) {
             return this.isVisible(n);
@@ -189,7 +175,6 @@ PlaceholderMenuListManager {
         return true;
     }
 
-    @Override
     public boolean isEnabled(int n, int n2) {
         if (n2 == -1) {
             return this.isEnabled(n);
@@ -212,7 +197,6 @@ PlaceholderMenuListManager {
         return n2 > 0;
     }
 
-    @Override
     public void setParent(AbstractWidget abstractWidget) {
         super.setParent(abstractWidget);
         if (abstractWidget instanceof PlaceholderMenuListManager) {
@@ -221,9 +205,8 @@ PlaceholderMenuListManager {
         this.initializeDataAccess();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        listLogCh.log(-2137614336, "PlaceholderMenuListController#processModelUpdateEvent: received model update. event: %1", (Object)modelUpdateEvent);
+        listLogCh.log(10000000, "PlaceholderMenuListController#processModelUpdateEvent: received model update. event: %1", (Object)modelUpdateEvent);
         if (this.dataAccess != null) {
             this.dataAccess.processModelUpdateEvent(modelUpdateEvent);
         }
@@ -232,12 +215,10 @@ PlaceholderMenuListManager {
         }
     }
 
-    @Override
     public int getMainSelection() {
         return this.getSelection();
     }
 
-    @Override
     public int getSubSelection() {
         if (!this.checkSubMenuController()) {
             return -1;
@@ -246,12 +227,11 @@ PlaceholderMenuListManager {
     }
 
     public String toString() {
-        return new StringBuffer().append("PlaceholderMenuListController [listManager=").append(this.listManager).append(", modelID=").append(this.modelID).append("]").toString();
+        return "PlaceholderMenuListController [listManager=" + this.listManager + ", modelID=" + this.modelID + "]";
     }
 
-    @Override
     public void itemSelected(int n, int n2) {
-        LC.log(-2137614336, "PlaceholderMenuListController#itemSelected %1, %2", (long)n, (long)n2);
+        LC.log(10000000, "PlaceholderMenuListController#itemSelected %1, %2", (long)n, (long)n2);
         if (n2 == -1) {
             this.itemSelected(n);
             return;
@@ -292,7 +272,6 @@ PlaceholderMenuListManager {
         return this.listManager;
     }
 
-    @Override
     public void setListManager(PlaceholderMenuListManager placeholderMenuListManager) {
         this.listManager = placeholderMenuListManager;
     }
@@ -305,7 +284,6 @@ PlaceholderMenuListManager {
         return this.recordSetColumn;
     }
 
-    @Override
     public String getLabelText(int n, int n2) {
         if (n2 == -1) {
             return this.getLabelText(n);
@@ -316,7 +294,6 @@ PlaceholderMenuListManager {
         return this.subMenuListController.getLabelText(n2, -1);
     }
 
-    @Override
     public Object getIconData(int n, int n2, int n3) {
         if (n2 == -1) {
             int n4 = ICON_INDICES[n3];
@@ -365,7 +342,7 @@ PlaceholderMenuListManager {
         }
         AbstractWidgetController abstractWidgetController2 = this.listItemFactory.createListItem(n3, listCellArray);
         if (abstractWidgetController2 == null) {
-            LC.log(-1601830656, "PlaceholderMenuListController#getLabelText: Could not create list item for row %1 and record set %2", (long)n, (long)n3);
+            LC.log(100000, "PlaceholderMenuListController#getLabelText: Could not create list item for row %1 and record set %2", (long)n, (long)n3);
             return null;
         }
         this.initializeLayoutController(abstractWidgetController2);
@@ -399,7 +376,7 @@ PlaceholderMenuListManager {
         }
         AbstractWidgetController abstractWidgetController2 = this.listItemFactory.createListItem(n3, listCellArray);
         if (abstractWidgetController2 == null) {
-            LC.log(-1601830656, "PlaceholderMenuListController#getImageData: Could not create list item for row %1 and record set %2", (long)n, (long)n3);
+            LC.log(100000, "PlaceholderMenuListController#getImageData: Could not create list item for row %1 and record set %2", (long)n, (long)n3);
             return null;
         }
         this.initializeLayoutController(abstractWidgetController2);
@@ -423,7 +400,7 @@ PlaceholderMenuListManager {
                 ((IconController)abstractWidgetController2).setRenderer(null);
                 continue;
             }
-            LC.log(-1601830656, "PlaceholderMenuListController#initializeLayoutController Unknown widget at index %1 in %2: %3", (Object)Util.createInteger(i2), (Object)this, (Object)abstractWidgetController2);
+            LC.log(100000, "PlaceholderMenuListController#initializeLayoutController Unknown widget at index %1 in %2: %3", (Object)Util.createInteger(i2), (Object)this, (Object)abstractWidgetController2);
         }
     }
 
@@ -433,23 +410,23 @@ PlaceholderMenuListManager {
             return null;
         }
         AbstractWidgetController abstractWidgetController2 = (AbstractWidgetController)abstractWidgetController.getChild(1);
-        LC.log(-2137614336, "PlaceholderMenuListController#getTextFromLayout: child: %1", (Object)abstractWidgetController2);
+        LC.log(10000000, "PlaceholderMenuListController#getTextFromLayout: child: %1", (Object)abstractWidgetController2);
         if (!(abstractWidgetController2 instanceof LabelController)) {
             LC.log(10000, "PlaceholderMenuListController#getTextFromLayout: child at index %1 has to be a label, found: %2", (Object)Util.createInteger(1), (Object)abstractWidgetController2);
             return null;
         }
         LabelController labelController = (LabelController)abstractWidgetController2;
-        LC.log(-2137614336, "PlaceholderMenuListController#getTextFromLayout: label: %1 labelText: %2", (Object)labelController, (Object)labelController.getText());
+        LC.log(10000000, "PlaceholderMenuListController#getTextFromLayout: label: %1 labelText: %2", (Object)labelController, (Object)labelController.getText());
         int n = labelController.getModelColumn();
         String string = StringUtility.getTextOrientationHintString(4, this.isLTR());
-        LC.log(-2137614336, "PlaceholderMenuListController#getTextFromLayout: label.getModelColumn(): %1", (long)labelController.getModelColumn());
+        LC.log(10000000, "PlaceholderMenuListController#getTextFromLayout: label.getModelColumn(): %1", (long)labelController.getModelColumn());
         Object object2 = this.getCell(object, n);
         Object object3 = this.calculateCellContent(labelController, object2);
         if (object3 == null) {
             return null;
         }
         if (object3 instanceof String) {
-            LC.log(-2137614336, "PlaceholderMenuListController#getTextFromLayout: get String content from model: %1", object3);
+            LC.log(10000000, "PlaceholderMenuListController#getTextFromLayout: get String content from model: %1", object3);
             return this.textReplacement((String)object3, abstractWidgetController, object, string);
         }
         LC.log(10000, "PlaceholderMenuListController#getTextFromLayout: Unsupported content in cell: %1", object2);
@@ -459,32 +436,32 @@ PlaceholderMenuListManager {
     private String textReplacement(String string, AbstractWidgetController abstractWidgetController, Object object, String string2) {
         Object object2;
         ArrayList arrayList = new ArrayList();
-        LC.log(-2137614336, "SelectionMenuRendererHigh#textReplacement subItemCount: %1", (long)abstractWidgetController.getChildrenSize());
+        LC.log(10000000, "SelectionMenuRendererHigh#textReplacement subItemCount: %1", (long)abstractWidgetController.getChildrenSize());
         for (int i2 = 3; i2 < abstractWidgetController.getChildrenSize(); ++i2) {
             object2 = abstractWidgetController.getChild(i2);
             if (!(object2 instanceof LabelController)) continue;
             LabelController labelController = (LabelController)object2;
             int n = labelController.getModelColumn();
-            LC.log(-2137614336, "PlaceholderMenuListController#textReplacement: label.getModelColumn(): %1", (long)labelController.getModelColumn());
+            LC.log(10000000, "PlaceholderMenuListController#textReplacement: label.getModelColumn(): %1", (long)labelController.getModelColumn());
             Object object3 = this.getCell(object, n);
             Object object4 = this.calculateCellContent(labelController, object3);
             arrayList.add(object4);
-            LC.log(-2137614336, "SelectionMenuRendererHigh#textReplacement for replacementText: %1", object4);
+            LC.log(10000000, "SelectionMenuRendererHigh#textReplacement for replacementText: %1", object4);
         }
         if (!arrayList.isEmpty()) {
             Object[] objectArray = new String[arrayList.size()];
             arrayList.toArray(objectArray);
             object2 = StringUtilities.formatMessage(string, (String[])objectArray, string2);
-            LC.log(-2137614336, "SelectionMenuRendererHigh#textReplacement result: %1", object2);
+            LC.log(10000000, "SelectionMenuRendererHigh#textReplacement result: %1", object2);
             return object2;
         }
-        LC.log(-2137614336, "SelectionMenuRendererHigh#textReplacement  no replacementTexts");
+        LC.log(10000000, "SelectionMenuRendererHigh#textReplacement  no replacementTexts");
         return string;
     }
 
     private Object getImageDataFromLayout(AbstractWidgetController abstractWidgetController, Object object, int n) {
         if (LC.isDebug()) {
-            LC.log(-2137614336, "PlaceholderMenuListController#getImageDataFromLayout widget %1 not found in %2, row=%3", (Object)Util.createInteger(n), (Object)this, object);
+            LC.log(10000000, "PlaceholderMenuListController#getImageDataFromLayout widget %1 not found in %2, row=%3", (Object)Util.createInteger(n), (Object)this, object);
         }
         if (abstractWidgetController.getChildrenSize() <= n) {
             LC.log(10000, "PlaceholderMenuListController#getImageDataFromLayout widget %1 not found in %2", (Object)Util.createInteger(n), (Object)this);
@@ -533,7 +510,7 @@ PlaceholderMenuListManager {
             return null;
         }
         abstractWidgetController.setModel(object);
-        LC.log(-2137614336, "PlaceholderMenuListController#calculateCellContent widget %1 setModel %2", (Object)abstractWidgetController, object);
+        LC.log(10000000, "PlaceholderMenuListController#calculateCellContent widget %1 setModel %2", (Object)abstractWidgetController, object);
         ModelUpdateEvent modelUpdateEvent = new ModelUpdateEvent(null, 10301, -1, -1, 1, -1, -1);
         abstractWidgetController.processModelUpdateEvent(modelUpdateEvent);
         if (abstractWidgetController instanceof IconController) {
@@ -579,19 +556,16 @@ PlaceholderMenuListManager {
         return -1;
     }
 
-    @Override
     public AbstractWidgetController getWidget() {
         return this;
     }
 
-    @Override
     public void listModelChanged(PlaceholderMenuMultiItem placeholderMenuMultiItem, ModelUpdateEvent modelUpdateEvent) {
         if (this.listManager != null) {
             this.listManager.subListModelChanged(this, placeholderMenuMultiItem, modelUpdateEvent);
         }
     }
 
-    @Override
     public void subListModelChanged(PlaceholderMenuMultiItem placeholderMenuMultiItem, PlaceholderMenuMultiItem placeholderMenuMultiItem2, ModelUpdateEvent modelUpdateEvent) {
     }
 
@@ -599,7 +573,6 @@ PlaceholderMenuListManager {
         this.enabledCoulumn = n;
     }
 
-    @Override
     public PlaceholderMenuMultiItem getSubMenuMultiItem() {
         return this.subMenuListController;
     }
@@ -655,19 +628,16 @@ PlaceholderMenuListManager {
         return null;
     }
 
-    @Override
     public void setModel(Object object) {
         super.setModel(object);
         this.initializeDataAccess();
     }
 
-    @Override
     public void setModel(HMIModelGUI hMIModelGUI) {
         super.setModel(hMIModelGUI);
         this.initializeDataAccess();
     }
 
-    @Override
     public void disconnecting() {
         if (this.dataAccess != null) {
             this.dataAccess.disconnect();
@@ -675,20 +645,18 @@ PlaceholderMenuListManager {
         super.disconnecting();
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.dataAccess == null) {
             this.dataAccess = this.createDefaultDataAccess();
             this.initializeDataAccess();
-            listLogCh.log(-2137614336, "PlaceholderMenuListController#initializeWidget: create default DataAccess: %1", (Object)this.dataAccess);
+            listLogCh.log(10000000, "PlaceholderMenuListController#initializeWidget: create default DataAccess: %1", (Object)this.dataAccess);
         }
         if (this.dataAccess != null) {
             this.dataAccess.connect(this.initContext);
         }
     }
 
-    @Override
     public int getSdsItemSelectedAction() {
         return this.sdsItemSelectedAction;
     }
@@ -697,17 +665,14 @@ PlaceholderMenuListManager {
         this.sdsItemSelectedAction = n;
     }
 
-    @Override
     public int getSdsCommand() {
         return -1;
     }
 
-    @Override
     public int getInternalID() {
         return -1;
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -716,7 +681,6 @@ PlaceholderMenuListManager {
         this.widgetID = n;
     }
 
-    @Override
     public boolean isLockable() {
         return false;
     }

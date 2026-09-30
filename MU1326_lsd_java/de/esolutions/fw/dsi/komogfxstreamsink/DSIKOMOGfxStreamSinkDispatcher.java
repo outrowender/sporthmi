@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.komogfxstreamsink;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.komogfxstreamsink.DSIKOMOGfxStreamSinkReply;
 import de.esolutions.fw.comm.dsi.komogfxstreamsink.impl.DSIKOMOGfxStreamSinkReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIKOMOGfxStreamSinkReply {
         super(n, (class$org$dsi$ifc$komogfxstreamsink$DSIKOMOGfxStreamSinkListener == null ? (class$org$dsi$ifc$komogfxstreamsink$DSIKOMOGfxStreamSinkListener = DSIKOMOGfxStreamSinkDispatcher.class$("org.dsi.ifc.komogfxstreamsink.DSIKOMOGfxStreamSinkListener")) : class$org$dsi$ifc$komogfxstreamsink$DSIKOMOGfxStreamSinkListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateGfxState(int n, int n2) {
+    public void updateGfxState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void updateRequestSync(int n, int n2) {
+    public void updateRequestSync(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void updateDataRate(int n, int n2) {
+    public void updateDataRate(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void setFGLayerResult(int n) {
+    public void setFGLayerResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -131,8 +127,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void fadeInResult() {
+    public void fadeInResult() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -148,8 +143,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void fadeOutResult() {
+    public void fadeOutResult() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -165,8 +159,7 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -182,14 +175,13 @@ implements DSIKOMOGfxStreamSinkReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIKOMOGfxStreamSinkListener dSIKOMOGfxStreamSinkListener = (DSIKOMOGfxStreamSinkListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKOMOGfxStreamSinkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKOMOGfxStreamSinkDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIKOMOGfxStreamSinkListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKOMOGfxStreamSinkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKOMOGfxStreamSinkDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIKOMOGfxStreamSinkListener, new Object[]{string, string2});
                     continue;
                 }

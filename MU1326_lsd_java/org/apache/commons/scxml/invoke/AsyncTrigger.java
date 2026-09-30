@@ -29,7 +29,6 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         try {
             SCXMLExecutor sCXMLExecutor = this.executor;

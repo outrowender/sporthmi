@@ -42,7 +42,7 @@ public class sPSD {
     }
 
     public String toString() {
-        return new StringBuffer("sPSD{").append("msg_id=").append(this.msg_id).append(", customerExperience=").append(this.customerExperience).append(", psdNavInfo=").append(this.psdNavInfo).append("}").toString();
+        return "sPSD{" + "msg_id=" + this.msg_id + ", customerExperience=" + this.customerExperience + ", psdNavInfo=" + this.psdNavInfo + "}";
     }
 }
 

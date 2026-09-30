@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCConsumption;
 
 public class CarBCConsumptionSerializer {
-    public static void putOptionalCarBCConsumption(ISerializer iSerializer, CarBCConsumption carBCConsumption) {
+    public static void putOptionalCarBCConsumption(ISerializer iSerializer, CarBCConsumption carBCConsumption) throws SerializerException {
         boolean bl = carBCConsumption == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCConsumptionSerializer {
         }
     }
 
-    public static void putOptionalCarBCConsumptionVarArray(ISerializer iSerializer, CarBCConsumption[] carBCConsumptionArray) {
+    public static void putOptionalCarBCConsumptionVarArray(ISerializer iSerializer, CarBCConsumption[] carBCConsumptionArray) throws SerializerException {
         boolean bl = carBCConsumptionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCConsumptionSerializer {
         }
     }
 
-    public static CarBCConsumption getOptionalCarBCConsumption(IDeserializer iDeserializer) {
+    public static CarBCConsumption getOptionalCarBCConsumption(IDeserializer iDeserializer) throws SerializerException {
         CarBCConsumption carBCConsumption = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCConsumptionSerializer {
         return carBCConsumption;
     }
 
-    public static CarBCConsumption[] getOptionalCarBCConsumptionVarArray(IDeserializer iDeserializer) {
+    public static CarBCConsumption[] getOptionalCarBCConsumptionVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCConsumption[] carBCConsumptionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

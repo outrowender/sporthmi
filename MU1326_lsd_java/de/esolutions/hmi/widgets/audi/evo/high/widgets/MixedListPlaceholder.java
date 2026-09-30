@@ -55,7 +55,6 @@ extends AbstractWidgetController {
         return this.dataCellIndex;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

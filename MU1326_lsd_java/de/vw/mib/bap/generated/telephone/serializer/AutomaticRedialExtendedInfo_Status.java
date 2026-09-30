@@ -11,28 +11,28 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AutomaticRedialExtendedInfo_Status
 implements StatusProperty {
     public int redial_TimeStamp;
-    private static final int REDIAL_TIME_STAMP_BITSIZE;
+    private static final int REDIAL_TIME_STAMP_BITSIZE = 16;
     public final BAPString pbName = new BAPString(100);
-    private static final int MAX_PB_NAME_LENGTH;
+    private static final int MAX_PB_NAME_LENGTH = 100;
     public final BAPString telNumber = new BAPString(41);
-    private static final int MAX_TEL_NUMBER_LENGTH;
+    private static final int MAX_TEL_NUMBER_LENGTH = 41;
     public int category;
-    private static final int CATEGORY_BITSIZE;
-    public static final int CATEGORY_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY_GENERAL;
-    public static final int CATEGORY_MOBILE;
-    public static final int CATEGORY_OFFICE;
-    public static final int CATEGORY_HOME;
-    public static final int CATEGORY_FAX;
-    public static final int CATEGORY_PAGER;
-    public static final int CATEGORY_CAR;
-    public static final int CATEGORY_SIM;
-    public static final int CATEGORY_MAIN_OFFICE;
-    public static final int CATEGORY_MAIN_HOME;
-    public static final int CATEGORY_CELL_OFFICE;
-    public static final int CATEGORY_CELL_HOME;
-    public static final int CATEGORY_FAX_OFFICE;
-    public static final int CATEGORY_FAX_HOME;
+    private static final int CATEGORY_BITSIZE = 8;
+    public static final int CATEGORY_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY_GENERAL = 1;
+    public static final int CATEGORY_MOBILE = 2;
+    public static final int CATEGORY_OFFICE = 3;
+    public static final int CATEGORY_HOME = 4;
+    public static final int CATEGORY_FAX = 5;
+    public static final int CATEGORY_PAGER = 6;
+    public static final int CATEGORY_CAR = 7;
+    public static final int CATEGORY_SIM = 8;
+    public static final int CATEGORY_MAIN_OFFICE = 9;
+    public static final int CATEGORY_MAIN_HOME = 10;
+    public static final int CATEGORY_CELL_OFFICE = 11;
+    public static final int CATEGORY_CELL_HOME = 12;
+    public static final int CATEGORY_FAX_OFFICE = 13;
+    public static final int CATEGORY_FAX_HOME = 14;
 
     public AutomaticRedialExtendedInfo_Status() {
         this.internalReset();
@@ -49,14 +49,12 @@ implements StatusProperty {
         this.category = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.pbName.reset();
         this.telNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AutomaticRedialExtendedInfo_Status automaticRedialExtendedInfo_Status = (AutomaticRedialExtendedInfo_Status)bAPEntity;
         return this.redial_TimeStamp == automaticRedialExtendedInfo_Status.redial_TimeStamp && this.pbName.equalTo(automaticRedialExtendedInfo_Status.pbName) && this.telNumber.equalTo(automaticRedialExtendedInfo_Status.telNumber) && this.category == automaticRedialExtendedInfo_Status.category;
@@ -65,7 +63,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AutomaticRedialExtendedInfo_Status:");
@@ -144,7 +141,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -153,7 +149,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.redial_TimeStamp);
         this.pbName.serialize(bitStream);
@@ -161,7 +156,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.category);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.redial_TimeStamp = bitStream.popFrontShort();
         this.pbName.deserialize(bitStream);
@@ -173,7 +167,6 @@ implements StatusProperty {
         return 58;
     }
 
-    @Override
     public int getFunctionId() {
         return AutomaticRedialExtendedInfo_Status.functionId();
     }

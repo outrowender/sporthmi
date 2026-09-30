@@ -10,10 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerZoomEngine;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerZoomEngineC;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerZoomEngineReply;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerZoomEngineProxy$1;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerZoomEngineProxy$2;
-import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerZoomEngineProxy$3;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerZoomEngineReplyService;
+import de.esolutions.fw.comm.dsi.map.impl.PointSerializer;
+import de.esolutions.fw.comm.dsi.map.impl.RectSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.Point;
@@ -35,8 +36,7 @@ DSIMapViewerZoomEngineC {
         return this.proxy;
     }
 
-    @Override
-    public void autoZoomEnable(boolean bl) {
+    public void autoZoomEnable(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -47,8 +47,7 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void manoeuvreZoomEnable(boolean bl) {
+    public void manoeuvreZoomEnable(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -59,8 +58,7 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setViewType(int n) {
+    public void setViewType(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -71,14 +69,17 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setCarPosition(Point point) {
-        DSIMapViewerZoomEngineProxy$1 dSIMapViewerZoomEngineProxy$1 = new DSIMapViewerZoomEngineProxy$1(this, point);
-        this.proxy.remoteCallMethod((short)6, dSIMapViewerZoomEngineProxy$1);
+    public void setCarPosition(final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void setMapRotation(short s) {
+    public void setMapRotation(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -89,20 +90,28 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setMapOrientation(int n, Point point) {
-        DSIMapViewerZoomEngineProxy$2 dSIMapViewerZoomEngineProxy$2 = new DSIMapViewerZoomEngineProxy$2(this, n, point);
-        this.proxy.remoteCallMethod((short)7, dSIMapViewerZoomEngineProxy$2);
+    public void setMapOrientation(final int n, final Point point) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                PointSerializer.putOptionalPoint(iSerializer, point);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void setZoomArea(Rect rect) {
-        DSIMapViewerZoomEngineProxy$3 dSIMapViewerZoomEngineProxy$3 = new DSIMapViewerZoomEngineProxy$3(this, rect);
-        this.proxy.remoteCallMethod((short)13, dSIMapViewerZoomEngineProxy$3);
+    public void setZoomArea(final Rect rect) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RectSerializer.putOptionalRect(iSerializer, rect);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -113,8 +122,7 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -125,13 +133,11 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -142,8 +148,7 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -154,13 +159,11 @@ DSIMapViewerZoomEngineC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -10,40 +10,28 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public interface DSITmcOnRouteListener
 extends DSIListener {
-    default public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray, int n) {
-    }
+    public void updateTmcMessagesAhead(TmcMessage[] var1, int var2);
 
-    default public void updateUrgentMessages(TmcMessage[] tmcMessageArray, int n) {
-    }
+    public void updateUrgentMessages(TmcMessage[] var1, int var2);
 
-    default public void tmcMessage(TmcMessage tmcMessage) {
-    }
+    public void tmcMessage(TmcMessage var1);
 
-    default public void updateTmcMessagesAheadCalculationHorizon(long l, int n) {
-    }
+    public void updateTmcMessagesAheadCalculationHorizon(long var1, int var3);
 
-    default public void setTmcWarningModeResult(int n) {
-    }
+    public void setTmcWarningModeResult(int var1);
 
-    default public void updateCurrentlyBlockedTMCMessages(long[] lArray, int n) {
-    }
+    public void updateCurrentlyBlockedTMCMessages(long[] var1, int var2);
 
-    default public void blockTMCMessagesResult(long[] lArray, long[] lArray2) {
-    }
+    public void blockTMCMessagesResult(long[] var1, long[] var2);
 
-    default public void unblockTMCMessagesResult(long[] lArray, long[] lArray2) {
-    }
+    public void unblockTMCMessagesResult(long[] var1, long[] var2);
 
-    default public void unblockAllTMCMessagesResult(int n) {
-    }
+    public void unblockAllTMCMessagesResult(int var1);
 
-    default public void updateNaviCoreAvailableToChangeTMCBlockings(int n, int n2) {
-    }
+    public void updateNaviCoreAvailableToChangeTMCBlockings(int var1, int var2);
 
-    default public void indicateTrafficEventNoticeMap(TmcMessage tmcMessage, NavRectangle navRectangle, int n) {
-    }
+    public void indicateTrafficEventNoticeMap(TmcMessage var1, NavRectangle var2, int var3);
 
-    default public void updateSpeedAndFlowAhead(SpeedAndFlowSegment[] speedAndFlowSegmentArray, int n) {
-    }
+    public void updateSpeedAndFlowAhead(SpeedAndFlowSegment[] var1, int var2);
 }
 

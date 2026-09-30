@@ -3,22 +3,20 @@
  */
 package de.esolutions.fw.comm.dsi.phonetic;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIPhoneticConverterReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "2830ffad-3726-5f2c-8fb8-4730a2dbf5e6";
+    public static final String IPL_COMM_INTERFACE_KEY = "830cce88-feab-5c78-a8ed-3525b9be8eaa";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.1";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.1";
 
-    default public void hanziToPinYinResult(String string, String string2, String string3, String string4) {
-    }
+    public void hanziToPinYinResult(String var1, String var2, String var3, String var4) throws MethodException;
 
-    default public void hanziToZhuYinResult(String string, String string2, String string3, String string4) {
-    }
+    public void hanziToZhuYinResult(String var1, String var2, String var3, String var4) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

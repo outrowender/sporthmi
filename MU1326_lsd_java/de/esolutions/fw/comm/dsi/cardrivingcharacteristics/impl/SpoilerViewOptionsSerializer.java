@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SpoilerConfigura
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SpoilerViewOptionsSerializer {
-    public static void putOptionalSpoilerViewOptions(ISerializer iSerializer, SpoilerViewOptions spoilerViewOptions) {
+    public static void putOptionalSpoilerViewOptions(ISerializer iSerializer, SpoilerViewOptions spoilerViewOptions) throws SerializerException {
         boolean bl = spoilerViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class SpoilerViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSpoilerViewOptionsVarArray(ISerializer iSerializer, SpoilerViewOptions[] spoilerViewOptionsArray) {
+    public static void putOptionalSpoilerViewOptionsVarArray(ISerializer iSerializer, SpoilerViewOptions[] spoilerViewOptionsArray) throws SerializerException {
         boolean bl = spoilerViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class SpoilerViewOptionsSerializer {
         }
     }
 
-    public static SpoilerViewOptions getOptionalSpoilerViewOptions(IDeserializer iDeserializer) {
+    public static SpoilerViewOptions getOptionalSpoilerViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SpoilerViewOptions spoilerViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class SpoilerViewOptionsSerializer {
         return spoilerViewOptions;
     }
 
-    public static SpoilerViewOptions[] getOptionalSpoilerViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SpoilerViewOptions[] getOptionalSpoilerViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpoilerViewOptions[] spoilerViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.evo.high.LayoutMIB2HighScale;
 
 public class LayoutMIB2HighScaleA3
 extends LayoutMIB2HighScale {
-    @Override
     public int getIntegerConstant(int n) {
         switch (n) {
             case 58: {

@@ -6,16 +6,12 @@ package org.apache.xerces.xs;
 import org.apache.xerces.xs.XSNamespaceItem;
 
 public interface XSObject {
-    default public short getType() {
-    }
+    public short getType();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public String getNamespace() {
-    }
+    public String getNamespace();
 
-    default public XSNamespaceItem getNamespaceItem() {
-    }
+    public XSNamespaceItem getNamespaceItem();
 }
 

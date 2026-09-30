@@ -14,7 +14,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 
 public class PresetLayoutFactory
 implements IPresetLayoutFactory {
-    @Override
     public LayoutContainerController getNotStorableContainer() {
         LabelController labelController = new LabelController();
         LabelRendererHigh labelRendererHigh = new LabelRendererHigh(labelController);

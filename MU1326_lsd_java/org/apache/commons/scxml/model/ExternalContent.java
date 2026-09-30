@@ -6,7 +6,6 @@ package org.apache.commons.scxml.model;
 import java.util.List;
 
 public interface ExternalContent {
-    default public List getExternalNodes() {
-    }
+    public List getExternalNodes();
 }
 

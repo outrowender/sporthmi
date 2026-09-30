@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.NavTraceListData;
 
 public class NavTraceListDataSerializer {
-    public static void putOptionalNavTraceListData(ISerializer iSerializer, NavTraceListData navTraceListData) {
+    public static void putOptionalNavTraceListData(ISerializer iSerializer, NavTraceListData navTraceListData) throws SerializerException {
         boolean bl = navTraceListData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class NavTraceListDataSerializer {
         }
     }
 
-    public static void putOptionalNavTraceListDataVarArray(ISerializer iSerializer, NavTraceListData[] navTraceListDataArray) {
+    public static void putOptionalNavTraceListDataVarArray(ISerializer iSerializer, NavTraceListData[] navTraceListDataArray) throws SerializerException {
         boolean bl = navTraceListDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class NavTraceListDataSerializer {
         }
     }
 
-    public static NavTraceListData getOptionalNavTraceListData(IDeserializer iDeserializer) {
+    public static NavTraceListData getOptionalNavTraceListData(IDeserializer iDeserializer) throws SerializerException {
         NavTraceListData navTraceListData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class NavTraceListDataSerializer {
         return navTraceListData;
     }
 
-    public static NavTraceListData[] getOptionalNavTraceListDataVarArray(IDeserializer iDeserializer) {
+    public static NavTraceListData[] getOptionalNavTraceListDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavTraceListData[] navTraceListDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

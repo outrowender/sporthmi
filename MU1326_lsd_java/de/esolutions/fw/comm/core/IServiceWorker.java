@@ -7,16 +7,12 @@ import de.esolutions.fw.comm.core.IMethod;
 import de.esolutions.fw.comm.core.IService;
 
 public interface IServiceWorker {
-    default public void registerService(IService iService) {
-    }
+    public void registerService(IService var1);
 
-    default public void unregisterService(IService iService) {
-    }
+    public void unregisterService(IService var1);
 
-    default public void stubCountChanged(IService iService, int n) {
-    }
+    public void stubCountChanged(IService var1, int var2);
 
-    default public void enqueueCall(IMethod iMethod) {
-    }
+    public void enqueueCall(IMethod var1);
 }
 

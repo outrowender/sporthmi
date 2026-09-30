@@ -38,12 +38,10 @@ implements BAPEntity {
         this.periodic = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AlertList_PeriodicSchedule alertList_PeriodicSchedule = (AlertList_PeriodicSchedule)bAPEntity;
         return this.onSunday == alertList_PeriodicSchedule.onSunday && this.onSaturday == alertList_PeriodicSchedule.onSaturday && this.onFriday == alertList_PeriodicSchedule.onFriday && this.onThursday == alertList_PeriodicSchedule.onThursday && this.onWednesday == alertList_PeriodicSchedule.onWednesday && this.onTuesday == alertList_PeriodicSchedule.onTuesday && this.onMonday == alertList_PeriodicSchedule.onMonday && this.periodic == alertList_PeriodicSchedule.periodic;
@@ -52,27 +50,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AlertList_PeriodicSchedule");
-        stringBuffer.append(new StringBuffer().append("\n - onSunday:").append(this.onSunday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onSaturday:").append(this.onSaturday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onFriday:").append(this.onFriday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onThursday:").append(this.onThursday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onWednesday:").append(this.onWednesday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onTuesday:").append(this.onTuesday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onMonday:").append(this.onMonday).toString());
-        stringBuffer.append(new StringBuffer().append("\n - periodic:").append(this.periodic).toString());
+        stringBuffer.append("\n - onSunday:" + this.onSunday);
+        stringBuffer.append("\n - onSaturday:" + this.onSaturday);
+        stringBuffer.append("\n - onFriday:" + this.onFriday);
+        stringBuffer.append("\n - onThursday:" + this.onThursday);
+        stringBuffer.append("\n - onWednesday:" + this.onWednesday);
+        stringBuffer.append("\n - onTuesday:" + this.onTuesday);
+        stringBuffer.append("\n - onMonday:" + this.onMonday);
+        stringBuffer.append("\n - periodic:" + this.periodic);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.onSunday);
         bitStream.pushBoolean(this.onSaturday);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.periodic);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.onSunday = bitStream.popFrontBoolean();
         this.onSaturday = bitStream.popFrontBoolean();

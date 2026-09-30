@@ -41,10 +41,10 @@ extends AbstractWidgetController
 implements IMenuCallback,
 AnimationListener,
 ILockingListener {
-    public static final int COVER_IMAGES_COUNT;
-    private static final int MAX_LIST_MODEL_LOOK_AHEAD;
-    public static final int DEFAULT_IMAGE_MODE_SINGLE;
-    public static final int DEFAULT_IMAGE_MODE_MULTI;
+    public static final int COVER_IMAGES_COUNT = 5;
+    private static final int MAX_LIST_MODEL_LOOK_AHEAD = 100;
+    public static final int DEFAULT_IMAGE_MODE_SINGLE = 0;
+    public static final int DEFAULT_IMAGE_MODE_MULTI = 1;
     private int defaultImageMode = 0;
     private MenuItemIndex stackTopItem;
     private boolean firstSecondBitmapsEqual;
@@ -52,7 +52,7 @@ ILockingListener {
     private AbstractAnimation crossFadeAnimation;
     private float crossFadingProgress = 0.0f;
     private boolean crossFadingActive = false;
-    static final int ANIMATION_TYPE;
+    static final int ANIMATION_TYPE = 104;
     private boolean interruptCrossFading = false;
     private int crossFadeState = 0;
     private boolean updateState = true;
@@ -70,15 +70,14 @@ ILockingListener {
     private int primaryBitmapsDefaultIndex = 0;
     private boolean lockingActive;
     private int lockingAction = 0;
-    private float lockingShadingOpacity = (float)Integer.getInteger("imageOpacityIfLockingActive", 50).intValue() / 51266;
+    private float lockingShadingOpacity = (float)Integer.getInteger("imageOpacityIfLockingActive", 50).intValue() / 100.0f;
     private ModelStubController modelStubLockingShade;
     private ModelStubController modelStubLockingInvisible;
 
     public CoverStackController() {
-        IWidgetLogChannel.logLocking.log(-2137614336, "CoverStackController#CoverStackController lockingOpacity=%1", (double)this.lockingShadingOpacity);
+        IWidgetLogChannel.logLocking.log(10000000, "CoverStackController#CoverStackController lockingOpacity=%1", (double)this.lockingShadingOpacity);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -87,7 +86,6 @@ ILockingListener {
         this.renderer = coverStackRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.resetStack();
@@ -95,7 +93,6 @@ ILockingListener {
         this.updateFromModel();
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         this.resetStack();
@@ -112,10 +109,9 @@ ILockingListener {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         super.processModelUpdateEvent(modelUpdateEvent);
-        logChannelCoverStack.log(-2137614336, "CoverStackController#processModelUpdateEvent updateStatus is: %1", this.updateState);
+        logChannelCoverStack.log(10000000, "CoverStackController#processModelUpdateEvent updateStatus is: %1", this.updateState);
         this.updateLockingAction(modelUpdateEvent);
         if (!this.updateState || modelUpdateEvent != null && modelUpdateEvent.getModelId() != this.modelID) {
             return;
@@ -128,53 +124,52 @@ ILockingListener {
         if (this.model instanceof ResourceLocatorModelGUI) {
             this.animationProgress = 0.0f;
             HMIResourceLocator hMIResourceLocator = ((ResourceLocatorModelGUI)this.model).getResourceLocator();
-            logChannelCoverStack.log(-2137614336, "CoverStackController#updateFromModel : model value: %1", (Object)hMIResourceLocator);
+            logChannelCoverStack.log(10000000, "CoverStackController#updateFromModel : model value: %1", (Object)hMIResourceLocator);
             this.coverBitmaps.clear();
             this.coverBitmaps.add(hMIResourceLocator);
         } else if (this.model != null) {
-            logChannelCoverStack.log(-1601830656, "CoverStackController#updateFromModel: unknown model type. ModelID: %2, Model: %1", this.model, (long)this.modelID);
+            logChannelCoverStack.log(100000, "CoverStackController#updateFromModel: unknown model type. ModelID: %2, Model: %1", this.model, (long)this.modelID);
         }
     }
 
-    @Override
     public void menuLayouted() {
         boolean bl;
         Object object;
         Object object2 = object = this.coverBitmaps.isEmpty() ? null : this.coverBitmaps.get(0);
         if (this.model != null) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted: ignore menu, because coverstack has its own model: %1", this.model);
+            logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted: ignore menu, because coverstack has its own model: %1", this.model);
             return;
         }
         if (!this.shouldRender()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted: cover stack not visible");
+            logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted: cover stack not visible");
             return;
         }
         if (this.getMenu().hasMoveItem()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted: Do not update bitmaps because moveitem mode is active in menu");
+            logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted: Do not update bitmaps because moveitem mode is active in menu");
             return;
         }
         this.calculateStack();
         if (this.dabSlsHandler != null && this.stackTopItem != null && !this.dabSlsHandler.isUpdateEventProccessable(this.getBitmapModel(this.stackTopItem))) {
             if (this.getNowPlayingAnimationProgress() != this.appliedNowPlayingProgress) {
                 this.onlyUpdateOfNowPlayingProgressNeeded = true;
-                logChannel.log(-2137614336, "CoverStackController#menuLayouted: only update progression for NowPlayingAnimation, DABSlideShow Timer is running");
+                logChannel.log(10000000, "CoverStackController#menuLayouted: only update progression for NowPlayingAnimation, DABSlideShow Timer is running");
                 this.setCompositesDirty(true);
             } else {
-                logChannel.log(-2137614336, "CoverStackController#menuLayouted: blocked processing ResourceLocator UpdateEvent , DABSlideShow Timer is running");
+                logChannel.log(10000000, "CoverStackController#menuLayouted: blocked processing ResourceLocator UpdateEvent , DABSlideShow Timer is running");
             }
             return;
         }
         this.updateBitmaps(this.stackTopItem);
         Object object3 = this.coverBitmaps.isEmpty() ? null : this.coverBitmaps.get(0);
-        logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted check for covers: previous= %1, following %2", object, object3);
+        logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted check for covers: previous= %1, following %2", object, object3);
         boolean bl2 = bl = !this.equalsCovers(object, object3);
         if (bl) {
             this.isCrossFadeNeeded = true;
         }
         if (!this.isExpandable() && bl || this.getNowPlayingAnimationProgress() == 1.0f) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted cover not equals update Covers");
+            logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted cover not equals update Covers");
             if (this.crossFadingActive) {
-                logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted stopAnimation");
+                logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted stopAnimation");
                 return;
             }
             if (this.isCrossFadeNeeded) {
@@ -182,7 +177,7 @@ ILockingListener {
                 this.isCrossFadeNeeded = false;
             }
         } else {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#menuLayouted check failed for covers: previous= %1, following %2", object, object3);
+            logChannelCoverStack.log(10000000, "CoverStackController#menuLayouted check failed for covers: previous= %1, following %2", object, object3);
         }
         if (!this.crossFadingActive) {
             this.setCompositesDirty(true);
@@ -197,7 +192,7 @@ ILockingListener {
     private void calculateStack() {
         MenuController menuController = this.getMenu();
         if (menuController.getLayout().getFirstVisibleItem() == -1) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#calculateStack: no items are visible");
+            logChannelCoverStack.log(10000000, "CoverStackController#calculateStack: no items are visible");
             this.resetStack();
             return;
         }
@@ -207,7 +202,7 @@ ILockingListener {
         } else if (menuController.isFocusCursorVisible()) {
             this.calculateStackForFastScroll();
         } else {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#calculateStack: cursor is hidden by menu");
+            logChannelCoverStack.log(10000000, "CoverStackController#calculateStack: cursor is hidden by menu");
             this.resetStack();
         }
         this.adjustForCursorBeforeFirstItem();
@@ -262,7 +257,7 @@ ILockingListener {
                 menuItemMetaData = menuItemMetaData2;
                 continue;
             }
-            logChannelCoverStack.log(-2137614336, "CoverStackController#findItemUnderCursor: item %1 is not realized", (Object)menuItemMetaData2.index);
+            logChannelCoverStack.log(10000000, "CoverStackController#findItemUnderCursor: item %1 is not realized", (Object)menuItemMetaData2.index);
         }
         return menuItemMetaData;
     }
@@ -293,7 +288,7 @@ ILockingListener {
         }
         MenuItemMetaData menuItemMetaData = (MenuItemMetaData)list.get(n);
         if (!menuItemMetaData.isRealized()) {
-            logChannelCoverStack.log(-1601830656, "CoverStackController#calculateStackForFastScroll: item %1 is not realized", (Object)menuItemMetaData.index);
+            logChannelCoverStack.log(100000, "CoverStackController#calculateStackForFastScroll: item %1 is not realized", (Object)menuItemMetaData.index);
             this.stackTopItem = menuItemMetaData.index;
             this.animationProgress = 0.0f;
             return;
@@ -305,7 +300,7 @@ ILockingListener {
 
     void updateBitmaps(MenuItemIndex menuItemIndex) {
         if (menuItemIndex == null) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#updateBitmaps: top item is null, so no cover bitmaps");
+            logChannelCoverStack.log(10000000, "CoverStackController#updateBitmaps: top item is null, so no cover bitmaps");
             if (!this.getMenu().isFocusCursorVisible()) {
                 this.coverBitmaps.clear();
             }
@@ -346,11 +341,11 @@ ILockingListener {
                                 this.dabSlsHandler = new DABSlideShowHandler(this);
                             }
                             if (this.dabSlsHandler.startSlsTimer((HMIResourceLocator)object3) == 0) {
-                                logChannel.log(-2137614336, "CoverStackController#updateBitmaps : (re)started DABSlideShow Timer ");
+                                logChannel.log(10000000, "CoverStackController#updateBitmaps : (re)started DABSlideShow Timer ");
                             }
                         }
                         if (logChannelCoverStack.isDebug()) {
-                            logChannelCoverStack.log(-2137614336, "CoverStackController#updateBitmaps: updated %4 bitmaps from top item %1 until %2, images: %3", (Object)menuItemIndex, (Object)menuItemIndex2, (Object)this.coverBitmaps, (Object)Util.createInteger(this.coverBitmaps.size()));
+                            logChannelCoverStack.log(10000000, "CoverStackController#updateBitmaps: updated %4 bitmaps from top item %1 until %2, images: %3", (Object)menuItemIndex, (Object)menuItemIndex2, (Object)this.coverBitmaps, (Object)Util.createInteger(this.coverBitmaps.size()));
                         }
                         return;
                     }
@@ -360,7 +355,7 @@ ILockingListener {
             }
             ++n;
         }
-        logChannelCoverStack.log(-2137614336, "CoverStackController#updateBitmaps: updated %3 bitmaps until end of menu. stackTopItem: %1, images: %2", (Object)menuItemIndex, (Object)this.coverBitmaps, (long)this.coverBitmaps.size());
+        logChannelCoverStack.log(10000000, "CoverStackController#updateBitmaps: updated %3 bitmaps until end of menu. stackTopItem: %1, images: %2", (Object)menuItemIndex, (Object)this.coverBitmaps, (long)this.coverBitmaps.size());
     }
 
     boolean equalsCovers(Object object, Object object2) {
@@ -414,7 +409,7 @@ ILockingListener {
         if (object instanceof ListModelGUI) {
             ListModelGUI listModelGUI = (ListModelGUI)object;
             if (this.bitmapColumn >= listModelGUI.getMaxColumns()) {
-                logChannelCoverStack.log(-1601830656, "CoverStackController#getBitmapModel: bitmapColumn %1 is too high. MaxColumns: %2", (long)this.bitmapColumn, (long)listModelGUI.getMaxColumns());
+                logChannelCoverStack.log(100000, "CoverStackController#getBitmapModel: bitmapColumn %1 is too high. MaxColumns: %2", (long)this.bitmapColumn, (long)listModelGUI.getMaxColumns());
                 return null;
             }
             ListCell[] listCellArray = new ListCell[listModelGUI.getMaxColumns()];
@@ -422,11 +417,11 @@ ILockingListener {
             if (bl) {
                 ListCell listCell = listCellArray[this.bitmapColumn];
                 if (!(listCell instanceof ResourceLocatorListCell)) {
-                    logChannelCoverStack.log(-1601830656, "CoverStackController#getBitmapModel: cover for item %1 (listModel column %3) is not a ResourceLocatorCell: %2", (Object)menuItemIndex, (Object)listCell, (long)this.bitmapColumn);
+                    logChannelCoverStack.log(100000, "CoverStackController#getBitmapModel: cover for item %1 (listModel column %3) is not a ResourceLocatorCell: %2", (Object)menuItemIndex, (Object)listCell, (long)this.bitmapColumn);
                 }
                 return listCell;
             }
-            logChannelCoverStack.log(-1601830656, "CoverStackController#getBitmapModel: can not access list model row %2 of model: %1", (Object)listModelGUI, (long)menuItemIndex.widgetPart);
+            logChannelCoverStack.log(100000, "CoverStackController#getBitmapModel: can not access list model row %2 of model: %1", (Object)listModelGUI, (long)menuItemIndex.widgetPart);
             return null;
         }
         if (object instanceof TiledListModelGUI) {
@@ -436,7 +431,7 @@ ILockingListener {
             if (guiListRow != null) {
                 n = this.defaultBitmapColumn > -1 && this.defaultBitmapColumn < guiListRow.getColumnCount() ? guiListRow.getInteger(this.defaultBitmapColumn) : (int)guiListRow.getUniqueID();
                 if (this.bitmapColumn >= guiListRow.getColumnCount()) {
-                    logChannelCoverStack.log(-1601830656, "CoverStackController#getBitmapModel: bitmapColumn %1 is too high. row's columns: %2", (long)this.bitmapColumn, (long)guiListRow.getColumnCount());
+                    logChannelCoverStack.log(100000, "CoverStackController#getBitmapModel: bitmapColumn %1 is too high. row's columns: %2", (long)this.bitmapColumn, (long)guiListRow.getColumnCount());
                     return null;
                 }
                 Object object2 = guiListRow.getCell(this.bitmapColumn);
@@ -450,10 +445,10 @@ ILockingListener {
                     }
                     return new ResourceLocatorListCell(n, null);
                 }
-                logChannelCoverStack.log(-1601830656, "CoverStackController#getBitmapModel: cover for item %1 (listModel column %3) is not a ResourceLocatorCell: %2", (Object)menuItemIndex, object2, (long)this.bitmapColumn);
+                logChannelCoverStack.log(100000, "CoverStackController#getBitmapModel: cover for item %1 (listModel column %3) is not a ResourceLocatorCell: %2", (Object)menuItemIndex, object2, (long)this.bitmapColumn);
                 return object2;
             }
-            logChannelCoverStack.log(-2137614336, "CoverStackController#getBitmapModel: list row %2 is null in model: %1", (Object)tiledListModelGUI, (long)menuItemIndex.widgetPart);
+            logChannelCoverStack.log(10000000, "CoverStackController#getBitmapModel: list row %2 is null in model: %1", (Object)tiledListModelGUI, (long)menuItemIndex.widgetPart);
             return null;
         }
         logChannelCoverStack.log(10000, "CoverStackController#getBitmapModel: menuItem's model is not a list model. item index: %1, model: %2", (Object)menuItemIndex, object);
@@ -530,27 +525,21 @@ ILockingListener {
         this.expandable = bl;
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
@@ -574,28 +563,25 @@ ILockingListener {
         this.crossFadingActive = true;
         if (this.getAnimation().isAnimating()) {
             this.getAnimation().setTarget(this.crossFadeAnimation.getTarget());
-            logChannelCoverStack.log(-2137614336, "CoverStackController#startCrossFadingAnimation crossFading started state: %1", (long)this.crossFadeState);
+            logChannelCoverStack.log(10000000, "CoverStackController#startCrossFadingAnimation crossFading started state: %1", (long)this.crossFadeState);
         } else {
-            this.getAnimation().startDynamicAnimation(0.0f, 31300, 104, true, this);
-            logChannelCoverStack.log(-2137614336, "CoverStackController#startCrossFadingAnimation crossFading started state: %1", (long)this.crossFadeState);
+            this.getAnimation().startDynamicAnimation(0.0f, 1000.0f, 104, true, this);
+            logChannelCoverStack.log(10000000, "CoverStackController#startCrossFadingAnimation crossFading started state: %1", (long)this.crossFadeState);
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (this.crossFadingActive) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#animationFinished");
+            logChannelCoverStack.log(10000000, "CoverStackController#animationFinished");
             this.stopCrossFadeAnimation(false);
         }
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
-        logChannelCoverStack.log(-2137614336, "CoverStackController#animate");
+        logChannelCoverStack.log(10000000, "CoverStackController#animate");
         switch (this.crossFadeState) {
             case 1: {
                 this.crossFadingProgress = this.crossFadeAnimation.getProgress();
@@ -606,21 +592,21 @@ ILockingListener {
                 break;
             }
             default: {
-                logChannelCoverStack.log(-1601830656, "CoverStackController#animate untreated crossFadeState: %1", (long)this.crossFadeState);
+                logChannelCoverStack.log(100000, "CoverStackController#animate untreated crossFadeState: %1", (long)this.crossFadeState);
             }
         }
         if (this.isInterruptCrossFading()) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#animate interrupt");
+            logChannelCoverStack.log(10000000, "CoverStackController#animate interrupt");
         }
         if (this.getNowPlayingAnimationProgress() != 1.0f) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#animate nowPlayingProgress");
+            logChannelCoverStack.log(10000000, "CoverStackController#animate nowPlayingProgress");
         }
         this.setCompositesDirty(true);
     }
 
     private void stopCrossFadeAnimation(boolean bl) {
         if (this.crossFadeAnimation == null) {
-            logChannelCoverStack.log(-2137614336, "CoverStackController#stopCrossFadeAnimation crossFading stopping failed ");
+            logChannelCoverStack.log(10000000, "CoverStackController#stopCrossFadeAnimation crossFading stopping failed ");
         } else if (!this.crossFadeAnimation.isAnimating()) {
             this.crossFadingActive = false;
             this.interruptCrossFading = false;
@@ -634,7 +620,7 @@ ILockingListener {
         } else if (this.crossFadeAnimation.isAnimating()) {
             this.crossFadeAnimation.stopAnimation();
             if (logChannelCoverStack.isDebug()) {
-                logChannelCoverStack.log(-2137614336, "CoverStackController#stopCrossFadeAnimation crossFading stopped new state: %1 emergencyInterrupt: %2", (Object)String.valueOf(this.crossFadeState), (Object)String.valueOf(bl));
+                logChannelCoverStack.log(10000000, "CoverStackController#stopCrossFadeAnimation crossFading stopped new state: %1 emergencyInterrupt: %2", (Object)String.valueOf(this.crossFadeState), (Object)String.valueOf(bl));
             }
         }
     }
@@ -687,7 +673,7 @@ ILockingListener {
     }
 
     public void setUpdateState(boolean bl) {
-        logChannelCoverStack.log(-2137614336, "CoverStackController#setUpdateState status is: %1", bl);
+        logChannelCoverStack.log(10000000, "CoverStackController#setUpdateState status is: %1", bl);
         this.updateState = bl;
         if (bl) {
             this.processModelUpdateEvent(null);
@@ -722,17 +708,15 @@ ILockingListener {
         if (this.hasBitmap(this.primaryBitmapsDefaultIndex)) {
             return this.primaryBitmapsDefaultIndex;
         }
-        logChannelCoverStack.log(-2137614336, "CoverStackController#getDfeaultBitmapIndexToUse: primaryBitmapsDefaultIndex (%1) not valid, index 0 used instead", (long)this.primaryBitmapsDefaultIndex);
+        logChannelCoverStack.log(10000000, "CoverStackController#getDfeaultBitmapIndexToUse: primaryBitmapsDefaultIndex (%1) not valid, index 0 used instead", (long)this.primaryBitmapsDefaultIndex);
         return 0;
     }
 
-    @Override
     public void isLockingActive(boolean bl, boolean bl2) {
         this.lockingActive = bl && bl2;
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.modelStubLockingInvisible != null || this.modelStubLockingShade != null) {
@@ -744,7 +728,7 @@ ILockingListener {
     private void calculateLockingAction() {
         this.evaluateModelStub(this.modelStubLockingShade, 1);
         this.evaluateModelStub(this.modelStubLockingInvisible, 2);
-        IWidgetLogChannel.logLocking.log(-2137614336, "CoverStackController#calculateLockingAction new lockingAction=%1", (long)this.lockingAction);
+        IWidgetLogChannel.logLocking.log(10000000, "CoverStackController#calculateLockingAction new lockingAction=%1", (long)this.lockingAction);
     }
 
     private void evaluateModelStub(ModelStubController modelStubController, int n) {
@@ -755,7 +739,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public float getRenderOpacity() {
         float f2 = super.getRenderOpacity();
         if (this.lockingActive) {
@@ -764,16 +747,16 @@ ILockingListener {
             } else if (this.lockingAction == 2) {
                 f2 = 0.0f;
             }
-            IWidgetLogChannel.logLocking.log(-2137614336, "CoverStackController#getRenderOpacity return opacity=%1", (double)f2);
+            IWidgetLogChannel.logLocking.log(10000000, "CoverStackController#getRenderOpacity return opacity=%1", (double)f2);
         }
         return f2;
     }
 
     public void add(AbstractWidget abstractWidget, int n) {
         if (abstractWidget instanceof ModelStubController) {
-            if (n == 2) {
+            if (n == 0x2000000) {
                 this.modelStubLockingShade = (ModelStubController)abstractWidget;
-            } else if (n == 4) {
+            } else if (n == 0x4000000) {
                 this.modelStubLockingInvisible = (ModelStubController)abstractWidget;
             }
         }
@@ -791,7 +774,6 @@ ILockingListener {
         }
     }
 
-    @Override
     public boolean isInterestedOnTimerEvents() {
         return true;
     }

@@ -3,29 +3,23 @@
  */
 package de.esolutions.fw.comm.asi.imageserver;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ImageServerC {
-    default public void requestImage(String[] stringArray, byte by, boolean bl) {
-    }
+    public void requestImage(String[] var1, byte var2, boolean var3) throws MethodException;
 
-    default public void requestImageInformation(String[] stringArray) {
-    }
+    public void requestImageInformation(String[] var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

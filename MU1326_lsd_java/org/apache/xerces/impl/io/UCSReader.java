@@ -3,16 +3,17 @@
  */
 package org.apache.xerces.impl.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
 public class UCSReader
 extends Reader {
-    public static final int DEFAULT_BUFFER_SIZE;
-    public static final short UCS2LE;
-    public static final short UCS2BE;
-    public static final short UCS4LE;
-    public static final short UCS4BE;
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
+    public static final short UCS2LE = 1;
+    public static final short UCS2BE = 2;
+    public static final short UCS4LE = 4;
+    public static final short UCS4BE = 8;
     protected final InputStream fInputStream;
     protected final byte[] fBuffer;
     protected final short fEncoding;
@@ -31,8 +32,7 @@ extends Reader {
         this.fEncoding = s;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.fInputStream.read() & 0xFF;
         if (n == 255) {
             return -1;
@@ -50,7 +50,7 @@ extends Reader {
             if (n4 == 255) {
                 return -1;
             }
-            System.err.println(new StringBuffer().append("b0 is ").append(n & 0xFF).append(" b1 ").append(n2 & 0xFF).append(" b2 ").append(n3 & 0xFF).append(" b3 ").append(n4 & 0xFF).toString());
+            System.err.println("b0 is " + (n & 0xFF) + " b1 " + (n2 & 0xFF) + " b2 " + (n3 & 0xFF) + " b3 " + (n4 & 0xFF));
             if (this.fEncoding == 8) {
                 return (n << 24) + (n2 << 16) + (n3 << 8) + n4;
             }
@@ -62,8 +62,7 @@ extends Reader {
         return (n2 << 8) + n;
     }
 
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         int n3;
         int n4;
         int n5;
@@ -117,8 +116,7 @@ extends Reader {
         return n6;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         int n = this.fEncoding >= 4 ? 2 : 1;
         long l2 = this.fInputStream.skip(l << n);
         if ((l2 & (long)(n | 1)) == 0L) {
@@ -127,28 +125,23 @@ extends Reader {
         return (l2 >> n) + 1L;
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         return false;
     }
 
-    @Override
     public boolean markSupported() {
         return this.fInputStream.markSupported();
     }
 
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         this.fInputStream.mark(n);
     }
 
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         this.fInputStream.reset();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.fInputStream.close();
     }
 }

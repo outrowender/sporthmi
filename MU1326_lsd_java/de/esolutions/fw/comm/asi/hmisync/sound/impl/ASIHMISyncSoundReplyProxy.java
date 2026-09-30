@@ -7,43 +7,23 @@ import de.esolutions.fw.comm.asi.hmisync.sound.ASIHMISyncSoundReply;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeValue;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$10;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$11;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$12;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$13;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$14;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$15;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$16;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$17;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$18;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$19;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$20;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$21;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$22;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$23;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$24;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$25;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$26;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$27;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$3;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$4;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$5;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$6;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$7;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$8;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundReplyProxy$9;
+import de.esolutions.fw.comm.asi.hmisync.sound.impl.SoundRangeSerializer;
+import de.esolutions.fw.comm.asi.hmisync.sound.impl.SoundShapeRangeSerializer;
+import de.esolutions.fw.comm.asi.hmisync.sound.impl.SoundShapeValueSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncSoundReplyProxy
 implements ASIHMISyncSoundReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.sound.ASIHMISyncSound");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncSoundReplyProxy() {
@@ -51,171 +31,305 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncSoundReplyProxy$1 aSIHMISyncSoundReplyProxy$1 = new ASIHMISyncSoundReplyProxy$1(this, string, bl);
-        this.proxy.remoteCallMethod((short)14, aSIHMISyncSoundReplyProxy$1);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncSoundReplyProxy$2 aSIHMISyncSoundReplyProxy$2 = new ASIHMISyncSoundReplyProxy$2(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)27, aSIHMISyncSoundReplyProxy$2);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncSoundReplyProxy$3 aSIHMISyncSoundReplyProxy$3 = new ASIHMISyncSoundReplyProxy$3(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)26, aSIHMISyncSoundReplyProxy$3);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void updateSoundState(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$4 aSIHMISyncSoundReplyProxy$4 = new ASIHMISyncSoundReplyProxy$4(this, n, bl);
-        this.proxy.remoteCallMethod((short)28, aSIHMISyncSoundReplyProxy$4);
+    public void updateSoundState(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)28, iSerializable);
     }
 
-    @Override
-    public void updateAmplifier(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$5 aSIHMISyncSoundReplyProxy$5 = new ASIHMISyncSoundReplyProxy$5(this, n, bl);
-        this.proxy.remoteCallMethod((short)15, aSIHMISyncSoundReplyProxy$5);
+    public void updateAmplifier(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void updateBassRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$6 aSIHMISyncSoundReplyProxy$6 = new ASIHMISyncSoundReplyProxy$6(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)18, aSIHMISyncSoundReplyProxy$6);
+    public void updateBassRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void updateBassValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$7 aSIHMISyncSoundReplyProxy$7 = new ASIHMISyncSoundReplyProxy$7(this, n, bl);
-        this.proxy.remoteCallMethod((short)19, aSIHMISyncSoundReplyProxy$7);
+    public void updateBassValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 
-    @Override
-    public void updateTrebleRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$8 aSIHMISyncSoundReplyProxy$8 = new ASIHMISyncSoundReplyProxy$8(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)33, aSIHMISyncSoundReplyProxy$8);
+    public void updateTrebleRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)33, iSerializable);
     }
 
-    @Override
-    public void updateTrebleValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$9 aSIHMISyncSoundReplyProxy$9 = new ASIHMISyncSoundReplyProxy$9(this, n, bl);
-        this.proxy.remoteCallMethod((short)34, aSIHMISyncSoundReplyProxy$9);
+    public void updateTrebleValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)34, iSerializable);
     }
 
-    @Override
-    public void updateBalanceRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$10 aSIHMISyncSoundReplyProxy$10 = new ASIHMISyncSoundReplyProxy$10(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)16, aSIHMISyncSoundReplyProxy$10);
+    public void updateBalanceRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void updateBalanceValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$11 aSIHMISyncSoundReplyProxy$11 = new ASIHMISyncSoundReplyProxy$11(this, n, bl);
-        this.proxy.remoteCallMethod((short)17, aSIHMISyncSoundReplyProxy$11);
+    public void updateBalanceValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void updateFaderRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$12 aSIHMISyncSoundReplyProxy$12 = new ASIHMISyncSoundReplyProxy$12(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)20, aSIHMISyncSoundReplyProxy$12);
+    public void updateFaderRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void updateFaderValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$13 aSIHMISyncSoundReplyProxy$13 = new ASIHMISyncSoundReplyProxy$13(this, n, bl);
-        this.proxy.remoteCallMethod((short)21, aSIHMISyncSoundReplyProxy$13);
+    public void updateFaderValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void updateSubwooferRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$14 aSIHMISyncSoundReplyProxy$14 = new ASIHMISyncSoundReplyProxy$14(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)29, aSIHMISyncSoundReplyProxy$14);
+    public void updateSubwooferRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void updateSubwooferValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$15 aSIHMISyncSoundReplyProxy$15 = new ASIHMISyncSoundReplyProxy$15(this, n, bl);
-        this.proxy.remoteCallMethod((short)30, aSIHMISyncSoundReplyProxy$15);
+    public void updateSubwooferValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)30, iSerializable);
     }
 
-    @Override
-    public void updateSurroundRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$16 aSIHMISyncSoundReplyProxy$16 = new ASIHMISyncSoundReplyProxy$16(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)31, aSIHMISyncSoundReplyProxy$16);
+    public void updateSurroundRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void updateSurroundValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$17 aSIHMISyncSoundReplyProxy$17 = new ASIHMISyncSoundReplyProxy$17(this, n, bl);
-        this.proxy.remoteCallMethod((short)32, aSIHMISyncSoundReplyProxy$17);
+    public void updateSurroundValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void updateNoiseCompensationRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$18 aSIHMISyncSoundReplyProxy$18 = new ASIHMISyncSoundReplyProxy$18(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)22, aSIHMISyncSoundReplyProxy$18);
+    public void updateNoiseCompensationRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)22, iSerializable);
     }
 
-    @Override
-    public void updateNoiseCompensationValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$19 aSIHMISyncSoundReplyProxy$19 = new ASIHMISyncSoundReplyProxy$19(this, n, bl);
-        this.proxy.remoteCallMethod((short)23, aSIHMISyncSoundReplyProxy$19);
+    public void updateNoiseCompensationValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 
-    @Override
-    public void updateThreeDModeRange(SoundRange soundRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$20 aSIHMISyncSoundReplyProxy$20 = new ASIHMISyncSoundReplyProxy$20(this, soundRange, bl);
-        this.proxy.remoteCallMethod((short)39, aSIHMISyncSoundReplyProxy$20);
+    public void updateThreeDModeRange(final SoundRange soundRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundRangeSerializer.putOptionalSoundRange(iSerializer, soundRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)39, iSerializable);
     }
 
-    @Override
-    public void updateThreeDModeValue(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$21 aSIHMISyncSoundReplyProxy$21 = new ASIHMISyncSoundReplyProxy$21(this, n, bl);
-        this.proxy.remoteCallMethod((short)40, aSIHMISyncSoundReplyProxy$21);
+    public void updateThreeDModeValue(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)40, iSerializable);
     }
 
-    @Override
-    public void updateSoundShapeRange(SoundShapeRange soundShapeRange, boolean bl) {
-        ASIHMISyncSoundReplyProxy$22 aSIHMISyncSoundReplyProxy$22 = new ASIHMISyncSoundReplyProxy$22(this, soundShapeRange, bl);
-        this.proxy.remoteCallMethod((short)42, aSIHMISyncSoundReplyProxy$22);
+    public void updateSoundShapeRange(final SoundShapeRange soundShapeRange, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundShapeRangeSerializer.putOptionalSoundShapeRange(iSerializer, soundShapeRange);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 
-    @Override
-    public void updateSoundShapeValue(SoundShapeValue soundShapeValue, boolean bl) {
-        ASIHMISyncSoundReplyProxy$23 aSIHMISyncSoundReplyProxy$23 = new ASIHMISyncSoundReplyProxy$23(this, soundShapeValue, bl);
-        this.proxy.remoteCallMethod((short)43, aSIHMISyncSoundReplyProxy$23);
+    public void updateSoundShapeValue(final SoundShapeValue soundShapeValue, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SoundShapeValueSerializer.putOptionalSoundShapeValue(iSerializer, soundShapeValue);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)43, iSerializable);
     }
 
-    @Override
-    public void updatePresetPositionList(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$24 aSIHMISyncSoundReplyProxy$24 = new ASIHMISyncSoundReplyProxy$24(this, n, bl);
-        this.proxy.remoteCallMethod((short)25, aSIHMISyncSoundReplyProxy$24);
+    public void updatePresetPositionList(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void updatePresetPosition(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$25 aSIHMISyncSoundReplyProxy$25 = new ASIHMISyncSoundReplyProxy$25(this, n, bl);
-        this.proxy.remoteCallMethod((short)24, aSIHMISyncSoundReplyProxy$25);
+    public void updatePresetPosition(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)24, iSerializable);
     }
 
-    @Override
-    public void updatePresetEQList(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$26 aSIHMISyncSoundReplyProxy$26 = new ASIHMISyncSoundReplyProxy$26(this, n, bl);
-        this.proxy.remoteCallMethod((short)38, aSIHMISyncSoundReplyProxy$26);
+    public void updatePresetEQList(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)38, iSerializable);
     }
 
-    @Override
-    public void updatePresetEQ(int n, boolean bl) {
-        ASIHMISyncSoundReplyProxy$27 aSIHMISyncSoundReplyProxy$27 = new ASIHMISyncSoundReplyProxy$27(this, n, bl);
-        this.proxy.remoteCallMethod((short)37, aSIHMISyncSoundReplyProxy$27);
+    public void updatePresetEQ(final int n, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)37, iSerializable);
     }
 }
 

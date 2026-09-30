@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.radio.impl;
 import de.esolutions.fw.comm.asi.hmisync.radio.WavebandInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WavebandInfoSerializer {
-    public static void putOptionalWavebandInfo(ISerializer iSerializer, WavebandInfo wavebandInfo) {
+    public static void putOptionalWavebandInfo(ISerializer iSerializer, WavebandInfo wavebandInfo) throws SerializerException {
         boolean bl = wavebandInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class WavebandInfoSerializer {
         }
     }
 
-    public static void putOptionalWavebandInfoVarArray(ISerializer iSerializer, WavebandInfo[] wavebandInfoArray) {
+    public static void putOptionalWavebandInfoVarArray(ISerializer iSerializer, WavebandInfo[] wavebandInfoArray) throws SerializerException {
         boolean bl = wavebandInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class WavebandInfoSerializer {
         }
     }
 
-    public static WavebandInfo getOptionalWavebandInfo(IDeserializer iDeserializer) {
+    public static WavebandInfo getOptionalWavebandInfo(IDeserializer iDeserializer) throws SerializerException {
         WavebandInfo wavebandInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class WavebandInfoSerializer {
         return wavebandInfo;
     }
 
-    public static WavebandInfo[] getOptionalWavebandInfoVarArray(IDeserializer iDeserializer) {
+    public static WavebandInfo[] getOptionalWavebandInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         WavebandInfo[] wavebandInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

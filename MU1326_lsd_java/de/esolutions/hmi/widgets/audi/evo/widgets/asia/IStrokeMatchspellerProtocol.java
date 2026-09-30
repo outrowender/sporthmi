@@ -7,25 +7,18 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IStrokeConversionsAvailab
 
 public interface IStrokeMatchspellerProtocol
 extends IStrokeConversionsAvailableListener {
-    default public void strokesChanged(String string, char c2) {
-    }
+    public void strokesChanged(String var1, char var2);
 
-    default public String getStrokes() {
-    }
+    public String getStrokes();
 
-    default public void requestValidHanziCharsWindow(int n, int n2) {
-    }
+    public void requestValidHanziCharsWindow(int var1, int var2);
 
-    default public int getTotalAmountOfHanziCharacters() {
-    }
+    public int getTotalAmountOfHanziCharacters();
 
-    default public void setStrokeConversionsAvailableListener(IStrokeConversionsAvailableListener iStrokeConversionsAvailableListener) {
-    }
+    public void setStrokeConversionsAvailableListener(IStrokeConversionsAvailableListener var1);
 
-    default public String getValidHanziCharsWindowResult() {
-    }
+    public String getValidHanziCharsWindowResult();
 
-    default public void notifyModelTextValueChanged() {
-    }
+    public void notifyModelTextValueChanged();
 }
 

@@ -26,28 +26,23 @@ implements DSIAdbEdit {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbEdit == null ? (class$org$dsi$ifc$organizer$DSIAdbEdit = DSIAdbEditProvider.class$("org.dsi.ifc.organizer.DSIAdbEdit")) : class$org$dsi$ifc$organizer$DSIAdbEdit).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbEditProxy(this.instance, (DSIAdbEditReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void insertEntry(AdbEntry adbEntry, int n) {
         try {
             this.proxy.insertEntry(adbEntry, n);
@@ -57,7 +52,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void getEntries(long[] lArray, int n, int n2) {
         try {
             this.proxy.getEntries(lArray, n, n2);
@@ -67,7 +61,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void getEntryDataSets(long[] lArray, int n, int n2) {
         try {
             this.proxy.getEntryDataSets(lArray, n, n2);
@@ -77,7 +70,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void changeEntry(AdbEntry adbEntry, int n) {
         try {
             this.proxy.changeEntry(adbEntry, n);
@@ -87,7 +79,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void copyEntry(long l) {
         try {
             this.proxy.copyEntry(l);
@@ -97,7 +88,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void deleteEntries(long[] lArray, int n, int n2) {
         try {
             this.proxy.deleteEntries(lArray, n, n2);
@@ -107,7 +97,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void setSpeedDial(AdbEntry adbEntry) {
         try {
             this.proxy.setSpeedDial(adbEntry);
@@ -117,7 +106,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void deleteSpeedDial(int n) {
         try {
             this.proxy.deleteSpeedDial(n);
@@ -127,7 +115,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void getEntryByReferenceId(String string) {
         try {
             this.proxy.getEntryByReferenceId(string);
@@ -137,7 +124,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -157,7 +142,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -167,7 +151,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -177,7 +160,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -187,7 +169,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -197,7 +178,6 @@ implements DSIAdbEdit {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

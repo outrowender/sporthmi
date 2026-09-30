@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carlight.impl.IntLightConfigSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightConfig;
 import org.dsi.ifc.carlight.IntLightViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class IntLightViewOptionsSerializer {
-    public static void putOptionalIntLightViewOptions(ISerializer iSerializer, IntLightViewOptions intLightViewOptions) {
+    public static void putOptionalIntLightViewOptions(ISerializer iSerializer, IntLightViewOptions intLightViewOptions) throws SerializerException {
         boolean bl = intLightViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -79,7 +80,7 @@ public class IntLightViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalIntLightViewOptionsVarArray(ISerializer iSerializer, IntLightViewOptions[] intLightViewOptionsArray) {
+    public static void putOptionalIntLightViewOptionsVarArray(ISerializer iSerializer, IntLightViewOptions[] intLightViewOptionsArray) throws SerializerException {
         boolean bl = intLightViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -90,7 +91,7 @@ public class IntLightViewOptionsSerializer {
         }
     }
 
-    public static IntLightViewOptions getOptionalIntLightViewOptions(IDeserializer iDeserializer) {
+    public static IntLightViewOptions getOptionalIntLightViewOptions(IDeserializer iDeserializer) throws SerializerException {
         IntLightViewOptions intLightViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -159,7 +160,7 @@ public class IntLightViewOptionsSerializer {
         return intLightViewOptions;
     }
 
-    public static IntLightViewOptions[] getOptionalIntLightViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static IntLightViewOptions[] getOptionalIntLightViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightViewOptions[] intLightViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

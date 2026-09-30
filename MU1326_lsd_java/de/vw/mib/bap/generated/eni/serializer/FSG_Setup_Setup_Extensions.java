@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class FSG_Setup_Setup_Extensions
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean fleetModeEnabledDf3_4;
 
     public FSG_Setup_Setup_Extensions() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.fleetModeEnabledDf3_4 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Setup_Setup_Extensions fSG_Setup_Setup_Extensions = (FSG_Setup_Setup_Extensions)bAPEntity;
         return this.fleetModeEnabledDf3_4 == fSG_Setup_Setup_Extensions.fleetModeEnabledDf3_4;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Setup_Setup_Extensions");
-        stringBuffer.append(new StringBuffer().append("\n - fleetModeEnabledDf3_4:").append(this.fleetModeEnabledDf3_4).toString());
+        stringBuffer.append("\n - fleetModeEnabledDf3_4:" + this.fleetModeEnabledDf3_4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.fleetModeEnabledDf3_4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.fleetModeEnabledDf3_4 = bitStream.popFrontBoolean();

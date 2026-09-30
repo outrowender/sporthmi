@@ -3,41 +3,31 @@
  */
 package de.esolutions.fw.comm.dsi.bluetooth;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIObjectPushC {
-    default public void requestOPPAbortSending() {
-    }
+    public void requestOPPAbortSending() throws MethodException;
 
-    default public void requestOPPAcceptObject(String string, boolean bl) {
-    }
+    public void requestOPPAcceptObject(String var1, boolean var2) throws MethodException;
 
-    default public void requestOPPSendContacts(String string, String string2) {
-    }
+    public void requestOPPSendContacts(String var1, String var2) throws MethodException;
 
-    default public void requestOPPSendMessages(String string, int[] nArray) {
-    }
+    public void requestOPPSendMessages(String var1, int[] var2) throws MethodException;
 
-    default public void requestOPPSendBinary(String string, String[] stringArray) {
-    }
+    public void requestOPPSendBinary(String var1, String[] var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

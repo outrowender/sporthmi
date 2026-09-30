@@ -27,11 +27,11 @@ extends AbstractWidgetController {
 
     private void updateWithMetrics(AbstractMetrics abstractMetrics) {
         if (abstractMetrics == null) {
-            logChannel.log(-1601830656, "OilTemperatureGaugeController#updateWithMetrics: metric is null");
+            logChannel.log(100000, "OilTemperatureGaugeController#updateWithMetrics: metric is null");
             return;
         }
         if (!(abstractMetrics instanceof Temperature)) {
-            logChannel.log(-1601830656, "OilTemperatureGaugeController#updateWithMetrics: metric must be Temperature: %1", (Object)abstractMetrics);
+            logChannel.log(100000, "OilTemperatureGaugeController#updateWithMetrics: metric must be Temperature: %1", (Object)abstractMetrics);
             return;
         }
         Temperature temperature = (Temperature)abstractMetrics;
@@ -42,13 +42,12 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logChannel.log(-1601830656, "Unsupported temperature unit: %1", (Object)abstractMetrics.getFormattedMetricUnit());
+                logChannel.log(100000, "Unsupported temperature unit: %1", (Object)abstractMetrics.getFormattedMetricUnit());
                 return;
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         switch (modelUpdateEvent.getUpdateType()) {
             case 1: 
@@ -58,7 +57,7 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logChannel.log(-1601830656, "OilTemperatureGaugeController#processModelUpdateEvent: ignore model update event (%1) here", (Object)modelUpdateEvent);
+                logChannel.log(100000, "OilTemperatureGaugeController#processModelUpdateEvent: ignore model update event (%1) here", (Object)modelUpdateEvent);
             }
         }
     }
@@ -67,7 +66,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

@@ -20,7 +20,6 @@ implements ContainerRenderer {
         return (ContainerController)this.controller;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         ContainerController containerController = this.getContainerController();
         float f2 = (float)containerController.getX() + containerController.getTransX();
@@ -42,12 +41,10 @@ implements ContainerRenderer {
         this.node.setVisible(this.shouldRenderVisible());
     }
 
-    @Override
     protected boolean shouldRenderVisible() {
         return super.shouldRenderVisible() && this.getContainerController().getMMICombiSyncMode() != 2;
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
         if (this.node != null) {
             if (this.node.isValid()) {
@@ -58,7 +55,6 @@ implements ContainerRenderer {
         }
     }
 
-    @Override
     public void setVisibleDirect(boolean bl) {
         if (this.node == null) {
             return;

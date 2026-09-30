@@ -4,18 +4,20 @@
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SpeechDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SpeechDiagServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SpeechDiagServiceReplyProxy$2;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2SpeechDiagServiceReplyProxy
 implements MMX2SpeechDiagServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.diagnosis.mmx2app.MMX2SpeechDiagService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public MMX2SpeechDiagServiceReplyProxy() {
@@ -23,21 +25,28 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void requestCommandSDS(long l) {
-        MMX2SpeechDiagServiceReplyProxy$1 mMX2SpeechDiagServiceReplyProxy$1 = new MMX2SpeechDiagServiceReplyProxy$1(this, l);
-        this.proxy.remoteCallMethod((short)0, mMX2SpeechDiagServiceReplyProxy$1);
+    public void requestCommandSDS(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void requestCountryRegionVersion(long l) {
-        MMX2SpeechDiagServiceReplyProxy$2 mMX2SpeechDiagServiceReplyProxy$2 = new MMX2SpeechDiagServiceReplyProxy$2(this, l);
-        this.proxy.remoteCallMethod((short)12, mMX2SpeechDiagServiceReplyProxy$2);
+    public void requestCountryRegionVersion(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 }
 

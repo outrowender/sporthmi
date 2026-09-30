@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carstopwatch.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carstopwatch.StopWatchViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class StopWatchViewOptionsSerializer {
-    public static void putOptionalStopWatchViewOptions(ISerializer iSerializer, StopWatchViewOptions stopWatchViewOptions) {
+    public static void putOptionalStopWatchViewOptions(ISerializer iSerializer, StopWatchViewOptions stopWatchViewOptions) throws SerializerException {
         boolean bl = stopWatchViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class StopWatchViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalStopWatchViewOptionsVarArray(ISerializer iSerializer, StopWatchViewOptions[] stopWatchViewOptionsArray) {
+    public static void putOptionalStopWatchViewOptionsVarArray(ISerializer iSerializer, StopWatchViewOptions[] stopWatchViewOptionsArray) throws SerializerException {
         boolean bl = stopWatchViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class StopWatchViewOptionsSerializer {
         }
     }
 
-    public static StopWatchViewOptions getOptionalStopWatchViewOptions(IDeserializer iDeserializer) {
+    public static StopWatchViewOptions getOptionalStopWatchViewOptions(IDeserializer iDeserializer) throws SerializerException {
         StopWatchViewOptions stopWatchViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class StopWatchViewOptionsSerializer {
         return stopWatchViewOptions;
     }
 
-    public static StopWatchViewOptions[] getOptionalStopWatchViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static StopWatchViewOptions[] getOptionalStopWatchViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         StopWatchViewOptions[] stopWatchViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,7 +6,6 @@ package org.apache.xerces.xni.grammars;
 import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 
 public interface Grammar {
-    default public XMLGrammarDescription getGrammarDescription() {
-    }
+    public XMLGrammarDescription getGrammarDescription();
 }
 

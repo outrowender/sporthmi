@@ -62,7 +62,7 @@ public class sTelephoneAntennaState {
     }
 
     public String toString() {
-        return new StringBuffer("sTelephoneAntennaState{").append("msg_id=").append(this.msg_id).append(", antenna=").append(this.antenna).append(", connectionState=").append(this.connectionState).append(", antennaCurrent=").append(this.antennaCurrent).append(", receptionLevel=").append(this.receptionLevel).append("}").toString();
+        return "sTelephoneAntennaState{" + "msg_id=" + this.msg_id + ", antenna=" + this.antenna + ", connectionState=" + this.connectionState + ", antennaCurrent=" + this.antennaCurrent + ", receptionLevel=" + this.receptionLevel + "}";
     }
 }
 

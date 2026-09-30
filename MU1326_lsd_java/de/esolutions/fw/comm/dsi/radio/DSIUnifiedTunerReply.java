@@ -3,81 +3,60 @@
  */
 package de.esolutions.fw.comm.dsi.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.radio.DABSlideShowInfo;
 import org.dsi.ifc.radio.UnifiedRadioText;
 import org.dsi.ifc.radio.UnifiedRadioTextPlus;
 import org.dsi.ifc.radio.UnifiedStation;
 
 public interface DSIUnifiedTunerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "dfce4bfe-039b-5764-9c93-b4266b577aa7";
+    public static final String IPL_COMM_INTERFACE_KEY = "30be144b-1646-5c36-a6a8-468b18b19830";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.36";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.36";
 
-    default public void selectStationStatus(int n) {
-    }
+    public void selectStationStatus(int var1) throws MethodException;
 
-    default public void updateAudioStatus(int n, int n2) {
-    }
+    public void updateAudioStatus(int var1, int var2) throws MethodException;
 
-    default public void updateDetectedDevice(int n, int n2) {
-    }
+    public void updateDetectedDevice(int var1, int var2) throws MethodException;
 
-    default public void updateSelectedStation(UnifiedStation unifiedStation, int n) {
-    }
+    public void updateSelectedStation(UnifiedStation var1, int var2) throws MethodException;
 
-    default public void updateStationList(UnifiedStation[] unifiedStationArray, int n) {
-    }
+    public void updateStationList(UnifiedStation[] var1, int var2) throws MethodException;
 
-    default public void updateRadioText(UnifiedRadioText unifiedRadioText, int n) {
-    }
+    public void updateRadioText(UnifiedRadioText var1, int var2) throws MethodException;
 
-    default public void updateEnhancedRadioText(UnifiedRadioText unifiedRadioText, int n) {
-    }
+    public void updateEnhancedRadioText(UnifiedRadioText var1, int var2) throws MethodException;
 
-    default public void updateRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) {
-    }
+    public void updateRadioTextPlus(UnifiedRadioTextPlus var1, int var2) throws MethodException;
 
-    default public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus unifiedRadioTextPlus, int n) {
-    }
+    public void updateEnhancedRadioTextPlus(UnifiedRadioTextPlus var1, int var2) throws MethodException;
 
-    default public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) {
-    }
+    public void updateSlideShowInfo(DABSlideShowInfo var1, int var2) throws MethodException;
 
-    default public void listMode(int n) {
-    }
+    public void listMode(int var1) throws MethodException;
 
-    default public void stationFollowingMode(int n) {
-    }
+    public void stationFollowingMode(int var1) throws MethodException;
 
-    default public void updateSoftLinkSwitchStatus(int n, int n2) {
-    }
+    public void updateSoftLinkSwitchStatus(int var1, int var2) throws MethodException;
 
-    default public void updateRegModeStatus(int n, int n2) {
-    }
+    public void updateRegModeStatus(int var1, int var2) throws MethodException;
 
-    default public void updateDeviceUsageStatus(int n, int n2) {
-    }
+    public void updateDeviceUsageStatus(int var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -4,18 +4,15 @@
 package de.esolutions.fw.util.serializer.connection;
 
 import de.esolutions.fw.util.serializer.connection.ISpawnedConnectionListener;
+import java.io.IOException;
 
 public interface ISpawnConnectionFactory {
-    default public void setListener(ISpawnedConnectionListener iSpawnedConnectionListener) {
-    }
+    public void setListener(ISpawnedConnectionListener var1);
 
-    default public void enableSpawning() {
-    }
+    public void enableSpawning() throws IOException;
 
-    default public void disableSpawning() {
-    }
+    public void disableSpawning();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 }
 

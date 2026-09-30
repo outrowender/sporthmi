@@ -32,7 +32,7 @@ public class SCRefLapData {
     }
 
     public String toString() {
-        return new StringBuffer("SCRefLapData{").append("uid=").append(this.uid).append(", data=").append("[").append(this.data == null ? "null" : new StringBuffer().append("size=").append(this.data.length).toString()).append("]").append("}").toString();
+        return "SCRefLapData{" + "uid=" + this.uid + ", data=" + "[" + (this.data == null ? "null" : "size=" + this.data.length) + "]" + "}";
     }
 }
 

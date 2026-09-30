@@ -17,17 +17,17 @@ public class ConfigSerializerFactoryProvider
 implements ISerializerFactoryProvider {
     private TransportConfig config;
 
-    public ConfigSerializerFactoryProvider(TransportConfig transportConfig) {
+    public ConfigSerializerFactoryProvider(TransportConfig transportConfig) throws SerializerFactoryException {
         this.config = transportConfig;
         if (!transportConfig.isValid()) {
-            throw new SerializerFactoryException(new StringBuffer().append("Can't create factory provider with inavlid config:\n").append(transportConfig.getFailString()).toString());
+            throw new SerializerFactoryException("Can't create factory provider with inavlid config:\n" + transportConfig.getFailString());
         }
     }
 
-    private ISerializerFactory fromQuery(IConfigQuery iConfigQuery, String string) {
+    private ISerializerFactory fromQuery(IConfigQuery iConfigQuery, String string) throws SerializerFactoryException {
         SerializerParam serializerParam = SerializerParam.create(iConfigQuery);
         if (serializerParam == null) {
-            throw new SerializerFactoryException(new StringBuffer().append("Invalid serializer for ").append(string).toString());
+            throw new SerializerFactoryException("Invalid serializer for " + string);
         }
         int n = serializerParam.getType();
         if (n == 0) {
@@ -36,25 +36,23 @@ implements ISerializerFactoryProvider {
         if (n == 1) {
             return new LEDefaultSerializerFactory();
         }
-        throw new SerializerFactoryException(new StringBuffer().append("Unsupported serializer for ").append(string).toString());
+        throw new SerializerFactoryException("Unsupported serializer for " + string);
     }
 
-    @Override
-    public ISerializerFactory createSerializerFactory(String string, String string2) {
-        String string3 = new StringBuffer().append(string).append(":").append(string2).toString();
+    public ISerializerFactory createSerializerFactory(String string, String string2) throws SerializerFactoryException {
+        String string3 = string + ":" + string2;
         ConfigOverlayPathQuery configOverlayPathQuery = this.config.getQueryForService(string, string2);
         if (configOverlayPathQuery == null) {
-            throw new SerializerFactoryException(new StringBuffer().append("Can't find serializer for proc ").append(string3).toString());
+            throw new SerializerFactoryException("Can't find serializer for proc " + string3);
         }
         return this.fromQuery(configOverlayPathQuery, string3);
     }
 
-    @Override
-    public ISerializerFactory createMySerializerFactory(String string, String string2) {
-        String string3 = new StringBuffer().append(string).append(":").append(string2).toString();
+    public ISerializerFactory createMySerializerFactory(String string, String string2) throws SerializerFactoryException {
+        String string3 = string + ":" + string2;
         ConfigOverlayPathQuery configOverlayPathQuery = this.config.getQueryForMyService(string, string2);
         if (configOverlayPathQuery == null) {
-            throw new SerializerFactoryException(new StringBuffer().append("Can't find serializer for node ").append(string3).toString());
+            throw new SerializerFactoryException("Can't find serializer for node " + string3);
         }
         return this.fromQuery(configOverlayPathQuery, string3);
     }

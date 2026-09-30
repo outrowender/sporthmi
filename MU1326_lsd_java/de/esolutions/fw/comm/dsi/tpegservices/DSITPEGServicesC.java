@@ -3,61 +3,44 @@
  */
 package de.esolutions.fw.comm.dsi.tpegservices;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 
 public interface DSITPEGServicesC {
-    default public void requestSimpleMapList(int n, int n2) {
-    }
+    public void requestSimpleMapList(int var1, int var2) throws MethodException;
 
-    default public void addSimpleMapBookmark(int n) {
-    }
+    public void addSimpleMapBookmark(int var1) throws MethodException;
 
-    default public void deleteSimpleMapBookmark(int n) {
-    }
+    public void deleteSimpleMapBookmark(int var1) throws MethodException;
 
-    default public void deleteAllSimpleMapBookmarks() {
-    }
+    public void deleteAllSimpleMapBookmarks() throws MethodException;
 
-    default public void requestLocationDetails(int n) {
-    }
+    public void requestLocationDetails(int var1) throws MethodException;
 
-    default public void requestFuelPriceInformation(int n, int n2) {
-    }
+    public void requestFuelPriceInformation(int var1, int var2) throws MethodException;
 
-    default public void requestSortedFuelPriceInformation(int n, int n2, int n3) {
-    }
+    public void requestSortedFuelPriceInformation(int var1, int var2, int var3) throws MethodException;
 
-    default public void requestNewsInformation(int n) {
-    }
+    public void requestNewsInformation(int var1) throws MethodException;
 
-    default public void requestResourceInformation(int n) {
-    }
+    public void requestResourceInformation(int var1) throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void requestWeatherInfo(NavLocation navLocation, int n, int n2) {
-    }
+    public void requestWeatherInfo(NavLocation var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

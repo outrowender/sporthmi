@@ -5,21 +5,24 @@ package edu.emory.mathcs.backport.java.util;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.Arrays;
-import edu.emory.mathcs.backport.java.util.PriorityQueue$Itr;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
 public class PriorityQueue
 extends AbstractQueue
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final int DEFAULT_INIT_CAPACITY;
+    private static final long serialVersionUID = -7720805057305804111L;
+    private static final int DEFAULT_INIT_CAPACITY = 11;
     private transient Object[] buffer;
     private int size;
     private final Comparator comparator;
@@ -59,7 +62,7 @@ implements Serializable {
     public PriorityQueue(Collection collection) {
         int n = collection.size();
         if ((n += this.size / 10) < 0) {
-            n = -129;
+            n = Integer.MAX_VALUE;
         } else if (n == 0) {
             n = 1;
         }
@@ -88,16 +91,14 @@ implements Serializable {
         }
     }
 
-    @Override
     public Iterator iterator() {
-        return new PriorityQueue$Itr(this);
+        return new Itr();
     }
 
     public Comparator comparator() {
         return this.comparator;
     }
 
-    @Override
     public boolean offer(Object object) {
         if (object == null) {
             throw new NullPointerException();
@@ -105,10 +106,10 @@ implements Serializable {
         if (this.size == this.buffer.length) {
             int n = this.buffer.length * 2;
             if (n < this.buffer.length) {
-                if (this.buffer.length == -129) {
+                if (this.buffer.length == Integer.MAX_VALUE) {
                     throw new OutOfMemoryError();
                 }
-                n = -129;
+                n = Integer.MAX_VALUE;
             }
             Object[] objectArray = new Object[n];
             System.arraycopy((Object)this.buffer, 0, (Object)objectArray, 0, this.size);
@@ -119,12 +120,10 @@ implements Serializable {
         return true;
     }
 
-    @Override
     public Object peek() {
         return this.size == 0 ? null : this.buffer[0];
     }
 
-    @Override
     public Object poll() {
         if (this.size == 0) {
             return null;
@@ -137,7 +136,6 @@ implements Serializable {
         return object;
     }
 
-    @Override
     public int size() {
         return this.size;
     }
@@ -211,12 +209,10 @@ implements Serializable {
         }
     }
 
-    @Override
     public boolean add(Object object) {
         return this.offer(object);
     }
 
-    @Override
     public Object remove() {
         if (this.size == 0) {
             throw new NoSuchElementException();
@@ -229,7 +225,6 @@ implements Serializable {
         return object;
     }
 
-    @Override
     public Object element() {
         if (this.size == 0) {
             throw new NoSuchElementException();
@@ -237,12 +232,10 @@ implements Serializable {
         return this.buffer[0];
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-    @Override
     public boolean contains(Object object) {
         for (int i2 = 0; i2 < this.size; ++i2) {
             if (!object.equals(this.buffer[i2])) continue;
@@ -251,15 +244,13 @@ implements Serializable {
         return false;
     }
 
-    @Override
     public Object[] toArray() {
         return Arrays.copyOf(this.buffer, this.size, array$Ljava$lang$Object == null ? (array$Ljava$lang$Object = PriorityQueue.class$("[Ljava.lang.Object;")) : array$Ljava$lang$Object);
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         if (objectArray.length < this.size) {
-            return Arrays.copyOf(this.buffer, this.size, super.getClass());
+            return Arrays.copyOf(this.buffer, this.size, objectArray.getClass());
         }
         System.arraycopy((Object)this.buffer, 0, (Object)objectArray, 0, this.size);
         if (objectArray.length > this.size) {
@@ -268,7 +259,6 @@ implements Serializable {
         return objectArray;
     }
 
-    @Override
     public boolean remove(Object object) {
         if (object == null) {
             return false;
@@ -305,14 +295,13 @@ implements Serializable {
         return n2 < n ? object : null;
     }
 
-    @Override
     public void clear() {
         ++this.modCount;
         Arrays.fill(this.buffer, 0, this.size, null);
         this.size = 0;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeInt(this.buffer.length);
         for (int i2 = 0; i2 < this.size; ++i2) {
@@ -320,7 +309,7 @@ implements Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.buffer = new Object[objectInputStream.readInt()];
         for (int i2 = 0; i2 < this.size; ++i2) {
@@ -337,24 +326,69 @@ implements Serializable {
         }
     }
 
-    static /* synthetic */ int access$000(PriorityQueue priorityQueue) {
-        return priorityQueue.modCount;
-    }
-
-    static /* synthetic */ int access$100(PriorityQueue priorityQueue) {
-        return priorityQueue.size;
-    }
-
-    static /* synthetic */ Object[] access$200(PriorityQueue priorityQueue) {
-        return priorityQueue.buffer;
-    }
-
-    static /* synthetic */ Object access$300(PriorityQueue priorityQueue, int n) {
-        return priorityQueue.removeAt(n);
-    }
-
     static {
         $assertionsDisabled = !(class$edu$emory$mathcs$backport$java$util$PriorityQueue == null ? (class$edu$emory$mathcs$backport$java$util$PriorityQueue = PriorityQueue.class$("edu.emory.mathcs.backport.java.util.PriorityQueue")) : class$edu$emory$mathcs$backport$java$util$PriorityQueue).desiredAssertionStatus();
+    }
+
+    private class Itr
+    implements Iterator {
+        int cursor = 0;
+        List percolatedElems;
+        int cursorPercolated = 0;
+        int expectedModCount = PriorityQueue.access$000(PriorityQueue.this);
+        int lastRet;
+        Object lastRetPercolated;
+
+        Itr() {
+        }
+
+        public boolean hasNext() {
+            return this.cursor < PriorityQueue.this.size || this.percolatedElems != null;
+        }
+
+        public Object next() {
+            this.checkForComodification();
+            if (this.cursor < PriorityQueue.this.size) {
+                this.lastRet = this.cursor++;
+                return PriorityQueue.this.buffer[this.lastRet];
+            }
+            if (this.percolatedElems != null) {
+                this.lastRet = -1;
+                this.lastRetPercolated = this.percolatedElems.remove(this.percolatedElems.size() - 1);
+                if (this.percolatedElems.isEmpty()) {
+                    this.percolatedElems = null;
+                }
+                return this.lastRetPercolated;
+            }
+            throw new NoSuchElementException();
+        }
+
+        public void remove() {
+            if (this.lastRet >= 0) {
+                Object object = PriorityQueue.this.removeAt(this.lastRet);
+                this.lastRet = -1;
+                if (object == null) {
+                    --this.cursor;
+                } else {
+                    if (this.percolatedElems == null) {
+                        this.percolatedElems = new ArrayList();
+                    }
+                    this.percolatedElems.add(object);
+                }
+            } else if (this.lastRetPercolated != null) {
+                PriorityQueue.this.remove(this.lastRetPercolated);
+                this.lastRetPercolated = null;
+            } else {
+                throw new IllegalStateException();
+            }
+            this.expectedModCount = PriorityQueue.this.modCount;
+        }
+
+        private void checkForComodification() {
+            if (this.expectedModCount != PriorityQueue.this.modCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
     }
 }
 

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -20,7 +20,7 @@ extends AbstractSet
 implements NavigableSet,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2479143111061671589L;
     private final ConcurrentNavigableMap m;
     static /* synthetic */ Class class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet;
 
@@ -47,53 +47,44 @@ Serializable {
     }
 
     public Object clone() {
-        if (super.getClass() != (class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet == null ? (class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet = ConcurrentSkipListSet.class$("edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListSet")) : class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet)) {
+        if (this.getClass() != (class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet == null ? (class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet = ConcurrentSkipListSet.class$("edu.emory.mathcs.backport.java.util.concurrent.ConcurrentSkipListSet")) : class$edu$emory$mathcs$backport$java$util$concurrent$ConcurrentSkipListSet)) {
             throw new UnsupportedOperationException("Can't clone subclasses");
         }
         return new ConcurrentSkipListSet(new ConcurrentSkipListMap(this.m));
     }
 
-    @Override
     public int size() {
         return this.m.size();
     }
 
-    @Override
     public boolean isEmpty() {
         return this.m.isEmpty();
     }
 
-    @Override
     public boolean contains(Object object) {
         return this.m.containsKey(object);
     }
 
-    @Override
     public boolean add(Object object) {
         return this.m.putIfAbsent(object, Boolean.TRUE) == null;
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.m.remove(object, Boolean.TRUE);
     }
 
-    @Override
     public void clear() {
         this.m.clear();
     }
 
-    @Override
     public Iterator iterator() {
         return this.m.navigableKeySet().iterator();
     }
 
-    @Override
     public Iterator descendingIterator() {
         return this.m.descendingKeySet().iterator();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;
@@ -113,7 +104,6 @@ Serializable {
         }
     }
 
-    @Override
     public boolean removeAll(Collection collection) {
         boolean bl = false;
         Iterator iterator = collection.iterator();
@@ -124,84 +114,68 @@ Serializable {
         return bl;
     }
 
-    @Override
     public Object lower(Object object) {
         return this.m.lowerKey(object);
     }
 
-    @Override
     public Object floor(Object object) {
         return this.m.floorKey(object);
     }
 
-    @Override
     public Object ceiling(Object object) {
         return this.m.ceilingKey(object);
     }
 
-    @Override
     public Object higher(Object object) {
         return this.m.higherKey(object);
     }
 
-    @Override
     public Object pollFirst() {
-        Map$Entry map$Entry = this.m.pollFirstEntry();
-        return map$Entry == null ? null : map$Entry.getKey();
+        Map.Entry entry = this.m.pollFirstEntry();
+        return entry == null ? null : entry.getKey();
     }
 
-    @Override
     public Object pollLast() {
-        Map$Entry map$Entry = this.m.pollLastEntry();
-        return map$Entry == null ? null : map$Entry.getKey();
+        Map.Entry entry = this.m.pollLastEntry();
+        return entry == null ? null : entry.getKey();
     }
 
-    @Override
     public Comparator comparator() {
         return this.m.comparator();
     }
 
-    @Override
     public Object first() {
         return this.m.firstKey();
     }
 
-    @Override
     public Object last() {
         return this.m.lastKey();
     }
 
-    @Override
     public NavigableSet subSet(Object object, boolean bl, Object object2, boolean bl2) {
         return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.subMap(object, bl, object2, bl2));
     }
 
-    @Override
     public NavigableSet headSet(Object object, boolean bl) {
         return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.headMap(object, bl));
     }
 
-    @Override
     public NavigableSet tailSet(Object object, boolean bl) {
         return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.tailMap(object, bl));
     }
 
-    @Override
     public SortedSet subSet(Object object, Object object2) {
         return this.subSet(object, true, object2, false);
     }
 
-    @Override
     public SortedSet headSet(Object object) {
         return this.headSet(object, false);
     }
 
-    @Override
     public SortedSet tailSet(Object object) {
         return this.tailSet(object, true);
     }
 
-    @Override
     public NavigableSet descendingSet() {
         return new ConcurrentSkipListSet((ConcurrentNavigableMap)this.m.descendingMap());
     }

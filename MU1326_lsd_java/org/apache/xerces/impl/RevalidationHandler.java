@@ -8,7 +8,6 @@ import org.apache.xerces.xni.parser.XMLDocumentFilter;
 
 public interface RevalidationHandler
 extends XMLDocumentFilter {
-    default public boolean characterData(String string, Augmentations augmentations) {
-    }
+    public boolean characterData(String var1, Augmentations var2);
 }
 

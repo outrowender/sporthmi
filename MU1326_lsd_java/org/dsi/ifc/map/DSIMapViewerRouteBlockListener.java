@@ -9,22 +9,16 @@ import org.dsi.ifc.map.RouteBrowserInfo;
 
 public interface DSIMapViewerRouteBlockListener
 extends DSIListener {
-    default public void updateRBInfoOfSelectedSegments(RouteBrowserInfo routeBrowserInfo, int n) {
-    }
+    public void updateRBInfoOfSelectedSegments(RouteBrowserInfo var1, int var2);
 
-    default public void pickSegmentUidsInScreenSpaceResult(Point point, int n, long[] lArray, int n2) {
-    }
+    public void pickSegmentUidsInScreenSpaceResult(Point var1, int var2, long[] var3, int var4);
 
-    default public void highLightSegmentUidsInMapResult(long[] lArray, boolean bl, int n) {
-    }
+    public void highLightSegmentUidsInMapResult(long[] var1, boolean var2, int var3);
 
-    default public void rBStartOfSelectionResult(long l, int n) {
-    }
+    public void rBStartOfSelectionResult(long var1, int var3);
 
-    default public void rBMarkNextSegmentResult(long l, int n) {
-    }
+    public void rBMarkNextSegmentResult(long var1, int var3);
 
-    default public void rBMarkPreviousSegmentResult(long l, int n) {
-    }
+    public void rBMarkPreviousSegmentResult(long var1, int var3);
 }
 

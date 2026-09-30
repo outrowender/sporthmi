@@ -16,8 +16,8 @@ import org.apache.commons.scxml.model.TransitionTarget;
 public class SCXML
 implements Serializable,
 NamespacePrefixesHolder {
-    private static final long serialVersionUID;
-    public static final String XMLNS;
+    private static final long serialVersionUID = 2L;
+    public static final String XMLNS = "http://www.w3.org/2005/07/scxml";
     private String xmlns;
     private String version;
     private TransitionTarget initialTarget;
@@ -98,12 +98,10 @@ NamespacePrefixesHolder {
         this.xmlns = string;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }

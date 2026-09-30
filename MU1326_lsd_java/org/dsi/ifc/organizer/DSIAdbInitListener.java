@@ -7,61 +7,42 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIAdbInitListener
 extends DSIListener {
-    default public void updateDefaultPublicProfileVisibility(boolean bl, int n) {
-    }
+    public void updateDefaultPublicProfileVisibility(boolean var1, int var2);
 
-    default public void updateMaxLocalEntries(int n, int n2) {
-    }
+    public void updateMaxLocalEntries(int var1, int var2);
 
-    default public void updateMaxPhoneEntries(int n, int n2) {
-    }
+    public void updateMaxPhoneEntries(int var1, int var2);
 
-    default public void updateMaxTopDestEntries(int n, int n2) {
-    }
+    public void updateMaxTopDestEntries(int var1, int var2);
 
-    default public void updateMaxSpeedDialEntries(int n, int n2) {
-    }
+    public void updateMaxSpeedDialEntries(int var1, int var2);
 
-    default public void updateAutoProfileAllocation(boolean bl, int n) {
-    }
+    public void updateAutoProfileAllocation(boolean var1, int var2);
 
-    default public void setDefaultPublicProfileVisibilityResult(int n) {
-    }
+    public void setDefaultPublicProfileVisibilityResult(int var1);
 
-    default public void setMaxLocalEntriesResult(int n) {
-    }
+    public void setMaxLocalEntriesResult(int var1);
 
-    default public void setMaxPhoneEntriesResult(int n) {
-    }
+    public void setMaxPhoneEntriesResult(int var1);
 
-    default public void setMaxTopDestEntriesResult(int n) {
-    }
+    public void setMaxTopDestEntriesResult(int var1);
 
-    default public void setMaxSpeedDialEntriesResult(int n) {
-    }
+    public void setMaxSpeedDialEntriesResult(int var1);
 
-    default public void setNumericalSpellerEnabledResult(int n) {
-    }
+    public void setNumericalSpellerEnabledResult(int var1);
 
-    default public void setAutoProfileAllocationResult(int n) {
-    }
+    public void setAutoProfileAllocationResult(int var1);
 
-    default public void setSpeedDialTypeResult(int n) {
-    }
+    public void setSpeedDialTypeResult(int var1);
 
-    default public void setProfileHandlingType(int n) {
-    }
+    public void setProfileHandlingType(int var1);
 
-    default public void setDefaultSortOrderResult(int n) {
-    }
+    public void setDefaultSortOrderResult(int var1);
 
-    default public void setOnlineDestinationEnabledResult(int n) {
-    }
+    public void setOnlineDestinationEnabledResult(int var1);
 
-    default public void setDefaultSOSButtonResult(int n) {
-    }
+    public void setDefaultSOSButtonResult(int var1);
 
-    default public void updateDefaultSOSButton(boolean bl, int n) {
-    }
+    public void updateDefaultSOSButton(boolean var1, int var2);
 }
 

@@ -25,28 +25,23 @@ implements DSIAdbInit {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbInit == null ? (class$org$dsi$ifc$organizer$DSIAdbInit = DSIAdbInitProvider.class$("org.dsi.ifc.organizer.DSIAdbInit")) : class$org$dsi$ifc$organizer$DSIAdbInit).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbInitProxy(this.instance, (DSIAdbInitReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setDefaultPublicProfileVisibility(boolean bl) {
         try {
             this.proxy.setDefaultPublicProfileVisibility(bl);
@@ -56,7 +51,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setMaxLocalEntries(int n) {
         try {
             this.proxy.setMaxLocalEntries(n);
@@ -66,7 +60,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setMaxPhoneEntries(int n) {
         try {
             this.proxy.setMaxPhoneEntries(n);
@@ -76,7 +69,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setMaxTopDestEntries(int n) {
         try {
             this.proxy.setMaxTopDestEntries(n);
@@ -86,7 +78,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setMaxSpeedDialEntries(int n) {
         try {
             this.proxy.setMaxSpeedDialEntries(n);
@@ -96,7 +87,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setNumericalSpellerEnabled(boolean bl) {
         try {
             this.proxy.setNumericalSpellerEnabled(bl);
@@ -106,7 +96,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setAutoProfileAllocation(boolean bl) {
         try {
             this.proxy.setAutoProfileAllocation(bl);
@@ -116,7 +105,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void finalizeConfiguration() {
         try {
             this.proxy.finalizeConfiguration();
@@ -126,7 +114,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setSpeedDialType(int n) {
         try {
             this.proxy.setSpeedDialType(n);
@@ -136,7 +123,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setProfileHandlingType(int n) {
         try {
             this.proxy.setProfileHandlingType(n);
@@ -146,7 +132,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setDefaultSortOrder(int n) {
         try {
             this.proxy.setDefaultSortOrder(n);
@@ -156,7 +141,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setOnlineDestinationEnabled(boolean bl) {
         try {
             this.proxy.setOnlineDestinationEnabled(bl);
@@ -166,7 +150,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setDefaultSOSButton(boolean bl) {
         try {
             this.proxy.setDefaultSOSButton(bl);
@@ -176,7 +159,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -186,7 +168,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -196,7 +177,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -206,7 +186,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -216,7 +195,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -226,7 +204,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -236,7 +213,6 @@ implements DSIAdbInit {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.StartStopListUpdateInfo;
 
 public class StartStopListUpdateInfoSerializer {
-    public static void putOptionalStartStopListUpdateInfo(ISerializer iSerializer, StartStopListUpdateInfo startStopListUpdateInfo) {
+    public static void putOptionalStartStopListUpdateInfo(ISerializer iSerializer, StartStopListUpdateInfo startStopListUpdateInfo) throws SerializerException {
         boolean bl = startStopListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class StartStopListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalStartStopListUpdateInfoVarArray(ISerializer iSerializer, StartStopListUpdateInfo[] startStopListUpdateInfoArray) {
+    public static void putOptionalStartStopListUpdateInfoVarArray(ISerializer iSerializer, StartStopListUpdateInfo[] startStopListUpdateInfoArray) throws SerializerException {
         boolean bl = startStopListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class StartStopListUpdateInfoSerializer {
         }
     }
 
-    public static StartStopListUpdateInfo getOptionalStartStopListUpdateInfo(IDeserializer iDeserializer) {
+    public static StartStopListUpdateInfo getOptionalStartStopListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         StartStopListUpdateInfo startStopListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class StartStopListUpdateInfoSerializer {
         return startStopListUpdateInfo;
     }
 
-    public static StartStopListUpdateInfo[] getOptionalStartStopListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static StartStopListUpdateInfo[] getOptionalStartStopListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartStopListUpdateInfo[] startStopListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

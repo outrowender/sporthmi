@@ -17,7 +17,6 @@ implements Comparable {
         return this.key.compareTo(collationKey.key);
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.key.compareTo(((CollationKey)object).key);
     }

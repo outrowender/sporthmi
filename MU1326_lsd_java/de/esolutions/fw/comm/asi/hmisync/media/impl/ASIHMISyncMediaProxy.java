@@ -8,13 +8,15 @@ import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaC;
 import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaReply;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaBrowserSelectionData;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaProxy$2;
 import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaReplyService;
+import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaBrowserSelectionDataSerializer;
+import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaSourceSlotSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -34,24 +36,26 @@ ASIHMISyncMediaC {
         return this.proxy;
     }
 
-    @Override
-    public void activate(MediaSourceSlot mediaSourceSlot, MediaBrowserSelectionData mediaBrowserSelectionData) {
-        ASIHMISyncMediaProxy$1 aSIHMISyncMediaProxy$1 = new ASIHMISyncMediaProxy$1(this, mediaSourceSlot, mediaBrowserSelectionData);
-        this.proxy.remoteCallMethod((short)0, aSIHMISyncMediaProxy$1);
+    public void activate(final MediaSourceSlot mediaSourceSlot, final MediaBrowserSelectionData mediaBrowserSelectionData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MediaSourceSlotSerializer.putOptionalMediaSourceSlot(iSerializer, mediaSourceSlot);
+                MediaBrowserSelectionDataSerializer.putOptionalMediaBrowserSelectionData(iSerializer, mediaBrowserSelectionData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void resume() {
+    public void resume() throws MethodException {
         this.proxy.remoteCallMethod((short)11, null);
     }
 
-    @Override
-    public void pause() {
+    public void pause() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void skip(byte by) {
+    public void skip(byte by) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt8(by);
@@ -62,8 +66,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void seek(boolean bl) {
+    public void seek(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -74,13 +77,11 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void stopSeek() {
+    public void stopSeek() throws MethodException {
         this.proxy.remoteCallMethod((short)36, null);
     }
 
-    @Override
-    public void mix(boolean bl) {
+    public void mix(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -91,8 +92,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void repeatTitle(boolean bl) {
+    public void repeatTitle(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -103,18 +103,15 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void toggleRepeatState() {
+    public void toggleRepeatState() throws MethodException {
         this.proxy.remoteCallMethod((short)39, null);
     }
 
-    @Override
-    public void toggleShuffleState() {
+    public void toggleShuffleState() throws MethodException {
         this.proxy.remoteCallMethod((short)40, null);
     }
 
-    @Override
-    public void setEntry(long l) {
+    public void setEntry(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -125,8 +122,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setTimePosition(int n) {
+    public void setTimePosition(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -137,8 +133,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void touchEvent(int n, int n2, int n3, int n4, int n5) {
+    public void touchEvent(int n, int n2, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -153,8 +148,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void executeDvdVideoCommand(int n) {
+    public void executeDvdVideoCommand(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -165,8 +159,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void requestPlayList(int n, long l, int n2) {
+    public void requestPlayList(int n, long l, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -179,14 +172,17 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setPlaySelection(MediaBrowserSelectionData mediaBrowserSelectionData) {
-        ASIHMISyncMediaProxy$2 aSIHMISyncMediaProxy$2 = new ASIHMISyncMediaProxy$2(this, mediaBrowserSelectionData);
-        this.proxy.remoteCallMethod((short)17, aSIHMISyncMediaProxy$2);
+    public void setPlaySelection(final MediaBrowserSelectionData mediaBrowserSelectionData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MediaBrowserSelectionDataSerializer.putOptionalMediaBrowserSelectionData(iSerializer, mediaBrowserSelectionData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void playMoreFrom(long l, int n) {
+    public void playMoreFrom(long l, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -198,13 +194,11 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void setNotification(long l) {
+    public void setNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -215,8 +209,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification(long[] lArray) {
+    public void setNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -227,13 +220,11 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void clearNotification(long l) {
+    public void clearNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -244,8 +235,7 @@ ASIHMISyncMediaC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(long[] lArray) {
+    public void clearNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);

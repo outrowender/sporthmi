@@ -32,7 +32,7 @@ public class sMediaDBVersion {
     }
 
     public String toString() {
-        return new StringBuffer("sMediaDBVersion{").append("msg_id=").append(this.msg_id).append(", version=").append(this.version).append("}").toString();
+        return "sMediaDBVersion{" + "msg_id=" + this.msg_id + ", version=" + this.version + "}";
     }
 }
 

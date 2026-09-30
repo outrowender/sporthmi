@@ -6,10 +6,8 @@ package de.esolutions.fw.comm.core.message;
 import de.esolutions.fw.util.serializer.ISerializer;
 
 public interface ICallMethodSerializeCallback {
-    default public void beginSerializeCallMethodPayload(short s, short s2, ISerializer iSerializer) {
-    }
+    public void beginSerializeCallMethodPayload(short var1, short var2, ISerializer var3);
 
-    default public void endSerializeCallMethodPayload(short s, short s2, ISerializer iSerializer) {
-    }
+    public void endSerializeCallMethodPayload(short var1, short var2, ISerializer var3);
 }
 

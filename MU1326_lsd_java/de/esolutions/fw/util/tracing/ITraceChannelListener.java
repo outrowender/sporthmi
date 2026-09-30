@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.tracing;
 
 public interface ITraceChannelListener {
-    default public void changedFilterLevel(int n, short s) {
-    }
+    public void changedFilterLevel(int var1, short var2);
 }
 

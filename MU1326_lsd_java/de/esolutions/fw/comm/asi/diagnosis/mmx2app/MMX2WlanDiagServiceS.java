@@ -6,21 +6,17 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2WlanDiagServiceReply;
 import de.esolutions.fw.comm.asi.diagnosis.wlan.sWlanProperties;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2WlanDiagServiceS {
-    default public void responseErrorWlan(sClientResponseError sClientResponseError2, MMX2WlanDiagServiceReply mMX2WlanDiagServiceReply) {
-    }
+    public void responseErrorWlan(sClientResponseError var1, MMX2WlanDiagServiceReply var2) throws MethodException;
 
-    default public void responseWlanProperties(sWlanProperties sWlanProperties2, MMX2WlanDiagServiceReply mMX2WlanDiagServiceReply) {
-    }
+    public void responseWlanProperties(sWlanProperties var1, MMX2WlanDiagServiceReply var2) throws MethodException;
 
-    default public void responseSetWlanHotSpotActive(long l, MMX2WlanDiagServiceReply mMX2WlanDiagServiceReply) {
-    }
+    public void responseSetWlanHotSpotActive(long var1, MMX2WlanDiagServiceReply var3) throws MethodException;
 
-    default public void responseWlanHotSpotActive(long l, boolean bl, MMX2WlanDiagServiceReply mMX2WlanDiagServiceReply) {
-    }
+    public void responseWlanHotSpotActive(long var1, boolean var3, MMX2WlanDiagServiceReply var4) throws MethodException;
 
-    default public void responseWlanConnectToAP(long l, MMX2WlanDiagServiceReply mMX2WlanDiagServiceReply) {
-    }
+    public void responseWlanConnectToAP(long var1, MMX2WlanDiagServiceReply var3) throws MethodException;
 }
 

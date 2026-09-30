@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LISpellerData;
 
 public class LISpellerDataSerializer {
-    public static void putOptionalLISpellerData(ISerializer iSerializer, LISpellerData lISpellerData) {
+    public static void putOptionalLISpellerData(ISerializer iSerializer, LISpellerData lISpellerData) throws SerializerException {
         boolean bl = lISpellerData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class LISpellerDataSerializer {
         }
     }
 
-    public static void putOptionalLISpellerDataVarArray(ISerializer iSerializer, LISpellerData[] lISpellerDataArray) {
+    public static void putOptionalLISpellerDataVarArray(ISerializer iSerializer, LISpellerData[] lISpellerDataArray) throws SerializerException {
         boolean bl = lISpellerDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class LISpellerDataSerializer {
         }
     }
 
-    public static LISpellerData getOptionalLISpellerData(IDeserializer iDeserializer) {
+    public static LISpellerData getOptionalLISpellerData(IDeserializer iDeserializer) throws SerializerException {
         LISpellerData lISpellerData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class LISpellerDataSerializer {
         return lISpellerData;
     }
 
-    public static LISpellerData[] getOptionalLISpellerDataVarArray(IDeserializer iDeserializer) {
+    public static LISpellerData[] getOptionalLISpellerDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         LISpellerData[] lISpellerDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

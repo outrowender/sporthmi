@@ -26,7 +26,6 @@ implements ITraceBackend {
         this.bid = (short)-1;
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         this.listener = iTraceBackendListener;
         this.bid = s;
@@ -36,26 +35,21 @@ implements ITraceBackend {
         }
     }
 
-    @Override
     public void exit() {
     }
 
-    @Override
     public String getName() {
         return this.backendName;
     }
 
-    @Override
     public int getFlags() {
         return 1;
     }
 
-    @Override
     public boolean adjustToChangeLevel(ITraceEntity iTraceEntity) {
         return false;
     }
 
-    @Override
     public short backendFilterLevel(ITraceEntity iTraceEntity) {
         if (this.levels != null) {
             TraceEntity traceEntity = (TraceEntity)iTraceEntity;
@@ -65,7 +59,6 @@ implements ITraceBackend {
         return 7;
     }
 
-    @Override
     public short backendDefaultFilterLevel(short s) {
         if (this.levels != null) {
             return this.levels.getDefaultTraceLevel(s);
@@ -73,69 +66,58 @@ implements ITraceBackend {
         return 7;
     }
 
-    @Override
     public boolean createEntity(ITraceEntity iTraceEntity) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("createEntity uri=").append(iTraceEntity.getURI()).append(" name=").append(iTraceEntity.getName()).append(" level=").append(TraceLevels.levelNames[iTraceEntity.getCoreFilterLevel()]).toString());
+        this.listener.logMessage(this.bid, "createEntity uri=" + iTraceEntity.getURI() + " name=" + iTraceEntity.getName() + " level=" + TraceLevels.levelNames[iTraceEntity.getCoreFilterLevel()]);
         return true;
     }
 
-    @Override
     public boolean changeFilterLevel(TraceEntityURI traceEntityURI, short s) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("changeFilterLevel: uri=").append(traceEntityURI).append(" level=").append(s).toString());
+        this.listener.logMessage(this.bid, "changeFilterLevel: uri=" + traceEntityURI + " level=" + s);
         return true;
     }
 
-    @Override
     public boolean connect() {
         this.listener.logMessage(this.bid, "--- connect ---");
         this.listener.connected(this.bid, true);
         return true;
     }
 
-    @Override
     public void disconnect() {
         this.listener.logMessage(this.bid, "--- disconnect ---");
         this.listener.disconnected(this.bid);
     }
 
-    @Override
     public boolean droppedMessages(int n) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("DROPPED ").append(n).append(" MESSAGES").toString());
+        this.listener.logMessage(this.bid, "DROPPED " + n + " MESSAGES");
         return true;
     }
 
-    @Override
     public void handleBreak() {
         this.listener.logMessage(this.bid, "*** BREAK ***");
     }
 
-    @Override
     public boolean registerTimeZone(int n, int n2, String string) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("registerTimeZone: id=").append(n).append(" res=").append(n2).append(" name=").append(string).toString());
+        this.listener.logMessage(this.bid, "registerTimeZone: id=" + n + " res=" + n2 + " name=" + string);
         return true;
     }
 
-    @Override
     public boolean updateTimeZone(int n, long l, long l2) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("updateTimeZone: id=").append(n).append(" tz=").append(l).append(" core=").append(l2).toString());
+        this.listener.logMessage(this.bid, "updateTimeZone: id=" + n + " tz=" + l + " core=" + l2);
         return true;
     }
 
-    @Override
     public ITraceMessage logBulk(ITraceMessage[] iTraceMessageArray) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("logBulk: num=").append(iTraceMessageArray.length).toString());
+        this.listener.logMessage(this.bid, "logBulk: num=" + iTraceMessageArray.length);
         return null;
     }
 
-    @Override
     public boolean createEntityBulk(ITraceEntity[] iTraceEntityArray) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("createEntityBulk: num=").append(iTraceEntityArray.length).toString());
+        this.listener.logMessage(this.bid, "createEntityBulk: num=" + iTraceEntityArray.length);
         return true;
     }
 
-    @Override
     public boolean changeFilterLevelBulk(ITraceEntity[] iTraceEntityArray) {
-        this.listener.logMessage(this.bid, new StringBuffer().append("changeFilterLevelBulk: num=").append(iTraceEntityArray.length).toString());
+        this.listener.logMessage(this.bid, "changeFilterLevelBulk: num=" + iTraceEntityArray.length);
         return true;
     }
 }

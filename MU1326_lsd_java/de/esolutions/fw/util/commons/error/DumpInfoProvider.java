@@ -6,10 +6,8 @@ package de.esolutions.fw.util.commons.error;
 import java.io.PrintStream;
 
 public interface DumpInfoProvider {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void dump(PrintStream printStream, String string) {
-    }
+    public void dump(PrintStream var1, String var2);
 }
 

@@ -8,14 +8,14 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class GeneralInfoSwitches_OnOffSwitches
 implements BAPEntity {
-    private static final int RESERVED_BIT_6__7_BITSIZE;
+    private static final int RESERVED_BIT_6__7_BITSIZE = 2;
     public boolean onlineTrafficOn;
     public boolean vicsOn;
     public boolean tmcOn;
     public boolean jpTrafficOn;
     public boolean rdsOn;
     public boolean tpTaOn;
-    private static final int GENERAL_INFO_SWITCHES_ON_OFF_SWITCHES_BITSIZE;
+    private static final int GENERAL_INFO_SWITCHES_ON_OFF_SWITCHES_BITSIZE = 8;
 
     public GeneralInfoSwitches_OnOffSwitches() {
         this.internalReset();
@@ -36,12 +36,10 @@ implements BAPEntity {
         this.tpTaOn = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         GeneralInfoSwitches_OnOffSwitches generalInfoSwitches_OnOffSwitches = (GeneralInfoSwitches_OnOffSwitches)bAPEntity;
         return this.onlineTrafficOn == generalInfoSwitches_OnOffSwitches.onlineTrafficOn && this.vicsOn == generalInfoSwitches_OnOffSwitches.vicsOn && this.tmcOn == generalInfoSwitches_OnOffSwitches.tmcOn && this.jpTrafficOn == generalInfoSwitches_OnOffSwitches.jpTrafficOn && this.rdsOn == generalInfoSwitches_OnOffSwitches.rdsOn && this.tpTaOn == generalInfoSwitches_OnOffSwitches.tpTaOn;
@@ -50,7 +48,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("GeneralInfoSwitches_OnOffSwitches:");
@@ -93,13 +90,11 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(2);
         bitStream.pushBoolean(this.onlineTrafficOn);
@@ -110,7 +105,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.tpTaOn);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(2);
         this.onlineTrafficOn = bitStream.popFrontBoolean();

@@ -30,15 +30,15 @@ public class MenuSDSEventHandler
 implements IWidgetLogChannel,
 WidgetConstants,
 IMenuCallback {
-    private static final int RESPONSE_OK;
-    private static final int RESPONSE_INVALID;
-    private static final int RESPONSE_ERROR;
-    private static final int RESPONSE_DISABLED;
-    private static final int MODELVALUE_PAGENUMBER_MENU_EMPTY;
-    private static final int MODELVALUE_PAGENUMBER_ONLY_ONE_PAGE;
-    private static final int MODELVALUE_PAGENUMBER_FIRST_PAGE;
-    private static final int MODELVALUE_PAGENUMBER_MIDDLE_PAGE;
-    private static final int MODELVALUE_PAGENUMBER_LAST_PAGE;
+    private static final int RESPONSE_OK = 0;
+    private static final int RESPONSE_INVALID = 1;
+    private static final int RESPONSE_ERROR = 2;
+    private static final int RESPONSE_DISABLED = 3;
+    private static final int MODELVALUE_PAGENUMBER_MENU_EMPTY = -1;
+    private static final int MODELVALUE_PAGENUMBER_ONLY_ONE_PAGE = 0;
+    private static final int MODELVALUE_PAGENUMBER_FIRST_PAGE = 1;
+    private static final int MODELVALUE_PAGENUMBER_MIDDLE_PAGE = 2;
+    private static final int MODELVALUE_PAGENUMBER_LAST_PAGE = 3;
     private MenuController menu;
     private ChoiceModelApp sdsEnumerationModel;
     private boolean sdsActive;
@@ -55,30 +55,30 @@ IMenuCallback {
 
     private void sendResponse(SDSEvent sDSEvent, int n) {
         if (!this.shouldSendResponse(sDSEvent.getResponseType(), n)) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendResponse: don't send response. process result: %2. Event: %1", (Object)sDSEvent, (long)n);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#sendResponse: don't send response. process result: %2. Event: %1", (Object)sDSEvent, (long)n);
             return;
         }
         int[] nArray = sDSEvent.getAnswers();
         if (nArray == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#sendResponse: event's answers are null. process result %2. Event: %1", (Object)sDSEvent, (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#sendResponse: event's answers are null. process result %2. Event: %1", (Object)sDSEvent, (long)n);
             return;
         }
         if (nArray.length <= n) {
             if (n == 3 && nArray.length > 1) {
-                menuLogCh.log(-1601830656, "MenuSDSEventHandler#sendResponse: event has no answer for process result %2. answers length: %3, use RESPONSE_INVALID instead. Event: %1", (Object)sDSEvent, (long)n, (long)nArray.length);
+                menuLogCh.log(100000, "MenuSDSEventHandler#sendResponse: event has no answer for process result %2. answers length: %3, use RESPONSE_INVALID instead. Event: %1", (Object)sDSEvent, (long)n, (long)nArray.length);
                 n = 1;
             } else {
-                menuLogCh.log(-1601830656, "MenuSDSEventHandler#sendResponse: event has no answer for process result %2. answers length: %3. Event: %1", (Object)sDSEvent, (long)n, (long)nArray.length);
+                menuLogCh.log(100000, "MenuSDSEventHandler#sendResponse: event has no answer for process result %2. answers length: %3. Event: %1", (Object)sDSEvent, (long)n, (long)nArray.length);
                 return;
             }
         }
         int n2 = nArray[n];
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendResponse: send answer %1 for process result %2", (long)n2, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#sendResponse: send answer %1 for process result %2", (long)n2, (long)n);
         AbstractWidget.sdsService.sendResult(n2);
     }
 
     private boolean shouldSendResponse(int n, int n2) {
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#shouldSendResponse: responseType=%1, processStatus=%2", (long)n, (long)n2);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#shouldSendResponse: responseType=%1, processStatus=%2", (long)n, (long)n2);
         if (AbstractWidget.sdsService == null) {
             menuLogCh.log(10000, "MenuSDSEventHandler#shouldSendResponse: sdsService is not present, cannot call sendResult");
             return false;
@@ -87,7 +87,7 @@ IMenuCallback {
     }
 
     private int processCommand(int n, SDSEvent sDSEvent) {
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#processCommand sdsCommand: %3, (%1), event: %2", (Object)this.menu, (Object)sDSEvent, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#processCommand sdsCommand: %3, (%1), event: %2", (Object)this.menu, (Object)sDSEvent, (long)n);
         switch (n) {
             case 4: {
                 return this.goPageUpDown(true, sDSEvent.getValue());
@@ -126,21 +126,21 @@ IMenuCallback {
 
     private int selectRow(int n, boolean bl) {
         MenuViewport menuViewport = this.menu.getViewport();
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRow: row number: %2, current viewport: %1", (Object)menuViewport, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#selectRow: row number: %2, current viewport: %1", (Object)menuViewport, (long)n);
         if (menuViewport.isEmpty()) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#selectRow: invalid, because viewport is empty");
+            menuLogCh.log(100000, "MenuSDSEventHandler#selectRow: invalid, because viewport is empty");
             return 1;
         }
         MenuItemIndex menuItemIndex = this.findRowInViewport(n);
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#selectRow: invalid, because viewport doesn't contain row %1", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#selectRow: invalid, because viewport doesn't contain row %1", (long)n);
             return 1;
         }
         if (!this.menu.isEnabled(menuItemIndex)) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRow: found disabled item %1 for relative row %1, viewport: %2. Ignore event, because item is disabled", (Object)menuItemIndex, (Object)menuViewport, (long)n);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#selectRow: found disabled item %1 for relative row %1, viewport: %2. Ignore event, because item is disabled", (Object)menuItemIndex, (Object)menuViewport, (long)n);
             return 3;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRow: found item %1 for relative row %3, viewport: %2", (Object)menuItemIndex, (Object)menuViewport, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#selectRow: found item %1 for relative row %3, viewport: %2", (Object)menuItemIndex, (Object)menuViewport, (long)n);
         this.menu.setSelectedIndex(menuItemIndex);
         this.menu.relayout();
         this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
@@ -158,7 +158,7 @@ IMenuCallback {
         ChoiceModelApp choiceModelApp = this.getSdsEnumerationModel();
         if (choiceModelApp != null) {
             int n2 = n + 1;
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifySDSEnumerationModelRow: set value %1 to model SDS_ENUMERATION_NUMBER_CHOICE (%2)", (long)n2, (long)choiceModelApp.getID());
+            menuLogCh.log(10000000, "MenuSDSEventHandler#notifySDSEnumerationModelRow: set value %1 to model SDS_ENUMERATION_NUMBER_CHOICE (%2)", (long)n2, (long)choiceModelApp.getID());
             choiceModelApp.setValue(n2);
         }
     }
@@ -183,23 +183,23 @@ IMenuCallback {
     private void notifySDSEnumerationModelStatus(int n) {
         ChoiceModelApp choiceModelApp = this.getSdsEnumerationModel();
         if (choiceModelApp != null) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifySDSEnumerationModelStatus: set status %1 to model SDS_ENUMERATION_NUMBER_CHOICE (%2)", (long)n, (long)choiceModelApp.getID());
+            menuLogCh.log(10000000, "MenuSDSEventHandler#notifySDSEnumerationModelStatus: set status %1 to model SDS_ENUMERATION_NUMBER_CHOICE (%2)", (long)n, (long)choiceModelApp.getID());
             choiceModelApp.setStatus(n);
         }
     }
 
     private int selectRowAbsolute(int n) {
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRowAbsolute: row number: %1", (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#selectRowAbsolute: row number: %1", (long)n);
         MenuItemIndex menuItemIndex = this.findRowInMenu(n);
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#selectRowAbsolute: invalid, because menu doesn't contain row %1", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#selectRowAbsolute: invalid, because menu doesn't contain row %1", (long)n);
             return 1;
         }
         if (!this.menu.isEnabled(menuItemIndex)) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRow: found disabled item %1 for absolute row %2. Ignore event, because item is disabled", (Object)menuItemIndex, (long)n);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#selectRow: found disabled item %1 for absolute row %2. Ignore event, because item is disabled", (Object)menuItemIndex, (long)n);
             return 3;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#selectRowAbsolute: found item %1 for absolute row %2", (Object)menuItemIndex, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#selectRowAbsolute: found item %1 for absolute row %2", (Object)menuItemIndex, (long)n);
         this.menu.setSelectedIndex(menuItemIndex);
         this.menu.relayout();
         this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
@@ -217,12 +217,12 @@ IMenuCallback {
         AbstractWidget abstractWidget = this.menu.getChild(menuItemIndex.widget);
         if (abstractWidget instanceof IMenuItemMultiItem) {
             IMenuItemMultiItem iMenuItemMultiItem = (IMenuItemMultiItem)((Object)abstractWidget);
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendKeyPressedToItem: simulate keyPress on item %1, multi item: %2", (Object)menuItemIndex, (Object)iMenuItemMultiItem);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#sendKeyPressedToItem: simulate keyPress on item %1, multi item: %2", (Object)menuItemIndex, (Object)iMenuItemMultiItem);
             iMenuItemMultiItem.keyPressed(keyEvent, menuItemIndex.widgetPart);
             iMenuItemMultiItem.keyReleased(keyEvent, menuItemIndex.widgetPart);
         } else {
             if (menuLogCh.isDebug()) {
-                menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendKeyPressedToItem: simulate keyPress on item %1, single item: %2 with text: %3", (Object)menuItemIndex, (Object)abstractWidget, (Object)abstractWidget.getDiagnosisText());
+                menuLogCh.log(10000000, "MenuSDSEventHandler#sendKeyPressedToItem: simulate keyPress on item %1, single item: %2 with text: %3", (Object)menuItemIndex, (Object)abstractWidget, (Object)abstractWidget.getDiagnosisText());
             }
             abstractWidget.keyPressed(keyEvent);
             abstractWidget.keyReleased(keyEvent);
@@ -243,28 +243,28 @@ IMenuCallback {
             ++n2;
         }
         if (n2 < n) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItem: looking for row %1, but iteration contains only %2 SDS items", (long)n, (long)n2);
+            menuLogCh.log(100000, "MenuSDSEventHandler#findRowItem: looking for row %1, but iteration contains only %2 SDS items", (long)n, (long)n2);
             return null;
         }
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItem: looking for row %1, but iteration is empty", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#findRowItem: looking for row %1, but iteration is empty", (long)n);
             return null;
         }
         if (!this.menu.getAnimationManager().getLayoutData().alignTop) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItem: looking for row %1 just after iteration, but menu is bottom aligned, so no partially visible item at bottom", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#findRowItem: looking for row %1 just after iteration, but menu is bottom aligned, so no partially visible item at bottom", (long)n);
             return null;
         }
         object = this.menu.iterator(menuItemIndex, true, false);
         if (!object.hasNext()) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItem: looking for row %1, but there are no more items after iteration", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#findRowItem: looking for row %1, but there are no more items after iteration", (long)n);
             return null;
         }
         MenuItemIndex menuItemIndex2 = (MenuItemIndex)object.next();
         if (!this.isSdsItem(menuItemIndex2)) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItem: looking for partially visible row %2, but item %3 is not a SDS item", (Object)menuItemIndex2, (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#findRowItem: looking for partially visible row %2, but item %3 is not a SDS item", (Object)menuItemIndex2, (long)n);
             return null;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#findRowItem: select partially visible item %1 at row %2", (Object)menuItemIndex2, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#findRowItem: select partially visible item %1 at row %2", (Object)menuItemIndex2, (long)n);
         return menuItemIndex2;
     }
 
@@ -276,14 +276,14 @@ IMenuCallback {
             if (!(abstractWidget instanceof IMenuItem) || (n2 = ((IMenuItem)((Object)abstractWidget)).getWidgetID()) != n) continue;
             return menuItemIndex;
         }
-        menuLogCh.log(-1601830656, "MenuSDSEventHandler#findRowItemById: can not find menu item with ID %1", (long)n);
+        menuLogCh.log(100000, "MenuSDSEventHandler#findRowItemById: can not find menu item with ID %1", (long)n);
         return null;
     }
 
     private int getSdsRowNumberOnCurrentPage(MenuItemIndex menuItemIndex) {
         MenuViewport menuViewport = this.menu.getViewport();
         if (menuViewport.isEmpty()) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#getSdsRowNumberOnCurrentPage: SDS item %1 not found, current viewport is empty", (Object)menuItemIndex);
+            menuLogCh.log(100000, "MenuSDSEventHandler#getSdsRowNumberOnCurrentPage: SDS item %1 not found, current viewport is empty", (Object)menuItemIndex);
             return -1;
         }
         int n = 0;
@@ -296,7 +296,7 @@ IMenuCallback {
             }
             ++n;
         }
-        menuLogCh.log(-1601830656, "MenuSDSEventHandler#getSdsRowNumberOnCurrentPage: SDS item %1 not found in current viewport: %2", (Object)menuItemIndex, (Object)menuViewport);
+        menuLogCh.log(100000, "MenuSDSEventHandler#getSdsRowNumberOnCurrentPage: SDS item %1 not found in current viewport: %2", (Object)menuItemIndex, (Object)menuViewport);
         return -1;
     }
 
@@ -311,7 +311,7 @@ IMenuCallback {
             return 0;
         }
         boolean bl2 = this.menu.scrollPage(bl);
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#goPage: value=%1 and scrollDown=%2 and success=%3", (long)n, bl ? 1L : 0L, bl2 ? 1L : 0L);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#goPage: value=%1 and scrollDown=%2 and success=%3", (long)n, bl ? 1L : 0L, bl2 ? 1L : 0L);
         if (n == 11) {
             this.menu.setSelectedIndex(null);
         }
@@ -327,7 +327,7 @@ IMenuCallback {
             this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
             return 0;
         }
-        menuLogCh.log(-1601830656, "MenuSDSEventHandler#gotoFirstPage: invalid, because menu is empty");
+        menuLogCh.log(100000, "MenuSDSEventHandler#gotoFirstPage: invalid, because menu is empty");
         return 1;
     }
 
@@ -340,17 +340,17 @@ IMenuCallback {
             this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
             return 0;
         }
-        menuLogCh.log(-1601830656, "MenuSDSEventHandler#gotoLastPage: invalid, because menu is empty");
+        menuLogCh.log(100000, "MenuSDSEventHandler#gotoLastPage: invalid, because menu is empty");
         return 1;
     }
 
     private int readLineAbsolute(int n) {
         MenuItemIndex menuItemIndex = this.findRowInMenu(n);
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#readLineAbsolute: invalid, because menu doesn't contain row %1", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#readLineAbsolute: invalid, because menu doesn't contain row %1", (long)n);
             return 1;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#readLineAbsolute: found item %1 for absolute row %2", (Object)menuItemIndex, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#readLineAbsolute: found item %1 for absolute row %2", (Object)menuItemIndex, (long)n);
         this.menu.setSelectedIndex(menuItemIndex);
         this.menu.relayout();
         this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
@@ -360,17 +360,17 @@ IMenuCallback {
 
     private int readLine(int n) {
         MenuViewport menuViewport = this.menu.getViewport();
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#readLine: row number: %2, current viewport: %1", (Object)menuViewport, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#readLine: row number: %2, current viewport: %1", (Object)menuViewport, (long)n);
         if (menuViewport.isEmpty()) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#readLine: invalid, because viewport is empty");
+            menuLogCh.log(100000, "MenuSDSEventHandler#readLine: invalid, because viewport is empty");
             return 1;
         }
         MenuItemIndex menuItemIndex = this.findRowInViewport(n);
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#readLine: invalid, because viewport doesn't contain row %1", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#readLine: invalid, because viewport doesn't contain row %1", (long)n);
             return 1;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#readLine: found item %1 for relative row %3, viewport: %2", (Object)menuItemIndex, (Object)menuViewport, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#readLine: found item %1 for relative row %3, viewport: %2", (Object)menuItemIndex, (Object)menuViewport, (long)n);
         this.menu.setSelectedIndex(menuItemIndex);
         this.menu.relayout();
         this.menu.focusItemImmediately(menuItemIndex, FocusAdvice.KEEP_POSITION);
@@ -387,10 +387,10 @@ IMenuCallback {
     private int readLineById(int n) {
         MenuItemIndex menuItemIndex = this.findRowItemById(n, this.menu.iterator(this.menu.getFirstMenuItem(), true, true));
         if (menuItemIndex == null) {
-            menuLogCh.log(-1601830656, "MenuSDSEventHandler#readLineById: invalid, because menu doesn't contain widgetId %1", (long)n);
+            menuLogCh.log(100000, "MenuSDSEventHandler#readLineById: invalid, because menu doesn't contain widgetId %1", (long)n);
             return 1;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#readLineById: found item %1 for widgetId %2", (Object)menuItemIndex, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#readLineById: found item %1 for widgetId %2", (Object)menuItemIndex, (long)n);
         this.menu.setSelectedIndex(menuItemIndex);
         this.menu.relayout();
         this.notifyEnumerationModelRowAndStatus(menuItemIndex);
@@ -453,7 +453,6 @@ IMenuCallback {
         return AbstractWidget.hmiService.getModel(this.menu.getTerminal().getTerminalID(), n);
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
         if (!this.sdsActive) {
             return;
@@ -494,9 +493,9 @@ IMenuCallback {
         ChoiceModelApp choiceModelApp = this.getSdsLineNumberChoiceModel();
         if (choiceModelApp != null) {
             if (choiceModelApp.getValue() == n) {
-                menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageRowsModel: don't call model SDS_LINE_NUMBER_CHOICE (%2), because value is already correct: %1", (long)n, (long)choiceModelApp.getID());
+                menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageRowsModel: don't call model SDS_LINE_NUMBER_CHOICE (%2), because value is already correct: %1", (long)n, (long)choiceModelApp.getID());
             } else {
-                menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageRowsModel: set value %1 at model SDS_LINE_NUMBER_CHOICE (%2)", (long)n, (long)choiceModelApp.getID());
+                menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageRowsModel: set value %1 at model SDS_LINE_NUMBER_CHOICE (%2)", (long)n, (long)choiceModelApp.getID());
                 choiceModelApp.setValue(n);
             }
         }
@@ -504,9 +503,9 @@ IMenuCallback {
         String string = "?";
         if (labelModelApp != null) {
             if (string.equals(labelModelApp.getText())) {
-                menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageRowsModel: don't call model SDS_LINE_NUMBER_LABEL (%2), because value is already correct: '%1'", (Object)string, (long)labelModelApp.getID());
+                menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageRowsModel: don't call model SDS_LINE_NUMBER_LABEL (%2), because value is already correct: '%1'", (Object)string, (long)labelModelApp.getID());
             } else {
-                menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageRowsModel: set value '%1' at model SDS_LINE_NUMBER_LABEL (%2)", (Object)string, (long)labelModelApp.getID());
+                menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageRowsModel: set value '%1' at model SDS_LINE_NUMBER_LABEL (%2)", (Object)string, (long)labelModelApp.getID());
                 labelModelApp.setText(string);
             }
         }
@@ -518,14 +517,13 @@ IMenuCallback {
             return;
         }
         if (choiceModelApp.getValue() == n) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageNumbersModel: don't call model SDS_PAGE_NUMBER_CHOICE (%2), because value is already correct: %1", (long)n, (long)choiceModelApp.getID());
+            menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageNumbersModel: don't call model SDS_PAGE_NUMBER_CHOICE (%2), because value is already correct: %1", (long)n, (long)choiceModelApp.getID());
             return;
         }
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#notifyPageNumbersModel: set value %1 at SDS_PAGE_NUMBER_CHOICE (%2) model", (long)n, (long)choiceModelApp.getID());
+        menuLogCh.log(10000000, "MenuSDSEventHandler#notifyPageNumbersModel: set value %1 at SDS_PAGE_NUMBER_CHOICE (%2) model", (long)n, (long)choiceModelApp.getID());
         choiceModelApp.setValue(n);
     }
 
-    @Override
     public void menuLayouted() {
     }
 
@@ -537,7 +535,7 @@ IMenuCallback {
             this.notifyEnumerationModelRowAndStatus(menuItemIndex);
             this.callSdsServiceOnKeyPress(keyEvent, menuItemIndex);
         } else {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#keyPressedOnMenuItem: item %1 is disabled, ignore keyPress", (Object)menuItemIndex);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#keyPressedOnMenuItem: item %1 is disabled, ignore keyPress", (Object)menuItemIndex);
             keyEvent.setSdsAction(3);
             keyEvent.consume(false);
         }
@@ -545,7 +543,7 @@ IMenuCallback {
 
     private void callSdsServiceOnKeyPress(KeyEvent keyEvent, MenuItemIndex menuItemIndex) {
         int n = this.getSdsItemSelectedAction(menuItemIndex);
-        menuLogCh.log(-2137614336, "MenuSDSEventHandler#callSdsServiceOnKeyPress: keyPress on item %1 with SDS Action %2", (Object)menuItemIndex, (long)n);
+        menuLogCh.log(10000000, "MenuSDSEventHandler#callSdsServiceOnKeyPress: keyPress on item %1 with SDS Action %2", (Object)menuItemIndex, (long)n);
         if (n == 1) {
             keyEvent.setSdsAction(n);
         } else if (n == 2) {
@@ -565,11 +563,11 @@ IMenuCallback {
         AbstractWidgetController abstractWidgetController = (AbstractWidgetController)this.menu.getChild(menuItemIndex.widget);
         int n = abstractWidgetController.getModelID();
         if (abstractWidgetController instanceof ListController) {
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendKeyPressedToSdsService: list item %1 was selected on listmodel %2. ", (Object)menuItemIndex, (long)n);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#sendKeyPressedToSdsService: list item %1 was selected on listmodel %2. ", (Object)menuItemIndex, (long)n);
             AbstractWidget.sdsService.itemSelected(n, menuItemIndex.widgetPart);
         } else {
             int n2 = abstractWidgetController instanceof MenuItemController ? ((MenuItemController)abstractWidgetController).getSdsCommand() : -1;
-            menuLogCh.log(-2137614336, "MenuSDSEventHandler#sendKeyPressedToSdsService: item %1 was selected with modelID: %2, sdsCommand: %3", (Object)menuItemIndex, (long)n, (long)n2);
+            menuLogCh.log(10000000, "MenuSDSEventHandler#sendKeyPressedToSdsService: item %1 was selected with modelID: %2, sdsCommand: %3", (Object)menuItemIndex, (long)n, (long)n2);
             AbstractWidget.sdsService.keyTyped(n, n2);
         }
     }
@@ -589,23 +587,18 @@ IMenuCallback {
         return 0;
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 }

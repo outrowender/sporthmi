@@ -3,71 +3,51 @@
  */
 package de.esolutions.fw.comm.dsi.careco;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.careco.BCmEListUpdateInfo;
 import org.dsi.ifc.careco.StartStopListUpdateInfo;
 
 public interface DSICarEcoC {
-    default public void requestBCmEConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo) {
-    }
+    public void requestBCmEConsumerList(BCmEListUpdateInfo var1) throws MethodException;
 
-    default public void setBCmELiveTip(int n, boolean bl) {
-    }
+    public void setBCmELiveTip(int var1, boolean var2) throws MethodException;
 
-    default public void setBcmeSetFactoryDefault() {
-    }
+    public void setBcmeSetFactoryDefault() throws MethodException;
 
-    default public void requestStartStopProhibitList(StartStopListUpdateInfo startStopListUpdateInfo) {
-    }
+    public void requestStartStopProhibitList(StartStopListUpdateInfo var1) throws MethodException;
 
-    default public void requestStartStopRestartList(StartStopListUpdateInfo startStopListUpdateInfo) {
-    }
+    public void requestStartStopRestartList(StartStopListUpdateInfo var1) throws MethodException;
 
-    default public void requestStartStopRestartProhibitList(StartStopListUpdateInfo startStopListUpdateInfo) {
-    }
+    public void requestStartStopRestartProhibitList(StartStopListUpdateInfo var1) throws MethodException;
 
-    default public void requestBCmEConsumerListConsumption(BCmEListUpdateInfo bCmEListUpdateInfo) {
-    }
+    public void requestBCmEConsumerListConsumption(BCmEListUpdateInfo var1) throws MethodException;
 
-    default public void requestBCmEConsumerListRange(BCmEListUpdateInfo bCmEListUpdateInfo) {
-    }
+    public void requestBCmEConsumerListRange(BCmEListUpdateInfo var1) throws MethodException;
 
-    default public void setRDSetFactoryDefault() {
-    }
+    public void setRDSetFactoryDefault() throws MethodException;
 
-    default public void setEASystem(boolean bl) {
-    }
+    public void setEASystem(boolean var1) throws MethodException;
 
-    default public void setEAPedalJerk(boolean bl) {
-    }
+    public void setEAPedalJerk(boolean var1) throws MethodException;
 
-    default public void setEASetFactoryDefault() {
-    }
+    public void setEASetFactoryDefault() throws MethodException;
 
-    default public void setEAFreeWheeling(boolean bl) {
-    }
+    public void setEAFreeWheeling(boolean var1) throws MethodException;
 
-    default public void setEAStartStop(boolean bl) {
-    }
+    public void setEAStartStop(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

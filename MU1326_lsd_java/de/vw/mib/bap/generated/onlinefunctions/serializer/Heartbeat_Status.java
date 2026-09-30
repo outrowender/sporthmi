@@ -10,7 +10,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class Heartbeat_Status
 implements StatusProperty {
     public int heartbeatTime;
-    private static final int HEARTBEAT_TIME_BITSIZE;
+    private static final int HEARTBEAT_TIME_BITSIZE = 8;
 
     public Heartbeat_Status() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements StatusProperty {
         this.heartbeatTime = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Heartbeat_Status heartbeat_Status = (Heartbeat_Status)bAPEntity;
         return this.heartbeatTime == heartbeat_Status.heartbeatTime;
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Heartbeat_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.heartbeatTime);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.heartbeatTime = bitStream.popFrontByte();
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 4;
     }
 
-    @Override
     public int getFunctionId() {
         return Heartbeat_Status.functionId();
     }

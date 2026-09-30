@@ -3,6 +3,7 @@
  */
 package java.net;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -19,7 +20,7 @@ extends URLConnection {
     private URL fileURL;
     private String file;
 
-    protected JarURLConnection(URL uRL) {
+    protected JarURLConnection(URL uRL) throws MalformedURLException {
         super(uRL);
         this.file = uRL.getFile();
         int n = this.file.lastIndexOf("!/");
@@ -32,12 +33,12 @@ extends URLConnection {
         this.entryName = this.file.substring(n + 2, this.file.length());
     }
 
-    public Attributes getAttributes() {
+    public Attributes getAttributes() throws IOException {
         JarEntry jarEntry = this.getJarEntry();
         return jarEntry == null ? null : jarEntry.getAttributes();
     }
 
-    public Certificate[] getCertificates() {
+    public Certificate[] getCertificates() throws IOException {
         JarEntry jarEntry = this.getJarEntry();
         if (jarEntry == null) {
             return null;
@@ -49,19 +50,18 @@ extends URLConnection {
         return this.entryName;
     }
 
-    public JarEntry getJarEntry() {
+    public JarEntry getJarEntry() throws IOException {
         if (!this.connected) {
             this.connect();
         }
         return this.getJarFile().getJarEntry(this.entryName);
     }
 
-    public Manifest getManifest() {
+    public Manifest getManifest() throws IOException {
         return this.getJarFile().getManifest();
     }
 
-    public abstract JarFile getJarFile() {
-    }
+    public abstract JarFile getJarFile() throws IOException;
 
     public URL getJarFileURL() {
         if (this.fileURL != null) {
@@ -76,7 +76,7 @@ extends URLConnection {
         }
     }
 
-    public Attributes getMainAttributes() {
+    public Attributes getMainAttributes() throws IOException {
         Manifest manifest = this.getJarFile().getManifest();
         return manifest == null ? null : manifest.getMainAttributes();
     }

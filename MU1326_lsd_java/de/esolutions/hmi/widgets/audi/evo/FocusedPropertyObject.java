@@ -41,7 +41,6 @@ implements IFocusedPropertyObject {
         this.category = n;
     }
 
-    @Override
     public int getCategory() {
         return this.category;
     }
@@ -50,32 +49,26 @@ implements IFocusedPropertyObject {
         this.properties = nArray;
     }
 
-    @Override
     public int[] getProperties() {
         return this.properties;
     }
 
-    @Override
     public void setModelID(int n) {
         this.modelID = n;
     }
 
-    @Override
     public int getModelID() {
         return this.modelID;
     }
 
-    @Override
     public void setWidgetID(int n) {
         this.widgetID = n;
     }
 
-    @Override
     public int getRow() {
         return this.row;
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -101,12 +94,10 @@ implements IFocusedPropertyObject {
         return buffer.toString();
     }
 
-    @Override
     public IRightDrawerActionReceiver getActionReceiverWidget() {
         return this.actionReceiverWidget;
     }
 
-    @Override
     public void setActionReceiverWidget(IRightDrawerActionReceiver iRightDrawerActionReceiver) {
         this.actionReceiverWidget = iRightDrawerActionReceiver;
     }

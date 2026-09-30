@@ -10,14 +10,13 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MPSetWaitingCallOnHold_Result
 implements ResultMethod {
     public int mpswcoh_Result;
-    private static final int MPSWCOH_RESULT_BITSIZE;
-    public static final int MPSWCOH_RESULT_SUCCESSFUL;
-    public static final int MPSWCOH_RESULT_NOT_SUCCESSFUL;
-    public static final int MPSWCOH_RESULT_ABORT_SUCCESSFUL;
-    public static final int MPSWCOH_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int MPSWCOH_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK;
+    private static final int MPSWCOH_RESULT_BITSIZE = 8;
+    public static final int MPSWCOH_RESULT_SUCCESSFUL = 0;
+    public static final int MPSWCOH_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int MPSWCOH_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int MPSWCOH_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int MPSWCOH_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK = 4;
 
-    @Override
     public int getResultCode() {
         return this.mpswcoh_Result;
     }
@@ -36,12 +35,10 @@ implements ResultMethod {
         this.mpswcoh_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MPSetWaitingCallOnHold_Result mPSetWaitingCallOnHold_Result = (MPSetWaitingCallOnHold_Result)bAPEntity;
         return this.mpswcoh_Result == mPSetWaitingCallOnHold_Result.mpswcoh_Result;
@@ -50,7 +47,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MPSetWaitingCallOnHold_Result:");
@@ -83,18 +79,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.mpswcoh_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.mpswcoh_Result = bitStream.popFrontByte();
     }
@@ -103,7 +96,6 @@ implements ResultMethod {
         return 39;
     }
 
-    @Override
     public int getFunctionId() {
         return MPSetWaitingCallOnHold_Result.functionId();
     }

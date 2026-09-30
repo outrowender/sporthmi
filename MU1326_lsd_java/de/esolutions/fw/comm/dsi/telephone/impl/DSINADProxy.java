@@ -30,8 +30,7 @@ DSINADC {
         return this.proxy;
     }
 
-    @Override
-    public void requestNetworkRegistration(String string, int n) {
+    public void requestNetworkRegistration(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -43,23 +42,19 @@ DSINADC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void requestAbortNetworkRegistration() {
+    public void requestAbortNetworkRegistration() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void requestNetworkSearch() {
+    public void requestNetworkSearch() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void requestAbortNetworkSearch() {
+    public void requestAbortNetworkSearch() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void requestSetAutomaticPinEntryActive(boolean bl) {
+    public void requestSetAutomaticPinEntryActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -70,8 +65,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void requestTelPower(int n) {
+    public void requestTelPower(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -82,8 +76,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void requestUnlockSIM(int n, String string, String string2) {
+    public void requestUnlockSIM(int n, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -96,8 +89,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void requestCheckSIMPINCode(String string) {
+    public void requestCheckSIMPINCode(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -108,8 +100,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void requestChangeSIMCode(int n, String string, String string2) {
+    public void requestChangeSIMCode(int n, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -122,8 +113,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void requestSIMPINRequired(String string, boolean bl) {
+    public void requestSIMPINRequired(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -135,13 +125,11 @@ DSINADC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void restoreFactorySettings() {
+    public void restoreFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)24, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -152,8 +140,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -164,13 +151,11 @@ DSINADC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)25, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -181,8 +166,7 @@ DSINADC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -193,13 +177,11 @@ DSINADC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

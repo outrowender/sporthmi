@@ -10,19 +10,19 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ReceptionListType_Status
 implements StatusProperty {
     public int type;
-    private static final int TYPE_BITSIZE;
-    public static final int TYPE_UNKNOWN_TYPE_UNSPECIFIC;
-    public static final int TYPE_FM_RECEPTION_LIST;
-    public static final int TYPE_AM_RECEPTION_LIST;
-    public static final int TYPE_DAB_RECEPTION_LIST;
-    public static final int TYPE_SDARS_RECEPTION_LIST;
-    public static final int TYPE_DVB_RECEPTION_LIST;
-    public static final int TYPE_TV_RECEPTION_LIST;
-    public static final int TYPE_AM_SW_RECEPTION_LIST;
-    public static final int TYPE_AM_LW_RECEPTION_LIST;
-    public static final int TYPE_ONLINE_RADIO_RECEPTION_LIST_DF4_1;
-    public static final int TYPE_COMMON_LIST_DF4_2;
-    public static final int TYPE_NO_RECEPTION_LIST_AVAILABLE_RECEPTION_LIST_NOT_SUPPORTED;
+    private static final int TYPE_BITSIZE = 8;
+    public static final int TYPE_UNKNOWN_TYPE_UNSPECIFIC = 0;
+    public static final int TYPE_FM_RECEPTION_LIST = 1;
+    public static final int TYPE_AM_RECEPTION_LIST = 2;
+    public static final int TYPE_DAB_RECEPTION_LIST = 3;
+    public static final int TYPE_SDARS_RECEPTION_LIST = 4;
+    public static final int TYPE_DVB_RECEPTION_LIST = 5;
+    public static final int TYPE_TV_RECEPTION_LIST = 6;
+    public static final int TYPE_AM_SW_RECEPTION_LIST = 7;
+    public static final int TYPE_AM_LW_RECEPTION_LIST = 8;
+    public static final int TYPE_ONLINE_RADIO_RECEPTION_LIST_DF4_1 = 9;
+    public static final int TYPE_COMMON_LIST_DF4_2 = 10;
+    public static final int TYPE_NO_RECEPTION_LIST_AVAILABLE_RECEPTION_LIST_NOT_SUPPORTED = 255;
 
     public ReceptionListType_Status() {
         this.internalReset();
@@ -38,12 +38,10 @@ implements StatusProperty {
         this.type = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ReceptionListType_Status receptionListType_Status = (ReceptionListType_Status)bAPEntity;
         return this.type == receptionListType_Status.type;
@@ -52,7 +50,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ReceptionListType_Status:");
@@ -113,18 +110,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.type);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.type = bitStream.popFrontByte();
     }
@@ -133,7 +127,6 @@ implements StatusProperty {
         return 31;
     }
 
-    @Override
     public int getFunctionId() {
         return ReceptionListType_Status.functionId();
     }

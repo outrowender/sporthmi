@@ -25,28 +25,23 @@ implements DSIUnifiedTuner {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$radio$DSIUnifiedTuner == null ? (class$org$dsi$ifc$radio$DSIUnifiedTuner = DSIUnifiedTunerProvider.class$("org.dsi.ifc.radio.DSIUnifiedTuner")) : class$org$dsi$ifc$radio$DSIUnifiedTuner).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIUnifiedTunerProxy(this.instance, (DSIUnifiedTunerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void selectStation(int n, long l, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.selectStation(n, l, n2, n3, n4, n5);
@@ -56,7 +51,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setStationFollowingMode(int n) {
         try {
             this.proxy.setStationFollowingMode(n);
@@ -66,7 +60,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setListMode(int n) {
         try {
             this.proxy.setListMode(n);
@@ -76,7 +69,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void enableRadioTextPlus(int[] nArray) {
         try {
             this.proxy.enableRadioTextPlus(nArray);
@@ -86,7 +78,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setSoftLinkSwitch(int n) {
         try {
             this.proxy.setSoftLinkSwitch(n);
@@ -96,7 +87,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setRegMode(int n) {
         try {
             this.proxy.setRegMode(n);
@@ -106,7 +96,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void switchDeviceUsage(int n) {
         try {
             this.proxy.switchDeviceUsage(n);
@@ -116,7 +105,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -126,7 +114,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -136,7 +123,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -146,7 +132,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -156,7 +141,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -166,7 +150,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -176,7 +159,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -186,7 +168,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -196,7 +177,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -206,7 +186,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -216,7 +195,6 @@ implements DSIUnifiedTuner {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

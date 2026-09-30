@@ -7,25 +7,21 @@ import de.esolutions.fw.util.commons.IntList;
 import java.util.List;
 
 public interface ICaseBalancingStrategy {
-    public static final int GROUP_CASE_SENSITIVE;
-    public static final int GROUP_CASE_AMBIGUOUS;
-    public static final int GROUP_CASE_INSENSITIVE;
-    public static final int GROUP_CASE_LOWER_CASE_ONLY;
-    public static final int GROUP_CASE_UPPER_CASE_ONLY;
-    public static final int CASE_BALANCED;
-    public static final int CASE_LOWER;
-    public static final int CASE_UPPER;
+    public static final int GROUP_CASE_SENSITIVE = 0;
+    public static final int GROUP_CASE_AMBIGUOUS = 1;
+    public static final int GROUP_CASE_INSENSITIVE = 2;
+    public static final int GROUP_CASE_LOWER_CASE_ONLY = 3;
+    public static final int GROUP_CASE_UPPER_CASE_ONLY = 4;
+    public static final int CASE_BALANCED = 0;
+    public static final int CASE_LOWER = 1;
+    public static final int CASE_UPPER = 2;
 
-    default public String refreshForDisplayCaseBalancingText(int n, int n2, IntList intList, List list) {
-    }
+    public String refreshForDisplayCaseBalancingText(int var1, int var2, IntList var3, List var4);
 
-    default public boolean isWordSeparator(char c2) {
-    }
+    public boolean isWordSeparator(char var1);
 
-    default public boolean needRefreshDisplayTextAfterTextChange() {
-    }
+    public boolean needRefreshDisplayTextAfterTextChange();
 
-    default public void setHandWrittenModeIsActive(boolean bl) {
-    }
+    public void setHandWrittenModeIsActive(boolean var1);
 }
 

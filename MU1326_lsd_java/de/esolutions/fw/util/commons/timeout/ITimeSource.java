@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.timeout;
 
 public interface ITimeSource {
-    default public long getCurrentTime() {
-    }
+    public long getCurrentTime();
 }
 

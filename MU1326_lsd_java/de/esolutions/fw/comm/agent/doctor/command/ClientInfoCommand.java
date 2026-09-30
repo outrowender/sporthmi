@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class ClientInfoCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"client_info", "ci"};
     }
 
-    @Override
     public String getDescription() {
         return "info on peer client connection(s)";
     }
 
-    @Override
     public String getUsage() {
         return "[client_id][,client_id...]";
     }
 
-    @Override
     protected void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllClients();

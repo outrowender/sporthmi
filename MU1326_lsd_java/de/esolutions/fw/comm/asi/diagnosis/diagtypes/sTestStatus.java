@@ -42,7 +42,7 @@ public class sTestStatus {
     }
 
     public String toString() {
-        return new StringBuffer("sTestStatus{").append("internalDtc=").append(this.internalDtc).append(", testResult=").append(this.testResult).append(", envData=").append("[").append(this.envData == null ? "null" : new StringBuffer().append("size=").append(this.envData.length).toString()).append("]").append("}").toString();
+        return "sTestStatus{" + "internalDtc=" + this.internalDtc + ", testResult=" + this.testResult + ", envData=" + "[" + (this.envData == null ? "null" : "size=" + this.envData.length) + "]" + "}";
     }
 }
 

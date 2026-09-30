@@ -25,28 +25,23 @@ implements DSISwdlDeviceInfo {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfo == null ? (class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfo = DSISwdlDeviceInfoProvider.class$("org.dsi.ifc.swdldeviceinfo.DSISwdlDeviceInfo")) : class$org$dsi$ifc$swdldeviceinfo$DSISwdlDeviceInfo).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISwdlDeviceInfoProxy(this.instance, (DSISwdlDeviceInfoReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setAccessType(int n) {
         try {
             this.proxy.setAccessType(n);
@@ -56,7 +51,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getDevices() {
         try {
             this.proxy.getDevices();
@@ -66,7 +60,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getModules(int n) {
         try {
             this.proxy.getModules(n);
@@ -76,7 +69,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getLanguages(int n) {
         try {
             this.proxy.getLanguages(n);
@@ -86,7 +78,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getErrors(int n) {
         try {
             this.proxy.getErrors(n);
@@ -96,7 +87,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void isDataModule(int n, int n2) {
         try {
             this.proxy.isDataModule(n, n2);
@@ -106,7 +96,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void isNoExclusiveBoloUpdate(int n, int n2) {
         try {
             this.proxy.isNoExclusiveBoloUpdate(n, n2);
@@ -116,7 +105,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getVersions(int n, int n2) {
         try {
             this.proxy.getVersions(n, n2);
@@ -126,7 +114,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getTargetVersions(int n, int n2) {
         try {
             this.proxy.getTargetVersions(n, n2);
@@ -136,7 +123,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getAdditionalInfo(int n, int n2) {
         try {
             this.proxy.getAdditionalInfo(n, n2);
@@ -146,7 +132,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void toggleSelection(int n, int n2, short s) {
         try {
             this.proxy.toggleSelection(n, n2, s);
@@ -156,7 +141,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getFileNames(int n, int n2) {
         try {
             this.proxy.getFileNames(n, n2);
@@ -166,7 +150,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getFileDetails(int n, int n2, short s) {
         try {
             this.proxy.getFileDetails(n, n2, s);
@@ -176,7 +159,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getInfoFilePath(int n) {
         try {
             this.proxy.getInfoFilePath(n);
@@ -186,7 +168,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void setDeviceSelection(int n, int n2) {
         try {
             this.proxy.setDeviceSelection(n, n2);
@@ -196,7 +177,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getNumberOfPopups() {
         try {
             this.proxy.getNumberOfPopups();
@@ -206,7 +186,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void getPopup(int n) {
         try {
             this.proxy.getPopup(n);
@@ -216,7 +195,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -226,7 +204,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -236,7 +213,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -246,7 +222,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -256,7 +231,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -266,7 +240,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -276,7 +249,6 @@ implements DSISwdlDeviceInfo {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

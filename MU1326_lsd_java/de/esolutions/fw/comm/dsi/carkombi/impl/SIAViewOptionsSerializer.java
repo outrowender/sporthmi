@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.SIAConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAConfiguration;
 import org.dsi.ifc.carkombi.SIAViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SIAViewOptionsSerializer {
-    public static void putOptionalSIAViewOptions(ISerializer iSerializer, SIAViewOptions sIAViewOptions) {
+    public static void putOptionalSIAViewOptions(ISerializer iSerializer, SIAViewOptions sIAViewOptions) throws SerializerException {
         boolean bl = sIAViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class SIAViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSIAViewOptionsVarArray(ISerializer iSerializer, SIAViewOptions[] sIAViewOptionsArray) {
+    public static void putOptionalSIAViewOptionsVarArray(ISerializer iSerializer, SIAViewOptions[] sIAViewOptionsArray) throws SerializerException {
         boolean bl = sIAViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class SIAViewOptionsSerializer {
         }
     }
 
-    public static SIAViewOptions getOptionalSIAViewOptions(IDeserializer iDeserializer) {
+    public static SIAViewOptions getOptionalSIAViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SIAViewOptions sIAViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class SIAViewOptionsSerializer {
         return sIAViewOptions;
     }
 
-    public static SIAViewOptions[] getOptionalSIAViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SIAViewOptions[] getOptionalSIAViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAViewOptions[] sIAViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

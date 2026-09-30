@@ -7,46 +7,44 @@ import java.util.Collection;
 import java.util.Set;
 
 public interface Map {
-    default public void clear() {
-    }
+    public void clear();
 
-    default public boolean containsKey(Object object) {
-    }
+    public boolean containsKey(Object var1);
 
-    default public boolean containsValue(Object object) {
-    }
+    public boolean containsValue(Object var1);
 
-    default public Set entrySet() {
-    }
+    public Set entrySet();
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public Object get(Object object) {
-    }
+    public Object get(Object var1);
 
-    default public int hashCode() {
-    }
+    public int hashCode();
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public Set keySet() {
-    }
+    public Set keySet();
 
-    default public Object put(Object object, Object object2) {
-    }
+    public Object put(Object var1, Object var2);
 
-    default public void putAll(Map map) {
-    }
+    public void putAll(Map var1);
 
-    default public Object remove(Object object) {
-    }
+    public Object remove(Object var1);
 
-    default public int size() {
-    }
+    public int size();
 
-    default public Collection values() {
+    public Collection values();
+
+    public static interface Entry {
+        public boolean equals(Object var1);
+
+        public Object getKey();
+
+        public Object getValue();
+
+        public int hashCode();
+
+        public Object setValue(Object var1);
     }
 }
 

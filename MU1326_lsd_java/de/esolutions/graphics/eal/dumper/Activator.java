@@ -15,15 +15,13 @@ implements BundleActivator {
     private ServiceRegistration dipServiceReg;
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$error$DumpInfoProvider;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         DumpInfoProvider dumpInfoProvider = new DumpInfoProvider();
         Properties properties = new Properties();
         this.dipServiceReg = bundleContext.registerService((class$de$esolutions$fw$util$commons$error$DumpInfoProvider == null ? (class$de$esolutions$fw$util$commons$error$DumpInfoProvider = Activator.class$("de.esolutions.fw.util.commons.error.DumpInfoProvider")) : class$de$esolutions$fw$util$commons$error$DumpInfoProvider).getName(), (Object)dumpInfoProvider, (Dictionary)properties);
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         if (this.dipServiceReg != null) {
             this.dipServiceReg.unregister();
         }

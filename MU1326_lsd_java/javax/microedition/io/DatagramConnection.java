@@ -3,33 +3,26 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.Connection;
 import javax.microedition.io.Datagram;
 
 public interface DatagramConnection
 extends Connection {
-    default public int getMaximumLength() {
-    }
+    public int getMaximumLength() throws IOException;
 
-    default public int getNominalLength() {
-    }
+    public int getNominalLength() throws IOException;
 
-    default public Datagram newDatagram(byte[] byArray, int n) {
-    }
+    public Datagram newDatagram(byte[] var1, int var2) throws IOException;
 
-    default public Datagram newDatagram(byte[] byArray, int n, String string) {
-    }
+    public Datagram newDatagram(byte[] var1, int var2, String var3) throws IOException;
 
-    default public Datagram newDatagram(int n) {
-    }
+    public Datagram newDatagram(int var1) throws IOException;
 
-    default public Datagram newDatagram(int n, String string) {
-    }
+    public Datagram newDatagram(int var1, String var2) throws IOException;
 
-    default public void receive(Datagram datagram) {
-    }
+    public void receive(Datagram var1) throws IOException;
 
-    default public void send(Datagram datagram) {
-    }
+    public void send(Datagram var1) throws IOException;
 }
 

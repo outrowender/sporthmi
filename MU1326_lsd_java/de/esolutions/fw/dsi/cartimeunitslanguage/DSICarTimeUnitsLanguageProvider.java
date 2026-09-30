@@ -28,28 +28,23 @@ implements DSICarTimeUnitsLanguage {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage = DSICarTimeUnitsLanguageProvider.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguage")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarTimeUnitsLanguageProxy(this.instance, (DSICarTimeUnitsLanguageReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setMenuLanguage(int n) {
         try {
             this.proxy.setMenuLanguage(n);
@@ -59,7 +54,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setPressureUnit(int n) {
         try {
             this.proxy.setPressureUnit(n);
@@ -69,7 +63,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setVolumeUnit(int n) {
         try {
             this.proxy.setVolumeUnit(n);
@@ -79,7 +72,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setTemperatureUnit(int n) {
         try {
             this.proxy.setTemperatureUnit(n);
@@ -89,7 +81,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setDistanceUnit(int n) {
         try {
             this.proxy.setDistanceUnit(n);
@@ -99,7 +90,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setSpeedUnit(int n) {
         try {
             this.proxy.setSpeedUnit(n);
@@ -109,7 +99,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setConsumptionPetrolUnit(int n) {
         try {
             this.proxy.setConsumptionPetrolUnit(n);
@@ -119,7 +108,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setConsumptionGasUnit(int n) {
         try {
             this.proxy.setConsumptionGasUnit(n);
@@ -129,7 +117,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setConsumptionElectricUnit(int n) {
         try {
             this.proxy.setConsumptionElectricUnit(n);
@@ -139,7 +126,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockFormat(int n) {
         try {
             this.proxy.setClockFormat(n);
@@ -149,7 +135,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setDateFormat(int n) {
         try {
             this.proxy.setDateFormat(n);
@@ -159,7 +144,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockDate(ClockDate clockDate) {
         try {
             this.proxy.setClockDate(clockDate);
@@ -169,7 +153,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockTime(byte by, byte by2, byte by3) {
         try {
             this.proxy.setClockTime(by, by2, by3);
@@ -179,7 +162,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockSource(int n) {
         try {
             this.proxy.setClockSource(n);
@@ -189,7 +171,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockDayLightSaving(boolean bl) {
         try {
             this.proxy.setClockDayLightSaving(bl);
@@ -199,7 +180,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockTimeZoneOffset(float f2) {
         try {
             this.proxy.setClockTimeZoneOffset(f2);
@@ -209,7 +189,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockGPSSyncData(ClockGPSSyncData clockGPSSyncData) {
         try {
             this.proxy.setClockGPSSyncData(clockGPSSyncData);
@@ -219,7 +198,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setClockSummerTimeData(ClockSummerTimeData clockSummerTimeData) {
         try {
             this.proxy.setClockSummerTimeData(clockSummerTimeData);
@@ -229,7 +207,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setUmSetFactoryDefault() {
         try {
             this.proxy.setUmSetFactoryDefault();
@@ -239,7 +216,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setSkin(int n) {
         try {
             this.proxy.setSkin(n);
@@ -249,7 +225,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setWeightUnit(int n) {
         try {
             this.proxy.setWeightUnit(n);
@@ -259,7 +234,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -269,7 +243,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -279,7 +252,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -289,7 +261,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -299,7 +270,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -309,7 +279,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -319,7 +288,6 @@ implements DSICarTimeUnitsLanguage {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

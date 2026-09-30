@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 import de.esolutions.fw.comm.dsi.cardriverassistance.impl.ACCAvailableDrivingProgramsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.ACCAvailableDrivingPrograms;
 import org.dsi.ifc.cardriverassistance.ACCConfiguration;
 
 public class ACCConfigurationSerializer {
-    public static void putOptionalACCConfiguration(ISerializer iSerializer, ACCConfiguration aCCConfiguration) {
+    public static void putOptionalACCConfiguration(ISerializer iSerializer, ACCConfiguration aCCConfiguration) throws SerializerException {
         boolean bl = aCCConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ACCConfigurationSerializer {
         }
     }
 
-    public static void putOptionalACCConfigurationVarArray(ISerializer iSerializer, ACCConfiguration[] aCCConfigurationArray) {
+    public static void putOptionalACCConfigurationVarArray(ISerializer iSerializer, ACCConfiguration[] aCCConfigurationArray) throws SerializerException {
         boolean bl = aCCConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ACCConfigurationSerializer {
         }
     }
 
-    public static ACCConfiguration getOptionalACCConfiguration(IDeserializer iDeserializer) {
+    public static ACCConfiguration getOptionalACCConfiguration(IDeserializer iDeserializer) throws SerializerException {
         ACCConfiguration aCCConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -41,7 +42,7 @@ public class ACCConfigurationSerializer {
         return aCCConfiguration;
     }
 
-    public static ACCConfiguration[] getOptionalACCConfigurationVarArray(IDeserializer iDeserializer) {
+    public static ACCConfiguration[] getOptionalACCConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ACCConfiguration[] aCCConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

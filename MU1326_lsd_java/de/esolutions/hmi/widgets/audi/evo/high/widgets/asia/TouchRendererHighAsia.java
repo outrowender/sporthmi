@@ -12,7 +12,7 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchControllerAsia;
 
 public final class TouchRendererHighAsia
 extends TouchRendererHigh {
-    private static final int NUMBER_OF_TEXT_SECTIONS;
+    private static final int NUMBER_OF_TEXT_SECTIONS = 2;
     private final TouchControllerAsia controllerAsia;
 
     public TouchRendererHighAsia(TouchControllerAsia touchControllerAsia) {
@@ -20,7 +20,6 @@ extends TouchRendererHigh {
         this.controllerAsia = touchControllerAsia;
     }
 
-    @Override
     protected String getFullTextToRender() {
         if (this.controllerAsia.suggestionsAvailable()) {
             return this.controllerAsia.getCurrentSuggestion();
@@ -28,17 +27,14 @@ extends TouchRendererHigh {
         return this.controllerAsia.getFullTextFromInputField();
     }
 
-    @Override
     protected String getTextPartLeftOfCursor() {
         return this.controllerAsia.getFullTextFromInputField();
     }
 
-    @Override
     protected int getNumberOfTextLayoutSections() {
         return 2;
     }
 
-    @Override
     protected FlagFontStyle getFontStyle(int n) {
         if (n == 1) {
             if (this.controllerAsia.suggestionsAvailable()) {
@@ -49,7 +45,6 @@ extends TouchRendererHigh {
         return super.getFontStyle(n);
     }
 
-    @Override
     protected int getColorForTextSection(int n) {
         if (n == 1 && this.controllerAsia.suggestionsAvailable() && !this.shouldShowSuggestionBackground()) {
             int n2 = this.rc.getColor(2);
@@ -58,7 +53,6 @@ extends TouchRendererHigh {
         return super.getColorForTextSection(n);
     }
 
-    @Override
     protected int getIndexOfLastCharacterInTextSection(int n) {
         if (this.getFullTextToRender().length() == 0) {
             return -1;
@@ -81,7 +75,7 @@ extends TouchRendererHigh {
     }
 
     private void showSuggestionBackground(boolean bl, boolean bl2) {
-        int n = Math.round(this.textNode.getY() - 57409);
+        int n = Math.round(this.textNode.getY() - 28.0f);
         int n2 = 36;
         if (bl) {
             if (bl2) {
@@ -98,7 +92,6 @@ extends TouchRendererHigh {
         }
     }
 
-    @Override
     protected void showSuggestionBackground(boolean bl) {
         if (bl) {
             bl &= this.controllerAsia.suggestionsAvailable();
@@ -106,12 +99,10 @@ extends TouchRendererHigh {
         this.showSuggestionBackground(bl, this.shouldShowSuggestionBackground());
     }
 
-    @Override
     protected boolean shouldShowSuggestionBackground() {
         return this.controllerAsia.suggestionsAvailable() && this.controllerAsia.shouldShowSuggestionBackground();
     }
 
-    @Override
     protected String updateSections(int n, ITextLayoutSection iTextLayoutSection, int n2, int n3) {
         if (this.controllerAsia.suggestionsAvailable() && n == 1) {
             return super.updateSections(n, iTextLayoutSection, n2, n3);
@@ -119,12 +110,10 @@ extends TouchRendererHigh {
         return this.getAbbreviatedTextToRender();
     }
 
-    @Override
     protected boolean isSuggestionVisible() {
         return this.controllerAsia.suggestionsAvailable();
     }
 
-    @Override
     protected boolean isCursorAtTheEndOfText(int n) {
         return true;
     }

@@ -36,9 +36,8 @@ ISharedTextureRenderer {
         this.controller = sharedTextureController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
-        logWidgetSharedTexture.log(-2137614336, "SharedTextureRendererHigh#connect");
+        logWidgetSharedTexture.log(10000000, "SharedTextureRendererHigh#connect");
         super.connect(initializationContext);
         this.connected = true;
     }
@@ -67,7 +66,6 @@ ISharedTextureRenderer {
         this.updateAnimation = null;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.controller.getUpdateMode() == 2) {
             if (bl) {
@@ -120,7 +118,6 @@ ISharedTextureRenderer {
         iProperty.dispose();
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -133,7 +130,7 @@ ISharedTextureRenderer {
         }
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (this.node == null) {
-            logWidgetSharedTexture.log(-2137614336, "SharedTextureRendererHigh#render creating node for first time");
+            logWidgetSharedTexture.log(10000000, "SharedTextureRendererHigh#render creating node for first time");
             if (this.getTerminal().getFramework().isSimulator()) {
                 ByteBuffer byteBuffer = ByteBuffer.allocateDirect(this.controller.getWidth() * this.controller.getHeight() * 4);
                 for (int i2 = 0; i2 < this.controller.getHeight(); ++i2) {
@@ -174,11 +171,10 @@ ISharedTextureRenderer {
         this.applyProperties(redrawContextHigh);
     }
 
-    @Override
     public void updateSharedTexture() {
         if (this.sharedTexture != null) {
             if (logWidgetSharedTexture.isDebug()) {
-                logWidgetSharedTexture.log(-2137614336, "SharedTextureRendererHigh#updateSharedTexture, using capture rect: %1, displayableID %2", this.controller.useCaptureRect(), (long)this.controller.getDisplayableID());
+                logWidgetSharedTexture.log(10000000, "SharedTextureRendererHigh#updateSharedTexture, using capture rect: %1, displayableID %2", this.controller.useCaptureRect(), (long)this.controller.getDisplayableID());
             }
             ITextureShared iTextureShared = (ITextureShared)this.sharedTexture.getTexture();
             if (this.controller.useCaptureRect()) {
@@ -191,13 +187,13 @@ ISharedTextureRenderer {
             if (this.node != null) {
                 this.node.invalidateObject();
             } else {
-                logWidgetSharedTexture.log(-2137614336, "SharedTextureRendererHigh#updateSharedTexture, node is null -> cannot invalidate partial rendering");
+                logWidgetSharedTexture.log(10000000, "SharedTextureRendererHigh#updateSharedTexture, node is null -> cannot invalidate partial rendering");
             }
         }
     }
 
     protected void destroyNode() {
-        logWidgetSharedTexture.log(-2137614336, "SharedTextureRendererHigh#destroyNode");
+        logWidgetSharedTexture.log(10000000, "SharedTextureRendererHigh#destroyNode");
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {
             eALManager.destroy(this.node);
@@ -217,7 +213,6 @@ ISharedTextureRenderer {
         this.applyMirrorStatus(this.node);
     }
 
-    @Override
     public void disconnect() {
         this.stopUpdateAnimation();
         this.connected = false;
@@ -225,25 +220,20 @@ ISharedTextureRenderer {
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         this.updateSharedTexture();
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
-    @Override
     public void setHMIBackgroundOpaque(boolean bl) {
         this.getEALManager().setClearMethod(bl ? 2 : 0);
     }

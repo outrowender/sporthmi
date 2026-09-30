@@ -5,10 +5,14 @@ package de.esolutions.fw.comm.asi.fec.impl;
 
 import de.esolutions.fw.comm.asi.fec.FecClient;
 import de.esolutions.fw.comm.asi.fec.SFecState;
-import de.esolutions.fw.comm.asi.fec.impl.FecClientProxy$1;
+import de.esolutions.fw.comm.asi.fec.impl.SFecStateSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class FecClientProxy
 implements FecClient {
@@ -24,10 +28,14 @@ implements FecClient {
         return this.proxy;
     }
 
-    @Override
-    public void updateFECs(SFecState[] sFecStateArray) {
-        FecClientProxy$1 fecClientProxy$1 = new FecClientProxy$1(this, sFecStateArray);
-        this.proxy.remoteCallMethod((short)1, fecClientProxy$1);
+    public void updateFECs(final SFecState[] sFecStateArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SFecStateSerializer.putOptionalSFecStateVarArray(iSerializer, sFecStateArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 }
 

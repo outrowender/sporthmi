@@ -6,21 +6,21 @@ package java.util;
 import com.ibm.oti.util.PriviAction;
 import java.io.Serializable;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.DateFormatSymbols;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
-import java.util.TimeZone$1;
 import java.util.TimeZones;
 
 public abstract class TimeZone
 implements Serializable,
 Cloneable {
-    private static final long serialVersionUID;
-    public static final int SHORT;
-    public static final int LONG;
+    private static final long serialVersionUID = 3581463369166924961L;
+    public static final int SHORT = 0;
+    public static final int LONG = 1;
     private static HashMap AvailableZones;
     private static TimeZone Default;
     static final TimeZone GMT;
@@ -136,7 +136,7 @@ Cloneable {
                 n2 += this.getDSTSavings();
             }
             char c2 = '+';
-            if ((n2 /= 1625948160) < 0) {
+            if ((n2 /= 60000) < 0) {
                 c2 = '-';
                 n2 = -n2;
             }
@@ -157,7 +157,7 @@ Cloneable {
 
     public int getDSTSavings() {
         if (this.useDaylightTime()) {
-            return -2131872256;
+            return 3600000;
         }
         return 0;
     }
@@ -169,11 +169,9 @@ Cloneable {
         return this.getRawOffset();
     }
 
-    public abstract int getOffset(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public abstract int getOffset(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    public abstract int getRawOffset() {
-    }
+    public abstract int getRawOffset();
 
     public static synchronized TimeZone getTimeZone(String string) {
         TimeZone timeZone;
@@ -194,15 +192,15 @@ Cloneable {
                 }
                 int n2 = nArray[0];
                 if (n2 != -1) {
-                    int n3 = n * -2131872256;
+                    int n3 = n * 3600000;
                     if (n2 < string2.length() && string2.charAt(n2) == ':') {
                         int n4 = TimeZone.parseNumber(string2, n2 + 1, nArray);
                         if (nArray[0] == -1 || n4 < 0 || n4 > 59) {
                             return (TimeZone)GMT.clone();
                         }
-                        n3 += n4 * 1625948160;
+                        n3 += n4 * 60000;
                     } else if (n >= 30 || n2 > 6) {
-                        n3 = n / 100 * -2131872256 + n % 100 * 1625948160;
+                        n3 = n / 100 * 3600000 + n % 100 * 60000;
                     }
                     if (c2 == '-') {
                         n3 = -n3;
@@ -260,8 +258,7 @@ Cloneable {
         return this.getRawOffset() == timeZone.getRawOffset();
     }
 
-    public abstract boolean inDaylightTime(Date date) {
-    }
+    public abstract boolean inDaylightTime(Date var1);
 
     private static int parseNumber(String string, int n, int[] nArray) {
         int n2;
@@ -300,8 +297,14 @@ Cloneable {
             } else {
                 Default = TimeZone.getTimeZone(string2 == null ? "" : string2);
                 if (string2 != null) {
-                    String string3 = string2;
-                    AccessController.doPrivileged(new TimeZone$1(string3));
+                    final String string3 = string2;
+                    AccessController.doPrivileged(new PrivilegedAction(){
+
+                        public Object run() {
+                            System.setProperty("user.timezone", string3);
+                            return null;
+                        }
+                    });
                 }
             }
         } else {
@@ -316,13 +319,10 @@ Cloneable {
         this.ID = string;
     }
 
-    public abstract void setRawOffset(int n) {
-    }
+    public abstract void setRawOffset(int var1);
 
-    public abstract boolean useDaylightTime() {
-    }
+    public abstract boolean useDaylightTime();
 
-    private static native String getCustomTimeZone(int[] nArray, boolean[] blArray) {
-    }
+    private static native String getCustomTimeZone(int[] var0, boolean[] var1);
 }
 

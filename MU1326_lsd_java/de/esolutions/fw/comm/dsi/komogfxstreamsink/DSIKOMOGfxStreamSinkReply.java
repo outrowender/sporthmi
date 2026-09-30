@@ -3,34 +3,28 @@
  */
 package de.esolutions.fw.comm.dsi.komogfxstreamsink;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKOMOGfxStreamSinkReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "6e1558ae-4cd5-5414-9ab7-734ff9d5d567";
+    public static final String IPL_COMM_INTERFACE_KEY = "343602ed-cdc1-5b2a-9bc2-3d899ca8180e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void updateGfxState(int n, int n2) {
-    }
+    public void updateGfxState(int var1, int var2) throws MethodException;
 
-    default public void updateRequestSync(int n, int n2) {
-    }
+    public void updateRequestSync(int var1, int var2) throws MethodException;
 
-    default public void updateDataRate(int n, int n2) {
-    }
+    public void updateDataRate(int var1, int var2) throws MethodException;
 
-    default public void setFGLayerResult(int n) {
-    }
+    public void setFGLayerResult(int var1) throws MethodException;
 
-    default public void fadeInResult() {
-    }
+    public void fadeInResult() throws MethodException;
 
-    default public void fadeOutResult() {
-    }
+    public void fadeOutResult() throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

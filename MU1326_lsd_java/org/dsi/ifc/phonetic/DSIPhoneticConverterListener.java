@@ -7,10 +7,8 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIPhoneticConverterListener
 extends DSIListener {
-    default public void hanziToPinYinResult(String string, String string2, String string3, String string4) {
-    }
+    public void hanziToPinYinResult(String var1, String var2, String var3, String var4);
 
-    default public void hanziToZhuYinResult(String string, String string2, String string3, String string4) {
-    }
+    public void hanziToZhuYinResult(String var1, String var2, String var3, String var4);
 }
 

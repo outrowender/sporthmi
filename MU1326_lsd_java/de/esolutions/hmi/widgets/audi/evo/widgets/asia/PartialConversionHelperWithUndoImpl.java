@@ -25,10 +25,10 @@ implements IPartialConversionHelper {
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("{");
-        buffer.append(new StringBuffer().append("currPartialConversion: ").append(this.currPartialConversion.toString()).append(",").toString());
-        buffer.append(new StringBuffer().append("selectedPredictionChars: ").append(this.selectedPredictionChars).append(",").toString());
-        buffer.append(new StringBuffer().append("isSelectOperation: ").append(this.isSelectOperation).append(",").toString());
-        buffer.append(new StringBuffer().append("isDeleteOperation: ").append(this.isDeleteOperation).append(",").toString());
+        buffer.append("currPartialConversion: " + this.currPartialConversion.toString() + ",");
+        buffer.append("selectedPredictionChars: " + this.selectedPredictionChars + ",");
+        buffer.append("isSelectOperation: " + this.isSelectOperation + ",");
+        buffer.append("isDeleteOperation: " + this.isDeleteOperation + ",");
         buffer.append("}");
         return buffer.toString();
     }
@@ -37,16 +37,14 @@ implements IPartialConversionHelper {
         return StringUtilities.concatStringArray(this.userSelectedConversions, "");
     }
 
-    @Override
     public void setCurrentSelectedPredictionChars(String string) {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "PartialConversionHelper#setCurrentSelectedPredictionChars selectedChar='%1'.", (Object)string);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "PartialConversionHelper#setCurrentSelectedPredictionChars selectedChar='%1'.", (Object)string);
         this.isSelectOperation = true;
         this.userSelectedConversions.add(string);
     }
 
-    @Override
     public void setIsDeleteOperation(boolean bl) {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "PartialConversionHelper#setIsDeleteOperation %1.", bl);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "PartialConversionHelper#setIsDeleteOperation %1.", bl);
         this.isDeleteOperation = bl;
         ++this.deletionCounter;
     }
@@ -55,7 +53,6 @@ implements IPartialConversionHelper {
         this.reset();
     }
 
-    @Override
     public String getPartialConversion(String string) {
         if (this.isDeleteOperation && string.length() > this.lastSpelling.length()) {
             for (int i2 = 0; i2 < this.deletionCounter; ++i2) {
@@ -69,7 +66,6 @@ implements IPartialConversionHelper {
         return this.currPartialConversion.toString();
     }
 
-    @Override
     public void handlePartialConversion(String string, ITouchInputDataAsia iTouchInputDataAsia, IWordPredictionAccess iWordPredictionAccess) {
         String string2 = this.getPartialConversion(string);
         if (string.length() < 1) {
@@ -86,7 +82,7 @@ implements IPartialConversionHelper {
     }
 
     protected void handleNoneEmptySpelling(ITouchInputDataAsia iTouchInputDataAsia, String string) {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "TouchControllerAsia#updateSpelling: set un-converted chars: %1", (Object)string);
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "TouchControllerAsia#updateSpelling: set un-converted chars: %1", (Object)string);
         iTouchInputDataAsia.setUnconvertedCharacters(string, false);
     }
 
@@ -110,9 +106,8 @@ implements IPartialConversionHelper {
         this.currPartialConversion.append(string);
     }
 
-    @Override
     public void reset() {
-        IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "PartialConversionHelper#reset was called.");
+        IWidgetLogChannel.tpLogChannelInternal.log(10000000, "PartialConversionHelper#reset was called.");
         this.selectedPredictionChars = null;
         this.currPartialConversion.clear();
         this.isSelectOperation = false;
@@ -122,7 +117,6 @@ implements IPartialConversionHelper {
         this.lastSpelling = "";
     }
 
-    @Override
     public String getConvertedChars() {
         this.constructCurrentPartialConversion("");
         return this.currPartialConversion.toString();

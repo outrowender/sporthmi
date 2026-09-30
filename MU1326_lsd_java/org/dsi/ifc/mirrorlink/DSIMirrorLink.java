@@ -9,168 +9,138 @@ import org.dsi.ifc.mirrorlink.Event;
 
 public interface DSIMirrorLink
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_DISCOVEREDDEVICES;
-    public static final int ATTR_DEVICECONNECTIONSTATUS;
-    public static final int ATTR_DEVICESOFTKEYS;
-    public static final int ATTR_APPLICATIONSTATUS;
-    public static final int ATTR_SCREENORIENTATION;
-    public static final int ATTR_SHOWKEYBOARD;
-    public static final int ATTR_SCREENORIENTATIONAVAILABLE;
-    public static final int ATTR_SCREENROTATIONAVAILABLE;
-    public static final int ATTR_AUDIOCONNECTIONREQUESTED;
-    public static final int ATTR_AVAILABLEAPPLICATIONSLIST;
-    public static final int ATTR_SINGLEAPPLICATIONMODE;
-    public static final int ATTR_PHONEVIEWAVAILABLE;
-    public static final int ATTR_UNCERTIFIEDCONTENT;
-    public static final int ATTR_DEVICESTATUS;
-    public static final int ATTR_SWAPSTATUS;
-    public static final int ATTR_SHOWNOTIFICATION;
-    public static final int ATTR_NOTIFICATIONSERVICEENABLED;
-    public static final int ATTR_LOCATIONDATASERVICESENABLED;
-    public static final int ATTR_SWITCHTOCLIENTNATIVEUI;
-    public static final int RT_REQUESTCLIENTCAPABILITIES;
-    public static final int RT_REQUESTACCESSMODE;
-    public static final int RT_REQUESTDAYNIGHTMODE;
-    public static final int RT_REQUESTUSABLEVIEWPORT;
-    public static final int RT_REQUESTCONNECTDEVICE;
-    public static final int RT_REQUESTDISCONNECTDEVICE;
-    public static final int RT_REQUESTROTATESCREEN;
-    public static final int RT_REQUESTCHANGEORIENTATION;
-    public static final int RT_REQUESTSOFTKEYEVENT;
-    public static final int RT_REQUESTLAUNCHAPP;
-    public static final int RT_REQUESTTERMINATEAPP;
-    public static final int RT_REQUESTSTARTSPELLER;
-    public static final int RT_REQUESTADDSPELLERCHARS;
-    public static final int RT_REQUESTREMOVESPELLERCHAR;
-    public static final int RT_REQUESTCLEARSPELLER;
-    public static final int RT_REQUESTSENDSTRING;
-    public static final int RT_REQUESTAUDIOOPTION;
-    public static final int RT_REQUESTAUDIOCONNECTIONAUDIBLE;
-    public static final int RT_REQUESTSENDTOUCHEVENTS;
-    public static final int RT_REQUESTCONTEXTVISIBLE;
-    public static final int RT_REQUESTKEYBOARDMODE;
-    public static final int RT_REQUESTAVAILABLEAPPLICATIONSWINDOW;
-    public static final int RT_REQUESTDISPLAYKEYBOARD;
-    public static final int RT_REQUESTDISMISSHMIKEYBOARD;
-    public static final int RT_REQUESTFACTORYSETTINGS;
-    public static final int RT_REQUESTPHONEVIEW;
-    public static final int RT_REQUESTCONTEXTSWITCHED;
-    public static final int RT_INVOKENOTIACTION;
-    public static final int RT_REQUESTNOTIFICATIONSERVICEENABLED;
-    public static final int RT_REQUESTLOCATIONDATASERVICESENABLED;
-    public static final int RP_RESPONSECLIENTCAPABILITIES;
-    public static final int RP_RESPONSEACCESSMODE;
-    public static final int RP_RESPONSEDAYNIGHTMODE;
-    public static final int RP_RESPONSEUSABLEVIEWPORT;
-    public static final int RP_RESPONSECONTEXTVISIBLE;
-    public static final int RP_RESPONSECONNECTDEVICE;
-    public static final int RP_RESPONSEDISCONNECTDEVICE;
-    public static final int RP_RESPONSEROTATESCREEN;
-    public static final int RP_RESPONSESOFTKEYEVENT;
-    public static final int RP_RESPONSELAUNCHAPP;
-    public static final int RP_RESPONSETERMINATEAPP;
-    public static final int RP_RESPONSESPELLERRESULT;
-    public static final int RP_RESPONSESENDSTRING;
-    public static final int RP_RESPONSEAUDIOOPTION;
-    public static final int RP_RESPONSEAUDIOCONNECTIONAUDIBLE;
-    public static final int RP_RESPONSESENDTOUCHEVENTS;
-    public static final int RP_RESPONSEKEYBOARDMODE;
-    public static final int RP_RESPONSEAVAILABLEAPPLICATIONSWINDOW;
-    public static final int RP_RESPONSEDISPLAYKEYBOARD;
-    public static final int RP_RESPONSEDISMISSHMIKEYBOARD;
-    public static final int RP_RESPONSEFACTORYSETTINGS;
-    public static final int RP_RESPONSEPHONEVIEW;
-    public static final int RP_RESPONSECONTEXTSWITCHED;
+    public static final String VERSION = "2.11.13";
+    public static final int ATTR_DISCOVEREDDEVICES = 1;
+    public static final int ATTR_DEVICECONNECTIONSTATUS = 3;
+    public static final int ATTR_DEVICESOFTKEYS = 4;
+    public static final int ATTR_APPLICATIONSTATUS = 5;
+    public static final int ATTR_SCREENORIENTATION = 6;
+    public static final int ATTR_SHOWKEYBOARD = 7;
+    public static final int ATTR_SCREENORIENTATIONAVAILABLE = 8;
+    public static final int ATTR_SCREENROTATIONAVAILABLE = 9;
+    public static final int ATTR_AUDIOCONNECTIONREQUESTED = 10;
+    public static final int ATTR_AVAILABLEAPPLICATIONSLIST = 11;
+    public static final int ATTR_SINGLEAPPLICATIONMODE = 12;
+    public static final int ATTR_PHONEVIEWAVAILABLE = 13;
+    public static final int ATTR_UNCERTIFIEDCONTENT = 14;
+    public static final int ATTR_DEVICESTATUS = 15;
+    public static final int ATTR_SWAPSTATUS = 16;
+    public static final int ATTR_SHOWNOTIFICATION = 17;
+    public static final int ATTR_NOTIFICATIONSERVICEENABLED = 18;
+    public static final int ATTR_LOCATIONDATASERVICESENABLED = 19;
+    public static final int ATTR_SWITCHTOCLIENTNATIVEUI = 20;
+    public static final int RT_REQUESTCLIENTCAPABILITIES = 1000;
+    public static final int RT_REQUESTACCESSMODE = 1001;
+    public static final int RT_REQUESTDAYNIGHTMODE = 1002;
+    public static final int RT_REQUESTUSABLEVIEWPORT = 1003;
+    public static final int RT_REQUESTCONNECTDEVICE = 1004;
+    public static final int RT_REQUESTDISCONNECTDEVICE = 1005;
+    public static final int RT_REQUESTROTATESCREEN = 1006;
+    public static final int RT_REQUESTCHANGEORIENTATION = 1007;
+    public static final int RT_REQUESTSOFTKEYEVENT = 1008;
+    public static final int RT_REQUESTLAUNCHAPP = 1009;
+    public static final int RT_REQUESTTERMINATEAPP = 1010;
+    public static final int RT_REQUESTSTARTSPELLER = 1011;
+    public static final int RT_REQUESTADDSPELLERCHARS = 1012;
+    public static final int RT_REQUESTREMOVESPELLERCHAR = 1013;
+    public static final int RT_REQUESTCLEARSPELLER = 1014;
+    public static final int RT_REQUESTSENDSTRING = 1016;
+    public static final int RT_REQUESTAUDIOOPTION = 1017;
+    public static final int RT_REQUESTAUDIOCONNECTIONAUDIBLE = 1018;
+    public static final int RT_REQUESTSENDTOUCHEVENTS = 1019;
+    public static final int RT_REQUESTCONTEXTVISIBLE = 1020;
+    public static final int RT_REQUESTKEYBOARDMODE = 1021;
+    public static final int RT_REQUESTAVAILABLEAPPLICATIONSWINDOW = 1022;
+    public static final int RT_REQUESTDISPLAYKEYBOARD = 1023;
+    public static final int RT_REQUESTDISMISSHMIKEYBOARD = 1024;
+    public static final int RT_REQUESTFACTORYSETTINGS = 1025;
+    public static final int RT_REQUESTPHONEVIEW = 1026;
+    public static final int RT_REQUESTCONTEXTSWITCHED = 1027;
+    public static final int RT_INVOKENOTIACTION = 1028;
+    public static final int RT_REQUESTNOTIFICATIONSERVICEENABLED = 1029;
+    public static final int RT_REQUESTLOCATIONDATASERVICESENABLED = 1030;
+    public static final int RP_RESPONSECLIENTCAPABILITIES = 2000;
+    public static final int RP_RESPONSEACCESSMODE = 2001;
+    public static final int RP_RESPONSEDAYNIGHTMODE = 2002;
+    public static final int RP_RESPONSEUSABLEVIEWPORT = 2003;
+    public static final int RP_RESPONSECONTEXTVISIBLE = 2004;
+    public static final int RP_RESPONSECONNECTDEVICE = 2005;
+    public static final int RP_RESPONSEDISCONNECTDEVICE = 2006;
+    public static final int RP_RESPONSEROTATESCREEN = 2007;
+    public static final int RP_RESPONSESOFTKEYEVENT = 2008;
+    public static final int RP_RESPONSELAUNCHAPP = 2009;
+    public static final int RP_RESPONSETERMINATEAPP = 2010;
+    public static final int RP_RESPONSESPELLERRESULT = 2011;
+    public static final int RP_RESPONSESENDSTRING = 2013;
+    public static final int RP_RESPONSEAUDIOOPTION = 2014;
+    public static final int RP_RESPONSEAUDIOCONNECTIONAUDIBLE = 2015;
+    public static final int RP_RESPONSESENDTOUCHEVENTS = 2016;
+    public static final int RP_RESPONSEKEYBOARDMODE = 2017;
+    public static final int RP_RESPONSEAVAILABLEAPPLICATIONSWINDOW = 2018;
+    public static final int RP_RESPONSEDISPLAYKEYBOARD = 2019;
+    public static final int RP_RESPONSEDISMISSHMIKEYBOARD = 2020;
+    public static final int RP_RESPONSEFACTORYSETTINGS = 2021;
+    public static final int RP_RESPONSEPHONEVIEW = 2022;
+    public static final int RP_RESPONSECONTEXTSWITCHED = 2023;
 
-    default public void requestClientCapabilities(ClientCapabilities clientCapabilities) {
-    }
+    public void requestClientCapabilities(ClientCapabilities var1);
 
-    default public void requestAccessMode(int n) {
-    }
+    public void requestAccessMode(int var1);
 
-    default public void requestDayNightMode(int n) {
-    }
+    public void requestDayNightMode(int var1);
 
-    default public void requestUsableViewport(int n, int n2, int n3, int n4) {
-    }
+    public void requestUsableViewport(int var1, int var2, int var3, int var4);
 
-    default public void requestContextVisible(boolean bl) {
-    }
+    public void requestContextVisible(boolean var1);
 
-    default public void requestConnectDevice(int n) {
-    }
+    public void requestConnectDevice(int var1);
 
-    default public void requestDisconnectDevice(int n) {
-    }
+    public void requestDisconnectDevice(int var1);
 
-    default public void requestRotateScreen(int n) {
-    }
+    public void requestRotateScreen(int var1);
 
-    default public void requestChangeOrientation(int n) {
-    }
+    public void requestChangeOrientation(int var1);
 
-    default public void requestSoftKeyEvent(int n, int n2) {
-    }
+    public void requestSoftKeyEvent(int var1, int var2);
 
-    default public void requestLaunchApp(int n) {
-    }
+    public void requestLaunchApp(int var1);
 
-    default public void requestTerminateApp(int n) {
-    }
+    public void requestTerminateApp(int var1);
 
-    default public void requestStartSpeller(String string) {
-    }
+    public void requestStartSpeller(String var1);
 
-    default public void requestAddSpellerChars(String string) {
-    }
+    public void requestAddSpellerChars(String var1);
 
-    default public void requestRemoveSpellerChar() {
-    }
+    public void requestRemoveSpellerChar();
 
-    default public void requestClearSpeller() {
-    }
+    public void requestClearSpeller();
 
-    default public void requestSendString(String string) {
-    }
+    public void requestSendString(String var1);
 
-    default public void requestAudioOption(int n) {
-    }
+    public void requestAudioOption(int var1);
 
-    default public void requestAudioConnectionAudible(int n, boolean bl) {
-    }
+    public void requestAudioConnectionAudible(int var1, boolean var2);
 
-    default public void requestSendTouchEvents(Event[] eventArray, int n) {
-    }
+    public void requestSendTouchEvents(Event[] var1, int var2);
 
-    default public void requestKeyboardMode(int n) {
-    }
+    public void requestKeyboardMode(int var1);
 
-    default public void requestAvailableApplicationsWindow(int n, int n2) {
-    }
+    public void requestAvailableApplicationsWindow(int var1, int var2);
 
-    default public void requestDisplayKeyboard() {
-    }
+    public void requestDisplayKeyboard();
 
-    default public void requestDismissHMIKeyboard() {
-    }
+    public void requestDismissHMIKeyboard();
 
-    default public void requestFactorySettings() {
-    }
+    public void requestFactorySettings();
 
-    default public void requestPhoneView() {
-    }
+    public void requestPhoneView();
 
-    default public void requestContextSwitched(boolean bl) {
-    }
+    public void requestContextSwitched(boolean var1);
 
-    default public void invokeNotiAction(int n, int n2) {
-    }
+    public void invokeNotiAction(int var1, int var2);
 
-    default public void requestNotificationServiceEnabled(boolean bl, int n, int n2, int n3, int n4) {
-    }
+    public void requestNotificationServiceEnabled(boolean var1, int var2, int var3, int var4, int var5);
 
-    default public void requestLocationDataServicesEnabled(boolean bl) {
-    }
+    public void requestLocationDataServicesEnabled(boolean var1);
 }
 

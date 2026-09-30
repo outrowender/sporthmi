@@ -25,14 +25,13 @@ extends AbstractWidgetController {
 
     private void updateWithRangeModel(RangeModelGUI rangeModelGUI) {
         this.clearPeaks();
-        this.setSliderPercentageValue(51266 * (float)(rangeModelGUI.getValue() - rangeModelGUI.getMinimum()) / (float)(rangeModelGUI.getMaximum() - rangeModelGUI.getMinimum()));
+        this.setSliderPercentageValue(100.0f * (float)(rangeModelGUI.getValue() - rangeModelGUI.getMinimum()) / (float)(rangeModelGUI.getMaximum() - rangeModelGUI.getMinimum()));
     }
 
     private void clearPeaks() {
         this.peakPercentageValues = new float[0];
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         switch (n) {
@@ -43,7 +42,7 @@ extends AbstractWidgetController {
                 break;
             }
             default: {
-                logChannel.log(-1601830656, "CircularGaugeController#processModelUpdateEvent untreated updateType: %1", (long)n);
+                logChannel.log(100000, "CircularGaugeController#processModelUpdateEvent untreated updateType: %1", (long)n);
             }
         }
     }
@@ -71,7 +70,7 @@ extends AbstractWidgetController {
         if (n >= 0 || n < this.getPeakCount()) {
             return this.peakPercentageValues[n];
         }
-        logChannel.log(-1601830656, "CircularGaugeController#getPeakPercentageValue: peak index out of bounds: %1 (peak count = %2)", (long)n, (long)this.getPeakCount());
+        logChannel.log(100000, "CircularGaugeController#getPeakPercentageValue: peak index out of bounds: %1 (peak count = %2)", (long)n, (long)this.getPeakCount());
         return 0.0f;
     }
 
@@ -79,7 +78,6 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

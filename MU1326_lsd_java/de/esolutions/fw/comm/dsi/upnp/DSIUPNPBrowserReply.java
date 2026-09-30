@@ -3,30 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.upnp;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.upnp.ListEntry;
 
 public interface DSIUPNPBrowserReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "c595044a-be53-5cb5-a0bd-56eecee8fe4e";
+    public static final String IPL_COMM_INTERFACE_KEY = "ed7163ca-c11b-587a-8ec4-a26a9780ba19";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void updateBrowseFolder(ListEntry[] listEntryArray, int n) {
-    }
+    public void updateBrowseFolder(ListEntry[] var1, int var2) throws MethodException;
 
-    default public void updateListSize(int n, int n2, int n3) {
-    }
+    public void updateListSize(int var1, int var2, int var3) throws MethodException;
 
-    default public void responseList(ListEntry[] listEntryArray, int n) {
-    }
+    public void responseList(ListEntry[] var1, int var2) throws MethodException;
 
-    default public void invalidBrowsePath() {
-    }
+    public void invalidBrowsePath() throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

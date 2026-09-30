@@ -39,26 +39,26 @@ public class ConfigWriterRegistry {
         return (IConfigWriter)this.writerMap.get(string.toLowerCase());
     }
 
-    public void writeToFile(String string, ConfigValue configValue) {
+    public void writeToFile(String string, ConfigValue configValue) throws WriteConfigException {
         this.writeToFile(string, configValue, new ConfigDictionary());
     }
 
-    public byte[] writeToMemory(String string, ConfigValue configValue) {
+    public byte[] writeToMemory(String string, ConfigValue configValue) throws WriteConfigException {
         return this.writeToMemory(string, configValue, new ConfigDictionary());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public synchronized void writeToFile(String string, ConfigValue configValue, ConfigDictionary configDictionary) {
+    public synchronized void writeToFile(String string, ConfigValue configValue, ConfigDictionary configDictionary) throws WriteConfigException {
         int n = string.lastIndexOf(".");
         if (n == -1) {
-            throw new WriteConfigException(new StringBuffer().append("No file extension given: ").append(string).toString());
+            throw new WriteConfigException("No file extension given: " + string);
         }
         String string2 = string.substring(n + 1);
         IConfigWriter iConfigWriter = this.queryWriter(string2);
         if (iConfigWriter == null) {
-            throw new WriteConfigException(new StringBuffer().append("No writer for file found: ").append(string).toString());
+            throw new WriteConfigException("No writer for file found: " + string);
         }
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(string);
@@ -70,14 +70,14 @@ public class ConfigWriterRegistry {
             }
         }
         catch (IOException iOException) {
-            throw new WriteConfigException(new StringBuffer().append("Can't open file: ").append(string).toString());
+            throw new WriteConfigException("Can't open file: " + string);
         }
     }
 
-    public synchronized byte[] writeToMemory(String string, ConfigValue configValue, ConfigDictionary configDictionary) {
+    public synchronized byte[] writeToMemory(String string, ConfigValue configValue, ConfigDictionary configDictionary) throws WriteConfigException {
         IConfigWriter iConfigWriter = this.queryWriter(string);
         if (iConfigWriter == null) {
-            throw new WriteConfigException(new StringBuffer().append("No writer for extension found: ").append(string).toString());
+            throw new WriteConfigException("No writer for extension found: " + string);
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         iConfigWriter.writeToOutputStream(byteArrayOutputStream, configValue, configDictionary);

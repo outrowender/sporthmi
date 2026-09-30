@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sOLRLocationReference;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sOLRLocationReferenceSerializer {
-    public static void putOptionalsOLRLocationReference(ISerializer iSerializer, sOLRLocationReference sOLRLocationReference2) {
+    public static void putOptionalsOLRLocationReference(ISerializer iSerializer, sOLRLocationReference sOLRLocationReference2) throws SerializerException {
         boolean bl = sOLRLocationReference2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class sOLRLocationReferenceSerializer {
         }
     }
 
-    public static void putOptionalsOLRLocationReferenceVarArray(ISerializer iSerializer, sOLRLocationReference[] sOLRLocationReferenceArray) {
+    public static void putOptionalsOLRLocationReferenceVarArray(ISerializer iSerializer, sOLRLocationReference[] sOLRLocationReferenceArray) throws SerializerException {
         boolean bl = sOLRLocationReferenceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class sOLRLocationReferenceSerializer {
         }
     }
 
-    public static sOLRLocationReference getOptionalsOLRLocationReference(IDeserializer iDeserializer) {
+    public static sOLRLocationReference getOptionalsOLRLocationReference(IDeserializer iDeserializer) throws SerializerException {
         sOLRLocationReference sOLRLocationReference2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class sOLRLocationReferenceSerializer {
         return sOLRLocationReference2;
     }
 
-    public static sOLRLocationReference[] getOptionalsOLRLocationReferenceVarArray(IDeserializer iDeserializer) {
+    public static sOLRLocationReference[] getOptionalsOLRLocationReferenceVarArray(IDeserializer iDeserializer) throws SerializerException {
         sOLRLocationReference[] sOLRLocationReferenceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

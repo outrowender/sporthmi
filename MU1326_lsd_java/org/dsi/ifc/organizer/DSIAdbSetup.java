@@ -7,55 +7,46 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAdbSetup
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_SETLANGUAGE;
-    public static final int RT_SETSORTORDER;
-    public static final int RT_SETPICTUREVISIBILITY;
-    public static final int RT_SETPUBLICPROFILEVISIBILITY;
-    public static final int RT_RESETTOFACTORYSETTINGS;
-    public static final int RT_RESETTOPDESTINATION;
-    public static final int RT_CREATEBACKUPFILE;
-    public static final int RT_IMPORTBACKUPFILE;
-    public static final int RT_SETCONTEXTSPECIFICVISIBILITY;
-    public static final int ATTR_ADBSTATE;
-    public static final int ATTR_SORTORDER;
-    public static final int ATTR_PICTUREVISIBILITY;
-    public static final int ATTR_CONTEXTSPECIFICVISIBILITY;
-    public static final int RP_SETLANGUAGERESULT;
-    public static final int RP_SETSORTORDERRESULT;
-    public static final int RP_SETPUBLICPROFILEVISIBILITYRESULT;
-    public static final int RP_RESETTOFACTORYSETTINGSRESULT;
-    public static final int RP_RESETTOPDESTINATIONRESULT;
-    public static final int RP_CREATEBACKUPFILERESULT;
-    public static final int RP_IMPORTBACKUPFILERESULT;
-    public static final int RP_SETPICTUREVISIBILITYRESULT;
-    public static final int RP_SETCONTEXTSPECIFICVISIBILITYRESULT;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_SETLANGUAGE = 1000;
+    public static final int RT_SETSORTORDER = 1001;
+    public static final int RT_SETPICTUREVISIBILITY = 1003;
+    public static final int RT_SETPUBLICPROFILEVISIBILITY = 1004;
+    public static final int RT_RESETTOFACTORYSETTINGS = 1005;
+    public static final int RT_RESETTOPDESTINATION = 1006;
+    public static final int RT_CREATEBACKUPFILE = 1007;
+    public static final int RT_IMPORTBACKUPFILE = 1008;
+    public static final int RT_SETCONTEXTSPECIFICVISIBILITY = 1009;
+    public static final int ATTR_ADBSTATE = 1;
+    public static final int ATTR_SORTORDER = 2;
+    public static final int ATTR_PICTUREVISIBILITY = 3;
+    public static final int ATTR_CONTEXTSPECIFICVISIBILITY = 4;
+    public static final int RP_SETLANGUAGERESULT = 2000;
+    public static final int RP_SETSORTORDERRESULT = 2001;
+    public static final int RP_SETPUBLICPROFILEVISIBILITYRESULT = 2005;
+    public static final int RP_RESETTOFACTORYSETTINGSRESULT = 2006;
+    public static final int RP_RESETTOPDESTINATIONRESULT = 2010;
+    public static final int RP_CREATEBACKUPFILERESULT = 2012;
+    public static final int RP_IMPORTBACKUPFILERESULT = 2013;
+    public static final int RP_SETPICTUREVISIBILITYRESULT = 2014;
+    public static final int RP_SETCONTEXTSPECIFICVISIBILITYRESULT = 2015;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 
-    default public void setSortOrder(int n) {
-    }
+    public void setSortOrder(int var1);
 
-    default public void setPublicProfileVisibility(boolean bl) {
-    }
+    public void setPublicProfileVisibility(boolean var1);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void resetTopDestination() {
-    }
+    public void resetTopDestination();
 
-    default public void createBackupFile(String string) {
-    }
+    public void createBackupFile(String var1);
 
-    default public void importBackupFile(String string) {
-    }
+    public void importBackupFile(String var1);
 
-    default public void setPictureVisibility(boolean bl) {
-    }
+    public void setPictureVisibility(boolean var1);
 
-    default public void setContextSpecificVisibility(boolean bl) {
-    }
+    public void setContextSpecificVisibility(boolean var1);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconNozzleListStyles;
 
 public class AirconNozzleListStylesSerializer {
-    public static void putOptionalAirconNozzleListStyles(ISerializer iSerializer, AirconNozzleListStyles airconNozzleListStyles) {
+    public static void putOptionalAirconNozzleListStyles(ISerializer iSerializer, AirconNozzleListStyles airconNozzleListStyles) throws SerializerException {
         boolean bl = airconNozzleListStyles == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AirconNozzleListStylesSerializer {
         }
     }
 
-    public static void putOptionalAirconNozzleListStylesVarArray(ISerializer iSerializer, AirconNozzleListStyles[] airconNozzleListStylesArray) {
+    public static void putOptionalAirconNozzleListStylesVarArray(ISerializer iSerializer, AirconNozzleListStyles[] airconNozzleListStylesArray) throws SerializerException {
         boolean bl = airconNozzleListStylesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AirconNozzleListStylesSerializer {
         }
     }
 
-    public static AirconNozzleListStyles getOptionalAirconNozzleListStyles(IDeserializer iDeserializer) {
+    public static AirconNozzleListStyles getOptionalAirconNozzleListStyles(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListStyles airconNozzleListStyles = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class AirconNozzleListStylesSerializer {
         return airconNozzleListStyles;
     }
 
-    public static AirconNozzleListStyles[] getOptionalAirconNozzleListStylesVarArray(IDeserializer iDeserializer) {
+    public static AirconNozzleListStyles[] getOptionalAirconNozzleListStylesVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListStyles[] airconNozzleListStylesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,16 +8,12 @@ import org.dsi.ifc.online.PicNavSyncInfo;
 
 public interface DSIOnlinePicNavListener
 extends DSIListener {
-    default public void updateSyncStatus(int n, int n2) {
-    }
+    public void updateSyncStatus(int var1, int var2);
 
-    default public void synchronizeResult(int n, PicNavSyncInfo picNavSyncInfo) {
-    }
+    public void synchronizeResult(int var1, PicNavSyncInfo var2);
 
-    default public void getPendingTransactionsResult(int n, PicNavSyncInfo picNavSyncInfo) {
-    }
+    public void getPendingTransactionsResult(int var1, PicNavSyncInfo var2);
 
-    default public void setActiveProfileResult(int n) {
-    }
+    public void setActiveProfileResult(int var1);
 }
 

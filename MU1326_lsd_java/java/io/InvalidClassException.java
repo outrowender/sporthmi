@@ -7,7 +7,7 @@ import java.io.ObjectStreamException;
 
 public class InvalidClassException
 extends ObjectStreamException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4333316296251054416L;
     public String classname;
 
     public InvalidClassException(String string) {
@@ -19,11 +19,10 @@ extends ObjectStreamException {
         this.classname = string;
     }
 
-    @Override
     public String getMessage() {
         String string = super.getMessage();
         if (this.classname != null) {
-            string = new StringBuffer(String.valueOf(this.classname)).append(';').append(' ').append(string).toString();
+            string = String.valueOf(this.classname) + ';' + ' ' + string;
         }
         return string;
     }

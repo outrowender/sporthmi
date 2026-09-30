@@ -3,6 +3,9 @@
  */
 package de.esolutions.hmi.widgets.audi.evo;
 
+import de.audi.atip.hmi.event.JoystickEvent;
+import de.audi.atip.hmi.event.KeyEvent;
+import de.audi.atip.hmi.event.WheelButtonEvent;
 import de.audi.atip.hmi.model.ChoiceModel;
 import de.audi.atip.hmi.model.OptionModel;
 import de.audi.atip.hmi.view.HMIView;
@@ -22,8 +25,6 @@ import de.esolutions.hmi.widgets.audi.evo.ChoiceModelKeyHandler;
 import de.esolutions.hmi.widgets.audi.evo.CloseDrawerKeyHandler;
 import de.esolutions.hmi.widgets.audi.evo.ExtHMITerminalEvo;
 import de.esolutions.hmi.widgets.audi.evo.IWidgetKeyHandler;
-import de.esolutions.hmi.widgets.audi.evo.MenuItemBuilder$1;
-import de.esolutions.hmi.widgets.audi.evo.MenuItemBuilder$2;
 import de.esolutions.hmi.widgets.audi.evo.OptionModelKeyHandler;
 import de.esolutions.hmi.widgets.audi.evo.StateMachineKeyHandler;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.AbstractGridLayout;
@@ -56,18 +57,19 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemColumnsConstraint
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MultiLineMenuItemController;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map$Entry;
+import java.util.Map;
 
 public class MenuItemBuilder
 implements WidgetConstants {
-    public static final int CHAIN_ALL_ACTIONS;
-    public static final int CHAIN_ALL_TRIGGER;
-    public static final int TABULATOR_ROW_END;
-    public static final int PRIMARY_BITMAP_INDEX;
-    public static final int RRB_RANGE_OVERLAY_BITMAP_IDX;
-    public static final int SECONDARY_BITMAP_INDEX;
+    public static final int CHAIN_ALL_ACTIONS = 17;
+    public static final int CHAIN_ALL_TRIGGER = 3;
+    public static final int TABULATOR_ROW_END = 9;
+    public static final int PRIMARY_BITMAP_INDEX = 0;
+    public static final int RRB_RANGE_OVERLAY_BITMAP_IDX = 1;
+    public static final int SECONDARY_BITMAP_INDEX = 4;
 
     public static void configureMenuItem(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         int n = menuItemController.getType();
@@ -91,15 +93,15 @@ implements WidgetConstants {
             MenuItemBuilder.setupTimeSettingsWidget(menuItemController, extHMITerminalEvo);
         } else if (n == 1025) {
             MenuItemBuilder.setupDateSettingsWidget(menuItemController, extHMITerminalEvo, -1);
-        } else if (n == 0x1000104) {
+        } else if (n == 0x4010001) {
             MenuItemBuilder.setupDateSettingsWidget(menuItemController, extHMITerminalEvo, 1);
-        } else if (n == 34619392) {
+        } else if (n == 4198402) {
             MenuItemBuilder.setupDateSettingsWidget(menuItemController, extHMITerminalEvo, 2);
         } else if (n == 1026) {
             MenuItemBuilder.setupAuxHeaterProgrammingWidget(menuItemController, extHMITerminalEvo);
-        } else if (n == 19939328) {
+        } else if (n == 4206593) {
             MenuItemBuilder.setupGeoCoordinateSettingsWidget(menuItemController, extHMITerminalEvo, false);
-        } else if (n == 36716544) {
+        } else if (n == 4206594) {
             MenuItemBuilder.setupGeoCoordinateSettingsWidget(menuItemController, extHMITerminalEvo, true);
         } else if (n == 1028) {
             MenuItemBuilder.setupRouteBriefingMenuItem(menuItemController, extHMITerminalEvo);
@@ -193,7 +195,7 @@ implements WidgetConstants {
             return;
         }
         if (n <= 0) {
-            IWidgetLogChannel.menuItemLogCh.log(-1601830656, "MenuItemBuilder#setupScreenViews: menu item has no model. Item Widget: %1, ModelID: %2, ", (Object)abstractWidgetController, (long)n);
+            IWidgetLogChannel.menuItemLogCh.log(100000, "MenuItemBuilder#setupScreenViews: menu item has no model. Item Widget: %1, ModelID: %2, ", (Object)abstractWidgetController, (long)n);
             return;
         }
         hMIViewArray = new HMIView[((Object)object).length][];
@@ -262,7 +264,7 @@ implements WidgetConstants {
         Iterator iterator = menuItemController.getChildren().iterator();
         while (iterator.hasNext()) {
             abstractWidgetController = (AbstractWidgetController)iterator.next();
-            if (abstractWidgetController.getRole() != 32768) continue;
+            if (abstractWidgetController.getRole() != 0x800000) continue;
             object3 = abstractWidgetController;
             break;
         }
@@ -374,10 +376,43 @@ implements WidgetConstants {
         return new CloseDrawerKeyHandler(iWidgetKeyHandler, bl);
     }
 
-    private static IWidgetKeyHandler createAutomaticallyReplacingKeyHandlerWhenModelIsAvailable(MenuItemController menuItemController) {
-        CloseDrawerKeyHandler closeDrawerKeyHandler = MenuItemBuilder.createDrawerClosingKeyHandler(null, true);
-        MenuItemBuilder$1 menuItemBuilder$1 = new MenuItemBuilder$1(menuItemController, closeDrawerKeyHandler);
-        return menuItemBuilder$1;
+    private static IWidgetKeyHandler createAutomaticallyReplacingKeyHandlerWhenModelIsAvailable(final MenuItemController menuItemController) {
+        final CloseDrawerKeyHandler closeDrawerKeyHandler = MenuItemBuilder.createDrawerClosingKeyHandler(null, true);
+        IWidgetKeyHandler iWidgetKeyHandler = new IWidgetKeyHandler(){
+
+            public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
+                this.replaceKeyHandler().keyTurned(abstractWidgetController, wheelButtonEvent);
+            }
+
+            public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
+                this.replaceKeyHandler().keyReleased(abstractWidgetController, keyEvent);
+            }
+
+            public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
+                this.replaceKeyHandler().keyPressed(abstractWidgetController, keyEvent);
+            }
+
+            public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
+                this.replaceKeyHandler().keyMoved(abstractWidgetController, joystickEvent);
+            }
+
+            private IWidgetKeyHandler replaceKeyHandler() {
+                IWidgetKeyHandler iWidgetKeyHandler = menuItemController.getKeyHandler();
+                menuItemController.setKeyHandler(null);
+                MenuItemBuilder.configureKeyHandler(menuItemController);
+                IWidgetKeyHandler iWidgetKeyHandler2 = menuItemController.getKeyHandler();
+                if (iWidgetKeyHandler2 == null) {
+                    menuItemController.setKeyHandler(iWidgetKeyHandler);
+                    return closeDrawerKeyHandler;
+                }
+                IWidgetLogChannel.logDrawerFocus.log(1000000, "MenuItemBuilder#createAutomaticallyReplacingKeyHandlerWhenModelIsAvailable#replaceKeyHandler replacing keyhandler in %1", (Object)menuItemController);
+                CloseDrawerKeyHandler closeDrawerKeyHandler2 = MenuItemBuilder.createDrawerClosingKeyHandler(iWidgetKeyHandler2, false);
+                menuItemController.setKeyHandler(closeDrawerKeyHandler2);
+                closeDrawerKeyHandler2.setCloseOptionDrawerAfterScreenConnected(menuItemController.getCloseOptionDrawerAfterScreenConnected());
+                return closeDrawerKeyHandler2;
+            }
+        };
+        return iWidgetKeyHandler;
     }
 
     public static void configureKeyHandler(MenuItemController menuItemController) {
@@ -456,7 +491,7 @@ implements WidgetConstants {
     private static void setupComboBoxMenuItem(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         Boolean bl;
         Integer n;
-        Map$Entry map$Entry;
+        Map.Entry entry;
         Iterator iterator;
         LabelController labelController = new LabelController();
         labelController.setRenderer(extHMITerminalEvo.getRendererFactory().createLabelRenderer(labelController));
@@ -488,9 +523,9 @@ implements WidgetConstants {
         if (menuItemController.itemPreCreatedEnableState != null) {
             iterator = menuItemController.itemPreCreatedEnableState.entrySet().iterator();
             while (iterator.hasNext()) {
-                map$Entry = (Map$Entry)iterator.next();
-                n = (Integer)map$Entry.getKey();
-                bl = (Boolean)map$Entry.getValue();
+                entry = (Map.Entry)iterator.next();
+                n = (Integer)entry.getKey();
+                bl = (Boolean)entry.getValue();
                 comboBoxController.setContentEnabled(n, bl);
             }
             menuItemController.itemPreCreatedEnableState.clear();
@@ -499,9 +534,9 @@ implements WidgetConstants {
         if (menuItemController.itemPreCreatedVisibility != null) {
             iterator = menuItemController.itemPreCreatedVisibility.entrySet().iterator();
             while (iterator.hasNext()) {
-                map$Entry = (Map$Entry)iterator.next();
-                n = (Integer)map$Entry.getKey();
-                bl = (Boolean)map$Entry.getValue();
+                entry = (Map.Entry)iterator.next();
+                n = (Integer)entry.getKey();
+                bl = (Boolean)entry.getValue();
                 comboBoxController.setContentVisible(n, bl);
             }
             menuItemController.itemPreCreatedVisibility.clear();
@@ -649,7 +684,7 @@ implements WidgetConstants {
 
     private static void setupAuxHeaterProgrammingWidget(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         menuItemController.setAutoLayoutSetup(false);
-        IWidgetLogChannel.menuItemLogCh.log(-2137614336, "MenuItemBuilder#setupAuxHeaterProgrammingWidget");
+        IWidgetLogChannel.menuItemLogCh.log(10000000, "MenuItemBuilder#setupAuxHeaterProgrammingWidget");
         LabelController labelController = new LabelController();
         labelController.setRenderer(extHMITerminalEvo.getRendererFactory().createLabelRenderer(labelController));
         labelController.setTextIds(new int[]{menuItemController.getLabelId()});
@@ -659,7 +694,7 @@ implements WidgetConstants {
         int n = menuItemController.getModelID();
         Object object = menuItemController.getModel();
         int[] nArray = menuItemController.getTextIds();
-        DateSettingsWidgetController dateSettingsWidgetController = new DateSettingsWidgetController();
+        final DateSettingsWidgetController dateSettingsWidgetController = new DateSettingsWidgetController();
         ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer = extHMITerminalEvo.getRendererFactory().createInternalCursorWidgetRenderer(dateSettingsWidgetController, iRenderer, null);
         dateSettingsWidgetController.setRenderer(iTimeDateSetttingsRenderer);
         dateSettingsWidgetController.setMenu(menuController);
@@ -670,17 +705,24 @@ implements WidgetConstants {
         dateSettingsWidgetController.setChainedAction(3, 17);
         dateSettingsWidgetController.setSuppressModelReadsOnEnteringEditableMode(true);
         MenuItemBuilder.setupScreenViews(menuItemController.getInitContext().getScreen(), dateSettingsWidgetController, menuItemController.getModelID());
-        MenuItemBuilder$2 menuItemBuilder$2 = new MenuItemBuilder$2(dateSettingsWidgetController);
-        ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer2 = extHMITerminalEvo.getRendererFactory().createInternalCursorWidgetRenderer(menuItemBuilder$2, iRenderer, null);
-        menuItemBuilder$2.setRenderer(iTimeDateSetttingsRenderer2);
-        menuItemBuilder$2.setMenu(menuController);
-        menuItemBuilder$2.setModelID(n);
-        menuItemBuilder$2.setModel(object);
-        menuItemBuilder$2.setTextIds(new int[]{nArray[0], nArray[1]});
-        menuItemBuilder$2.setChainedAction(3, 17);
-        menuItemBuilder$2.setSuppressModelWrites(true);
-        menuItemBuilder$2.setCalendar(dateSettingsWidgetController.getCalendar());
-        MenuItemBuilder.setupScreenViews(menuItemController.getInitContext().getScreen(), menuItemBuilder$2, menuItemController.getModelID());
+        TimeSettingsWidgetController timeSettingsWidgetController = new TimeSettingsWidgetController(){
+
+            public void calendarModified(Calendar calendar) {
+                if (dateSettingsWidgetController.isDateInPast(calendar)) {
+                    calendar.add(5, 1);
+                }
+            }
+        };
+        ITimeDateSetttingsRenderer iTimeDateSetttingsRenderer2 = extHMITerminalEvo.getRendererFactory().createInternalCursorWidgetRenderer(timeSettingsWidgetController, iRenderer, null);
+        timeSettingsWidgetController.setRenderer(iTimeDateSetttingsRenderer2);
+        timeSettingsWidgetController.setMenu(menuController);
+        timeSettingsWidgetController.setModelID(n);
+        timeSettingsWidgetController.setModel(object);
+        timeSettingsWidgetController.setTextIds(new int[]{nArray[0], nArray[1]});
+        timeSettingsWidgetController.setChainedAction(3, 17);
+        timeSettingsWidgetController.setSuppressModelWrites(true);
+        timeSettingsWidgetController.setCalendar(dateSettingsWidgetController.getCalendar());
+        MenuItemBuilder.setupScreenViews(menuItemController.getInitContext().getScreen(), timeSettingsWidgetController, menuItemController.getModelID());
         GridLayout gridLayout = new GridLayout(2, 2);
         AxisConstraints axisConstraints = (AxisConstraints)gridLayout.getColumnConstraints();
         axisConstraints.alignment = new int[]{1, 8};
@@ -689,9 +731,9 @@ implements WidgetConstants {
         GridLayoutHints gridLayoutHints = new GridLayoutHints(0, 0);
         GridLayoutHints gridLayoutHints2 = new GridLayoutHints(1, 0);
         GridLayoutHints gridLayoutHints3 = new GridLayoutHints(1, 1);
-        gridLayout.setWidgetConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2, gridLayoutHints3}, new AbstractWidgetController[]{labelController, menuItemBuilder$2, dateSettingsWidgetController});
+        gridLayout.setWidgetConstraints(new GridLayoutHints[]{gridLayoutHints, gridLayoutHints2, gridLayoutHints3}, new AbstractWidgetController[]{labelController, timeSettingsWidgetController, dateSettingsWidgetController});
         menuItemController.setLayoutManager(gridLayout);
-        menuItemController.add(menuItemBuilder$2);
+        menuItemController.add(timeSettingsWidgetController);
         menuItemController.add(dateSettingsWidgetController);
         menuItemController.add(labelController);
         LayoutContainerController.autoLayoutSetup(gridLayout);
@@ -805,7 +847,7 @@ implements WidgetConstants {
 
     private static void setupSDSCommandWidget(MenuItemController menuItemController, ExtHMITerminalEvo extHMITerminalEvo) {
         WidgetConstants widgetConstants;
-        IWidgetLogChannel.menuItemLogCh.log(-2137614336, "MenuItemBuilder#setupSDSCommandWidget - Called");
+        IWidgetLogChannel.menuItemLogCh.log(10000000, "MenuItemBuilder#setupSDSCommandWidget - Called");
         menuItemController.setAutoLayoutSetup(false);
         int[] nArray = new int[]{7, 7, 7, 0, 6, 0, 0};
         int[] nArray2 = new int[]{4, 6, 6, 0, 6, 0, 0};
@@ -819,7 +861,7 @@ implements WidgetConstants {
         for (int i2 = 0; i2 < list.size(); ++i2) {
             widgetConstants = (AbstractWidgetController)list.get(i2);
             if (!widgetConstants.isVisible()) {
-                IWidgetLogChannel.menuItemLogCh.log(-2137614336, "MenuItemBuilder#setupSDSCommandWidget - Label is invisible, continue with next item");
+                IWidgetLogChannel.menuItemLogCh.log(10000000, "MenuItemBuilder#setupSDSCommandWidget - Label is invisible, continue with next item");
                 continue;
             }
             if (widgetConstants instanceof LabelController) {
@@ -881,10 +923,6 @@ implements WidgetConstants {
         axisConstraints.gaps = new int[]{0, 4, nArray[2], nArray[3]};
         menuItemController.setAutoLayoutSetup(false);
         menuItemController.setLayoutManager(gridLayout);
-    }
-
-    static /* synthetic */ CloseDrawerKeyHandler access$000(IWidgetKeyHandler iWidgetKeyHandler, boolean bl) {
-        return MenuItemBuilder.createDrawerClosingKeyHandler(iWidgetKeyHandler, bl);
     }
 }
 

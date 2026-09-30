@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCRefuelVolume;
 
 public class BCRefuelVolumeSerializer {
-    public static void putOptionalBCRefuelVolume(ISerializer iSerializer, BCRefuelVolume bCRefuelVolume) {
+    public static void putOptionalBCRefuelVolume(ISerializer iSerializer, BCRefuelVolume bCRefuelVolume) throws SerializerException {
         boolean bl = bCRefuelVolume == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class BCRefuelVolumeSerializer {
         }
     }
 
-    public static void putOptionalBCRefuelVolumeVarArray(ISerializer iSerializer, BCRefuelVolume[] bCRefuelVolumeArray) {
+    public static void putOptionalBCRefuelVolumeVarArray(ISerializer iSerializer, BCRefuelVolume[] bCRefuelVolumeArray) throws SerializerException {
         boolean bl = bCRefuelVolumeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class BCRefuelVolumeSerializer {
         }
     }
 
-    public static BCRefuelVolume getOptionalBCRefuelVolume(IDeserializer iDeserializer) {
+    public static BCRefuelVolume getOptionalBCRefuelVolume(IDeserializer iDeserializer) throws SerializerException {
         BCRefuelVolume bCRefuelVolume = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class BCRefuelVolumeSerializer {
         return bCRefuelVolume;
     }
 
-    public static BCRefuelVolume[] getOptionalBCRefuelVolumeVarArray(IDeserializer iDeserializer) {
+    public static BCRefuelVolume[] getOptionalBCRefuelVolumeVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCRefuelVolume[] bCRefuelVolumeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

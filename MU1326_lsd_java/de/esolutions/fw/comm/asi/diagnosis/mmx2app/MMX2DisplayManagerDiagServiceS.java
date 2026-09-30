@@ -7,15 +7,13 @@ import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.displaymanager.sTrunkOfferFBAS;
 import de.esolutions.fw.comm.asi.diagnosis.displaymanager.sVideoInputState;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2DisplayManagerDiagServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2DisplayManagerDiagServiceS {
-    default public void responseErrorDisplayManager(sClientResponseError sClientResponseError2, MMX2DisplayManagerDiagServiceReply mMX2DisplayManagerDiagServiceReply) {
-    }
+    public void responseErrorDisplayManager(sClientResponseError var1, MMX2DisplayManagerDiagServiceReply var2) throws MethodException;
 
-    default public void responseVideoInputState(sVideoInputState sVideoInputState2, MMX2DisplayManagerDiagServiceReply mMX2DisplayManagerDiagServiceReply) {
-    }
+    public void responseVideoInputState(sVideoInputState var1, MMX2DisplayManagerDiagServiceReply var2) throws MethodException;
 
-    default public void responseTrunkOfferFBAS(sTrunkOfferFBAS sTrunkOfferFBAS2, MMX2DisplayManagerDiagServiceReply mMX2DisplayManagerDiagServiceReply) {
-    }
+    public void responseTrunkOfferFBAS(sTrunkOfferFBAS var1, MMX2DisplayManagerDiagServiceReply var2) throws MethodException;
 }
 

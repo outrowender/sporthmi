@@ -16,31 +16,26 @@ extends InputStream {
         this.socket = socketImpl;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         return this.socket.available();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.socket.close();
         super.close();
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         byte[] byArray = new byte[1];
         int n = this.socket.read(byArray, 0, 1);
         return -1 == n ? n : byArray[0] & 0xFF;
     }
 
-    @Override
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (byArray == null) {
             throw new IOException(Msg.getString("K0047"));
         }
@@ -56,8 +51,7 @@ extends InputStream {
         return this.socket.read(byArray, n, n2);
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         return 0L == l ? 0L : super.skip(l);
     }
 }

@@ -9,11 +9,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 
 public class SmallStageCarIconController
 extends IconController {
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
     }
 
-    @Override
     public int getBitmap(int n) {
         int n2 = this.terminal.getCarCodingHelper().getCarType();
         boolean bl = AbstractWidget.isRightHandDrive();

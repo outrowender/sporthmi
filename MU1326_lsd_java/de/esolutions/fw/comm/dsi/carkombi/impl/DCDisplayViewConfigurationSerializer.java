@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCDisplayViewConfiguration;
 
 public class DCDisplayViewConfigurationSerializer {
-    public static void putOptionalDCDisplayViewConfiguration(ISerializer iSerializer, DCDisplayViewConfiguration dCDisplayViewConfiguration) {
+    public static void putOptionalDCDisplayViewConfiguration(ISerializer iSerializer, DCDisplayViewConfiguration dCDisplayViewConfiguration) throws SerializerException {
         boolean bl = dCDisplayViewConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class DCDisplayViewConfigurationSerializer {
         }
     }
 
-    public static void putOptionalDCDisplayViewConfigurationVarArray(ISerializer iSerializer, DCDisplayViewConfiguration[] dCDisplayViewConfigurationArray) {
+    public static void putOptionalDCDisplayViewConfigurationVarArray(ISerializer iSerializer, DCDisplayViewConfiguration[] dCDisplayViewConfigurationArray) throws SerializerException {
         boolean bl = dCDisplayViewConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class DCDisplayViewConfigurationSerializer {
         }
     }
 
-    public static DCDisplayViewConfiguration getOptionalDCDisplayViewConfiguration(IDeserializer iDeserializer) {
+    public static DCDisplayViewConfiguration getOptionalDCDisplayViewConfiguration(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayViewConfiguration dCDisplayViewConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class DCDisplayViewConfigurationSerializer {
         return dCDisplayViewConfiguration;
     }
 
-    public static DCDisplayViewConfiguration[] getOptionalDCDisplayViewConfigurationVarArray(IDeserializer iDeserializer) {
+    public static DCDisplayViewConfiguration[] getOptionalDCDisplayViewConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayViewConfiguration[] dCDisplayViewConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

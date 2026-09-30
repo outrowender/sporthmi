@@ -3,44 +3,33 @@
  */
 package de.esolutions.fw.comm.dsi.tmc;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSITmcC {
-    default public void requestTmcWindow(int n, int n2, int n3, int[] nArray, int n4) {
-    }
+    public void requestTmcWindow(int var1, int var2, int var3, int[] var4, int var5) throws MethodException;
 
-    default public void setMessageFilter(int n, int n2) {
-    }
+    public void setMessageFilter(int var1, int var2) throws MethodException;
 
-    default public void getMessageIdsForListElement(long l) {
-    }
+    public void getMessageIdsForListElement(long var1) throws MethodException;
 
-    default public void getBoundingRectangleForTrafficMessages(long[] lArray) {
-    }
+    public void getBoundingRectangleForTrafficMessages(long[] var1) throws MethodException;
 
-    default public void enableAreaWarnings(boolean bl) {
-    }
+    public void enableAreaWarnings(boolean var1) throws MethodException;
 
-    default public void enableTrafficFlowStatistics(boolean bl) {
-    }
+    public void enableTrafficFlowStatistics(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

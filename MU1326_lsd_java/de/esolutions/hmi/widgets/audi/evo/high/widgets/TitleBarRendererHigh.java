@@ -29,13 +29,11 @@ implements TitleBarRenderer {
         return (TitleBarWidget)this.controller;
     }
 
-    @Override
     public int getSeparatorWidth() {
         this.updateSeparatorSize();
         return this.separatorWidth;
     }
 
-    @Override
     public int getSeparatorHeight() {
         this.updateSeparatorSize();
         return this.separatorHeight;
@@ -52,7 +50,7 @@ implements TitleBarRenderer {
         }
         IWrappedTexture iWrappedTexture = textureDescription.getTexture(this);
         if (iWrappedTexture == null) {
-            logChannel.log(-1601830656, "TitleBarRendererHigh#updateSeparatorSize: Texture could not be loaded for content: %1", (Object)textureDescription);
+            logChannel.log(100000, "TitleBarRendererHigh#updateSeparatorSize: Texture could not be loaded for content: %1", (Object)textureDescription);
             this.setSeparatorSize(textureDescription, 0, 0);
             return;
         }
@@ -68,7 +66,6 @@ implements TitleBarRenderer {
         this.separatorHeight = n2;
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         super.renderNode(redrawContextHigh);
         if (this.node != null && this.getTitleBar().hasSeparator()) {
@@ -83,7 +80,6 @@ implements TitleBarRenderer {
         }
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         this.node.setOpacity(this.controller.getRenderOpacity() * this.getTitleBar().getNowPlayingOpacity());
@@ -97,7 +93,6 @@ implements TitleBarRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.resetCachedSize();
@@ -109,7 +104,6 @@ implements TitleBarRenderer {
         this.cachedSeparatorTextureDescription = null;
     }
 
-    @Override
     protected void destroyNode() {
         EALManager eALManager = this.getEALManager();
         if (eALManager != null) {

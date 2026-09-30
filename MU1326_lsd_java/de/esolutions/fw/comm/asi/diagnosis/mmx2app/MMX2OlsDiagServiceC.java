@@ -6,15 +6,13 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.ols.sActivationState;
 import de.esolutions.fw.comm.asi.diagnosis.ols.sConnectionState;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2OlsDiagServiceC {
-    default public void responseErrorOls(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorOls(sClientResponseError var1) throws MethodException;
 
-    default public void responseConnectionState(sConnectionState sConnectionState2) {
-    }
+    public void responseConnectionState(sConnectionState var1) throws MethodException;
 
-    default public void responseActivationState(sActivationState sActivationState2) {
-    }
+    public void responseActivationState(sActivationState var1) throws MethodException;
 }
 

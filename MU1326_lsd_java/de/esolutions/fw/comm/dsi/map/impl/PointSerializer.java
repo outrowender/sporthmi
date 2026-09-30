@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.Point;
 
 public class PointSerializer {
-    public static void putOptionalPoint(ISerializer iSerializer, Point point) {
+    public static void putOptionalPoint(ISerializer iSerializer, Point point) throws SerializerException {
         boolean bl = point == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PointSerializer {
         }
     }
 
-    public static void putOptionalPointVarArray(ISerializer iSerializer, Point[] pointArray) {
+    public static void putOptionalPointVarArray(ISerializer iSerializer, Point[] pointArray) throws SerializerException {
         boolean bl = pointArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PointSerializer {
         }
     }
 
-    public static Point getOptionalPoint(IDeserializer iDeserializer) {
+    public static Point getOptionalPoint(IDeserializer iDeserializer) throws SerializerException {
         Point point = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PointSerializer {
         return point;
     }
 
-    public static Point[] getOptionalPointVarArray(IDeserializer iDeserializer) {
+    public static Point[] getOptionalPointVarArray(IDeserializer iDeserializer) throws SerializerException {
         Point[] pointArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

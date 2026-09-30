@@ -3,11 +3,11 @@
  */
 package org.apache.xerces.xni.parser;
 
-public interface XMLComponentManager {
-    default public boolean getFeature(String string) {
-    }
+import org.apache.xerces.xni.parser.XMLConfigurationException;
 
-    default public Object getProperty(String string) {
-    }
+public interface XMLComponentManager {
+    public boolean getFeature(String var1) throws XMLConfigurationException;
+
+    public Object getProperty(String var1) throws XMLConfigurationException;
 }
 

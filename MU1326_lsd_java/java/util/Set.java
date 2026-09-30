@@ -8,64 +8,34 @@ import java.util.Iterator;
 
 public interface Set
 extends Collection {
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    @Override
-    default public boolean addAll(Collection collection) {
-    }
+    public boolean addAll(Collection var1);
 
-    @Override
-    default public void clear() {
-    }
+    public void clear();
 
-    @Override
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    @Override
-    default public boolean containsAll(Collection collection) {
-    }
+    public boolean containsAll(Collection var1);
 
-    @Override
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    @Override
-    default public int hashCode() {
-    }
+    public int hashCode();
 
-    @Override
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    @Override
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    @Override
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    @Override
-    default public boolean removeAll(Collection collection) {
-    }
+    public boolean removeAll(Collection var1);
 
-    @Override
-    default public boolean retainAll(Collection collection) {
-    }
+    public boolean retainAll(Collection var1);
 
-    @Override
-    default public int size() {
-    }
+    public int size();
 
-    @Override
-    default public Object[] toArray() {
-    }
+    public Object[] toArray();
 
-    @Override
-    default public Object[] toArray(Object[] objectArray) {
-    }
+    public Object[] toArray(Object[] var1);
 }
 

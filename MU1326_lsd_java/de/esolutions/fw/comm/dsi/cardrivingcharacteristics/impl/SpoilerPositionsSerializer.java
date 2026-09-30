@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SpoilerPositions;
 
 public class SpoilerPositionsSerializer {
-    public static void putOptionalSpoilerPositions(ISerializer iSerializer, SpoilerPositions spoilerPositions) {
+    public static void putOptionalSpoilerPositions(ISerializer iSerializer, SpoilerPositions spoilerPositions) throws SerializerException {
         boolean bl = spoilerPositions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SpoilerPositionsSerializer {
         }
     }
 
-    public static void putOptionalSpoilerPositionsVarArray(ISerializer iSerializer, SpoilerPositions[] spoilerPositionsArray) {
+    public static void putOptionalSpoilerPositionsVarArray(ISerializer iSerializer, SpoilerPositions[] spoilerPositionsArray) throws SerializerException {
         boolean bl = spoilerPositionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SpoilerPositionsSerializer {
         }
     }
 
-    public static SpoilerPositions getOptionalSpoilerPositions(IDeserializer iDeserializer) {
+    public static SpoilerPositions getOptionalSpoilerPositions(IDeserializer iDeserializer) throws SerializerException {
         SpoilerPositions spoilerPositions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SpoilerPositionsSerializer {
         return spoilerPositions;
     }
 
-    public static SpoilerPositions[] getOptionalSpoilerPositionsVarArray(IDeserializer iDeserializer) {
+    public static SpoilerPositions[] getOptionalSpoilerPositionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SpoilerPositions[] spoilerPositionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

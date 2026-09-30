@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carstopwatch.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carstopwatch.StopWatchTime;
 
 public class StopWatchTimeSerializer {
-    public static void putOptionalStopWatchTime(ISerializer iSerializer, StopWatchTime stopWatchTime) {
+    public static void putOptionalStopWatchTime(ISerializer iSerializer, StopWatchTime stopWatchTime) throws SerializerException {
         boolean bl = stopWatchTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class StopWatchTimeSerializer {
         }
     }
 
-    public static void putOptionalStopWatchTimeVarArray(ISerializer iSerializer, StopWatchTime[] stopWatchTimeArray) {
+    public static void putOptionalStopWatchTimeVarArray(ISerializer iSerializer, StopWatchTime[] stopWatchTimeArray) throws SerializerException {
         boolean bl = stopWatchTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class StopWatchTimeSerializer {
         }
     }
 
-    public static StopWatchTime getOptionalStopWatchTime(IDeserializer iDeserializer) {
+    public static StopWatchTime getOptionalStopWatchTime(IDeserializer iDeserializer) throws SerializerException {
         StopWatchTime stopWatchTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class StopWatchTimeSerializer {
         return stopWatchTime;
     }
 
-    public static StopWatchTime[] getOptionalStopWatchTimeVarArray(IDeserializer iDeserializer) {
+    public static StopWatchTime[] getOptionalStopWatchTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         StopWatchTime[] stopWatchTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

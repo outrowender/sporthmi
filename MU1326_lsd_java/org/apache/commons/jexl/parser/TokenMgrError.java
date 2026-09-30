@@ -5,11 +5,11 @@ package org.apache.commons.jexl.parser;
 
 public class TokenMgrError
 extends Error {
-    static final long serialVersionUID;
-    static final int LEXICAL_ERROR;
-    static final int STATIC_LEXER_ERROR;
-    static final int INVALID_LEXICAL_STATE;
-    static final int LOOP_DETECTED;
+    static final long serialVersionUID = 2843513002462329650L;
+    static final int LEXICAL_ERROR = 0;
+    static final int STATIC_LEXER_ERROR = 1;
+    static final int INVALID_LEXICAL_STATE = 2;
+    static final int LOOP_DETECTED = 3;
     int errorCode;
 
     protected static final String addEscapes(String string) {
@@ -54,8 +54,8 @@ extends Error {
                 default: {
                     char c2 = string.charAt(i2);
                     if (c2 < ' ' || c2 > '~') {
-                        String string2 = new StringBuffer().append("0000").append(Integer.toString(c2, 16)).toString();
-                        stringBuffer.append(new StringBuffer().append("\\u").append(string2.substring(string2.length() - 4, string2.length())).toString());
+                        String string2 = "0000" + Integer.toString(c2, 16);
+                        stringBuffer.append("\\u" + string2.substring(string2.length() - 4, string2.length()));
                         continue block11;
                     }
                     stringBuffer.append(c2);
@@ -66,10 +66,9 @@ extends Error {
     }
 
     private static final String LexicalError(boolean bl, int n, int n2, int n3, String string, char c2) {
-        return new StringBuffer().append("Lexical error at line ").append(n2).append(", column ").append(n3).append(".  Encountered: ").append(bl ? "<EOF> " : new StringBuffer().append("\"").append(TokenMgrError.addEscapes(String.valueOf(c2))).append("\"").append(" (").append((int)c2).append("), ").toString()).append("after : \"").append(TokenMgrError.addEscapes(string)).append("\"").toString();
+        return "Lexical error at line " + n2 + ", column " + n3 + ".  Encountered: " + (bl ? "<EOF> " : "\"" + TokenMgrError.addEscapes(String.valueOf(c2)) + "\"" + " (" + c2 + "), ") + "after : \"" + TokenMgrError.addEscapes(string) + "\"";
     }
 
-    @Override
     public String getMessage() {
         return super.getMessage();
     }

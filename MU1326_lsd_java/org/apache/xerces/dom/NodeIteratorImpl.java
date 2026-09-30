@@ -30,27 +30,22 @@ implements NodeIterator {
         this.fEntityReferenceExpansion = bl;
     }
 
-    @Override
     public Node getRoot() {
         return this.fRoot;
     }
 
-    @Override
     public int getWhatToShow() {
         return this.fWhatToShow;
     }
 
-    @Override
     public NodeFilter getFilter() {
         return this.fNodeFilter;
     }
 
-    @Override
     public boolean getExpandEntityReferences() {
         return this.fEntityReferenceExpansion;
     }
 
-    @Override
     public Node nextNode() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -74,7 +69,6 @@ implements NodeIterator {
         return null;
     }
 
-    @Override
     public Node previousNode() {
         if (this.fDetach) {
             throw new DOMException(11, DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "INVALID_STATE_ERR", null));
@@ -177,7 +171,6 @@ implements NodeIterator {
         }
     }
 
-    @Override
     public void detach() {
         this.fDetach = true;
         this.fDocument.removeNodeIterator(this);

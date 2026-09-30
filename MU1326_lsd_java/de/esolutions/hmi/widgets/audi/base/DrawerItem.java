@@ -9,34 +9,24 @@ import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem;
 public interface DrawerItem
 extends ScreenChangeAnimationItem,
 DrawerAnimationListener {
-    default public void setMMICombiSyncMode(int n) {
-    }
+    public void setMMICombiSyncMode(int var1);
 
-    default public int getMMICombiSyncMode() {
-    }
+    public int getMMICombiSyncMode();
 
-    default public void setAnimationType(int n) {
-    }
+    public void setAnimationType(int var1);
 
-    default public void showDrawerItem(boolean bl, boolean bl2) {
-    }
+    public void showDrawerItem(boolean var1, boolean var2);
 
-    default public void hideDrawerItem(boolean bl, boolean bl2) {
-    }
+    public void hideDrawerItem(boolean var1, boolean var2);
 
-    default public void setDrawerAnimationMask(int n) {
-    }
+    public void setDrawerAnimationMask(int var1);
 
-    default public void setTransitionForward(boolean bl) {
-    }
+    public void setTransitionForward(boolean var1);
 
-    default public boolean isTransitionForward() {
-    }
+    public boolean isTransitionForward();
 
-    default public void setDrawerAnimationType(int n) {
-    }
+    public void setDrawerAnimationType(int var1);
 
-    default public void hideDrawerItem() {
-    }
+    public void hideDrawerItem();
 }
 

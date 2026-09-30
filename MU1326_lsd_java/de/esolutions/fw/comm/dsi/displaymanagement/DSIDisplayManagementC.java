@@ -3,140 +3,97 @@
  */
 package de.esolutions.fw.comm.dsi.displaymanagement;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.displaymanagement.DisplayContext;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIDisplayManagementC {
-    default public void declareContexts(DisplayContext[] displayContextArray) {
-    }
+    public void declareContexts(DisplayContext[] var1) throws MethodException;
 
-    default public void switchContext(int n, int n2, int n3) {
-    }
+    public void switchContext(int var1, int var2, int var3) throws MethodException;
 
-    default public void setOpacity(int n, int n2, int n3) {
-    }
+    public void setOpacity(int var1, int var2, int var3) throws MethodException;
 
-    default public void fadeToOpacity(int n, int n2, int n3, int n4) {
-    }
+    public void fadeToOpacity(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void setPosition(int n, int n2, int n3, int n4) {
-    }
+    public void setPosition(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void getExtents(int n) {
-    }
+    public void getExtents(int var1) throws MethodException;
 
-    default public void takeScreenshot(int n, String string) {
-    }
+    public void takeScreenshot(int var1, String var2) throws MethodException;
 
-    default public void lockDisplay(int n) {
-    }
+    public void lockDisplay(int var1) throws MethodException;
 
-    default public void unlockDisplay(int n) {
-    }
+    public void unlockDisplay(int var1) throws MethodException;
 
-    default public void switchDisplayPower(int n, int n2) {
-    }
+    public void switchDisplayPower(int var1, int var2) throws MethodException;
 
-    default public void getDisplayPower(int n) {
-    }
+    public void getDisplayPower(int var1) throws MethodException;
 
-    default public void setDisplayBrightness(int n, int n2) {
-    }
+    public void setDisplayBrightness(int var1, int var2) throws MethodException;
 
-    default public void getDisplayBrightness(int n) {
-    }
+    public void getDisplayBrightness(int var1) throws MethodException;
 
-    default public void setBrightness(int n, int n2) {
-    }
+    public void setBrightness(int var1, int var2) throws MethodException;
 
-    default public void getBrightness(int n) {
-    }
+    public void getBrightness(int var1) throws MethodException;
 
-    default public void setContrast(int n, int n2) {
-    }
+    public void setContrast(int var1, int var2) throws MethodException;
 
-    default public void getContrast(int n) {
-    }
+    public void getContrast(int var1) throws MethodException;
 
-    default public void setColor(int n, int n2) {
-    }
+    public void setColor(int var1, int var2) throws MethodException;
 
-    default public void getColor(int n) {
-    }
+    public void getColor(int var1) throws MethodException;
 
-    default public void setTint(int n, int n2) {
-    }
+    public void setTint(int var1, int var2) throws MethodException;
 
-    default public void getTint(int n) {
-    }
+    public void getTint(int var1) throws MethodException;
 
-    default public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void setCropping(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10) throws MethodException;
 
-    default public void getDisplayableInfo(int n, int n2) {
-    }
+    public void getDisplayableInfo(int var1, int var2) throws MethodException;
 
-    default public void setDimension(int n, int n2, int n3, int n4) {
-    }
+    public void setDimension(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void setScaleMode(int n, int n2, int n3) {
-    }
+    public void setScaleMode(int var1, int var2, int var3) throws MethodException;
 
-    default public void takeScreenshotOnExternalStorage(int n, String string) {
-    }
+    public void takeScreenshotOnExternalStorage(int var1, String var2) throws MethodException;
 
-    default public void setDisplayType(int n, int n2) {
-    }
+    public void setDisplayType(int var1, int var2) throws MethodException;
 
-    default public void getDisplayType(int n) {
-    }
+    public void getDisplayType(int var1) throws MethodException;
 
-    default public void setUpdateRate(int n, int n2) {
-    }
+    public void setUpdateRate(int var1, int var2) throws MethodException;
 
-    default public void getUpdateRate(int n) {
-    }
+    public void getUpdateRate(int var1) throws MethodException;
 
-    default public void startComponent(int n, int n2, int n3) {
-    }
+    public void startComponent(int var1, int var2, int var3) throws MethodException;
 
-    default public void stopComponent(int n, int n2, int n3) {
-    }
+    public void stopComponent(int var1, int var2, int var3) throws MethodException;
 
-    default public void createImageDisplayable(ResourceLocator resourceLocator, int n) {
-    }
+    public void createImageDisplayable(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void requestUpdateImageDisplayable(ResourceLocator resourceLocator, int n) {
-    }
+    public void requestUpdateImageDisplayable(ResourceLocator var1, int var2) throws MethodException;
 
-    default public void destroyImageDisplayable(int n) {
-    }
+    public void destroyImageDisplayable(int var1) throws MethodException;
 
-    default public void initAnnotations(int n) {
-    }
+    public void initAnnotations(int var1) throws MethodException;
 
-    default public void setAnnotationData(int n, int n2, String string) {
-    }
+    public void setAnnotationData(int var1, int var2, String var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

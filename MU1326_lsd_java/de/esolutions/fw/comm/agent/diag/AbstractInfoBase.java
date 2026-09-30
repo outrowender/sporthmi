@@ -3,7 +3,6 @@
  */
 package de.esolutions.fw.comm.agent.diag;
 
-import de.esolutions.fw.comm.agent.diag.AbstractInfoBase$1;
 import de.esolutions.fw.comm.agent.diag.IInfoBase;
 import de.esolutions.fw.comm.agent.diag.InfoEntry;
 import de.esolutions.fw.comm.agent.diag.InfoStream;
@@ -11,6 +10,7 @@ import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public abstract class AbstractInfoBase
 implements IInfoBase {
@@ -22,12 +22,10 @@ implements IInfoBase {
         this.timestamp = System.currentTimeMillis();
     }
 
-    @Override
     public int getID() {
         return this.id;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timestamp;
     }
@@ -36,7 +34,7 @@ implements IInfoBase {
         return new TraceTimeStamp(this.timestamp).toUTCTimeString(true);
     }
 
-    protected String convertTimeStampField(Object object) {
+    protected String convertTimeStampField(Object object) throws IllegalArgumentException, IllegalAccessException {
         if (object instanceof Long) {
             long l = (Long)object;
             if (l == 0L) {
@@ -48,7 +46,7 @@ implements IInfoBase {
         return null;
     }
 
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         Class clazz = field.getType();
         String string = clazz.getName();
         if (clazz.isPrimitive()) {
@@ -69,10 +67,9 @@ implements IInfoBase {
         return field.get(this);
     }
 
-    @Override
     public InfoEntry[] getEntries() {
         try {
-            Field[] fieldArray = super.getClass().getFields();
+            Field[] fieldArray = this.getClass().getFields();
             ArrayList arrayList = new ArrayList();
             for (int i2 = 0; i2 < fieldArray.length; ++i2) {
                 Field field = fieldArray[i2];
@@ -99,19 +96,24 @@ implements IInfoBase {
         }
     }
 
-    @Override
     public InfoEntry[] getSortedEntries() {
         Object[] objectArray = this.getEntries();
         if (objectArray == null) {
             return null;
         }
-        Arrays.sort(objectArray, new AbstractInfoBase$1(this));
+        Arrays.sort(objectArray, new Comparator(){
+
+            public int compare(Object object, Object object2) {
+                InfoEntry infoEntry = (InfoEntry)object;
+                InfoEntry infoEntry2 = (InfoEntry)object2;
+                return infoEntry.getName().compareTo(infoEntry2.getName());
+            }
+        });
         return objectArray;
     }
 
-    @Override
     public String getSimpleClassName() {
-        String string = super.getClass().getName();
+        String string = this.getClass().getName();
         int n = string.lastIndexOf(46);
         if (n != -1) {
             string = string.substring(n + 1);
@@ -122,7 +124,6 @@ implements IInfoBase {
         return string;
     }
 
-    @Override
     public void write(InfoStream infoStream) {
         if (infoStream.isBrief()) {
             this.doBrief(infoStream);
@@ -133,7 +134,7 @@ implements IInfoBase {
 
     private void doWrite(InfoStream infoStream) {
         InfoEntry[] infoEntryArray = this.getSortedEntries();
-        infoStream.begin(new StringBuffer().append(this.getSimpleClassName()).append(": #").append(this.getID()).append("  @").append(this.getTimeStampString()).toString());
+        infoStream.begin(this.getSimpleClassName() + ": #" + this.getID() + "  @" + this.getTimeStampString());
         for (int i2 = 0; i2 < infoEntryArray.length; ++i2) {
             InfoEntry infoEntry = infoEntryArray[i2];
             String string = infoEntry.getName();
@@ -147,11 +148,11 @@ implements IInfoBase {
         if (string.length() > 4) {
             string = string.substring(0, 4);
         }
-        infoStream.begin(new StringBuffer().append(string).append("#").append(this.getID()).toString());
+        infoStream.begin(string + "#" + this.getID());
         InfoEntry[] infoEntryArray = this.getEntries();
         for (int i2 = 0; i2 < infoEntryArray.length; ++i2) {
             InfoEntry infoEntry = infoEntryArray[i2];
-            String string2 = new StringBuffer().append(i2).append("=").toString();
+            String string2 = i2 + "=";
             Object object = infoEntry.getValue();
             if (object == null) continue;
             String string3 = this.strip(infoEntry.getValueString());
@@ -166,7 +167,7 @@ implements IInfoBase {
             String string2;
             int n = string.indexOf(stringArray[i2]);
             if (n == -1) continue;
-            string = string2 = new StringBuffer().append(string.substring(0, n)).append(string.substring(n + stringArray[i2].length(), string.length())).toString();
+            string = string2 = string.substring(0, n) + string.substring(n + stringArray[i2].length(), string.length());
         }
         return string.trim();
     }

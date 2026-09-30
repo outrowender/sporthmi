@@ -32,7 +32,7 @@ public class sHardwareVersionNumber {
     }
 
     public String toString() {
-        return new StringBuffer("sHardwareVersionNumber{").append("msg_id=").append(this.msg_id).append(", number=").append(this.number).append("}").toString();
+        return "sHardwareVersionNumber{" + "msg_id=" + this.msg_id + ", number=" + this.number + "}";
     }
 }
 

@@ -24,22 +24,18 @@ Cloneable {
         this.length = n;
     }
 
-    @Override
     public boolean hasFixedSize(int n) {
         return this.size != null && this.size[n] >= 0;
     }
 
-    @Override
     public boolean isGrowing(int n) {
         return this.grow != null && this.grow[n] > 0.0f;
     }
 
-    @Override
     public boolean isShrinking(int n) {
         return this.shrink == null || this.shrink[n] > 0.0f;
     }
 
-    @Override
     public float getGrowWeight(int n) {
         if (this.grow == null) {
             return 0.0f;
@@ -47,12 +43,10 @@ Cloneable {
         return this.grow[n];
     }
 
-    @Override
     public boolean hasGrowWeight(int n) {
         return this.grow != null && this.grow.length > n;
     }
 
-    @Override
     public float getShrinkWeight(int n) {
         if (this.shrink == null) {
             return 1.0f;
@@ -60,12 +54,10 @@ Cloneable {
         return this.shrink[n];
     }
 
-    @Override
     public boolean hasShrinkWeight(int n) {
         return this.shrink != null && this.shrink.length > n;
     }
 
-    @Override
     public int getHidemode(int n) {
         if (this.hidemode == null) {
             return 0;
@@ -73,17 +65,14 @@ Cloneable {
         return this.hidemode[n];
     }
 
-    @Override
     public boolean hasHidemode(int n) {
         return this.hidemode != null && this.hidemode.length > n;
     }
 
-    @Override
     public float getResizeWeight(boolean bl, int n) {
         return bl ? this.getGrowWeight(n) : this.getShrinkWeight(n);
     }
 
-    @Override
     public boolean hasResizeWeights(boolean bl) {
         float[] fArray = bl ? this.grow : this.shrink;
         return fArray != null;
@@ -125,67 +114,54 @@ Cloneable {
         this.hidemode = nArray;
     }
 
-    @Override
     public int getAlignment(int n) {
         return this.alignment != null ? this.alignment[n] : -1;
     }
 
-    @Override
     public boolean hasAlignment(int n) {
         return this.alignment != null && this.alignment.length > n;
     }
 
-    @Override
     public int getGap(int n) {
         return this.gaps != null ? this.gaps[n] : 0;
     }
 
-    @Override
     public boolean hasGap(int n) {
         return this.gaps != null && this.gaps.length > n;
     }
 
-    @Override
     public int getSize(int n) {
         return this.size != null ? this.size[n] : -1;
     }
 
-    @Override
     public boolean hasSize(int n) {
         return this.size != null && this.size.length > n;
     }
 
-    @Override
     public int getMax(int n) {
         return this.max != null ? this.max[n] : -1;
     }
 
-    @Override
     public boolean hasMax(int n) {
         return this.max != null && this.max.length > n;
     }
 
-    @Override
     public int getMin(int n) {
         return this.min != null ? this.min[n] : -1;
     }
 
-    @Override
     public boolean hasMin(int n) {
         return this.min != null && this.min.length > n;
     }
 
-    @Override
     public int getTabulatorID(int n) {
         return this.tabulatorIDs != null ? this.tabulatorIDs[n] : -1;
     }
 
-    @Override
     public boolean hasTabulatorAtIndex(int n) {
         return this.tabulatorIDs != null && this.tabulatorIDs.length > n;
     }
 
-    @Override
     public boolean hasTabulatorWithID(int n) {
         if (this.tabulatorIDs == null) {
             return false;
@@ -197,17 +173,14 @@ Cloneable {
         return false;
     }
 
-    @Override
     public boolean hasTabulatorIDs() {
         return this.tabulatorIDs != null;
     }
 
-    @Override
     public int[] getTabulatorIDs() {
         return this.tabulatorIDs;
     }
 
-    @Override
     public int getLength() {
         return this.length;
     }

@@ -28,13 +28,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object execute(Object object, JexlContext jexlContext) {
+    public Object execute(Object object, JexlContext jexlContext) throws Exception {
         ASTIdentifier aSTIdentifier = (ASTIdentifier)this.jjtGetChild(0);
         Object object2 = aSTIdentifier.execute(object, jexlContext);
         for (int i2 = 1; i2 < this.jjtGetNumChildren(); ++i2) {
@@ -47,8 +45,7 @@ extends SimpleNode {
         return object2;
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         ASTIdentifier aSTIdentifier = (ASTIdentifier)this.jjtGetChild(0);
         Object object = aSTIdentifier.value(jexlContext);
         for (int i2 = 1; i2 < this.jjtGetNumChildren(); ++i2) {
@@ -61,7 +58,7 @@ extends SimpleNode {
         return object;
     }
 
-    public static Object evaluateExpr(Object object, Object object2) {
+    public static Object evaluateExpr(Object object, Object object2) throws Exception {
         if (object == null) {
             return null;
         }

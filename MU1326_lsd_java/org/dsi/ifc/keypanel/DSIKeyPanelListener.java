@@ -7,52 +7,36 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIKeyPanelListener
 extends DSIListener {
-    default public void updateKey2(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateKey2(int var1, int var2, int var3, int var4, int var5);
 
-    default public void updateEncoder2(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateEncoder2(int var1, int var2, int var3, int var4, int var5);
 
-    default public void updateDisplayTurnMechStatus(int n, int n2) {
-    }
+    public void updateDisplayTurnMechStatus(int var1, int var2);
 
-    default public void updateRecognizerLanguage2(int n, String string, int n2, int n3) {
-    }
+    public void updateRecognizerLanguage2(int var1, String var2, int var3, int var4);
 
-    default public void updateRecognizerMode(int n, int n2, int n3) {
-    }
+    public void updateRecognizerMode(int var1, int var2, int var3);
 
-    default public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) {
-    }
+    public void updateCharacterEvent2(int var1, String[] var2, int[] var3, int var4);
 
-    default public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) {
-    }
+    public void updateGesture2(int var1, int var2, int var3, boolean var4, int var5, int var6, int var7, int var8, int var9, int var10);
 
-    default public void genericSettingResponse(int n, int n2, int n3) {
-    }
+    public void genericSettingResponse(int var1, int var2, int var3);
 
-    default public void updateProximity(int n, int n2, int n3) {
-    }
+    public void updateProximity(int var1, int var2, int var3);
 
-    default public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void updateAdvancedProximity(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10);
 
-    default public void lastKey(int n, int n2, int n3) {
-    }
+    public void lastKey(int var1, int var2, int var3);
 
-    default public void updateKeyboardType(int n, int n2) {
-    }
+    public void updateKeyboardType(int var1, int var2);
 
-    default public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void updateTouchSensitiveArea(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void getVersionInfo(int n, int n2, String string) {
-    }
+    public void getVersionInfo(int var1, int var2, String var3);
 
-    default public void updateInputPanelReady(int n, int n2, int n3) {
-    }
+    public void updateInputPanelReady(int var1, int var2, int var3);
 
-    default public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) {
-    }
+    public void getProperty(int var1, int var2, int var3, int var4, byte[] var5);
 }
 

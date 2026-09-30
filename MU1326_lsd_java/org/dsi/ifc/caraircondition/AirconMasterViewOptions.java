@@ -247,7 +247,7 @@ public class AirconMasterViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(-1937309696);
+        StringBuffer stringBuffer = new StringBuffer(34700);
         stringBuffer.append("AirconMasterViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("airconSetFactoryDefaultMaster");

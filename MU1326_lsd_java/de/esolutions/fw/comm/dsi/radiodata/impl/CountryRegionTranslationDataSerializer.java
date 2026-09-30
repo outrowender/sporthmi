@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.CountryRegionTranslationData;
 
 public class CountryRegionTranslationDataSerializer {
-    public static void putOptionalCountryRegionTranslationData(ISerializer iSerializer, CountryRegionTranslationData countryRegionTranslationData) {
+    public static void putOptionalCountryRegionTranslationData(ISerializer iSerializer, CountryRegionTranslationData countryRegionTranslationData) throws SerializerException {
         boolean bl = countryRegionTranslationData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CountryRegionTranslationDataSerializer {
         }
     }
 
-    public static void putOptionalCountryRegionTranslationDataVarArray(ISerializer iSerializer, CountryRegionTranslationData[] countryRegionTranslationDataArray) {
+    public static void putOptionalCountryRegionTranslationDataVarArray(ISerializer iSerializer, CountryRegionTranslationData[] countryRegionTranslationDataArray) throws SerializerException {
         boolean bl = countryRegionTranslationDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CountryRegionTranslationDataSerializer {
         }
     }
 
-    public static CountryRegionTranslationData getOptionalCountryRegionTranslationData(IDeserializer iDeserializer) {
+    public static CountryRegionTranslationData getOptionalCountryRegionTranslationData(IDeserializer iDeserializer) throws SerializerException {
         CountryRegionTranslationData countryRegionTranslationData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CountryRegionTranslationDataSerializer {
         return countryRegionTranslationData;
     }
 
-    public static CountryRegionTranslationData[] getOptionalCountryRegionTranslationDataVarArray(IDeserializer iDeserializer) {
+    public static CountryRegionTranslationData[] getOptionalCountryRegionTranslationDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         CountryRegionTranslationData[] countryRegionTranslationDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

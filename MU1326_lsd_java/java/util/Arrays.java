@@ -1,21 +1,21 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.util;
 
-import java.util.Arrays$ArrayList;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.AbstractList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.RandomAccess;
 
 public class Arrays {
     private Arrays() {
     }
 
     public static List asList(Object[] objectArray) {
-        return new Arrays$ArrayList(objectArray);
+        return new ArrayList(objectArray);
     }
 
     public static int binarySearch(byte[] byArray, byte by) {
@@ -61,7 +61,7 @@ public class Arrays {
     }
 
     public static int binarySearch(double[] dArray, double d2) {
-        long l = Double.doubleToLongBits((double)d2);
+        long l = Double.doubleToLongBits(d2);
         int n = 0;
         int n2 = -1;
         int n3 = dArray.length - 1;
@@ -71,7 +71,7 @@ public class Arrays {
                 n = n2 + 1;
                 continue;
             }
-            if (l == Double.doubleToLongBits((double)dArray[n2])) {
+            if (l == Double.doubleToLongBits(dArray[n2])) {
                 return n2;
             }
             n3 = n2 - 1;
@@ -216,8 +216,7 @@ public class Arrays {
         Arrays.fillImpl(byArray, n, n2, by);
     }
 
-    private static native void fillImpl(byte[] byArray, int n, int n2, byte by) {
-    }
+    private static native void fillImpl(byte[] var0, int var1, int var2, byte var3);
 
     public static void fill(short[] sArray, short s) {
         Arrays.fillImpl(sArray, 0, sArray.length, s);
@@ -227,8 +226,7 @@ public class Arrays {
         Arrays.fillImpl(sArray, n, n2, s);
     }
 
-    private static native void fillImpl(short[] sArray, int n, int n2, short s) {
-    }
+    private static native void fillImpl(short[] var0, int var1, int var2, short var3);
 
     public static void fill(char[] cArray, char c2) {
         Arrays.fillImpl(cArray, 0, cArray.length, c2);
@@ -238,8 +236,7 @@ public class Arrays {
         Arrays.fillImpl(cArray, n, n2, c2);
     }
 
-    private static native void fillImpl(char[] cArray, int n, int n2, char c2) {
-    }
+    private static native void fillImpl(char[] var0, int var1, int var2, char var3);
 
     public static void fill(int[] nArray, int n) {
         Arrays.fillImpl(nArray, 0, nArray.length, n);
@@ -249,8 +246,7 @@ public class Arrays {
         Arrays.fillImpl(nArray, n, n2, n3);
     }
 
-    private static native void fillImpl(int[] nArray, int n, int n2, int n3) {
-    }
+    private static native void fillImpl(int[] var0, int var1, int var2, int var3);
 
     public static void fill(long[] lArray, long l) {
         Arrays.fillImpl(lArray, 0, lArray.length, l);
@@ -260,8 +256,7 @@ public class Arrays {
         Arrays.fillImpl(lArray, n, n2, l);
     }
 
-    private static native void fillImpl(long[] lArray, int n, int n2, long l) {
-    }
+    private static native void fillImpl(long[] var0, int var1, int var2, long var3);
 
     public static void fill(float[] fArray, float f2) {
         Arrays.fillImpl(fArray, 0, fArray.length, f2);
@@ -271,8 +266,7 @@ public class Arrays {
         Arrays.fillImpl(fArray, n, n2, f2);
     }
 
-    private static native void fillImpl(float[] fArray, int n, int n2, float f2) {
-    }
+    private static native void fillImpl(float[] var0, int var1, int var2, float var3);
 
     public static void fill(double[] dArray, double d2) {
         Arrays.fillImpl(dArray, 0, dArray.length, d2);
@@ -282,8 +276,7 @@ public class Arrays {
         Arrays.fillImpl(dArray, n, n2, d2);
     }
 
-    private static native void fillImpl(double[] dArray, int n, int n2, double d2) {
-    }
+    private static native void fillImpl(double[] var0, int var1, int var2, double var3);
 
     public static void fill(boolean[] blArray, boolean bl) {
         Arrays.fillImpl(blArray, 0, blArray.length, bl);
@@ -293,8 +286,7 @@ public class Arrays {
         Arrays.fillImpl(blArray, n, n2, bl);
     }
 
-    private static native void fillImpl(boolean[] blArray, int n, int n2, boolean bl) {
-    }
+    private static native void fillImpl(boolean[] var0, int var1, int var2, boolean var3);
 
     public static void fill(Object[] objectArray, Object object) {
         Arrays.fillImpl(objectArray, 0, objectArray.length, object);
@@ -304,43 +296,37 @@ public class Arrays {
         Arrays.fillImpl(objectArray, n, n2, object);
     }
 
-    private static native void fillImpl(Object[] objectArray, int n, int n2, Object object) {
-    }
+    private static native void fillImpl(Object[] var0, int var1, int var2, Object var3);
 
     public static boolean equals(byte[] byArray, byte[] byArray2) {
         return Arrays.equalsImpl(byArray, byArray2);
     }
 
-    private static native boolean equalsImpl(byte[] byArray, byte[] byArray2) {
-    }
+    private static native boolean equalsImpl(byte[] var0, byte[] var1);
 
     public static boolean equals(short[] sArray, short[] sArray2) {
         return Arrays.equalsImpl(sArray, sArray2);
     }
 
-    private static native boolean equalsImpl(short[] sArray, short[] sArray2) {
-    }
+    private static native boolean equalsImpl(short[] var0, short[] var1);
 
     public static boolean equals(char[] cArray, char[] cArray2) {
         return Arrays.equalsImpl(cArray, cArray2);
     }
 
-    private static native boolean equalsImpl(char[] cArray, char[] cArray2) {
-    }
+    private static native boolean equalsImpl(char[] var0, char[] var1);
 
     public static boolean equals(int[] nArray, int[] nArray2) {
         return Arrays.equalsImpl(nArray, nArray2);
     }
 
-    private static native boolean equalsImpl(int[] nArray, int[] nArray2) {
-    }
+    private static native boolean equalsImpl(int[] var0, int[] var1);
 
     public static boolean equals(long[] lArray, long[] lArray2) {
         return Arrays.equalsImpl(lArray, lArray2);
     }
 
-    private static native boolean equalsImpl(long[] lArray, long[] lArray2) {
-    }
+    private static native boolean equalsImpl(long[] var0, long[] var1);
 
     public static boolean equals(float[] fArray, float[] fArray2) {
         if (fArray == fArray2) {
@@ -368,7 +354,7 @@ public class Arrays {
         }
         int n = 0;
         while (n < dArray.length) {
-            if (Double.doubleToLongBits((double)dArray[n]) != Double.doubleToLongBits((double)dArray2[n])) {
+            if (Double.doubleToLongBits(dArray[n]) != Double.doubleToLongBits(dArray2[n])) {
                 return false;
             }
             ++n;
@@ -380,8 +366,7 @@ public class Arrays {
         return Arrays.equalsImpl(blArray, blArray2);
     }
 
-    private static native boolean equalsImpl(boolean[] blArray, boolean[] blArray2) {
-    }
+    private static native boolean equalsImpl(boolean[] var0, boolean[] var1);
 
     public static boolean equals(Object[] objectArray, Object[] objectArray2) {
         if (objectArray == objectArray2) {
@@ -417,12 +402,12 @@ public class Arrays {
     }
 
     private static boolean lessThan(double d2, double d3) {
-        long l = Double.doubleToLongBits((double)Double.NaN);
-        long l2 = Double.doubleToLongBits((double)d2);
+        long l = Double.doubleToLongBits(Double.NaN);
+        long l2 = Double.doubleToLongBits(d2);
         if (l2 == l) {
             return false;
         }
-        long l3 = Double.doubleToLongBits((double)d3);
+        long l3 = Double.doubleToLongBits(d3);
         if (l3 == l) {
             return true;
         }
@@ -443,7 +428,7 @@ public class Arrays {
     }
 
     private static boolean lessThan(float f2, float f3) {
-        int n = Float.floatToIntBits(49279);
+        int n = Float.floatToIntBits(Float.NaN);
         int n2 = Float.floatToIntBits(f2);
         if (n2 == n) {
             return false;
@@ -1263,6 +1248,128 @@ public class Arrays {
         }
         if ((n7 = n3 - n11) > 0) {
             Arrays.sort(n2 - n7, n2, sArray);
+        }
+    }
+
+    private static class ArrayList
+    extends AbstractList
+    implements List,
+    Serializable,
+    RandomAccess {
+        private static final long serialVersionUID = -2764017481108945198L;
+        private final Object[] a;
+
+        ArrayList(Object[] objectArray) {
+            if (objectArray == null) {
+                throw new NullPointerException();
+            }
+            this.a = objectArray;
+        }
+
+        public boolean contains(Object object) {
+            if (object != null) {
+                int n = 0;
+                while (n < this.a.length) {
+                    if (object.equals(this.a[n])) {
+                        return true;
+                    }
+                    ++n;
+                }
+            } else {
+                int n = 0;
+                while (n < this.a.length) {
+                    if (this.a[n] == null) {
+                        return true;
+                    }
+                    ++n;
+                }
+            }
+            return false;
+        }
+
+        public Object get(int n) {
+            try {
+                return this.a[n];
+            }
+            catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        public int indexOf(Object object) {
+            if (object != null) {
+                int n = 0;
+                while (n < this.a.length) {
+                    if (object.equals(this.a[n])) {
+                        return n;
+                    }
+                    ++n;
+                }
+            } else {
+                int n = 0;
+                while (n < this.a.length) {
+                    if (this.a[n] == null) {
+                        return n;
+                    }
+                    ++n;
+                }
+            }
+            return -1;
+        }
+
+        public int lastIndexOf(Object object) {
+            if (object != null) {
+                int n = this.a.length - 1;
+                while (n >= 0) {
+                    if (object.equals(this.a[n])) {
+                        return n;
+                    }
+                    --n;
+                }
+            } else {
+                int n = this.a.length - 1;
+                while (n >= 0) {
+                    if (this.a[n] == null) {
+                        return n;
+                    }
+                    --n;
+                }
+            }
+            return -1;
+        }
+
+        public Object set(int n, Object object) {
+            try {
+                Object object2 = this.a[n];
+                this.a[n] = object;
+                return object2;
+            }
+            catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                throw new IndexOutOfBoundsException();
+            }
+            catch (ArrayStoreException arrayStoreException) {
+                throw new ClassCastException();
+            }
+        }
+
+        public int size() {
+            return this.a.length;
+        }
+
+        public Object[] toArray() {
+            return (Object[])this.a.clone();
+        }
+
+        public Object[] toArray(Object[] objectArray) {
+            int n = this.size();
+            if (n > objectArray.length) {
+                objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), n);
+            }
+            System.arraycopy((Object)this.a, 0, (Object)objectArray, 0, n);
+            if (n < objectArray.length) {
+                objectArray[n] = null;
+            }
+            return objectArray;
         }
     }
 }

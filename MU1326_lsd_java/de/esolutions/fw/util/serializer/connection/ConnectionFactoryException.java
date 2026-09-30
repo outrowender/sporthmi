@@ -5,7 +5,7 @@ package de.esolutions.fw.util.serializer.connection;
 
 public class ConnectionFactoryException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public ConnectionFactoryException() {
     }

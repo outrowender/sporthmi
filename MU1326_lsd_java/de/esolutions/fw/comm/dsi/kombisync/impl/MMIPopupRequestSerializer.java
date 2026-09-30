@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.MMIPopupRequest;
 
 public class MMIPopupRequestSerializer {
-    public static void putOptionalMMIPopupRequest(ISerializer iSerializer, MMIPopupRequest mMIPopupRequest) {
+    public static void putOptionalMMIPopupRequest(ISerializer iSerializer, MMIPopupRequest mMIPopupRequest) throws SerializerException {
         boolean bl = mMIPopupRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class MMIPopupRequestSerializer {
         }
     }
 
-    public static void putOptionalMMIPopupRequestVarArray(ISerializer iSerializer, MMIPopupRequest[] mMIPopupRequestArray) {
+    public static void putOptionalMMIPopupRequestVarArray(ISerializer iSerializer, MMIPopupRequest[] mMIPopupRequestArray) throws SerializerException {
         boolean bl = mMIPopupRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class MMIPopupRequestSerializer {
         }
     }
 
-    public static MMIPopupRequest getOptionalMMIPopupRequest(IDeserializer iDeserializer) {
+    public static MMIPopupRequest getOptionalMMIPopupRequest(IDeserializer iDeserializer) throws SerializerException {
         MMIPopupRequest mMIPopupRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class MMIPopupRequestSerializer {
         return mMIPopupRequest;
     }
 
-    public static MMIPopupRequest[] getOptionalMMIPopupRequestVarArray(IDeserializer iDeserializer) {
+    public static MMIPopupRequest[] getOptionalMMIPopupRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         MMIPopupRequest[] mMIPopupRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

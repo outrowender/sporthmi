@@ -15,7 +15,6 @@ implements INotification {
         this.callback = iNotificationCallback;
     }
 
-    @Override
     public void performNotification() {
         this.triggerCallback();
     }
@@ -24,7 +23,6 @@ implements INotification {
         return this.callback;
     }
 
-    @Override
     public void triggerCallback() {
         if (this.callback != null) {
             CommAgentTracing.NOTIFICATION.log((short)1, " + Trigger Callback %1", this.callback);

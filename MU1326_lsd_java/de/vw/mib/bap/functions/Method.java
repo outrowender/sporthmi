@@ -9,10 +9,8 @@ import de.vw.mib.bap.functions.MethodListener;
 
 public interface Method
 extends BAPFunction {
-    default public void startResult(BAPEntity bAPEntity, MethodListener methodListener) {
-    }
+    public void startResult(BAPEntity var1, MethodListener var2);
 
-    default public void abortResult(BAPEntity bAPEntity, MethodListener methodListener) {
-    }
+    public void abortResult(BAPEntity var1, MethodListener var2);
 }
 

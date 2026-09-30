@@ -19,12 +19,11 @@ extends AbstractInfoBase {
         super(serviceHandler.getServiceID());
         IService iService = serviceHandler.getService();
         this.svcID = iService.getInstanceID();
-        this.svcClass = super.getClass().getName();
-        this.svcWorker = super.getClass().getName();
+        this.svcClass = iService.getClass().getName();
+        this.svcWorker = serviceHandler.getServiceWorker().getClass().getName();
         this.stubCount = serviceHandler.getStubCount();
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.svcID;
     }

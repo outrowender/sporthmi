@@ -22,13 +22,13 @@ import java.util.List;
 public class ZhuYinFreeTextConverter
 implements IFreetextConverter {
     private static final String zhuYinResourcePath = StringUtility.concatenate(System.getProperty("SpellerCharacterSetPath"), "/taiwan/");
-    public static final int MAX_KANJIS;
-    private static final String DELIMITER;
-    private static final int NONE;
-    private static HashMap nextValidCharsString;
-    private static HashMap kanjisString;
-    private static final char[] possibleKanjis;
-    private static int numberOfKanjis;
+    public static final int MAX_KANJIS = 3072;
+    private static final String DELIMITER = "_";
+    private static final int NONE = -1;
+    private static HashMap nextValidCharsString = new HashMap(45);
+    private static HashMap kanjisString = new HashMap(45);
+    private static final char[] possibleKanjis = new char[3072];
+    private static int numberOfKanjis = 0;
     static /* synthetic */ Class class$de$esolutions$hmi$widgets$audi$evo$widgets$asia$converter$ZhuYinFreeTextConverter;
 
     ZhuYinFreeTextConverter() {
@@ -57,10 +57,10 @@ implements IFreetextConverter {
                 cArray[n++] = c3;
             }
             if (n == 0) {
-                IWidgetLogChannel.spellerLogChannel.log(1078071040, "SpellerController#getValidZhuYinChars validCharsBufferIndex is 0 - error while determing valid characters. spelledInCharaters: %1 currentDelimiter: %2", (Object)ZhuYinFreeTextConverter.convertToUnicode(string.toString()), (Object)string2);
+                IWidgetLogChannel.spellerLogChannel.log(1000000, "SpellerController#getValidZhuYinChars validCharsBufferIndex is 0 - error while determing valid characters. spelledInCharaters: %1 currentDelimiter: %2", (Object)ZhuYinFreeTextConverter.convertToUnicode(string.toString()), (Object)string2);
             }
             if (IWidgetLogChannel.spellerLogChannel.isDebug()) {
-                IWidgetLogChannel.spellerLogChannel.log(-2137614336, "SpellerControllerTaiwan#getValidZhuYinChars validCharsBuffer: %1", (Object)ZhuYinFreeTextConverter.convertToUnicode(new String(cArray, 0, n)));
+                IWidgetLogChannel.spellerLogChannel.log(10000000, "SpellerControllerTaiwan#getValidZhuYinChars validCharsBuffer: %1", (Object)ZhuYinFreeTextConverter.convertToUnicode(new String(cArray, 0, n)));
             }
         }
         return new String(cArray, 0, n);
@@ -69,9 +69,9 @@ implements IFreetextConverter {
     private static String getCurrentDelimiter(String string) {
         int n = string.length();
         if (n > 1) {
-            return new StringBuffer().append("_").append(string.substring(1, n)).toString();
+            return new StringBuffer().append(DELIMITER).append(string.substring(1, n)).toString();
         }
-        return "_";
+        return DELIMITER;
     }
 
     private static boolean charArrayContains(char[] cArray, char c2) {
@@ -339,7 +339,7 @@ implements IFreetextConverter {
                 FileInputStream fileInputStream = new FileInputStream((File)object);
                 filterInputStream = new DataInputStream(fileInputStream);
                 int n2 = ((DataInputStream)filterInputStream).readInt();
-                IWidgetLogChannel.spellerLogChannel.log(-2137614336, "SpellerControllerTaiwan#loadzhuYinString length of file: %1", (long)n2);
+                IWidgetLogChannel.spellerLogChannel.log(10000000, "SpellerControllerTaiwan#loadzhuYinString length of file: %1", (long)n2);
                 byArray = new byte[n2];
                 int n3 = 0;
                 int n4 = 0;
@@ -396,7 +396,6 @@ implements IFreetextConverter {
         return string2;
     }
 
-    @Override
     public List getPossibleConversions(String string, int n) {
         ArrayList arrayList = new ArrayList();
         if (!StringUtilities.isNullOrEmpty(string)) {
@@ -409,12 +408,10 @@ implements IFreetextConverter {
         return arrayList;
     }
 
-    @Override
     public int getNumberOfConversions() {
         return ZhuYinFreeTextConverter.getNumberOfKanjs();
     }
 
-    @Override
     public String getValidCharacters(String string) {
         return ZhuYinFreeTextConverter.getValidZhuYinChars(string);
     }
@@ -426,13 +423,6 @@ implements IFreetextConverter {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        nextValidCharsString = new HashMap(45);
-        kanjisString = new HashMap(45);
-        possibleKanjis = new char[3072];
-        numberOfKanjis = 0;
     }
 }
 

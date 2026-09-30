@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.hmisync.car.bc.BCTermGeneralData;
 import de.esolutions.fw.comm.asi.hmisync.car.impl.FloatBaseTypeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BCTermGeneralDataSerializer {
-    public static void putOptionalBCTermGeneralData(ISerializer iSerializer, BCTermGeneralData bCTermGeneralData) {
+    public static void putOptionalBCTermGeneralData(ISerializer iSerializer, BCTermGeneralData bCTermGeneralData) throws SerializerException {
         boolean bl = bCTermGeneralData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BCTermGeneralDataSerializer {
         }
     }
 
-    public static void putOptionalBCTermGeneralDataVarArray(ISerializer iSerializer, BCTermGeneralData[] bCTermGeneralDataArray) {
+    public static void putOptionalBCTermGeneralDataVarArray(ISerializer iSerializer, BCTermGeneralData[] bCTermGeneralDataArray) throws SerializerException {
         boolean bl = bCTermGeneralDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BCTermGeneralDataSerializer {
         }
     }
 
-    public static BCTermGeneralData getOptionalBCTermGeneralData(IDeserializer iDeserializer) {
+    public static BCTermGeneralData getOptionalBCTermGeneralData(IDeserializer iDeserializer) throws SerializerException {
         BCTermGeneralData bCTermGeneralData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class BCTermGeneralDataSerializer {
         return bCTermGeneralData;
     }
 
-    public static BCTermGeneralData[] getOptionalBCTermGeneralDataVarArray(IDeserializer iDeserializer) {
+    public static BCTermGeneralData[] getOptionalBCTermGeneralDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCTermGeneralData[] bCTermGeneralDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

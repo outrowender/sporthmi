@@ -4,27 +4,27 @@
 package de.esolutions.fw.comm.asi.speech.onlinesds;
 
 public class Consts {
-    public static final int RES_OK;
-    public static final int RES_CANCELLED_OK;
-    public static final int RES_ERROR_GENERAL;
-    public static final int SD_STATE_IDLE;
-    public static final int SD_STATE_IN_PROGRESS;
-    public static final int SD_STATE_FINISHED;
-    public static final int ADF_PCM;
-    public static final int ADF_WAVE;
-    public static final int ADF_OGG;
-    public static final int ADF_OPUS;
-    public static final int ADF_SPEEX;
-    public static final int ADF_FLAC;
-    public static final int ADF_CELT;
-    public static final int ADE_LITTLE_ENDIAN;
-    public static final int ADE_BIG_ENDIAN;
-    public static final int ADE_NATIVE;
-    public static final int OS_STATE_OK;
-    public static final int OS_STATE_SKIPPED_OK;
-    public static final int OS_STATE_ERROR_NO_ONLINE_RESULT;
-    public static final int OS_STATE_ERROR_NO_CONNECTION;
-    public static final int OS_STATE_ERROR_GENERAL;
-    public static final int OS_STATE_QUERY_REQUIRED;
+    public static final int RES_OK = 0;
+    public static final int RES_CANCELLED_OK = 1;
+    public static final int RES_ERROR_GENERAL = 2;
+    public static final int SD_STATE_IDLE = 0;
+    public static final int SD_STATE_IN_PROGRESS = 1;
+    public static final int SD_STATE_FINISHED = 2;
+    public static final int ADF_PCM = 0;
+    public static final int ADF_WAVE = 1;
+    public static final int ADF_OGG = 2;
+    public static final int ADF_OPUS = 3;
+    public static final int ADF_SPEEX = 4;
+    public static final int ADF_FLAC = 5;
+    public static final int ADF_CELT = 6;
+    public static final int ADE_LITTLE_ENDIAN = 0;
+    public static final int ADE_BIG_ENDIAN = 1;
+    public static final int ADE_NATIVE = 2;
+    public static final int OS_STATE_OK = 0;
+    public static final int OS_STATE_SKIPPED_OK = 1;
+    public static final int OS_STATE_ERROR_NO_ONLINE_RESULT = 2;
+    public static final int OS_STATE_ERROR_NO_CONNECTION = 3;
+    public static final int OS_STATE_ERROR_GENERAL = 4;
+    public static final int OS_STATE_QUERY_REQUIRED = 5;
 }
 

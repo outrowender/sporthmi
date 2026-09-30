@@ -12,8 +12,8 @@ import org.apache.commons.id.AbstractStringIdentifierGenerator;
 public class TimeBasedAlphanumericIdentifierGenerator
 extends AbstractStringIdentifierGenerator
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final char[] padding;
+    private static final long serialVersionUID = 20060116L;
+    private static final char[] padding = new char[MAX_LONG_ALPHANUMERIC_VALUE_LENGTH];
     private static final TimeZone UTC;
     private static long last;
     private static long counter;
@@ -36,12 +36,10 @@ implements Serializable {
         this(3);
     }
 
-    @Override
     public long maxLength() {
         return MAX_LONG_ALPHANUMERIC_VALUE_LENGTH + this.postfixSize;
     }
 
-    @Override
     public long minLength() {
         return this.maxLength();
     }
@@ -49,7 +47,6 @@ implements Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String nextStringIdentifier() {
         long l;
         long l2;
@@ -111,11 +108,10 @@ implements Serializable {
             }
             return l2 + l;
         }
-        throw new IllegalArgumentException(new StringBuffer().append("'").append(object).append("' is not an id from this generator").toString());
+        throw new IllegalArgumentException("'" + object + "' is not an id from this generator");
     }
 
     static {
-        padding = new char[MAX_LONG_ALPHANUMERIC_VALUE_LENGTH];
         Arrays.fill(padding, '0');
         UTC = TimeZone.getTimeZone("UTC");
         last = 0L;

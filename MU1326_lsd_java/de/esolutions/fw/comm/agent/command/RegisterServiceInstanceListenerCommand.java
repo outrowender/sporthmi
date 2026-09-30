@@ -21,19 +21,16 @@ extends Command {
         this.doRegister = bl;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doRegisterServiceInstanceListener(this.instanceID, this.listener, this.doRegister);
     }
 
-    @Override
     public ServiceInstanceID getDependentInstanceID() {
         return null;
     }
 
-    @Override
     public String getArgsString() {
-        return new StringBuffer().append("instance=").append(this.instanceID).append(this.doRegister ? " register" : " unregister").toString();
+        return "instance=" + this.instanceID + (this.doRegister ? " register" : " unregister");
     }
 }
 

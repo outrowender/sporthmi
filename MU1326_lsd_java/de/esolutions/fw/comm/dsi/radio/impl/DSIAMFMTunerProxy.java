@@ -30,8 +30,7 @@ DSIAMFMTunerC {
         return this.proxy;
     }
 
-    @Override
-    public void tuneFrequencySteps(int n) {
+    public void tuneFrequencySteps(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -42,8 +41,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void selectStation(int n, int n2, int n3) {
+    public void selectStation(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -56,8 +54,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void prepareTuning(int n, int n2, int n3) {
+    public void prepareTuning(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -70,8 +67,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void seekStation(int n) {
+    public void seekStation(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -82,8 +78,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void switchAF(boolean bl) {
+    public void switchAF(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -94,8 +89,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void switchME(boolean bl) {
+    public void switchME(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -106,8 +100,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void switchREG(int n) {
+    public void switchREG(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -118,8 +111,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void switchLinkingDeviceUsage(int n) {
+    public void switchLinkingDeviceUsage(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -130,8 +122,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void reset(int n) {
+    public void reset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -142,8 +133,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void selectFrequency(int n) {
+    public void selectFrequency(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -154,8 +144,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setAMBandRange(int n) {
+    public void setAMBandRange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -166,8 +155,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void isOnPreset(int n, int n2, int n3, String string) {
+    public void isOnPreset(int n, int n2, int n3, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -181,8 +169,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void forceFMUpdate(int n) {
+    public void forceFMUpdate(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -193,8 +180,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void switchPiIgnore(boolean bl) {
+    public void switchPiIgnore(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -205,8 +191,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void freePreset(int n) {
+    public void freePreset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -217,8 +202,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void forceAMUpdate(int n) {
+    public void forceAMUpdate(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -229,8 +213,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void switchRDSIgnore(boolean bl) {
+    public void switchRDSIgnore(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -241,8 +224,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void enableRadiotextPlus(int[] nArray) {
+    public void enableRadiotextPlus(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -253,8 +235,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setModeHD(int n) {
+    public void setModeHD(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -265,8 +246,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setERTPrefered(boolean bl) {
+    public void setERTPrefered(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -277,8 +257,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setERTDisplayable(boolean bl) {
+    public void setERTDisplayable(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -289,8 +268,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -301,8 +279,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)70, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -314,8 +291,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)73, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -326,13 +302,11 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)74, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)76, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -343,8 +317,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -355,13 +328,11 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)25, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -372,8 +343,7 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -384,13 +354,11 @@ DSIAMFMTunerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

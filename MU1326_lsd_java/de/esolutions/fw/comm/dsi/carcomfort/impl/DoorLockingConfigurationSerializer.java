@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingCLSettingsSerializer
 import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingUserListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingCLSettings;
 import org.dsi.ifc.carcomfort.DoorLockingConfiguration;
 import org.dsi.ifc.carcomfort.DoorLockingUserListTransmittableElements;
 
 public class DoorLockingConfigurationSerializer {
-    public static void putOptionalDoorLockingConfiguration(ISerializer iSerializer, DoorLockingConfiguration doorLockingConfiguration) {
+    public static void putOptionalDoorLockingConfiguration(ISerializer iSerializer, DoorLockingConfiguration doorLockingConfiguration) throws SerializerException {
         boolean bl = doorLockingConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class DoorLockingConfigurationSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingConfigurationVarArray(ISerializer iSerializer, DoorLockingConfiguration[] doorLockingConfigurationArray) {
+    public static void putOptionalDoorLockingConfigurationVarArray(ISerializer iSerializer, DoorLockingConfiguration[] doorLockingConfigurationArray) throws SerializerException {
         boolean bl = doorLockingConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class DoorLockingConfigurationSerializer {
         }
     }
 
-    public static DoorLockingConfiguration getOptionalDoorLockingConfiguration(IDeserializer iDeserializer) {
+    public static DoorLockingConfiguration getOptionalDoorLockingConfiguration(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingConfiguration doorLockingConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -123,7 +124,7 @@ public class DoorLockingConfigurationSerializer {
         return doorLockingConfiguration;
     }
 
-    public static DoorLockingConfiguration[] getOptionalDoorLockingConfigurationVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingConfiguration[] getOptionalDoorLockingConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingConfiguration[] doorLockingConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

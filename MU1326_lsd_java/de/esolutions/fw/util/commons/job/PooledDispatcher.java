@@ -25,7 +25,6 @@ extends DispatcherBase {
         super(string, iTimeSource, iJobLogger, jobQueue, iInterceptor, job, threadPool);
     }
 
-    @Override
     public Job executeJob(Job job) {
         super.executeJob(job);
         super.startThread();
@@ -35,7 +34,6 @@ extends DispatcherBase {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected Job getNextJob() {
         PooledDispatcher pooledDispatcher = this;
         synchronized (pooledDispatcher) {
@@ -47,7 +45,6 @@ extends DispatcherBase {
         return super.getNextJob();
     }
 
-    @Override
     public synchronized void start() {
         if (!this.isActive()) {
             this.setStarted(true);

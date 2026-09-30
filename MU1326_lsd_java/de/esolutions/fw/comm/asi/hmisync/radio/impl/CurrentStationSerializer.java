@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.radio.impl;
 import de.esolutions.fw.comm.asi.hmisync.radio.CurrentStation;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class CurrentStationSerializer {
-    public static void putOptionalCurrentStation(ISerializer iSerializer, CurrentStation currentStation) {
+    public static void putOptionalCurrentStation(ISerializer iSerializer, CurrentStation currentStation) throws SerializerException {
         boolean bl = currentStation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class CurrentStationSerializer {
         }
     }
 
-    public static void putOptionalCurrentStationVarArray(ISerializer iSerializer, CurrentStation[] currentStationArray) {
+    public static void putOptionalCurrentStationVarArray(ISerializer iSerializer, CurrentStation[] currentStationArray) throws SerializerException {
         boolean bl = currentStationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class CurrentStationSerializer {
         }
     }
 
-    public static CurrentStation getOptionalCurrentStation(IDeserializer iDeserializer) {
+    public static CurrentStation getOptionalCurrentStation(IDeserializer iDeserializer) throws SerializerException {
         CurrentStation currentStation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -87,7 +88,7 @@ public class CurrentStationSerializer {
         return currentStation;
     }
 
-    public static CurrentStation[] getOptionalCurrentStationVarArray(IDeserializer iDeserializer) {
+    public static CurrentStation[] getOptionalCurrentStationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CurrentStation[] currentStationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

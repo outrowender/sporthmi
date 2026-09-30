@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tpegservices.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tpegservices.WeatherData;
 
 public class WeatherDataSerializer {
-    public static void putOptionalWeatherData(ISerializer iSerializer, WeatherData weatherData) {
+    public static void putOptionalWeatherData(ISerializer iSerializer, WeatherData weatherData) throws SerializerException {
         boolean bl = weatherData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class WeatherDataSerializer {
         }
     }
 
-    public static void putOptionalWeatherDataVarArray(ISerializer iSerializer, WeatherData[] weatherDataArray) {
+    public static void putOptionalWeatherDataVarArray(ISerializer iSerializer, WeatherData[] weatherDataArray) throws SerializerException {
         boolean bl = weatherDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class WeatherDataSerializer {
         }
     }
 
-    public static WeatherData getOptionalWeatherData(IDeserializer iDeserializer) {
+    public static WeatherData getOptionalWeatherData(IDeserializer iDeserializer) throws SerializerException {
         WeatherData weatherData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class WeatherDataSerializer {
         return weatherData;
     }
 
-    public static WeatherData[] getOptionalWeatherDataVarArray(IDeserializer iDeserializer) {
+    public static WeatherData[] getOptionalWeatherDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         WeatherData[] weatherDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

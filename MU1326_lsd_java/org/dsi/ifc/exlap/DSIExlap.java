@@ -7,21 +7,19 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIExlap
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_AVAILABLESERVICES;
-    public static final int RESULTTYPE_OK;
-    public static final int RESULTTYPE_ERROR;
-    public static final int STATUS_AVAILABLE;
-    public static final int STATUS_CAN_BE_BOUGHT;
-    public static final int RT_START;
-    public static final int RT_STOP;
-    public static final int RP_STARTRESULT;
-    public static final int RP_STOPRESULT;
+    public static final String VERSION = "2.11.3";
+    public static final int ATTR_AVAILABLESERVICES = 1;
+    public static final int RESULTTYPE_OK = 0;
+    public static final int RESULTTYPE_ERROR = 1;
+    public static final int STATUS_AVAILABLE = 0;
+    public static final int STATUS_CAN_BE_BOUGHT = 1;
+    public static final int RT_START = 1000;
+    public static final int RT_STOP = 1001;
+    public static final int RP_STARTRESULT = 2000;
+    public static final int RP_STOPRESULT = 2002;
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 }
 

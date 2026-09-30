@@ -22,7 +22,6 @@ implements LayoutManager {
     private int newWidthHint;
     private int newHeightHint;
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         for (int i2 = 0; i2 < this.widgets.length; ++i2) {
             this.layoutWidget(this.widgets[i2], this.oldChildrenBounds[i2], this.newChildrenBounds[i2]);
@@ -91,7 +90,6 @@ implements LayoutManager {
         return n + n4;
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         if (this.animatePreferredSize) {
             return new int[]{this.animate(this.oldPreferredWidth, this.newPreferredWidth), this.animate(this.oldPreferredHeight, this.newPreferredHeight)};
@@ -99,7 +97,6 @@ implements LayoutManager {
         return new int[]{this.newPreferredWidth, this.newPreferredHeight};
     }
 
-    @Override
     public void flushCache() {
     }
 

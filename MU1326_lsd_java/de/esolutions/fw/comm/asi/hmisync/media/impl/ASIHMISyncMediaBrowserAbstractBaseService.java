@@ -8,17 +8,18 @@ import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaBrowserS;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaEntry;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaI18NString;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
-import de.esolutions.fw.comm.asi.hmisync.media.impl.ASIHMISyncMediaBrowserAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncMediaBrowserAbstractBaseService
 implements ASIHMISyncMediaBrowserS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.media.ASIHMISyncMediaBrowser");
-    private static final int attributesCount;
+    private static final int attributesCount = 9;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -89,39 +90,33 @@ implements ASIHMISyncMediaBrowserS {
     }
 
     public ASIHMISyncMediaBrowserAbstractBaseService() {
-        ASIHMISyncMediaBrowserAbstractBaseService$AttributesBitMapProvider aSIHMISyncMediaBrowserAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncMediaBrowserAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncMediaBrowser", aSIHMISyncMediaBrowserAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncMediaBrowser", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncMediaBrowserReply);
         this.sendAttributeUpdate(l, aSIHMISyncMediaBrowserReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.setNotification(aSIHMISyncMediaBrowserReply);
         this.sendAttributeUpdate(aSIHMISyncMediaBrowserReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncMediaBrowserReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncMediaBrowserReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncMediaBrowserReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.clearNotification(aSIHMISyncMediaBrowserReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncMediaBrowserReply);
     }
@@ -151,23 +146,23 @@ implements ASIHMISyncMediaBrowserS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
         try {
-            if (l == 0) {
+            if (l == 15L) {
                 aSIHMISyncMediaBrowserReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncMediaBrowserReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncMediaBrowserReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncMediaBrowserReply.updateActiveSlot(this.ActiveSlot, this.ActiveSlot_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncMediaBrowserReply.updateBrowseMode(this.BrowseMode, this.BrowseMode_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncMediaBrowserReply.updateDatabaseMode(this.DatabaseMode, this.DatabaseMode_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncMediaBrowserReply.updateRawMode(this.RawMode, this.RawMode_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncMediaBrowserReply.updateBrowseFolder(this.BrowseFolder, this.BrowseFolder_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncMediaBrowserReply.updateListSize(this.ListSize, this.ListSize_valid);
             } else {
                 System.out.println("unexpected");
@@ -178,11 +173,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncMediaBrowserAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -196,11 +191,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -219,11 +214,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -242,11 +237,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateActiveSlot(MediaSourceSlot mediaSourceSlot) {
+    public void updateActiveSlot(MediaSourceSlot mediaSourceSlot) throws MethodException {
         this.updateActiveSlot(mediaSourceSlot, true);
     }
 
-    public void updateActiveSlot(MediaSourceSlot mediaSourceSlot, boolean bl) {
+    public void updateActiveSlot(MediaSourceSlot mediaSourceSlot, boolean bl) throws MethodException {
         this.ActiveSlot = ASIHMISyncMediaBrowserAbstractBaseService.copyMediaSourceSlot(mediaSourceSlot);
         this.ActiveSlot_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -260,11 +255,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateBrowseMode(int n) {
+    public void updateBrowseMode(int n) throws MethodException {
         this.updateBrowseMode(n, true);
     }
 
-    public void updateBrowseMode(int n, boolean bl) {
+    public void updateBrowseMode(int n, boolean bl) throws MethodException {
         this.BrowseMode = n;
         this.BrowseMode_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -278,11 +273,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateDatabaseMode(boolean bl) {
+    public void updateDatabaseMode(boolean bl) throws MethodException {
         this.updateDatabaseMode(bl, true);
     }
 
-    public void updateDatabaseMode(boolean bl, boolean bl2) {
+    public void updateDatabaseMode(boolean bl, boolean bl2) throws MethodException {
         this.DatabaseMode = bl;
         this.DatabaseMode_valid = bl2;
         List list = this.baseService.getNotifications(19);
@@ -296,11 +291,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateRawMode(boolean bl) {
+    public void updateRawMode(boolean bl) throws MethodException {
         this.updateRawMode(bl, true);
     }
 
-    public void updateRawMode(boolean bl, boolean bl2) {
+    public void updateRawMode(boolean bl, boolean bl2) throws MethodException {
         this.RawMode = bl;
         this.RawMode_valid = bl2;
         List list = this.baseService.getNotifications(21);
@@ -314,11 +309,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateBrowseFolder(MediaEntry[] mediaEntryArray) {
+    public void updateBrowseFolder(MediaEntry[] mediaEntryArray) throws MethodException {
         this.updateBrowseFolder(mediaEntryArray, true);
     }
 
-    public void updateBrowseFolder(MediaEntry[] mediaEntryArray, boolean bl) {
+    public void updateBrowseFolder(MediaEntry[] mediaEntryArray, boolean bl) throws MethodException {
         if (mediaEntryArray != null) {
             this.BrowseFolder = new MediaEntry[mediaEntryArray.length];
             for (int i2 = 0; i2 < mediaEntryArray.length; ++i2) {
@@ -339,11 +334,11 @@ implements ASIHMISyncMediaBrowserS {
         }
     }
 
-    public void updateListSize(int n) {
+    public void updateListSize(int n) throws MethodException {
         this.updateListSize(n, true);
     }
 
-    public void updateListSize(int n, boolean bl) {
+    public void updateListSize(int n, boolean bl) throws MethodException {
         this.ListSize = n;
         this.ListSize_valid = bl;
         List list = this.baseService.getNotifications(20);
@@ -354,6 +349,32 @@ implements ASIHMISyncMediaBrowserS {
                 aSIHMISyncMediaBrowserReply.updateListSize(n, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(15L), new Integer(0));
+            this.map.put(new Long(23L), new Integer(1));
+            this.map.put(new Long(22L), new Integer(2));
+            this.map.put(new Long(16L), new Integer(3));
+            this.map.put(new Long(18L), new Integer(4));
+            this.map.put(new Long(19L), new Integer(5));
+            this.map.put(new Long(21L), new Integer(6));
+            this.map.put(new Long(17L), new Integer(7));
+            this.map.put(new Long(20L), new Integer(8));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 9;
         }
     }
 }

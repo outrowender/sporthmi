@@ -7,25 +7,18 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.view.IPartialPopupListener;
 
 public interface IUserHintHandler {
-    default public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processModelUpdateEvent(ModelUpdateEvent var1);
 
-    default public void requestHintAnimation(int n, int n2, int n3) {
-    }
+    public void requestHintAnimation(int var1, int var2, int var3);
 
-    default public void updateUserHintPos(int n, int n2) {
-    }
+    public void updateUserHintPos(int var1, int var2);
 
-    default public boolean shallShowUserHints() {
-    }
+    public boolean shallShowUserHints();
 
-    default public void requestInitialHint(int n, IPartialPopupListener iPartialPopupListener) {
-    }
+    public void requestInitialHint(int var1, IPartialPopupListener var2);
 
-    default public void requestInitialHint(int n) {
-    }
+    public void requestInitialHint(int var1);
 
-    default public void removeCurrentUserHint() {
-    }
+    public void removeCurrentUserHint();
 }
 

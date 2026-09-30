@@ -7,13 +7,10 @@ import de.vw.mib.bap.stream.BitStreamSerializer;
 
 public interface BAPEntity
 extends BitStreamSerializer {
-    default public void reset() {
-    }
+    public void reset();
 
-    default public boolean equalTo(BAPEntity bAPEntity) {
-    }
+    public boolean equalTo(BAPEntity var1);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

@@ -56,7 +56,7 @@ implements Runnable {
     private final int entityFlushInterval;
     private TraceCoreStatsLogger statsLogger;
     private Throwable injectError;
-    private static final String chn;
+    private static final String chn = "CoreWorker";
 
     public TraceCoreWorker(TraceCore traceCore, TraceCoreStats traceCoreStats) {
         this.commands = new Queue(traceCore.getConfig().getCommandBufferSize());
@@ -98,19 +98,19 @@ implements Runnable {
 
     public boolean addCommand(ITraceCommand iTraceCommand) {
         if (iTraceCommand == null) {
-            TraceMe.msg(TraceMe.FATAL, "CoreWorker", "addCommand is null!");
+            TraceMe.msg(TraceMe.FATAL, chn, "addCommand is null!");
             this.commands.dump();
             throw new RuntimeException("AddCommandIsNull");
         }
         try {
             if (this.commands.put(iTraceCommand)) {
-                TraceMe.msg(TraceMe.INFO, "CoreWorker", "addCommand in high water range! queue size=%1", new Integer(this.commands.size()));
+                TraceMe.msg(TraceMe.INFO, chn, "addCommand in high water range! queue size=%1", new Integer(this.commands.size()));
             }
             this.signal.triggerSignal(TraceCoreSignal.COMMAND);
             return true;
         }
         catch (QueueShutdownException queueShutdownException) {
-            TraceMe.msg(TraceMe.ERROR, "CoreWorker", "addCommand failed: %1", queueShutdownException);
+            TraceMe.msg(TraceMe.ERROR, chn, "addCommand failed: %1", queueShutdownException);
             return false;
         }
     }
@@ -195,7 +195,7 @@ implements Runnable {
         if (!this.addFlushMessagesCommand()) {
             return false;
         }
-        TraceMe.msg(TraceMe.TRACE, "CoreWorker", "flushing and waiting for seqNum=%1", new Integer(n));
+        TraceMe.msg(TraceMe.TRACE, chn, "flushing and waiting for seqNum=%1", new Integer(n));
         boolean bl2 = true;
         if (bl) {
             try {
@@ -209,12 +209,12 @@ implements Runnable {
                 return false;
             }
         }
-        TraceMe.msg(TraceMe.TRACE, "CoreWorker", "flushed for seqNum %1 and ok=%2", new Integer(n), new Boolean(bl2));
+        TraceMe.msg(TraceMe.TRACE, chn, "flushed for seqNum %1 and ok=%2", new Integer(n), new Boolean(bl2));
         return bl2;
     }
 
     public void triggerSeqNumSignal(int n) {
-        TraceMe.msg(TraceMe.TRACE, "CoreWorker", "report flushed signal seqNum=%1", new Integer(n));
+        TraceMe.msg(TraceMe.TRACE, chn, "report flushed signal seqNum=%1", new Integer(n));
         this.seqNumSignal.triggerSignal(n);
     }
 
@@ -239,18 +239,17 @@ implements Runnable {
         return false;
     }
 
-    @Override
     public void run() {
         int n;
         if (this.config.getTraceCoreCPU() != null && !this.runCorePinMethod(n = this.config.getTraceCoreCPU().intValue())) {
-            TraceMe.msg(TraceMe.ERROR, "CoreWorker", "traceCoreCPU was in config defined, but could not used");
+            TraceMe.msg(TraceMe.ERROR, chn, "traceCoreCPU was in config defined, but could not used");
         }
         try {
             n = this.msgFlushInterval;
             if (this.entityFlushInterval < n) {
                 n = this.entityFlushInterval;
             }
-            TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: started. wait %1 ms", new Integer(n));
+            TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: started. wait %1 ms", new Integer(n));
             long l = 0L;
             long l2 = 0L;
             long l3 = 0L;
@@ -260,14 +259,14 @@ implements Runnable {
                     long l4;
                     int n2;
                     int n3 = this.signal.waitForSignalWithTimeout(n);
-                    TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: signal=%1", new Integer(n3));
+                    TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: signal=%1", new Integer(n3));
                     if (this.injectError != null) {
-                        TraceMe.msg(TraceMe.FATAL, "CoreWorker", "injecting ERROR!");
+                        TraceMe.msg(TraceMe.FATAL, chn, "injecting ERROR!");
                         throw this.injectError;
                     }
                     long l5 = iTimeSource.getCurrentTime();
                     boolean bl = (n3 & TraceCoreSignal.BREAK) != 0;
-                    TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: got signal=%1", new Integer(n3));
+                    TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: got signal=%1", new Integer(n3));
                     boolean bl2 = false;
                     boolean bl3 = false;
                     if ((n3 & TraceCoreSignal.TIMEOUT) != 0) {
@@ -286,13 +285,13 @@ implements Runnable {
                         bl3 = true;
                     }
                     if (bl3) {
-                        TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: flush messages");
+                        TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: flush messages");
                         if (this.controller.flushMessages()) {
                             bl2 = false;
                         }
                     }
                     if (bl2) {
-                        TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: flush entities");
+                        TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: flush entities");
                         this.controller.flushEntities();
                     }
                     if ((n3 & TraceCoreSignal.COMMAND) != 0 && !bl) {
@@ -306,13 +305,13 @@ implements Runnable {
                     l = l5;
                 }
                 catch (InterruptedException interruptedException) {
-                    TraceMe.msg(TraceMe.WARN, "CoreWorker", "worker:*: interrupted: %1", interruptedException);
+                    TraceMe.msg(TraceMe.WARN, chn, "worker:*: interrupted: %1", interruptedException);
                 }
             }
-            TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: stopped");
+            TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: stopped");
         }
         catch (Throwable throwable) {
-            System.err.println(new StringBuffer().append("JavaTraceCore: CRASHED: ").append(throwable).toString());
+            System.err.println("JavaTraceCore: CRASHED: " + throwable);
             throwable.printStackTrace();
             this.errorShutdown(throwable);
         }
@@ -327,7 +326,7 @@ implements Runnable {
             System.err.println("JavaTraceCore: shutdown done");
         }
         catch (Throwable throwable2) {
-            System.err.println(new StringBuffer().append("JavaTraceCore: CRASHED AGAIN: ").append(throwable2).toString());
+            System.err.println("JavaTraceCore: CRASHED AGAIN: " + throwable2);
             throwable2.printStackTrace();
         }
     }
@@ -341,20 +340,20 @@ implements Runnable {
                     if (bl) {
                         return false;
                     }
-                    TraceMe.msg(TraceMe.DEBUG, "CoreWorker", "worker:*: do flush after command");
+                    TraceMe.msg(TraceMe.DEBUG, chn, "worker:*: do flush after command");
                     this.controller.flushMessages();
                     continue;
                 }
-                TraceMe.msg(TraceMe.FATAL, "CoreWorker", "worker:*: command queue returns NULL command");
+                TraceMe.msg(TraceMe.FATAL, chn, "worker:*: command queue returns NULL command");
                 this.commands.dump();
                 throw new RuntimeException("CommandQueueReturnedNull");
             }
             catch (QueueShutdownException queueShutdownException) {
-                TraceMe.msg(TraceMe.ERROR, "CoreWorker", "process commands failed: %1", queueShutdownException);
+                TraceMe.msg(TraceMe.ERROR, chn, "process commands failed: %1", queueShutdownException);
                 return true;
             }
             catch (InterruptedException interruptedException) {
-                TraceMe.msg(TraceMe.ERROR, "CoreWorker", "process commands failed: %1", interruptedException);
+                TraceMe.msg(TraceMe.ERROR, chn, "process commands failed: %1", interruptedException);
                 return true;
             }
         }

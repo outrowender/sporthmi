@@ -4,18 +4,18 @@
 package de.esolutions.fw.util.tracing;
 
 public class TraceLevels {
-    public static final short TRACE;
-    public static final short DEBUG;
-    public static final short INFO;
-    public static final short WARN;
-    public static final short ERROR;
-    public static final short FATAL;
-    public static final short OFF;
-    public static final short NONE;
-    public static final short DISABLED;
-    public static final short _LAST;
-    public static final short NUM_VISIBLE_MESSAGES;
-    public static final String[] levelNames;
+    public static final short TRACE = 0;
+    public static final short DEBUG = 1;
+    public static final short INFO = 2;
+    public static final short WARN = 3;
+    public static final short ERROR = 4;
+    public static final short FATAL = 5;
+    public static final short OFF = 6;
+    public static final short NONE = 7;
+    public static final short DISABLED = 8;
+    public static final short _LAST = 9;
+    public static final short NUM_VISIBLE_MESSAGES = 6;
+    public static final String[] levelNames = new String[]{"trace", "debug", "info", "warn", "ERROR", "FATAL", "OFF", "NONE", "Disabled"};
 
     public static boolean isValidLogLevel(short s) {
         return s >= 0 && s <= 5;
@@ -30,10 +30,6 @@ public class TraceLevels {
             return levelNames[s];
         }
         return null;
-    }
-
-    static {
-        levelNames = new String[]{"trace", "debug", "info", "warn", "ERROR", "FATAL", "OFF", "NONE", "Disabled"};
     }
 }
 

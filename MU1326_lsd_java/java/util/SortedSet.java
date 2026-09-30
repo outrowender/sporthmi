@@ -8,22 +8,16 @@ import java.util.Set;
 
 public interface SortedSet
 extends Set {
-    default public Comparator comparator() {
-    }
+    public Comparator comparator();
 
-    default public Object first() {
-    }
+    public Object first();
 
-    default public SortedSet headSet(Object object) {
-    }
+    public SortedSet headSet(Object var1);
 
-    default public Object last() {
-    }
+    public Object last();
 
-    default public SortedSet subSet(Object object, Object object2) {
-    }
+    public SortedSet subSet(Object var1, Object var2);
 
-    default public SortedSet tailSet(Object object) {
-    }
+    public SortedSet tailSet(Object var1);
 }
 

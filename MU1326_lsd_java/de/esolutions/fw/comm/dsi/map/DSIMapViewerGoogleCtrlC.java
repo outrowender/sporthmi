@@ -3,46 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.map.Rect;
 
 public interface DSIMapViewerGoogleCtrlC {
-    default public void requestClearCache() {
-    }
+    public void requestClearCache() throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void setLayerVisibility(int[] nArray) {
-    }
+    public void setLayerVisibility(int[] var1) throws MethodException;
 
-    default public void setConnectionInformation(int n) {
-    }
+    public void setConnectionInformation(int var1) throws MethodException;
 
-    default public void loadKml(String[] stringArray) {
-    }
+    public void loadKml(String[] var1) throws MethodException;
 
-    default public void setCopyrightPosition(Rect rect, int n, int n2) {
-    }
+    public void setCopyrightPosition(Rect var1, int var2, int var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

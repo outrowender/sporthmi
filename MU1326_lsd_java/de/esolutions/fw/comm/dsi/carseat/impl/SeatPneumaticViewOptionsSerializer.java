@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carseat.impl.SeatPneumaticConfigSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatPneumaticConfig;
 import org.dsi.ifc.carseat.SeatPneumaticViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SeatPneumaticViewOptionsSerializer {
-    public static void putOptionalSeatPneumaticViewOptions(ISerializer iSerializer, SeatPneumaticViewOptions seatPneumaticViewOptions) {
+    public static void putOptionalSeatPneumaticViewOptions(ISerializer iSerializer, SeatPneumaticViewOptions seatPneumaticViewOptions) throws SerializerException {
         boolean bl = seatPneumaticViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SeatPneumaticViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSeatPneumaticViewOptionsVarArray(ISerializer iSerializer, SeatPneumaticViewOptions[] seatPneumaticViewOptionsArray) {
+    public static void putOptionalSeatPneumaticViewOptionsVarArray(ISerializer iSerializer, SeatPneumaticViewOptions[] seatPneumaticViewOptionsArray) throws SerializerException {
         boolean bl = seatPneumaticViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SeatPneumaticViewOptionsSerializer {
         }
     }
 
-    public static SeatPneumaticViewOptions getOptionalSeatPneumaticViewOptions(IDeserializer iDeserializer) {
+    public static SeatPneumaticViewOptions getOptionalSeatPneumaticViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticViewOptions seatPneumaticViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SeatPneumaticViewOptionsSerializer {
         return seatPneumaticViewOptions;
     }
 
-    public static SeatPneumaticViewOptions[] getOptionalSeatPneumaticViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SeatPneumaticViewOptions[] getOptionalSeatPneumaticViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatPneumaticViewOptions[] seatPneumaticViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

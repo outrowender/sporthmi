@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardriverassistance.impl.ACCConfigurationSerial
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.ACCConfiguration;
 import org.dsi.ifc.cardriverassistance.ACCViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class ACCViewOptionsSerializer {
-    public static void putOptionalACCViewOptions(ISerializer iSerializer, ACCViewOptions aCCViewOptions) {
+    public static void putOptionalACCViewOptions(ISerializer iSerializer, ACCViewOptions aCCViewOptions) throws SerializerException {
         boolean bl = aCCViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -57,7 +58,7 @@ public class ACCViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalACCViewOptionsVarArray(ISerializer iSerializer, ACCViewOptions[] aCCViewOptionsArray) {
+    public static void putOptionalACCViewOptionsVarArray(ISerializer iSerializer, ACCViewOptions[] aCCViewOptionsArray) throws SerializerException {
         boolean bl = aCCViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -68,7 +69,7 @@ public class ACCViewOptionsSerializer {
         }
     }
 
-    public static ACCViewOptions getOptionalACCViewOptions(IDeserializer iDeserializer) {
+    public static ACCViewOptions getOptionalACCViewOptions(IDeserializer iDeserializer) throws SerializerException {
         ACCViewOptions aCCViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -115,7 +116,7 @@ public class ACCViewOptionsSerializer {
         return aCCViewOptions;
     }
 
-    public static ACCViewOptions[] getOptionalACCViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static ACCViewOptions[] getOptionalACCViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ACCViewOptions[] aCCViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

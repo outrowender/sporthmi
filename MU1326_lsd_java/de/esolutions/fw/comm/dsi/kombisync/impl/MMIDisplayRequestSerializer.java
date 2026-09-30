@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.kombisync.impl;
 import de.esolutions.fw.comm.dsi.kombisync.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.MMIDisplayRequest;
 import org.dsi.ifc.kombisync.MenuContext;
 
 public class MMIDisplayRequestSerializer {
-    public static void putOptionalMMIDisplayRequest(ISerializer iSerializer, MMIDisplayRequest mMIDisplayRequest) {
+    public static void putOptionalMMIDisplayRequest(ISerializer iSerializer, MMIDisplayRequest mMIDisplayRequest) throws SerializerException {
         boolean bl = mMIDisplayRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class MMIDisplayRequestSerializer {
         }
     }
 
-    public static void putOptionalMMIDisplayRequestVarArray(ISerializer iSerializer, MMIDisplayRequest[] mMIDisplayRequestArray) {
+    public static void putOptionalMMIDisplayRequestVarArray(ISerializer iSerializer, MMIDisplayRequest[] mMIDisplayRequestArray) throws SerializerException {
         boolean bl = mMIDisplayRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class MMIDisplayRequestSerializer {
         }
     }
 
-    public static MMIDisplayRequest getOptionalMMIDisplayRequest(IDeserializer iDeserializer) {
+    public static MMIDisplayRequest getOptionalMMIDisplayRequest(IDeserializer iDeserializer) throws SerializerException {
         MMIDisplayRequest mMIDisplayRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class MMIDisplayRequestSerializer {
         return mMIDisplayRequest;
     }
 
-    public static MMIDisplayRequest[] getOptionalMMIDisplayRequestVarArray(IDeserializer iDeserializer) {
+    public static MMIDisplayRequest[] getOptionalMMIDisplayRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         MMIDisplayRequest[] mMIDisplayRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

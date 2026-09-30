@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.reader;
 
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,8 +31,7 @@ public class JSONConfigReader
 implements IConfigReader {
     private JSONParser parser = new JSONParser();
 
-    @Override
-    public ConfigValue readFromInputStream(InputStream inputStream, ConfigDictionary configDictionary) {
+    public ConfigValue readFromInputStream(InputStream inputStream, ConfigDictionary configDictionary) throws ReadConfigException {
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
             Object object = this.parser.parse(inputStreamReader);
@@ -49,7 +45,7 @@ implements IConfigReader {
         }
     }
 
-    private ConfigValue transform(Object object) {
+    private ConfigValue transform(Object object) throws ReadConfigException {
         if (object == null) {
             return new ConfigNullValue();
         }
@@ -59,9 +55,9 @@ implements IConfigReader {
             Set set = hashMap.entrySet();
             Iterator iterator = set.iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                Object object2 = map$Entry.getValue();
-                String string = (String)map$Entry.getKey();
+                Map.Entry entry = (Map.Entry)iterator.next();
+                Object object2 = entry.getValue();
+                String string = (String)entry.getKey();
                 ConfigValue configValue = this.transform(object2);
                 configDictionary.addValue(string, configValue);
             }
@@ -91,7 +87,7 @@ implements IConfigReader {
         if (object instanceof Double) {
             return new ConfigDouble((Double)object);
         }
-        throw new ReadConfigException(new StringBuffer().append("Invalid class in parsed JSON: ").append(object.getClass().getName()).toString());
+        throw new ReadConfigException("Invalid class in parsed JSON: " + object.getClass().getName());
     }
 }
 

@@ -7,7 +7,6 @@ import de.esolutions.fw.comm.agent.service.ServiceHandler;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IServiceFinder {
-    default public ServiceHandler findService(ServiceInstanceID serviceInstanceID) {
-    }
+    public ServiceHandler findService(ServiceInstanceID var1);
 }
 

@@ -11,19 +11,14 @@ import de.esolutions.fw.util.commons.job.JobQueue;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 
 public interface IDispatcherManager {
-    default public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger) {
-    }
+    public DispatcherBase createDispatcher(String var1, IJobLogger var2);
 
-    default public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger, JobQueue jobQueue) {
-    }
+    public DispatcherBase createDispatcher(String var1, IJobLogger var2, JobQueue var3);
 
-    default public DispatcherBase createDispatcher(String string, IJobLogger iJobLogger, JobQueue jobQueue, IInterceptor iInterceptor, Job job) {
-    }
+    public DispatcherBase createDispatcher(String var1, IJobLogger var2, JobQueue var3, IInterceptor var4, Job var5);
 
-    default public void destroyDispatcher(String string) {
-    }
+    public void destroyDispatcher(String var1);
 
-    default public ITimeSource getTimeSource() {
-    }
+    public ITimeSource getTimeSource();
 }
 

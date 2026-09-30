@@ -4,15 +4,13 @@
 package de.esolutions.fw.comm.core;
 
 import de.esolutions.fw.comm.core.IService;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface IMethod {
-    default public void invoke() {
-    }
+    public void invoke() throws MethodException;
 
-    default public IService getService() {
-    }
+    public IService getService();
 
-    default public short getMethodID() {
-    }
+    public short getMethodID();
 }
 

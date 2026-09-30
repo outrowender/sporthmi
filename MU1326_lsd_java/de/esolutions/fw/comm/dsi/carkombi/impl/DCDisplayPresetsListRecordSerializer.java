@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 import de.esolutions.fw.comm.dsi.carkombi.impl.DCDisplayPresetsListRecordDisplayDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCDisplayPresetsListRecord;
 import org.dsi.ifc.carkombi.DCDisplayPresetsListRecordDisplayData;
 
 public class DCDisplayPresetsListRecordSerializer {
-    public static void putOptionalDCDisplayPresetsListRecord(ISerializer iSerializer, DCDisplayPresetsListRecord dCDisplayPresetsListRecord) {
+    public static void putOptionalDCDisplayPresetsListRecord(ISerializer iSerializer, DCDisplayPresetsListRecord dCDisplayPresetsListRecord) throws SerializerException {
         boolean bl = dCDisplayPresetsListRecord == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class DCDisplayPresetsListRecordSerializer {
         }
     }
 
-    public static void putOptionalDCDisplayPresetsListRecordVarArray(ISerializer iSerializer, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) {
+    public static void putOptionalDCDisplayPresetsListRecordVarArray(ISerializer iSerializer, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) throws SerializerException {
         boolean bl = dCDisplayPresetsListRecordArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class DCDisplayPresetsListRecordSerializer {
         }
     }
 
-    public static DCDisplayPresetsListRecord getOptionalDCDisplayPresetsListRecord(IDeserializer iDeserializer) {
+    public static DCDisplayPresetsListRecord getOptionalDCDisplayPresetsListRecord(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayPresetsListRecord dCDisplayPresetsListRecord = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class DCDisplayPresetsListRecordSerializer {
         return dCDisplayPresetsListRecord;
     }
 
-    public static DCDisplayPresetsListRecord[] getOptionalDCDisplayPresetsListRecordVarArray(IDeserializer iDeserializer) {
+    public static DCDisplayPresetsListRecord[] getOptionalDCDisplayPresetsListRecordVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

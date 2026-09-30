@@ -10,11 +10,11 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.DSICarAuxHeaterCooler;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.DSICarAuxHeaterCoolerC;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.DSICarAuxHeaterCoolerReply;
-import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerProxy$1;
-import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerProxy$2;
-import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerProxy$3;
-import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerProxy$4;
+import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.AuxHeaterCoolerExtendedConditioningSerializer;
+import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.AuxHeaterCoolerTimerSerializer;
 import de.esolutions.fw.comm.dsi.carauxheatercooler.impl.DSICarAuxHeaterCoolerReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerExtendedConditioning;
@@ -36,8 +36,7 @@ DSICarAuxHeaterCoolerC {
         return this.proxy;
     }
 
-    @Override
-    public void setAuxHeaterCoolerOnOff(boolean bl) {
+    public void setAuxHeaterCoolerOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -48,8 +47,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerRunningTime(short s) {
+    public void setAuxHeaterCoolerRunningTime(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -60,8 +58,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerMode(int n) {
+    public void setAuxHeaterCoolerMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -72,8 +69,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerDefaultStartMode(int n) {
+    public void setAuxHeaterCoolerDefaultStartMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -84,8 +80,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerEngineHeater(boolean bl) {
+    public void setAuxHeaterCoolerEngineHeater(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -96,8 +91,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerActiveTimer(int n) {
+    public void setAuxHeaterCoolerActiveTimer(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -108,26 +102,37 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-        DSICarAuxHeaterCoolerProxy$1 dSICarAuxHeaterCoolerProxy$1 = new DSICarAuxHeaterCoolerProxy$1(this, auxHeaterCoolerTimer);
-        this.proxy.remoteCallMethod((short)11, dSICarAuxHeaterCoolerProxy$1);
+    public void setAuxHeaterCoolerTimer1(final AuxHeaterCoolerTimer auxHeaterCoolerTimer) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AuxHeaterCoolerTimerSerializer.putOptionalAuxHeaterCoolerTimer(iSerializer, auxHeaterCoolerTimer);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-        DSICarAuxHeaterCoolerProxy$2 dSICarAuxHeaterCoolerProxy$2 = new DSICarAuxHeaterCoolerProxy$2(this, auxHeaterCoolerTimer);
-        this.proxy.remoteCallMethod((short)12, dSICarAuxHeaterCoolerProxy$2);
+    public void setAuxHeaterCoolerTimer2(final AuxHeaterCoolerTimer auxHeaterCoolerTimer) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AuxHeaterCoolerTimerSerializer.putOptionalAuxHeaterCoolerTimer(iSerializer, auxHeaterCoolerTimer);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-        DSICarAuxHeaterCoolerProxy$3 dSICarAuxHeaterCoolerProxy$3 = new DSICarAuxHeaterCoolerProxy$3(this, auxHeaterCoolerTimer);
-        this.proxy.remoteCallMethod((short)13, dSICarAuxHeaterCoolerProxy$3);
+    public void setAuxHeaterCoolerTimer3(final AuxHeaterCoolerTimer auxHeaterCoolerTimer) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AuxHeaterCoolerTimerSerializer.putOptionalAuxHeaterCoolerTimer(iSerializer, auxHeaterCoolerTimer);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerPopup(int n) {
+    public void setAuxHeaterCoolerPopup(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -138,19 +143,21 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterSetFactoryDefault() {
+    public void setAuxHeaterSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) {
-        DSICarAuxHeaterCoolerProxy$4 dSICarAuxHeaterCoolerProxy$4 = new DSICarAuxHeaterCoolerProxy$4(this, auxHeaterCoolerExtendedConditioning);
-        this.proxy.remoteCallMethod((short)38, dSICarAuxHeaterCoolerProxy$4);
+    public void setAuxHeaterCoolerExtendedConditioning(final AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AuxHeaterCoolerExtendedConditioningSerializer.putOptionalAuxHeaterCoolerExtendedConditioning(iSerializer, auxHeaterCoolerExtendedConditioning);
+            }
+        };
+        this.proxy.remoteCallMethod((short)38, iSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerWindowHeating(boolean bl) {
+    public void setAuxHeaterCoolerWindowHeating(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -161,8 +168,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerUnlockClimating(int n) {
+    public void setAuxHeaterCoolerUnlockClimating(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -173,8 +179,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerTargetTemperature(float f2) {
+    public void setAuxHeaterCoolerTargetTemperature(float f2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putFloat(f2);
@@ -185,8 +190,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void setAuxHeaterCoolerAirQuality(boolean bl) {
+    public void setAuxHeaterCoolerAirQuality(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -197,8 +201,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -209,8 +212,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -221,13 +223,11 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)15, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -238,8 +238,7 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -250,13 +249,11 @@ DSICarAuxHeaterCoolerC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

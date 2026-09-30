@@ -10,10 +10,10 @@ import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 public class MenuScrollAnimationFunction
 implements WidgetConstants,
 IWidgetLogChannel {
-    private static float slowScrollSpeed = -842249154;
+    private static float slowScrollSpeed = 0.2f;
     private static int defaultDecelerationDuration = 2500;
     private static int defaultConstSpeedDuration = 200;
-    private static float minAvgSpeed = -1701242562;
+    private static float minAvgSpeed = 0.15f;
     private static float endSpeed = 0.0f;
     private float maxSpeed;
     private int decelerationDuration;
@@ -52,7 +52,7 @@ IWidgetLogChannel {
         if (bl || this.shouldUseNewDuration(n5, n2, n)) {
             this.decelerationDuration = n4;
             this.totalDuration = n5;
-            menuLogCh.log(-2137614336, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: animation duration for distance %1 for constant speed: %2, deceleration %3 ms", (long)n, (long)n3, (long)this.decelerationDuration);
+            menuLogCh.log(10000000, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: animation duration for distance %1 for constant speed: %2, deceleration %3 ms", (long)n, (long)n3, (long)this.decelerationDuration);
         } else {
             int n6;
             int n7 = this.totalDuration - this.decelerationDuration;
@@ -60,10 +60,10 @@ IWidgetLogChannel {
             int n9 = n7 - n8;
             this.decelerationDuration = n6 = this.decelerationDuration - (this.passedTime - n8);
             this.totalDuration = n9 + n6;
-            menuLogCh.log(-2137614336, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reduce animation duration by %1 to constant speed: %2, deceleration %3 ms", (long)this.passedTime, (long)n9, (long)this.decelerationDuration);
+            menuLogCh.log(10000000, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reduce animation duration by %1 to constant speed: %2, deceleration %3 ms", (long)this.passedTime, (long)n9, (long)this.decelerationDuration);
         }
         this.maxSpeed = this.calculateMaxSpeed(n);
-        menuLogCh.log(-2137614336, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: start: %1, target: %2, max speed: %3", (double)f2, (double)f3, (double)this.maxSpeed);
+        menuLogCh.log(10000000, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: start: %1, target: %2, max speed: %3", (double)f2, (double)f3, (double)this.maxSpeed);
     }
 
     private boolean shouldUseNewDuration(int n, int n2, int n3) {
@@ -71,11 +71,11 @@ IWidgetLogChannel {
         int n5;
         int n6 = this.calculateTotalDuration(n2);
         if (n < n6) {
-            menuLogCh.log(-2137614336, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reset animation duration to smaller value: %1, old remaining duration: %2", (long)n, (long)n6);
+            menuLogCh.log(10000000, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reset animation duration to smaller value: %1, old remaining duration: %2", (long)n, (long)n6);
             return true;
         }
         if (n2 < n3 && (n5 = this.calculateTotalDuration(n4 = n3 - n2)) > n6) {
-            menuLogCh.log(-2137614336, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reset animation because new duration %1 is greater than rest duration %2, rest distance: %3", (long)n5, (long)n6, (long)n2);
+            menuLogCh.log(10000000, "MenuScrollAnimationFunction#startAnimationNewAlgorithm: reset animation because new duration %1 is greater than rest duration %2, rest distance: %3", (long)n5, (long)n6, (long)n2);
             return true;
         }
         return false;
@@ -132,12 +132,12 @@ IWidgetLogChannel {
         int n = this.getAnimationTime(l);
         float f2 = this.calculateCurrentDistanceSlowScroll(n - this.passedTime);
         if (this.target < this.start) {
-            f2 *= 32959;
+            f2 *= -1.0f;
         }
         this.value += f2;
         this.passedTime = n;
         this.speed = slowScrollSpeed;
-        menuLayoutLogCh.log(-2137614336, "MenuScrollAnimationFunction#updateProgressSlowScroll: update value by %1 to %2, target: %3", (double)f2, (double)this.value, (double)this.target);
+        menuLayoutLogCh.log(10000000, "MenuScrollAnimationFunction#updateProgressSlowScroll: update value by %1 to %2, target: %3", (double)f2, (double)this.value, (double)this.target);
     }
 
     protected float calculateCurrentDistanceSlowScroll(int n) {
@@ -150,21 +150,21 @@ IWidgetLogChannel {
             this.value = this.target;
             this.passedTime = 0;
             this.speed = 0.0f;
-            menuLayoutLogCh.log(-2137614336, "MenuScrollAnimationFunction#updateProgressFastScroll: target reached. current timer after animation start: %1, animation duration: %2", (long)n, (long)this.totalDuration);
+            menuLayoutLogCh.log(10000000, "MenuScrollAnimationFunction#updateProgressFastScroll: target reached. current timer after animation start: %1, animation duration: %2", (long)n, (long)this.totalDuration);
             return;
         }
         float f2 = this.calculateCurrentDistanceFastScroll(n);
         this.speed = this.getCurrentSpeed(n);
         this.value = this.target > this.start ? this.start + f2 : this.start - f2;
         this.passedTime = n;
-        menuLayoutLogCh.log(-2137614336, "MenuScrollAnimationFunction#updateProgressFastScroll: animationTime: %1, totalDuration: %2, value: %3", (double)n, (double)this.totalDuration, (double)this.value);
+        menuLayoutLogCh.log(10000000, "MenuScrollAnimationFunction#updateProgressFastScroll: animationTime: %1, totalDuration: %2, value: %3", (double)n, (double)this.totalDuration, (double)this.value);
     }
 
     private int getAnimationTime(long l) {
         long l2 = l - this.startTime;
-        if (l2 > 0) {
-            menuLayoutLogCh.log(10000, "MenuScrollAnimationFunction#getAnimationTime: AnimationTime too high: %1, use Integer.MAX_VALUE (%2)", l2, (long)0);
-            return -129;
+        if (l2 > Integer.MAX_VALUE) {
+            menuLayoutLogCh.log(10000, "MenuScrollAnimationFunction#getAnimationTime: AnimationTime too high: %1, use Integer.MAX_VALUE (%2)", l2, (long)Integer.MAX_VALUE);
+            return Integer.MAX_VALUE;
         }
         return (int)l2;
     }
@@ -204,7 +204,7 @@ IWidgetLogChannel {
         float f4 = this.decelerationDuration;
         float f5 = this.maxSpeed;
         float f6 = endSpeed;
-        float f7 = f3 * (16448 * f4 * f4 * f5 + 16448 * f4 * f3 * (f6 - f5) + f3 * f3 * (f5 - f6)) / (16448 * f4 * f4);
+        float f7 = f3 * (3.0f * f4 * f4 * f5 + 3.0f * f4 * f3 * (f6 - f5) + f3 * f3 * (f5 - f6)) / (3.0f * f4 * f4);
         return Math.max(f7, 1.0f);
     }
 

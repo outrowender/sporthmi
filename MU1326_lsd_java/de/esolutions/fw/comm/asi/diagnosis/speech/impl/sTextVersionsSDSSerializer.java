@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.speech.impl;
 import de.esolutions.fw.comm.asi.diagnosis.speech.sTextVersionsSDS;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTextVersionsSDSSerializer {
-    public static void putOptionalsTextVersionsSDS(ISerializer iSerializer, sTextVersionsSDS sTextVersionsSDS2) {
+    public static void putOptionalsTextVersionsSDS(ISerializer iSerializer, sTextVersionsSDS sTextVersionsSDS2) throws SerializerException {
         boolean bl = sTextVersionsSDS2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sTextVersionsSDSSerializer {
         }
     }
 
-    public static void putOptionalsTextVersionsSDSVarArray(ISerializer iSerializer, sTextVersionsSDS[] sTextVersionsSDSArray) {
+    public static void putOptionalsTextVersionsSDSVarArray(ISerializer iSerializer, sTextVersionsSDS[] sTextVersionsSDSArray) throws SerializerException {
         boolean bl = sTextVersionsSDSArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sTextVersionsSDSSerializer {
         }
     }
 
-    public static sTextVersionsSDS getOptionalsTextVersionsSDS(IDeserializer iDeserializer) {
+    public static sTextVersionsSDS getOptionalsTextVersionsSDS(IDeserializer iDeserializer) throws SerializerException {
         sTextVersionsSDS sTextVersionsSDS2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sTextVersionsSDSSerializer {
         return sTextVersionsSDS2;
     }
 
-    public static sTextVersionsSDS[] getOptionalsTextVersionsSDSVarArray(IDeserializer iDeserializer) {
+    public static sTextVersionsSDS[] getOptionalsTextVersionsSDSVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTextVersionsSDS[] sTextVersionsSDSArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

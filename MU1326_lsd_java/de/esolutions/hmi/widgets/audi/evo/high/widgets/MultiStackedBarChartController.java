@@ -18,8 +18,8 @@ import java.util.Map;
 public class MultiStackedBarChartController
 extends AbstractWidgetController {
     private MultiStackedBarChartRenderer renderer;
-    private static final int DEFAULT_BAR_WIDTH;
-    private static final int DEFAULT_BAR_HEIGHT;
+    private static final int DEFAULT_BAR_WIDTH = 12;
+    private static final int DEFAULT_BAR_HEIGHT = 178;
     private int barCount;
     private int precalculatedBarWidth = 12;
     private int precalculatedBarHeight = 178;
@@ -34,7 +34,6 @@ extends AbstractWidgetController {
     private Map precalculatedData = new HashMap();
     private Map postcalculatedData = new HashMap();
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (this.precalculatedBar == null && abstractWidget instanceof ModelStubController) {
             this.precalculatedBar = (ModelStubController)abstractWidget;
@@ -44,12 +43,10 @@ extends AbstractWidgetController {
         super.add(abstractWidget);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.readPrecalculatedData();
         this.readPostCalculatedDate();
@@ -85,7 +82,6 @@ extends AbstractWidgetController {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (this.precalculatedBar.getModelID() == modelUpdateEvent.getModelId() && ((BaseListModel)this.precalculatedBar.getModel()).getStatus() == 1) {
             this.readPrecalculatedData();
@@ -100,7 +96,6 @@ extends AbstractWidgetController {
         this.renderer = multiStackedBarChartRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -172,14 +167,14 @@ extends AbstractWidgetController {
     public float getPrecalculatedData(int n, int n2) {
         Object object = this.precalculatedData.get(new Integer(n));
         if (object == null || !(object instanceof EvoListRow)) {
-            return 32959;
+            return -1.0f;
         }
         Object object2 = ((EvoListRow)object).getCell(n2);
         if (object2 instanceof Integer) {
             return new Float(((Integer)object2).intValue()).floatValue();
         }
         if (object2 instanceof Long) {
-            return new Float(((Long)object2).floatValue()).floatValue() / 51266;
+            return new Float(((Long)object2).floatValue()).floatValue() / 100.0f;
         }
         return 0.0f;
     }
@@ -191,14 +186,14 @@ extends AbstractWidgetController {
     public float getPostcalculatedData(int n, int n2) {
         Object object = this.postcalculatedData.get(new Integer(n));
         if (object == null || !(object instanceof EvoListRow)) {
-            return 32959;
+            return -1.0f;
         }
         Object object2 = ((EvoListRow)object).getCell(n2);
         if (object2 instanceof Integer) {
             return new Float(((Integer)object2).intValue()).floatValue();
         }
         if (object2 instanceof Long) {
-            return new Float(((Long)object2).floatValue()).floatValue() / 51266;
+            return new Float(((Long)object2).floatValue()).floatValue() / 100.0f;
         }
         return 0.0f;
     }

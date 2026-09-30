@@ -13,7 +13,7 @@ import java.util.Set;
 public class CopyOnWriteArraySet
 extends AbstractSet
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5457747651344034263L;
     private final CopyOnWriteArrayList al = new CopyOnWriteArrayList();
 
     public CopyOnWriteArraySet() {
@@ -23,72 +23,58 @@ implements Serializable {
         this.al.addAllAbsent(collection);
     }
 
-    @Override
     public int size() {
         return this.al.size();
     }
 
-    @Override
     public boolean isEmpty() {
         return this.al.isEmpty();
     }
 
-    @Override
     public boolean contains(Object object) {
         return this.al.contains(object);
     }
 
-    @Override
     public Object[] toArray() {
         return this.al.toArray();
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         return this.al.toArray(objectArray);
     }
 
-    @Override
     public void clear() {
         this.al.clear();
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.al.remove(object);
     }
 
-    @Override
     public boolean add(Object object) {
         return this.al.addIfAbsent(object);
     }
 
-    @Override
     public boolean containsAll(Collection collection) {
         return this.al.containsAll(collection);
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         return this.al.addAllAbsent(collection) > 0;
     }
 
-    @Override
     public boolean removeAll(Collection collection) {
         return this.al.removeAll(collection);
     }
 
-    @Override
     public boolean retainAll(Collection collection) {
         return this.al.retainAll(collection);
     }
 
-    @Override
     public Iterator iterator() {
         return this.al.iterator();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;

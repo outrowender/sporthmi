@@ -35,6 +35,8 @@ import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.connection.Connection;
 import de.esolutions.fw.util.transport.ITransport;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public class MessageSender {
     private ITransportDebug debug;
@@ -66,99 +68,99 @@ public class MessageSender {
         this.serializer = iSerializer;
     }
 
-    public void sendInit(short s, byte by, short s2) {
+    public void sendInit(short s, byte by, short s2) throws TransportException, IOException, InterruptedException {
         InitMessage initMessage = this.protocolVersion < 4 ? new InitMessage(this.serializer, s, by) : new InitMessageV4(this.serializer, s, by, s2);
         this.send(initMessage);
     }
 
-    public void sendAnnounceFeature(short s, byte by, short s2) {
+    public void sendAnnounceFeature(short s, byte by, short s2) throws TransportException, IOException, InterruptedException {
         AnnounceFeatureMessage announceFeatureMessage = this.protocolVersion < 4 ? new AnnounceFeatureMessage(this.serializer, s, by) : new AnnounceFeatureMessageV4(this.serializer, s, by, s2);
         this.send(announceFeatureMessage);
     }
 
-    public void sendSetFeature(byte by) {
+    public void sendSetFeature(byte by) throws TransportException, IOException, InterruptedException {
         SetFeatureMessage setFeatureMessage = new SetFeatureMessage(this.serializer, by);
         this.send(setFeatureMessage);
     }
 
-    public void sendDrop() {
+    public void sendDrop() throws TransportException, IOException, InterruptedException {
         DropMessage dropMessage = new DropMessage(this.serializer);
         this.send(dropMessage);
     }
 
-    public void sendCreateStub(short s, short s2, ServiceInstanceID serviceInstanceID) {
+    public void sendCreateStub(short s, short s2, ServiceInstanceID serviceInstanceID) throws TransportException, IOException, InterruptedException {
         CreateStubMessage createStubMessage = new CreateStubMessage(this.serializer, s, s2, serviceInstanceID);
         this.send(createStubMessage);
     }
 
-    public void sendCreateRRStub(short s, short s2, short s3, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2) {
+    public void sendCreateRRStub(short s, short s2, short s3, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2) throws TransportException, IOException, InterruptedException {
         CreateRRStubMessage createRRStubMessage = new CreateRRStubMessage(this.serializer, s, s2, s3, serviceInstanceID, serviceInstanceID2);
         this.send(createRRStubMessage);
     }
 
-    public void sendStubCreated(short s, short s2) {
+    public void sendStubCreated(short s, short s2) throws TransportException, IOException, InterruptedException {
         StubCreatedMessage stubCreatedMessage = new StubCreatedMessage(this.serializer, s, s2);
         this.send(stubCreatedMessage);
     }
 
-    public void sendRRStubCreated(short s, short s2, short s3) {
+    public void sendRRStubCreated(short s, short s2, short s3) throws TransportException, IOException, InterruptedException {
         RRStubCreatedMessage rRStubCreatedMessage = new RRStubCreatedMessage(this.serializer, s, s2, s3);
         this.send(rRStubCreatedMessage);
     }
 
-    public void sendStubFailed(short s, byte by) {
+    public void sendStubFailed(short s, byte by) throws TransportException, IOException, InterruptedException {
         StubFailedMessage stubFailedMessage = new StubFailedMessage(this.serializer, s, by);
         this.send(stubFailedMessage);
     }
 
-    public void sendDestroyStub(short s) {
+    public void sendDestroyStub(short s) throws TransportException, IOException, InterruptedException {
         DestroyStubMessage destroyStubMessage = new DestroyStubMessage(this.serializer, s);
         this.send(destroyStubMessage);
     }
 
-    public void sendProxyAlive(short s) {
+    public void sendProxyAlive(short s) throws TransportException, IOException, InterruptedException {
         ProxyAliveMessage proxyAliveMessage = new ProxyAliveMessage(this.serializer, s);
         this.send(proxyAliveMessage);
     }
 
-    public void sendCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) {
+    public void sendCallMethod(short s, short s2, ISerializable iSerializable, ICallMethodSerializeCallback iCallMethodSerializeCallback) throws TransportException, IOException, InterruptedException {
         CallMethodMessage callMethodMessage = new CallMethodMessage(this.serializer, s, s2, iSerializable);
         callMethodMessage.setSerializeCallback(iCallMethodSerializeCallback);
         this.send(callMethodMessage);
     }
 
-    public void sendExit() {
+    public void sendExit() throws TransportException, IOException, InterruptedException {
         ExitMessage exitMessage = new ExitMessage(this.serializer);
         this.send(exitMessage);
     }
 
-    public void sendBrokerAck(short s, ServiceInstanceID serviceInstanceID, short s2, short s3) {
+    public void sendBrokerAck(short s, ServiceInstanceID serviceInstanceID, short s2, short s3) throws TransportException, IOException, InterruptedException {
         BrokerAckMessage brokerAckMessage = this.protocolVersion < 3 ? new BrokerAckMessage(this.serializer, s, serviceInstanceID) : (this.protocolVersion == 3 ? new BrokerAckMessageV3(this.serializer, s, serviceInstanceID) : new BrokerAckMessageV4(this.serializer, s, serviceInstanceID, s2, s3));
         this.send(brokerAckMessage);
     }
 
-    public void sendHello(short s, String string) {
+    public void sendHello(short s, String string) throws TransportException, IOException, InterruptedException {
         HelloMessage helloMessage = new HelloMessage(this.serializer, s, string);
         this.send(helloMessage);
     }
 
-    public void sendReject(short s, String string) {
+    public void sendReject(short s, String string) throws TransportException, IOException, InterruptedException {
         RejectMessage rejectMessage = new RejectMessage(this.serializer, s, string);
         this.send(rejectMessage);
     }
 
-    public void sendPing() {
+    public void sendPing() throws TransportException, IOException, InterruptedException {
         PingMessage pingMessage = new PingMessage(this.serializer);
         this.send(pingMessage);
     }
 
-    public void sendCustomMessage(byte by, byte[] byArray) {
+    public void sendCustomMessage(byte by, byte[] byArray) throws IOException, TransportException, InterruptedException {
         MessageType messageType = MessageType.getType(by);
         RawMessage rawMessage = new RawMessage(messageType, this.serializer, byArray);
         this.send(rawMessage);
     }
 
-    private void send(AbstractMessage abstractMessage) {
+    private void send(AbstractMessage abstractMessage) throws IOException, TransportException, InterruptedException {
         if (this.debug != null) {
             long l = System.currentTimeMillis();
             abstractMessage.createDebugTag(System.currentTimeMillis());

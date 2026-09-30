@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.tv.impl;
 import de.esolutions.fw.comm.asi.hmisync.tv.ProgramInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ProgramInfoSerializer {
-    public static void putOptionalProgramInfo(ISerializer iSerializer, ProgramInfo programInfo) {
+    public static void putOptionalProgramInfo(ISerializer iSerializer, ProgramInfo programInfo) throws SerializerException {
         boolean bl = programInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class ProgramInfoSerializer {
         }
     }
 
-    public static void putOptionalProgramInfoVarArray(ISerializer iSerializer, ProgramInfo[] programInfoArray) {
+    public static void putOptionalProgramInfoVarArray(ISerializer iSerializer, ProgramInfo[] programInfoArray) throws SerializerException {
         boolean bl = programInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class ProgramInfoSerializer {
         }
     }
 
-    public static ProgramInfo getOptionalProgramInfo(IDeserializer iDeserializer) {
+    public static ProgramInfo getOptionalProgramInfo(IDeserializer iDeserializer) throws SerializerException {
         ProgramInfo programInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class ProgramInfoSerializer {
         return programInfo;
     }
 
-    public static ProgramInfo[] getOptionalProgramInfoVarArray(IDeserializer iDeserializer) {
+    public static ProgramInfo[] getOptionalProgramInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ProgramInfo[] programInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

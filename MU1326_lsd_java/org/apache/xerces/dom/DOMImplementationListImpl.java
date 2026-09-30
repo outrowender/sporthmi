@@ -19,7 +19,6 @@ implements DOMImplementationList {
         this.fImplementations = vector;
     }
 
-    @Override
     public DOMImplementation item(int n) {
         try {
             return (DOMImplementation)this.fImplementations.elementAt(n);
@@ -29,7 +28,6 @@ implements DOMImplementationList {
         }
     }
 
-    @Override
     public int getLength() {
         return this.fImplementations.size();
     }

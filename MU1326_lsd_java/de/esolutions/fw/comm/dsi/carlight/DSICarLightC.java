@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carlight;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carlight.IntLightBrightness;
 import org.dsi.ifc.carlight.IntLightRGBColorListUpdateInfo;
 import org.dsi.ifc.carlight.IntLightRGBValues;
@@ -10,115 +11,78 @@ import org.dsi.ifc.carlight.MotorwayBlinkingSettings;
 import org.dsi.ifc.carlight.TimeState;
 
 public interface DSICarLightC {
-    default public void setExtLightComingHome(TimeState timeState) {
-    }
+    public void setExtLightComingHome(TimeState var1) throws MethodException;
 
-    default public void setExtLightLeavingHome(TimeState timeState) {
-    }
+    public void setExtLightLeavingHome(TimeState var1) throws MethodException;
 
-    default public void setExtLightSwitchOnSensitivity(int n) {
-    }
+    public void setExtLightSwitchOnSensitivity(int var1) throws MethodException;
 
-    default public void setExtLightDayLight(boolean bl) {
-    }
+    public void setExtLightDayLight(boolean var1) throws MethodException;
 
-    default public void setExtLightHeadLightSystem(boolean bl) {
-    }
+    public void setExtLightHeadLightSystem(boolean var1) throws MethodException;
 
-    default public void setExtLightGlidingLightSystem(boolean bl) {
-    }
+    public void setExtLightGlidingLightSystem(boolean var1) throws MethodException;
 
-    default public void setExtLightAdaptive(boolean bl) {
-    }
+    public void setExtLightAdaptive(boolean var1) throws MethodException;
 
-    default public void setExtLightTourist(boolean bl) {
-    }
+    public void setExtLightTourist(boolean var1) throws MethodException;
 
-    default public void setExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings) {
-    }
+    public void setExtLightMotorwayBlinking(MotorwayBlinkingSettings var1) throws MethodException;
 
-    default public void setExtLightMaskedHighBeam(boolean bl) {
-    }
+    public void setExtLightMaskedHighBeam(boolean var1) throws MethodException;
 
-    default public void setExtLightAutomaticLight(boolean bl, boolean bl2) {
-    }
+    public void setExtLightAutomaticLight(boolean var1, boolean var2) throws MethodException;
 
-    default public void setExtLightSetFactoryDefault() {
-    }
+    public void setExtLightSetFactoryDefault() throws MethodException;
 
-    default public void setExtLightLaserLight(boolean bl) {
-    }
+    public void setExtLightLaserLight(boolean var1) throws MethodException;
 
-    default public void setExtLightSignatureLight(boolean bl) {
-    }
+    public void setExtLightSignatureLight(boolean var1) throws MethodException;
 
-    default public void setExtLightHeadlightRange(int n) {
-    }
+    public void setExtLightHeadlightRange(int var1) throws MethodException;
 
-    default public void setIntLightIlluminationSet(int n, int n2) {
-    }
+    public void setIntLightIlluminationSet(int var1, int var2) throws MethodException;
 
-    default public void setIntLightColour(int n) {
-    }
+    public void setIntLightColour(int var1) throws MethodException;
 
-    default public void setIntLightState(int n) {
-    }
+    public void setIntLightState(int var1) throws MethodException;
 
-    default public void setIntLightEnvironment(boolean bl) {
-    }
+    public void setIntLightEnvironment(boolean var1) throws MethodException;
 
-    default public void setIntLightSpeed(boolean bl) {
-    }
+    public void setIntLightSpeed(boolean var1) throws MethodException;
 
-    default public void setIntLightTemperature(boolean bl) {
-    }
+    public void setIntLightTemperature(boolean var1) throws MethodException;
 
-    default public void setIntLightBrightness(IntLightBrightness intLightBrightness) {
-    }
+    public void setIntLightBrightness(IntLightBrightness var1) throws MethodException;
 
-    default public void setIntLightSetFactoryDefault() {
-    }
+    public void setIntLightSetFactoryDefault() throws MethodException;
 
-    default public void setIntLightIlluminationProfile(int n, int n2) {
-    }
+    public void setIntLightIlluminationProfile(int var1, int var2) throws MethodException;
 
-    default public void setIntLightActiveProfile(int n) {
-    }
+    public void setIntLightActiveProfile(int var1) throws MethodException;
 
-    default public void setIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues) {
-    }
+    public void setIntLightAmbientLightColor(IntLightRGBValues var1) throws MethodException;
 
-    default public void setIntLightContourLightColor(IntLightRGBValues intLightRGBValues) {
-    }
+    public void setIntLightContourLightColor(IntLightRGBValues var1) throws MethodException;
 
-    default public void setIntLightFollowUpTime(int n) {
-    }
+    public void setIntLightFollowUpTime(int var1) throws MethodException;
 
-    default public void setIntLightDoorContact(boolean bl) {
-    }
+    public void setIntLightDoorContact(boolean var1) throws MethodException;
 
-    default public void requestIntLightRGBColorList(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo) {
-    }
+    public void requestIntLightRGBColorList(IntLightRGBColorListUpdateInfo var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

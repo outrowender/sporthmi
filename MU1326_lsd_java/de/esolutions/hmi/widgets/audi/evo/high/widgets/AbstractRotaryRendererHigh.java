@@ -10,27 +10,25 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.RotaryController;
 public abstract class AbstractRotaryRendererHigh
 extends AbstractKanziTemplateRenderer {
     final RotaryController controller;
-    protected static final float MIN_ANGLE;
-    protected static final float MAX_ANGLE;
+    protected static final float MIN_ANGLE = 45.3f;
+    protected static final float MAX_ANGLE = 314.7f;
 
     public AbstractRotaryRendererHigh(RotaryController rotaryController) {
         this.controller = rotaryController;
     }
 
     protected float calculateAngle(int n) {
-        int n2 = 858993986;
+        float f2 = 45.3f;
         if (this.controller.getMaxPosition() > this.controller.getMinPosition()) {
-            n2 = 858993986 + 884180547 / (float)(this.controller.getMaxPosition() - this.controller.getMinPosition()) * (float)(n - this.controller.getMinPosition());
+            f2 = 45.3f + 269.40002f / (float)(this.controller.getMaxPosition() - this.controller.getMinPosition()) * (float)(n - this.controller.getMinPosition());
         }
-        return n2;
+        return f2;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 14;
     }

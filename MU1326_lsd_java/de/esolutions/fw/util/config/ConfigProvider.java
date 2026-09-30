@@ -16,18 +16,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ConfigProvider {
-    private static final String DEBUG_FLAG;
-    private static final String FILE_PREFIX;
-    private static final String DIR_PREFIX;
-    private static final String ALL_DIR_PREFIX;
-    private static final String JSON_SUFFIX;
-    private static final String BCF_SUFFIX;
-    private static final String STRATEGY_FLAG;
-    private static final String RESOURCE_FLAG;
-    private static final int STRATEGY_ONLY_JSON;
-    private static final int STRATEGY_ONLY_BCF;
-    private static final int STRATEGY_JSON_BEFORE_BCF;
-    private static final int STRATEGY_BCF_BEFORE_JSON;
+    private static final String DEBUG_FLAG = "ipl.config.trace";
+    private static final String FILE_PREFIX = "ipl.config.file.";
+    private static final String DIR_PREFIX = "ipl.config.dir.";
+    private static final String ALL_DIR_PREFIX = "ipl.config.dir";
+    private static final String JSON_SUFFIX = ".json";
+    private static final String BCF_SUFFIX = ".bcf";
+    private static final String STRATEGY_FLAG = "ipl.config.strategy";
+    private static final String RESOURCE_FLAG = "ipl.config.resource";
+    private static final int STRATEGY_ONLY_JSON = 0;
+    private static final int STRATEGY_ONLY_BCF = 1;
+    private static final int STRATEGY_JSON_BEFORE_BCF = 2;
+    private static final int STRATEGY_BCF_BEFORE_JSON = 3;
     private String domain;
     private String defaultDir;
     private ConfigValue root;
@@ -46,13 +46,13 @@ public class ConfigProvider {
         this.root = null;
         this.strategy = 0;
         this.valid = false;
-        this.trace = System.getProperty("ipl.config.trace", null) != null;
+        this.trace = System.getProperty(DEBUG_FLAG, null) != null;
         this.trace(new StringBuffer().append("ConfigProvider: domain=").append(string).append(" defaultDir=").append(string2).toString());
         this.getStrategy();
         this.performStrategy(false);
         if (!this.valid) {
             this.trace("ConfigProvider: no suitable config file found ");
-            this.resourceLocation = System.getProperty("ipl.config.resource", null);
+            this.resourceLocation = System.getProperty(RESOURCE_FLAG, null);
             if (this.resourceLocation != null) {
                 this.trace(new StringBuffer().append("ConfigProvider: using config resource path ").append(this.resourceLocation).toString());
                 this.performStrategy(true);
@@ -151,7 +151,7 @@ public class ConfigProvider {
     }
 
     private void getStrategy() {
-        String string = System.getProperty("ipl.config.strategy");
+        String string = System.getProperty(STRATEGY_FLAG);
         if (string == null) {
             return;
         }
@@ -194,18 +194,18 @@ public class ConfigProvider {
     }
 
     private String getConfigFileDir() {
-        String string = new StringBuffer().append("ipl.config.dir.").append(this.domain).toString();
+        String string = new StringBuffer().append(DIR_PREFIX).append(this.domain).toString();
         String string2 = System.getProperty(string, null);
         if (string2 == null) {
-            string2 = System.getProperty("ipl.config.dir", this.defaultDir);
+            string2 = System.getProperty(ALL_DIR_PREFIX, this.defaultDir);
         }
         return string2;
     }
 
     private String getConfigFilePath(boolean bl) {
-        String string = new StringBuffer().append("ipl.config.file.").append(this.domain).toString();
+        String string = new StringBuffer().append(FILE_PREFIX).append(this.domain).toString();
         String string2 = this.getConfigFileDir();
-        return new StringBuffer().append(string2).append(File.separator).append(System.getProperty(string, new StringBuffer().append(this.domain).append(bl ? ".json" : ".bcf").toString())).toString();
+        return new StringBuffer().append(string2).append(File.separator).append(System.getProperty(string, new StringBuffer().append(this.domain).append(bl ? JSON_SUFFIX : BCF_SUFFIX).toString())).toString();
     }
 
     private String getConfigResourceDir() {
@@ -213,9 +213,9 @@ public class ConfigProvider {
     }
 
     private String getConfigResourcePath(boolean bl) {
-        String string = new StringBuffer().append("ipl.config.file.").append(this.domain).toString();
+        String string = new StringBuffer().append(FILE_PREFIX).append(this.domain).toString();
         String string2 = this.getConfigResourceDir();
-        return new StringBuffer().append(string2).append('/').append(System.getProperty(string, new StringBuffer().append(this.domain).append(bl ? ".json" : ".bcf").toString())).toString();
+        return new StringBuffer().append(string2).append('/').append(System.getProperty(string, new StringBuffer().append(this.domain).append(bl ? JSON_SUFFIX : BCF_SUFFIX).toString())).toString();
     }
 
     private void trace(String string) {

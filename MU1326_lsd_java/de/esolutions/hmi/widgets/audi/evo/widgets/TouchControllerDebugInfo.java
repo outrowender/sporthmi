@@ -11,11 +11,11 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerBandState;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchControllerFocusState;
 
 public final class TouchControllerDebugInfo {
-    public static final int DEBUGINFO_REPLACE_ALL;
-    public static final int DEBUGINFO_REPLACE_BEFORE;
-    public static final int DEBUGINFO_REPLACE_AFTER;
-    private static final boolean SHOW_SPELLER_DEBUG_INFO_ON_SCREEN;
-    private static final String[] debugInfo;
+    public static final int DEBUGINFO_REPLACE_ALL = 0;
+    public static final int DEBUGINFO_REPLACE_BEFORE = 1;
+    public static final int DEBUGINFO_REPLACE_AFTER = 2;
+    private static final boolean SHOW_SPELLER_DEBUG_INFO_ON_SCREEN = System.getProperty("showSpellerInfos") != null;
+    private static final String[] debugInfo = new String[3];
 
     private TouchControllerDebugInfo() {
     }
@@ -292,11 +292,6 @@ public final class TouchControllerDebugInfo {
             }
         }
         hMITerminal.getStatistics().showStatistics(21, debugInfo, false);
-    }
-
-    static {
-        SHOW_SPELLER_DEBUG_INFO_ON_SCREEN = System.getProperty("showSpellerInfos") != null;
-        debugInfo = new String[3];
     }
 }
 

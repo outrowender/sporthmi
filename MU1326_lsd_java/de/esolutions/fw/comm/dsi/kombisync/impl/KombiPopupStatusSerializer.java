@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync.KombiPopupStatus;
 
 public class KombiPopupStatusSerializer {
-    public static void putOptionalKombiPopupStatus(ISerializer iSerializer, KombiPopupStatus kombiPopupStatus) {
+    public static void putOptionalKombiPopupStatus(ISerializer iSerializer, KombiPopupStatus kombiPopupStatus) throws SerializerException {
         boolean bl = kombiPopupStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class KombiPopupStatusSerializer {
         }
     }
 
-    public static void putOptionalKombiPopupStatusVarArray(ISerializer iSerializer, KombiPopupStatus[] kombiPopupStatusArray) {
+    public static void putOptionalKombiPopupStatusVarArray(ISerializer iSerializer, KombiPopupStatus[] kombiPopupStatusArray) throws SerializerException {
         boolean bl = kombiPopupStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class KombiPopupStatusSerializer {
         }
     }
 
-    public static KombiPopupStatus getOptionalKombiPopupStatus(IDeserializer iDeserializer) {
+    public static KombiPopupStatus getOptionalKombiPopupStatus(IDeserializer iDeserializer) throws SerializerException {
         KombiPopupStatus kombiPopupStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class KombiPopupStatusSerializer {
         return kombiPopupStatus;
     }
 
-    public static KombiPopupStatus[] getOptionalKombiPopupStatusVarArray(IDeserializer iDeserializer) {
+    public static KombiPopupStatus[] getOptionalKombiPopupStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         KombiPopupStatus[] kombiPopupStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

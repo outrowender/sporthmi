@@ -4,7 +4,7 @@
 package org.apache.xerces.util;
 
 import java.util.Enumeration;
-import org.apache.xerces.util.NamespaceSupport$Prefixes;
+import java.util.NoSuchElementException;
 import org.apache.xerces.util.XMLSymbols;
 import org.apache.xerces.xni.NamespaceContext;
 
@@ -29,7 +29,6 @@ implements NamespaceContext {
         }
     }
 
-    @Override
     public void reset() {
         this.fNamespaceSize = 0;
         this.fCurrentContext = 0;
@@ -41,7 +40,6 @@ implements NamespaceContext {
         ++this.fCurrentContext;
     }
 
-    @Override
     public void pushContext() {
         if (this.fCurrentContext + 1 == this.fContext.length) {
             int[] nArray = new int[this.fContext.length * 2];
@@ -51,12 +49,10 @@ implements NamespaceContext {
         this.fContext[++this.fCurrentContext] = this.fNamespaceSize;
     }
 
-    @Override
     public void popContext() {
         this.fNamespaceSize = this.fContext[this.fCurrentContext--];
     }
 
-    @Override
     public boolean declarePrefix(String string, String string2) {
         if (string == XMLSymbols.PREFIX_XML || string == XMLSymbols.PREFIX_XMLNS) {
             return false;
@@ -76,7 +72,6 @@ implements NamespaceContext {
         return true;
     }
 
-    @Override
     public String getURI(String string) {
         for (int i2 = this.fNamespaceSize; i2 > 0; i2 -= 2) {
             if (this.fNamespace[i2 - 2] != string) continue;
@@ -85,7 +80,6 @@ implements NamespaceContext {
         return null;
     }
 
-    @Override
     public String getPrefix(String string) {
         for (int i2 = this.fNamespaceSize; i2 > 0; i2 -= 2) {
             if (this.fNamespace[i2 - 1] != string || this.getURI(this.fNamespace[i2 - 2]) != string) continue;
@@ -94,17 +88,14 @@ implements NamespaceContext {
         return null;
     }
 
-    @Override
     public int getDeclaredPrefixCount() {
         return (this.fNamespaceSize - this.fContext[this.fCurrentContext]) / 2;
     }
 
-    @Override
     public String getDeclaredPrefixAt(int n) {
         return this.fNamespace[this.fContext[this.fCurrentContext] + n * 2];
     }
 
-    @Override
     public Enumeration getAllPrefixes() {
         Object object;
         int n = 0;
@@ -126,7 +117,7 @@ implements NamespaceContext {
             }
             bl = true;
         }
-        return new NamespaceSupport$Prefixes(this, this.fPrefixes, n);
+        return new Prefixes(this.fPrefixes, n);
     }
 
     public boolean containsPrefix(String string) {
@@ -135,6 +126,38 @@ implements NamespaceContext {
             return true;
         }
         return false;
+    }
+
+    protected final class Prefixes
+    implements Enumeration {
+        private String[] prefixes;
+        private int counter = 0;
+        private int size = 0;
+
+        public Prefixes(String[] stringArray, int n) {
+            this.prefixes = stringArray;
+            this.size = n;
+        }
+
+        public boolean hasMoreElements() {
+            return this.counter < this.size;
+        }
+
+        public Object nextElement() {
+            if (this.counter < this.size) {
+                return NamespaceSupport.this.fPrefixes[this.counter++];
+            }
+            throw new NoSuchElementException("Illegal access to Namespace prefixes enumeration.");
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i2 = 0; i2 < this.size; ++i2) {
+                stringBuffer.append(this.prefixes[i2]);
+                stringBuffer.append(" ");
+            }
+            return stringBuffer.toString();
+        }
     }
 }
 

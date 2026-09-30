@@ -4,6 +4,6 @@
 package de.esolutions.fw.comm.asi.sdisConfigProvider;
 
 public class Consts {
-    public static final int KEY_GEMIB;
+    public static final int KEY_GEMIB = 0;
 }
 

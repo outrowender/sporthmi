@@ -6,10 +6,8 @@ package de.vw.mib.asl.api.bap.observer;
 import de.vw.mib.asl.api.bap.observer.BAPValueObserverable;
 
 public interface BAPObserverRegistry {
-    default public BAPValueObserverable getBapValueObservable(int n) {
-    }
+    public BAPValueObserverable getBapValueObservable(int var1);
 
-    default public void flushAllBapValueObserverables() {
-    }
+    public void flushAllBapValueObserverables();
 }
 

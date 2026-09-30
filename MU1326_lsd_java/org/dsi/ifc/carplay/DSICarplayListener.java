@@ -15,49 +15,34 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICarplayListener
 extends DSIListener {
-    default public void updateMode(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void updateMode(Resource[] var1, AppState[] var2, int var3);
 
-    default public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void responseModeChange(Resource[] var1, AppState[] var2, int var3);
 
-    default public void requestBTDeactivation(String string, int n) {
-    }
+    public void requestBTDeactivation(String var1, int var2);
 
-    default public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
-    }
+    public void updateDeviceInfo(DeviceInfo var1, int var2);
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2);
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2);
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2);
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2);
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2);
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2);
 
-    default public void updateTextInputState(int n, int n2) {
-    }
+    public void updateTextInputState(int var1, int var2);
 
-    default public void duckAudio(int n, double d2) {
-    }
+    public void duckAudio(int var1, double var2);
 
-    default public void unduckAudio(int n) {
-    }
+    public void unduckAudio(int var1);
 
-    default public void oemAppSelected() {
-    }
+    public void oemAppSelected();
 
-    default public void updateMainAudioType(int n, int n2) {
-    }
+    public void updateMainAudioType(int var1, int var2);
 }
 

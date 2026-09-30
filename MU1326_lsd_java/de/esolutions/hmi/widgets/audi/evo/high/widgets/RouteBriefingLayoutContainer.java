@@ -14,17 +14,15 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 
 public class RouteBriefingLayoutContainer
 extends LayoutContainerController {
-    private static final int MAX_HEIGHT;
+    private static final int MAX_HEIGHT = 320;
     private MenuController briefingMenu;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.setHeight(320);
-        sideBarLogChannel.log(-2137614336, "RouteBriefingLayoutContainer#connected Set height = %1 dependent on current region.", (long)this.getHeight());
+        sideBarLogChannel.log(10000000, "RouteBriefingLayoutContainer#connected Set height = %1 dependent on current region.", (long)this.getHeight());
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof MenuController) {

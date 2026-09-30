@@ -9,33 +9,32 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractPRPRule {
-    public static final int VALIDITY_START_OF_WORD;
-    public static final int VALIDITY_START_OF_TEXT;
-    public static final int VALIDITY_ANYWHERE;
-    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING;
-    public static final int PARAM_BOOST_I_L_WRAPPING;
-    public static final int PARAM_BOOST_VALUE_SMART_DELETE;
-    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION;
-    public static final int PARAM_BOOST_LETTER_OVER_SPECIALCHAR;
-    public static final int PARAM_MIN_CONFIDENCE;
-    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_INTELLICALL;
-    public static final int PARAM_BOOST_PLUS_SIGN;
-    public static final int PARAM_BOOST_NUMBERS_PHONE;
-    public static final int PARAM_BOOST_DIACRITIC_RULE;
-    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING_MULTILINE;
-    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_MULTILINE;
-    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING_NAR;
-    public static final int PARAM_BOOST_NUMBERS_PHONE_NAR;
-    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_NAR;
-    public static int[][] params;
+    public static final int VALIDITY_START_OF_WORD = 0;
+    public static final int VALIDITY_START_OF_TEXT = 1;
+    public static final int VALIDITY_ANYWHERE = 2;
+    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING = 0;
+    public static final int PARAM_BOOST_I_L_WRAPPING = 1;
+    public static final int PARAM_BOOST_VALUE_SMART_DELETE = 2;
+    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION = 3;
+    public static final int PARAM_BOOST_LETTER_OVER_SPECIALCHAR = 4;
+    public static final int PARAM_MIN_CONFIDENCE = 5;
+    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_INTELLICALL = 6;
+    public static final int PARAM_BOOST_PLUS_SIGN = 7;
+    public static final int PARAM_BOOST_NUMBERS_PHONE = 8;
+    public static final int PARAM_BOOST_DIACRITIC_RULE = 9;
+    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING_MULTILINE = 10;
+    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_MULTILINE = 11;
+    public static final int PARAM_BOOST_NUMBER_LETTER_WRAPPING_NAR = 12;
+    public static final int PARAM_BOOST_NUMBERS_PHONE_NAR = 13;
+    public static final int PARAM_BOOST_OPPRESS_NUMBER_LETTER_ALTERNATION_NAR = 14;
+    public static int[][] params = new int[][]{{7, 5, 55, 15, 10, 11, 15, 40, 40, -90, 5, 5, 7, 40, 20}, {25, 17, 100, 45, 20, 2, 45, 100, 100, -90, 5, 5, 25, 100, 45}, {5, 5, 50, 5, 5, 0, 40, 40, 40, -90, 5, 5, 17, 55, 5}};
     private IInputTextInfoProvider infoProvider;
 
     public void execute(List list, Object object) {
         this.execute(list, object, true);
     }
 
-    public abstract void execute(List list, Object object, boolean bl) {
-    }
+    public abstract void execute(List var1, Object var2, boolean var3);
 
     protected boolean isMinimumStokeLengthSensitive() {
         return true;
@@ -45,8 +44,7 @@ public abstract class AbstractPRPRule {
         return 2;
     }
 
-    public abstract String getRuleName() {
-    }
+    public abstract String getRuleName();
 
     public void setInfoProvider(IInputTextInfoProvider iInputTextInfoProvider) {
         this.infoProvider = iInputTextInfoProvider;
@@ -117,10 +115,6 @@ public abstract class AbstractPRPRule {
 
     protected static boolean isAllowedMinCharSizeCharacter(char c2) {
         return c2 == '\b';
-    }
-
-    static {
-        params = new int[][]{{7, 5, 55, 15, 10, 11, 15, 40, 40, -90, 5, 5, 7, 40, 20}, {25, 17, 100, 45, 20, 2, 45, 100, 100, -90, 5, 5, 25, 100, 45}, {5, 5, 50, 5, 5, 0, 40, 40, 40, -90, 5, 5, 17, 55, 5}};
     }
 }
 

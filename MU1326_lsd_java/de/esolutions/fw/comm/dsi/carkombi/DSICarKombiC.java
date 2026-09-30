@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carkombi;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carkombi.BCMenueConfiguration;
 import org.dsi.ifc.carkombi.BCSpeedWarningSettings;
 import org.dsi.ifc.carkombi.BCStatisticsReset;
@@ -22,184 +23,124 @@ import org.dsi.ifc.carkombi.HUDSectionConfigListRecord;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public interface DSICarKombiC {
-    default public void resetSIAValue(int n) {
-    }
+    public void resetSIAValue(int var1) throws MethodException;
 
-    default public void requestSIAHistoryList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-    }
+    public void requestSIAHistoryList(CarArrayListUpdateInfo var1) throws MethodException;
 
-    default public void setSIADistanceOilUser(int n, int n2) {
-    }
+    public void setSIADistanceOilUser(int var1, int var2) throws MethodException;
 
-    default public void setSIADistanceAirFilterUser(int n, int n2) {
-    }
+    public void setSIADistanceAirFilterUser(int var1, int var2) throws MethodException;
 
-    default public void setSIADistanceOilFilterUser(int n, int n2) {
-    }
+    public void setSIADistanceOilFilterUser(int var1, int var2) throws MethodException;
 
-    default public void setSIAInspectionDistanceUser(int n, int n2) {
-    }
+    public void setSIAInspectionDistanceUser(int var1, int var2) throws MethodException;
 
-    default public void setBCVZADisplay(boolean bl) {
-    }
+    public void setBCVZADisplay(boolean var1) throws MethodException;
 
-    default public void setBCLifeTipsDisplay(boolean bl) {
-    }
+    public void setBCLifeTipsDisplay(boolean var1) throws MethodException;
 
-    default public void setBCConsumerDisplay(boolean bl) {
-    }
+    public void setBCConsumerDisplay(boolean var1) throws MethodException;
 
-    default public void setBCMenueConfig(BCMenueConfiguration bCMenueConfiguration, int n) {
-    }
+    public void setBCMenueConfig(BCMenueConfiguration var1, int var2) throws MethodException;
 
-    default public void resetBCMenue(int n) {
-    }
+    public void resetBCMenue(int var1) throws MethodException;
 
-    default public void setBCOilTemperature(boolean bl) {
-    }
+    public void setBCOilTemperature(boolean var1) throws MethodException;
 
-    default public void setBCDigitalSpeed(boolean bl) {
-    }
+    public void setBCDigitalSpeed(boolean var1) throws MethodException;
 
-    default public void setBCStopwatch(boolean bl) {
-    }
+    public void setBCStopwatch(boolean var1) throws MethodException;
 
-    default public void setBCVzaMFA(boolean bl) {
-    }
+    public void setBCVzaMFA(boolean var1) throws MethodException;
 
-    default public void setBCSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings) {
-    }
+    public void setBCSpeedWarning(BCSpeedWarningSettings var1) throws MethodException;
 
-    default public void setBCGearRecommendation(boolean bl) {
-    }
+    public void setBCGearRecommendation(boolean var1) throws MethodException;
 
-    default public void setBCRearSeatbeltWarning(boolean bl) {
-    }
+    public void setBCRearSeatbeltWarning(boolean var1) throws MethodException;
 
-    default public void requestVehicleStateList(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH) {
-    }
+    public void requestVehicleStateList(BCVehicleStateUpdateInfoAH var1) throws MethodException;
 
-    default public void setBcSetFactoryDefault() {
-    }
+    public void setBcSetFactoryDefault() throws MethodException;
 
-    default public void resetBCStatistics(BCStatisticsReset bCStatisticsReset) {
-    }
+    public void resetBCStatistics(BCStatisticsReset var1) throws MethodException;
 
-    default public void setBCAstaMFA(boolean bl) {
-    }
+    public void setBCAstaMFA(boolean var1) throws MethodException;
 
-    default public void setHUDHeightAdjustment(byte by) {
-    }
+    public void setHUDHeightAdjustment(byte var1) throws MethodException;
 
-    default public void setHUDBrightness(byte by) {
-    }
+    public void setHUDBrightness(byte var1) throws MethodException;
 
-    default public void setHUDContent(HUDContent hUDContent) {
-    }
+    public void setHUDContent(HUDContent var1) throws MethodException;
 
-    default public void setHUDRotationAdjustment(int n) {
-    }
+    public void setHUDRotationAdjustment(int var1) throws MethodException;
 
-    default public void setHUDColour(int n, int n2) {
-    }
+    public void setHUDColour(int var1, int var2) throws MethodException;
 
-    default public void setHUDSetFactoryDefault() {
-    }
+    public void setHUDSetFactoryDefault() throws MethodException;
 
-    default public void setHUDSystemOnOff(boolean bl) {
-    }
+    public void setHUDSystemOnOff(boolean var1) throws MethodException;
 
-    default public void setHUDPresets(int n, int n2) {
-    }
+    public void setHUDPresets(int var1, int var2) throws MethodException;
 
-    default public void setHUDCollectiveTopics(HUDCollectiveTopics hUDCollectiveTopics) {
-    }
+    public void setHUDCollectiveTopics(HUDCollectiveTopics var1) throws MethodException;
 
-    default public void setHUDAutoSkinSwitch(boolean bl) {
-    }
+    public void setHUDAutoSkinSwitch(boolean var1) throws MethodException;
 
-    default public void requestHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-    }
+    public void requestHUDSectionConfigList(CarArrayListUpdateInfo var1) throws MethodException;
 
-    default public void setHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) {
-    }
+    public void setHUDSectionConfigList(CarArrayListUpdateInfo var1, HUDSectionConfigListRecord[] var2) throws MethodException;
 
-    default public void setDCSetFactoryDefault() {
-    }
+    public void setDCSetFactoryDefault() throws MethodException;
 
-    default public void setDCBrightness(int n) {
-    }
+    public void setDCBrightness(int var1) throws MethodException;
 
-    default public void setDCVolume(int n) {
-    }
+    public void setDCVolume(int var1) throws MethodException;
 
-    default public void setDCDisplay1MainSelection(DCMainItems dCMainItems) {
-    }
+    public void setDCDisplay1MainSelection(DCMainItems var1) throws MethodException;
 
-    default public void setDCDisplay2MainSelection(DCMainItems dCMainItems) {
-    }
+    public void setDCDisplay2MainSelection(DCMainItems var1) throws MethodException;
 
-    default public void setDCDisplay3MainSelection(DCMainItems dCMainItems) {
-    }
+    public void setDCDisplay3MainSelection(DCMainItems var1) throws MethodException;
 
-    default public void requestDCElementContentSelectionList(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo) {
-    }
+    public void requestDCElementContentSelectionList(DCElementContentSelectionListUpdateInfo var1) throws MethodException;
 
-    default public void setDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) {
-    }
+    public void setDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo var1, DCElementContentSelectionListRA1[] var2) throws MethodException;
 
-    default public void setDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA2[] dCElementContentSelectionListRA2Array) {
-    }
+    public void setDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo var1, DCElementContentSelectionListRA2[] var2) throws MethodException;
 
-    default public void setDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray) {
-    }
+    public void setDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo var1, int[] var2) throws MethodException;
 
-    default public void setDCAdditionalInstrumentSetup(DCAdditionalInstrument dCAdditionalInstrument) {
-    }
+    public void setDCAdditionalInstrumentSetup(DCAdditionalInstrument var1) throws MethodException;
 
-    default public void setDCAdditionalInstrument2Setup(DCAdditionalInstrument2 dCAdditionalInstrument2) {
-    }
+    public void setDCAdditionalInstrument2Setup(DCAdditionalInstrument2 var1) throws MethodException;
 
-    default public void requestDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo) {
-    }
+    public void requestDCDisplayPresetsList(CarArrayListUpdateInfo var1) throws MethodException;
 
-    default public void setDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) {
-    }
+    public void setDCDisplayPresetsList(CarArrayListUpdateInfo var1, DCDisplayPresetsListRecord[] var2) throws MethodException;
 
-    default public void setDCDisplayDependencySetup(DCDisplayDependency dCDisplayDependency) {
-    }
+    public void setDCDisplayDependencySetup(DCDisplayDependency var1) throws MethodException;
 
-    default public void setDCActiveDisplayPreset(int n) {
-    }
+    public void setDCActiveDisplayPreset(int var1) throws MethodException;
 
-    default public void setDCDisplayViewConfiguration(DCDisplayViewConfiguration dCDisplayViewConfiguration) {
-    }
+    public void setDCDisplayViewConfiguration(DCDisplayViewConfiguration var1) throws MethodException;
 
-    default public void setHUDLicense(boolean bl) {
-    }
+    public void setHUDLicense(boolean var1) throws MethodException;
 
-    default public void setDCLEDConfiguration(boolean bl) {
-    }
+    public void setDCLEDConfiguration(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

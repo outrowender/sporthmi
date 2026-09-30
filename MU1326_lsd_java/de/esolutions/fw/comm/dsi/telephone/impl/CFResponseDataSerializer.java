@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.CFResponseData;
 
 public class CFResponseDataSerializer {
-    public static void putOptionalCFResponseData(ISerializer iSerializer, CFResponseData cFResponseData) {
+    public static void putOptionalCFResponseData(ISerializer iSerializer, CFResponseData cFResponseData) throws SerializerException {
         boolean bl = cFResponseData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CFResponseDataSerializer {
         }
     }
 
-    public static void putOptionalCFResponseDataVarArray(ISerializer iSerializer, CFResponseData[] cFResponseDataArray) {
+    public static void putOptionalCFResponseDataVarArray(ISerializer iSerializer, CFResponseData[] cFResponseDataArray) throws SerializerException {
         boolean bl = cFResponseDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CFResponseDataSerializer {
         }
     }
 
-    public static CFResponseData getOptionalCFResponseData(IDeserializer iDeserializer) {
+    public static CFResponseData getOptionalCFResponseData(IDeserializer iDeserializer) throws SerializerException {
         CFResponseData cFResponseData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class CFResponseDataSerializer {
         return cFResponseData;
     }
 
-    public static CFResponseData[] getOptionalCFResponseDataVarArray(IDeserializer iDeserializer) {
+    public static CFResponseData[] getOptionalCFResponseDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         CFResponseData[] cFResponseDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Environment;
 
 public class EnvironmentSerializer {
-    public static void putOptionalEnvironment(ISerializer iSerializer, Environment environment) {
+    public static void putOptionalEnvironment(ISerializer iSerializer, Environment environment) throws SerializerException {
         boolean bl = environment == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class EnvironmentSerializer {
         }
     }
 
-    public static void putOptionalEnvironmentVarArray(ISerializer iSerializer, Environment[] environmentArray) {
+    public static void putOptionalEnvironmentVarArray(ISerializer iSerializer, Environment[] environmentArray) throws SerializerException {
         boolean bl = environmentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class EnvironmentSerializer {
         }
     }
 
-    public static Environment getOptionalEnvironment(IDeserializer iDeserializer) {
+    public static Environment getOptionalEnvironment(IDeserializer iDeserializer) throws SerializerException {
         Environment environment = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class EnvironmentSerializer {
         return environment;
     }
 
-    public static Environment[] getOptionalEnvironmentVarArray(IDeserializer iDeserializer) {
+    public static Environment[] getOptionalEnvironmentVarArray(IDeserializer iDeserializer) throws SerializerException {
         Environment[] environmentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

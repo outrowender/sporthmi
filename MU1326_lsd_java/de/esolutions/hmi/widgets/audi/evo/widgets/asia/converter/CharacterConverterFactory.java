@@ -6,12 +6,13 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AsianInputMethod;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.CharacterConverter;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.CharacterConverterFactory$1;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.HiraganaConverter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.ICharacterConverter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.PinYinFreeTextConverter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.StrokeFreeTextConverter;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.converter.ZhuYinFreeTextConverter;
+import java.util.Collections;
+import java.util.List;
 
 public final class CharacterConverterFactory {
     public static final ICharacterConverter NULL_CHARACTER_CONVERTER = CharacterConverterFactory.createNullCharacterConverter();
@@ -67,7 +68,27 @@ public final class CharacterConverterFactory {
     }
 
     private static ICharacterConverter createNullCharacterConverter() {
-        return new CharacterConverterFactory$1();
+        return new ICharacterConverter(){
+
+            public void setUnconvertedCharacters(String string) {
+            }
+
+            public String getValidCharacters() {
+                return "";
+            }
+
+            public String getUnconvertedCharacters() {
+                return "";
+            }
+
+            public List getConversions(int n) {
+                return Collections.EMPTY_LIST;
+            }
+
+            public List getConversions() {
+                return Collections.EMPTY_LIST;
+            }
+        };
     }
 }
 

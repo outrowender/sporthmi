@@ -13,20 +13,18 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.ScrollbarRenderer;
 public class ScrollbarRendererKanziHigh
 extends AbstractKanziTemplateRenderer
 implements ScrollbarRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/scrollBar";
+    private static final String EAL_NODE_NAME = "scrollBar";
     private final ScrollbarController controller;
 
     public ScrollbarRendererKanziHigh(ScrollbarController scrollbarController) {
         this.controller = scrollbarController;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float f2;
         float f3;
@@ -45,17 +43,14 @@ implements ScrollbarRenderer {
         this.node.setOpacity(scrollbarInterval.getOpacity() * this.controller.getRenderOpacity());
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/scrollBar";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "scrollBar";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

@@ -16,7 +16,6 @@ implements PreferredDynamicHeight {
     private IInfoLineRenderer renderer;
     private String text;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -42,12 +41,10 @@ implements PreferredDynamicHeight {
         return this.text != null;
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.getPreferredHeight(this.getWidth());
     }
 
-    @Override
     public int getPreferredHeight(int n) {
         if (this.preferredHeight == -1 && this.renderer != null) {
             return this.renderer.getPreferredHeight(n);
@@ -55,7 +52,6 @@ implements PreferredDynamicHeight {
         return super.getPreferredHeight();
     }
 
-    @Override
     public boolean isHeightDependentFromWidth() {
         return this.renderer != null && this.renderer.getAutoWrap() != -1;
     }

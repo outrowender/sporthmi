@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAResetValues;
 
 public class SIAResetValuesSerializer {
-    public static void putOptionalSIAResetValues(ISerializer iSerializer, SIAResetValues sIAResetValues) {
+    public static void putOptionalSIAResetValues(ISerializer iSerializer, SIAResetValues sIAResetValues) throws SerializerException {
         boolean bl = sIAResetValues == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SIAResetValuesSerializer {
         }
     }
 
-    public static void putOptionalSIAResetValuesVarArray(ISerializer iSerializer, SIAResetValues[] sIAResetValuesArray) {
+    public static void putOptionalSIAResetValuesVarArray(ISerializer iSerializer, SIAResetValues[] sIAResetValuesArray) throws SerializerException {
         boolean bl = sIAResetValuesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SIAResetValuesSerializer {
         }
     }
 
-    public static SIAResetValues getOptionalSIAResetValues(IDeserializer iDeserializer) {
+    public static SIAResetValues getOptionalSIAResetValues(IDeserializer iDeserializer) throws SerializerException {
         SIAResetValues sIAResetValues = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SIAResetValuesSerializer {
         return sIAResetValues;
     }
 
-    public static SIAResetValues[] getOptionalSIAResetValuesVarArray(IDeserializer iDeserializer) {
+    public static SIAResetValues[] getOptionalSIAResetValuesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAResetValues[] sIAResetValuesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

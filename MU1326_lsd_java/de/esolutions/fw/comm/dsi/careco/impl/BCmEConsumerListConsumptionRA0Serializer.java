@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEConsumerListConsumptionRA0;
 
 public class BCmEConsumerListConsumptionRA0Serializer {
-    public static void putOptionalBCmEConsumerListConsumptionRA0(ISerializer iSerializer, BCmEConsumerListConsumptionRA0 bCmEConsumerListConsumptionRA0) {
+    public static void putOptionalBCmEConsumerListConsumptionRA0(ISerializer iSerializer, BCmEConsumerListConsumptionRA0 bCmEConsumerListConsumptionRA0) throws SerializerException {
         boolean bl = bCmEConsumerListConsumptionRA0 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class BCmEConsumerListConsumptionRA0Serializer {
         }
     }
 
-    public static void putOptionalBCmEConsumerListConsumptionRA0VarArray(ISerializer iSerializer, BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array) {
+    public static void putOptionalBCmEConsumerListConsumptionRA0VarArray(ISerializer iSerializer, BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array) throws SerializerException {
         boolean bl = bCmEConsumerListConsumptionRA0Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class BCmEConsumerListConsumptionRA0Serializer {
         }
     }
 
-    public static BCmEConsumerListConsumptionRA0 getOptionalBCmEConsumerListConsumptionRA0(IDeserializer iDeserializer) {
+    public static BCmEConsumerListConsumptionRA0 getOptionalBCmEConsumerListConsumptionRA0(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerListConsumptionRA0 bCmEConsumerListConsumptionRA0 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class BCmEConsumerListConsumptionRA0Serializer {
         return bCmEConsumerListConsumptionRA0;
     }
 
-    public static BCmEConsumerListConsumptionRA0[] getOptionalBCmEConsumerListConsumptionRA0VarArray(IDeserializer iDeserializer) {
+    public static BCmEConsumerListConsumptionRA0[] getOptionalBCmEConsumerListConsumptionRA0VarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

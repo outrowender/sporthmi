@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.map.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavSegmentIDSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.map.AvailableRoute;
 
 public class AvailableRouteSerializer {
-    public static void putOptionalAvailableRoute(ISerializer iSerializer, AvailableRoute availableRoute) {
+    public static void putOptionalAvailableRoute(ISerializer iSerializer, AvailableRoute availableRoute) throws SerializerException {
         boolean bl = availableRoute == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AvailableRouteSerializer {
         }
     }
 
-    public static void putOptionalAvailableRouteVarArray(ISerializer iSerializer, AvailableRoute[] availableRouteArray) {
+    public static void putOptionalAvailableRouteVarArray(ISerializer iSerializer, AvailableRoute[] availableRouteArray) throws SerializerException {
         boolean bl = availableRouteArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AvailableRouteSerializer {
         }
     }
 
-    public static AvailableRoute getOptionalAvailableRoute(IDeserializer iDeserializer) {
+    public static AvailableRoute getOptionalAvailableRoute(IDeserializer iDeserializer) throws SerializerException {
         AvailableRoute availableRoute = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class AvailableRouteSerializer {
         return availableRoute;
     }
 
-    public static AvailableRoute[] getOptionalAvailableRouteVarArray(IDeserializer iDeserializer) {
+    public static AvailableRoute[] getOptionalAvailableRouteVarArray(IDeserializer iDeserializer) throws SerializerException {
         AvailableRoute[] availableRouteArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

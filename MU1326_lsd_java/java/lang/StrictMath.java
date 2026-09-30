@@ -1,34 +1,38 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang;
 
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Random;
 
 public final class StrictMath {
-    public static final double E;
-    public static final double PI;
+    public static final double E = Math.E;
+    public static final double PI = Math.PI;
     private static Random random;
 
     static {
-        AccessController.doPrivileged(new StrictMath$1());
+        AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                System.loadLibrary("j9fdm" + System.getProperty("com.ibm.oti.vm.library.version", "23"));
+                return null;
+            }
+        });
     }
 
     private StrictMath() {
     }
 
     public static double abs(double d2) {
-        long l = Double.doubleToLongBits((double)d2);
-        return Double.longBitsToDouble((long)(l &= Long.MAX_VALUE));
+        long l = Double.doubleToLongBits(d2);
+        return Double.longBitsToDouble(l &= Long.MAX_VALUE);
     }
 
     public static float abs(float f2) {
         int n = Float.floatToIntBits(f2);
-        return Float.intBitsToFloat(n &= 0xFFFFFF7F);
+        return Float.intBitsToFloat(n &= Integer.MAX_VALUE);
     }
 
     public static int abs(int n) {
@@ -39,35 +43,25 @@ public final class StrictMath {
         return l >= 0L ? l : -l;
     }
 
-    public static native double acos(double d2) {
-    }
+    public static native double acos(double var0);
 
-    public static native double asin(double d2) {
-    }
+    public static native double asin(double var0);
 
-    public static native double atan(double d2) {
-    }
+    public static native double atan(double var0);
 
-    public static native double atan2(double d2, double d3) {
-    }
+    public static native double atan2(double var0, double var2);
 
-    public static native double ceil(double d2) {
-    }
+    public static native double ceil(double var0);
 
-    public static native double cos(double d2) {
-    }
+    public static native double cos(double var0);
 
-    public static native double exp(double d2) {
-    }
+    public static native double exp(double var0);
 
-    public static native double floor(double d2) {
-    }
+    public static native double floor(double var0);
 
-    public static native double IEEEremainder(double d2, double d3) {
-    }
+    public static native double IEEEremainder(double var0, double var2);
 
-    public static native double log(double d2) {
-    }
+    public static native double log(double var0);
 
     public static double max(double d2, double d3) {
         if (d2 > d3) {
@@ -79,7 +73,7 @@ public final class StrictMath {
         if (d2 != d3) {
             return Double.NaN;
         }
-        if (d2 == 0.0 && (Double.doubleToLongBits((double)d2) & Double.doubleToLongBits((double)d3) & Long.MIN_VALUE) == 0L) {
+        if (d2 == 0.0 && (Double.doubleToLongBits(d2) & Double.doubleToLongBits(d3) & Long.MIN_VALUE) == 0L) {
             return 0.0;
         }
         return d2;
@@ -93,9 +87,9 @@ public final class StrictMath {
             return f3;
         }
         if (f2 != f3) {
-            return 49279;
+            return Float.NaN;
         }
-        if (f2 == 0.0f && (Float.floatToIntBits(f2) & Float.floatToIntBits(f3) & 0x80) == 0) {
+        if (f2 == 0.0f && (Float.floatToIntBits(f2) & Float.floatToIntBits(f3) & Integer.MIN_VALUE) == 0) {
             return 0.0f;
         }
         return f2;
@@ -119,7 +113,7 @@ public final class StrictMath {
         if (d2 != d3) {
             return Double.NaN;
         }
-        if (d2 == 0.0 && ((Double.doubleToLongBits((double)d2) | Double.doubleToLongBits((double)d3)) & Long.MIN_VALUE) != 0L) {
+        if (d2 == 0.0 && ((Double.doubleToLongBits(d2) | Double.doubleToLongBits(d3)) & Long.MIN_VALUE) != 0L) {
             return -0.0;
         }
         return d2;
@@ -133,10 +127,10 @@ public final class StrictMath {
             return f2;
         }
         if (f2 != f3) {
-            return 49279;
+            return Float.NaN;
         }
-        if (f2 == 0.0f && ((Float.floatToIntBits(f2) | Float.floatToIntBits(f3)) & 0x80) != 0) {
-            return 128;
+        if (f2 == 0.0f && ((Float.floatToIntBits(f2) | Float.floatToIntBits(f3)) & Integer.MIN_VALUE) != 0) {
+            return -0.0f;
         }
         return f2;
     }
@@ -149,8 +143,7 @@ public final class StrictMath {
         return l < l2 ? l : l2;
     }
 
-    public static native double pow(double d2, double d3) {
-    }
+    public static native double pow(double var0, double var2);
 
     public static double random() {
         if (random == null) {
@@ -159,8 +152,7 @@ public final class StrictMath {
         return random.nextDouble();
     }
 
-    public static native double rint(double d2) {
-    }
+    public static native double rint(double var0);
 
     public static long round(double d2) {
         if (d2 != d2) {
@@ -173,17 +165,14 @@ public final class StrictMath {
         if (f2 != f2) {
             return 0;
         }
-        return (int)Math.floor(f2 + 63);
+        return (int)Math.floor(f2 + 0.5f);
     }
 
-    public static native double sin(double d2) {
-    }
+    public static native double sin(double var0);
 
-    public static native double sqrt(double d2) {
-    }
+    public static native double sqrt(double var0);
 
-    public static native double tan(double d2) {
-    }
+    public static native double tan(double var0);
 
     public static double toDegrees(double d2) {
         return d2 * 180.0 / Math.PI;

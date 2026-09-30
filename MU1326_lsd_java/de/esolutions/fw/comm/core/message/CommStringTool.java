@@ -10,7 +10,7 @@ import de.esolutions.fw.util.serializer.exception.SerializerException;
 import java.io.UnsupportedEncodingException;
 
 public class CommStringTool {
-    public static void serializeCommString(String string, ISerializer iSerializer) {
+    public static void serializeCommString(String string, ISerializer iSerializer) throws SerializerException {
         try {
             byte[] byArray = new byte[]{0};
             if (string == null) {
@@ -30,7 +30,7 @@ public class CommStringTool {
         }
     }
 
-    public static String deserializeCommString(IDeserializer iDeserializer) {
+    public static String deserializeCommString(IDeserializer iDeserializer) throws SerializerException {
         try {
             int n = iDeserializer.getUInt16();
             byte[] byArray = new byte[n];

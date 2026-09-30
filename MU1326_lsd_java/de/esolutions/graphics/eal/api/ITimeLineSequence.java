@@ -23,12 +23,10 @@ extends IObject {
         return iTimeLineSequence == null ? 0L : iTimeLineSequence.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -40,12 +38,10 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_ITimeLineSequence_isValid(this.swigCPtr, this);
     }
@@ -79,7 +75,6 @@ extends IObject {
         ealswigJNI.eal_api_ITimeLineSequence_print(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_ITimeLineSequence_dispose(this.swigCPtr, this);
     }
@@ -94,6 +89,50 @@ extends IObject {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static final class return_t {
+        public static final return_t RETURN_INVALID = new return_t("RETURN_INVALID", ealswigJNI.eal_api_ITimeLineSequence_RETURN_INVALID_get());
+        private static return_t[] swigValues = new return_t[]{RETURN_INVALID};
+        private static int swigNext = 0;
+        private final int swigValue;
+        private final String swigName;
+
+        public final int swigValue() {
+            return this.swigValue;
+        }
+
+        public String toString() {
+            return this.swigName;
+        }
+
+        public static return_t swigToEnum(int n) {
+            if (n < swigValues.length && n >= 0 && return_t.swigValues[n].swigValue == n) {
+                return swigValues[n];
+            }
+            for (int i2 = 0; i2 < swigValues.length; ++i2) {
+                if (return_t.swigValues[i2].swigValue != n) continue;
+                return swigValues[i2];
+            }
+            throw new IllegalArgumentException("No enum " + (class$de$esolutions$graphics$eal$api$ITimeLineSequence$return_t == null ? (class$de$esolutions$graphics$eal$api$ITimeLineSequence$return_t = ITimeLineSequence.class$("de.esolutions.graphics.eal.api.ITimeLineSequence$return_t")) : class$de$esolutions$graphics$eal$api$ITimeLineSequence$return_t) + " with value " + n);
+        }
+
+        private return_t(String string) {
+            this.swigName = string;
+            this.swigValue = swigNext++;
+        }
+
+        private return_t(String string, int n) {
+            this.swigName = string;
+            this.swigValue = n;
+            swigNext = n + 1;
+        }
+
+        private return_t(String string, return_t return_t2) {
+            this.swigName = string;
+            this.swigValue = return_t2.swigValue;
+            swigNext = this.swigValue + 1;
         }
     }
 }

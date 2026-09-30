@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.navigation.impl;
 import de.esolutions.fw.comm.asi.hmisync.navigation.DestinationInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class DestinationInfoSerializer {
-    public static void putOptionalDestinationInfo(ISerializer iSerializer, DestinationInfo destinationInfo) {
+    public static void putOptionalDestinationInfo(ISerializer iSerializer, DestinationInfo destinationInfo) throws SerializerException {
         boolean bl = destinationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class DestinationInfoSerializer {
         }
     }
 
-    public static void putOptionalDestinationInfoVarArray(ISerializer iSerializer, DestinationInfo[] destinationInfoArray) {
+    public static void putOptionalDestinationInfoVarArray(ISerializer iSerializer, DestinationInfo[] destinationInfoArray) throws SerializerException {
         boolean bl = destinationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class DestinationInfoSerializer {
         }
     }
 
-    public static DestinationInfo getOptionalDestinationInfo(IDeserializer iDeserializer) {
+    public static DestinationInfo getOptionalDestinationInfo(IDeserializer iDeserializer) throws SerializerException {
         DestinationInfo destinationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class DestinationInfoSerializer {
         return destinationInfo;
     }
 
-    public static DestinationInfo[] getOptionalDestinationInfoVarArray(IDeserializer iDeserializer) {
+    public static DestinationInfo[] getOptionalDestinationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DestinationInfo[] destinationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

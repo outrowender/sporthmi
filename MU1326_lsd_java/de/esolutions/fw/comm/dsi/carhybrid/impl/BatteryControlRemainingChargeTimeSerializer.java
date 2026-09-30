@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlRemainingChargeTime;
 
 public class BatteryControlRemainingChargeTimeSerializer {
-    public static void putOptionalBatteryControlRemainingChargeTime(ISerializer iSerializer, BatteryControlRemainingChargeTime batteryControlRemainingChargeTime) {
+    public static void putOptionalBatteryControlRemainingChargeTime(ISerializer iSerializer, BatteryControlRemainingChargeTime batteryControlRemainingChargeTime) throws SerializerException {
         boolean bl = batteryControlRemainingChargeTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class BatteryControlRemainingChargeTimeSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlRemainingChargeTimeVarArray(ISerializer iSerializer, BatteryControlRemainingChargeTime[] batteryControlRemainingChargeTimeArray) {
+    public static void putOptionalBatteryControlRemainingChargeTimeVarArray(ISerializer iSerializer, BatteryControlRemainingChargeTime[] batteryControlRemainingChargeTimeArray) throws SerializerException {
         boolean bl = batteryControlRemainingChargeTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class BatteryControlRemainingChargeTimeSerializer {
         }
     }
 
-    public static BatteryControlRemainingChargeTime getOptionalBatteryControlRemainingChargeTime(IDeserializer iDeserializer) {
+    public static BatteryControlRemainingChargeTime getOptionalBatteryControlRemainingChargeTime(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlRemainingChargeTime batteryControlRemainingChargeTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class BatteryControlRemainingChargeTimeSerializer {
         return batteryControlRemainingChargeTime;
     }
 
-    public static BatteryControlRemainingChargeTime[] getOptionalBatteryControlRemainingChargeTimeVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlRemainingChargeTime[] getOptionalBatteryControlRemainingChargeTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlRemainingChargeTime[] batteryControlRemainingChargeTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

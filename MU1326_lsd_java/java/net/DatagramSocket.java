@@ -5,6 +5,7 @@ package java.net;
 
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PriviAction;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocketImpl;
 import java.net.DatagramSocketImplFactory;
@@ -24,22 +25,22 @@ public class DatagramSocket {
     private boolean isClosed = false;
     Object lock = new Object();
 
-    public DatagramSocket() {
+    public DatagramSocket() throws SocketException {
         this(0);
     }
 
-    public DatagramSocket(int n) {
+    public DatagramSocket(int n) throws SocketException {
         this.checkListen(n);
         this.createSocket(n, InetAddress.ANY);
     }
 
-    public DatagramSocket(int n, InetAddress inetAddress) {
+    public DatagramSocket(int n, InetAddress inetAddress) throws SocketException {
         this.checkListen(n);
         this.createSocket(n, inetAddress == null ? InetAddress.ANY : inetAddress);
     }
 
     void checkListen(int n) {
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0325", n));
         }
         SecurityManager securityManager = System.getSecurityManager();
@@ -57,7 +58,7 @@ public class DatagramSocket {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void connect(InetAddress inetAddress, int n) {
-        if (inetAddress == null || n < 0 || n > -65536) {
+        if (inetAddress == null || n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0032"));
         }
         Object object = this.lock;
@@ -97,7 +98,7 @@ public class DatagramSocket {
         this.isConnected = false;
     }
 
-    synchronized void createSocket(int n, InetAddress inetAddress) {
+    synchronized void createSocket(int n, InetAddress inetAddress) throws SocketException {
         this.impl = factory != null ? factory.createDatagramSocketImpl() : this.createSocketImpl();
         this.impl.create();
         try {
@@ -110,11 +111,11 @@ public class DatagramSocket {
         }
     }
 
-    DatagramSocketImpl createSocketImpl() {
+    DatagramSocketImpl createSocketImpl() throws SocketException {
         Object object = null;
         String string = (String)AccessController.doPrivileged(new PriviAction("impl.prefix", "Plain"));
         try {
-            Class clazz = Class.forName(new StringBuffer("java.net.").append(string).append("DatagramSocketImpl").toString());
+            Class clazz = Class.forName("java.net." + string + "DatagramSocketImpl");
             object = clazz.newInstance();
         }
         catch (Exception exception) {
@@ -165,22 +166,22 @@ public class DatagramSocket {
         return false;
     }
 
-    public synchronized int getReceiveBufferSize() {
+    public synchronized int getReceiveBufferSize() throws SocketException {
         this.checkClosedAndBind(false);
         return (Integer)this.impl.getOption(4098);
     }
 
-    public synchronized int getSendBufferSize() {
+    public synchronized int getSendBufferSize() throws SocketException {
         this.checkClosedAndBind(false);
         return (Integer)this.impl.getOption(4097);
     }
 
-    public synchronized int getSoTimeout() {
+    public synchronized int getSoTimeout() throws SocketException {
         this.checkClosedAndBind(false);
         return (Integer)this.impl.getOption(4102);
     }
 
-    public synchronized void receive(DatagramPacket datagramPacket) {
+    public synchronized void receive(DatagramPacket datagramPacket) throws IOException {
         this.checkClosedAndBind(true);
         boolean bl = true;
         InetAddress inetAddress = null;
@@ -248,7 +249,7 @@ public class DatagramSocket {
         }
     }
 
-    public void send(DatagramPacket datagramPacket) {
+    public void send(DatagramPacket datagramPacket) throws IOException {
         this.checkClosedAndBind(true);
         InetAddress inetAddress = datagramPacket.getAddress();
         if (this.address != null) {
@@ -276,7 +277,7 @@ public class DatagramSocket {
         this.impl.send(datagramPacket);
     }
 
-    public synchronized void setSendBufferSize(int n) {
+    public synchronized void setSendBufferSize(int n) throws SocketException {
         if (n < 1) {
             throw new IllegalArgumentException(Msg.getString("K0035"));
         }
@@ -284,7 +285,7 @@ public class DatagramSocket {
         this.impl.setOption(4097, new Integer(n));
     }
 
-    public synchronized void setReceiveBufferSize(int n) {
+    public synchronized void setReceiveBufferSize(int n) throws SocketException {
         if (n < 1) {
             throw new IllegalArgumentException(Msg.getString("K0035"));
         }
@@ -292,7 +293,7 @@ public class DatagramSocket {
         this.impl.setOption(4098, new Integer(n));
     }
 
-    public synchronized void setSoTimeout(int n) {
+    public synchronized void setSoTimeout(int n) throws SocketException {
         if (n < 0) {
             throw new IllegalArgumentException(Msg.getString("K0036"));
         }
@@ -300,7 +301,7 @@ public class DatagramSocket {
         this.impl.setOption(4102, new Integer(n));
     }
 
-    public static synchronized void setDatagramSocketImplFactory(DatagramSocketImplFactory datagramSocketImplFactory) {
+    public static synchronized void setDatagramSocketImplFactory(DatagramSocketImplFactory datagramSocketImplFactory) throws IOException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkSetFactory();
@@ -315,10 +316,10 @@ public class DatagramSocket {
         this.impl = datagramSocketImpl;
     }
 
-    public DatagramSocket(SocketAddress socketAddress) {
+    public DatagramSocket(SocketAddress socketAddress) throws SocketException {
         if (socketAddress != null) {
             if (!(socketAddress instanceof InetSocketAddress)) {
-                throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+                throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
             }
             this.checkListen(((InetSocketAddress)socketAddress).getPort());
         }
@@ -335,7 +336,7 @@ public class DatagramSocket {
         }
     }
 
-    void checkClosedAndBind(boolean bl) {
+    void checkClosedAndBind(boolean bl) throws SocketException {
         if (this.isClosed()) {
             throw new SocketException(Msg.getString("K003d"));
         }
@@ -346,13 +347,13 @@ public class DatagramSocket {
         }
     }
 
-    public void bind(SocketAddress socketAddress) {
+    public void bind(SocketAddress socketAddress) throws SocketException {
         this.checkClosedAndBind(false);
         int n = 0;
         InetAddress inetAddress = InetAddress.ANY;
         if (socketAddress != null) {
             if (!(socketAddress instanceof InetSocketAddress)) {
-                throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+                throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
             }
             InetSocketAddress inetSocketAddress = (InetSocketAddress)socketAddress;
             inetAddress = inetSocketAddress.getAddress();
@@ -369,12 +370,12 @@ public class DatagramSocket {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void connect(SocketAddress socketAddress) {
+    public void connect(SocketAddress socketAddress) throws SocketException {
         if (socketAddress == null) {
             throw new IllegalArgumentException(Msg.getString("K0318"));
         }
         if (!(socketAddress instanceof InetSocketAddress)) {
-            throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
         }
         InetSocketAddress inetSocketAddress = (InetSocketAddress)socketAddress;
         if (inetSocketAddress.getAddress() == null) {
@@ -423,27 +424,27 @@ public class DatagramSocket {
         return new InetSocketAddress(this.getLocalAddress(), this.getLocalPort());
     }
 
-    public void setReuseAddress(boolean bl) {
+    public void setReuseAddress(boolean bl) throws SocketException {
         this.checkClosedAndBind(false);
         this.impl.setOption(4, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    public boolean getReuseAddress() {
+    public boolean getReuseAddress() throws SocketException {
         this.checkClosedAndBind(false);
         return (Boolean)this.impl.getOption(4);
     }
 
-    public void setBroadcast(boolean bl) {
+    public void setBroadcast(boolean bl) throws SocketException {
         this.checkClosedAndBind(false);
         this.impl.setOption(32, bl ? Boolean.TRUE : Boolean.FALSE);
     }
 
-    public boolean getBroadcast() {
+    public boolean getBroadcast() throws SocketException {
         this.checkClosedAndBind(false);
         return (Boolean)this.impl.getOption(32);
     }
 
-    public void setTrafficClass(int n) {
+    public void setTrafficClass(int n) throws SocketException {
         this.checkClosedAndBind(false);
         if (n < 0 || n > 255) {
             throw new IllegalArgumentException();
@@ -451,7 +452,7 @@ public class DatagramSocket {
         this.impl.setOption(3, new Integer(n));
     }
 
-    public int getTrafficClass() {
+    public int getTrafficClass() throws SocketException {
         this.checkClosedAndBind(false);
         return ((Number)this.impl.getOption(3)).intValue();
     }

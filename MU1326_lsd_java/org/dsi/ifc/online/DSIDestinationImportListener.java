@@ -8,13 +8,10 @@ import org.dsi.ifc.online.PortalADBEntry;
 
 public interface DSIDestinationImportListener
 extends DSIListener {
-    default public void downloadAddressListResult(PortalADBEntry[] portalADBEntryArray, int n, int n2) {
-    }
+    public void downloadAddressListResult(PortalADBEntry[] var1, int var2, int var3);
 
-    default public void stopActionResult(int n) {
-    }
+    public void stopActionResult(int var1);
 
-    default public void updateEntries(int n, int n2) {
-    }
+    public void updateEntries(int var1, int var2);
 }
 

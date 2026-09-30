@@ -31,7 +31,7 @@ extends AbstractWidgetController {
             throw new IllegalStateException("only supported in manual mode!");
         }
         if (this.parentMenu == null && !(this.parent instanceof MenuController)) {
-            throw new IllegalStateException(new StringBuffer().append("cannot add separator to parent ").append(this.parent).toString());
+            throw new IllegalStateException("cannot add separator to parent " + this.parent);
         }
         int[] nArray = this.getBitmapIndices();
         if (nArray != null && nArray.length > 0) {
@@ -53,7 +53,6 @@ extends AbstractWidgetController {
         return separatingLineController;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.parent instanceof MenuController) {
@@ -64,10 +63,8 @@ extends AbstractWidgetController {
         }
     }
 
-    protected abstract IconRenderer createIconRenderer(SeparatingLineController separatingLineController) {
-    }
+    protected abstract IconRenderer createIconRenderer(SeparatingLineController var1);
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

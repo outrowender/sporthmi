@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.RecordingRange;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RecordingRangeSerializer {
-    public static void putOptionalRecordingRange(ISerializer iSerializer, RecordingRange recordingRange) {
+    public static void putOptionalRecordingRange(ISerializer iSerializer, RecordingRange recordingRange) throws SerializerException {
         boolean bl = recordingRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RecordingRangeSerializer {
         }
     }
 
-    public static void putOptionalRecordingRangeVarArray(ISerializer iSerializer, RecordingRange[] recordingRangeArray) {
+    public static void putOptionalRecordingRangeVarArray(ISerializer iSerializer, RecordingRange[] recordingRangeArray) throws SerializerException {
         boolean bl = recordingRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RecordingRangeSerializer {
         }
     }
 
-    public static RecordingRange getOptionalRecordingRange(IDeserializer iDeserializer) {
+    public static RecordingRange getOptionalRecordingRange(IDeserializer iDeserializer) throws SerializerException {
         RecordingRange recordingRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class RecordingRangeSerializer {
         return recordingRange;
     }
 
-    public static RecordingRange[] getOptionalRecordingRangeVarArray(IDeserializer iDeserializer) {
+    public static RecordingRange[] getOptionalRecordingRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         RecordingRange[] recordingRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -7,13 +7,10 @@ import org.apache.commons.scxml.model.Transition;
 import org.apache.commons.scxml.model.TransitionTarget;
 
 public interface SCXMLListener {
-    default public void onEntry(TransitionTarget transitionTarget) {
-    }
+    public void onEntry(TransitionTarget var1);
 
-    default public void onExit(TransitionTarget transitionTarget) {
-    }
+    public void onExit(TransitionTarget var1);
 
-    default public void onTransition(TransitionTarget transitionTarget, TransitionTarget transitionTarget2, Transition transition) {
-    }
+    public void onTransition(TransitionTarget var1, TransitionTarget var2, Transition var3);
 }
 

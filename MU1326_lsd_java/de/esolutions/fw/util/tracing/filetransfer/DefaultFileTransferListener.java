@@ -10,89 +10,84 @@ import de.esolutions.fw.util.tracing.filetransfer.file.IFile;
 public class DefaultFileTransferListener
 extends AbstractFileTransferListener
 implements IFileTransferListener {
-    @Override
     public void fileTransferBegin(IFile iFile) {
         System.out.println("FileTransfer Begin");
-        System.out.println(new StringBuffer().append("  Object:          ").append(iFile).toString());
-        System.out.println(new StringBuffer().append("  Class:           ").append(super.getClass().getName()).toString());
-        System.out.println(new StringBuffer().append("  RemotePath:      ").append(iFile.getRemotePath()).toString());
-        System.out.println(new StringBuffer().append("  LocalPath:       ").append(iFile.getLocalPath()).toString());
+        System.out.println("  Object:          " + iFile);
+        System.out.println("  Class:           " + iFile.getClass().getName());
+        System.out.println("  RemotePath:      " + iFile.getRemotePath());
+        System.out.println("  LocalPath:       " + iFile.getLocalPath());
     }
 
-    @Override
     public void fileTransferStatus(IFile iFile) {
         System.out.println("FileStatus");
-        System.out.println(new StringBuffer().append("  Object:          ").append(iFile).toString());
-        System.out.println(new StringBuffer().append("  Class:           ").append(super.getClass().getName()).toString());
-        System.out.println(new StringBuffer().append("  RemotePath:      ").append(iFile.getRemotePath()).toString());
-        System.out.println(new StringBuffer().append("  LocalPath:       ").append(iFile.getLocalPath()).toString());
-        System.out.println(new StringBuffer().append("  Size:            ").append(iFile.getSize()).toString());
-        System.out.println(new StringBuffer().append("  Timestamp:       ").append(iFile.getTimestamp()).toString());
-        System.out.println(new StringBuffer().append("  HashValid:       ").append(iFile.isHashValid()).toString());
-        System.out.println(new StringBuffer().append("  isAvailable:     ").append(iFile.isAvailable()).toString());
-        System.out.println(new StringBuffer().append("  isFile:          ").append(iFile.isFile()).toString());
-        System.out.println(new StringBuffer().append("  isReadable:      ").append(iFile.isReadable()).toString());
-        System.out.println(new StringBuffer().append("  isUpload:        ").append(iFile.isUpload()).toString());
-        System.out.println(new StringBuffer().append("  hasError:        ").append(iFile.hasError()).toString());
+        System.out.println("  Object:          " + iFile);
+        System.out.println("  Class:           " + iFile.getClass().getName());
+        System.out.println("  RemotePath:      " + iFile.getRemotePath());
+        System.out.println("  LocalPath:       " + iFile.getLocalPath());
+        System.out.println("  Size:            " + iFile.getSize());
+        System.out.println("  Timestamp:       " + iFile.getTimestamp());
+        System.out.println("  HashValid:       " + iFile.isHashValid());
+        System.out.println("  isAvailable:     " + iFile.isAvailable());
+        System.out.println("  isFile:          " + iFile.isFile());
+        System.out.println("  isReadable:      " + iFile.isReadable());
+        System.out.println("  isUpload:        " + iFile.isUpload());
+        System.out.println("  hasError:        " + iFile.hasError());
         if (iFile.hasError() && iFile.getError() != null) {
             System.out.println("####### ERROR #######");
-            System.out.println(new StringBuffer().append("  errorMessage:    ").append(iFile.getError().getErrorMessage()).toString());
-            System.out.println(new StringBuffer().append("  errorCode:       ").append(iFile.getError().getErrorCode()).toString());
-            System.out.println(new StringBuffer().append("  Exception:       ").append(iFile.getError().getException()).toString());
+            System.out.println("  errorMessage:    " + iFile.getError().getErrorMessage());
+            System.out.println("  errorCode:       " + iFile.getError().getErrorCode());
+            System.out.println("  Exception:       " + iFile.getError().getException());
         }
     }
 
-    @Override
     public void fileTransferComplete(IFile iFile) {
         System.out.println("FileTransfer is complete");
-        System.out.println(new StringBuffer().append("  Object:          ").append(iFile).toString());
-        System.out.println(new StringBuffer().append("  Class:           ").append(super.getClass().getName()).toString());
-        System.out.println(new StringBuffer().append("  RemotePath:      ").append(iFile.getRemotePath()).toString());
-        System.out.println(new StringBuffer().append("  LocalPath:       ").append(iFile.getLocalPath()).toString());
-        System.out.println(new StringBuffer().append("  Size:            ").append(iFile.getSize()).toString());
-        System.out.println(new StringBuffer().append("  Timestamp:       ").append(iFile.getTimestamp()).toString());
-        System.out.println(new StringBuffer().append("  HashValid:       ").append(iFile.isHashValid()).toString());
-        System.out.println(new StringBuffer().append("  isAvailable:     ").append(iFile.isAvailable()).toString());
-        System.out.println(new StringBuffer().append("  isFile:          ").append(iFile.isFile()).toString());
-        System.out.println(new StringBuffer().append("  isReadable:      ").append(iFile.isReadable()).toString());
-        System.out.println(new StringBuffer().append("  isUpload:        ").append(iFile.isUpload()).toString());
-        System.out.println(new StringBuffer().append("  hasError:        ").append(iFile.hasError()).toString());
+        System.out.println("  Object:          " + iFile);
+        System.out.println("  Class:           " + iFile.getClass().getName());
+        System.out.println("  RemotePath:      " + iFile.getRemotePath());
+        System.out.println("  LocalPath:       " + iFile.getLocalPath());
+        System.out.println("  Size:            " + iFile.getSize());
+        System.out.println("  Timestamp:       " + iFile.getTimestamp());
+        System.out.println("  HashValid:       " + iFile.isHashValid());
+        System.out.println("  isAvailable:     " + iFile.isAvailable());
+        System.out.println("  isFile:          " + iFile.isFile());
+        System.out.println("  isReadable:      " + iFile.isReadable());
+        System.out.println("  isUpload:        " + iFile.isUpload());
+        System.out.println("  hasError:        " + iFile.hasError());
         if (iFile.hasError() && iFile.getError() != null) {
             System.out.println("####### ERROR #######");
-            System.out.println(new StringBuffer().append("  errorMessage:    ").append(iFile.getError().getErrorMessage()).toString());
-            System.out.println(new StringBuffer().append("  errorCode:       ").append(iFile.getError().getErrorCode()).toString());
-            System.out.println(new StringBuffer().append("  Exception:       ").append(iFile.getError().getException()).toString());
+            System.out.println("  errorMessage:    " + iFile.getError().getErrorMessage());
+            System.out.println("  errorCode:       " + iFile.getError().getErrorCode());
+            System.out.println("  Exception:       " + iFile.getError().getException());
             iFile.getError().getException().printStackTrace();
         }
     }
 
-    @Override
     public void fileTransferProgress(IFile iFile) {
-        System.out.println(new StringBuffer().append("FileTransfer Progress: ").append(iFile.getLocalPath()).append(": ").append(iFile.getSize()).append(", ").append(iFile.getOffset()).toString());
+        System.out.println("FileTransfer Progress: " + iFile.getLocalPath() + ": " + iFile.getSize() + ", " + iFile.getOffset());
     }
 
-    @Override
     public void fileTransferError(IFile iFile) {
         if (iFile != null) {
             System.out.println("FileTransfer Error ");
-            System.out.println(new StringBuffer().append("  Object:          ").append(iFile).toString());
-            System.out.println(new StringBuffer().append("  RemotePath:      ").append(iFile.getRemotePath()).toString());
-            System.out.println(new StringBuffer().append("  LocalPath:       ").append(iFile.getLocalPath()).toString());
-            System.out.println(new StringBuffer().append("  hasError:        ").append(iFile.hasError()).toString());
-            System.out.println(new StringBuffer().append("  errorMessage:    ").append(iFile.getError().getErrorMessage()).toString());
-            System.out.println(new StringBuffer().append("  errorCode:       ").append(iFile.getError().getErrorCode()).toString());
-            System.out.println(new StringBuffer().append("  Exception:       ").append(iFile.getError().getException()).toString());
-            System.out.println(new StringBuffer().append("  HashValid:       ").append(iFile.isHashValid()).toString());
-            System.out.println(new StringBuffer().append("  isAvailable:     ").append(iFile.isAvailable()).toString());
-            System.out.println(new StringBuffer().append("  isFile:          ").append(iFile.isFile()).toString());
-            System.out.println(new StringBuffer().append("  isReadable:      ").append(iFile.isReadable()).toString());
+            System.out.println("  Object:          " + iFile);
+            System.out.println("  RemotePath:      " + iFile.getRemotePath());
+            System.out.println("  LocalPath:       " + iFile.getLocalPath());
+            System.out.println("  hasError:        " + iFile.hasError());
+            System.out.println("  errorMessage:    " + iFile.getError().getErrorMessage());
+            System.out.println("  errorCode:       " + iFile.getError().getErrorCode());
+            System.out.println("  Exception:       " + iFile.getError().getException());
+            System.out.println("  HashValid:       " + iFile.isHashValid());
+            System.out.println("  isAvailable:     " + iFile.isAvailable());
+            System.out.println("  isFile:          " + iFile.isFile());
+            System.out.println("  isReadable:      " + iFile.isReadable());
         }
     }
 
     public void fileUploadComplete(IFile iFile) {
         System.out.println("FileTransfer Upload complete ");
-        System.out.println(new StringBuffer().append("  Object:          ").append(iFile).toString());
-        System.out.println(new StringBuffer().append("  path:            ").append(iFile.getLocalPath()).toString());
+        System.out.println("  Object:          " + iFile);
+        System.out.println("  path:            " + iFile.getLocalPath());
     }
 }
 

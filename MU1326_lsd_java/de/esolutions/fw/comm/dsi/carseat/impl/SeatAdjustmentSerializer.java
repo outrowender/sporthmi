@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatAdjustment;
 
 public class SeatAdjustmentSerializer {
-    public static void putOptionalSeatAdjustment(ISerializer iSerializer, SeatAdjustment seatAdjustment) {
+    public static void putOptionalSeatAdjustment(ISerializer iSerializer, SeatAdjustment seatAdjustment) throws SerializerException {
         boolean bl = seatAdjustment == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SeatAdjustmentSerializer {
         }
     }
 
-    public static void putOptionalSeatAdjustmentVarArray(ISerializer iSerializer, SeatAdjustment[] seatAdjustmentArray) {
+    public static void putOptionalSeatAdjustmentVarArray(ISerializer iSerializer, SeatAdjustment[] seatAdjustmentArray) throws SerializerException {
         boolean bl = seatAdjustmentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SeatAdjustmentSerializer {
         }
     }
 
-    public static SeatAdjustment getOptionalSeatAdjustment(IDeserializer iDeserializer) {
+    public static SeatAdjustment getOptionalSeatAdjustment(IDeserializer iDeserializer) throws SerializerException {
         SeatAdjustment seatAdjustment = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class SeatAdjustmentSerializer {
         return seatAdjustment;
     }
 
-    public static SeatAdjustment[] getOptionalSeatAdjustmentVarArray(IDeserializer iDeserializer) {
+    public static SeatAdjustment[] getOptionalSeatAdjustmentVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatAdjustment[] seatAdjustmentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

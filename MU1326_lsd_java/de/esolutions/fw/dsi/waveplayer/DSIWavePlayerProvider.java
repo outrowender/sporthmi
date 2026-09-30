@@ -25,28 +25,23 @@ implements DSIWavePlayer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$waveplayer$DSIWavePlayer == null ? (class$org$dsi$ifc$waveplayer$DSIWavePlayer = DSIWavePlayerProvider.class$("org.dsi.ifc.waveplayer.DSIWavePlayer")) : class$org$dsi$ifc$waveplayer$DSIWavePlayer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIWavePlayerProxy(this.instance, (DSIWavePlayerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void audioTrigger(int n) {
         try {
             this.proxy.audioTrigger(n);
@@ -56,7 +51,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void audioTriggerDefaultTone(int n) {
         try {
             this.proxy.audioTriggerDefaultTone(n);
@@ -66,7 +60,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void setPlayTone(int n) {
         try {
             this.proxy.setPlayTone(n);
@@ -76,7 +69,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -86,7 +78,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -96,7 +87,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -106,7 +96,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -126,7 +114,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -136,7 +123,6 @@ implements DSIWavePlayer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

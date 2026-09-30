@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCManeuverAssistState;
 
 public class PDCManeuverAssistStateSerializer {
-    public static void putOptionalPDCManeuverAssistState(ISerializer iSerializer, PDCManeuverAssistState pDCManeuverAssistState) {
+    public static void putOptionalPDCManeuverAssistState(ISerializer iSerializer, PDCManeuverAssistState pDCManeuverAssistState) throws SerializerException {
         boolean bl = pDCManeuverAssistState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCManeuverAssistStateSerializer {
         }
     }
 
-    public static void putOptionalPDCManeuverAssistStateVarArray(ISerializer iSerializer, PDCManeuverAssistState[] pDCManeuverAssistStateArray) {
+    public static void putOptionalPDCManeuverAssistStateVarArray(ISerializer iSerializer, PDCManeuverAssistState[] pDCManeuverAssistStateArray) throws SerializerException {
         boolean bl = pDCManeuverAssistStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCManeuverAssistStateSerializer {
         }
     }
 
-    public static PDCManeuverAssistState getOptionalPDCManeuverAssistState(IDeserializer iDeserializer) {
+    public static PDCManeuverAssistState getOptionalPDCManeuverAssistState(IDeserializer iDeserializer) throws SerializerException {
         PDCManeuverAssistState pDCManeuverAssistState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCManeuverAssistStateSerializer {
         return pDCManeuverAssistState;
     }
 
-    public static PDCManeuverAssistState[] getOptionalPDCManeuverAssistStateVarArray(IDeserializer iDeserializer) {
+    public static PDCManeuverAssistState[] getOptionalPDCManeuverAssistStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCManeuverAssistState[] pDCManeuverAssistStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

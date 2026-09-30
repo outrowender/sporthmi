@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineTrafficReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineTrafficReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIOnlineTrafficReply {
         super(n, (class$org$dsi$ifc$online$DSIOnlineTrafficListener == null ? (class$org$dsi$ifc$online$DSIOnlineTrafficListener = DSIOnlineTrafficDispatcher.class$("org.dsi.ifc.online.DSIOnlineTrafficListener")) : class$org$dsi$ifc$online$DSIOnlineTrafficListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateConsumerReady(int n, int n2) {
+    public void updateConsumerReady(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void updateWantOnlineTrafficData(int n, int n2) {
+    public void updateWantOnlineTrafficData(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void getNewDataResult(int n, LocatablePosition[] locatablePositionArray) {
+    public void getNewDataResult(int n, LocatablePosition[] locatablePositionArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -104,8 +101,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void setNewDataResult(String string, int n) {
+    public void setNewDataResult(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -121,8 +117,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void getNewSession() {
+    public void getNewSession() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -138,8 +133,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void setTimeoutForFallbackResult(int n) {
+    public void setTimeoutForFallbackResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -155,8 +149,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void getNewFCDInformationResult(FCDPosition fCDPosition) {
+    public void getNewFCDInformationResult(FCDPosition fCDPosition) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -172,8 +165,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void getInventoryResult(String string) {
+    public void getInventoryResult(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -189,8 +181,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void getDownloadFileResult(String string) {
+    public void getDownloadFileResult(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -206,8 +197,7 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -223,14 +213,13 @@ implements DSIOnlineTrafficReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlineTrafficListener dSIOnlineTrafficListener = (DSIOnlineTrafficListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineTrafficDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineTrafficDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlineTrafficListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineTrafficDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineTrafficDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlineTrafficListener, new Object[]{string, string2});
                     continue;
                 }

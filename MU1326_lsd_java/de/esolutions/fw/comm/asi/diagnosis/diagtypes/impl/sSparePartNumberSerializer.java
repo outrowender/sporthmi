@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSparePartNumber;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSparePartNumberSerializer {
-    public static void putOptionalsSparePartNumber(ISerializer iSerializer, sSparePartNumber sSparePartNumber2) {
+    public static void putOptionalsSparePartNumber(ISerializer iSerializer, sSparePartNumber sSparePartNumber2) throws SerializerException {
         boolean bl = sSparePartNumber2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sSparePartNumberSerializer {
         }
     }
 
-    public static void putOptionalsSparePartNumberVarArray(ISerializer iSerializer, sSparePartNumber[] sSparePartNumberArray) {
+    public static void putOptionalsSparePartNumberVarArray(ISerializer iSerializer, sSparePartNumber[] sSparePartNumberArray) throws SerializerException {
         boolean bl = sSparePartNumberArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sSparePartNumberSerializer {
         }
     }
 
-    public static sSparePartNumber getOptionalsSparePartNumber(IDeserializer iDeserializer) {
+    public static sSparePartNumber getOptionalsSparePartNumber(IDeserializer iDeserializer) throws SerializerException {
         sSparePartNumber sSparePartNumber2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sSparePartNumberSerializer {
         return sSparePartNumber2;
     }
 
-    public static sSparePartNumber[] getOptionalsSparePartNumberVarArray(IDeserializer iDeserializer) {
+    public static sSparePartNumber[] getOptionalsSparePartNumberVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSparePartNumber[] sSparePartNumberArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

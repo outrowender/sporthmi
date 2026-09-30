@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tvtuner.Time;
 
 public class TimeSerializer {
-    public static void putOptionalTime(ISerializer iSerializer, Time time) {
+    public static void putOptionalTime(ISerializer iSerializer, Time time) throws SerializerException {
         boolean bl = time == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TimeSerializer {
         }
     }
 
-    public static void putOptionalTimeVarArray(ISerializer iSerializer, Time[] timeArray) {
+    public static void putOptionalTimeVarArray(ISerializer iSerializer, Time[] timeArray) throws SerializerException {
         boolean bl = timeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TimeSerializer {
         }
     }
 
-    public static Time getOptionalTime(IDeserializer iDeserializer) {
+    public static Time getOptionalTime(IDeserializer iDeserializer) throws SerializerException {
         Time time = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class TimeSerializer {
         return time;
     }
 
-    public static Time[] getOptionalTimeVarArray(IDeserializer iDeserializer) {
+    public static Time[] getOptionalTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         Time[] timeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

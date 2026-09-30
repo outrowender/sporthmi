@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaBrowser;
 import de.esolutions.fw.comm.dsi.media.DSIMediaBrowserC;
 import de.esolutions.fw.comm.dsi.media.DSIMediaBrowserReply;
-import de.esolutions.fw.comm.dsi.media.impl.DSIMediaBrowserProxy$1;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaBrowserReplyService;
+import de.esolutions.fw.comm.dsi.media.impl.ListEntrySerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.ListEntry;
@@ -32,8 +34,7 @@ DSIMediaBrowserC {
         return this.proxy;
     }
 
-    @Override
-    public void setContentFilter(int n) {
+    public void setContentFilter(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -44,8 +45,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setBrowseMode(int n) {
+    public void setBrowseMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -56,8 +56,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setBrowseMedia(long l, long l2) {
+    public void setBrowseMedia(long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -69,14 +68,17 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void changeFolder(ListEntry[] listEntryArray) {
-        DSIMediaBrowserProxy$1 dSIMediaBrowserProxy$1 = new DSIMediaBrowserProxy$1(this, listEntryArray);
-        this.proxy.remoteCallMethod((short)48, dSIMediaBrowserProxy$1);
+    public void changeFolder(final ListEntry[] listEntryArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ListEntrySerializer.putOptionalListEntryVarArray(iSerializer, listEntryArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)48, iSerializable);
     }
 
-    @Override
-    public void requestList(long l, int n, int n2, int n3) {
+    public void requestList(long l, int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -90,8 +92,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void requestPickList(long[] lArray) {
+    public void requestPickList(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt64VarArray(lArray);
@@ -102,8 +103,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void enableRecurseSubdirectories(boolean bl) {
+    public void enableRecurseSubdirectories(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -114,8 +114,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) {
+    public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -130,18 +129,15 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void undoLastSelection() {
+    public void undoLastSelection() throws MethodException {
         this.proxy.remoteCallMethod((short)32, null);
     }
 
-    @Override
-    public void resetSelection() {
+    public void resetSelection() throws MethodException {
         this.proxy.remoteCallMethod((short)14, null);
     }
 
-    @Override
-    public void setSearchString(String string) {
+    public void setSearchString(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -152,8 +148,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)31, genericSerializable);
     }
 
-    @Override
-    public void setSearchCriteria(int n) {
+    public void setSearchCriteria(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -164,18 +159,15 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void activateSearchSpeller() {
+    public void activateSearchSpeller() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void deactivateSearchSpeller() {
+    public void deactivateSearchSpeller() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void selectSearchResult(long l) {
+    public void selectSearchResult(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -186,8 +178,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void requestSearchList(long l, int n, int n2) {
+    public void requestSearchList(long l, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -200,13 +191,11 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void resetSearchString() {
+    public void resetSearchString() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void requestSearchListExt(long l, int n, int n2) {
+    public void requestSearchListExt(long l, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -219,8 +208,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void requestFullyQualifiedName(long l) {
+    public void requestFullyQualifiedName(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -231,8 +219,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)52, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -243,8 +230,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -255,13 +241,11 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)27, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -272,8 +256,7 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -284,13 +267,11 @@ DSIMediaBrowserC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

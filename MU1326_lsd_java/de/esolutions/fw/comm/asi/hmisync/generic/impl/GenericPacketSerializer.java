@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.generic.impl;
 import de.esolutions.fw.comm.asi.hmisync.generic.GenericPacket;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class GenericPacketSerializer {
-    public static void putOptionalGenericPacket(ISerializer iSerializer, GenericPacket genericPacket) {
+    public static void putOptionalGenericPacket(ISerializer iSerializer, GenericPacket genericPacket) throws SerializerException {
         boolean bl = genericPacket == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class GenericPacketSerializer {
         }
     }
 
-    public static void putOptionalGenericPacketVarArray(ISerializer iSerializer, GenericPacket[] genericPacketArray) {
+    public static void putOptionalGenericPacketVarArray(ISerializer iSerializer, GenericPacket[] genericPacketArray) throws SerializerException {
         boolean bl = genericPacketArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class GenericPacketSerializer {
         }
     }
 
-    public static GenericPacket getOptionalGenericPacket(IDeserializer iDeserializer) {
+    public static GenericPacket getOptionalGenericPacket(IDeserializer iDeserializer) throws SerializerException {
         GenericPacket genericPacket = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class GenericPacketSerializer {
         return genericPacket;
     }
 
-    public static GenericPacket[] getOptionalGenericPacketVarArray(IDeserializer iDeserializer) {
+    public static GenericPacket[] getOptionalGenericPacketVarArray(IDeserializer iDeserializer) throws SerializerException {
         GenericPacket[] genericPacketArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

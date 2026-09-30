@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sBoundingBoxSerializer {
-    public static void putOptionalsBoundingBox(ISerializer iSerializer, sBoundingBox sBoundingBox2) {
+    public static void putOptionalsBoundingBox(ISerializer iSerializer, sBoundingBox sBoundingBox2) throws SerializerException {
         boolean bl = sBoundingBox2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sBoundingBoxSerializer {
         }
     }
 
-    public static void putOptionalsBoundingBoxVarArray(ISerializer iSerializer, sBoundingBox[] sBoundingBoxArray) {
+    public static void putOptionalsBoundingBoxVarArray(ISerializer iSerializer, sBoundingBox[] sBoundingBoxArray) throws SerializerException {
         boolean bl = sBoundingBoxArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sBoundingBoxSerializer {
         }
     }
 
-    public static sBoundingBox getOptionalsBoundingBox(IDeserializer iDeserializer) {
+    public static sBoundingBox getOptionalsBoundingBox(IDeserializer iDeserializer) throws SerializerException {
         sBoundingBox sBoundingBox2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sBoundingBoxSerializer {
         return sBoundingBox2;
     }
 
-    public static sBoundingBox[] getOptionalsBoundingBoxVarArray(IDeserializer iDeserializer) {
+    public static sBoundingBox[] getOptionalsBoundingBoxVarArray(IDeserializer iDeserializer) throws SerializerException {
         sBoundingBox[] sBoundingBoxArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

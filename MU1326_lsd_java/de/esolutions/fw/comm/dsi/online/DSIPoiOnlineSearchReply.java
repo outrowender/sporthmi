@@ -3,31 +3,26 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.OSRServiceState;
 import org.dsi.ifc.online.PoiOnlineSearchValuelist;
 
 public interface DSIPoiOnlineSearchReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "66cd10bd-7fcb-5257-a3b3-fb17ef89a84c";
+    public static final String IPL_COMM_INTERFACE_KEY = "570d8158-1fca-541c-bb86-991022902795";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.42";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.42";
 
-    default public void poiResult(int n, int n2, int n3) {
-    }
+    public void poiResult(int var1, int var2, int var3) throws MethodException;
 
-    default public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
-    }
+    public void poiSpellingSuggestion(int var1, String var2, String[] var3) throws MethodException;
 
-    default public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
-    }
+    public void poiValueList(int var1, int var2, PoiOnlineSearchValuelist var3, int var4, int var5) throws MethodException;
 
-    default public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) {
-    }
+    public void precheckDynamicPOICategoryResponse(int var1, OSRServiceState var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

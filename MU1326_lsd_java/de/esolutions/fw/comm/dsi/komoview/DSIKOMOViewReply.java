@@ -3,28 +3,24 @@
  */
 package de.esolutions.fw.comm.dsi.komoview;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKOMOViewReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "413ce613-0a9a-54f6-93e9-bcc0513a92b5";
+    public static final String IPL_COMM_INTERFACE_KEY = "7df44811-d014-5086-868d-506d5ebff276";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.15";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.15";
 
-    default public void updateKomoViewEnabled(boolean bl, int n) {
-    }
+    public void updateKomoViewEnabled(boolean var1, int var2) throws MethodException;
 
-    default public void updateVisibility(boolean bl, int n) {
-    }
+    public void updateVisibility(boolean var1, int var2) throws MethodException;
 
-    default public void komoViewResult(int n) {
-    }
+    public void komoViewResult(int var1) throws MethodException;
 
-    default public void updateCurrentKomoViewType(int n, int n2) {
-    }
+    public void updateCurrentKomoViewType(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

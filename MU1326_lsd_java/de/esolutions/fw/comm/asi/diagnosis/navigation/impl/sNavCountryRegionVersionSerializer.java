@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersion;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersionEntry;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNavCountryRegionVersionSerializer {
-    public static void putOptionalsNavCountryRegionVersion(ISerializer iSerializer, sNavCountryRegionVersion sNavCountryRegionVersion2) {
+    public static void putOptionalsNavCountryRegionVersion(ISerializer iSerializer, sNavCountryRegionVersion sNavCountryRegionVersion2) throws SerializerException {
         boolean bl = sNavCountryRegionVersion2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sNavCountryRegionVersionSerializer {
         }
     }
 
-    public static void putOptionalsNavCountryRegionVersionVarArray(ISerializer iSerializer, sNavCountryRegionVersion[] sNavCountryRegionVersionArray) {
+    public static void putOptionalsNavCountryRegionVersionVarArray(ISerializer iSerializer, sNavCountryRegionVersion[] sNavCountryRegionVersionArray) throws SerializerException {
         boolean bl = sNavCountryRegionVersionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sNavCountryRegionVersionSerializer {
         }
     }
 
-    public static sNavCountryRegionVersion getOptionalsNavCountryRegionVersion(IDeserializer iDeserializer) {
+    public static sNavCountryRegionVersion getOptionalsNavCountryRegionVersion(IDeserializer iDeserializer) throws SerializerException {
         sNavCountryRegionVersion sNavCountryRegionVersion2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class sNavCountryRegionVersionSerializer {
         return sNavCountryRegionVersion2;
     }
 
-    public static sNavCountryRegionVersion[] getOptionalsNavCountryRegionVersionVarArray(IDeserializer iDeserializer) {
+    public static sNavCountryRegionVersion[] getOptionalsNavCountryRegionVersionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNavCountryRegionVersion[] sNavCountryRegionVersionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

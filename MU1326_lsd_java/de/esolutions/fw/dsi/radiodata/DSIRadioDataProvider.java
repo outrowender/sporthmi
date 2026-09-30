@@ -29,28 +29,23 @@ implements DSIRadioData {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$radiodata$DSIRadioData == null ? (class$org$dsi$ifc$radiodata$DSIRadioData = DSIRadioDataProvider.class$("org.dsi.ifc.radiodata.DSIRadioData")) : class$org$dsi$ifc$radiodata$DSIRadioData).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIRadioDataProxy(this.instance, (DSIRadioDataReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestRadioStationData(RadioStationDataRequest[] radioStationDataRequestArray, int n) {
         try {
             this.proxy.requestRadioStationData(radioStationDataRequestArray, n);
@@ -60,7 +55,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestRadioStationLogos(RadioStationLogoRequest[] radioStationLogoRequestArray, int n) {
         try {
             this.proxy.requestRadioStationLogos(radioStationLogoRequestArray, n);
@@ -70,7 +64,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestDynamicDatabaseAlteration(RadioStationData radioStationData, ResourceLocator resourceLocator, int n, int n2) {
         try {
             this.proxy.requestDynamicDatabaseAlteration(radioStationData, resourceLocator, n, n2);
@@ -80,7 +73,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestCountryListUpdate(int n) {
         try {
             this.proxy.requestCountryListUpdate(n);
@@ -90,7 +82,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestDatabaseVersionInfo(int n) {
         try {
             this.proxy.requestDatabaseVersionInfo(n);
@@ -100,7 +91,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestPersistStationLogos(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
         try {
             this.proxy.requestPersistStationLogos(radioStationDataArray, resourceLocatorArray, n, n2);
@@ -110,7 +100,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestCountryRegionData(int n) {
         try {
             this.proxy.requestCountryRegionData(n);
@@ -120,7 +109,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void requestCountryRegionTranslationData(int n, String string, int n2) {
         try {
             this.proxy.requestCountryRegionTranslationData(n, string, n2);
@@ -130,7 +118,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -140,7 +127,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -150,7 +136,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -160,7 +145,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -170,7 +154,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -180,7 +163,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -190,7 +172,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -200,7 +181,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -210,7 +190,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -220,7 +199,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -230,7 +208,6 @@ implements DSIRadioData {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

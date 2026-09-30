@@ -9,71 +9,52 @@ import de.esolutions.fw.comm.asi.hmisync.car.service.OilLevelData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.SIAOilInspection;
 import de.esolutions.fw.comm.asi.hmisync.car.service.SIAServiceData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.TireDisplayData;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "7a1486d5-f261-4cc0-a776-d22b0205f993";
+    public static final String IPL_COMM_INTERFACE_KEY = "7a22b628-8259-5dd8-ab90-23654e8883e0";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateOilLevelData(OilLevelData oilLevelData, boolean bl) {
-    }
+    public void updateOilLevelData(OilLevelData var1, boolean var2) throws MethodException;
 
-    default public void updateOilLevelDataVisibilityState(int n, boolean bl) {
-    }
+    public void updateOilLevelDataVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateAdBlueInfo(AdBlueInfo adBlueInfo, boolean bl) {
-    }
+    public void updateAdBlueInfo(AdBlueInfo var1, boolean var2) throws MethodException;
 
-    default public void updateAdBlueInfoVisibilityState(int n, boolean bl) {
-    }
+    public void updateAdBlueInfoVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, boolean bl) {
-    }
+    public void updateSIAOilInspection(SIAOilInspection var1, boolean var2) throws MethodException;
 
-    default public void updateSIAOilInspectionVisibilityState(int[] nArray, boolean bl) {
-    }
+    public void updateSIAOilInspectionVisibilityState(int[] var1, boolean var2) throws MethodException;
 
-    default public void updateSIAServiceData(SIAServiceData sIAServiceData, boolean bl) {
-    }
+    public void updateSIAServiceData(SIAServiceData var1, boolean var2) throws MethodException;
 
-    default public void updateSIAServiceDataVisibilityState(int n, boolean bl) {
-    }
+    public void updateSIAServiceDataVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateVinData(String string, boolean bl) {
-    }
+    public void updateVinData(String var1, boolean var2) throws MethodException;
 
-    default public void updateVinDataVisibilityState(int n, boolean bl) {
-    }
+    public void updateVinDataVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateKeyData(int[] nArray, boolean bl) {
-    }
+    public void updateKeyData(int[] var1, boolean var2) throws MethodException;
 
-    default public void updateKeyDataVisibilityState(int n, boolean bl) {
-    }
+    public void updateKeyDataVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateTireDisplayData(TireDisplayData tireDisplayData, boolean bl) {
-    }
+    public void updateTireDisplayData(TireDisplayData var1, boolean var2) throws MethodException;
 
-    default public void updateTireDisplayDataVisibilityState(int n, boolean bl) {
-    }
+    public void updateTireDisplayDataVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateTireSystem(int n, boolean bl) {
-    }
+    public void updateTireSystem(int var1, boolean var2) throws MethodException;
 
-    default public void updateVehicleSpeedVisibility(int n, boolean bl) {
-    }
+    public void updateVehicleSpeedVisibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateVehicleSpeed(FloatBaseType floatBaseType, boolean bl) {
-    }
+    public void updateVehicleSpeed(FloatBaseType var1, boolean var2) throws MethodException;
 }
 

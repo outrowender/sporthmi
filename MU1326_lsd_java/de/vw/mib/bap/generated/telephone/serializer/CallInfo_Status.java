@@ -11,152 +11,152 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CallInfo_Status
 implements StatusProperty {
     public final BAPString pbName0 = new BAPString(100);
-    private static final int MAX_PB_NAME0_LENGTH;
+    private static final int MAX_PB_NAME0_LENGTH = 100;
     public final BAPString telNumber0 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER0_LENGTH;
+    private static final int MAX_TEL_NUMBER0_LENGTH = 41;
     public int category0;
-    private static final int CATEGORY0_BITSIZE;
-    public static final int CATEGORY0_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY0_GENERAL;
-    public static final int CATEGORY0_MOBILE;
-    public static final int CATEGORY0_OFFICE;
-    public static final int CATEGORY0_HOME;
-    public static final int CATEGORY0_FAX;
-    public static final int CATEGORY0_PAGER;
-    public static final int CATEGORY0_CAR;
-    public static final int CATEGORY0_SIM;
-    public static final int CATEGORY0_MAIN_OFFICE;
-    public static final int CATEGORY0_MAIN_HOME;
-    public static final int CATEGORY0_CELL_OFFICE;
-    public static final int CATEGORY0_CELL_HOME;
-    public static final int CATEGORY0_FAX_OFFICE;
-    public static final int CATEGORY0_FAX_HOME;
+    private static final int CATEGORY0_BITSIZE = 8;
+    public static final int CATEGORY0_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY0_GENERAL = 1;
+    public static final int CATEGORY0_MOBILE = 2;
+    public static final int CATEGORY0_OFFICE = 3;
+    public static final int CATEGORY0_HOME = 4;
+    public static final int CATEGORY0_FAX = 5;
+    public static final int CATEGORY0_PAGER = 6;
+    public static final int CATEGORY0_CAR = 7;
+    public static final int CATEGORY0_SIM = 8;
+    public static final int CATEGORY0_MAIN_OFFICE = 9;
+    public static final int CATEGORY0_MAIN_HOME = 10;
+    public static final int CATEGORY0_CELL_OFFICE = 11;
+    public static final int CATEGORY0_CELL_HOME = 12;
+    public static final int CATEGORY0_FAX_OFFICE = 13;
+    public static final int CATEGORY0_FAX_HOME = 14;
     public final BAPString pbName1 = new BAPString(100);
-    private static final int MAX_PB_NAME1_LENGTH;
+    private static final int MAX_PB_NAME1_LENGTH = 100;
     public final BAPString telNumber1 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER1_LENGTH;
+    private static final int MAX_TEL_NUMBER1_LENGTH = 41;
     public int category1;
-    private static final int CATEGORY1_BITSIZE;
-    public static final int CATEGORY1_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY1_GENERAL;
-    public static final int CATEGORY1_MOBILE;
-    public static final int CATEGORY1_OFFICE;
-    public static final int CATEGORY1_HOME;
-    public static final int CATEGORY1_FAX;
-    public static final int CATEGORY1_PAGER;
-    public static final int CATEGORY1_CAR;
-    public static final int CATEGORY1_SIM;
-    public static final int CATEGORY1_MAIN_OFFICE;
-    public static final int CATEGORY1_MAIN_HOME;
-    public static final int CATEGORY1_CELL_OFFICE;
-    public static final int CATEGORY1_CELL_HOME;
-    public static final int CATEGORY1_FAX_OFFICE;
-    public static final int CATEGORY1_FAX_HOME;
+    private static final int CATEGORY1_BITSIZE = 8;
+    public static final int CATEGORY1_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY1_GENERAL = 1;
+    public static final int CATEGORY1_MOBILE = 2;
+    public static final int CATEGORY1_OFFICE = 3;
+    public static final int CATEGORY1_HOME = 4;
+    public static final int CATEGORY1_FAX = 5;
+    public static final int CATEGORY1_PAGER = 6;
+    public static final int CATEGORY1_CAR = 7;
+    public static final int CATEGORY1_SIM = 8;
+    public static final int CATEGORY1_MAIN_OFFICE = 9;
+    public static final int CATEGORY1_MAIN_HOME = 10;
+    public static final int CATEGORY1_CELL_OFFICE = 11;
+    public static final int CATEGORY1_CELL_HOME = 12;
+    public static final int CATEGORY1_FAX_OFFICE = 13;
+    public static final int CATEGORY1_FAX_HOME = 14;
     public final BAPString pbName2 = new BAPString(100);
-    private static final int MAX_PB_NAME2_LENGTH;
+    private static final int MAX_PB_NAME2_LENGTH = 100;
     public final BAPString telNumber2 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER2_LENGTH;
+    private static final int MAX_TEL_NUMBER2_LENGTH = 41;
     public int category2;
-    private static final int CATEGORY2_BITSIZE;
-    public static final int CATEGORY2_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY2_GENERAL;
-    public static final int CATEGORY2_MOBILE;
-    public static final int CATEGORY2_OFFICE;
-    public static final int CATEGORY2_HOME;
-    public static final int CATEGORY2_FAX;
-    public static final int CATEGORY2_PAGER;
-    public static final int CATEGORY2_CAR;
-    public static final int CATEGORY2_SIM;
-    public static final int CATEGORY2_MAIN_OFFICE;
-    public static final int CATEGORY2_MAIN_HOME;
-    public static final int CATEGORY2_CELL_OFFICE;
-    public static final int CATEGORY2_CELL_HOME;
-    public static final int CATEGORY2_FAX_OFFICE;
-    public static final int CATEGORY2_FAX_HOME;
+    private static final int CATEGORY2_BITSIZE = 8;
+    public static final int CATEGORY2_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY2_GENERAL = 1;
+    public static final int CATEGORY2_MOBILE = 2;
+    public static final int CATEGORY2_OFFICE = 3;
+    public static final int CATEGORY2_HOME = 4;
+    public static final int CATEGORY2_FAX = 5;
+    public static final int CATEGORY2_PAGER = 6;
+    public static final int CATEGORY2_CAR = 7;
+    public static final int CATEGORY2_SIM = 8;
+    public static final int CATEGORY2_MAIN_OFFICE = 9;
+    public static final int CATEGORY2_MAIN_HOME = 10;
+    public static final int CATEGORY2_CELL_OFFICE = 11;
+    public static final int CATEGORY2_CELL_HOME = 12;
+    public static final int CATEGORY2_FAX_OFFICE = 13;
+    public static final int CATEGORY2_FAX_HOME = 14;
     public final BAPString pbName3 = new BAPString(100);
-    private static final int MAX_PB_NAME3_LENGTH;
+    private static final int MAX_PB_NAME3_LENGTH = 100;
     public final BAPString telNumber3 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER3_LENGTH;
+    private static final int MAX_TEL_NUMBER3_LENGTH = 41;
     public int category3;
-    private static final int CATEGORY3_BITSIZE;
-    public static final int CATEGORY3_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY3_GENERAL;
-    public static final int CATEGORY3_MOBILE;
-    public static final int CATEGORY3_OFFICE;
-    public static final int CATEGORY3_HOME;
-    public static final int CATEGORY3_FAX;
-    public static final int CATEGORY3_PAGER;
-    public static final int CATEGORY3_CAR;
-    public static final int CATEGORY3_SIM;
-    public static final int CATEGORY3_MAIN_OFFICE;
-    public static final int CATEGORY3_MAIN_HOME;
-    public static final int CATEGORY3_CELL_OFFICE;
-    public static final int CATEGORY3_CELL_HOME;
-    public static final int CATEGORY3_FAX_OFFICE;
-    public static final int CATEGORY3_FAX_HOME;
+    private static final int CATEGORY3_BITSIZE = 8;
+    public static final int CATEGORY3_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY3_GENERAL = 1;
+    public static final int CATEGORY3_MOBILE = 2;
+    public static final int CATEGORY3_OFFICE = 3;
+    public static final int CATEGORY3_HOME = 4;
+    public static final int CATEGORY3_FAX = 5;
+    public static final int CATEGORY3_PAGER = 6;
+    public static final int CATEGORY3_CAR = 7;
+    public static final int CATEGORY3_SIM = 8;
+    public static final int CATEGORY3_MAIN_OFFICE = 9;
+    public static final int CATEGORY3_MAIN_HOME = 10;
+    public static final int CATEGORY3_CELL_OFFICE = 11;
+    public static final int CATEGORY3_CELL_HOME = 12;
+    public static final int CATEGORY3_FAX_OFFICE = 13;
+    public static final int CATEGORY3_FAX_HOME = 14;
     public final BAPString pbName4 = new BAPString(100);
-    private static final int MAX_PB_NAME4_LENGTH;
+    private static final int MAX_PB_NAME4_LENGTH = 100;
     public final BAPString telNumber4 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER4_LENGTH;
+    private static final int MAX_TEL_NUMBER4_LENGTH = 41;
     public int category4;
-    private static final int CATEGORY4_BITSIZE;
-    public static final int CATEGORY4_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY4_GENERAL;
-    public static final int CATEGORY4_MOBILE;
-    public static final int CATEGORY4_OFFICE;
-    public static final int CATEGORY4_HOME;
-    public static final int CATEGORY4_FAX;
-    public static final int CATEGORY4_PAGER;
-    public static final int CATEGORY4_CAR;
-    public static final int CATEGORY4_SIM;
-    public static final int CATEGORY4_MAIN_OFFICE;
-    public static final int CATEGORY4_MAIN_HOME;
-    public static final int CATEGORY4_CELL_OFFICE;
-    public static final int CATEGORY4_CELL_HOME;
-    public static final int CATEGORY4_FAX_OFFICE;
-    public static final int CATEGORY4_FAX_HOME;
+    private static final int CATEGORY4_BITSIZE = 8;
+    public static final int CATEGORY4_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY4_GENERAL = 1;
+    public static final int CATEGORY4_MOBILE = 2;
+    public static final int CATEGORY4_OFFICE = 3;
+    public static final int CATEGORY4_HOME = 4;
+    public static final int CATEGORY4_FAX = 5;
+    public static final int CATEGORY4_PAGER = 6;
+    public static final int CATEGORY4_CAR = 7;
+    public static final int CATEGORY4_SIM = 8;
+    public static final int CATEGORY4_MAIN_OFFICE = 9;
+    public static final int CATEGORY4_MAIN_HOME = 10;
+    public static final int CATEGORY4_CELL_OFFICE = 11;
+    public static final int CATEGORY4_CELL_HOME = 12;
+    public static final int CATEGORY4_FAX_OFFICE = 13;
+    public static final int CATEGORY4_FAX_HOME = 14;
     public final BAPString pbName5 = new BAPString(100);
-    private static final int MAX_PB_NAME5_LENGTH;
+    private static final int MAX_PB_NAME5_LENGTH = 100;
     public final BAPString telNumber5 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER5_LENGTH;
+    private static final int MAX_TEL_NUMBER5_LENGTH = 41;
     public int category5;
-    private static final int CATEGORY5_BITSIZE;
-    public static final int CATEGORY5_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY5_GENERAL;
-    public static final int CATEGORY5_MOBILE;
-    public static final int CATEGORY5_OFFICE;
-    public static final int CATEGORY5_HOME;
-    public static final int CATEGORY5_FAX;
-    public static final int CATEGORY5_PAGER;
-    public static final int CATEGORY5_CAR;
-    public static final int CATEGORY5_SIM;
-    public static final int CATEGORY5_MAIN_OFFICE;
-    public static final int CATEGORY5_MAIN_HOME;
-    public static final int CATEGORY5_CELL_OFFICE;
-    public static final int CATEGORY5_CELL_HOME;
-    public static final int CATEGORY5_FAX_OFFICE;
-    public static final int CATEGORY5_FAX_HOME;
+    private static final int CATEGORY5_BITSIZE = 8;
+    public static final int CATEGORY5_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY5_GENERAL = 1;
+    public static final int CATEGORY5_MOBILE = 2;
+    public static final int CATEGORY5_OFFICE = 3;
+    public static final int CATEGORY5_HOME = 4;
+    public static final int CATEGORY5_FAX = 5;
+    public static final int CATEGORY5_PAGER = 6;
+    public static final int CATEGORY5_CAR = 7;
+    public static final int CATEGORY5_SIM = 8;
+    public static final int CATEGORY5_MAIN_OFFICE = 9;
+    public static final int CATEGORY5_MAIN_HOME = 10;
+    public static final int CATEGORY5_CELL_OFFICE = 11;
+    public static final int CATEGORY5_CELL_HOME = 12;
+    public static final int CATEGORY5_FAX_OFFICE = 13;
+    public static final int CATEGORY5_FAX_HOME = 14;
     public final BAPString pbName6 = new BAPString(100);
-    private static final int MAX_PB_NAME6_LENGTH;
+    private static final int MAX_PB_NAME6_LENGTH = 100;
     public final BAPString telNumber6 = new BAPString(41);
-    private static final int MAX_TEL_NUMBER6_LENGTH;
+    private static final int MAX_TEL_NUMBER6_LENGTH = 41;
     public int category6;
-    private static final int CATEGORY6_BITSIZE;
-    public static final int CATEGORY6_UNKNOWN_NUMBER_TYPE;
-    public static final int CATEGORY6_GENERAL;
-    public static final int CATEGORY6_MOBILE;
-    public static final int CATEGORY6_OFFICE;
-    public static final int CATEGORY6_HOME;
-    public static final int CATEGORY6_FAX;
-    public static final int CATEGORY6_PAGER;
-    public static final int CATEGORY6_CAR;
-    public static final int CATEGORY6_SIM;
-    public static final int CATEGORY6_MAIN_OFFICE;
-    public static final int CATEGORY6_MAIN_HOME;
-    public static final int CATEGORY6_CELL_OFFICE;
-    public static final int CATEGORY6_CELL_HOME;
-    public static final int CATEGORY6_FAX_OFFICE;
-    public static final int CATEGORY6_FAX_HOME;
+    private static final int CATEGORY6_BITSIZE = 8;
+    public static final int CATEGORY6_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int CATEGORY6_GENERAL = 1;
+    public static final int CATEGORY6_MOBILE = 2;
+    public static final int CATEGORY6_OFFICE = 3;
+    public static final int CATEGORY6_HOME = 4;
+    public static final int CATEGORY6_FAX = 5;
+    public static final int CATEGORY6_PAGER = 6;
+    public static final int CATEGORY6_CAR = 7;
+    public static final int CATEGORY6_SIM = 8;
+    public static final int CATEGORY6_MAIN_OFFICE = 9;
+    public static final int CATEGORY6_MAIN_HOME = 10;
+    public static final int CATEGORY6_CELL_OFFICE = 11;
+    public static final int CATEGORY6_CELL_HOME = 12;
+    public static final int CATEGORY6_FAX_OFFICE = 13;
+    public static final int CATEGORY6_FAX_HOME = 14;
 
     public CallInfo_Status() {
         this.internalReset();
@@ -178,7 +178,6 @@ implements StatusProperty {
         this.category6 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.pbName0.reset();
@@ -197,7 +196,6 @@ implements StatusProperty {
         this.telNumber6.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CallInfo_Status callInfo_Status = (CallInfo_Status)bAPEntity;
         return this.pbName0.equalTo(callInfo_Status.pbName0) && this.telNumber0.equalTo(callInfo_Status.telNumber0) && this.category0 == callInfo_Status.category0 && this.pbName1.equalTo(callInfo_Status.pbName1) && this.telNumber1.equalTo(callInfo_Status.telNumber1) && this.category1 == callInfo_Status.category1 && this.pbName2.equalTo(callInfo_Status.pbName2) && this.telNumber2.equalTo(callInfo_Status.telNumber2) && this.category2 == callInfo_Status.category2 && this.pbName3.equalTo(callInfo_Status.pbName3) && this.telNumber3.equalTo(callInfo_Status.telNumber3) && this.category3 == callInfo_Status.category3 && this.pbName4.equalTo(callInfo_Status.pbName4) && this.telNumber4.equalTo(callInfo_Status.telNumber4) && this.category4 == callInfo_Status.category4 && this.pbName5.equalTo(callInfo_Status.pbName5) && this.telNumber5.equalTo(callInfo_Status.telNumber5) && this.category5 == callInfo_Status.category5 && this.pbName6.equalTo(callInfo_Status.pbName6) && this.telNumber6.equalTo(callInfo_Status.telNumber6) && this.category6 == callInfo_Status.category6;
@@ -206,7 +204,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CallInfo_Status:");
@@ -703,7 +700,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.pbName0.bitSize();
@@ -729,7 +725,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.pbName0.serialize(bitStream);
         this.telNumber0.serialize(bitStream);
@@ -754,7 +749,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.category6);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.pbName0.deserialize(bitStream);
         this.telNumber0.deserialize(bitStream);
@@ -783,7 +777,6 @@ implements StatusProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return CallInfo_Status.functionId();
     }

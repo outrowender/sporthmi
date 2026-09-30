@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.online.impl.OSRServiceListEntrySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRServiceListEntry;
 import org.dsi.ifc.online.OSRServiceState;
 
 public class OSRServiceStateSerializer {
-    public static void putOptionalOSRServiceState(ISerializer iSerializer, OSRServiceState oSRServiceState) {
+    public static void putOptionalOSRServiceState(ISerializer iSerializer, OSRServiceState oSRServiceState) throws SerializerException {
         boolean bl = oSRServiceState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class OSRServiceStateSerializer {
         }
     }
 
-    public static void putOptionalOSRServiceStateVarArray(ISerializer iSerializer, OSRServiceState[] oSRServiceStateArray) {
+    public static void putOptionalOSRServiceStateVarArray(ISerializer iSerializer, OSRServiceState[] oSRServiceStateArray) throws SerializerException {
         boolean bl = oSRServiceStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class OSRServiceStateSerializer {
         }
     }
 
-    public static OSRServiceState getOptionalOSRServiceState(IDeserializer iDeserializer) {
+    public static OSRServiceState getOptionalOSRServiceState(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceState oSRServiceState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class OSRServiceStateSerializer {
         return oSRServiceState;
     }
 
-    public static OSRServiceState[] getOptionalOSRServiceStateVarArray(IDeserializer iDeserializer) {
+    public static OSRServiceState[] getOptionalOSRServiceStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRServiceState[] oSRServiceStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

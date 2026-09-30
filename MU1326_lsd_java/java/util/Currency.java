@@ -13,16 +13,11 @@ import java.util.ResourceBundle;
 
 public final class Currency
 implements Serializable {
-    private static final long serialVersionUID;
-    private static Hashtable codesToCurrencies;
+    private static final long serialVersionUID = -158308464356906721L;
+    private static Hashtable codesToCurrencies = new Hashtable();
     private String currencyCode;
-    private static String currencyVars;
+    private static String currencyVars = "EURO, HK, PREEURO";
     private transient int defaultFractionDigits;
-
-    static {
-        codesToCurrencies = new Hashtable();
-        currencyVars = "EURO, HK, PREEURO";
-    }
 
     private Currency(String string) {
         this.currencyCode = string;
@@ -50,7 +45,7 @@ implements Serializable {
         String string = locale.getCountry();
         String string2 = locale.getVariant();
         if (!string2.equals("") && currencyVars.indexOf(string2) > -1) {
-            string = new StringBuffer(String.valueOf(string)).append("_").append(string2).toString();
+            string = String.valueOf(string) + "_" + string2;
         }
         ResourceBundle resourceBundle = Locale.getBundle("ISO4Currencies", Locale.getDefault());
         String string3 = null;

@@ -25,28 +25,23 @@ implements DSITmcOnRoute {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$tmc$DSITmcOnRoute == null ? (class$org$dsi$ifc$tmc$DSITmcOnRoute = DSITmcOnRouteProvider.class$("org.dsi.ifc.tmc.DSITmcOnRoute")) : class$org$dsi$ifc$tmc$DSITmcOnRoute).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITmcOnRouteProxy(this.instance, (DSITmcOnRouteReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getTmcMessage(int n) {
         try {
             this.proxy.getTmcMessage(n);
@@ -56,7 +51,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void setTmcWarningMode(int n) {
         try {
             this.proxy.setTmcWarningMode(n);
@@ -66,7 +60,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void blockTMCMessages(long[] lArray, boolean bl) {
         try {
             this.proxy.blockTMCMessages(lArray, bl);
@@ -76,7 +69,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void unblockTMCMessages(long[] lArray) {
         try {
             this.proxy.unblockTMCMessages(lArray);
@@ -86,7 +78,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void unblockAllTMCMessages() {
         try {
             this.proxy.unblockAllTMCMessages();
@@ -96,7 +87,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -106,7 +96,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -116,7 +105,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -126,7 +114,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -136,7 +123,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -146,7 +132,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -156,7 +141,6 @@ implements DSITmcOnRoute {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

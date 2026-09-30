@@ -3,55 +3,40 @@
  */
 package de.esolutions.fw.comm.dsi.upnp;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.upnp.ListEntry;
 
 public interface DSIUPNPPlayerC {
-    default public void setPlaybackMode(String string, int n) {
-    }
+    public void setPlaybackMode(String var1, int var2) throws MethodException;
 
-    default public void setEntry(String[] stringArray, String string, ListEntry[] listEntryArray, int n) {
-    }
+    public void setEntry(String[] var1, String var2, ListEntry[] var3, int var4) throws MethodException;
 
-    default public void resume(String string) {
-    }
+    public void resume(String var1) throws MethodException;
 
-    default public void pause(String string) {
-    }
+    public void pause(String var1) throws MethodException;
 
-    default public void skip(String string, int n, int n2) {
-    }
+    public void skip(String var1, int var2, int var3) throws MethodException;
 
-    default public void seek(String string, int n, int n2) {
-    }
+    public void seek(String var1, int var2, int var3) throws MethodException;
 
-    default public void increaseVolume(String string) {
-    }
+    public void increaseVolume(String var1) throws MethodException;
 
-    default public void decreaseVolume(String string) {
-    }
+    public void decreaseVolume(String var1) throws MethodException;
 
-    default public void setVolume(String string, int n) {
-    }
+    public void setVolume(String var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

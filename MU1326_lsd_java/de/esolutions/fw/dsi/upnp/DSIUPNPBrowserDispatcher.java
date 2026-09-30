@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.upnp;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPBrowserReply;
 import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPBrowserReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIUPNPBrowserReply {
         super(n, (class$org$dsi$ifc$upnp$DSIUPNPBrowserListener == null ? (class$org$dsi$ifc$upnp$DSIUPNPBrowserListener = DSIUPNPBrowserDispatcher.class$("org.dsi.ifc.upnp.DSIUPNPBrowserListener")) : class$org$dsi$ifc$upnp$DSIUPNPBrowserListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateBrowseFolder(ListEntry[] listEntryArray, int n) {
+    public void updateBrowseFolder(ListEntry[] listEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSIUPNPBrowserReply {
         }
     }
 
-    @Override
-    public void updateListSize(int n, int n2, int n3) {
+    public void updateListSize(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -86,8 +84,7 @@ implements DSIUPNPBrowserReply {
         }
     }
 
-    @Override
-    public void responseList(ListEntry[] listEntryArray, int n) {
+    public void responseList(ListEntry[] listEntryArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -103,8 +100,7 @@ implements DSIUPNPBrowserReply {
         }
     }
 
-    @Override
-    public void invalidBrowsePath() {
+    public void invalidBrowsePath() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -120,8 +116,7 @@ implements DSIUPNPBrowserReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -137,14 +132,13 @@ implements DSIUPNPBrowserReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIUPNPBrowserListener dSIUPNPBrowserListener = (DSIUPNPBrowserListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUPNPBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUPNPBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIUPNPBrowserListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUPNPBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUPNPBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIUPNPBrowserListener, new Object[]{string, string2});
                     continue;
                 }

@@ -7,11 +7,13 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.comm.dsi.travelguide.DSITravelGuide;
 import de.esolutions.fw.comm.dsi.travelguide.DSITravelGuideC;
 import de.esolutions.fw.comm.dsi.travelguide.DSITravelGuideReply;
-import de.esolutions.fw.comm.dsi.travelguide.impl.DSITravelGuideProxy$1;
 import de.esolutions.fw.comm.dsi.travelguide.impl.DSITravelGuideReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
@@ -32,14 +34,17 @@ DSITravelGuideC {
         return this.proxy;
     }
 
-    @Override
-    public void importTravelGuide(ResourceLocator resourceLocator) {
-        DSITravelGuideProxy$1 dSITravelGuideProxy$1 = new DSITravelGuideProxy$1(this, resourceLocator);
-        this.proxy.remoteCallMethod((short)6, dSITravelGuideProxy$1);
+    public void importTravelGuide(final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void deleteTravelGuide(long l) {
+    public void deleteTravelGuide(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -50,8 +55,7 @@ DSITravelGuideC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -62,8 +66,7 @@ DSITravelGuideC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -74,13 +77,11 @@ DSITravelGuideC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -91,8 +92,7 @@ DSITravelGuideC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -103,13 +103,11 @@ DSITravelGuideC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

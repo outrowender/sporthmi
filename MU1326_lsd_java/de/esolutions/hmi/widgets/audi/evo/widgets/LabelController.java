@@ -46,8 +46,8 @@ IStatusbarChild,
 ITextDescriptorController,
 PreferredDynamicHeight,
 IViewSizeAnimatable {
-    private static final int REPLACEMENT_RECURSION_LIMIT;
-    protected static final int MAX_LINES_DEFAULT;
+    private static final int REPLACEMENT_RECURSION_LIMIT = 5;
+    protected static final int MAX_LINES_DEFAULT = 50;
     private LabelRenderer renderer;
     private int[] textIds;
     private int[] replacementModelIds;
@@ -68,10 +68,9 @@ IViewSizeAnimatable {
     private int maxLines = 50;
     private boolean ignoreModelUpdateEvents = false;
     private boolean useSmallStageText = false;
-    private static Map specialReplacementCharacters;
+    private static Map specialReplacementCharacters = new HashMap();
     private boolean useSpecialReplacements = false;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -80,13 +79,11 @@ IViewSizeAnimatable {
         this.renderer = labelRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateContent();
     }
 
-    @Override
     public int getX() {
         if (this.shiftUserHintText()) {
             return super.getX() - this.getUserHintLabelOffset();
@@ -99,7 +96,7 @@ IViewSizeAnimatable {
     }
 
     private boolean shiftUserHintText() {
-        return this.role == 1 && !this.isTouchpadKeypanelWithActiveStatus();
+        return this.role == 0x1000000 && !this.isTouchpadKeypanelWithActiveStatus();
     }
 
     private boolean isTouchpadKeypanelWithActiveStatus() {
@@ -113,7 +110,6 @@ IViewSizeAnimatable {
         this.role = n;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!this.ignoreModelUpdateEvents) {
             int n = modelUpdateEvent.getUpdateType();
@@ -133,7 +129,6 @@ IViewSizeAnimatable {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void processTextReplacementUpdateEvent() {
         this.updateContent();
     }
@@ -178,7 +173,7 @@ IViewSizeAnimatable {
         if (string2 == null) {
             return string;
         }
-        return new StringBuffer().append(string2).append(string).toString();
+        return string2 + string;
     }
 
     protected Object calculateContent() {
@@ -237,7 +232,7 @@ IViewSizeAnimatable {
         if (this.model instanceof String) {
             return this.model;
         }
-        logChannel.log(-1601830656, "LabelController#calculateContent: Unknown model %2: %1", this.model, (long)this.modelID);
+        logChannel.log(100000, "LabelController#calculateContent: Unknown model %2: %1", this.model, (long)this.modelID);
         return null;
     }
 
@@ -269,11 +264,11 @@ IViewSizeAnimatable {
                 long l = System.currentTimeMillis();
                 this.lineDescription = MetricsFormatter.getLineDescriptor(this.prefix, abstractMetrics, this.dateFormatMode, this.metricsFormat, this.isLTR());
                 long l2 = System.currentTimeMillis();
-                textDescriptorLogCh.log(-2137614336, "LabelController#formatContent Creating TextDescriptor took %1 ms", l2 - l);
+                textDescriptorLogCh.log(10000000, "LabelController#formatContent Creating TextDescriptor took %1 ms", l2 - l);
             }
             return string;
         }
-        logChannel.log(-1601830656, "LabelController#formatContent: Unknown content: %1", object);
+        logChannel.log(100000, "LabelController#formatContent: Unknown content: %1", object);
         return null;
     }
 
@@ -323,7 +318,6 @@ IViewSizeAnimatable {
         return this.replacementModelIds;
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.renderer != null && this.isConnected()) {
             return this.renderer.getPreferredWidth();
@@ -331,7 +325,6 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.renderer != null && this.isConnected()) {
             return this.renderer.getPreferredHeight();
@@ -339,7 +332,6 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight(int n) {
         if (this.renderer instanceof PreferredDynamicHeight) {
             return ((PreferredDynamicHeight)((Object)this.renderer)).getPreferredHeight(n);
@@ -355,12 +347,10 @@ IViewSizeAnimatable {
         this.modelColumn = n;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.isEnabled() != bl) {
             super.setEnabled(bl);
@@ -368,7 +358,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public String getDiagnosisText() {
         return this.text;
     }
@@ -394,7 +383,6 @@ IViewSizeAnimatable {
         return "";
     }
 
-    @Override
     public int getBaseline() {
         if (this.renderer != null) {
             return this.renderer.getBaseline();
@@ -402,7 +390,6 @@ IViewSizeAnimatable {
         return this.getHeight();
     }
 
-    @Override
     public boolean hasContent() {
         if (this.content == null || this.renderer == null) {
             return false;
@@ -426,7 +413,6 @@ IViewSizeAnimatable {
         this.dateFormatMode = n;
     }
 
-    @Override
     public int getModelValue() {
         if (this.model != null && this.model instanceof LabelModelGUI) {
             return ((LabelModelGUI)this.model).getLength();
@@ -437,7 +423,6 @@ IViewSizeAnimatable {
         return -1;
     }
 
-    @Override
     public int getModelStatus() {
         if (this.model != null && this.model instanceof HMIModelGUI) {
             return ((HMIModelGUI)this.model).getStatus();
@@ -445,17 +430,14 @@ IViewSizeAnimatable {
         return 0;
     }
 
-    @Override
     public int getModelMin() {
         return -1;
     }
 
-    @Override
     public int getModelMax() {
         return -1;
     }
 
-    @Override
     public List getLineDescription() {
         return this.lineDescription;
     }
@@ -464,7 +446,6 @@ IViewSizeAnimatable {
         this.showChoiceValue = bl;
     }
 
-    @Override
     public boolean isHeightDependentFromWidth() {
         return this.renderer instanceof PreferredDynamicHeight && ((PreferredDynamicHeight)((Object)this.renderer)).isHeightDependentFromWidth();
     }
@@ -514,14 +495,12 @@ IViewSizeAnimatable {
         return this.minLines;
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         if (bl) {
             this.updateContent();
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         if (bl) {
             this.updateContent();
@@ -529,7 +508,6 @@ IViewSizeAnimatable {
         this.invalidateParentLayout();
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
@@ -541,7 +519,6 @@ IViewSizeAnimatable {
         this.ignoreModelUpdateEvents = bl;
     }
 
-    @Override
     public boolean hasBaseline() {
         return true;
     }
@@ -554,7 +531,6 @@ IViewSizeAnimatable {
         return this.useSmallStageText;
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
@@ -569,7 +545,6 @@ IViewSizeAnimatable {
     }
 
     static {
-        specialReplacementCharacters = new HashMap();
         specialReplacementCharacters.put("[", "]");
         specialReplacementCharacters.put("]", "[");
         specialReplacementCharacters.put("(", ")");

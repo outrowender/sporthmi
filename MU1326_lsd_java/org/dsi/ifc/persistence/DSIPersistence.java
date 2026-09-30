@@ -7,168 +7,143 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIPersistence
 extends DSIBase {
-    public static final String VERSION;
-    public static final int IN_VALUECHANGEDINT;
-    public static final int IN_VALUECHANGEDSTRING;
-    public static final int IN_VALUECHANGEDARRAY;
-    public static final int IN_VALUECHANGEDSTRINGARRAY;
-    public static final int IN_VALUECHANGEDBUFFER;
-    public static final int ATTR_ACTIVESQLDATABASEMEDIUM;
-    public static final int ERRORCODE_NO_ERRORS;
-    public static final int ERRORCODE_INVALID_NAMESPACE;
-    public static final int ERRORCODE_INVALID_KEY;
-    public static final int ERRORCODE_NOSPACE;
-    public static final int ERRORCODE_TRANSACTION_FAILED;
-    public static final int ERRORCODE_CORRUPT_DATA;
-    public static final int ERRORCODE_NO_DEVICE_AVAILABLE;
-    public static final int ERRORCODE_WRONG_PARAMETER_LENGTH;
-    public static final int ERRORCODE_STATUS_TIME_OUT;
-    public static final int ERRORCODE_DEVICE_BUSY;
-    public static final int ERRORCODE_DUMMY_DATA;
-    public static final int ERRORCODE_NOT_NOTIFIED;
-    public static final int ERRORCODE_INVALID_TIMEOUT;
-    public static final int ERRORCODE_ALREADY_PENDING;
-    public static final int ERRORCODE_NOT_SUBSCRIBED;
-    public static final int ERRORCODE_OVERLOAD;
-    public static final int IMPORTANCE_ESSENTIAL;
-    public static final int IMPORTANCE_DISPENSABLE;
-    public static final int NAMESPACE_SIS;
-    public static final int NAMESPACE_ENGINEERING;
-    public static final int NAMESPACE_EEPROM;
-    public static final int NAMESPACE_IOC;
-    public static final int NAMESPACE_DATABASE;
-    public static final int NAMESPACE_IRC;
-    public static final int NAMESPACE_RAC;
-    public static final int NAMESPACE_NDR;
-    public static final int MEDIUM_RAM;
-    public static final int MEDIUM_FLASH;
-    public static final int ENGINEERINGSESSIONHOST_OTHER;
-    public static final int ENGINEERINGSESSIONHOST_GREEN_MENU;
-    public static final int ENGINEERINGSESSIONHOST_DIAGNOSIS;
-    public static final int DIAGNOSEMODE_UNDEFINED;
-    public static final int DIAGNOSEMODE_START;
-    public static final int DIAGNOSEMODE_STOP;
-    public static final int DIAGNOSE_FERNSTEUERUNGS_MODE_START;
-    public static final int DIAGNOSE_FERNSTEUERUNGS_MODE_STOP;
-    public static final int TYPE_BYTEARRAY;
-    public static final int TYPE_INTEGER;
-    public static final int TYPE_INTEGERARRAY;
-    public static final int TYPE_STRING;
-    public static final int TYPE_STRINGARRAY;
-    public static final int RT_WRITEINT;
-    public static final int RT_READINT;
-    public static final int RT_WRITEBUFFER;
-    public static final int RT_READBUFFER;
-    public static final int RT_WRITESTRING;
-    public static final int RT_READSTRING;
-    public static final int RT_WRITEARRAY;
-    public static final int RT_READARRAY;
-    public static final int RT_WRITESTRINGARRAY;
-    public static final int RT_READSTRINGARRAY;
-    public static final int RT_ENTERENGINEERINGSESSION;
-    public static final int RT_EXITENGINEERINGSESSION;
-    public static final int RT_GETVISIBLESYSTEMLANGUAGES;
-    public static final int RT_FLUSHSQLDATABASE;
-    public static final int RT_SETSQLDATABASEMEDIUM;
-    public static final int RT_BEGINTRANSACTION;
-    public static final int RT_ENDTRANSACTION;
-    public static final int RT_READINTTIMEOUT;
-    public static final int RT_READBUFFERTIMEOUT;
-    public static final int RT_READSTRINGTIMEOUT;
-    public static final int RT_READARRAYTIMEOUT;
-    public static final int RT_READSTRINGARRAYTIMEOUT;
-    public static final int RT_SUBSCRIBE;
-    public static final int RT_UNSUBSCRIBE;
-    public static final int RT_UNSUBSCRIBEALL;
-    public static final int RP_WRITEINT;
-    public static final int RP_READINT;
-    public static final int RP_WRITEBUFFER;
-    public static final int RP_READBUFFER;
-    public static final int RP_WRITESTRING;
-    public static final int RP_READSTRING;
-    public static final int RP_WRITEARRAY;
-    public static final int RP_READARRAY;
-    public static final int RP_WRITESTRINGARRAY;
-    public static final int RP_READSTRINGARRAY;
-    public static final int RP_GETVISIBLESYSTEMLANGUAGES;
-    public static final int RP_FLUSHSQLDATABASE;
-    public static final int RP_BEGINTRANSACTION;
-    public static final int RP_ENDTRANSACTION;
-    public static final int RP_UNSUBSCRIBE;
+    public static final String VERSION = "2.11.6";
+    public static final int IN_VALUECHANGEDINT = 3000;
+    public static final int IN_VALUECHANGEDSTRING = 3001;
+    public static final int IN_VALUECHANGEDARRAY = 3002;
+    public static final int IN_VALUECHANGEDSTRINGARRAY = 3003;
+    public static final int IN_VALUECHANGEDBUFFER = 3004;
+    public static final int ATTR_ACTIVESQLDATABASEMEDIUM = 1;
+    public static final int ERRORCODE_NO_ERRORS = 0;
+    public static final int ERRORCODE_INVALID_NAMESPACE = 1;
+    public static final int ERRORCODE_INVALID_KEY = 2;
+    public static final int ERRORCODE_NOSPACE = 3;
+    public static final int ERRORCODE_TRANSACTION_FAILED = 4;
+    public static final int ERRORCODE_CORRUPT_DATA = 5;
+    public static final int ERRORCODE_NO_DEVICE_AVAILABLE = 6;
+    public static final int ERRORCODE_WRONG_PARAMETER_LENGTH = 7;
+    public static final int ERRORCODE_STATUS_TIME_OUT = 8;
+    public static final int ERRORCODE_DEVICE_BUSY = 9;
+    public static final int ERRORCODE_DUMMY_DATA = 10;
+    public static final int ERRORCODE_NOT_NOTIFIED = 11;
+    public static final int ERRORCODE_INVALID_TIMEOUT = 12;
+    public static final int ERRORCODE_ALREADY_PENDING = 13;
+    public static final int ERRORCODE_NOT_SUBSCRIBED = 14;
+    public static final int ERRORCODE_OVERLOAD = 15;
+    public static final int IMPORTANCE_ESSENTIAL = -1;
+    public static final int IMPORTANCE_DISPENSABLE = -2;
+    public static final int NAMESPACE_SIS = 0;
+    public static final int NAMESPACE_ENGINEERING = 1;
+    public static final int NAMESPACE_EEPROM = 2;
+    public static final int NAMESPACE_IOC = 3;
+    public static final int NAMESPACE_DATABASE = 4;
+    public static final int NAMESPACE_IRC = 5;
+    public static final int NAMESPACE_RAC = 6;
+    public static final int NAMESPACE_NDR = 7;
+    public static final int MEDIUM_RAM = 0;
+    public static final int MEDIUM_FLASH = 1;
+    public static final int ENGINEERINGSESSIONHOST_OTHER = 0;
+    public static final int ENGINEERINGSESSIONHOST_GREEN_MENU = 1;
+    public static final int ENGINEERINGSESSIONHOST_DIAGNOSIS = 2;
+    public static final int DIAGNOSEMODE_UNDEFINED = 0;
+    public static final int DIAGNOSEMODE_START = 1;
+    public static final int DIAGNOSEMODE_STOP = 2;
+    public static final int DIAGNOSE_FERNSTEUERUNGS_MODE_START = 3;
+    public static final int DIAGNOSE_FERNSTEUERUNGS_MODE_STOP = 4;
+    public static final int TYPE_BYTEARRAY = 0;
+    public static final int TYPE_INTEGER = 1;
+    public static final int TYPE_INTEGERARRAY = 2;
+    public static final int TYPE_STRING = 3;
+    public static final int TYPE_STRINGARRAY = 4;
+    public static final int RT_WRITEINT = 1000;
+    public static final int RT_READINT = 1001;
+    public static final int RT_WRITEBUFFER = 1002;
+    public static final int RT_READBUFFER = 1003;
+    public static final int RT_WRITESTRING = 1004;
+    public static final int RT_READSTRING = 1005;
+    public static final int RT_WRITEARRAY = 1006;
+    public static final int RT_READARRAY = 1007;
+    public static final int RT_WRITESTRINGARRAY = 1008;
+    public static final int RT_READSTRINGARRAY = 1009;
+    public static final int RT_ENTERENGINEERINGSESSION = 1012;
+    public static final int RT_EXITENGINEERINGSESSION = 1013;
+    public static final int RT_GETVISIBLESYSTEMLANGUAGES = 1014;
+    public static final int RT_FLUSHSQLDATABASE = 1015;
+    public static final int RT_SETSQLDATABASEMEDIUM = 1016;
+    public static final int RT_BEGINTRANSACTION = 1017;
+    public static final int RT_ENDTRANSACTION = 1018;
+    public static final int RT_READINTTIMEOUT = 1019;
+    public static final int RT_READBUFFERTIMEOUT = 1020;
+    public static final int RT_READSTRINGTIMEOUT = 1021;
+    public static final int RT_READARRAYTIMEOUT = 1022;
+    public static final int RT_READSTRINGARRAYTIMEOUT = 1023;
+    public static final int RT_SUBSCRIBE = 1024;
+    public static final int RT_UNSUBSCRIBE = 1025;
+    public static final int RT_UNSUBSCRIBEALL = 1026;
+    public static final int RP_WRITEINT = 2000;
+    public static final int RP_READINT = 2001;
+    public static final int RP_WRITEBUFFER = 2002;
+    public static final int RP_READBUFFER = 2003;
+    public static final int RP_WRITESTRING = 2004;
+    public static final int RP_READSTRING = 2005;
+    public static final int RP_WRITEARRAY = 2006;
+    public static final int RP_READARRAY = 2007;
+    public static final int RP_WRITESTRINGARRAY = 2008;
+    public static final int RP_READSTRINGARRAY = 2009;
+    public static final int RP_GETVISIBLESYSTEMLANGUAGES = 2012;
+    public static final int RP_FLUSHSQLDATABASE = 2013;
+    public static final int RP_BEGINTRANSACTION = 2014;
+    public static final int RP_ENDTRANSACTION = 2015;
+    public static final int RP_UNSUBSCRIBE = 2016;
 
-    default public void writeInt(int n, long l, int n2) {
-    }
+    public void writeInt(int var1, long var2, int var4);
 
-    default public void readInt(int n, long l) {
-    }
+    public void readInt(int var1, long var2);
 
-    default public void readIntTimeout(int n, long l, int n2) {
-    }
+    public void readIntTimeout(int var1, long var2, int var4);
 
-    default public void writeBuffer(int n, long l, byte[] byArray) {
-    }
+    public void writeBuffer(int var1, long var2, byte[] var4);
 
-    default public void readBuffer(int n, long l) {
-    }
+    public void readBuffer(int var1, long var2);
 
-    default public void readBufferTimeout(int n, long l, int n2) {
-    }
+    public void readBufferTimeout(int var1, long var2, int var4);
 
-    default public void writeString(int n, long l, String string) {
-    }
+    public void writeString(int var1, long var2, String var4);
 
-    default public void readString(int n, long l) {
-    }
+    public void readString(int var1, long var2);
 
-    default public void readStringTimeout(int n, long l, int n2) {
-    }
+    public void readStringTimeout(int var1, long var2, int var4);
 
-    default public void writeArray(int n, long l, int[] nArray) {
-    }
+    public void writeArray(int var1, long var2, int[] var4);
 
-    default public void readArray(int n, long l) {
-    }
+    public void readArray(int var1, long var2);
 
-    default public void readArrayTimeout(int n, long l, int n2) {
-    }
+    public void readArrayTimeout(int var1, long var2, int var4);
 
-    default public void writeStringArray(int n, long l, String[] stringArray) {
-    }
+    public void writeStringArray(int var1, long var2, String[] var4);
 
-    default public void readStringArray(int n, long l) {
-    }
+    public void readStringArray(int var1, long var2);
 
-    default public void readStringArrayTimeout(int n, long l, int n2) {
-    }
+    public void readStringArrayTimeout(int var1, long var2, int var4);
 
-    default public void enterEngineeringSession(int n) {
-    }
+    public void enterEngineeringSession(int var1);
 
-    default public void exitEngineeringSession(int n) {
-    }
+    public void exitEngineeringSession(int var1);
 
-    default public void getVisibleSystemLanguages() {
-    }
+    public void getVisibleSystemLanguages();
 
-    default public void flushSQLDatabase() {
-    }
+    public void flushSQLDatabase();
 
-    default public void setSQLDatabaseMedium(int n) {
-    }
+    public void setSQLDatabaseMedium(int var1);
 
-    default public void beginTransaction(int n) {
-    }
+    public void beginTransaction(int var1);
 
-    default public void endTransaction(int n, boolean bl) {
-    }
+    public void endTransaction(int var1, boolean var2);
 
-    default public void subscribe(int n, int[] nArray, long[] lArray, int n2) {
-    }
+    public void subscribe(int var1, int[] var2, long[] var3, int var4);
 
-    default public void unsubscribe(int n, int[] nArray, long[] lArray) {
-    }
+    public void unsubscribe(int var1, int[] var2, long[] var3);
 
-    default public void unsubscribeAll(int n) {
-    }
+    public void unsubscribeAll(int var1);
 }
 

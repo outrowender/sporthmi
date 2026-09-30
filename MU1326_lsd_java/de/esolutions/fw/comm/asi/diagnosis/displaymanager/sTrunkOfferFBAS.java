@@ -32,7 +32,7 @@ public class sTrunkOfferFBAS {
     }
 
     public String toString() {
-        return new StringBuffer("sTrunkOfferFBAS{").append("msg_id=").append(this.msg_id).append(", successful=").append(this.successful).append("}").toString();
+        return "sTrunkOfferFBAS{" + "msg_id=" + this.msg_id + ", successful=" + this.successful + "}";
     }
 }
 

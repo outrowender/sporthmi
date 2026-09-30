@@ -32,28 +32,23 @@ implements DSISearch {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$search$DSISearch == null ? (class$org$dsi$ifc$search$DSISearch = DSISearchProvider.class$("org.dsi.ifc.search.DSISearch")) : class$org$dsi$ifc$search$DSISearch).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISearchProxy(this.instance, (DSISearchReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestSupportedCountries() {
         try {
             this.proxy.requestSupportedCountries();
@@ -63,7 +58,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setActiveSearchCountries(String[] stringArray) {
         try {
             this.proxy.setActiveSearchCountries(stringArray);
@@ -73,7 +67,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void search(SearchQuery searchQuery) {
         try {
             this.proxy.search(searchQuery);
@@ -83,7 +76,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void addToHistory(SearchResult searchResult) {
         try {
             this.proxy.addToHistory(searchResult);
@@ -93,7 +85,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void requestSuggestion(SearchQuery searchQuery) {
         try {
             this.proxy.requestSuggestion(searchQuery);
@@ -103,7 +94,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void cancelQuery(int n) {
         try {
             this.proxy.cancelQuery(n);
@@ -113,7 +103,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setCurrentPosition(NavPosition navPosition) {
         try {
             this.proxy.setCurrentPosition(navPosition);
@@ -123,7 +112,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setRoutePoints(NavPosition[] navPositionArray) {
         try {
             this.proxy.setRoutePoints(navPositionArray);
@@ -133,7 +121,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -143,7 +130,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setActiveProfile(int n) {
         try {
             this.proxy.setActiveProfile(n);
@@ -153,7 +139,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setCarFunctionStates(CarFunction[] carFunctionArray) {
         try {
             this.proxy.setCarFunctionStates(carFunctionArray);
@@ -163,7 +148,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setRadioStations(int n, RadioStation[] radioStationArray) {
         try {
             this.proxy.setRadioStations(n, radioStationArray);
@@ -173,7 +157,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setSearchFilter(int n, SearchFilter searchFilter) {
         try {
             this.proxy.setSearchFilter(n, searchFilter);
@@ -183,7 +166,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void prepareSources(int[] nArray) {
         try {
             this.proxy.prepareSources(nArray);
@@ -193,7 +175,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void resetToFactorySettings() {
         try {
             this.proxy.resetToFactorySettings();
@@ -203,7 +184,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void removeFromHistory(long l) {
         try {
             this.proxy.removeFromHistory(l);
@@ -213,7 +193,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void removeAllFromHistory() {
         try {
             this.proxy.removeAllFromHistory();
@@ -223,7 +202,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void removeAllFromHistoryBySource(int n) {
         try {
             this.proxy.removeAllFromHistoryBySource(n);
@@ -233,7 +211,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void resetAutocompletion(int n) {
         try {
             this.proxy.resetAutocompletion(n);
@@ -243,7 +220,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void createBackupFile(String string) {
         try {
             this.proxy.createBackupFile(string);
@@ -253,7 +229,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void importBackupFile(String string) {
         try {
             this.proxy.importBackupFile(string);
@@ -263,7 +238,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setEnvironment(Environment environment) {
         try {
             this.proxy.setEnvironment(environment);
@@ -273,7 +247,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void profileChange(int n) {
         try {
             this.proxy.profileChange(n);
@@ -283,7 +256,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void profileCopy(int n, int n2) {
         try {
             this.proxy.profileCopy(n, n2);
@@ -293,7 +265,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void profileReset(int n) {
         try {
             this.proxy.profileReset(n);
@@ -303,7 +274,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void profileResetAll() {
         try {
             this.proxy.profileResetAll();
@@ -313,7 +283,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -323,7 +292,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -333,7 +301,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -343,7 +310,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -353,7 +319,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -363,7 +328,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -373,7 +337,6 @@ implements DSISearch {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -25,28 +25,23 @@ implements DSIAdbDataResolution {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$organizer$DSIAdbDataResolution == null ? (class$org$dsi$ifc$organizer$DSIAdbDataResolution = DSIAdbDataResolutionProvider.class$("org.dsi.ifc.organizer.DSIAdbDataResolution")) : class$org$dsi$ifc$organizer$DSIAdbDataResolution).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAdbDataResolutionProxy(this.instance, (DSIAdbDataResolutionReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void resolveMailAddresses(String[] stringArray) {
         try {
             this.proxy.resolveMailAddresses(stringArray);
@@ -56,7 +51,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void resolvePhoneNumbers(String[] stringArray) {
         try {
             this.proxy.resolvePhoneNumbers(stringArray);
@@ -66,7 +60,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -76,7 +69,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -86,7 +78,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -96,7 +87,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -116,7 +105,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -126,7 +114,6 @@ implements DSIAdbDataResolution {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

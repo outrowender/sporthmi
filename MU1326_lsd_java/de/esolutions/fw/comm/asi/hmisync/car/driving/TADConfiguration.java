@@ -92,7 +92,7 @@ public class TADConfiguration {
     }
 
     public String toString() {
-        return new StringBuffer("TADConfiguration{").append("rollAngleMaxScale=").append(this.rollAngleMaxScale).append(", rollAngleStartSoftWarning=").append(this.rollAngleStartSoftWarning).append(", rollAngleStartHardWarning=").append(this.rollAngleStartHardWarning).append(", pitchAngleMaxScale=").append(this.pitchAngleMaxScale).append(", pitchAngleStartSoftWarning=").append(this.pitchAngleStartSoftWarning).append(", pitchAngleStartHardWarning=").append(this.pitchAngleStartHardWarning).append(", rollAngleInstallation=").append(this.rollAngleInstallation).append(", pitchAngleInstallation=").append(this.pitchAngleInstallation).append("}").toString();
+        return "TADConfiguration{" + "rollAngleMaxScale=" + this.rollAngleMaxScale + ", rollAngleStartSoftWarning=" + this.rollAngleStartSoftWarning + ", rollAngleStartHardWarning=" + this.rollAngleStartHardWarning + ", pitchAngleMaxScale=" + this.pitchAngleMaxScale + ", pitchAngleStartSoftWarning=" + this.pitchAngleStartSoftWarning + ", pitchAngleStartHardWarning=" + this.pitchAngleStartHardWarning + ", rollAngleInstallation=" + this.rollAngleInstallation + ", pitchAngleInstallation=" + this.pitchAngleInstallation + "}";
     }
 }
 

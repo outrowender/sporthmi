@@ -7,9 +7,8 @@ import org.w3c.dom.Node;
 
 public interface DeferredNode
 extends Node {
-    public static final short TYPE_NODE;
+    public static final short TYPE_NODE = 20;
 
-    default public int getNodeIndex() {
-    }
+    public int getNodeIndex();
 }
 

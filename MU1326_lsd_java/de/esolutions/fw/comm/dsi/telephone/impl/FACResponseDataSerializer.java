@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.FACResponseData;
 
 public class FACResponseDataSerializer {
-    public static void putOptionalFACResponseData(ISerializer iSerializer, FACResponseData fACResponseData) {
+    public static void putOptionalFACResponseData(ISerializer iSerializer, FACResponseData fACResponseData) throws SerializerException {
         boolean bl = fACResponseData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class FACResponseDataSerializer {
         }
     }
 
-    public static void putOptionalFACResponseDataVarArray(ISerializer iSerializer, FACResponseData[] fACResponseDataArray) {
+    public static void putOptionalFACResponseDataVarArray(ISerializer iSerializer, FACResponseData[] fACResponseDataArray) throws SerializerException {
         boolean bl = fACResponseDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class FACResponseDataSerializer {
         }
     }
 
-    public static FACResponseData getOptionalFACResponseData(IDeserializer iDeserializer) {
+    public static FACResponseData getOptionalFACResponseData(IDeserializer iDeserializer) throws SerializerException {
         FACResponseData fACResponseData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class FACResponseDataSerializer {
         return fACResponseData;
     }
 
-    public static FACResponseData[] getOptionalFACResponseDataVarArray(IDeserializer iDeserializer) {
+    public static FACResponseData[] getOptionalFACResponseDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         FACResponseData[] fACResponseDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

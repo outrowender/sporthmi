@@ -3,6 +3,8 @@
  */
 package org.apache.xerces.xni.parser;
 
+import java.io.IOException;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDTDContentModelSource;
 import org.apache.xerces.xni.parser.XMLDTDSource;
 import org.apache.xerces.xni.parser.XMLInputSource;
@@ -10,13 +12,10 @@ import org.apache.xerces.xni.parser.XMLInputSource;
 public interface XMLDTDScanner
 extends XMLDTDSource,
 XMLDTDContentModelSource {
-    default public void setInputSource(XMLInputSource xMLInputSource) {
-    }
+    public void setInputSource(XMLInputSource var1) throws IOException;
 
-    default public boolean scanDTDInternalSubset(boolean bl, boolean bl2, boolean bl3) {
-    }
+    public boolean scanDTDInternalSubset(boolean var1, boolean var2, boolean var3) throws IOException, XNIException;
 
-    default public boolean scanDTDExternalSubset(boolean bl) {
-    }
+    public boolean scanDTDExternalSubset(boolean var1) throws IOException, XNIException;
 }
 

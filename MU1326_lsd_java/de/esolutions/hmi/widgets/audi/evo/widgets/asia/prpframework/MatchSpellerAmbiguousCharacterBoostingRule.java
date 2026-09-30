@@ -9,16 +9,15 @@ import java.util.List;
 
 public final class MatchSpellerAmbiguousCharacterBoostingRule
 extends AbstractPRPRule {
-    private static final String CHARS_TO_BOOST;
+    private static final String CHARS_TO_BOOST = "ckopsuvwxzCKOPSUVWXZ";
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (bl && !list.isEmpty()) {
             int n = list.size();
             for (int i2 = 0; i2 < n; ++i2) {
                 RecognizerResult recognizerResult = (RecognizerResult)list.get(i2);
                 char c2 = recognizerResult.getCharacter();
-                if ("ckopsuvwxzCKOPSUVWXZ".indexOf(c2) == -1) continue;
+                if (CHARS_TO_BOOST.indexOf(c2) == -1) continue;
                 RecognizerResult recognizerResult2 = null;
                 boolean bl2 = false;
                 boolean bl3 = c2 > '`' && c2 < '{';
@@ -51,7 +50,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "MachSpeller-Ambiguous-Character-Boosting-Rule";
     }

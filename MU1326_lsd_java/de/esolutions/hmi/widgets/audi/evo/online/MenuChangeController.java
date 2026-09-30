@@ -51,7 +51,6 @@ extends AbstractWidgetController {
     private int[] mapDecoratorInitialDimensions = null;
     private boolean isInitialized;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
@@ -108,36 +107,34 @@ extends AbstractWidgetController {
         this.menuChangeFactory = menuChangeFactory;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
-        this.logger.log(-2137614336, "MenuChangeController#processModelUpdateEvent: updateType=%1 (other types than 16=TRANSACTION_FINISHED and 1=VALUE_UPDATED will be ignored)", (long)n);
+        this.logger.log(10000000, "MenuChangeController#processModelUpdateEvent: updateType=%1 (other types than 16=TRANSACTION_FINISHED and 1=VALUE_UPDATED will be ignored)", (long)n);
         if (n == 16 || n == 1) {
             this.updateMenu();
         }
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
-        this.logger.log(-2137614336, "MenuChangeController#connected: called.");
+        this.logger.log(10000000, "MenuChangeController#connected: called.");
         this.updateMenu();
     }
 
     private void updateMenu() {
-        this.logger.log(-2137614336, "MenuChangeController#updateMenu: called.");
+        this.logger.log(10000000, "MenuChangeController#updateMenu: called.");
         try {
             if (!this.isInitialized) {
                 this.initializeMenuData();
             }
             if (this.menuChangeFactory == null) {
-                this.logger.log(-1601830656, "MenuChangeController#updateMenu: Cannot draw new screen. menuChangeFactory is null!");
+                this.logger.log(100000, "MenuChangeController#updateMenu: Cannot draw new screen. menuChangeFactory is null!");
                 return;
             }
             Object object = this.getModelData(this.model);
             if (object == null) {
-                this.logger.log(-1601830656, "MenuChangeController#updateMenu: Cannot draw new screen. No gridList inside model!");
+                this.logger.log(100000, "MenuChangeController#updateMenu: Cannot draw new screen. No gridList inside model!");
                 return;
             }
             this.menuChangeFactory.changeMenu(object);
@@ -151,7 +148,7 @@ extends AbstractWidgetController {
         Object object;
         AbstractWidget abstractWidget = this.getParent();
         if (!(abstractWidget instanceof ContainerController)) {
-            throw new IllegalStateException(new StringBuffer().append("MenuChangeController#initializeMenuData: menuChangeController must have a ContainerController as parent assigned in GUIDE, but parent=").append(abstractWidget).toString());
+            throw new IllegalStateException("MenuChangeController#initializeMenuData: menuChangeController must have a ContainerController as parent assigned in GUIDE, but parent=" + abstractWidget);
         }
         ContainerController containerController = (ContainerController)abstractWidget;
         Object object2 = containerController.getChildren().iterator();
@@ -171,7 +168,7 @@ extends AbstractWidgetController {
                     this.glassPlate = (GlassplateController)object;
                 }
             } else if (object instanceof IconController) {
-                if (((AbstractWidget)object).getModelID() == 1528505088) {
+                if (((AbstractWidget)object).getModelID() == 2300763) {
                     this.imageDecorator = (IconController)object;
                 }
             } else if (object instanceof IGridImageLocker) {
@@ -211,20 +208,20 @@ extends AbstractWidgetController {
             this.mapDecorator = this.getMapDecorator((AbstractScreenWidget)object2);
         }
         this.mainMenuInitialDimensions = Dimensions.getAll(this.mainMenu);
-        this.logger.log(1078071040, "MenuChangeController#initializeMenuData: mainMenuInitialDimensions=%1", (Object)this.mainMenuInitialDimensions);
+        this.logger.log(1000000, "MenuChangeController#initializeMenuData: mainMenuInitialDimensions=%1", (Object)this.mainMenuInitialDimensions);
         this.mainScrollbar1InitialDimensions = Dimensions.getAll(this.mainScrollbar1);
         if (this.mainScrollbar2 != null) {
             this.mainScrollbar2InitialDimensions = Dimensions.getAll(this.mainScrollbar2);
         }
-        this.logger.log(1078071040, "MenuChangeController#initializeMenuData: mainScrollbar1InitialDimensions=%1", (Object)this.mainScrollbar1InitialDimensions);
-        this.logger.log(1078071040, "MenuChangeController#initializeMenuData: mainScrollbar2InitialDimensions=%1", (Object)this.mainScrollbar2InitialDimensions);
+        this.logger.log(1000000, "MenuChangeController#initializeMenuData: mainScrollbar1InitialDimensions=%1", (Object)this.mainScrollbar1InitialDimensions);
+        this.logger.log(1000000, "MenuChangeController#initializeMenuData: mainScrollbar2InitialDimensions=%1", (Object)this.mainScrollbar2InitialDimensions);
         if (this.imageDecorator != null) {
             this.imageDecoratorInitialDimensions = Dimensions.getAll(this.imageDecorator);
-            this.logger.log(1078071040, "MenuChangeController#initializeMenuData: imageDecoratorInitialDimensions=%1", (Object)this.imageDecoratorInitialDimensions);
+            this.logger.log(1000000, "MenuChangeController#initializeMenuData: imageDecoratorInitialDimensions=%1", (Object)this.imageDecoratorInitialDimensions);
         }
         if (this.mapDecorator != null) {
             this.mapDecoratorInitialDimensions = Dimensions.getAll(this.mapDecorator);
-            this.logger.log(1078071040, "MenuChangeController#initializeMenuData: mapDecoratorInitialDimensions=%1", (Object)this.mapDecoratorInitialDimensions);
+            this.logger.log(1000000, "MenuChangeController#initializeMenuData: mapDecoratorInitialDimensions=%1", (Object)this.mapDecoratorInitialDimensions);
         }
         if (this.headerMenu != null) {
             this.headerMenu.setActive(false);
@@ -262,19 +259,19 @@ extends AbstractWidgetController {
 
     private Object getModelData(Object object) {
         if (!(object instanceof ListModelGUI)) {
-            String string = new StringBuffer().append("MenuChangeController#getModelData: Cannot draw new screen. Model must be instance of ListModelGUI, but model=").append(object).toString();
+            String string = "MenuChangeController#getModelData: Cannot draw new screen. Model must be instance of ListModelGUI, but model=" + object;
             throw new IllegalArgumentException(string);
         }
         ListModelGUI listModelGUI = (ListModelGUI)object;
         String string = ModelDescription.getList(listModelGUI.getID());
         int n = listModelGUI.getLength();
         if (n != 1) {
-            String string2 = new StringBuffer().append("MenuChangeController#getModelData: Cannot draw new screen. Model ").append(string).append(" must have exact 1 row with data container,").append(" but rows=").append(n).toString();
+            String string2 = "MenuChangeController#getModelData: Cannot draw new screen. Model " + string + " must have exact 1 row with data container," + " but rows=" + n;
             throw new IllegalArgumentException(string2);
         }
         ListCell listCell = listModelGUI.getCell(0, 0);
         if (!(listCell instanceof ObjectListCell)) {
-            String string3 = new StringBuffer().append("MenuChangeController#getModelData: Cannot draw new screen. Container of model ").append(string).append("does not contain an ObjectListCell,").append(" but cell=").append(listCell).toString();
+            String string3 = "MenuChangeController#getModelData: Cannot draw new screen. Container of model " + string + "does not contain an ObjectListCell," + " but cell=" + listCell;
             throw new IllegalArgumentException(string3);
         }
         ObjectListCell objectListCell = (ObjectListCell)listCell;

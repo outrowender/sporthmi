@@ -10,33 +10,30 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carcomfort.DSICarComfort;
 import de.esolutions.fw.comm.dsi.carcomfort.DSICarComfortC;
 import de.esolutions.fw.comm.dsi.carcomfort.DSICarComfortReply;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$1;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$10;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$11;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$12;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$13;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$14;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$15;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$16;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$17;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$18;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$19;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$2;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$20;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$21;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$22;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$23;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$24;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$25;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$26;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$3;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$4;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$5;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$6;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$7;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$8;
-import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortProxy$9;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.DSICarComfortReplyService;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingComfortOpenSettingsSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingRearBlindSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingTheftWarningSettingsSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingUserListRA1Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingUserListUpdateInfoSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.DoorLockingUserProfileOnOffSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.RGSBeltPretensionDataSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.RGSLocalHazardInformationSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA0Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA1Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA2Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA3Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA4Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListRA5Serializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOButtonListUpdateInfoSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOContentSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDODestinationReachedSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOLearningDataSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOOpenDoorSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOSoftkeysSerializer;
+import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOSynchronisationSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingComfortOpenSettings;
@@ -77,20 +74,27 @@ DSICarComfortC {
         return this.proxy;
     }
 
-    @Override
-    public void setRGSBeltPretensionerDataFront(RGSBeltPretensionData rGSBeltPretensionData) {
-        DSICarComfortProxy$1 dSICarComfortProxy$1 = new DSICarComfortProxy$1(this, rGSBeltPretensionData);
-        this.proxy.remoteCallMethod((short)49, dSICarComfortProxy$1);
+    public void setRGSBeltPretensionerDataFront(final RGSBeltPretensionData rGSBeltPretensionData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RGSBeltPretensionDataSerializer.putOptionalRGSBeltPretensionData(iSerializer, rGSBeltPretensionData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)49, iSerializable);
     }
 
-    @Override
-    public void setRGSBeltPretensionerDataRear(RGSBeltPretensionData rGSBeltPretensionData) {
-        DSICarComfortProxy$2 dSICarComfortProxy$2 = new DSICarComfortProxy$2(this, rGSBeltPretensionData);
-        this.proxy.remoteCallMethod((short)50, dSICarComfortProxy$2);
+    public void setRGSBeltPretensionerDataRear(final RGSBeltPretensionData rGSBeltPretensionData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RGSBeltPretensionDataSerializer.putOptionalRGSBeltPretensionData(iSerializer, rGSBeltPretensionData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)50, iSerializable);
     }
 
-    @Override
-    public void setRGSPreCrashSystem(boolean bl) {
+    public void setRGSPreCrashSystem(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -101,13 +105,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void setRgsSetFactoryDefault() {
+    public void setRgsSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)52, null);
     }
 
-    @Override
-    public void setRGSPreSenseSystem(boolean bl) {
+    public void setRGSPreSenseSystem(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -118,8 +120,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)130, genericSerializable);
     }
 
-    @Override
-    public void setRGSPreSenseWarning(int n) {
+    public void setRGSPreSenseWarning(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -130,26 +131,37 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)166, genericSerializable);
     }
 
-    @Override
-    public void setRGSLocalHazardInformation(RGSLocalHazardInformation rGSLocalHazardInformation) {
-        DSICarComfortProxy$3 dSICarComfortProxy$3 = new DSICarComfortProxy$3(this, rGSLocalHazardInformation);
-        this.proxy.remoteCallMethod((short)165, dSICarComfortProxy$3);
+    public void setRGSLocalHazardInformation(final RGSLocalHazardInformation rGSLocalHazardInformation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RGSLocalHazardInformationSerializer.putOptionalRGSLocalHazardInformation(iSerializer, rGSLocalHazardInformation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)165, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingComfortOpenSettings(DoorLockingComfortOpenSettings doorLockingComfortOpenSettings) {
-        DSICarComfortProxy$4 dSICarComfortProxy$4 = new DSICarComfortProxy$4(this, doorLockingComfortOpenSettings);
-        this.proxy.remoteCallMethod((short)26, dSICarComfortProxy$4);
+    public void setDoorLockingComfortOpenSettings(final DoorLockingComfortOpenSettings doorLockingComfortOpenSettings) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingComfortOpenSettingsSerializer.putOptionalDoorLockingComfortOpenSettings(iSerializer, doorLockingComfortOpenSettings);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingTheftWarningSettings(DoorLockingTheftWarningSettings doorLockingTheftWarningSettings) {
-        DSICarComfortProxy$5 dSICarComfortProxy$5 = new DSICarComfortProxy$5(this, doorLockingTheftWarningSettings);
-        this.proxy.remoteCallMethod((short)32, dSICarComfortProxy$5);
+    public void setDoorLockingTheftWarningSettings(final DoorLockingTheftWarningSettings doorLockingTheftWarningSettings) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingTheftWarningSettingsSerializer.putOptionalDoorLockingTheftWarningSettings(iSerializer, doorLockingTheftWarningSettings);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingClBootOpen(boolean bl) {
+    public void setDoorLockingClBootOpen(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -160,8 +172,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)163, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingBootOpen(boolean bl) {
+    public void setDoorLockingBootOpen(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -172,8 +183,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingBootClose(boolean bl) {
+    public void setDoorLockingBootClose(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -184,8 +194,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)161, genericSerializable);
     }
 
-    @Override
-    public void startDoorLockingRemoteLockUnlock(String string) {
+    public void startDoorLockingRemoteLockUnlock(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -196,13 +205,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)169, genericSerializable);
     }
 
-    @Override
-    public void abortDoorLockingRemoteLockUnlock() {
+    public void abortDoorLockingRemoteLockUnlock() throws MethodException {
         this.proxy.remoteCallMethod((short)154, null);
     }
 
-    @Override
-    public void sendDoorLockingRemoteLockUnlockSignature(String string) {
+    public void sendDoorLockingRemoteLockUnlockSignature(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -213,8 +220,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)160, genericSerializable);
     }
 
-    @Override
-    public void startDoorLockingRemoteBlinking(int n) {
+    public void startDoorLockingRemoteBlinking(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -225,8 +231,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)167, genericSerializable);
     }
 
-    @Override
-    public void startDoorLockingRemoteHorn(int n) {
+    public void startDoorLockingRemoteHorn(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -237,8 +242,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)168, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingUnlockingMode(int n) {
+    public void setDoorLockingUnlockingMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -249,8 +253,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingAutoLock(int n) {
+    public void setDoorLockingAutoLock(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -261,8 +264,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingAutoUnlock(boolean bl) {
+    public void setDoorLockingAutoUnlock(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -273,8 +275,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingClBootLock(boolean bl) {
+    public void setDoorLockingClBootLock(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -285,8 +286,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)162, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingMirrorProtection(boolean bl) {
+    public void setDoorLockingMirrorProtection(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -297,8 +297,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingConfirmation(boolean bl) {
+    public void setDoorLockingConfirmation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -309,8 +308,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingRainClosing(boolean bl) {
+    public void setDoorLockingRainClosing(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -321,37 +319,53 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingRearBlind(DoorLockingRearBlind doorLockingRearBlind) {
-        DSICarComfortProxy$6 dSICarComfortProxy$6 = new DSICarComfortProxy$6(this, doorLockingRearBlind);
-        this.proxy.remoteCallMethod((short)30, dSICarComfortProxy$6);
+    public void setDoorLockingRearBlind(final DoorLockingRearBlind doorLockingRearBlind) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingRearBlindSerializer.putOptionalDoorLockingRearBlind(iSerializer, doorLockingRearBlind);
+            }
+        };
+        this.proxy.remoteCallMethod((short)30, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingSetFactoryDefault() {
+    public void setDoorLockingSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)31, null);
     }
 
-    @Override
-    public void requestDoorLockingUserList(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo) {
-        DSICarComfortProxy$7 dSICarComfortProxy$7 = new DSICarComfortProxy$7(this, doorLockingUserListUpdateInfo);
-        this.proxy.remoteCallMethod((short)211, dSICarComfortProxy$7);
+    public void requestDoorLockingUserList(final DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingUserListUpdateInfoSerializer.putOptionalDoorLockingUserListUpdateInfo(iSerializer, doorLockingUserListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)211, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingUserListRA1(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, DoorLockingUserListRA1[] doorLockingUserListRA1Array) {
-        DSICarComfortProxy$8 dSICarComfortProxy$8 = new DSICarComfortProxy$8(this, doorLockingUserListUpdateInfo, doorLockingUserListRA1Array);
-        this.proxy.remoteCallMethod((short)222, dSICarComfortProxy$8);
+    public void setDoorLockingUserListRA1(final DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, final DoorLockingUserListRA1[] doorLockingUserListRA1Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingUserListUpdateInfoSerializer.putOptionalDoorLockingUserListUpdateInfo(iSerializer, doorLockingUserListUpdateInfo);
+                DoorLockingUserListRA1Serializer.putOptionalDoorLockingUserListRA1VarArray(iSerializer, doorLockingUserListRA1Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)222, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingUserListRAF(DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, int[] nArray) {
-        DSICarComfortProxy$9 dSICarComfortProxy$9 = new DSICarComfortProxy$9(this, doorLockingUserListUpdateInfo, nArray);
-        this.proxy.remoteCallMethod((short)223, dSICarComfortProxy$9);
+    public void setDoorLockingUserListRAF(final DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingUserListUpdateInfoSerializer.putOptionalDoorLockingUserListUpdateInfo(iSerializer, doorLockingUserListUpdateInfo);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)223, iSerializable);
     }
 
-    @Override
-    public void setDoorLockingActiveUser(int n) {
+    public void setDoorLockingActiveUser(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -362,14 +376,17 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)184, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff) {
-        DSICarComfortProxy$10 dSICarComfortProxy$10 = new DSICarComfortProxy$10(this, doorLockingUserProfileOnOff);
-        this.proxy.remoteCallMethod((short)244, dSICarComfortProxy$10);
+    public void setDoorLockingUserProfileOnOff(final DoorLockingUserProfileOnOff doorLockingUserProfileOnOff) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DoorLockingUserProfileOnOffSerializer.putOptionalDoorLockingUserProfileOnOff(iSerializer, doorLockingUserProfileOnOff);
+            }
+        };
+        this.proxy.remoteCallMethod((short)244, iSerializable);
     }
 
-    @Override
-    public void startDoorLockingUserProfileControl(int n, int n2) {
+    public void startDoorLockingUserProfileControl(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -381,13 +398,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)188, genericSerializable);
     }
 
-    @Override
-    public void abortDoorLockingUserProfileControl() {
+    public void abortDoorLockingUserProfileControl() throws MethodException {
         this.proxy.remoteCallMethod((short)203, null);
     }
 
-    @Override
-    public void setDoorLockingWindowAutoClose(boolean bl) {
+    public void setDoorLockingWindowAutoClose(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -398,8 +413,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)204, genericSerializable);
     }
 
-    @Override
-    public void setDoorlockingBlindsControl(int n) {
+    public void setDoorlockingBlindsControl(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -410,8 +424,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)224, genericSerializable);
     }
 
-    @Override
-    public void setDoorlockingBlindsControlExtended(int n) {
+    public void setDoorlockingBlindsControlExtended(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -422,8 +435,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)255, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingLeftSideBlindControl(int n) {
+    public void setDoorLockingLeftSideBlindControl(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -434,8 +446,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)253, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingRightSideBlindControl(int n) {
+    public void setDoorLockingRightSideBlindControl(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -446,8 +457,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)254, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingTurnIndRepeat(boolean bl) {
+    public void setDoorLockingTurnIndRepeat(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -458,8 +468,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)243, genericSerializable);
     }
 
-    @Override
-    public void setDoorLockingKeyless(boolean bl) {
+    public void setDoorLockingKeyless(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -470,8 +479,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)252, genericSerializable);
     }
 
-    @Override
-    public void setWiperServicePosition(boolean bl) {
+    public void setWiperServicePosition(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -482,8 +490,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void setWiperRainSensorOnOff(boolean bl) {
+    public void setWiperRainSensorOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -494,8 +501,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)56, genericSerializable);
     }
 
-    @Override
-    public void setWiperRainSensorConfig(int n) {
+    public void setWiperRainSensorConfig(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -506,8 +512,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)55, genericSerializable);
     }
 
-    @Override
-    public void setWiperRearWiping(boolean bl) {
+    public void setWiperRearWiping(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -518,8 +523,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void setWiperTearsWiping(boolean bl) {
+    public void setWiperTearsWiping(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -530,8 +534,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void setWiperWinterPosition(boolean bl) {
+    public void setWiperWinterPosition(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -542,8 +545,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void setEasyEntrySteeringColumn(boolean bl) {
+    public void setEasyEntrySteeringColumn(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -554,66 +556,95 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void setWiperSetFactoryDefault() {
+    public void setWiperSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)59, null);
     }
 
-    @Override
-    public void setUGDOLearningData(UGDOLearningData uGDOLearningData) {
-        DSICarComfortProxy$11 dSICarComfortProxy$11 = new DSICarComfortProxy$11(this, uGDOLearningData);
-        this.proxy.remoteCallMethod((short)53, dSICarComfortProxy$11);
+    public void setUGDOLearningData(final UGDOLearningData uGDOLearningData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOLearningDataSerializer.putOptionalUGDOLearningData(iSerializer, uGDOLearningData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)53, iSerializable);
     }
 
-    @Override
-    public void showUGDOPopup(UGDOContent uGDOContent) {
-        DSICarComfortProxy$12 dSICarComfortProxy$12 = new DSICarComfortProxy$12(this, uGDOContent);
-        this.proxy.remoteCallMethod((short)142, dSICarComfortProxy$12);
+    public void showUGDOPopup(final UGDOContent uGDOContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOContentSerializer.putOptionalUGDOContent(iSerializer, uGDOContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)142, iSerializable);
     }
 
-    @Override
-    public void cancelUGDOPopup(UGDOContent uGDOContent) {
-        DSICarComfortProxy$13 dSICarComfortProxy$13 = new DSICarComfortProxy$13(this, uGDOContent);
-        this.proxy.remoteCallMethod((short)119, dSICarComfortProxy$13);
+    public void cancelUGDOPopup(final UGDOContent uGDOContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOContentSerializer.putOptionalUGDOContent(iSerializer, uGDOContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)119, iSerializable);
     }
 
-    @Override
-    public void deleteUGDOButton(UGDOSoftkeys uGDOSoftkeys) {
-        DSICarComfortProxy$14 dSICarComfortProxy$14 = new DSICarComfortProxy$14(this, uGDOSoftkeys);
-        this.proxy.remoteCallMethod((short)177, dSICarComfortProxy$14);
+    public void deleteUGDOButton(final UGDOSoftkeys uGDOSoftkeys) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOSoftkeysSerializer.putOptionalUGDOSoftkeys(iSerializer, uGDOSoftkeys);
+            }
+        };
+        this.proxy.remoteCallMethod((short)177, iSerializable);
     }
 
-    @Override
-    public void setUGDOSetFactoryDefault() {
+    public void setUGDOSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)140, null);
     }
 
-    @Override
-    public void setUGDODestinationReached(UGDODestinationReached uGDODestinationReached) {
-        DSICarComfortProxy$15 dSICarComfortProxy$15 = new DSICarComfortProxy$15(this, uGDODestinationReached);
-        this.proxy.remoteCallMethod((short)138, dSICarComfortProxy$15);
+    public void setUGDODestinationReached(final UGDODestinationReached uGDODestinationReached) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDODestinationReachedSerializer.putOptionalUGDODestinationReached(iSerializer, uGDODestinationReached);
+            }
+        };
+        this.proxy.remoteCallMethod((short)138, iSerializable);
     }
 
-    @Override
-    public void setUGDOOpenDoor(UGDOOpenDoor uGDOOpenDoor) {
-        DSICarComfortProxy$16 dSICarComfortProxy$16 = new DSICarComfortProxy$16(this, uGDOOpenDoor);
-        this.proxy.remoteCallMethod((short)139, dSICarComfortProxy$16);
+    public void setUGDOOpenDoor(final UGDOOpenDoor uGDOOpenDoor) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOOpenDoorSerializer.putOptionalUGDOOpenDoor(iSerializer, uGDOOpenDoor);
+            }
+        };
+        this.proxy.remoteCallMethod((short)139, iSerializable);
     }
 
-    @Override
-    public void setUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-        DSICarComfortProxy$17 dSICarComfortProxy$17 = new DSICarComfortProxy$17(this, uGDOSynchronisation);
-        this.proxy.remoteCallMethod((short)141, dSICarComfortProxy$17);
+    public void setUGDOSynchronisation(final UGDOSynchronisation uGDOSynchronisation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOSynchronisationSerializer.putOptionalUGDOSynchronisation(iSerializer, uGDOSynchronisation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)141, iSerializable);
     }
 
-    @Override
-    public void responseUGDOSynchronisation(UGDOSynchronisation uGDOSynchronisation) {
-        DSICarComfortProxy$18 dSICarComfortProxy$18 = new DSICarComfortProxy$18(this, uGDOSynchronisation);
-        this.proxy.remoteCallMethod((short)129, dSICarComfortProxy$18);
+    public void responseUGDOSynchronisation(final UGDOSynchronisation uGDOSynchronisation) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOSynchronisationSerializer.putOptionalUGDOSynchronisation(iSerializer, uGDOSynchronisation);
+            }
+        };
+        this.proxy.remoteCallMethod((short)129, iSerializable);
     }
 
-    @Override
-    public void startUGDOLearning(int n, int n2) {
+    public void startUGDOLearning(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -625,61 +656,98 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)143, genericSerializable);
     }
 
-    @Override
-    public void abortUGDOLearning() {
+    public void abortUGDOLearning() throws MethodException {
         this.proxy.remoteCallMethod((short)113, null);
     }
 
-    @Override
-    public void requestUGDOButtonList(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo) {
-        DSICarComfortProxy$19 dSICarComfortProxy$19 = new DSICarComfortProxy$19(this, uGDOButtonListUpdateInfo);
-        this.proxy.remoteCallMethod((short)212, dSICarComfortProxy$19);
+    public void requestUGDOButtonList(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)212, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA0(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA0[] uGDOButtonListRA0Array) {
-        DSICarComfortProxy$20 dSICarComfortProxy$20 = new DSICarComfortProxy$20(this, uGDOButtonListUpdateInfo, uGDOButtonListRA0Array);
-        this.proxy.remoteCallMethod((short)226, dSICarComfortProxy$20);
+    public void setUGDOButtonListRA0(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA0[] uGDOButtonListRA0Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA0Serializer.putOptionalUGDOButtonListRA0VarArray(iSerializer, uGDOButtonListRA0Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)226, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA1(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA1[] uGDOButtonListRA1Array) {
-        DSICarComfortProxy$21 dSICarComfortProxy$21 = new DSICarComfortProxy$21(this, uGDOButtonListUpdateInfo, uGDOButtonListRA1Array);
-        this.proxy.remoteCallMethod((short)227, dSICarComfortProxy$21);
+    public void setUGDOButtonListRA1(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA1[] uGDOButtonListRA1Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA1Serializer.putOptionalUGDOButtonListRA1VarArray(iSerializer, uGDOButtonListRA1Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)227, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA2(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA2[] uGDOButtonListRA2Array) {
-        DSICarComfortProxy$22 dSICarComfortProxy$22 = new DSICarComfortProxy$22(this, uGDOButtonListUpdateInfo, uGDOButtonListRA2Array);
-        this.proxy.remoteCallMethod((short)228, dSICarComfortProxy$22);
+    public void setUGDOButtonListRA2(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA2[] uGDOButtonListRA2Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA2Serializer.putOptionalUGDOButtonListRA2VarArray(iSerializer, uGDOButtonListRA2Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)228, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA3(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA3[] uGDOButtonListRA3Array) {
-        DSICarComfortProxy$23 dSICarComfortProxy$23 = new DSICarComfortProxy$23(this, uGDOButtonListUpdateInfo, uGDOButtonListRA3Array);
-        this.proxy.remoteCallMethod((short)229, dSICarComfortProxy$23);
+    public void setUGDOButtonListRA3(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA3[] uGDOButtonListRA3Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA3Serializer.putOptionalUGDOButtonListRA3VarArray(iSerializer, uGDOButtonListRA3Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)229, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA4(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA4[] uGDOButtonListRA4Array) {
-        DSICarComfortProxy$24 dSICarComfortProxy$24 = new DSICarComfortProxy$24(this, uGDOButtonListUpdateInfo, uGDOButtonListRA4Array);
-        this.proxy.remoteCallMethod((short)230, dSICarComfortProxy$24);
+    public void setUGDOButtonListRA4(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA4[] uGDOButtonListRA4Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA4Serializer.putOptionalUGDOButtonListRA4VarArray(iSerializer, uGDOButtonListRA4Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)230, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRA5(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, UGDOButtonListRA5[] uGDOButtonListRA5Array) {
-        DSICarComfortProxy$25 dSICarComfortProxy$25 = new DSICarComfortProxy$25(this, uGDOButtonListUpdateInfo, uGDOButtonListRA5Array);
-        this.proxy.remoteCallMethod((short)231, dSICarComfortProxy$25);
+    public void setUGDOButtonListRA5(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final UGDOButtonListRA5[] uGDOButtonListRA5Array) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                UGDOButtonListRA5Serializer.putOptionalUGDOButtonListRA5VarArray(iSerializer, uGDOButtonListRA5Array);
+            }
+        };
+        this.proxy.remoteCallMethod((short)231, iSerializable);
     }
 
-    @Override
-    public void setUGDOButtonListRAF(UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, int[] nArray) {
-        DSICarComfortProxy$26 dSICarComfortProxy$26 = new DSICarComfortProxy$26(this, uGDOButtonListUpdateInfo, nArray);
-        this.proxy.remoteCallMethod((short)232, dSICarComfortProxy$26);
+    public void setUGDOButtonListRAF(final UGDOButtonListUpdateInfo uGDOButtonListUpdateInfo, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UGDOButtonListUpdateInfoSerializer.putOptionalUGDOButtonListUpdateInfo(iSerializer, uGDOButtonListUpdateInfo);
+                iSerializer.putOptionalInt32VarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)232, iSerializable);
     }
 
-    @Override
-    public void setRDKSystemOnOff(boolean bl) {
+    public void setRDKSystemOnOff(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -690,8 +758,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void setRDKTireSetupSelectedTire(int n) {
+    public void setRDKTireSetupSelectedTire(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -702,8 +769,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void setRDKSpeedLimit(int n) {
+    public void setRDKSpeedLimit(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -714,23 +780,19 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void setRDKTireChanged() {
+    public void setRDKTireChanged() throws MethodException {
         this.proxy.remoteCallMethod((short)47, null);
     }
 
-    @Override
-    public void setRDKPressureChanged() {
+    public void setRDKPressureChanged() throws MethodException {
         this.proxy.remoteCallMethod((short)44, null);
     }
 
-    @Override
-    public void requestRDKLifeMonitoring() {
+    public void requestRDKLifeMonitoring() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void setRDKPressureLevel(byte by) {
+    public void setRDKPressureLevel(byte by) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt8(by);
@@ -741,13 +803,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)196, genericSerializable);
     }
 
-    @Override
-    public void setRDKSetFactoryDefault() {
+    public void setRDKSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)225, null);
     }
 
-    @Override
-    public void setMirrorLowering(boolean bl) {
+    public void setMirrorLowering(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -758,8 +818,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void setMirrorSyncAdjust(boolean bl) {
+    public void setMirrorSyncAdjust(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -770,8 +829,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void setMirrorFolding(boolean bl) {
+    public void setMirrorFolding(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -782,8 +840,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)36, genericSerializable);
     }
 
-    @Override
-    public void setMirrorDimming(boolean bl) {
+    public void setMirrorDimming(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -794,8 +851,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setMirrorHeating(boolean bl) {
+    public void setMirrorHeating(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -806,13 +862,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void setMirrorSetFactoryDefault() {
+    public void setMirrorSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)39, null);
     }
 
-    @Override
-    public void setBrakeElectricalParking(boolean bl) {
+    public void setBrakeElectricalParking(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -823,8 +877,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setBrakeAutoHold(int n) {
+    public void setBrakeAutoHold(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -835,8 +888,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setBrakeEscMode(int n) {
+    public void setBrakeEscMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -847,8 +899,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setBrakeHdcMode(boolean bl) {
+    public void setBrakeHdcMode(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -859,8 +910,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)195, genericSerializable);
     }
 
-    @Override
-    public void setHMIIsReady(boolean bl) {
+    public void setHMIIsReady(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -871,8 +921,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)164, genericSerializable);
     }
 
-    @Override
-    public void showDoorLockingPrompt(int n) {
+    public void showDoorLockingPrompt(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -883,8 +932,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)245, genericSerializable);
     }
 
-    @Override
-    public void cancelDoorLockingPrompt(int n) {
+    public void cancelDoorLockingPrompt(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -895,13 +943,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)241, genericSerializable);
     }
 
-    @Override
-    public void setMascotSetFactoryDefault() {
+    public void setMascotSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)264, null);
     }
 
-    @Override
-    public void setMascotControl(int n) {
+    public void setMascotControl(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -912,8 +958,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)262, genericSerializable);
     }
 
-    @Override
-    public void setMascotMode(int n) {
+    public void setMascotMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -924,8 +969,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)263, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -936,8 +980,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -948,13 +991,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)41, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -965,8 +1006,7 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -977,13 +1017,11 @@ DSICarComfortC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

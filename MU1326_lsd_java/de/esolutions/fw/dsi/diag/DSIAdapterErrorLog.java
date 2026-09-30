@@ -19,37 +19,30 @@ implements IAdapterErrorLog {
         this.providerErrors = new ErrorLog(n);
     }
 
-    @Override
     public void addDispatcherError(DispatcherInfo dispatcherInfo) {
         this.dispatcherErrors.add(dispatcherInfo);
     }
 
-    @Override
     public IInfoBase[] getDispatcherErrors() {
         return this.dispatcherErrors.getAllEntries();
     }
 
-    @Override
     public int getNumDroppedDispatcherErrors() {
         return this.dispatcherErrors.getNumDropped();
     }
 
-    @Override
     public void addProviderError(ProviderInfo providerInfo) {
         this.providerErrors.add(providerInfo);
     }
 
-    @Override
     public IInfoBase[] getProviderErrors() {
         return this.providerErrors.getAllEntries();
     }
 
-    @Override
     public int getNumDroppedProviderErrors() {
         return this.providerErrors.getNumDropped();
     }
 
-    @Override
     public int getAbsoluteDispatcherErrors() {
         int n = 0;
         if (this.dispatcherErrors.getAllEntries() != null) {
@@ -58,7 +51,6 @@ implements IAdapterErrorLog {
         return n += this.dispatcherErrors.getNumDropped();
     }
 
-    @Override
     public int getAbsoluteProviderErrors() {
         int n = 0;
         if (this.providerErrors.getAllEntries() != null) {

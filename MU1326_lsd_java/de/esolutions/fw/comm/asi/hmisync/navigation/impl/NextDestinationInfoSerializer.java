@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.navigation.impl;
 import de.esolutions.fw.comm.asi.hmisync.navigation.NextDestinationInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class NextDestinationInfoSerializer {
-    public static void putOptionalNextDestinationInfo(ISerializer iSerializer, NextDestinationInfo nextDestinationInfo) {
+    public static void putOptionalNextDestinationInfo(ISerializer iSerializer, NextDestinationInfo nextDestinationInfo) throws SerializerException {
         boolean bl = nextDestinationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class NextDestinationInfoSerializer {
         }
     }
 
-    public static void putOptionalNextDestinationInfoVarArray(ISerializer iSerializer, NextDestinationInfo[] nextDestinationInfoArray) {
+    public static void putOptionalNextDestinationInfoVarArray(ISerializer iSerializer, NextDestinationInfo[] nextDestinationInfoArray) throws SerializerException {
         boolean bl = nextDestinationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class NextDestinationInfoSerializer {
         }
     }
 
-    public static NextDestinationInfo getOptionalNextDestinationInfo(IDeserializer iDeserializer) {
+    public static NextDestinationInfo getOptionalNextDestinationInfo(IDeserializer iDeserializer) throws SerializerException {
         NextDestinationInfo nextDestinationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class NextDestinationInfoSerializer {
         return nextDestinationInfo;
     }
 
-    public static NextDestinationInfo[] getOptionalNextDestinationInfoVarArray(IDeserializer iDeserializer) {
+    public static NextDestinationInfo[] getOptionalNextDestinationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         NextDestinationInfo[] nextDestinationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

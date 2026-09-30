@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.ARAInfo;
 
 public class ARAInfoSerializer {
-    public static void putOptionalARAInfo(ISerializer iSerializer, ARAInfo aRAInfo) {
+    public static void putOptionalARAInfo(ISerializer iSerializer, ARAInfo aRAInfo) throws SerializerException {
         boolean bl = aRAInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ARAInfoSerializer {
         }
     }
 
-    public static void putOptionalARAInfoVarArray(ISerializer iSerializer, ARAInfo[] aRAInfoArray) {
+    public static void putOptionalARAInfoVarArray(ISerializer iSerializer, ARAInfo[] aRAInfoArray) throws SerializerException {
         boolean bl = aRAInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ARAInfoSerializer {
         }
     }
 
-    public static ARAInfo getOptionalARAInfo(IDeserializer iDeserializer) {
+    public static ARAInfo getOptionalARAInfo(IDeserializer iDeserializer) throws SerializerException {
         ARAInfo aRAInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ARAInfoSerializer {
         return aRAInfo;
     }
 
-    public static ARAInfo[] getOptionalARAInfoVarArray(IDeserializer iDeserializer) {
+    public static ARAInfo[] getOptionalARAInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ARAInfo[] aRAInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

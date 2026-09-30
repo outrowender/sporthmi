@@ -5,11 +5,13 @@ package de.esolutions.fw.util.tracing.protocol.message;
 
 import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.DefaultExtendedSerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.serializer.stream.BEDefaultSerializer;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessageWriter;
 import de.esolutions.fw.util.transport.IWriter;
 import de.esolutions.fw.util.transport.buffer.TransportBuffer;
+import de.esolutions.fw.util.transport.exception.TransportException;
 
 public class MessageEncoder {
     private ISerializer serializer;
@@ -22,7 +24,7 @@ public class MessageEncoder {
         this.serializer = iSerializer;
     }
 
-    public byte[] encodeBuffer(AbstractMessage abstractMessage) {
+    public byte[] encodeBuffer(AbstractMessage abstractMessage) throws SerializerException {
         this.serializer.beginSizeCalc();
         abstractMessage.serialize(this.serializer);
         int n = this.serializer.endSizeCalc();
@@ -33,7 +35,7 @@ public class MessageEncoder {
         return transportBuffer.getDirectData();
     }
 
-    public IWriter encodeWriter(AbstractMessage abstractMessage) {
+    public IWriter encodeWriter(AbstractMessage abstractMessage) throws TransportException {
         return new AbstractMessageWriter(this.serializer, abstractMessage);
     }
 }

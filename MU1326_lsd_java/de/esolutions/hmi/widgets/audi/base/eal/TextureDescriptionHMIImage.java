@@ -31,7 +31,6 @@ extends AbstractTextureDescription {
         this.useSizeCheck = bl2;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         IImage iImage = null;
         if (this.checkSize(this.image.getPath(), this.useSizeCheck)) {
@@ -57,22 +56,18 @@ extends AbstractTextureDescription {
         return this.image.getPath();
     }
 
-    @Override
     public Object getCacheKey() {
         return this.getPath();
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return this.getUnscaledDimension(this.image.getPath());
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return null;
     }
 
-    @Override
     public boolean preventRTLFlip() {
         return this.image.getPreventRTLFlipFlag();
     }
@@ -85,7 +80,6 @@ extends AbstractTextureDescription {
         return stringBuffer.toString();
     }
 
-    @Override
     public int getDepthsInByte() {
         return HMIImage.getNumBytesPerPixel(this.image.getFormat());
     }

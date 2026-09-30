@@ -4,6 +4,7 @@
 package java.security;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.util.Hashtable;
 public final class UnresolvedPermission
 extends Permission
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -4821973115467008846L;
     private transient Certificate[] certificates;
     private String type;
     private String actions;
@@ -51,7 +52,6 @@ implements Serializable {
         this.actions = string3;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -85,27 +85,22 @@ implements Serializable {
         return true;
     }
 
-    @Override
     public boolean implies(Permission permission) {
         return false;
     }
 
-    @Override
     public PermissionCollection newPermissionCollection() {
         return new UnresolvedPermissionCollection();
     }
 
-    @Override
     public String getActions() {
         return "";
     }
 
-    @Override
     public int hashCode() {
         return this.toString().hashCode();
     }
 
-    @Override
     public String toString() {
         return new StringBuffer("(unresolved ").append(this.type).append(" ").append(this.name).append(" ").append(this.actions).append(")").toString();
     }
@@ -168,7 +163,7 @@ implements Serializable {
         return null;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         int n = 0;
         if (this.certificates != null) {
@@ -190,7 +185,7 @@ implements Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         int n = objectInputStream.readInt();
         if (n > 0) {

@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IPresetPopupHeadlineRenderer
 extends IRenderer {
-    default public void resetTemplateInstanceNode() {
-    }
+    public void resetTemplateInstanceNode();
 }
 

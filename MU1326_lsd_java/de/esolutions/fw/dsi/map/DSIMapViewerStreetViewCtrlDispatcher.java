@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.map;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerStreetViewCtrlReply;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerStreetViewCtrlReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIMapViewerStreetViewCtrlReply {
         super(n, (class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrlListener == null ? (class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrlListener = DSIMapViewerStreetViewCtrlDispatcher.class$("org.dsi.ifc.map.DSIMapViewerStreetViewCtrlListener")) : class$org$dsi$ifc$map$DSIMapViewerStreetViewCtrlListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateStreetViewLoadStatus(int n, int n2) {
+    public void updateStreetViewLoadStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -60,8 +59,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewAvailable(boolean bl, int n) {
+    public void updateStreetViewAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -89,8 +87,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewZoomListIndex(int n, int n2) {
+    public void updateStreetViewZoomListIndex(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -118,8 +115,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewZoomList(float[] fArray, int n) {
+    public void updateStreetViewZoomList(float[] fArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -147,8 +143,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray, int n) {
+    public void updateStreetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -176,8 +171,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void streetViewEnabled(boolean bl) {
+    public void streetViewEnabled(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -193,8 +187,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void streetViewVisible(boolean bl) {
+    public void streetViewVisible(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -210,8 +203,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void streetViewFreeze(boolean bl) {
+    public void streetViewFreeze(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -227,8 +219,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updatePosition(NavLocationWgs84 navLocationWgs84, int n) {
+    public void updatePosition(NavLocationWgs84 navLocationWgs84, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -256,8 +247,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateRotation(int n, int n2, int n3) {
+    public void updateRotation(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -285,8 +275,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void getInfoForPosition(PosInfo[] posInfoArray) {
+    public void getInfoForPosition(PosInfo[] posInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -302,8 +291,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void snapshotResult(StreetViewThumbnail streetViewThumbnail, int n) {
+    public void snapshotResult(StreetViewThumbnail streetViewThumbnail, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -319,8 +307,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateScreenViewPort(Rect rect, int n) {
+    public void updateScreenViewPort(Rect rect, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -348,8 +335,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewZoomLevel(float f2, int n) {
+    public void updateStreetViewZoomLevel(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -377,8 +363,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void updateStreetViewPosition(NavLocationWgs84 navLocationWgs84, boolean bl, int n) {
+    public void updateStreetViewPosition(NavLocationWgs84 navLocationWgs84, boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -406,8 +391,7 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -423,14 +407,13 @@ implements DSIMapViewerStreetViewCtrlReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMapViewerStreetViewCtrlListener dSIMapViewerStreetViewCtrlListener = (DSIMapViewerStreetViewCtrlListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerStreetViewCtrlDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerStreetViewCtrlDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMapViewerStreetViewCtrlListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerStreetViewCtrlDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerStreetViewCtrlDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMapViewerStreetViewCtrlListener, new Object[]{string, string2});
                     continue;
                 }

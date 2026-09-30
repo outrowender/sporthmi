@@ -12,7 +12,6 @@ extends Command {
         super("ConnectBrokerLink");
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doConnectBrokerLink();
     }

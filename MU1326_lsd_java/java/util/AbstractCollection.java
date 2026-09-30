@@ -12,12 +12,10 @@ implements Collection {
     protected AbstractCollection() {
     }
 
-    @Override
     public boolean add(Object object) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         boolean bl = false;
         Iterator iterator = collection.iterator();
@@ -28,7 +26,6 @@ implements Collection {
         return bl;
     }
 
-    @Override
     public void clear() {
         Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -40,7 +37,6 @@ implements Collection {
     /*
      * Unable to fully structure code
      */
-    @Override
     public boolean contains(Object var1_1) {
         block2: {
             var2_2 = this.iterator();
@@ -65,7 +61,6 @@ lbl9:
         return false;
     }
 
-    @Override
     public boolean containsAll(Collection collection) {
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
@@ -75,19 +70,15 @@ lbl9:
         return true;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size() == 0;
     }
 
-    @Override
-    public abstract Iterator iterator() {
-    }
+    public abstract Iterator iterator();
 
     /*
      * Unable to fully structure code
      */
-    @Override
     public boolean remove(Object var1_1) {
         block2: {
             var2_2 = this.iterator();
@@ -114,7 +105,6 @@ lbl11:
         return false;
     }
 
-    @Override
     public boolean removeAll(Collection collection) {
         boolean bl = false;
         Iterator iterator = this.iterator();
@@ -126,7 +116,6 @@ lbl11:
         return bl;
     }
 
-    @Override
     public boolean retainAll(Collection collection) {
         boolean bl = false;
         Iterator iterator = this.iterator();
@@ -138,11 +127,8 @@ lbl11:
         return bl;
     }
 
-    @Override
-    public abstract int size() {
-    }
+    public abstract int size();
 
-    @Override
     public Object[] toArray() {
         int n = this.size();
         int n2 = 0;
@@ -154,13 +140,12 @@ lbl11:
         return objectArray;
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         int n = this.size();
         int n2 = 0;
         Iterator iterator = this.iterator();
         if (n > objectArray.length) {
-            objectArray = (Object[])Array.newInstance(super.getClass().getComponentType(), n);
+            objectArray = (Object[])Array.newInstance(objectArray.getClass().getComponentType(), n);
         }
         while (n2 < n) {
             objectArray[n2++] = iterator.next();

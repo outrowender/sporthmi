@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlife.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlife.PlaymodeInfo;
 
 public class PlaymodeInfoSerializer {
-    public static void putOptionalPlaymodeInfo(ISerializer iSerializer, PlaymodeInfo playmodeInfo) {
+    public static void putOptionalPlaymodeInfo(ISerializer iSerializer, PlaymodeInfo playmodeInfo) throws SerializerException {
         boolean bl = playmodeInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PlaymodeInfoSerializer {
         }
     }
 
-    public static void putOptionalPlaymodeInfoVarArray(ISerializer iSerializer, PlaymodeInfo[] playmodeInfoArray) {
+    public static void putOptionalPlaymodeInfoVarArray(ISerializer iSerializer, PlaymodeInfo[] playmodeInfoArray) throws SerializerException {
         boolean bl = playmodeInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PlaymodeInfoSerializer {
         }
     }
 
-    public static PlaymodeInfo getOptionalPlaymodeInfo(IDeserializer iDeserializer) {
+    public static PlaymodeInfo getOptionalPlaymodeInfo(IDeserializer iDeserializer) throws SerializerException {
         PlaymodeInfo playmodeInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PlaymodeInfoSerializer {
         return playmodeInfo;
     }
 
-    public static PlaymodeInfo[] getOptionalPlaymodeInfoVarArray(IDeserializer iDeserializer) {
+    public static PlaymodeInfo[] getOptionalPlaymodeInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PlaymodeInfo[] playmodeInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

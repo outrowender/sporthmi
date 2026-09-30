@@ -39,7 +39,6 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             throw new NullPointerException("ob is null");
@@ -82,8 +81,7 @@ implements Comparable {
         return object instanceof ShortBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract short get() {
-    }
+    public abstract short get();
 
     public ShortBuffer get(short[] sArray) {
         if (sArray == null) {
@@ -118,8 +116,7 @@ implements Comparable {
         return this;
     }
 
-    public abstract short get(int n) {
-    }
+    public abstract short get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -141,11 +138,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract ShortBuffer put(short s) {
-    }
+    public abstract ShortBuffer put(short var1);
 
     public final ShortBuffer put(short[] sArray) {
         if (sArray == null) {
@@ -191,14 +186,12 @@ implements Comparable {
         return this.put(sArray);
     }
 
-    public abstract ShortBuffer put(int n, short s) {
-    }
+    public abstract ShortBuffer put(int var1, short var2);
 
-    public abstract ShortBuffer slice() {
-    }
+    public abstract ShortBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.ShortBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.ShortBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static ShortBuffer wrap(short[] sArray) {
@@ -215,7 +208,6 @@ implements Comparable {
         return new ShortBufferImpl(sArray, n, n2, sArray.length, 0);
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

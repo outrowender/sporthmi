@@ -7,118 +7,113 @@ import de.vw.mib.bap.datatypes.ArrayHeader;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.audiosd.serializer.ReceptionList_Data$Attributes;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class ReceptionList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_PRESET_ID_FM_REG_CODE_CATEGORY_NAME_FREQUENCY;
-    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_PRESET_ID_FM_REG_CODE_CATEGORY_NAME;
-    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES;
-    public static final int RECORD_ADDRESS_PRESET_ID_FM_REG_CODE_CATEGORY_NAME;
-    public static final int RECORD_ADDRESS_NAME;
-    public static final int RECORD_ADDRESS_FREQUENCY;
-    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_CATEGORY_NAME;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_PRESET_ID_FM_REG_CODE_CATEGORY_NAME_FREQUENCY = 0;
+    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_PRESET_ID_FM_REG_CODE_CATEGORY_NAME = 1;
+    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES = 2;
+    public static final int RECORD_ADDRESS_PRESET_ID_FM_REG_CODE_CATEGORY_NAME = 3;
+    public static final int RECORD_ADDRESS_NAME = 4;
+    public static final int RECORD_ADDRESS_FREQUENCY = 5;
+    public static final int RECORD_ADDRESS_TYPE_ATTRIBUTES_CATEGORY_NAME = 6;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public int type;
-    private static final int TYPE_BITSIZE;
-    public static final int TYPE_ANY_STRING_UNKNOWN;
-    public static final int TYPE_STATION_NAME;
-    public static final int TYPE_DAB_ENSEMBLE_NAME;
-    public static final int TYPE_DAB_PRIMARY_SERVICE_NAME;
-    public static final int TYPE_DAB_SECONDARY_SERVICE_NAME;
-    public static final int TYPE_IBOC_PRIMARY_SERVICE_NAME_IBOC_CHANNEL_CAN_BE_DECODED;
-    public static final int TYPE_IBOC_SECONDARY_SERVICE_NAME;
-    public static final int TYPE_DVB_SERVICE_NAME;
-    public static final int TYPE_SDARS_STATION_NAME;
-    public static final int TYPE_ONLINE_RADIO_PRIMARY_SERVICE_NAME_DF4_1;
-    public static final int TYPE_ONLINE_RADIO_SECONDARY_SERVICE_NAME_DF4_1;
-    public final ReceptionList_Data$Attributes attributes;
+    private static final int TYPE_BITSIZE = 8;
+    public static final int TYPE_ANY_STRING_UNKNOWN = 0;
+    public static final int TYPE_STATION_NAME = 1;
+    public static final int TYPE_DAB_ENSEMBLE_NAME = 2;
+    public static final int TYPE_DAB_PRIMARY_SERVICE_NAME = 3;
+    public static final int TYPE_DAB_SECONDARY_SERVICE_NAME = 4;
+    public static final int TYPE_IBOC_PRIMARY_SERVICE_NAME_IBOC_CHANNEL_CAN_BE_DECODED = 5;
+    public static final int TYPE_IBOC_SECONDARY_SERVICE_NAME = 6;
+    public static final int TYPE_DVB_SERVICE_NAME = 7;
+    public static final int TYPE_SDARS_STATION_NAME = 8;
+    public static final int TYPE_ONLINE_RADIO_PRIMARY_SERVICE_NAME_DF4_1 = 9;
+    public static final int TYPE_ONLINE_RADIO_SECONDARY_SERVICE_NAME_DF4_1 = 10;
+    public final Attributes attributes;
     public int presetId;
-    private static final int PRESET_ID_BITSIZE;
+    private static final int PRESET_ID_BITSIZE = 8;
     public int fmReg_Code;
-    private static final int FM_REG_CODE_BITSIZE;
+    private static final int FM_REG_CODE_BITSIZE = 8;
     public int category;
-    private static final int CATEGORY_BITSIZE;
-    public static final int CATEGORY_UNKNOWN_NONE_CATEGORY;
-    public static final int CATEGORY_NEWS;
-    public static final int CATEGORY_CURRENT_AFFAIRS;
-    public static final int CATEGORY_INFORMATION;
-    public static final int CATEGORY_SPORTS;
-    public static final int CATEGORY_EDUCATION;
-    public static final int CATEGORY_DRAMA;
-    public static final int CATEGORY_CULTURE;
-    public static final int CATEGORY_SCIENCE;
-    public static final int CATEGORY_VARIED;
-    public static final int CATEGORY_POP_MUSIC;
-    public static final int CATEGORY_ROCK_MUSIC;
-    public static final int CATEGORY_EASY_LISTENING_MUSIC;
-    public static final int CATEGORY_SERIOUS_CLASSICAL;
-    public static final int CATEGORY_LIGHT_CLASSICAL;
-    public static final int CATEGORY_OTHER_MUSIC;
-    public static final int CATEGORY_WEATHER;
-    public static final int CATEGORY_FINANCE;
-    public static final int CATEGORY_CHILDRENSS_PROGRAMMES;
-    public static final int CATEGORY_SOCIAL_AFFAIRS;
-    public static final int CATEGORY_RELIGION;
-    public static final int CATEGORY_PHONE_IN;
-    public static final int CATEGORY_TRAVEL;
-    public static final int CATEGORY_LEISURE;
-    public static final int CATEGORY_JAZZ_MUSIC;
-    public static final int CATEGORY_COUNTRY_MUSIC;
-    public static final int CATEGORY_NATIONAL_MUSIC;
-    public static final int CATEGORY_OLDIES_MUSIC;
-    public static final int CATEGORY_FOLK_MUSIC;
-    public static final int CATEGORY_DOCUMENTARY;
-    public static final int CATEGORY_ALARM_TEST;
-    public static final int CATEGORY_ALARM;
-    public static final int CATEGORY_TALK;
-    public static final int CATEGORY_CLASSIC_ROCK;
-    public static final int CATEGORY_ADULT_HITS;
-    public static final int CATEGORY_SOFT_ROCK;
-    public static final int CATEGORY_TOP_40;
-    public static final int CATEGORY_OLDIES;
-    public static final int CATEGORY_SOFT;
-    public static final int CATEGORY_NOSTALGIA;
-    public static final int CATEGORY_CLASSICAL;
-    public static final int CATEGORY_RHYTHM_AND_BLUES;
-    public static final int CATEGORY_SOFT_RHYTHM_AND_BLUES;
-    public static final int CATEGORY_FOREIGN_LANGUAGE;
-    public static final int CATEGORY_RELIGIOUS_MUSIC;
-    public static final int CATEGORY_RELEGIOUS_TALK;
-    public static final int CATEGORY_PERSONALITY;
-    public static final int CATEGORY_PUBLIC;
-    public static final int CATEGORY_COLLEGE;
+    private static final int CATEGORY_BITSIZE = 8;
+    public static final int CATEGORY_UNKNOWN_NONE_CATEGORY = 0;
+    public static final int CATEGORY_NEWS = 1;
+    public static final int CATEGORY_CURRENT_AFFAIRS = 2;
+    public static final int CATEGORY_INFORMATION = 3;
+    public static final int CATEGORY_SPORTS = 4;
+    public static final int CATEGORY_EDUCATION = 5;
+    public static final int CATEGORY_DRAMA = 6;
+    public static final int CATEGORY_CULTURE = 7;
+    public static final int CATEGORY_SCIENCE = 8;
+    public static final int CATEGORY_VARIED = 9;
+    public static final int CATEGORY_POP_MUSIC = 10;
+    public static final int CATEGORY_ROCK_MUSIC = 11;
+    public static final int CATEGORY_EASY_LISTENING_MUSIC = 12;
+    public static final int CATEGORY_SERIOUS_CLASSICAL = 13;
+    public static final int CATEGORY_LIGHT_CLASSICAL = 14;
+    public static final int CATEGORY_OTHER_MUSIC = 15;
+    public static final int CATEGORY_WEATHER = 16;
+    public static final int CATEGORY_FINANCE = 17;
+    public static final int CATEGORY_CHILDRENSS_PROGRAMMES = 18;
+    public static final int CATEGORY_SOCIAL_AFFAIRS = 19;
+    public static final int CATEGORY_RELIGION = 20;
+    public static final int CATEGORY_PHONE_IN = 21;
+    public static final int CATEGORY_TRAVEL = 22;
+    public static final int CATEGORY_LEISURE = 23;
+    public static final int CATEGORY_JAZZ_MUSIC = 24;
+    public static final int CATEGORY_COUNTRY_MUSIC = 25;
+    public static final int CATEGORY_NATIONAL_MUSIC = 26;
+    public static final int CATEGORY_OLDIES_MUSIC = 27;
+    public static final int CATEGORY_FOLK_MUSIC = 28;
+    public static final int CATEGORY_DOCUMENTARY = 29;
+    public static final int CATEGORY_ALARM_TEST = 30;
+    public static final int CATEGORY_ALARM = 31;
+    public static final int CATEGORY_TALK = 36;
+    public static final int CATEGORY_CLASSIC_ROCK = 38;
+    public static final int CATEGORY_ADULT_HITS = 39;
+    public static final int CATEGORY_SOFT_ROCK = 40;
+    public static final int CATEGORY_TOP_40 = 41;
+    public static final int CATEGORY_OLDIES = 43;
+    public static final int CATEGORY_SOFT = 44;
+    public static final int CATEGORY_NOSTALGIA = 45;
+    public static final int CATEGORY_CLASSICAL = 47;
+    public static final int CATEGORY_RHYTHM_AND_BLUES = 48;
+    public static final int CATEGORY_SOFT_RHYTHM_AND_BLUES = 49;
+    public static final int CATEGORY_FOREIGN_LANGUAGE = 50;
+    public static final int CATEGORY_RELIGIOUS_MUSIC = 51;
+    public static final int CATEGORY_RELEGIOUS_TALK = 52;
+    public static final int CATEGORY_PERSONALITY = 53;
+    public static final int CATEGORY_PUBLIC = 54;
+    public static final int CATEGORY_COLLEGE = 55;
     public final BAPString name;
-    private static final int MAX_NAME_LENGTH;
+    private static final int MAX_NAME_LENGTH = 49;
     public final BAPString frequency;
-    private static final int MAX_FREQUENCY_LENGTH;
+    private static final int MAX_FREQUENCY_LENGTH = 31;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
 
     public ReceptionList_Data(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
-        this.attributes = new ReceptionList_Data$Attributes();
+        this.attributes = new Attributes();
         this.name = new BAPString(49);
         this.frequency = new BAPString(31);
         this.internalReset();
@@ -138,7 +133,6 @@ implements BAPArrayElement {
         this.category = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -147,7 +141,6 @@ implements BAPArrayElement {
         this.frequency.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ReceptionList_Data receptionList_Data = (ReceptionList_Data)bAPEntity;
         return this.arrayHeader.equalTo(receptionList_Data.arrayHeader) && this.pos == receptionList_Data.pos && this.type == receptionList_Data.type && this.attributes.equalTo(receptionList_Data.attributes) && this.presetId == receptionList_Data.presetId && this.fmReg_Code == receptionList_Data.fmReg_Code && this.category == receptionList_Data.category && this.name.equalTo(receptionList_Data.name) && this.frequency.equalTo(receptionList_Data.frequency);
@@ -157,7 +150,6 @@ implements BAPArrayElement {
         this.frequency.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ReceptionList_Data:");
@@ -430,7 +422,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -495,7 +486,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -558,7 +548,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -618,6 +607,156 @@ implements BAPArrayElement {
                 this.arrayHeader.deserializePosOfArrayElement(bitStream, this);
                 break;
             }
+        }
+    }
+
+    public static final class Attributes
+    implements BAPEntity {
+        public boolean sdarsStationSubscribedOrNotAnSdarsStation;
+        public boolean tmcAvailableSupportedByStation;
+        public boolean tpAvailableSupportedByStation;
+        public boolean dabServiceLinkedToFm;
+        public boolean dabPrimaryServiceCorrupted;
+        public boolean dabPrimaryServiceContainsSecondaryService;
+        public boolean dvbServiceCorrupted;
+        public boolean available;
+        private static final int RESERVED_BIT_10__15_BITSIZE = 6;
+        public boolean fmLinkedToOnlineRadio;
+        public boolean dabServiceLinkedToOnlineRadio;
+        private static final int ATTRIBUTES_BITSIZE = 16;
+
+        public Attributes() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public Attributes(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.sdarsStationSubscribedOrNotAnSdarsStation = false;
+            this.tmcAvailableSupportedByStation = false;
+            this.tpAvailableSupportedByStation = false;
+            this.dabServiceLinkedToFm = false;
+            this.dabPrimaryServiceCorrupted = false;
+            this.dabPrimaryServiceContainsSecondaryService = false;
+            this.dvbServiceCorrupted = false;
+            this.available = false;
+            this.fmLinkedToOnlineRadio = false;
+            this.dabServiceLinkedToOnlineRadio = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            Attributes attributes = (Attributes)bAPEntity;
+            return this.sdarsStationSubscribedOrNotAnSdarsStation == attributes.sdarsStationSubscribedOrNotAnSdarsStation && this.tmcAvailableSupportedByStation == attributes.tmcAvailableSupportedByStation && this.tpAvailableSupportedByStation == attributes.tpAvailableSupportedByStation && this.dabServiceLinkedToFm == attributes.dabServiceLinkedToFm && this.dabPrimaryServiceCorrupted == attributes.dabPrimaryServiceCorrupted && this.dabPrimaryServiceContainsSecondaryService == attributes.dabPrimaryServiceContainsSecondaryService && this.dvbServiceCorrupted == attributes.dvbServiceCorrupted && this.available == attributes.available && this.fmLinkedToOnlineRadio == attributes.fmLinkedToOnlineRadio && this.dabServiceLinkedToOnlineRadio == attributes.dabServiceLinkedToOnlineRadio;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Attributes:");
+            stringBuffer.append("\n - Bit 7: ");
+            if (this.sdarsStationSubscribedOrNotAnSdarsStation) {
+                stringBuffer.append("true  (SDARS station subscribed or not an SDARS station");
+            } else {
+                stringBuffer.append("false  (SDARS station not subscribed");
+            }
+            stringBuffer.append("\n - Bit 6: ");
+            if (this.tmcAvailableSupportedByStation) {
+                stringBuffer.append("true  (TMC available/supported by station");
+            } else {
+                stringBuffer.append("false  (TMC not supported/not available by station");
+            }
+            stringBuffer.append("\n - Bit 5: ");
+            if (this.tpAvailableSupportedByStation) {
+                stringBuffer.append("true  (TP available/supported by station");
+            } else {
+                stringBuffer.append("false  (TP not available/not supported by station");
+            }
+            stringBuffer.append("\n - Bit 4: ");
+            if (this.dabServiceLinkedToFm) {
+                stringBuffer.append("true  (DAB service linked to FM");
+            } else {
+                stringBuffer.append("false  (DAB service not linked to FM");
+            }
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.dabPrimaryServiceCorrupted) {
+                stringBuffer.append("true  (DAB primary service corrupted");
+            } else {
+                stringBuffer.append("false  (service OK");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.dabPrimaryServiceContainsSecondaryService) {
+                stringBuffer.append("true  (DAB primary service contains secondary service(s)");
+            } else {
+                stringBuffer.append("false  (DAB primary service contains no secondary service(s)");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.dvbServiceCorrupted) {
+                stringBuffer.append("true  (DVB service corrupted");
+            } else {
+                stringBuffer.append("false  (service OK");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.available) {
+                stringBuffer.append("true  (available");
+            } else {
+                stringBuffer.append("false  (not available (reception level too low / DAB ensemble muted / DVB service muted/ IBOC muted/Online radio muted)");
+            }
+            stringBuffer.append("\n - Bit 9: ");
+            if (this.fmLinkedToOnlineRadio) {
+                stringBuffer.append("true  (FM linked to online radio (DF4.1)");
+            } else {
+                stringBuffer.append("false  (FM not linked to online radio (DF4.1)");
+            }
+            stringBuffer.append("\n - Bit 8: ");
+            if (this.dabServiceLinkedToOnlineRadio) {
+                stringBuffer.append("true  (DAB service linked to online radio (DF4.1)");
+            } else {
+                stringBuffer.append("false  (DAB service not linked to online radio (DF4.1)");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 16;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.sdarsStationSubscribedOrNotAnSdarsStation);
+            bitStream.pushBoolean(this.tmcAvailableSupportedByStation);
+            bitStream.pushBoolean(this.tpAvailableSupportedByStation);
+            bitStream.pushBoolean(this.dabServiceLinkedToFm);
+            bitStream.pushBoolean(this.dabPrimaryServiceCorrupted);
+            bitStream.pushBoolean(this.dabPrimaryServiceContainsSecondaryService);
+            bitStream.pushBoolean(this.dvbServiceCorrupted);
+            bitStream.pushBoolean(this.available);
+            bitStream.resetBits(6);
+            bitStream.pushBoolean(this.fmLinkedToOnlineRadio);
+            bitStream.pushBoolean(this.dabServiceLinkedToOnlineRadio);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.sdarsStationSubscribedOrNotAnSdarsStation = bitStream.popFrontBoolean();
+            this.tmcAvailableSupportedByStation = bitStream.popFrontBoolean();
+            this.tpAvailableSupportedByStation = bitStream.popFrontBoolean();
+            this.dabServiceLinkedToFm = bitStream.popFrontBoolean();
+            this.dabPrimaryServiceCorrupted = bitStream.popFrontBoolean();
+            this.dabPrimaryServiceContainsSecondaryService = bitStream.popFrontBoolean();
+            this.dvbServiceCorrupted = bitStream.popFrontBoolean();
+            this.available = bitStream.popFrontBoolean();
+            bitStream.discardBits(6);
+            this.fmLinkedToOnlineRadio = bitStream.popFrontBoolean();
+            this.dabServiceLinkedToOnlineRadio = bitStream.popFrontBoolean();
         }
     }
 }

@@ -8,56 +8,50 @@ import org.dsi.ifc.carstopwatch.StopWatchTime;
 
 public interface DSICarStopWatch
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_STOPWATCHVIEWOPTIONS;
-    public static final int ATTR_STOPWATCHSTATE;
-    public static final int ATTR_STOPWATCHCURRENTLAPNUMBER;
-    public static final int ATTR_STOPWATCHTOTALTIME;
-    public static final int ATTR_STOPWATCHLASTSPLITTIME;
-    public static final int ATTR_STOPWATCHCURRENTLAPTIME;
-    public static final int ATTR_STOPWATCHLASTLAPTIME;
-    public static final int RT_SETSTOPWATCHFASTESTLAPTIME;
-    public static final int RT_SETSTOPWATCHLAPRATING;
-    public static final int RT_SETSTOPWATCHLAPPROGRESS;
-    public static final int RT_SETSTOPWATCHLAPGPSTRIGGER;
-    public static final int RT_SETSTOPWATCHCONTROL;
-    public static final int RT_SETSTOPWATCHSLOWESTLAPTIME;
-    public static final int STOPWATCHLAPRATING_NOT_ACTIVE;
-    public static final int STOPWATCHLAPRATING_SLOWER;
-    public static final int STOPWATCHLAPRATING_SAME_PACE;
-    public static final int STOPWATCHLAPRATING_FASTER;
-    public static final int STOPWATCHLAPRATING_INIT;
-    public static final int STOPWATCHLAPRATING_NOT_SUPPORTED;
-    public static final int STOPWATCHCOMMAND_INIT;
-    public static final int STOPWATCHCOMMAND_START;
-    public static final int STOPWATCHCOMMAND_START_MOVING_VEHICLE;
-    public static final int STOPWATCHCOMMAND_STOP;
-    public static final int STOPWATCHCOMMAND_CONTINUE;
-    public static final int STOPWATCHCOMMAND_RESET;
-    public static final int STOPWATCHCOMMAND_SPLITTIME;
-    public static final int STOPWATCHCOMMAND_LAPTIME;
-    public static final int STOPWATCHSTATE_INIT;
-    public static final int STOPWATCHSTATE_RUNNING;
-    public static final int STOPWATCHSTATE_NOT_RUNNING;
-    public static final int STOPWATCHSTATE_NOT_RUNNING_RESET;
-    public static final int STOPWATCHSTATE_NOT_RUNNING_NO_RESET;
+    public static final String VERSION = "2.11.3";
+    public static final int ATTR_STOPWATCHVIEWOPTIONS = 1;
+    public static final int ATTR_STOPWATCHSTATE = 2;
+    public static final int ATTR_STOPWATCHCURRENTLAPNUMBER = 3;
+    public static final int ATTR_STOPWATCHTOTALTIME = 4;
+    public static final int ATTR_STOPWATCHLASTSPLITTIME = 5;
+    public static final int ATTR_STOPWATCHCURRENTLAPTIME = 6;
+    public static final int ATTR_STOPWATCHLASTLAPTIME = 7;
+    public static final int RT_SETSTOPWATCHFASTESTLAPTIME = 1000;
+    public static final int RT_SETSTOPWATCHLAPRATING = 1001;
+    public static final int RT_SETSTOPWATCHLAPPROGRESS = 1002;
+    public static final int RT_SETSTOPWATCHLAPGPSTRIGGER = 1003;
+    public static final int RT_SETSTOPWATCHCONTROL = 1004;
+    public static final int RT_SETSTOPWATCHSLOWESTLAPTIME = 1005;
+    public static final int STOPWATCHLAPRATING_NOT_ACTIVE = 0;
+    public static final int STOPWATCHLAPRATING_SLOWER = 1;
+    public static final int STOPWATCHLAPRATING_SAME_PACE = 2;
+    public static final int STOPWATCHLAPRATING_FASTER = 3;
+    public static final int STOPWATCHLAPRATING_INIT = 14;
+    public static final int STOPWATCHLAPRATING_NOT_SUPPORTED = 15;
+    public static final int STOPWATCHCOMMAND_INIT = 0;
+    public static final int STOPWATCHCOMMAND_START = 1;
+    public static final int STOPWATCHCOMMAND_START_MOVING_VEHICLE = 2;
+    public static final int STOPWATCHCOMMAND_STOP = 3;
+    public static final int STOPWATCHCOMMAND_CONTINUE = 4;
+    public static final int STOPWATCHCOMMAND_RESET = 5;
+    public static final int STOPWATCHCOMMAND_SPLITTIME = 6;
+    public static final int STOPWATCHCOMMAND_LAPTIME = 7;
+    public static final int STOPWATCHSTATE_INIT = 0;
+    public static final int STOPWATCHSTATE_RUNNING = 1;
+    public static final int STOPWATCHSTATE_NOT_RUNNING = 2;
+    public static final int STOPWATCHSTATE_NOT_RUNNING_RESET = 3;
+    public static final int STOPWATCHSTATE_NOT_RUNNING_NO_RESET = 4;
 
-    default public void setStopWatchFastestLapTime(StopWatchTime stopWatchTime) {
-    }
+    public void setStopWatchFastestLapTime(StopWatchTime var1);
 
-    default public void setStopWatchLapRating(int n) {
-    }
+    public void setStopWatchLapRating(int var1);
 
-    default public void setStopWatchLapProgress(float f2) {
-    }
+    public void setStopWatchLapProgress(float var1);
 
-    default public void setStopWatchLapGPSTrigger() {
-    }
+    public void setStopWatchLapGPSTrigger();
 
-    default public void setStopWatchControl(int n) {
-    }
+    public void setStopWatchControl(int var1);
 
-    default public void setStopWatchSlowestLapTime(StopWatchTime stopWatchTime) {
-    }
+    public void setStopWatchSlowestLapTime(StopWatchTime var1);
 }
 

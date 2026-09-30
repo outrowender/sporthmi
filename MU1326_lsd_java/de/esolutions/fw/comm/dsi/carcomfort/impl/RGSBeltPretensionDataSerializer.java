@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RGSBeltPretensionData;
 
 public class RGSBeltPretensionDataSerializer {
-    public static void putOptionalRGSBeltPretensionData(ISerializer iSerializer, RGSBeltPretensionData rGSBeltPretensionData) {
+    public static void putOptionalRGSBeltPretensionData(ISerializer iSerializer, RGSBeltPretensionData rGSBeltPretensionData) throws SerializerException {
         boolean bl = rGSBeltPretensionData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RGSBeltPretensionDataSerializer {
         }
     }
 
-    public static void putOptionalRGSBeltPretensionDataVarArray(ISerializer iSerializer, RGSBeltPretensionData[] rGSBeltPretensionDataArray) {
+    public static void putOptionalRGSBeltPretensionDataVarArray(ISerializer iSerializer, RGSBeltPretensionData[] rGSBeltPretensionDataArray) throws SerializerException {
         boolean bl = rGSBeltPretensionDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RGSBeltPretensionDataSerializer {
         }
     }
 
-    public static RGSBeltPretensionData getOptionalRGSBeltPretensionData(IDeserializer iDeserializer) {
+    public static RGSBeltPretensionData getOptionalRGSBeltPretensionData(IDeserializer iDeserializer) throws SerializerException {
         RGSBeltPretensionData rGSBeltPretensionData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class RGSBeltPretensionDataSerializer {
         return rGSBeltPretensionData;
     }
 
-    public static RGSBeltPretensionData[] getOptionalRGSBeltPretensionDataVarArray(IDeserializer iDeserializer) {
+    public static RGSBeltPretensionData[] getOptionalRGSBeltPretensionDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         RGSBeltPretensionData[] rGSBeltPretensionDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

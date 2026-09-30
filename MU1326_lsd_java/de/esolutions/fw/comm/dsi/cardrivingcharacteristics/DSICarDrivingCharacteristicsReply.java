@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.cardrivingcharacteristics;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaListUpdateInfo;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaProgButton;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithOptionMask;
@@ -22,198 +23,135 @@ import org.dsi.ifc.cardrivingcharacteristics.TADVehicleInfo;
 import org.dsi.ifc.cardrivingcharacteristics.TADViewOptions;
 
 public interface DSICarDrivingCharacteristicsReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "d04dc275-b36e-5ae6-935e-37ff4b68bfa3";
+    public static final String IPL_COMM_INTERFACE_KEY = "8130d570-107f-5bbf-b44d-3d2d3cf5bed8";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.21";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.21";
 
-    default public void updateSuspensionControlViewOptions(SuspensionControlViewOptions suspensionControlViewOptions, int n) {
-    }
+    public void updateSuspensionControlViewOptions(SuspensionControlViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlLiftMode(boolean bl, int n) {
-    }
+    public void updateSuspensionControlLiftMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlCarJackMode(boolean bl, int n) {
-    }
+    public void updateSuspensionControlCarJackMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlTrailerMode(boolean bl, int n) {
-    }
+    public void updateSuspensionControlTrailerMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlLoadingMode(boolean bl, int n) {
-    }
+    public void updateSuspensionControlLoadingMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlActiveProfile(int n, int n2) {
-    }
+    public void updateSuspensionControlActiveProfile(int var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlAccessibleAirProfiles(SuspensionControlAirProfiles suspensionControlAirProfiles, int n) {
-    }
+    public void updateSuspensionControlAccessibleAirProfiles(SuspensionControlAirProfiles var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlAccessibleDRCProfiles(SuspensionControlDRCProfiles suspensionControlDRCProfiles, int n) {
-    }
+    public void updateSuspensionControlAccessibleDRCProfiles(SuspensionControlDRCProfiles var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlVehicleStatus(int n, int n2) {
-    }
+    public void updateSuspensionControlVehicleStatus(int var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlCurrentLevel(int n, int n2) {
-    }
+    public void updateSuspensionControlCurrentLevel(int var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlTargetLevel(int n, int n2) {
-    }
+    public void updateSuspensionControlTargetLevel(int var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlHeightInfo(SuspensionControlHeightInfo suspensionControlHeightInfo, int n) {
-    }
+    public void updateSuspensionControlHeightInfo(SuspensionControlHeightInfo var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlOperationMessages(SuspensionControlOperationMessages suspensionControlOperationMessages, int n) {
-    }
+    public void updateSuspensionControlOperationMessages(SuspensionControlOperationMessages var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlSnowChainMode(boolean bl, int n) {
-    }
+    public void updateSuspensionControlSnowChainMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlVehicleStateControl(boolean bl, int n) {
-    }
+    public void updateSuspensionControlVehicleStateControl(boolean var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlActiveMode(int n, boolean bl, int n2) {
-    }
+    public void updateSuspensionControlActiveMode(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void updateeABCEasyEntry(boolean bl, int n) {
-    }
+    public void updateeABCEasyEntry(boolean var1, int var2) throws MethodException;
 
-    default public void updateeABCPitchControl(boolean bl, int n) {
-    }
+    public void updateeABCPitchControl(boolean var1, int var2) throws MethodException;
 
-    default public void updateeABCSpecialPosition(boolean bl, int n) {
-    }
+    public void updateeABCSpecialPosition(boolean var1, int var2) throws MethodException;
 
-    default public void updateeABCPreview(int n, int n2) {
-    }
+    public void updateeABCPreview(int var1, int var2) throws MethodException;
 
-    default public void updateeABCPreviewState(SuspensionControleABCPreview suspensionControleABCPreview, int n) {
-    }
+    public void updateeABCPreviewState(SuspensionControleABCPreview var1, int var2) throws MethodException;
 
-    default public void updateSuspensionControlActuatorInfo(SuspensionControlActuatorInfo suspensionControlActuatorInfo, int n) {
-    }
+    public void updateSuspensionControlActuatorInfo(SuspensionControlActuatorInfo var1, int var2) throws MethodException;
 
-    default public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
-    }
+    public void updateCharismaViewOptions(CharismaViewOptions var1, int var2) throws MethodException;
 
-    default public void updateCharismaActiveProfile(int n, int n2) {
-    }
+    public void updateCharismaActiveProfile(int var1, int var2) throws MethodException;
 
-    default public void updateCharismaActiveOperationMode(int n, int n2) {
-    }
+    public void updateCharismaActiveOperationMode(int var1, int var2) throws MethodException;
 
-    default public void updateCharismaListUpdateInfo(CharismaListUpdateInfo charismaListUpdateInfo, int n) {
-    }
+    public void updateCharismaListUpdateInfo(CharismaListUpdateInfo var1, int var2) throws MethodException;
 
-    default public void updateCharismaContent(int n, int n2) {
-    }
+    public void updateCharismaContent(int var1, int var2) throws MethodException;
 
-    default public void updateCharismaTrailerDetection(boolean bl, int n) {
-    }
+    public void updateCharismaTrailerDetection(boolean var1, int var2) throws MethodException;
 
-    default public void updateCharismaTrailerSetting(boolean bl, int n) {
-    }
+    public void updateCharismaTrailerSetting(boolean var1, int var2) throws MethodException;
 
-    default public void updateCharismaProgButton(CharismaProgButton charismaProgButton, int n) {
-    }
+    public void updateCharismaProgButton(CharismaProgButton var1, int var2) throws MethodException;
 
-    default public void responseCharismaListWithOptionMask(int n, int n2, int n3, CharismaSetupTableWithOptionMask[] charismaSetupTableWithOptionMaskArray) {
-    }
+    public void responseCharismaListWithOptionMask(int var1, int var2, int var3, CharismaSetupTableWithOptionMask[] var4) throws MethodException;
 
-    default public void responseCharismaListWithoutOptionMask(int n, int n2, int n3, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
-    }
+    public void responseCharismaListWithoutOptionMask(int var1, int var2, int var3, CharismaSetupTableWithoutOptionMask[] var4) throws MethodException;
 
-    default public void requestCharismaPopup(int n) {
-    }
+    public void requestCharismaPopup(int var1) throws MethodException;
 
-    default public void acknowledgeCharismaPopup(int n) {
-    }
+    public void acknowledgeCharismaPopup(int var1) throws MethodException;
 
-    default public void acknowledgeCharismaSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeCharismaSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void updateCharismaSound(boolean bl, int n) {
-    }
+    public void updateCharismaSound(boolean var1, int var2) throws MethodException;
 
-    default public void updateTADViewOptions(TADViewOptions tADViewOptions, int n) {
-    }
+    public void updateTADViewOptions(TADViewOptions var1, int var2) throws MethodException;
 
-    default public void updateTADContent(int n, int n2) {
-    }
+    public void updateTADContent(int var1, int var2) throws MethodException;
 
-    default public void requestTADPopup(int n) {
-    }
+    public void requestTADPopup(int var1) throws MethodException;
 
-    default public void acknowledgeTADPopup(int n) {
-    }
+    public void acknowledgeTADPopup(int var1) throws MethodException;
 
-    default public void acknowledgeTADSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeTADSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void acknowledgeTADMaxMinAngleReset(boolean bl) {
-    }
+    public void acknowledgeTADMaxMinAngleReset(boolean var1) throws MethodException;
 
-    default public void updateTADVehicleInfo(TADVehicleInfo tADVehicleInfo, int n) {
-    }
+    public void updateTADVehicleInfo(TADVehicleInfo var1, int var2) throws MethodException;
 
-    default public void updateTADCurrentRollAngle(float f2, int n) {
-    }
+    public void updateTADCurrentRollAngle(float var1, int var2) throws MethodException;
 
-    default public void updateTADCurrentPitchAngle(float f2, int n) {
-    }
+    public void updateTADCurrentPitchAngle(float var1, int var2) throws MethodException;
 
-    default public void updateTADPosMaxRollAngle(float f2, int n) {
-    }
+    public void updateTADPosMaxRollAngle(float var1, int var2) throws MethodException;
 
-    default public void updateTADNegMaxRollAngle(float f2, int n) {
-    }
+    public void updateTADNegMaxRollAngle(float var1, int var2) throws MethodException;
 
-    default public void updateTADPosMaxPitchAngle(float f2, int n) {
-    }
+    public void updateTADPosMaxPitchAngle(float var1, int var2) throws MethodException;
 
-    default public void updateTADNegMaxPitchAngle(float f2, int n) {
-    }
+    public void updateTADNegMaxPitchAngle(float var1, int var2) throws MethodException;
 
-    default public void updateSpoilerViewOptions(SpoilerViewOptions spoilerViewOptions, int n) {
-    }
+    public void updateSpoilerViewOptions(SpoilerViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSpoilerPositionSelection(int n, int n2) {
-    }
+    public void updateSpoilerPositionSelection(int var1, int var2) throws MethodException;
 
-    default public void updateSpoilerState(SpoilerState spoilerState, int n) {
-    }
+    public void updateSpoilerState(SpoilerState var1, int var2) throws MethodException;
 
-    default public void updateSpoilerActuation(boolean bl, int n) {
-    }
+    public void updateSpoilerActuation(boolean var1, int var2) throws MethodException;
 
-    default public void updateSpoilerMessages(int n, int n2) {
-    }
+    public void updateSpoilerMessages(int var1, int var2) throws MethodException;
 
-    default public void updateSpoilerSystemOnOff(boolean bl, int n) {
-    }
+    public void updateSpoilerSystemOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void acknowledgeSpoilerSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeSpoilerSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void updateSoundViewOptions(SoundViewOptions soundViewOptions, int n) {
-    }
+    public void updateSoundViewOptions(SoundViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSoundStyle(int n, int n2) {
-    }
+    public void updateSoundStyle(int var1, int var2) throws MethodException;
 
-    default public void updateSoundSystemOnOff(boolean bl, int n) {
-    }
+    public void updateSoundSystemOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void updateSoundOnOff(boolean bl, int n) {
-    }
+    public void updateSoundOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void acknowledgeSoundSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeSoundSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

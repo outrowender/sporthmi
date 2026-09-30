@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SMSState_SetGet
 implements SetGetProperty {
     public int reserve_1;
-    private static final int RESERVE_1_BITSIZE;
+    private static final int RESERVE_1_BITSIZE = 8;
     public int reserve_2;
-    private static final int RESERVE_2_BITSIZE;
+    private static final int RESERVE_2_BITSIZE = 8;
     public int numberOfNewSms;
-    private static final int NUMBER_OF_NEW_SMS_BITSIZE;
+    private static final int NUMBER_OF_NEW_SMS_BITSIZE = 16;
 
     public SMSState_SetGet() {
         this.internalReset();
@@ -32,12 +32,10 @@ implements SetGetProperty {
         this.numberOfNewSms = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SMSState_SetGet sMSState_SetGet = (SMSState_SetGet)bAPEntity;
         return this.reserve_1 == sMSState_SetGet.reserve_1 && this.reserve_2 == sMSState_SetGet.reserve_2 && this.numberOfNewSms == sMSState_SetGet.numberOfNewSms;
@@ -46,7 +44,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SMSState_SetGet:");
@@ -59,7 +56,6 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -67,14 +63,12 @@ implements SetGetProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.reserve_1);
         bitStream.pushByte((byte)this.reserve_2);
         bitStream.pushShort((short)this.numberOfNewSms);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserve_1 = bitStream.popFrontByte();
         this.reserve_2 = bitStream.popFrontByte();
@@ -85,7 +79,6 @@ implements SetGetProperty {
         return 55;
     }
 
-    @Override
     public int getFunctionId() {
         return SMSState_SetGet.functionId();
     }

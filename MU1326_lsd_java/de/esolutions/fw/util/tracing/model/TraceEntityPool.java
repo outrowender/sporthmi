@@ -8,6 +8,7 @@ import de.esolutions.fw.util.tracing.entity.ITraceEntity;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 import de.esolutions.fw.util.tracing.model.TraceEntity;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class TraceEntityPool {
         Buffer buffer = new Buffer();
         for (int i2 = 0; i2 < this.size; ++i2) {
             TraceEntity traceEntity = this.data[i2];
-            buffer.append(new StringBuffer().append(traceEntity.toString()).append("\n").toString());
+            buffer.append(traceEntity.toString() + "\n");
         }
         return buffer.toString();
     }
@@ -176,10 +177,10 @@ public class TraceEntityPool {
         return this.firstRoot.findSibling(string, s);
     }
 
-    public void writeSemFile(String string, String string2) {
+    public void writeSemFile(String string, String string2) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(string);
         PrintStream printStream = new PrintStream(fileOutputStream, true, "UTF-8");
-        printStream.println(new StringBuffer().append("0 1 -1 ").append(string2).toString());
+        printStream.println("0 1 -1 " + string2);
         for (int i2 = 0; i2 < this.data.length; ++i2) {
             TraceEntity traceEntity = this.data[i2];
             if (traceEntity == null) continue;
@@ -190,7 +191,7 @@ public class TraceEntityPool {
             if (iTraceEntity != null) {
                 n2 = iTraceEntity.getURI().getId();
             }
-            printStream.println(new StringBuffer().append(++n).append(" ").append(s).append(" ").append(++n2).append(" ").append(traceEntity.getName()).toString());
+            printStream.println(++n + " " + s + " " + ++n2 + " " + traceEntity.getName());
         }
         printStream.close();
     }

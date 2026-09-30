@@ -11,26 +11,22 @@ public class BaseJobFilter
 implements IJobFilter {
     private IJobFilter next;
 
-    @Override
     public void enqueue(Job job, int n) {
         if (this.next != null) {
             this.next.enqueue(job, n);
         }
     }
 
-    @Override
     public IJobFilter getNext() {
         return this.next;
     }
 
-    @Override
     public void setNext(IJobFilter iJobFilter) {
         this.next = iJobFilter;
     }
 
-    @Override
     public void dump(PrintStream printStream) {
-        printStream.println(new StringBuffer().append("  ").append(this).toString());
+        printStream.println("  " + this);
         if (this.next != null) {
             this.next.dump(printStream);
         }

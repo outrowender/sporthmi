@@ -18,7 +18,6 @@ extends AbstractPRPRule {
         this.languageIndex = n;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         int n = this.getParam(9);
         if (n == 0) {
@@ -35,7 +34,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Diacritic-signs-boosting-Rule";
     }

@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
 
 public interface ComboBoxBackgroundRenderer
 extends CompositeRenderer {
-    default public void setDropDownOpen(boolean bl) {
-    }
+    public void setDropDownOpen(boolean var1);
 
-    default public void setOpenValue(float f2) {
-    }
+    public void setOpenValue(float var1);
 }
 

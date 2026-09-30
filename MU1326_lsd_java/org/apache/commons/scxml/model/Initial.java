@@ -8,7 +8,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public class Initial
 extends TransitionTarget {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Transition transition;
 
     public final Transition getTransition() {

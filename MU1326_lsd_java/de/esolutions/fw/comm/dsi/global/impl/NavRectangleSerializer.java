@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavRectangle;
 
 public class NavRectangleSerializer {
-    public static void putOptionalNavRectangle(ISerializer iSerializer, NavRectangle navRectangle) {
+    public static void putOptionalNavRectangle(ISerializer iSerializer, NavRectangle navRectangle) throws SerializerException {
         boolean bl = navRectangle == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class NavRectangleSerializer {
         }
     }
 
-    public static void putOptionalNavRectangleVarArray(ISerializer iSerializer, NavRectangle[] navRectangleArray) {
+    public static void putOptionalNavRectangleVarArray(ISerializer iSerializer, NavRectangle[] navRectangleArray) throws SerializerException {
         boolean bl = navRectangleArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class NavRectangleSerializer {
         }
     }
 
-    public static NavRectangle getOptionalNavRectangle(IDeserializer iDeserializer) {
+    public static NavRectangle getOptionalNavRectangle(IDeserializer iDeserializer) throws SerializerException {
         NavRectangle navRectangle = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class NavRectangleSerializer {
         return navRectangle;
     }
 
-    public static NavRectangle[] getOptionalNavRectangleVarArray(IDeserializer iDeserializer) {
+    public static NavRectangle[] getOptionalNavRectangleVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavRectangle[] navRectangleArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

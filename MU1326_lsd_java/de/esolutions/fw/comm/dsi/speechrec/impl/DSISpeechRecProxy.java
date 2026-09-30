@@ -10,12 +10,12 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.speechrec.DSISpeechRec;
 import de.esolutions.fw.comm.dsi.speechrec.DSISpeechRecC;
 import de.esolutions.fw.comm.dsi.speechrec.DSISpeechRecReply;
-import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecProxy$1;
-import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecProxy$2;
-import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecProxy$3;
-import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecProxy$4;
-import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecProxy$5;
 import de.esolutions.fw.comm.dsi.speechrec.impl.DSISpeechRecReplyService;
+import de.esolutions.fw.comm.dsi.speechrec.impl.DictionaryEntrySerializer;
+import de.esolutions.fw.comm.dsi.speechrec.impl.GrammarInfoSerializer;
+import de.esolutions.fw.comm.dsi.speechrec.impl.GrammarSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.DictionaryEntry;
@@ -38,13 +38,11 @@ DSISpeechRecC {
         return this.proxy;
     }
 
-    @Override
-    public void abort() {
+    public void abort() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void deleteProfile(int n) {
+    public void deleteProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -55,8 +53,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void deleteVoiceTag(int n) {
+    public void deleteVoiceTag(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -67,8 +64,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void enableContinuousUpdate(boolean bl) {
+    public void enableContinuousUpdate(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -79,18 +75,15 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)103, genericSerializable);
     }
 
-    @Override
-    public void getVersion() {
+    public void getVersion() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void init() {
+    public void init() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void initVoiceTag(int n) {
+    public void initVoiceTag(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -101,14 +94,17 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void loadGrammar(Grammar[] grammarArray) {
-        DSISpeechRecProxy$1 dSISpeechRecProxy$1 = new DSISpeechRecProxy$1(this, grammarArray);
-        this.proxy.remoteCallMethod((short)39, dSISpeechRecProxy$1);
+    public void loadGrammar(final Grammar[] grammarArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                GrammarSerializer.putOptionalGrammarVarArray(iSerializer, grammarArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)39, iSerializable);
     }
 
-    @Override
-    public void loadProfile(int n) {
+    public void loadProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -119,19 +115,21 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void preloadGrammar(Grammar[] grammarArray) {
-        DSISpeechRecProxy$2 dSISpeechRecProxy$2 = new DSISpeechRecProxy$2(this, grammarArray);
-        this.proxy.remoteCallMethod((short)41, dSISpeechRecProxy$2);
+    public void preloadGrammar(final Grammar[] grammarArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                GrammarSerializer.putOptionalGrammarVarArray(iSerializer, grammarArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)41, iSerializable);
     }
 
-    @Override
-    public void recordVoiceTag() {
+    public void recordVoiceTag() throws MethodException {
         this.proxy.remoteCallMethod((short)11, null);
     }
 
-    @Override
-    public void setLanguage(String string, int n) {
+    public void setLanguage(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -143,13 +141,11 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void shutdown() {
+    public void shutdown() throws MethodException {
         this.proxy.remoteCallMethod((short)28, null);
     }
 
-    @Override
-    public void startRecognition(int n, int n2, int n3) {
+    public void startRecognition(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -162,14 +158,17 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)120, genericSerializable);
     }
 
-    @Override
-    public void unloadGrammar(GrammarInfo[] grammarInfoArray) {
-        DSISpeechRecProxy$3 dSISpeechRecProxy$3 = new DSISpeechRecProxy$3(this, grammarInfoArray);
-        this.proxy.remoteCallMethod((short)34, dSISpeechRecProxy$3);
+    public void unloadGrammar(final GrammarInfo[] grammarInfoArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                GrammarInfoSerializer.putOptionalGrammarInfoVarArray(iSerializer, grammarInfoArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)34, iSerializable);
     }
 
-    @Override
-    public void unloadProfile(int n) {
+    public void unloadProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -180,19 +179,21 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void unpreloadGrammar(GrammarInfo[] grammarInfoArray) {
-        DSISpeechRecProxy$4 dSISpeechRecProxy$4 = new DSISpeechRecProxy$4(this, grammarInfoArray);
-        this.proxy.remoteCallMethod((short)35, dSISpeechRecProxy$4);
+    public void unpreloadGrammar(final GrammarInfo[] grammarInfoArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                GrammarInfoSerializer.putOptionalGrammarInfoVarArray(iSerializer, grammarInfoArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)35, iSerializable);
     }
 
-    @Override
-    public void waitForResults() {
+    public void waitForResults() throws MethodException {
         this.proxy.remoteCallMethod((short)36, null);
     }
 
-    @Override
-    public void setMaxCommandNBestListSize(int n) {
+    public void setMaxCommandNBestListSize(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -203,8 +204,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setMaxSlotNBestListSize(int n) {
+    public void setMaxSlotNBestListSize(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -215,8 +215,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setRecognitionTimeout(int n) {
+    public void setRecognitionTimeout(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -227,8 +226,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setUnambiguousResultThreshold(int n) {
+    public void setUnambiguousResultThreshold(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -239,8 +237,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setUnambiguousResultRange(int n) {
+    public void setUnambiguousResultRange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -251,8 +248,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setFirstLevelSize(int n) {
+    public void setFirstLevelSize(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -263,8 +259,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void startPostTraining(int n) {
+    public void startPostTraining(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -275,18 +270,15 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void stopPostTraining() {
+    public void stopPostTraining() throws MethodException {
         this.proxy.remoteCallMethod((short)33, null);
     }
 
-    @Override
-    public void requestSDSAvailability() {
+    public void requestSDSAvailability() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void setSpellingMode(int n) {
+    public void setSpellingMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -297,28 +289,23 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void deleteLastSpellingBlock() {
+    public void deleteLastSpellingBlock() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void startDialogue() {
+    public void startDialogue() throws MethodException {
         this.proxy.remoteCallMethod((short)29, null);
     }
 
-    @Override
-    public void stopDialogue() {
+    public void stopDialogue() throws MethodException {
         this.proxy.remoteCallMethod((short)32, null);
     }
 
-    @Override
-    public void requestCheckDbPartition() {
+    public void requestCheckDbPartition() throws MethodException {
         this.proxy.remoteCallMethod((short)104, null);
     }
 
-    @Override
-    public void requestGraphemicGroupAsNBestList(int n) {
+    public void requestGraphemicGroupAsNBestList(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -329,8 +316,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void requestVDECapabilities(String string) {
+    public void requestVDECapabilities(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -341,19 +327,24 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void requestRestoreFactorySettings() {
+    public void requestRestoreFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)43, null);
     }
 
-    @Override
-    public void setDictionary(int n, String string, String string2, DictionaryEntry[] dictionaryEntryArray) {
-        DSISpeechRecProxy$5 dSISpeechRecProxy$5 = new DSISpeechRecProxy$5(this, n, string, string2, dictionaryEntryArray);
-        this.proxy.remoteCallMethod((short)102, dSISpeechRecProxy$5);
+    public void setDictionary(final int n, final String string, final String string2, final DictionaryEntry[] dictionaryEntryArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                DictionaryEntrySerializer.putOptionalDictionaryEntryVarArray(iSerializer, dictionaryEntryArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)102, iSerializable);
     }
 
-    @Override
-    public void setASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3) {
+    public void setASRParameterConfiguration(int[] nArray, int[] nArray2, int[] nArray3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -366,18 +357,15 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)110, genericSerializable);
     }
 
-    @Override
-    public void deleteLastFlexVDEPart() {
+    public void deleteLastFlexVDEPart() throws MethodException {
         this.proxy.remoteCallMethod((short)114, null);
     }
 
-    @Override
-    public void clearFlexVDEHistory() {
+    public void clearFlexVDEHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)113, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -388,8 +376,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -400,13 +387,11 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)20, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -417,8 +402,7 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -429,13 +413,11 @@ DSISpeechRecC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

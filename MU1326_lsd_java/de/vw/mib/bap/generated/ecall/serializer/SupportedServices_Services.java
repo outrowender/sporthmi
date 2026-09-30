@@ -38,12 +38,10 @@ implements BAPEntity {
         this.reserved_bit_0 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SupportedServices_Services supportedServices_Services = (SupportedServices_Services)bAPEntity;
         return this.reserved_bit_7 == supportedServices_Services.reserved_bit_7 && this.testModeSupportedDf3_4 == supportedServices_Services.testModeSupportedDf3_4 && this.mecSupported == supportedServices_Services.mecSupported && this.reserved_bit_4 == supportedServices_Services.reserved_bit_4 && this.infoCallSupported == supportedServices_Services.infoCallSupported && this.usmSupportedDf3_7 == supportedServices_Services.usmSupportedDf3_7 && this.serviceBreakdownCallSupported == supportedServices_Services.serviceBreakdownCallSupported && this.reserved_bit_0 == supportedServices_Services.reserved_bit_0;
@@ -52,7 +50,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SupportedServices_Services");
@@ -67,12 +64,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_7);
         bitStream.pushBoolean(this.testModeSupportedDf3_4);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.reserved_bit_0);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_7 = bitStream.popFrontBoolean();
         this.testModeSupportedDf3_4 = bitStream.popFrontBoolean();

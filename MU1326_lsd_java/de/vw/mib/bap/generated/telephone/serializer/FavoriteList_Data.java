@@ -12,49 +12,45 @@ import de.vw.mib.bap.stream.BitStream;
 public final class FavoriteList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_NAME_NUMBER_TYPE_TEL_NUMBER;
-    public static final int RECORD_ADDRESS_NAME_NUMBER_TYPE;
-    public static final int RECORD_ADDRESS_NAME_TEL_NUMBER;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_NAME_NUMBER_TYPE_TEL_NUMBER = 0;
+    public static final int RECORD_ADDRESS_NAME_NUMBER_TYPE = 1;
+    public static final int RECORD_ADDRESS_NAME_TEL_NUMBER = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public final BAPString name;
-    private static final int MAX_NAME_LENGTH;
+    private static final int MAX_NAME_LENGTH = 100;
     public int numberType;
-    private static final int NUMBER_TYPE_BITSIZE;
-    public static final int NUMBER_TYPE_UNKNOWN_NUMBER_TYPE;
-    public static final int NUMBER_TYPE_GENERAL;
-    public static final int NUMBER_TYPE_MOBILE;
-    public static final int NUMBER_TYPE_OFFICE;
-    public static final int NUMBER_TYPE_HOME;
-    public static final int NUMBER_TYPE_FAX;
-    public static final int NUMBER_TYPE_PAGER;
-    public static final int NUMBER_TYPE_CAR;
-    public static final int NUMBER_TYPE_SIM;
-    public static final int NUMBER_TYPE_MAIN_OFFICE;
-    public static final int NUMBER_TYPE_MAIN_HOME;
-    public static final int NUMBER_TYPE_CELL_OFFICE;
-    public static final int NUMBER_TYPE_CELL_HOME;
-    public static final int NUMBER_TYPE_FAX_OFFICE;
-    public static final int NUMBER_TYPE_FAX_HOME;
+    private static final int NUMBER_TYPE_BITSIZE = 8;
+    public static final int NUMBER_TYPE_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int NUMBER_TYPE_GENERAL = 1;
+    public static final int NUMBER_TYPE_MOBILE = 2;
+    public static final int NUMBER_TYPE_OFFICE = 3;
+    public static final int NUMBER_TYPE_HOME = 4;
+    public static final int NUMBER_TYPE_FAX = 5;
+    public static final int NUMBER_TYPE_PAGER = 6;
+    public static final int NUMBER_TYPE_CAR = 7;
+    public static final int NUMBER_TYPE_SIM = 8;
+    public static final int NUMBER_TYPE_MAIN_OFFICE = 9;
+    public static final int NUMBER_TYPE_MAIN_HOME = 10;
+    public static final int NUMBER_TYPE_CELL_OFFICE = 11;
+    public static final int NUMBER_TYPE_CELL_HOME = 12;
+    public static final int NUMBER_TYPE_FAX_OFFICE = 13;
+    public static final int NUMBER_TYPE_FAX_HOME = 14;
     public final BAPString telNumber;
-    private static final int MAX_TEL_NUMBER_LENGTH;
+    private static final int MAX_TEL_NUMBER_LENGTH = 41;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -77,7 +73,6 @@ implements BAPArrayElement {
         this.numberType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -85,7 +80,6 @@ implements BAPArrayElement {
         this.telNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FavoriteList_Data favoriteList_Data = (FavoriteList_Data)bAPEntity;
         return this.arrayHeader.equalTo(favoriteList_Data.arrayHeader) && this.pos == favoriteList_Data.pos && this.name.equalTo(favoriteList_Data.name) && this.numberType == favoriteList_Data.numberType && this.telNumber.equalTo(favoriteList_Data.telNumber);
@@ -94,7 +88,6 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FavoriteList_Data:");
@@ -175,7 +168,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -206,7 +198,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -235,7 +226,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {

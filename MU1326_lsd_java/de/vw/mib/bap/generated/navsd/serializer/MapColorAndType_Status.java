@@ -4,31 +4,30 @@
 package de.vw.mib.bap.generated.navsd.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.navsd.serializer.MapColorAndType_Status$SupportedMapTypes;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class MapColorAndType_Status
 implements StatusProperty {
     public int colour;
-    private static final int COLOUR_BITSIZE;
-    public static final int COLOUR_DAY;
-    public static final int COLOUR_NIGHT;
-    public static final int COLOUR_AUTO;
+    private static final int COLOUR_BITSIZE = 8;
+    public static final int COLOUR_DAY = 0;
+    public static final int COLOUR_NIGHT = 1;
+    public static final int COLOUR_AUTO = 2;
     public int activeMapType;
-    private static final int ACTIVE_MAP_TYPE_BITSIZE;
-    public static final int ACTIVE_MAP_TYPE_DESTINATION;
-    public static final int ACTIVE_MAP_TYPE_POSITION_2D;
-    public static final int ACTIVE_MAP_TYPE_POSITION_3D;
-    public static final int ACTIVE_MAP_TYPE_OVERVIEW;
-    public static final int ACTIVE_MAP_TYPE_RANGE_MAP;
+    private static final int ACTIVE_MAP_TYPE_BITSIZE = 8;
+    public static final int ACTIVE_MAP_TYPE_DESTINATION = 0;
+    public static final int ACTIVE_MAP_TYPE_POSITION_2D = 1;
+    public static final int ACTIVE_MAP_TYPE_POSITION_3D = 2;
+    public static final int ACTIVE_MAP_TYPE_OVERVIEW = 3;
+    public static final int ACTIVE_MAP_TYPE_RANGE_MAP = 4;
     public int mainMapSetup;
-    private static final int MAIN_MAP_SETUP_BITSIZE;
-    public static final int MAIN_MAP_SETUP_INIT_NO_MAP_IN_ASG;
-    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_ASG;
-    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_FSG;
-    public static final int MAIN_MAP_SETUP_NOT_SUPPORTED;
-    public final MapColorAndType_Status$SupportedMapTypes supportedMapTypes = new MapColorAndType_Status$SupportedMapTypes();
+    private static final int MAIN_MAP_SETUP_BITSIZE = 8;
+    public static final int MAIN_MAP_SETUP_INIT_NO_MAP_IN_ASG = 0;
+    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_ASG = 1;
+    public static final int MAIN_MAP_SETUP_MAIN_MAP_IN_FSG = 2;
+    public static final int MAIN_MAP_SETUP_NOT_SUPPORTED = 255;
+    public final SupportedMapTypes supportedMapTypes = new SupportedMapTypes();
 
     public MapColorAndType_Status() {
         this.internalReset();
@@ -46,13 +45,11 @@ implements StatusProperty {
         this.mainMapSetup = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.supportedMapTypes.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MapColorAndType_Status mapColorAndType_Status = (MapColorAndType_Status)bAPEntity;
         return this.colour == mapColorAndType_Status.colour && this.activeMapType == mapColorAndType_Status.activeMapType && this.mainMapSetup == mapColorAndType_Status.mainMapSetup && this.supportedMapTypes.equalTo(mapColorAndType_Status.supportedMapTypes);
@@ -61,7 +58,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MapColorAndType_Status:");
@@ -136,7 +132,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -145,7 +140,6 @@ implements StatusProperty {
         return n += this.supportedMapTypes.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.colour);
         bitStream.pushByte((byte)this.activeMapType);
@@ -153,7 +147,6 @@ implements StatusProperty {
         this.supportedMapTypes.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.colour = bitStream.popFrontByte();
         this.activeMapType = bitStream.popFrontByte();
@@ -165,9 +158,118 @@ implements StatusProperty {
         return 43;
     }
 
-    @Override
     public int getFunctionId() {
         return MapColorAndType_Status.functionId();
+    }
+
+    public static final class SupportedMapTypes
+    implements BAPEntity {
+        private static final int RESERVED_BIT_6__7_BITSIZE = 2;
+        public boolean rangeMapIsSupported;
+        public boolean overviewMapIsSupported;
+        public boolean position3DMapIsSupported;
+        public boolean position2DMapIsSupported;
+        public boolean destinationMapIsSupported;
+        public boolean mainMapSetupIsSupported;
+        private static final int SUPPORTED_MAP_TYPES_BITSIZE = 8;
+
+        public SupportedMapTypes() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public SupportedMapTypes(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.rangeMapIsSupported = false;
+            this.overviewMapIsSupported = false;
+            this.position3DMapIsSupported = false;
+            this.position2DMapIsSupported = false;
+            this.destinationMapIsSupported = false;
+            this.mainMapSetupIsSupported = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            SupportedMapTypes supportedMapTypes = (SupportedMapTypes)bAPEntity;
+            return this.rangeMapIsSupported == supportedMapTypes.rangeMapIsSupported && this.overviewMapIsSupported == supportedMapTypes.overviewMapIsSupported && this.position3DMapIsSupported == supportedMapTypes.position3DMapIsSupported && this.position2DMapIsSupported == supportedMapTypes.position2DMapIsSupported && this.destinationMapIsSupported == supportedMapTypes.destinationMapIsSupported && this.mainMapSetupIsSupported == supportedMapTypes.mainMapSetupIsSupported;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("SupportedMapTypes:");
+            stringBuffer.append("\n - Bit 5: ");
+            if (this.rangeMapIsSupported) {
+                stringBuffer.append("true  (range map is supported");
+            } else {
+                stringBuffer.append("false  (range map is not supported");
+            }
+            stringBuffer.append("\n - Bit 4: ");
+            if (this.overviewMapIsSupported) {
+                stringBuffer.append("true  (overview map is supported");
+            } else {
+                stringBuffer.append("false  (overview map is not supported");
+            }
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.position3DMapIsSupported) {
+                stringBuffer.append("true  (position 3D map is supported");
+            } else {
+                stringBuffer.append("false  (position 3D map is not supported");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.position2DMapIsSupported) {
+                stringBuffer.append("true  (position 2D map is supported");
+            } else {
+                stringBuffer.append("false  (position 2D map is not supported");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.destinationMapIsSupported) {
+                stringBuffer.append("true  (destination map is supported");
+            } else {
+                stringBuffer.append("false  (destination map is not supported");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.mainMapSetupIsSupported) {
+                stringBuffer.append("true  (MainMapSetup is supported");
+            } else {
+                stringBuffer.append("false  (MainMapSetup is not supported");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(2);
+            bitStream.pushBoolean(this.rangeMapIsSupported);
+            bitStream.pushBoolean(this.overviewMapIsSupported);
+            bitStream.pushBoolean(this.position3DMapIsSupported);
+            bitStream.pushBoolean(this.position2DMapIsSupported);
+            bitStream.pushBoolean(this.destinationMapIsSupported);
+            bitStream.pushBoolean(this.mainMapSetupIsSupported);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(2);
+            this.rangeMapIsSupported = bitStream.popFrontBoolean();
+            this.overviewMapIsSupported = bitStream.popFrontBoolean();
+            this.position3DMapIsSupported = bitStream.popFrontBoolean();
+            this.position2DMapIsSupported = bitStream.popFrontBoolean();
+            this.destinationMapIsSupported = bitStream.popFrontBoolean();
+            this.mainMapSetupIsSupported = bitStream.popFrontBoolean();
+        }
     }
 }
 

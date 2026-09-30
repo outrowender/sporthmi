@@ -7,28 +7,20 @@ import de.esolutions.fw.comm.agent.doctor.DoctorShell;
 import java.io.PrintStream;
 
 public interface IDoctorCommand {
-    default public String[] getNames() {
-    }
+    public String[] getNames();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public String getUsage() {
-    }
+    public String getUsage();
 
-    default public String getSignature() {
-    }
+    public String getSignature();
 
-    default public String getAllNames() {
-    }
+    public String getAllNames();
 
-    default public Boolean matchCommandName(String string) {
-    }
+    public Boolean matchCommandName(String var1);
 
-    default public boolean handle(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    public boolean handle(DoctorShell var1, String[] var2, PrintStream var3);
 
-    default public boolean checkArgs(String[] stringArray) {
-    }
+    public boolean checkArgs(String[] var1);
 }
 

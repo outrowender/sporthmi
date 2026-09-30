@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface WlanType
 extends IEnum {
-    public static final int WLAN_TYPE_CLIENT;
-    public static final int WLAN_TYPE_HOTSPOT;
+    public static final int WLAN_TYPE_CLIENT = 0;
+    public static final int WLAN_TYPE_HOTSPOT = 1;
 }
 

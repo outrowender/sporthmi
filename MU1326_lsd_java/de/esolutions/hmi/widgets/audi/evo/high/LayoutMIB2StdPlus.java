@@ -14,7 +14,6 @@ WidgetConstants {
     private static int[][] mainWizardIconDecoratorMapping = null;
     private static int[] mainWizardTextOffset = null;
 
-    @Override
     public int getIntegerConstant(int n) {
         switch (n) {
             case 64: {
@@ -24,7 +23,6 @@ WidgetConstants {
         return super.getIntegerConstant(n);
     }
 
-    @Override
     public int[][] getMainWizardIconDecoratorMapping() {
         if (mainWizardIconDecoratorMapping == null) {
             mainWizardIconDecoratorMapping = new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {0, 0}, {0, 0}, {4, 4}, {0, 0}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}};
@@ -32,7 +30,6 @@ WidgetConstants {
         return mainWizardIconDecoratorMapping;
     }
 
-    @Override
     public int[] getMainWizardTextOffset() {
         if (mainWizardTextOffset == null) {
             mainWizardTextOffset = new int[]{-4, -4, -7, -2, -3};

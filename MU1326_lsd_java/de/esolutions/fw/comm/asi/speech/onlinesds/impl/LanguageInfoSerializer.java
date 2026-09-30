@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.speech.onlinesds.impl;
 import de.esolutions.fw.comm.asi.speech.onlinesds.LanguageInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class LanguageInfoSerializer {
-    public static void putOptionalLanguageInfo(ISerializer iSerializer, LanguageInfo languageInfo) {
+    public static void putOptionalLanguageInfo(ISerializer iSerializer, LanguageInfo languageInfo) throws SerializerException {
         boolean bl = languageInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class LanguageInfoSerializer {
         }
     }
 
-    public static void putOptionalLanguageInfoVarArray(ISerializer iSerializer, LanguageInfo[] languageInfoArray) {
+    public static void putOptionalLanguageInfoVarArray(ISerializer iSerializer, LanguageInfo[] languageInfoArray) throws SerializerException {
         boolean bl = languageInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class LanguageInfoSerializer {
         }
     }
 
-    public static LanguageInfo getOptionalLanguageInfo(IDeserializer iDeserializer) {
+    public static LanguageInfo getOptionalLanguageInfo(IDeserializer iDeserializer) throws SerializerException {
         LanguageInfo languageInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class LanguageInfoSerializer {
         return languageInfo;
     }
 
-    public static LanguageInfo[] getOptionalLanguageInfoVarArray(IDeserializer iDeserializer) {
+    public static LanguageInfo[] getOptionalLanguageInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         LanguageInfo[] languageInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

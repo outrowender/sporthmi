@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.media;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaRecorderReply;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaRecorderReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIMediaRecorderReply {
         super(n, (class$org$dsi$ifc$media$DSIMediaRecorderListener == null ? (class$org$dsi$ifc$media$DSIMediaRecorderListener = DSIMediaRecorderDispatcher.class$("org.dsi.ifc.media.DSIMediaRecorderListener")) : class$org$dsi$ifc$media$DSIMediaRecorderListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateActiveMedia(long l, long l2, int n) {
+    public void updateActiveMedia(long l, long l2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void responseSetSelection(int n, boolean bl) {
+    public void responseSetSelection(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -75,8 +73,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6, int n) {
+    public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -104,8 +101,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateImportProgress(long l, ListEntry listEntry, int n) {
+    public void updateImportProgress(long l, ListEntry listEntry, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -133,8 +129,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateImportStatus(int n, int n2) {
+    public void updateImportStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -162,8 +157,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateDeletionProgress(long l, int n) {
+    public void updateDeletionProgress(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -191,8 +185,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateDeletionStatus(int n, int n2) {
+    public void updateDeletionStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -220,8 +213,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateDatabaseSpace(DatabaseSpace databaseSpace, int n) {
+    public void updateDatabaseSpace(DatabaseSpace databaseSpace, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -249,8 +241,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void updateTargetMedia(long l, long l2, int n) {
+    public void updateTargetMedia(long l, long l2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -278,8 +269,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void responseSetEncodingQuality(int n) {
+    public void responseSetEncodingQuality(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -295,8 +285,7 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -312,14 +301,13 @@ implements DSIMediaRecorderReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMediaRecorderListener dSIMediaRecorderListener = (DSIMediaRecorderListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaRecorderDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaRecorderDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMediaRecorderListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaRecorderDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaRecorderDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMediaRecorderListener, new Object[]{string, string2});
                     continue;
                 }

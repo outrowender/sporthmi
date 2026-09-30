@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.text;
 
@@ -14,7 +11,7 @@ import java.util.Vector;
 
 public class ChoiceFormat
 extends NumberFormat {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1795184449645032964L;
     private double[] choiceLimits;
     private String[] choiceFormats;
 
@@ -102,7 +99,6 @@ extends NumberFormat {
         }
     }
 
-    @Override
     public Object clone() {
         ChoiceFormat choiceFormat = (ChoiceFormat)super.clone();
         choiceFormat.choiceLimits = (double[])this.choiceLimits.clone();
@@ -110,7 +106,6 @@ extends NumberFormat {
         return choiceFormat;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -122,9 +117,8 @@ extends NumberFormat {
         return Arrays.equals(this.choiceLimits, choiceFormat.choiceLimits) && Arrays.equals(this.choiceFormats, choiceFormat.choiceFormats);
     }
 
-    @Override
     public StringBuffer format(double d2, StringBuffer stringBuffer, FieldPosition fieldPosition) {
-        if (Double.isNaN((double)d2) || this.choiceLimits.length > 1 && d2 < this.choiceLimits[1]) {
+        if (Double.isNaN(d2) || this.choiceLimits.length > 1 && d2 < this.choiceLimits[1]) {
             return stringBuffer.append(this.choiceFormats[0]);
         }
         int n = 2;
@@ -137,7 +131,6 @@ extends NumberFormat {
         return stringBuffer.append(this.choiceFormats[this.choiceFormats.length - 1]);
     }
 
-    @Override
     public StringBuffer format(long l, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         return this.format((double)l, stringBuffer, fieldPosition);
     }
@@ -150,12 +143,11 @@ extends NumberFormat {
         return this.choiceLimits;
     }
 
-    @Override
     public int hashCode() {
         int n = 0;
         int n2 = 0;
         while (n2 < this.choiceLimits.length) {
-            long l = Double.doubleToLongBits((double)this.choiceLimits[n2]);
+            long l = Double.doubleToLongBits(this.choiceLimits[n2]);
             n += (int)(l ^ l >>> 32) + this.choiceFormats[n2].hashCode();
             ++n2;
         }
@@ -166,15 +158,14 @@ extends NumberFormat {
         if (d2 == Double.POSITIVE_INFINITY) {
             return d2;
         }
-        long l = d2 == 0.0 ? 0L : Double.doubleToLongBits((double)d2);
-        return Double.longBitsToDouble((long)(d2 < 0.0 ? l - 1L : l + 1L));
+        long l = d2 == 0.0 ? 0L : Double.doubleToLongBits(d2);
+        return Double.longBitsToDouble(d2 < 0.0 ? l - 1L : l + 1L);
     }
 
     public static double nextDouble(double d2, boolean bl) {
         return bl ? ChoiceFormat.nextDouble(d2) : ChoiceFormat.previousDouble(d2);
     }
 
-    @Override
     public Number parse(String string, ParsePosition parsePosition) {
         int n = parsePosition.getIndex();
         int n2 = 0;
@@ -193,8 +184,8 @@ extends NumberFormat {
         if (d2 == Double.NEGATIVE_INFINITY) {
             return d2;
         }
-        long l = d2 == 0.0 ? Long.MIN_VALUE : Double.doubleToLongBits((double)d2);
-        return Double.longBitsToDouble((long)(d2 <= 0.0 ? l + 1L : l - 1L));
+        long l = d2 == 0.0 ? Long.MIN_VALUE : Double.doubleToLongBits(d2);
+        return Double.longBitsToDouble(d2 <= 0.0 ? l + 1L : l - 1L);
     }
 
     public void setChoices(double[] dArray, String[] stringArray) {

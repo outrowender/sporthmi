@@ -10,12 +10,10 @@ extends java.util.AbstractSet {
     protected AbstractSet() {
     }
 
-    @Override
     public Object[] toArray() {
         return Utils.collectionToArray(this);
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         return Utils.collectionToArray(this, objectArray);
     }

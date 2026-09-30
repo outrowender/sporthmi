@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
@@ -20,8 +17,8 @@ import java.io.UTFDataFormatException;
 public class RandomAccessFile
 implements DataInput,
 DataOutput {
-    private static final int WRITABLE;
-    private static final int SYNC;
+    private static final int WRITABLE = 1;
+    private static final int SYNC = 2;
     FileDescriptor fd;
     private boolean syncMetadata = false;
 
@@ -29,10 +26,9 @@ DataOutput {
         RandomAccessFile.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
-    public RandomAccessFile(File file, String string) {
+    public RandomAccessFile(File file, String string) throws FileNotFoundException {
         if (string.equals("r") || string.equals("rw") || string.equals("rws") || string.equals("rwd")) {
             SecurityManager securityManager = System.getSecurityManager();
             if (securityManager != null) {
@@ -56,7 +52,7 @@ DataOutput {
         }
     }
 
-    public RandomAccessFile(String string, String string2) {
+    public RandomAccessFile(String string, String string2) throws FileNotFoundException {
         if (string2.equals("r") || string2.equals("rw") || string2.equals("rws") || string2.equals("rwd")) {
             SecurityManager securityManager = System.getSecurityManager();
             if (securityManager != null) {
@@ -94,52 +90,45 @@ DataOutput {
         return n;
     }
 
-    public void close() {
+    public void close() throws IOException {
         this.closeImpl();
     }
 
-    private native void closeImpl() {
-    }
+    private native void closeImpl();
 
-    public final FileDescriptor getFD() {
+    public final FileDescriptor getFD() throws IOException {
         return this.fd;
     }
 
-    public native long getFilePointer() {
-    }
+    public native long getFilePointer();
 
-    public native long length() {
-    }
+    public native long length();
 
-    private native int openImpl2(byte[] byArray, int n) {
-    }
+    private native int openImpl2(byte[] var1, int var2);
 
-    public int read() {
+    public int read() throws IOException {
         if (this.fd != null) {
             return this.readByteImpl(this.fd.descriptor);
         }
         throw new IOException();
     }
 
-    private native int readByteImpl(long l) {
-    }
+    private native int readByteImpl(long var1);
 
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.fd != null) {
             return this.readImpl(byArray, n, n2, this.fd.descriptor);
         }
         throw new IOException();
     }
 
-    private native int readImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native int readImpl(byte[] var1, int var2, int var3, long var4);
 
-    @Override
-    public final boolean readBoolean() {
+    public final boolean readBoolean() throws IOException {
         int n = this.read();
         if (n >= 0) {
             return n != 0;
@@ -147,8 +136,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final byte readByte() {
+    public final byte readByte() throws IOException {
         int n = this.read();
         if (n >= 0) {
             return (byte)n;
@@ -156,8 +144,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final char readChar() {
+    public final char readChar() throws IOException {
         byte[] byArray = new byte[2];
         if (this.read(byArray, 0, byArray.length) == byArray.length) {
             return (char)(((byArray[0] & 0xFF) << 8) + (byArray[1] & 0xFF));
@@ -165,18 +152,15 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final double readDouble() {
-        return Double.longBitsToDouble((long)this.readLong());
+    public final double readDouble() throws IOException {
+        return Double.longBitsToDouble(this.readLong());
     }
 
-    @Override
-    public final float readFloat() {
+    public final float readFloat() throws IOException {
         return Float.intBitsToFloat(this.readInt());
     }
 
-    @Override
-    public final void readFully(byte[] byArray) {
+    public final void readFully(byte[] byArray) throws IOException {
         this.readFully(byArray, 0, byArray.length);
     }
 
@@ -184,8 +168,7 @@ DataOutput {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public final void readFully(byte[] byArray, int n, int n2) {
+    public final void readFully(byte[] byArray, int n, int n2) throws IOException {
         if (byArray == null) throw new NullPointerException(Msg.getString("K0047"));
         if (n < 0 || n > byArray.length || n2 < 0 || n2 > byArray.length - n) throw new IndexOutOfBoundsException();
         while (n2 > 0) {
@@ -196,8 +179,7 @@ DataOutput {
         }
     }
 
-    @Override
-    public final int readInt() {
+    public final int readInt() throws IOException {
         byte[] byArray = new byte[4];
         if (this.read(byArray, 0, byArray.length) == byArray.length) {
             return ((byArray[0] & 0xFF) << 24) + ((byArray[1] & 0xFF) << 16) + ((byArray[2] & 0xFF) << 8) + (byArray[3] & 0xFF);
@@ -205,8 +187,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final String readLine() {
+    public final String readLine() throws IOException {
         StringBuffer stringBuffer = new StringBuffer(80);
         boolean bl = false;
         long l = 0L;
@@ -237,8 +218,7 @@ DataOutput {
         }
     }
 
-    @Override
-    public final long readLong() {
+    public final long readLong() throws IOException {
         byte[] byArray = new byte[8];
         if (this.read(byArray, 0, byArray.length) == byArray.length) {
             return ((long)(((byArray[0] & 0xFF) << 24) + ((byArray[1] & 0xFF) << 16) + ((byArray[2] & 0xFF) << 8) + (byArray[3] & 0xFF)) << 32) + ((long)(byArray[4] & 0xFF) << 24) + (long)((byArray[5] & 0xFF) << 16) + (long)((byArray[6] & 0xFF) << 8) + (long)(byArray[7] & 0xFF);
@@ -246,8 +226,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final short readShort() {
+    public final short readShort() throws IOException {
         byte[] byArray = new byte[2];
         if (this.read(byArray, 0, byArray.length) == byArray.length) {
             return (short)(((byArray[0] & 0xFF) << 8) + (byArray[1] & 0xFF));
@@ -255,8 +234,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final int readUnsignedByte() {
+    public final int readUnsignedByte() throws IOException {
         int n = this.read();
         if (n >= 0) {
             return n;
@@ -264,8 +242,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final int readUnsignedShort() {
+    public final int readUnsignedShort() throws IOException {
         byte[] byArray = new byte[2];
         if (this.read(byArray, 0, byArray.length) == byArray.length) {
             return ((byArray[0] & 0xFF) << 8) + (byArray[1] & 0xFF);
@@ -273,8 +250,7 @@ DataOutput {
         throw new EOFException();
     }
 
-    @Override
-    public final String readUTF() {
+    public final String readUTF() throws IOException {
         int n = this.readUnsignedShort();
         if (n == 0) {
             return new String();
@@ -286,21 +262,18 @@ DataOutput {
         throw new EOFException();
     }
 
-    public native void seek(long l) {
-    }
+    public native void seek(long var1);
 
-    public void setLength(long l) {
+    public void setLength(long l) throws IOException {
         this.setLengthImpl(l);
         if (this.syncMetadata) {
             this.fd.sync();
         }
     }
 
-    private native void setLengthImpl(long l) {
-    }
+    private native void setLengthImpl(long var1);
 
-    @Override
-    public int skipBytes(int n) {
+    public int skipBytes(int n) throws IOException {
         if (n > 0) {
             long l;
             long l2 = this.getFilePointer();
@@ -311,13 +284,11 @@ DataOutput {
         return 0;
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (this.fd != null) {
             this.writeImpl(byArray, n, n2, this.fd.descriptor);
             if (this.syncMetadata) {
@@ -328,32 +299,26 @@ DataOutput {
         }
     }
 
-    private native void writeImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native void writeImpl(byte[] var1, int var2, int var3, long var4);
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.fd == null) {
             throw new IOException();
         }
         this.writeByteImpl(n, this.fd.descriptor);
     }
 
-    private native void writeByteImpl(int n, long l) {
-    }
+    private native void writeByteImpl(int var1, long var2);
 
-    @Override
-    public final void writeBoolean(boolean bl) {
+    public final void writeBoolean(boolean bl) throws IOException {
         this.write(bl ? 1 : 0);
     }
 
-    @Override
-    public final void writeByte(int n) {
+    public final void writeByte(int n) throws IOException {
         this.write(n & 0xFF);
     }
 
-    @Override
-    public final void writeBytes(String string) {
+    public final void writeBytes(String string) throws IOException {
         byte[] byArray = new byte[string.length()];
         int n = 0;
         while (n < string.length()) {
@@ -363,14 +328,12 @@ DataOutput {
         this.write(byArray);
     }
 
-    @Override
-    public final void writeChar(int n) {
+    public final void writeChar(int n) throws IOException {
         byte[] byArray = new byte[]{(byte)(n >> 8), (byte)n};
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public final void writeChars(String string) {
+    public final void writeChars(String string) throws IOException {
         byte[] byArray = new byte[string.length() * 2];
         int n = 0;
         while (n < string.length()) {
@@ -382,24 +345,20 @@ DataOutput {
         this.write(byArray);
     }
 
-    @Override
-    public final void writeDouble(double d2) {
-        this.writeLong(Double.doubleToLongBits((double)d2));
+    public final void writeDouble(double d2) throws IOException {
+        this.writeLong(Double.doubleToLongBits(d2));
     }
 
-    @Override
-    public final void writeFloat(float f2) {
+    public final void writeFloat(float f2) throws IOException {
         this.writeInt(Float.floatToIntBits(f2));
     }
 
-    @Override
-    public final void writeInt(int n) {
+    public final void writeInt(int n) throws IOException {
         byte[] byArray = new byte[]{(byte)(n >> 24), (byte)(n >> 16), (byte)(n >> 8), (byte)n};
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public final void writeLong(long l) {
+    public final void writeLong(long l) throws IOException {
         byte[] byArray = new byte[8];
         int n = (int)(l >> 32);
         byArray[0] = (byte)(n >> 24);
@@ -413,13 +372,11 @@ DataOutput {
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public final void writeShort(int n) {
+    public final void writeShort(int n) throws IOException {
         this.writeChar(n);
     }
 
-    @Override
-    public final void writeUTF(String string) {
+    public final void writeUTF(String string) throws IOException {
         byte[] byArray;
         int n;
         int n2 = 0;
@@ -430,7 +387,7 @@ DataOutput {
             n2 = n > 0 && n <= 127 ? ++n2 : (n <= 2047 ? (n2 += 2) : (n2 += 3));
             ++n4;
         }
-        if (n2 <= -65536) {
+        if (n2 <= 65535) {
             byArray = new byte[n2 + 2];
             n = 2;
             int n5 = 0;

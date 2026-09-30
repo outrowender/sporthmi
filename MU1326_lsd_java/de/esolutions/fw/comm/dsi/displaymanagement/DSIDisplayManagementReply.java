@@ -3,94 +3,68 @@
  */
 package de.esolutions.fw.comm.dsi.displaymanagement;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIDisplayManagementReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f20ac96e-5798-5645-b002-79c3f154460f";
+    public static final String IPL_COMM_INTERFACE_KEY = "0a94880b-c8d5-54ef-b374-ab6963ae14d6";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.27";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.27";
 
-    default public void getExtents(int n, int n2, int n3) {
-    }
+    public void getExtents(int var1, int var2, int var3) throws MethodException;
 
-    default public void activeContext(int n, int n2, int n3) {
-    }
+    public void activeContext(int var1, int var2, int var3) throws MethodException;
 
-    default public void fadeStarted(int n, int n2) {
-    }
+    public void fadeStarted(int var1, int var2) throws MethodException;
 
-    default public void fadeComplete(int n, int n2) {
-    }
+    public void fadeComplete(int var1, int var2) throws MethodException;
 
-    default public void getDisplayPower(int n, int n2) {
-    }
+    public void getDisplayPower(int var1, int var2) throws MethodException;
 
-    default public void getDisplayBrightness(int n, int n2) {
-    }
+    public void getDisplayBrightness(int var1, int var2) throws MethodException;
 
-    default public void getBrightness(int n, int n2) {
-    }
+    public void getBrightness(int var1, int var2) throws MethodException;
 
-    default public void getContrast(int n, int n2) {
-    }
+    public void getContrast(int var1, int var2) throws MethodException;
 
-    default public void getColor(int n, int n2) {
-    }
+    public void getColor(int var1, int var2) throws MethodException;
 
-    default public void getTint(int n, int n2) {
-    }
+    public void getTint(int var1, int var2) throws MethodException;
 
-    default public void lockDisplayResult(int n) {
-    }
+    public void lockDisplayResult(int var1) throws MethodException;
 
-    default public void unlockDisplayResult(int n) {
-    }
+    public void unlockDisplayResult(int var1) throws MethodException;
 
-    default public void setCroppingResult(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11) {
-    }
+    public void setCroppingResult(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11) throws MethodException;
 
-    default public void getDisplayableInfo(int n, int n2, int n3) {
-    }
+    public void getDisplayableInfo(int var1, int var2, int var3) throws MethodException;
 
-    default public void takeScreenshotOnExternalStorageResult(int n, int n2, String string) {
-    }
+    public void takeScreenshotOnExternalStorageResult(int var1, int var2, String var3) throws MethodException;
 
-    default public void setDisplayTypeResult(int n, int n2) {
-    }
+    public void setDisplayTypeResult(int var1, int var2) throws MethodException;
 
-    default public void getDisplayTypeResult(int n, int n2) {
-    }
+    public void getDisplayTypeResult(int var1, int var2) throws MethodException;
 
-    default public void setUpdateRateResult(int n, int n2) {
-    }
+    public void setUpdateRateResult(int var1, int var2) throws MethodException;
 
-    default public void getUpdateRateResult(int n, int n2) {
-    }
+    public void getUpdateRateResult(int var1, int var2) throws MethodException;
 
-    default public void startComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void startComponentResult(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void stopComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void stopComponentResult(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void setAnnotationDataResponse(int n, int n2) {
-    }
+    public void setAnnotationDataResponse(int var1, int var2) throws MethodException;
 
-    default public void initAnnotationsResponse(int n, int n2) {
-    }
+    public void initAnnotationsResponse(int var1, int var2) throws MethodException;
 
-    default public void destroyImageDisplayableResponse(int n, int n2) {
-    }
+    public void destroyImageDisplayableResponse(int var1, int var2) throws MethodException;
 
-    default public void requestUpdateImageDisplayableResponse(int n, int n2) {
-    }
+    public void requestUpdateImageDisplayableResponse(int var1, int var2) throws MethodException;
 
-    default public void createImageDisplayableResponse(int n, int n2) {
-    }
+    public void createImageDisplayableResponse(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

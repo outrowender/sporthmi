@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.speech.onlinesds.AudioFormat;
 import de.esolutions.fw.comm.asi.speech.onlinesds.impl.AudioFormatSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AudioDataSerializer {
-    public static void putOptionalAudioData(ISerializer iSerializer, AudioData audioData) {
+    public static void putOptionalAudioData(ISerializer iSerializer, AudioData audioData) throws SerializerException {
         boolean bl = audioData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class AudioDataSerializer {
         }
     }
 
-    public static void putOptionalAudioDataVarArray(ISerializer iSerializer, AudioData[] audioDataArray) {
+    public static void putOptionalAudioDataVarArray(ISerializer iSerializer, AudioData[] audioDataArray) throws SerializerException {
         boolean bl = audioDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class AudioDataSerializer {
         }
     }
 
-    public static AudioData getOptionalAudioData(IDeserializer iDeserializer) {
+    public static AudioData getOptionalAudioData(IDeserializer iDeserializer) throws SerializerException {
         AudioData audioData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class AudioDataSerializer {
         return audioData;
     }
 
-    public static AudioData[] getOptionalAudioDataVarArray(IDeserializer iDeserializer) {
+    public static AudioData[] getOptionalAudioDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioData[] audioDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

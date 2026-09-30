@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconNozzleListCapabilities;
 
 public class AirconNozzleListCapabilitiesSerializer {
-    public static void putOptionalAirconNozzleListCapabilities(ISerializer iSerializer, AirconNozzleListCapabilities airconNozzleListCapabilities) {
+    public static void putOptionalAirconNozzleListCapabilities(ISerializer iSerializer, AirconNozzleListCapabilities airconNozzleListCapabilities) throws SerializerException {
         boolean bl = airconNozzleListCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class AirconNozzleListCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalAirconNozzleListCapabilitiesVarArray(ISerializer iSerializer, AirconNozzleListCapabilities[] airconNozzleListCapabilitiesArray) {
+    public static void putOptionalAirconNozzleListCapabilitiesVarArray(ISerializer iSerializer, AirconNozzleListCapabilities[] airconNozzleListCapabilitiesArray) throws SerializerException {
         boolean bl = airconNozzleListCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class AirconNozzleListCapabilitiesSerializer {
         }
     }
 
-    public static AirconNozzleListCapabilities getOptionalAirconNozzleListCapabilities(IDeserializer iDeserializer) {
+    public static AirconNozzleListCapabilities getOptionalAirconNozzleListCapabilities(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListCapabilities airconNozzleListCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class AirconNozzleListCapabilitiesSerializer {
         return airconNozzleListCapabilities;
     }
 
-    public static AirconNozzleListCapabilities[] getOptionalAirconNozzleListCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static AirconNozzleListCapabilities[] getOptionalAirconNozzleListCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconNozzleListCapabilities[] airconNozzleListCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

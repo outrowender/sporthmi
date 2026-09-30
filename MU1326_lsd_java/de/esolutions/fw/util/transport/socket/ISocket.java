@@ -3,24 +3,20 @@
  */
 package de.esolutions.fw.util.transport.socket;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
 public interface ISocket {
-    default public InputStream getInputStream() {
-    }
+    public InputStream getInputStream() throws IOException;
 
-    default public OutputStream getOutputStream() {
-    }
+    public OutputStream getOutputStream() throws IOException;
 
-    default public void close() {
-    }
+    public void close() throws IOException;
 
-    default public Socket getSocket() {
-    }
+    public Socket getSocket();
 
-    default public boolean isPlainSocket() {
-    }
+    public boolean isPlainSocket();
 }
 

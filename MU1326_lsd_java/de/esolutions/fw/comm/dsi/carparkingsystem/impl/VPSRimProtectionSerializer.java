@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSRimProtection;
 
 public class VPSRimProtectionSerializer {
-    public static void putOptionalVPSRimProtection(ISerializer iSerializer, VPSRimProtection vPSRimProtection) {
+    public static void putOptionalVPSRimProtection(ISerializer iSerializer, VPSRimProtection vPSRimProtection) throws SerializerException {
         boolean bl = vPSRimProtection == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class VPSRimProtectionSerializer {
         }
     }
 
-    public static void putOptionalVPSRimProtectionVarArray(ISerializer iSerializer, VPSRimProtection[] vPSRimProtectionArray) {
+    public static void putOptionalVPSRimProtectionVarArray(ISerializer iSerializer, VPSRimProtection[] vPSRimProtectionArray) throws SerializerException {
         boolean bl = vPSRimProtectionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class VPSRimProtectionSerializer {
         }
     }
 
-    public static VPSRimProtection getOptionalVPSRimProtection(IDeserializer iDeserializer) {
+    public static VPSRimProtection getOptionalVPSRimProtection(IDeserializer iDeserializer) throws SerializerException {
         VPSRimProtection vPSRimProtection = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class VPSRimProtectionSerializer {
         return vPSRimProtection;
     }
 
-    public static VPSRimProtection[] getOptionalVPSRimProtectionVarArray(IDeserializer iDeserializer) {
+    public static VPSRimProtection[] getOptionalVPSRimProtectionVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSRimProtection[] vPSRimProtectionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

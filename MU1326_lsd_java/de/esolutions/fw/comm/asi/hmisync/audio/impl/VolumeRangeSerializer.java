@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.audio.impl;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeRange;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class VolumeRangeSerializer {
-    public static void putOptionalVolumeRange(ISerializer iSerializer, VolumeRange volumeRange) {
+    public static void putOptionalVolumeRange(ISerializer iSerializer, VolumeRange volumeRange) throws SerializerException {
         boolean bl = volumeRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class VolumeRangeSerializer {
         }
     }
 
-    public static void putOptionalVolumeRangeVarArray(ISerializer iSerializer, VolumeRange[] volumeRangeArray) {
+    public static void putOptionalVolumeRangeVarArray(ISerializer iSerializer, VolumeRange[] volumeRangeArray) throws SerializerException {
         boolean bl = volumeRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class VolumeRangeSerializer {
         }
     }
 
-    public static VolumeRange getOptionalVolumeRange(IDeserializer iDeserializer) {
+    public static VolumeRange getOptionalVolumeRange(IDeserializer iDeserializer) throws SerializerException {
         VolumeRange volumeRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class VolumeRangeSerializer {
         return volumeRange;
     }
 
-    public static VolumeRange[] getOptionalVolumeRangeVarArray(IDeserializer iDeserializer) {
+    public static VolumeRange[] getOptionalVolumeRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         VolumeRange[] volumeRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

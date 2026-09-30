@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tollcollect.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tollcollect.TCHardwareInformation;
 
 public class TCHardwareInformationSerializer {
-    public static void putOptionalTCHardwareInformation(ISerializer iSerializer, TCHardwareInformation tCHardwareInformation) {
+    public static void putOptionalTCHardwareInformation(ISerializer iSerializer, TCHardwareInformation tCHardwareInformation) throws SerializerException {
         boolean bl = tCHardwareInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TCHardwareInformationSerializer {
         }
     }
 
-    public static void putOptionalTCHardwareInformationVarArray(ISerializer iSerializer, TCHardwareInformation[] tCHardwareInformationArray) {
+    public static void putOptionalTCHardwareInformationVarArray(ISerializer iSerializer, TCHardwareInformation[] tCHardwareInformationArray) throws SerializerException {
         boolean bl = tCHardwareInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TCHardwareInformationSerializer {
         }
     }
 
-    public static TCHardwareInformation getOptionalTCHardwareInformation(IDeserializer iDeserializer) {
+    public static TCHardwareInformation getOptionalTCHardwareInformation(IDeserializer iDeserializer) throws SerializerException {
         TCHardwareInformation tCHardwareInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TCHardwareInformationSerializer {
         return tCHardwareInformation;
     }
 
-    public static TCHardwareInformation[] getOptionalTCHardwareInformationVarArray(IDeserializer iDeserializer) {
+    public static TCHardwareInformation[] getOptionalTCHardwareInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         TCHardwareInformation[] tCHardwareInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -36,7 +36,6 @@ implements IGridLayoutHints {
         this.rowSpan = n4;
     }
 
-    @Override
     public boolean shouldShow(int n) {
         int n2 = this.visibleConditions & n;
         return n2 == n;
@@ -46,7 +45,6 @@ implements IGridLayoutHints {
         this.visibleConditions = bl ? (this.visibleConditions |= n) : (this.visibleConditions &= ~n);
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object instanceof GridLayoutHints) {
             GridLayoutHints gridLayoutHints = (GridLayoutHints)object;
@@ -126,7 +124,6 @@ implements IGridLayoutHints {
         this.hidemode = n;
     }
 
-    @Override
     public int getOverlapGaps() {
         return this.overlapGaps;
     }
@@ -135,7 +132,6 @@ implements IGridLayoutHints {
         this.overlapGaps = n;
     }
 
-    @Override
     public boolean isIgnoreForCellSizes() {
         return this.ignoreForCellSizes;
     }
@@ -144,82 +140,66 @@ implements IGridLayoutHints {
         this.ignoreForCellSizes = bl;
     }
 
-    @Override
     public int getColumn() {
         return this.column;
     }
 
-    @Override
     public int getRow() {
         return this.row;
     }
 
-    @Override
     public int getColumnSpan() {
         return this.columnSpan;
     }
 
-    @Override
     public int getRowSpan() {
         return this.rowSpan;
     }
 
-    @Override
     public int getWidthMin() {
         return this.widthMin;
     }
 
-    @Override
     public int getWidthMax() {
         return this.widthMax;
     }
 
-    @Override
     public int getHeightMin() {
         return this.heightMin;
     }
 
-    @Override
     public int getHeightMax() {
         return this.heightMax;
     }
 
-    @Override
     public int getAlignmentHoriz() {
         return this.alignmentHoriz;
     }
 
-    @Override
     public int getAlignmentVert() {
         return this.alignmentVert;
     }
 
-    @Override
     public int getVisibleConditions() {
         return this.visibleConditions;
     }
 
-    @Override
     public int getHidemode() {
         return this.hidemode;
     }
 
-    @Override
     public int getAdditionalXOffset() {
         return this.afterEffects == null ? 0 : this.afterEffects[0];
     }
 
-    @Override
     public int getAdditionalYOffset() {
         return this.afterEffects == null ? 0 : this.afterEffects[1];
     }
 
-    @Override
     public int getAdditionalWidthOffset() {
         return this.afterEffects == null ? 0 : this.afterEffects[2];
     }
 
-    @Override
     public int getAdditionalHeightOffset() {
         return this.afterEffects == null ? 0 : this.afterEffects[3];
     }

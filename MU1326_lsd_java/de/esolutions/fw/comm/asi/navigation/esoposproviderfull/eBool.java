@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eBool
 extends IEnum {
-    public static final int B_FALSE;
-    public static final int B_TRUE;
-    public static final int B_UNKNOWN;
+    public static final int B_FALSE = 0;
+    public static final int B_TRUE = 1;
+    public static final int B_UNKNOWN = 2;
 }
 

@@ -11,97 +11,66 @@ import org.dsi.ifc.search.Suggestion;
 
 public interface DSISearchListener
 extends DSIListener {
-    default public void requestSupportedCountriesResult(int n, Country[] countryArray) {
-    }
+    public void requestSupportedCountriesResult(int var1, Country[] var2);
 
-    default public void searchResult(int n, SearchResult searchResult) {
-    }
+    public void searchResult(int var1, SearchResult var2);
 
-    default public void addToHistoryResult(int n) {
-    }
+    public void addToHistoryResult(int var1);
 
-    default public void requestSuggestionResult(int n, int n2, Suggestion[] suggestionArray) {
-    }
+    public void requestSuggestionResult(int var1, int var2, Suggestion[] var3);
 
-    default public void cancelQueryResult(int n, int n2) {
-    }
+    public void cancelQueryResult(int var1, int var2);
 
-    default public void setCurrentPositionResult(int n) {
-    }
+    public void setCurrentPositionResult(int var1);
 
-    default public void setRoutePointsResult(int n) {
-    }
+    public void setRoutePointsResult(int var1);
 
-    default public void setLanguageResult(int n) {
-    }
+    public void setLanguageResult(int var1);
 
-    default public void updateSearchIsActive(int n, boolean bl, int n2) {
-    }
+    public void updateSearchIsActive(int var1, boolean var2, int var3);
 
-    default public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
-    }
+    public void updatePotentialConflict(int var1, boolean var2, ConflictMatch var3, int var4);
 
-    default public void setCarFunctionStatesResult(int n) {
-    }
+    public void setCarFunctionStatesResult(int var1);
 
-    default public void setRadioStationsResult(int n, int n2) {
-    }
+    public void setRadioStationsResult(int var1, int var2);
 
-    default public void setSearchFilterResult(int n, int n2) {
-    }
+    public void setSearchFilterResult(int var1, int var2);
 
-    default public void setActiveProfileResult(int n) {
-    }
+    public void setActiveProfileResult(int var1);
 
-    default public void setActiveSearchCountriesResult(int n) {
-    }
+    public void setActiveSearchCountriesResult(int var1);
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1);
 
-    default public void invalidateData(int[] nArray) {
-    }
+    public void invalidateData(int[] var1);
 
-    default public void prepareSourcesResult(int n) {
-    }
+    public void prepareSourcesResult(int var1);
 
-    default public void removeFromHistoryResult(int n) {
-    }
+    public void removeFromHistoryResult(int var1);
 
-    default public void removeAllFromHistoryResult(int n) {
-    }
+    public void removeAllFromHistoryResult(int var1);
 
-    default public void removeAllFromHistoryBySourceResult(int n) {
-    }
+    public void removeAllFromHistoryBySourceResult(int var1);
 
-    default public void resetAutocompletionResult(int n, int n2) {
-    }
+    public void resetAutocompletionResult(int var1, int var2);
 
-    default public void sourceDataAvailabilityChanged(int n, boolean bl) {
-    }
+    public void sourceDataAvailabilityChanged(int var1, boolean var2);
 
-    default public void createBackupFileResult(int n, String string) {
-    }
+    public void createBackupFileResult(int var1, String var2);
 
-    default public void importBackupFileResult(int n, String string) {
-    }
+    public void importBackupFileResult(int var1, String var2);
 
-    default public void setEnvironmentResult(int n) {
-    }
+    public void setEnvironmentResult(int var1);
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3);
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2);
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3);
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2);
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1);
 }
 

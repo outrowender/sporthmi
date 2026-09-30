@@ -9,13 +9,10 @@ import de.vw.mib.bap.functions.Method;
 import de.vw.mib.bap.functions.Property;
 
 public interface BAPDisplayFunctionControllerDelegate {
-    default public Array getArray(BAPFunctionController bAPFunctionController) {
-    }
+    public Array getArray(BAPFunctionController var1);
 
-    default public Method getMethod(BAPFunctionController bAPFunctionController) {
-    }
+    public Method getMethod(BAPFunctionController var1);
 
-    default public Property getProperty(BAPFunctionController bAPFunctionController) {
-    }
+    public Property getProperty(BAPFunctionController var1);
 }
 

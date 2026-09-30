@@ -15,34 +15,33 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 import de.esolutions.hmi.widgets.audi.base.widgets.ModelStubController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IOPSRenderer;
-import de.esolutions.hmi.widgets.audi.evo.widgets.OPSController$ParkingHoseWidgetData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.OPSSectorController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PLAController;
 
 public class OPSController
 extends AbstractWidgetController
 implements IKzbMergeListener {
-    public static final int SECTOR_FRONT_LEFT_INNER;
-    public static final int SECTOR_FRONT_LEFT_OUTER;
-    public static final int SECTOR_FRONT_RIGHT_INNER;
-    public static final int SECTOR_FRONT_RIGHT_OUTER;
-    public static final int SECTOR_REAR_LEFT_INNER;
-    public static final int SECTOR_REAR_LEFT_OUTER;
-    public static final int SECTOR_REAR_RIGHT_INNER;
-    public static final int SECTOR_REAR_RIGHT_OUTER;
-    public static final int SECTOR_SIDE_LEFT_FRONT_INNER;
-    public static final int SECTOR_SIDE_LEFT_FRONT_OUTER;
-    public static final int SECTOR_SIDE_LEFT_BACK_INNER;
-    public static final int SECTOR_SIDE_LEFT_BACK_OUTER;
-    public static final int SECTOR_SIDE_RIGHT_FRONT_INNER;
-    public static final int SECTOR_SIDE_RIGHT_FRONT_OUTER;
-    public static final int SECTOR_SIDE_RIGHT_BACK_INNER;
-    public static final int SECTOR_SIDE_RIGHT_BACK_OUTER;
-    public static final int NUM_SECTORS;
-    private static final int INVISIBLE_SECTOR_VALUE;
-    public static final int TOPVIEW_ERROR_NONE;
-    public static final int TOPVIEW_ERROR_MIRROR;
-    public static final int TOPVIEW_ERROR_DOOR;
+    public static final int SECTOR_FRONT_LEFT_INNER = 0;
+    public static final int SECTOR_FRONT_LEFT_OUTER = 1;
+    public static final int SECTOR_FRONT_RIGHT_INNER = 2;
+    public static final int SECTOR_FRONT_RIGHT_OUTER = 3;
+    public static final int SECTOR_REAR_LEFT_INNER = 4;
+    public static final int SECTOR_REAR_LEFT_OUTER = 5;
+    public static final int SECTOR_REAR_RIGHT_INNER = 6;
+    public static final int SECTOR_REAR_RIGHT_OUTER = 7;
+    public static final int SECTOR_SIDE_LEFT_FRONT_INNER = 8;
+    public static final int SECTOR_SIDE_LEFT_FRONT_OUTER = 9;
+    public static final int SECTOR_SIDE_LEFT_BACK_INNER = 10;
+    public static final int SECTOR_SIDE_LEFT_BACK_OUTER = 11;
+    public static final int SECTOR_SIDE_RIGHT_FRONT_INNER = 12;
+    public static final int SECTOR_SIDE_RIGHT_FRONT_OUTER = 13;
+    public static final int SECTOR_SIDE_RIGHT_BACK_INNER = 14;
+    public static final int SECTOR_SIDE_RIGHT_BACK_OUTER = 15;
+    public static final int NUM_SECTORS = 16;
+    private static final int INVISIBLE_SECTOR_VALUE = -1;
+    public static final int TOPVIEW_ERROR_NONE = 0;
+    public static final int TOPVIEW_ERROR_MIRROR = 1;
+    public static final int TOPVIEW_ERROR_DOOR = 2;
     private OPSSectorController[] sectorControllers = new OPSSectorController[16];
     private int[] sectorValues = new int[16];
     private boolean[] sectorHighlights = new boolean[16];
@@ -56,7 +55,7 @@ implements IKzbMergeListener {
     private float scaleFactor = 1.0f;
     private boolean dataChanged = true;
     private boolean opsVisible = true;
-    private OPSController$ParkingHoseWidgetData parkingHoseData;
+    private ParkingHoseWidgetData parkingHoseData;
     private boolean isPLAWidget;
     private PLAController plaController;
     private boolean pDCFrontStatus;
@@ -67,7 +66,6 @@ implements IKzbMergeListener {
     private int steeringIntervention;
     private int viewMode;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -91,7 +89,6 @@ implements IKzbMergeListener {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (bl) {
             this.setDataChanged();
@@ -100,7 +97,6 @@ implements IKzbMergeListener {
         super.setVisible(bl);
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (this.dataChanged) {
             this.updateData();
@@ -109,7 +105,6 @@ implements IKzbMergeListener {
         super.render(redrawContext);
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.setDataChanged();
@@ -133,7 +128,7 @@ implements IKzbMergeListener {
     private void getParkingHoseListModelStubValues(int n) {
         AbstractWidget abstractWidget;
         if (this.parkingHoseData == null) {
-            this.parkingHoseData = new OPSController$ParkingHoseWidgetData(this);
+            this.parkingHoseData = new ParkingHoseWidgetData();
         }
         if ((abstractWidget = this.getChild(n)) == null || !(abstractWidget instanceof ModelStubController)) {
             logChannelParking.log(10000, "OPSController#getParkingHoseListModelStubValues modelStub for parking hose not available");
@@ -152,7 +147,7 @@ implements IKzbMergeListener {
         this.parkingHoseData.wheelBase = tiledListModelGUI.getGuiRow(n2).getInteger(2);
         this.parkingHoseData.frontWheelRadius = tiledListModelGUI.getGuiRow(n2).getInteger(3);
         this.parkingHoseData.rearWheelRadius = tiledListModelGUI.getGuiRow(n2).getInteger(4);
-        logChannelParking.log(1078071040, "OPSController#getChoiceModelStubValue %1", (Object)this.parkingHoseData);
+        logChannelParking.log(1000000, "OPSController#getChoiceModelStubValue %1", (Object)this.parkingHoseData);
     }
 
     private void updateData() {
@@ -181,10 +176,9 @@ implements IKzbMergeListener {
             this.steeringIntervention = this.getChoiceModelStubValue(13, "araSteeringIntervention");
         }
         this.viewMode = this.getChoiceModelStubValue(14, "viewMode");
-        logChannelParking.log(-2137614336, "OPSController#updateData data updated");
+        logChannelParking.log(10000000, "OPSController#updateData data updated");
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.setDataChanged();
         super.processModelUpdateEvent(modelUpdateEvent);
@@ -222,7 +216,7 @@ implements IKzbMergeListener {
         return this.topViewActive;
     }
 
-    public OPSController$ParkingHoseWidgetData getParkingHoseData() {
+    public ParkingHoseWidgetData getParkingHoseData() {
         return this.parkingHoseData;
     }
 
@@ -297,7 +291,6 @@ implements IKzbMergeListener {
         return this.isPLAWidget;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.isPLAModeActive()) {
             return;
@@ -305,7 +298,6 @@ implements IKzbMergeListener {
         this.plaController.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!this.isPLAModeActive()) {
             return;
@@ -313,17 +305,39 @@ implements IKzbMergeListener {
         this.plaController.keyPressed(keyEvent);
     }
 
-    @Override
     public String getWidgetName() {
         return this.getClassName();
     }
 
-    @Override
     public void mergeFinished(String string) {
         this.renderer.finalizeAsyncMerge(string);
-        logChannelParking.log(-2137614336, "OPSController#mergeFinished: opsKZB merge finished. OpsPopup will updating now.");
+        logChannelParking.log(10000000, "OPSController#mergeFinished: opsKZB merge finished. OpsPopup will updating now.");
         this.setDataChanged();
         this.triggerRepaint();
+    }
+
+    public class ParkingHoseWidgetData {
+        public int direction = 0;
+        public int frontWheelRadius = 1300;
+        public int rearWheelRadius = 500;
+        public int trackDisplay = 0;
+        public int wheelBase = 3;
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer(150);
+            stringBuffer.append("parkingHoseData[direction = ");
+            stringBuffer.append(this.direction);
+            stringBuffer.append("; frontWheelRadius = ");
+            stringBuffer.append(this.frontWheelRadius);
+            stringBuffer.append("; rearWheelRadius = ");
+            stringBuffer.append(this.rearWheelRadius);
+            stringBuffer.append("; trackDisplay = ");
+            stringBuffer.append(this.trackDisplay);
+            stringBuffer.append("; wheelBase = ");
+            stringBuffer.append(this.wheelBase);
+            stringBuffer.append(']');
+            return stringBuffer.toString();
+        }
     }
 }
 

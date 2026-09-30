@@ -46,7 +46,7 @@ public class BCTermGeneralData {
     }
 
     public String toString() {
-        return new StringBuffer("BCTermGeneralData{").append("distance=").append(this.distance).append(", speed=").append(this.speed).append(", timeValue=").append(this.timeValue).append("}").toString();
+        return "BCTermGeneralData{" + "distance=" + this.distance + ", speed=" + this.speed + ", timeValue=" + this.timeValue + "}";
     }
 }
 

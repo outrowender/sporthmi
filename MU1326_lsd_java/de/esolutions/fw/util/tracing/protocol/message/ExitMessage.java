@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 
@@ -15,15 +16,12 @@ extends AbstractMessage {
         super(MessageType.EXIT);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("EXIT");
     }

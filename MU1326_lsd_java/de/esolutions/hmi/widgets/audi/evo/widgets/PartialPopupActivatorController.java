@@ -21,18 +21,16 @@ implements IPartialPopupListener {
     private int lastPopupID = -1;
     private int lastRequestedPopupID = -1;
     protected int hkReturnEvent = 0;
-    public static final int USE_SETTINGS_OF_POPUP;
+    public static final int USE_SETTINGS_OF_POPUP = -1;
     private int consumeHKReturn = -1;
     private int consumeDDSPress = -1;
     private int consumeKeyTurned = -1;
     private boolean updateFromModelOnConnect = true;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.updateFromModelOnConnect) {
             this.updateModelValue(null);
@@ -112,7 +110,6 @@ implements IPartialPopupListener {
         return bl;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getModelType() == 2) {
             switch (modelUpdateEvent.getUpdateType()) {
@@ -127,18 +124,15 @@ implements IPartialPopupListener {
         }
     }
 
-    @Override
     public void partialPopupVisible(int n, int n2) {
     }
 
-    @Override
     public void partialPopupHidden(int n, int n2) {
         if (this.lastRequestedPopupID == n || this.lastRequestedPopupID == -1) {
             this.lastPopupID = -1;
         }
     }
 
-    @Override
     public int[] getPPIDsForCallbacks() {
         return this.popupIDs;
     }
@@ -167,15 +161,12 @@ implements IPartialPopupListener {
         this.updateFromModelOnConnect = bl;
     }
 
-    @Override
     public void partialPopupRemoved(int n, int n2) {
     }
 
-    @Override
     public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
     }
 
-    @Override
     public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 }

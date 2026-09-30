@@ -7,13 +7,10 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIPersonalizationListener
 extends DSIListener {
-    default public void copyProfile(int n, int n2) {
-    }
+    public void copyProfile(int var1, int var2);
 
-    default public void resetProfile(int n) {
-    }
+    public void resetProfile(int var1);
 
-    default public void resetAllProfiles() {
-    }
+    public void resetAllProfiles();
 }
 

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.sdars.impl.SeekInformationSerializer;
 import de.esolutions.fw.comm.dsi.sdars.impl.SeekStateSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SeekInformation;
 import org.dsi.ifc.sdars.SeekPossibility;
 import org.dsi.ifc.sdars.SeekState;
 
 public class SeekPossibilitySerializer {
-    public static void putOptionalSeekPossibility(ISerializer iSerializer, SeekPossibility seekPossibility) {
+    public static void putOptionalSeekPossibility(ISerializer iSerializer, SeekPossibility seekPossibility) throws SerializerException {
         boolean bl = seekPossibility == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class SeekPossibilitySerializer {
         }
     }
 
-    public static void putOptionalSeekPossibilityVarArray(ISerializer iSerializer, SeekPossibility[] seekPossibilityArray) {
+    public static void putOptionalSeekPossibilityVarArray(ISerializer iSerializer, SeekPossibility[] seekPossibilityArray) throws SerializerException {
         boolean bl = seekPossibilityArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class SeekPossibilitySerializer {
         }
     }
 
-    public static SeekPossibility getOptionalSeekPossibility(IDeserializer iDeserializer) {
+    public static SeekPossibility getOptionalSeekPossibility(IDeserializer iDeserializer) throws SerializerException {
         SeekPossibility seekPossibility = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class SeekPossibilitySerializer {
         return seekPossibility;
     }
 
-    public static SeekPossibility[] getOptionalSeekPossibilityVarArray(IDeserializer iDeserializer) {
+    public static SeekPossibility[] getOptionalSeekPossibilityVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeekPossibility[] seekPossibilityArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

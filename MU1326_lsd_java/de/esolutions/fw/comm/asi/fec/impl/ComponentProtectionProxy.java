@@ -30,8 +30,7 @@ ComponentProtectionC {
         return this.proxy;
     }
 
-    @Override
-    public void authString(String string, int n, int n2) {
+    public void authString(String string, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -14,42 +14,34 @@ implements LSOutput {
     protected String fSystemId = null;
     protected String fEncoding = null;
 
-    @Override
     public Writer getCharacterStream() {
         return this.fCharStream;
     }
 
-    @Override
     public void setCharacterStream(Writer writer) {
         this.fCharStream = writer;
     }
 
-    @Override
     public OutputStream getByteStream() {
         return this.fByteStream;
     }
 
-    @Override
     public void setByteStream(OutputStream outputStream) {
         this.fByteStream = outputStream;
     }
 
-    @Override
     public String getSystemId() {
         return this.fSystemId;
     }
 
-    @Override
     public void setSystemId(String string) {
         this.fSystemId = string;
     }
 
-    @Override
     public String getEncoding() {
         return this.fEncoding;
     }
 
-    @Override
     public void setEncoding(String string) {
         this.fEncoding = string;
     }

@@ -12,27 +12,27 @@ public final class MobDevKeySetup_SetGet
 implements SetGetProperty {
     public MobDevKeySetup_Setup setup = new MobDevKeySetup_Setup();
     public int reserve1;
-    public static final int RESERVE1_MIN;
-    private static final int RESERVE1_BITSIZE;
+    public static final int RESERVE1_MIN = 0;
+    private static final int RESERVE1_BITSIZE = 4;
     public int reserve2;
-    public static final int RESERVE2_MIN;
-    private static final int RESERVE2_BITSIZE;
+    public static final int RESERVE2_MIN = 0;
+    private static final int RESERVE2_BITSIZE = 4;
     public int reserve3;
-    public static final int RESERVE3_MIN;
-    private static final int RESERVE3_BITSIZE;
+    public static final int RESERVE3_MIN = 0;
+    private static final int RESERVE3_BITSIZE = 4;
     public int reserve4;
-    public static final int RESERVE4_MIN;
-    private static final int RESERVE4_BITSIZE;
+    public static final int RESERVE4_MIN = 0;
+    private static final int RESERVE4_BITSIZE = 4;
     public int reserve5;
-    public static final int RESERVE5_MIN;
-    private static final int RESERVE5_BITSIZE;
+    public static final int RESERVE5_MIN = 0;
+    private static final int RESERVE5_BITSIZE = 4;
     public int reserve6;
-    public static final int RESERVE6_MIN;
-    private static final int RESERVE6_BITSIZE;
+    public static final int RESERVE6_MIN = 0;
+    private static final int RESERVE6_BITSIZE = 4;
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
 
     public MobDevKeySetup_SetGet() {
         this.internalReset();
@@ -55,13 +55,11 @@ implements SetGetProperty {
         this.extension2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.setup.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeySetup_SetGet mobDevKeySetup_SetGet = (MobDevKeySetup_SetGet)bAPEntity;
         return this.setup.equalTo(mobDevKeySetup_SetGet.setup) && this.reserve1 == mobDevKeySetup_SetGet.reserve1 && this.reserve2 == mobDevKeySetup_SetGet.reserve2 && this.reserve3 == mobDevKeySetup_SetGet.reserve3 && this.reserve4 == mobDevKeySetup_SetGet.reserve4 && this.reserve5 == mobDevKeySetup_SetGet.reserve5 && this.reserve6 == mobDevKeySetup_SetGet.reserve6 && this.extension1 == mobDevKeySetup_SetGet.extension1 && this.extension2 == mobDevKeySetup_SetGet.extension2;
@@ -70,7 +68,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeySetup_SetGet");
@@ -86,12 +83,10 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.setup.serialize(bitStream);
         bitStream.pushBits(4, this.reserve1);
@@ -104,7 +99,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.extension2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.setup.deserialize(bitStream);
         this.reserve1 = bitStream.popFrontBits(4);
@@ -121,7 +115,6 @@ implements SetGetProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeySetup_SetGet.functionId();
     }

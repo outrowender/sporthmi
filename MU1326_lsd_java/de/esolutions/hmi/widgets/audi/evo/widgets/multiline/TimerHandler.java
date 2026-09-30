@@ -48,7 +48,6 @@ implements ATIPEventListener {
         this.m_timerJobs = jobArray;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent instanceof TimerEvent) {
             this.handleTimerEvents((TimerEvent)aTIPEvent);

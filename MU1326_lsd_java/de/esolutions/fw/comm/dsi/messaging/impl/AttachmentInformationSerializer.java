@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.messaging.AttachmentInformation;
 
 public class AttachmentInformationSerializer {
-    public static void putOptionalAttachmentInformation(ISerializer iSerializer, AttachmentInformation attachmentInformation) {
+    public static void putOptionalAttachmentInformation(ISerializer iSerializer, AttachmentInformation attachmentInformation) throws SerializerException {
         boolean bl = attachmentInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class AttachmentInformationSerializer {
         }
     }
 
-    public static void putOptionalAttachmentInformationVarArray(ISerializer iSerializer, AttachmentInformation[] attachmentInformationArray) {
+    public static void putOptionalAttachmentInformationVarArray(ISerializer iSerializer, AttachmentInformation[] attachmentInformationArray) throws SerializerException {
         boolean bl = attachmentInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class AttachmentInformationSerializer {
         }
     }
 
-    public static AttachmentInformation getOptionalAttachmentInformation(IDeserializer iDeserializer) {
+    public static AttachmentInformation getOptionalAttachmentInformation(IDeserializer iDeserializer) throws SerializerException {
         AttachmentInformation attachmentInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class AttachmentInformationSerializer {
         return attachmentInformation;
     }
 
-    public static AttachmentInformation[] getOptionalAttachmentInformationVarArray(IDeserializer iDeserializer) {
+    public static AttachmentInformation[] getOptionalAttachmentInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AttachmentInformation[] attachmentInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

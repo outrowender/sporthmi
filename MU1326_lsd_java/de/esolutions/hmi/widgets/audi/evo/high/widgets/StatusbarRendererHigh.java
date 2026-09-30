@@ -11,15 +11,14 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.StatusbarControllerHigh;
 
 public class StatusbarRendererHigh
 extends AbstractKanziTemplateRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/mib2_statusBar";
+    private static final String EAL_NODE_NAME = "statusBar";
     private final StatusbarControllerHigh controller;
 
     public StatusbarRendererHigh(StatusbarControllerHigh statusbarControllerHigh) {
         this.controller = statusbarControllerHigh;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -35,27 +34,22 @@ extends AbstractKanziTemplateRenderer {
         this.controller.doRightGroupPriorisation();
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         super.render(redrawContext);
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/mib2_statusBar";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "statusBar";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 16;
     }

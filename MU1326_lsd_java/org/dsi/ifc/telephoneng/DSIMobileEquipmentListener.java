@@ -29,298 +29,200 @@ import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 
 public interface DSIMobileEquipmentListener
 extends DSIListener {
-    default public void responseAbortNetworkRegistration(int n) {
-    }
+    public void responseAbortNetworkRegistration(int var1);
 
-    default public void responseAbortNetworkSearch(int n) {
-    }
+    public void responseAbortNetworkSearch(int var1);
 
-    default public void responseAcceptCall(int n) {
-    }
+    public void responseAcceptCall(int var1);
 
-    default public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) {
-    }
+    public void responseCallForward(CFResponseData[] var1, int var2);
 
-    default public void responseCallWaiting(int n, int n2) {
-    }
+    public void responseCallWaiting(int var1, int var2);
 
-    default public void responseChangeSIMCode(int n, int n2) {
-    }
+    public void responseChangeSIMCode(int var1, int var2);
 
-    default public void responseCLIR(int n, int n2, int n3) {
-    }
+    public void responseCLIR(int var1, int var2, int var3);
 
-    default public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-    }
+    public void responseDialNumber(int var1, SuppServiceResponseStruct var2);
 
-    default public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-    }
+    public void responseDialOperator(int var1, SuppServiceResponseStruct var2);
 
-    default public void responseSendDTMF(int n) {
-    }
+    public void responseSendDTMF(int var1);
 
-    default public void updateDTMFTonePlaying(String string, int n) {
-    }
+    public void updateDTMFTonePlaying(String var1, int var2);
 
-    default public void updateEmergencyNumbers(EmergencyNumbers emergencyNumbers, int n) {
-    }
+    public void updateEmergencyNumbers(EmergencyNumbers var1, int var2);
 
-    default public void responseRemoveOtherSIM(int n) {
-    }
+    public void responseRemoveOtherSIM(int var1);
 
-    default public void responseSIMPINRequired(int n) {
-    }
+    public void responseSIMPINRequired(int var1);
 
-    default public void updateOtherSIMAvailable(boolean bl, int n) {
-    }
+    public void updateOtherSIMAvailable(boolean var1, int var2);
 
-    default public void updateSIMPINRequired(boolean bl, int n) {
-    }
+    public void updateSIMPINRequired(boolean var1, int var2);
 
-    default public void responseHangupCall(int n) {
-    }
+    public void responseHangupCall(int var1);
 
-    default public void responseJoinCalls(int n) {
-    }
+    public void responseJoinCalls(int var1);
 
-    default public void responseNetworkRegistration(int n) {
-    }
+    public void responseNetworkRegistration(int var1);
 
-    default public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
-    }
+    public void responseNetworkSearch(NetworkProvider[] var1, int var2);
 
-    default public void responseUnlockOtherSIM(int n) {
-    }
+    public void responseUnlockOtherSIM(int var1);
 
-    default public void responseUnlockSIM(int n) {
-    }
+    public void responseUnlockSIM(int var1);
 
-    default public void responseCheckSIMPINCode(int n) {
-    }
+    public void responseCheckSIMPINCode(int var1);
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1);
 
-    default public void responseSetHandsFreeMode(int n) {
-    }
+    public void responseSetHandsFreeMode(int var1);
 
-    default public void responseSetAutomaticPinEntryActive(int n) {
-    }
+    public void responseSetAutomaticPinEntryActive(int var1);
 
-    default public void responseSetAutomaticRedialActive(int n) {
-    }
+    public void responseSetAutomaticRedialActive(int var1);
 
-    default public void responseServiceCodeAbort(int n) {
-    }
+    public void responseServiceCodeAbort(int var1);
 
-    default public void responseSplitCall(int n) {
-    }
+    public void responseSplitCall(int var1);
 
-    default public void responseSwapCalls(int n) {
-    }
+    public void responseSwapCalls(int var1);
 
-    default public void responseTelPower(int n) {
-    }
+    public void responseTelPower(int var1);
 
-    default public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
-    }
+    public void updateActivationState(ActivationStateStruct var1, int var2);
 
-    default public void updateAutomaticPinEntryActive(boolean bl, int n) {
-    }
+    public void updateAutomaticPinEntryActive(boolean var1, int var2);
 
-    default public void updateAutomaticRedialActive(boolean bl, int n) {
-    }
+    public void updateAutomaticRedialActive(boolean var1, int var2);
 
-    default public void updateBatteryChargeLevel(int n, int n2) {
-    }
+    public void updateBatteryChargeLevel(int var1, int var2);
 
-    default public void updateCallDurationList(CallDuration[] callDurationArray, int n) {
-    }
+    public void updateCallDurationList(CallDuration[] var1, int var2);
 
-    default public void updateCallList(CallInformation[] callInformationArray, int n) {
-    }
+    public void updateCallList(CallInformation[] var1, int var2);
 
-    default public void updateCDMAThreeWayCallingSetting(boolean bl, int n) {
-    }
+    public void updateCDMAThreeWayCallingSetting(boolean var1, int var2);
 
-    default public void updateCradlePlugInState(int n, int n2) {
-    }
+    public void updateCradlePlugInState(int var1, int var2);
 
-    default public void updateDisconnectReason(DisconnectReason disconnectReason, int n) {
-    }
+    public void updateDisconnectReason(DisconnectReason var1, int var2);
 
-    default public void updateEmergencyCallActive(EmergencyCallSetting emergencyCallSetting, int n) {
-    }
+    public void updateEmergencyCallActive(EmergencyCallSetting var1, int var2);
 
-    default public void updateEnhancedPrivacyMode(boolean bl, int n) {
-    }
+    public void updateEnhancedPrivacyMode(boolean var1, int var2);
 
-    default public void updateHandsFreeMode(int n, int n2) {
-    }
+    public void updateHandsFreeMode(int var1, int var2);
 
-    default public void updateLockState(LockStateStruct lockStateStruct, int n) {
-    }
+    public void updateLockState(LockStateStruct var1, int var2);
 
-    default public void updateMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray, int n) {
-    }
+    public void updateMailboxContent(MailboxDialingNumber[] var1, int var2);
 
-    default public void updateMICMuteState(int n, int n2) {
-    }
+    public void updateMICMuteState(int var1, int var2);
 
-    default public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
-    }
+    public void updateNADTemperature(NADTemperatureStruct var1, int var2);
 
-    default public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
-    }
+    public void updatePhoneInformation(PhoneInformation var1, int var2);
 
-    default public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
-    }
+    public void updateNetworkProvider(NetworkProviderName var1, int var2);
 
-    default public void updateNetworkType(int n, int n2) {
-    }
+    public void updateNetworkType(int var1, int var2);
 
-    default public void updatePrivacyMode(boolean bl, int n) {
-    }
+    public void updatePrivacyMode(boolean var1, int var2);
 
-    default public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
-    }
+    public void updateRegisterState(RegisterStateStruct var1, int var2);
 
-    default public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) {
-    }
+    public void updateServiceCodeType(ServiceCodeTypeStruct var1, int var2);
 
-    default public void updateServiceNumbers(ServiceNumbers serviceNumbers, int n) {
-    }
+    public void updateServiceNumbers(ServiceNumbers var1, int var2);
 
-    default public void updateSignalQuality(int n, int n2) {
-    }
+    public void updateSignalQuality(int var1, int var2);
 
-    default public void updateSuppServiceResponse(SuppServiceResponseStruct suppServiceResponseStruct, int n) {
-    }
+    public void updateSuppServiceResponse(SuppServiceResponseStruct var1, int var2);
 
-    default public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
-    }
+    public void updateServiceProvider(ServiceProvider var1, int var2);
 
-    default public void updateNADMode(int n, int n2) {
-    }
+    public void updateNADMode(int var1, int var2);
 
-    default public void responseSetCDMAThreeWayCallingSetting(int n) {
-    }
+    public void responseSetCDMAThreeWayCallingSetting(int var1);
 
-    default public void responseSetAutomaticEmergencyCallActive(int n) {
-    }
+    public void responseSetAutomaticEmergencyCallActive(int var1);
 
-    default public void responseSetMailboxContent(int n) {
-    }
+    public void responseSetMailboxContent(int var1);
 
-    default public void responseSetPrivacyMode(int n) {
-    }
+    public void responseSetPrivacyMode(int var1);
 
-    default public void responseSetSIMAliases(int n) {
-    }
+    public void responseSetSIMAliases(int var1);
 
-    default public void responseSetMICMuteState(int n) {
-    }
+    public void responseSetMICMuteState(int var1);
 
-    default public void responseSetOptimizationMode(int n, int n2) {
-    }
+    public void responseSetOptimizationMode(int var1, int var2);
 
-    default public void responseSetNADMode(int n, int n2) {
-    }
+    public void responseSetNADMode(int var1, int var2);
 
-    default public void updateMicGainLevel(int n, int n2) {
-    }
+    public void updateMicGainLevel(int var1, int var2);
 
-    default public void updateSIMAliasInformation(SIMAliasInformation sIMAliasInformation, int n) {
-    }
+    public void updateSIMAliasInformation(SIMAliasInformation var1, int var2);
 
-    default public void updateOptimizationMode(int n, int n2) {
-    }
+    public void updateOptimizationMode(int var1, int var2);
 
-    default public void responseSetPhoneReminderSetting(int n) {
-    }
+    public void responseSetPhoneReminderSetting(int var1);
 
-    default public void responseSetPrefixActivated(int n) {
-    }
+    public void responseSetPrefixActivated(int var1);
 
-    default public void responseSetPrefixContent(int n) {
-    }
+    public void responseSetPrefixContent(int var1);
 
-    default public void updatePhoneReminderSetting(boolean bl, int n) {
-    }
+    public void updatePhoneReminderSetting(boolean var1, int var2);
 
-    default public void updatePrefixActivated(boolean bl, int n) {
-    }
+    public void updatePrefixActivated(boolean var1, int var2);
 
-    default public void updatePrefixContent(String string, int n) {
-    }
+    public void updatePrefixContent(String var1, int var2);
 
-    default public void updateWidebandSpeech(boolean bl, int n) {
-    }
+    public void updateWidebandSpeech(boolean var1, int var2);
 
-    default public void responseSetPhoneRingtone(int n) {
-    }
+    public void responseSetPhoneRingtone(int var1);
 
-    default public void updatePhoneRingtone(int n, String string, int n2) {
-    }
+    public void updatePhoneRingtone(int var1, String var2, int var3);
 
-    default public void responseSetFavorites(int n) {
-    }
+    public void responseSetFavorites(int var1);
 
-    default public void updateFavorites(Favorite[] favoriteArray, int n) {
-    }
+    public void updateFavorites(Favorite[] var1, int var2);
 
-    default public void updateSAPUpgradeActive(boolean bl, int n) {
-    }
+    public void updateSAPUpgradeActive(boolean var1, int var2);
 
-    default public void responseSetSIMName(int n) {
-    }
+    public void responseSetSIMName(int var1);
 
-    default public void responseSetESIMActive(int n) {
-    }
+    public void responseSetESIMActive(int var1);
 
-    default public void updateEUICCID(String string, int n) {
-    }
+    public void updateEUICCID(String var1, int var2);
 
-    default public void updateESIMMSISDN(String string, int n) {
-    }
+    public void updateESIMMSISDN(String var1, int var2);
 
-    default public void updateESimActive(boolean bl, int n) {
-    }
+    public void updateESimActive(boolean var1, int var2);
 
-    default public void updateESimB2BMode(boolean bl, int n) {
-    }
+    public void updateESimB2BMode(boolean var1, int var2);
 
-    default public void updateCallstacksIsReverted(boolean bl, int n) {
-    }
+    public void updateCallstacksIsReverted(boolean var1, int var2);
 
-    default public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateLastAnsweredNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateLastDialedNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) {
-    }
+    public void updateMissedNumbers(CallStackEntry[] var1, int var2);
 
-    default public void updateMEDataValidity(int n, int n2) {
-    }
+    public void updateMEDataValidity(int var1, int var2);
 
-    default public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) {
-    }
+    public void updateMissedCallIndicator(MissedCallIndicator var1, int var2);
 
-    default public void updateSpeechRecognitionAvailable(int n, int n2) {
-    }
+    public void updateSpeechRecognitionAvailable(int var1, int var2);
 
-    default public void updateSpeechRecognitionActive(int n, int n2) {
-    }
+    public void updateSpeechRecognitionActive(int var1, int var2);
 
-    default public void updateSpeechRecognitionType(int n, int n2) {
-    }
+    public void updateSpeechRecognitionType(int var1, int var2);
 
-    default public void responseStartSpeechRecognition(int n) {
-    }
+    public void responseStartSpeechRecognition(int var1);
 
-    default public void responseStopSpeechRecognition(int n) {
-    }
+    public void responseStopSpeechRecognition(int var1);
 }
 

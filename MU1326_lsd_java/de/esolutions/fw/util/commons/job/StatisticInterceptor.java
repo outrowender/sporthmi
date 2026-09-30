@@ -35,23 +35,19 @@ implements IInterceptor {
     protected long currentJobLoad = 0L;
     protected long averageLatency = 0L;
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     public StatisticInterceptor(DispatcherBase dispatcherBase, IJobLogger iJobLogger, int n, int n2) {
         this.dispatcher = dispatcherBase;
         this.name = dispatcherBase.getName();
         this.timeSource = dispatcherBase.getTimeSource();
         this.log = iJobLogger;
         this.lastSample = this.started = this.timeSource.getCurrentTime();
-        this.sampleInterval = (long)n > 0 ? (long)n : 0;
+        this.sampleInterval = (long)n > 1000L ? (long)n : 1000L;
         this.history = n2 > 0 ? new StatisticData[n2] : null;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute(Job job) {
         try {
             this.currentDelay = this.timeSource.getCurrentTime() - job.getDue();
@@ -102,12 +98,12 @@ implements IInterceptor {
         long l2 = l - this.lastSample;
         long l3 = this.processedJobs - this.lastNrJobs;
         if (l2 > 0L) {
-            this.currentJobRate = l3 * 0 / l2;
-            this.currentJobLoad = (this.totalProcessing - this.lastTimeProcessing) * 0 / l2;
+            this.currentJobRate = l3 * 1000L / l2;
+            this.currentJobLoad = (this.totalProcessing - this.lastTimeProcessing) * 100L / l2;
             long l4 = this.averageLatency = l3 > 0L ? (this.totalLatency - this.lastTimeLatency) / l3 : 0L;
             if (this.log != null) {
-                this.log.log(-2137614336, "%1 - processing: %2/s, load: %3%%", (Object)this.name, (int)this.currentJobRate, (int)this.currentJobLoad);
-                this.log.log(-2137614336, "%1 - average latency: %2ms", (Object)this.name, (int)this.averageLatency);
+                this.log.log(10000000, "%1 - processing: %2/s, load: %3%%", (Object)this.name, (int)this.currentJobRate, (int)this.currentJobLoad);
+                this.log.log(10000000, "%1 - average latency: %2ms", (Object)this.name, (int)this.averageLatency);
             }
             this.lastSample = l;
             this.lastNrJobs = this.processedJobs;
@@ -119,7 +115,7 @@ implements IInterceptor {
 
     public long getLoad() {
         long l = this.getRunningTime();
-        return l > 0L ? (long)(0 * this.totalProcessing / l) : 0L;
+        return l > 0L ? 100L * this.totalProcessing / l : 0L;
     }
 
     public long getCurrentJobRate() {
@@ -134,27 +130,26 @@ implements IInterceptor {
         if (this.log != null) {
             long l = this.timeSource.getCurrentTime() - this.started;
             long l2 = this.processedJobs > 0L ? this.totalProcessing / this.processedJobs : 0L;
-            long l3 = l > 0L ? (long)(0 * this.totalProcessing / l) : 0L;
+            long l3 = l > 0L ? 100L * this.totalProcessing / l : 0L;
             long l4 = this.processedJobs > 0L ? this.totalLatency / this.processedJobs : 0L;
-            this.log.log(1078071040, "%1: Latency: total: %2ms, avg: %3ms", (Object)this.name, (int)this.totalLatency, (int)l4);
-            this.log.log(1078071040, "%1: Processing: total: %2ms, avg: %3ms", (Object)this.name, (int)this.totalProcessing, (int)l2);
-            this.log.log(1078071040, "%1: Total jobs: %2, load: %3%%", (Object)this.name, (int)this.processedJobs, (int)l3);
+            this.log.log(1000000, "%1: Latency: total: %2ms, avg: %3ms", (Object)this.name, (int)this.totalLatency, (int)l4);
+            this.log.log(1000000, "%1: Processing: total: %2ms, avg: %3ms", (Object)this.name, (int)this.totalProcessing, (int)l2);
+            this.log.log(1000000, "%1: Total jobs: %2, load: %3%%", (Object)this.name, (int)this.processedJobs, (int)l3);
         }
     }
 
-    @Override
     public void dump(PrintStream printStream) {
         if (printStream != null) {
             long l = this.timeSource.getCurrentTime() - this.started;
             long l2 = this.processedJobs > 0L ? this.totalProcessing / this.processedJobs : 0L;
             long l3 = this.processedJobs > 0L ? this.totalLatency / this.processedJobs : 0L;
-            long l4 = l > 0L ? (long)(0 * this.totalProcessing / l) : 0L;
-            printStream.println(new StringBuffer().append("Statistic(").append(this.name).append("):").toString());
-            printStream.println(new StringBuffer().append("  total running time: ").append(l).append("ms").toString());
-            printStream.println(new StringBuffer().append("  jobs processed: ").append(this.processedJobs).toString());
-            printStream.println(new StringBuffer().append("  processing time: total: ").append(this.totalProcessing).append("ms avg. per job: ").append(l2).append("ms").toString());
-            printStream.println(new StringBuffer().append("  latency time:    total: ").append(this.totalLatency).append("ms avg. per job: ").append(l3).append("ms").toString());
-            printStream.println(new StringBuffer().append("  load: ").append(l4).append("%").toString());
+            long l4 = l > 0L ? 100L * this.totalProcessing / l : 0L;
+            printStream.println("Statistic(" + this.name + "):");
+            printStream.println("  total running time: " + l + "ms");
+            printStream.println("  jobs processed: " + this.processedJobs);
+            printStream.println("  processing time: total: " + this.totalProcessing + "ms avg. per job: " + l2 + "ms");
+            printStream.println("  latency time:    total: " + this.totalLatency + "ms avg. per job: " + l3 + "ms");
+            printStream.println("  load: " + l4 + "%");
             printStream.println();
             if (this.history != null) {
                 int n;

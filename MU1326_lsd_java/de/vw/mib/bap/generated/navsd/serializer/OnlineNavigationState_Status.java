@@ -10,18 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class OnlineNavigationState_Status
 implements StatusProperty {
     public int state;
-    private static final int STATE_BITSIZE;
-    public static final int STATE_OFF;
-    public static final int STATE_INIT_LOADING;
-    public static final int STATE_ACTIVE;
-    public static final int STATE_NO_DATA_CONNECTION;
+    private static final int STATE_BITSIZE = 8;
+    public static final int STATE_OFF = 0;
+    public static final int STATE_INIT_LOADING = 1;
+    public static final int STATE_ACTIVE = 2;
+    public static final int STATE_NO_DATA_CONNECTION = 3;
     public int progress;
-    private static final int PROGRESS_BITSIZE;
+    private static final int PROGRESS_BITSIZE = 8;
     public int onlineNavigationSystem;
-    private static final int ONLINE_NAVIGATION_SYSTEM_BITSIZE;
-    public static final int ONLINE_NAVIGATION_SYSTEM_ONLINE_NAVIGATION_NOT_BUILT_IN;
-    public static final int ONLINE_NAVIGATION_SYSTEM_GOOGLE_NAVIGATION;
-    public static final int ONLINE_NAVIGATION_SYSTEM_UNKNOWN_TECHNICAL_SYSTEM_FOR_ONLINE_NAVIGATION;
+    private static final int ONLINE_NAVIGATION_SYSTEM_BITSIZE = 8;
+    public static final int ONLINE_NAVIGATION_SYSTEM_ONLINE_NAVIGATION_NOT_BUILT_IN = 0;
+    public static final int ONLINE_NAVIGATION_SYSTEM_GOOGLE_NAVIGATION = 1;
+    public static final int ONLINE_NAVIGATION_SYSTEM_UNKNOWN_TECHNICAL_SYSTEM_FOR_ONLINE_NAVIGATION = 255;
 
     public OnlineNavigationState_Status() {
         this.internalReset();
@@ -39,12 +39,10 @@ implements StatusProperty {
         this.onlineNavigationSystem = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OnlineNavigationState_Status onlineNavigationState_Status = (OnlineNavigationState_Status)bAPEntity;
         return this.state == onlineNavigationState_Status.state && this.progress == onlineNavigationState_Status.progress && this.onlineNavigationSystem == onlineNavigationState_Status.onlineNavigationSystem;
@@ -53,7 +51,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OnlineNavigationState_Status:");
@@ -102,7 +99,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -110,14 +106,12 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.state);
         bitStream.pushByte((byte)this.progress);
         bitStream.pushByte((byte)this.onlineNavigationSystem);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.state = bitStream.popFrontByte();
         this.progress = bitStream.popFrontByte();
@@ -128,7 +122,6 @@ implements StatusProperty {
         return 48;
     }
 
-    @Override
     public int getFunctionId() {
         return OnlineNavigationState_Status.functionId();
     }

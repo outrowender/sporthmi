@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class Exitview_Status
 implements StatusProperty {
     public int variant;
-    private static final int VARIANT_BITSIZE;
-    public static final int VARIANT_EU;
-    public static final int VARIANT_NAR;
-    public static final int VARIANT_ROW;
-    public static final int VARIANT_ASIA;
-    public static final int VARIANT_UNKNOWN;
+    private static final int VARIANT_BITSIZE = 8;
+    public static final int VARIANT_EU = 0;
+    public static final int VARIANT_NAR = 1;
+    public static final int VARIANT_ROW = 2;
+    public static final int VARIANT_ASIA = 3;
+    public static final int VARIANT_UNKNOWN = 255;
     public int exitview_Id;
-    private static final int EXITVIEW_ID_BITSIZE;
+    private static final int EXITVIEW_ID_BITSIZE = 16;
 
     public Exitview_Status() {
         this.internalReset();
@@ -34,12 +34,10 @@ implements StatusProperty {
         this.exitview_Id = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Exitview_Status exitview_Status = (Exitview_Status)bAPEntity;
         return this.variant == exitview_Status.variant && this.exitview_Id == exitview_Status.exitview_Id;
@@ -48,7 +46,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Exitview_Status:");
@@ -83,20 +80,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.variant);
         bitStream.pushShort((short)this.exitview_Id);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.variant = bitStream.popFrontByte();
         this.exitview_Id = bitStream.popFrontShort();
@@ -106,7 +100,6 @@ implements StatusProperty {
         return 49;
     }
 
-    @Override
     public int getFunctionId() {
         return Exitview_Status.functionId();
     }

@@ -8,40 +8,28 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.PlaceholderMenuListManager;
 
 public interface PlaceholderMenuMultiItem
 extends PlaceholderMenuItem {
-    default public int getMultiItemCount() {
-    }
+    public int getMultiItemCount();
 
-    default public boolean isSelected(int n, int n2) {
-    }
+    public boolean isSelected(int var1, int var2);
 
-    default public boolean isVisible(int n, int n2) {
-    }
+    public boolean isVisible(int var1, int var2);
 
-    default public boolean isEnabled(int n, int n2) {
-    }
+    public boolean isEnabled(int var1, int var2);
 
-    default public int getMainSelection() {
-    }
+    public int getMainSelection();
 
-    default public int getSubSelection() {
-    }
+    public int getSubSelection();
 
-    default public void itemSelected(int n, int n2) {
-    }
+    public void itemSelected(int var1, int var2);
 
-    default public String getLabelText(int n, int n2) {
-    }
+    public String getLabelText(int var1, int var2);
 
-    default public Object getIconData(int n, int n2, int n3) {
-    }
+    public Object getIconData(int var1, int var2, int var3);
 
-    default public void setListManager(PlaceholderMenuListManager placeholderMenuListManager) {
-    }
+    public void setListManager(PlaceholderMenuListManager var1);
 
-    default public boolean hasSubList() {
-    }
+    public boolean hasSubList();
 
-    default public PlaceholderMenuMultiItem getSubMenuMultiItem() {
-    }
+    public PlaceholderMenuMultiItem getSubMenuMultiItem();
 }
 

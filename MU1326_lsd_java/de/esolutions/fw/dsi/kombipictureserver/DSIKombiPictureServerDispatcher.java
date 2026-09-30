@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.kombipictureserver;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombipictureserver.DSIKombiPictureServerReply;
 import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIKombiPictureServerReply {
         super(n, (class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServerListener == null ? (class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServerListener = DSIKombiPictureServerDispatcher.class$("org.dsi.ifc.kombipictureserver.DSIKombiPictureServerListener")) : class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicationCoverArt(long l, int n, int n2) {
+    public void indicationCoverArt(long l, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationStationArt(long l, int n, int n2) {
+    public void indicationStationArt(long l, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationActiveCallPicture(int n) {
+    public void indicationActiveCallPicture(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationActiveCallPictureInstance(int n, int n2) {
+    public void indicationActiveCallPictureInstance(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationDynamicIcon(int n, int n2) {
+    public void indicationDynamicIcon(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationInternalAddressID(long l, int n) {
+    public void indicationInternalAddressID(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,8 +122,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationAdbContactPicture(long l, int n) {
+    public void indicationAdbContactPicture(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -145,8 +138,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationPictureStreamAbilities() {
+    public void indicationPictureStreamAbilities() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,8 +154,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void indicationPictureStream(int n, short s, short s2, int n2, int n3, int n4, int n5, byte[] byArray) {
+    public void indicationPictureStream(int n, short s, short s2, int n2, int n3, int n4, int n5, byte[] byArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -179,8 +170,7 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -196,14 +186,13 @@ implements DSIKombiPictureServerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIKombiPictureServerListener dSIKombiPictureServerListener = (DSIKombiPictureServerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKombiPictureServerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKombiPictureServerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIKombiPictureServerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKombiPictureServerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKombiPictureServerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIKombiPictureServerListener, new Object[]{string, string2});
                     continue;
                 }

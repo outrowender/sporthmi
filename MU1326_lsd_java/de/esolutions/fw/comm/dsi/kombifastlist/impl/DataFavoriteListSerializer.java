@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataFavoriteList;
 
 public class DataFavoriteListSerializer {
-    public static void putOptionalDataFavoriteList(ISerializer iSerializer, DataFavoriteList dataFavoriteList) {
+    public static void putOptionalDataFavoriteList(ISerializer iSerializer, DataFavoriteList dataFavoriteList) throws SerializerException {
         boolean bl = dataFavoriteList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DataFavoriteListSerializer {
         }
     }
 
-    public static void putOptionalDataFavoriteListVarArray(ISerializer iSerializer, DataFavoriteList[] dataFavoriteListArray) {
+    public static void putOptionalDataFavoriteListVarArray(ISerializer iSerializer, DataFavoriteList[] dataFavoriteListArray) throws SerializerException {
         boolean bl = dataFavoriteListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DataFavoriteListSerializer {
         }
     }
 
-    public static DataFavoriteList getOptionalDataFavoriteList(IDeserializer iDeserializer) {
+    public static DataFavoriteList getOptionalDataFavoriteList(IDeserializer iDeserializer) throws SerializerException {
         DataFavoriteList dataFavoriteList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DataFavoriteListSerializer {
         return dataFavoriteList;
     }
 
-    public static DataFavoriteList[] getOptionalDataFavoriteListVarArray(IDeserializer iDeserializer) {
+    public static DataFavoriteList[] getOptionalDataFavoriteListVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataFavoriteList[] dataFavoriteListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

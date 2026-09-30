@@ -3,32 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.startup;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIStartupC {
-    default public void startDomain(int n, int n2) {
-    }
+    public void startDomain(int var1, int var2) throws MethodException;
 
-    default public void hmiCompletelyStarted() {
-    }
+    public void hmiCompletelyStarted() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

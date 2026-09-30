@@ -23,17 +23,14 @@ IWidgetLogChannel {
         this.cache = iTextureCache;
     }
 
-    @Override
     public ITextureCache getCache() {
         return this.cache;
     }
 
-    @Override
     public IWrappedTexture getTexture(Object object) {
         return this.ealManager.getTexture(this, object);
     }
 
-    @Override
     public IWrappedTexture getCachedTexture(Object object) {
         ITextureCache iTextureCache = this.getCache();
         if (iTextureCache == null) {
@@ -42,7 +39,6 @@ IWidgetLogChannel {
         return iTextureCache.getCachedTexture(this, object);
     }
 
-    @Override
     public boolean isTextureCached() {
         ITextureCache iTextureCache = this.getCache();
         if (iTextureCache == null) {
@@ -59,7 +55,7 @@ IWidgetLogChannel {
             return false;
         }
         AbstractTextureDescription abstractTextureDescription = (AbstractTextureDescription)object;
-        if (super.getClass() != super.getClass()) {
+        if (this.getClass() != abstractTextureDescription.getClass()) {
             return false;
         }
         Object object2 = this.getCacheKey();
@@ -78,12 +74,10 @@ IWidgetLogChannel {
         return object.hashCode();
     }
 
-    @Override
     public boolean preventRTLFlip() {
         return true;
     }
 
-    @Override
     public int getDepthsInByte() {
         return 4;
     }

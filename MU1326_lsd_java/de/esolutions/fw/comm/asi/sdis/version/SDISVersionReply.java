@@ -3,25 +3,22 @@
  */
 package de.esolutions.fw.comm.asi.sdis.version;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface SDISVersionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "af682e42-9d3b-11e3-8d05-425861b86ab6";
+    public static final String IPL_COMM_INTERFACE_KEY = "d416a5aa-8b20-525c-a84a-e810898c7325";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.0";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.0";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateSDISInterfaceVersion(String string, boolean bl) {
-    }
+    public void updateSDISInterfaceVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateMMXSWVersion(String string, boolean bl) {
-    }
+    public void updateMMXSWVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateMMXSKUVersion(String string, boolean bl) {
-    }
+    public void updateMMXSKUVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateMUDetailedVersion(String string, boolean bl) {
-    }
+    public void updateMUDetailedVersion(String var1, boolean var2) throws MethodException;
 }
 

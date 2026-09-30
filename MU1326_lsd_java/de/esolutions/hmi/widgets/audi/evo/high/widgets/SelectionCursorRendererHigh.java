@@ -12,20 +12,19 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.SelectionCursorController;
 
 public class SelectionCursorRendererHigh
 extends AbstractCursorRenderer {
-    private static final String EAL_NODE_NAME;
+    private static final String EAL_NODE_NAME = "selectioncursor";
     private int cachedColor;
     private int cachedColorEAL;
     private int backgroundKZB = 0;
-    private static final int BACKGROUND_STANDARD;
-    private static final int BACKGROUND_2CALL;
-    private static final String KZB_PATH_STANDARD_BACKGROUND;
-    private static final String KZB_PATH_2CALL_BACKGROUND;
+    private static final int BACKGROUND_STANDARD = 0;
+    private static final int BACKGROUND_2CALL = 1;
+    private static final String KZB_PATH_STANDARD_BACKGROUND = "Prefabs/c2";
+    private static final String KZB_PATH_2CALL_BACKGROUND = "Prefabs/c2_activeItem";
 
     public SelectionCursorRendererHigh(CursorController cursorController) {
         super(cursorController);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         boolean bl;
         this.node.setPosition(this.controller.getX() + 0, this.controller.getY() + 0, 0.0f);
@@ -60,22 +59,18 @@ extends AbstractCursorRenderer {
         return this.cachedColorEAL;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return this.backgroundKZB == 1 ? "Prefabs/c2_activeItem" : "Prefabs/c2";
+        return this.backgroundKZB == 1 ? KZB_PATH_2CALL_BACKGROUND : KZB_PATH_STANDARD_BACKGROUND;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "selectioncursor";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

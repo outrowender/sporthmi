@@ -10,7 +10,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public class Parallel
 extends TransitionTarget {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2L;
     private Set children = new LinkedHashSet();
 
     public final Set getStates() {

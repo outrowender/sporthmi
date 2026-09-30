@@ -6,19 +6,22 @@ package de.esolutions.fw.comm.asi.imageserver.impl;
 import de.esolutions.fw.comm.asi.imageserver.Image;
 import de.esolutions.fw.comm.asi.imageserver.ImageInfo;
 import de.esolutions.fw.comm.asi.imageserver.ImageServerReply;
-import de.esolutions.fw.comm.asi.imageserver.impl.ImageServerReplyProxy$1;
-import de.esolutions.fw.comm.asi.imageserver.impl.ImageServerReplyProxy$2;
-import de.esolutions.fw.comm.asi.imageserver.impl.ImageServerReplyProxy$3;
+import de.esolutions.fw.comm.asi.imageserver.impl.ImageInfoSerializer;
+import de.esolutions.fw.comm.asi.imageserver.impl.ImageSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ImageServerReplyProxy
 implements ImageServerReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.imageserver.ImageServer");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ImageServerReplyProxy() {
@@ -26,27 +29,43 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void responseImage(String string, Image image, int n) {
-        ImageServerReplyProxy$1 imageServerReplyProxy$1 = new ImageServerReplyProxy$1(this, string, image, n);
-        this.proxy.remoteCallMethod((short)24, imageServerReplyProxy$1);
+    public void responseImage(final String string, final Image image, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                ImageSerializer.putOptionalImage(iSerializer, image);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)24, iSerializable);
     }
 
-    @Override
-    public void responseImageInformation(String string, ImageInfo imageInfo, int n) {
-        ImageServerReplyProxy$2 imageServerReplyProxy$2 = new ImageServerReplyProxy$2(this, string, imageInfo, n);
-        this.proxy.remoteCallMethod((short)25, imageServerReplyProxy$2);
+    public void responseImageInformation(final String string, final ImageInfo imageInfo, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                ImageInfoSerializer.putOptionalImageInfo(iSerializer, imageInfo);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ImageServerReplyProxy$3 imageServerReplyProxy$3 = new ImageServerReplyProxy$3(this, string, bl);
-        this.proxy.remoteCallMethod((short)23, imageServerReplyProxy$3);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)23, iSerializable);
     }
 }
 

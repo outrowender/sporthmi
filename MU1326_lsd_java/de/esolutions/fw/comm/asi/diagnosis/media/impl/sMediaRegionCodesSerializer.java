@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sMediaRegionCodes;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sMediaRegionCodesSerializer {
-    public static void putOptionalsMediaRegionCodes(ISerializer iSerializer, sMediaRegionCodes sMediaRegionCodes2) {
+    public static void putOptionalsMediaRegionCodes(ISerializer iSerializer, sMediaRegionCodes sMediaRegionCodes2) throws SerializerException {
         boolean bl = sMediaRegionCodes2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sMediaRegionCodesSerializer {
         }
     }
 
-    public static void putOptionalsMediaRegionCodesVarArray(ISerializer iSerializer, sMediaRegionCodes[] sMediaRegionCodesArray) {
+    public static void putOptionalsMediaRegionCodesVarArray(ISerializer iSerializer, sMediaRegionCodes[] sMediaRegionCodesArray) throws SerializerException {
         boolean bl = sMediaRegionCodesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sMediaRegionCodesSerializer {
         }
     }
 
-    public static sMediaRegionCodes getOptionalsMediaRegionCodes(IDeserializer iDeserializer) {
+    public static sMediaRegionCodes getOptionalsMediaRegionCodes(IDeserializer iDeserializer) throws SerializerException {
         sMediaRegionCodes sMediaRegionCodes2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class sMediaRegionCodesSerializer {
         return sMediaRegionCodes2;
     }
 
-    public static sMediaRegionCodes[] getOptionalsMediaRegionCodesVarArray(IDeserializer iDeserializer) {
+    public static sMediaRegionCodes[] getOptionalsMediaRegionCodesVarArray(IDeserializer iDeserializer) throws SerializerException {
         sMediaRegionCodes[] sMediaRegionCodesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

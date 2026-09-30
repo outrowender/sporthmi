@@ -16,11 +16,11 @@ implements StatusProperty {
     public RemoteProcessCommands_SupportedCommands1 supportedCommands1 = new RemoteProcessCommands_SupportedCommands1();
     public RemoteProcessCommands_SupportedCommands2 supportedCommands2 = new RemoteProcessCommands_SupportedCommands2();
     public int supportedCommands3;
-    public static final int SUPPORTED_COMMANDS3_MIN;
+    public static final int SUPPORTED_COMMANDS3_MIN = 0;
     public int supportedCommands4;
-    public static final int SUPPORTED_COMMANDS4_MIN;
+    public static final int SUPPORTED_COMMANDS4_MIN = 0;
     public int supportedCommands5;
-    public static final int SUPPORTED_COMMANDS5_MIN;
+    public static final int SUPPORTED_COMMANDS5_MIN = 0;
 
     public RemoteProcessCommands_Status() {
         this.internalReset();
@@ -38,7 +38,6 @@ implements StatusProperty {
         this.supportedCommands5 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.supportedCommands0.reset();
@@ -46,7 +45,6 @@ implements StatusProperty {
         this.supportedCommands2.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RemoteProcessCommands_Status remoteProcessCommands_Status = (RemoteProcessCommands_Status)bAPEntity;
         return this.supportedCommands0.equalTo(remoteProcessCommands_Status.supportedCommands0) && this.supportedCommands1.equalTo(remoteProcessCommands_Status.supportedCommands1) && this.supportedCommands2.equalTo(remoteProcessCommands_Status.supportedCommands2) && this.supportedCommands3 == remoteProcessCommands_Status.supportedCommands3 && this.supportedCommands4 == remoteProcessCommands_Status.supportedCommands4 && this.supportedCommands5 == remoteProcessCommands_Status.supportedCommands5;
@@ -55,25 +53,22 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RemoteProcessCommands_Status");
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands0:").append(this.supportedCommands0.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands1:").append(this.supportedCommands1.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands2:").append(this.supportedCommands2.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands3:").append(this.supportedCommands3).toString());
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands4:").append(this.supportedCommands4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - supportedCommands5:").append(this.supportedCommands5).toString());
+        stringBuffer.append("\n - supportedCommands0:" + this.supportedCommands0.toString());
+        stringBuffer.append("\n - supportedCommands1:" + this.supportedCommands1.toString());
+        stringBuffer.append("\n - supportedCommands2:" + this.supportedCommands2.toString());
+        stringBuffer.append("\n - supportedCommands3:" + this.supportedCommands3);
+        stringBuffer.append("\n - supportedCommands4:" + this.supportedCommands4);
+        stringBuffer.append("\n - supportedCommands5:" + this.supportedCommands5);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.supportedCommands0.serialize(bitStream);
         this.supportedCommands1.serialize(bitStream);
@@ -83,7 +78,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.supportedCommands5);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.supportedCommands0.deserialize(bitStream);
         this.supportedCommands1.deserialize(bitStream);
@@ -97,7 +91,6 @@ implements StatusProperty {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return RemoteProcessCommands_Status.functionId();
     }

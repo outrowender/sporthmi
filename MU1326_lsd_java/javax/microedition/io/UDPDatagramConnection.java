@@ -3,14 +3,13 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.DatagramConnection;
 
 public interface UDPDatagramConnection
 extends DatagramConnection {
-    default public String getLocalAddress() {
-    }
+    public String getLocalAddress() throws IOException;
 
-    default public int getLocalPort() {
-    }
+    public int getLocalPort() throws IOException;
 }
 

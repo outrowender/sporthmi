@@ -18,7 +18,7 @@ public class ClientContext {
         this.transportException = transportException;
     }
 
-    public synchronized void throwPendingException() {
+    public synchronized void throwPendingException() throws IOException, TransportException {
         IOException iOException = null;
         if (this.ioException != null) {
             iOException = this.ioException;

@@ -7,12 +7,12 @@ import java.io.Serializable;
 
 public class TriggerEvent
 implements Serializable {
-    private static final long serialVersionUID;
-    public static final int CALL_EVENT;
-    public static final int CHANGE_EVENT;
-    public static final int SIGNAL_EVENT;
-    public static final int TIME_EVENT;
-    public static final int ERROR_EVENT;
+    private static final long serialVersionUID = 1L;
+    public static final int CALL_EVENT = 1;
+    public static final int CHANGE_EVENT = 2;
+    public static final int SIGNAL_EVENT = 3;
+    public static final int TIME_EVENT = 4;
+    public static final int ERROR_EVENT = 5;
     private final String name;
     private final int type;
     private final Object payload;

@@ -3,43 +3,32 @@
  */
 package de.esolutions.fw.comm.dsi.calendar;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICalendarExchangeC {
-    default public void parseICal(String string) {
-    }
+    public void parseICal(String var1) throws MethodException;
 
-    default public void parseICalDirectory(String string) {
-    }
+    public void parseICalDirectory(String var1) throws MethodException;
 
-    default public void exportICal(int n, int n2, long[] lArray, int n3) {
-    }
+    public void exportICal(int var1, int var2, long[] var3, int var4) throws MethodException;
 
-    default public void importICal(ResourceLocator[] resourceLocatorArray) {
-    }
+    public void importICal(ResourceLocator[] var1) throws MethodException;
 
-    default public void abortExport() {
-    }
+    public void abortExport() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

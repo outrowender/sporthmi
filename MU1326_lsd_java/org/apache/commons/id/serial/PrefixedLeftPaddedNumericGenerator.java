@@ -10,7 +10,7 @@ extends AbstractStringIdentifierGenerator {
     private final String prefix;
     private boolean wrap = true;
     private char[] count = null;
-    private static final char NINE_CHAR;
+    private static final char NINE_CHAR = '9';
 
     public PrefixedLeftPaddedNumericGenerator(String string, boolean bl, int n) {
         if (string == null) {
@@ -35,12 +35,10 @@ extends AbstractStringIdentifierGenerator {
         return this.prefix;
     }
 
-    @Override
     public long maxLength() {
         return this.count.length + this.prefix.length();
     }
 
-    @Override
     public long minLength() {
         return this.count.length + this.prefix.length();
     }
@@ -57,7 +55,6 @@ extends AbstractStringIdentifierGenerator {
         this.wrap = bl;
     }
 
-    @Override
     public String nextStringIdentifier() {
         block3: for (int i2 = this.count.length - 1; i2 >= 0; --i2) {
             switch (this.count[i2]) {

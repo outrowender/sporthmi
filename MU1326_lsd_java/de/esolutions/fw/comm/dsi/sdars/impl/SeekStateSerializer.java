@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SeekState;
 
 public class SeekStateSerializer {
-    public static void putOptionalSeekState(ISerializer iSerializer, SeekState seekState) {
+    public static void putOptionalSeekState(ISerializer iSerializer, SeekState seekState) throws SerializerException {
         boolean bl = seekState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SeekStateSerializer {
         }
     }
 
-    public static void putOptionalSeekStateVarArray(ISerializer iSerializer, SeekState[] seekStateArray) {
+    public static void putOptionalSeekStateVarArray(ISerializer iSerializer, SeekState[] seekStateArray) throws SerializerException {
         boolean bl = seekStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SeekStateSerializer {
         }
     }
 
-    public static SeekState getOptionalSeekState(IDeserializer iDeserializer) {
+    public static SeekState getOptionalSeekState(IDeserializer iDeserializer) throws SerializerException {
         SeekState seekState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SeekStateSerializer {
         return seekState;
     }
 
-    public static SeekState[] getOptionalSeekStateVarArray(IDeserializer iDeserializer) {
+    public static SeekState[] getOptionalSeekStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeekState[] seekStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

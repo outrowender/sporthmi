@@ -16,7 +16,6 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DText;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.high.RedrawContextHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.AbstractKanziTemplateRenderer;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.MultilineTextFieldRendererHigh$CharWidthValue;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.multiline.TextNodeManager;
 import de.esolutions.hmi.widgets.audi.evo.widgets.IMultilineTextFiledRenderer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController;
@@ -30,23 +29,23 @@ import java.util.HashMap;
 public class MultilineTextFieldRendererHigh
 extends AbstractKanziTemplateRenderer
 implements IMultilineTextFiledRenderer {
-    private static final int PROPER_CLIPPING_MODE;
-    public static final int WORD_SELECTED_COLOR;
-    public static final int WORD_NOT_SELECTED_COLOR;
-    public static final int WORD_CURSOR_COLOR;
-    public static final int CHAR_CURSOR_COLOR;
-    public static final int IDX_COLOR_WORD_SELECTED;
-    public static final int IDX_COLOR_WORD_NOT_SELECTED;
-    public static final int SPACE_FROM_RIGHT_BORDER;
-    public static final int CHAR_CURSOR_WIDTH;
+    private static final int PROPER_CLIPPING_MODE = 17;
+    public static final int WORD_SELECTED_COLOR = -1;
+    public static final int WORD_NOT_SELECTED_COLOR = -7368817;
+    public static final int WORD_CURSOR_COLOR = -10180096;
+    public static final int CHAR_CURSOR_COLOR = -1;
+    public static final int IDX_COLOR_WORD_SELECTED = 0;
+    public static final int IDX_COLOR_WORD_NOT_SELECTED = 1;
+    public static final int SPACE_FROM_RIGHT_BORDER = 30;
+    public static final int CHAR_CURSOR_WIDTH = 2;
     private int posYMagicOffset = 1;
     private int heightMagicOffset = this.posYMagicOffset * 2;
     private int posXMagicOffset = 1;
     private int widthMagicOffset = this.posXMagicOffset * 2;
     private int cursorCharModeStringDisplacement = 5;
     private int cursorCharAdditionalHeightOverflow = 7;
-    public static final int[] CURSOR_HEIGHT_PADDING;
-    private static int layoutCursorHeightPadding;
+    public static final int[] CURSOR_HEIGHT_PADDING = new int[]{3, 3};
+    private static int layoutCursorHeightPadding = CURSOR_HEIGHT_PADDING[0];
     private IWrappedNode3D rootNode;
     private IWrappedNode3D clipNode;
     private IWrappedNode3DQuickDraw cursorNodeChar;
@@ -75,9 +74,8 @@ implements IMultilineTextFiledRenderer {
     private HashMap charWidthMap = null;
     private int lineStartXOffset = 0;
     private IWrappedNode3DText textNodeDescriptiveText;
-    private static final int DESCRIPTIVE_TEXT_OFFSET;
+    private static final int DESCRIPTIVE_TEXT_OFFSET = 25;
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         layoutCursorHeightPadding = CURSOR_HEIGHT_PADDING[MultilineTextFieldController.layoutConfigIDX()];
@@ -98,12 +96,10 @@ implements IMultilineTextFiledRenderer {
         this.controller = multilineTextFieldController;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -125,7 +121,6 @@ implements IMultilineTextFiledRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         if (this.ealManager != null) {
             if (this.textNodeManager != null) {
@@ -149,17 +144,14 @@ implements IMultilineTextFiledRenderer {
         this.textNodeDescriptiveText = null;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/generic_inputField";
     }
 
-    @Override
     protected String getEALNodeName() {
-        return new StringBuffer().append("MultiLineTextField").append(this.hashCode()).toString();
+        return "MultiLineTextField" + this.hashCode();
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         if (!(this.rootNode != null && this.rootNode.isValid() && this.node != null && this.node.isValid() && this.clipNode != null && this.clipNode.isValid())) {
             return;
@@ -190,38 +182,32 @@ implements IMultilineTextFiledRenderer {
         this.setProperty("if_spellerActive", this.controller.currentAnim.spellerOpeningProgress);
     }
 
-    @Override
     public int getLineHeight() {
         return this.lineHeight;
     }
 
-    @Override
     public int getLineOffsetY() {
         return this.fontAscent - 1;
     }
 
-    @Override
     public int getYTranslation() {
         return 0;
     }
 
-    @Override
     public int getCharWidth(char c2) {
         Character c3 = new Character(c2);
-        MultilineTextFieldRendererHigh$CharWidthValue multilineTextFieldRendererHigh$CharWidthValue = (MultilineTextFieldRendererHigh$CharWidthValue)this.charWidthMap.get(c3);
-        if (multilineTextFieldRendererHigh$CharWidthValue == null) {
-            multilineTextFieldRendererHigh$CharWidthValue = new MultilineTextFieldRendererHigh$CharWidthValue(this, (byte)this.ealManager.getTextWidth(String.valueOf(c2), this.font));
-            this.charWidthMap.put(c3, multilineTextFieldRendererHigh$CharWidthValue);
+        CharWidthValue charWidthValue = (CharWidthValue)this.charWidthMap.get(c3);
+        if (charWidthValue == null) {
+            charWidthValue = new CharWidthValue((byte)this.ealManager.getTextWidth(String.valueOf(c2), this.font));
+            this.charWidthMap.put(c3, charWidthValue);
         }
-        return multilineTextFieldRendererHigh$CharWidthValue.width;
+        return charWidthValue.width;
     }
 
-    @Override
     public int getStringW(String string) {
         return this.ealManager.getTextWidth(string, this.font);
     }
 
-    @Override
     public float getAbsLineIdxPos(int n) {
         ViewPort viewPort = this.controller.getViewPort();
         return (float)this.getLineOffsetY() + viewPort.y + (float)(n * this.getLineHeight()) - viewPort.vpY;
@@ -232,26 +218,26 @@ implements IMultilineTextFiledRenderer {
         int[] nArray2;
         if (this.colors == null) {
             int[] nArray3 = new int[4];
-            nArray3[0] = EALManager.createColorCode(-1886416897);
+            nArray3[0] = EALManager.createColorCode(-7368817);
             nArray3[1] = EALManager.createColorCode(-1);
             nArray3[2] = EALManager.createColorCode(-1);
             nArray2 = nArray3;
-            nArray3[3] = EALManager.createColorCode(-1886416897);
+            nArray3[3] = EALManager.createColorCode(-7368817);
         } else {
             nArray2 = this.colors = this.colors;
         }
         if (this.colors2 == null) {
             int[] nArray4 = new int[3];
-            nArray4[0] = EALManager.createColorCode(-1886416897);
+            nArray4[0] = EALManager.createColorCode(-7368817);
             nArray4[1] = EALManager.createColorCode(-1);
             nArray = nArray4;
-            nArray4[2] = EALManager.createColorCode(-1886416897);
+            nArray4[2] = EALManager.createColorCode(-7368817);
         } else {
             nArray = this.colors2;
         }
         this.colors2 = nArray;
         this.charCursorColor = EALManager.createColorCode(-1);
-        this.wordCursorColor = EALManager.createColorCode(11166975);
+        this.wordCursorColor = EALManager.createColorCode(-10180096);
     }
 
     private void deinitColors() {
@@ -539,7 +525,7 @@ implements IMultilineTextFiledRenderer {
             iWrappedNode3D.setOpacity(1.0f);
         }
         if (iWrappedNode3D != null && iWrappedNode3D.isValid()) {
-            iWrappedNode3D.setPosition(n + (bl2 ? -2 : 0), MLUtils.specialRound(f2 - (float)n3 - 49216), 1.0f);
+            iWrappedNode3D.setPosition(n + (bl2 ? -2 : 0), MLUtils.specialRound(f2 - (float)n3 - 6.0f), 1.0f);
             iWrappedNode3D.setSize(n2, n3);
             iWrappedNode3D.setVisible(true);
             this.propertyCache.setProperty(iWrappedNode3D, "if_width", (float)(n2 + (bl2 ? 4 : 0)));
@@ -571,7 +557,6 @@ implements IMultilineTextFiledRenderer {
         }
     }
 
-    @Override
     protected int getKzbConstant() {
         return 7;
     }
@@ -588,7 +573,7 @@ implements IMultilineTextFiledRenderer {
                 this.textNodeDescriptiveText = this.getEALManager().createText3D(this.node, EALManager.createNodeName("touchTextNodeDescriptive", this), string, redrawContextHigh.getFont(0));
             }
             if (this.controller.isDisableInput()) {
-                this.textNodeDescriptiveText.setOpacity(63);
+                this.textNodeDescriptiveText.setOpacity(0.5f);
             }
             int n3 = -1;
             int n4 = EALManager.createColorCode(n3);
@@ -602,14 +587,16 @@ implements IMultilineTextFiledRenderer {
         return 0;
     }
 
-    @Override
     public int getTextLength(String string) {
         return this.getEALManager().getTextWidth(string, this.font);
     }
 
-    static {
-        CURSOR_HEIGHT_PADDING = new int[]{3, 3};
-        layoutCursorHeightPadding = CURSOR_HEIGHT_PADDING[0];
+    private class CharWidthValue {
+        public byte width;
+
+        public CharWidthValue(byte by) {
+            this.width = by;
+        }
     }
 }
 

@@ -3,41 +3,31 @@
  */
 package de.esolutions.fw.comm.dsi.tmc;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSITmcOnRouteC {
-    default public void getTmcMessage(int n) {
-    }
+    public void getTmcMessage(int var1) throws MethodException;
 
-    default public void setTmcWarningMode(int n) {
-    }
+    public void setTmcWarningMode(int var1) throws MethodException;
 
-    default public void blockTMCMessages(long[] lArray, boolean bl) {
-    }
+    public void blockTMCMessages(long[] var1, boolean var2) throws MethodException;
 
-    default public void unblockTMCMessages(long[] lArray) {
-    }
+    public void unblockTMCMessages(long[] var1) throws MethodException;
 
-    default public void unblockAllTMCMessages() {
-    }
+    public void unblockAllTMCMessages() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

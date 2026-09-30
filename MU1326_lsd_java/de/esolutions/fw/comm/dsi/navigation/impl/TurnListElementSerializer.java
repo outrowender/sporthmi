@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.navigation.impl.NavLaneGuidanceDataSerializer;
 import de.esolutions.fw.comm.dsi.navigation.impl.PriceInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.AdditionalTurnListIcon;
 import org.dsi.ifc.navigation.ManeuverElement;
 import org.dsi.ifc.navigation.NavLaneGuidanceData;
@@ -16,7 +17,7 @@ import org.dsi.ifc.navigation.PriceInfo;
 import org.dsi.ifc.navigation.TurnListElement;
 
 public class TurnListElementSerializer {
-    public static void putOptionalTurnListElement(ISerializer iSerializer, TurnListElement turnListElement) {
+    public static void putOptionalTurnListElement(ISerializer iSerializer, TurnListElement turnListElement) throws SerializerException {
         boolean bl = turnListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class TurnListElementSerializer {
         }
     }
 
-    public static void putOptionalTurnListElementVarArray(ISerializer iSerializer, TurnListElement[] turnListElementArray) {
+    public static void putOptionalTurnListElementVarArray(ISerializer iSerializer, TurnListElement[] turnListElementArray) throws SerializerException {
         boolean bl = turnListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class TurnListElementSerializer {
         }
     }
 
-    public static TurnListElement getOptionalTurnListElement(IDeserializer iDeserializer) {
+    public static TurnListElement getOptionalTurnListElement(IDeserializer iDeserializer) throws SerializerException {
         TurnListElement turnListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -119,7 +120,7 @@ public class TurnListElementSerializer {
         return turnListElement;
     }
 
-    public static TurnListElement[] getOptionalTurnListElementVarArray(IDeserializer iDeserializer) {
+    public static TurnListElement[] getOptionalTurnListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         TurnListElement[] turnListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

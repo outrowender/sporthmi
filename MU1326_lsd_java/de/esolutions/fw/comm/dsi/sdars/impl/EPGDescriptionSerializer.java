@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.EPGDescription;
 
 public class EPGDescriptionSerializer {
-    public static void putOptionalEPGDescription(ISerializer iSerializer, EPGDescription ePGDescription) {
+    public static void putOptionalEPGDescription(ISerializer iSerializer, EPGDescription ePGDescription) throws SerializerException {
         boolean bl = ePGDescription == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class EPGDescriptionSerializer {
         }
     }
 
-    public static void putOptionalEPGDescriptionVarArray(ISerializer iSerializer, EPGDescription[] ePGDescriptionArray) {
+    public static void putOptionalEPGDescriptionVarArray(ISerializer iSerializer, EPGDescription[] ePGDescriptionArray) throws SerializerException {
         boolean bl = ePGDescriptionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class EPGDescriptionSerializer {
         }
     }
 
-    public static EPGDescription getOptionalEPGDescription(IDeserializer iDeserializer) {
+    public static EPGDescription getOptionalEPGDescription(IDeserializer iDeserializer) throws SerializerException {
         EPGDescription ePGDescription = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class EPGDescriptionSerializer {
         return ePGDescription;
     }
 
-    public static EPGDescription[] getOptionalEPGDescriptionVarArray(IDeserializer iDeserializer) {
+    public static EPGDescription[] getOptionalEPGDescriptionVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGDescription[] ePGDescriptionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

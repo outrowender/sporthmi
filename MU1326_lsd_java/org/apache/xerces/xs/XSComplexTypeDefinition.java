@@ -11,39 +11,29 @@ import org.apache.xerces.xs.XSWildcard;
 
 public interface XSComplexTypeDefinition
 extends XSTypeDefinition {
-    public static final short CONTENTTYPE_EMPTY;
-    public static final short CONTENTTYPE_SIMPLE;
-    public static final short CONTENTTYPE_ELEMENT;
-    public static final short CONTENTTYPE_MIXED;
+    public static final short CONTENTTYPE_EMPTY = 0;
+    public static final short CONTENTTYPE_SIMPLE = 1;
+    public static final short CONTENTTYPE_ELEMENT = 2;
+    public static final short CONTENTTYPE_MIXED = 3;
 
-    default public short getDerivationMethod() {
-    }
+    public short getDerivationMethod();
 
-    default public boolean getAbstract() {
-    }
+    public boolean getAbstract();
 
-    default public XSObjectList getAttributeUses() {
-    }
+    public XSObjectList getAttributeUses();
 
-    default public XSWildcard getAttributeWildcard() {
-    }
+    public XSWildcard getAttributeWildcard();
 
-    default public short getContentType() {
-    }
+    public short getContentType();
 
-    default public XSSimpleTypeDefinition getSimpleType() {
-    }
+    public XSSimpleTypeDefinition getSimpleType();
 
-    default public XSParticle getParticle() {
-    }
+    public XSParticle getParticle();
 
-    default public boolean isProhibitedSubstitution(short s) {
-    }
+    public boolean isProhibitedSubstitution(short var1);
 
-    default public short getProhibitedSubstitutions() {
-    }
+    public short getProhibitedSubstitutions();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

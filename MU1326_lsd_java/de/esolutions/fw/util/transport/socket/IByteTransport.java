@@ -4,36 +4,28 @@
 package de.esolutions.fw.util.transport.socket;
 
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
 
 public interface IByteTransport {
-    default public void send(byte[] byArray, int n, Object object) {
-    }
+    public void send(byte[] var1, int var2, Object var3) throws IOException;
 
-    default public int recv(byte[] byArray, Object object) {
-    }
+    public int recv(byte[] var1, Object var2) throws IOException, TransportException;
 
-    default public void open() {
-    }
+    public void open() throws IOException;
 
-    default public void close(boolean bl) {
-    }
+    public void close(boolean var1) throws IOException;
 
-    default public int getSendBufferSize() {
-    }
+    public int getSendBufferSize();
 
-    default public int getReceiveBufferSize() {
-    }
+    public int getReceiveBufferSize();
 
-    default public boolean isReliable() {
-    }
+    public boolean isReliable();
 
-    default public boolean detectsPeerReset() {
-    }
+    public boolean detectsPeerReset();
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public void setDebug(ITransportDebug iTransportDebug) {
-    }
+    public void setDebug(ITransportDebug var1);
 }
 

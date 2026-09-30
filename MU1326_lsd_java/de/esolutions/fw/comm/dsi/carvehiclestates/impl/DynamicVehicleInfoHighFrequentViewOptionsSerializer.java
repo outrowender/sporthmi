@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class DynamicVehicleInfoHighFrequentViewOptionsSerializer {
-    public static void putOptionalDynamicVehicleInfoHighFrequentViewOptions(ISerializer iSerializer, DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions) {
+    public static void putOptionalDynamicVehicleInfoHighFrequentViewOptions(ISerializer iSerializer, DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions) throws SerializerException {
         boolean bl = dynamicVehicleInfoHighFrequentViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -73,7 +74,7 @@ public class DynamicVehicleInfoHighFrequentViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalDynamicVehicleInfoHighFrequentViewOptionsVarArray(ISerializer iSerializer, DynamicVehicleInfoHighFrequentViewOptions[] dynamicVehicleInfoHighFrequentViewOptionsArray) {
+    public static void putOptionalDynamicVehicleInfoHighFrequentViewOptionsVarArray(ISerializer iSerializer, DynamicVehicleInfoHighFrequentViewOptions[] dynamicVehicleInfoHighFrequentViewOptionsArray) throws SerializerException {
         boolean bl = dynamicVehicleInfoHighFrequentViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -84,7 +85,7 @@ public class DynamicVehicleInfoHighFrequentViewOptionsSerializer {
         }
     }
 
-    public static DynamicVehicleInfoHighFrequentViewOptions getOptionalDynamicVehicleInfoHighFrequentViewOptions(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoHighFrequentViewOptions getOptionalDynamicVehicleInfoHighFrequentViewOptions(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -149,7 +150,7 @@ public class DynamicVehicleInfoHighFrequentViewOptionsSerializer {
         return dynamicVehicleInfoHighFrequentViewOptions;
     }
 
-    public static DynamicVehicleInfoHighFrequentViewOptions[] getOptionalDynamicVehicleInfoHighFrequentViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoHighFrequentViewOptions[] getOptionalDynamicVehicleInfoHighFrequentViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoHighFrequentViewOptions[] dynamicVehicleInfoHighFrequentViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

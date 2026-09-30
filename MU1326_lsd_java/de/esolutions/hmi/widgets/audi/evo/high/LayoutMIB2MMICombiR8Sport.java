@@ -8,10 +8,9 @@ import de.esolutions.hmi.widgets.audi.evo.high.LayoutMIB2MMICombiTT;
 
 public class LayoutMIB2MMICombiR8Sport
 extends LayoutMIB2MMICombiTT {
-    private static final int DISPLAYABLE_BROWSER_ID;
-    private static final int DISPLAYABLE_BROWSER_OFFSET;
+    private static final int DISPLAYABLE_BROWSER_ID = 18;
+    private static final int DISPLAYABLE_BROWSER_OFFSET = -16;
 
-    @Override
     public int getIntegerConstant(int n) {
         switch (n) {
             case 80: {
@@ -123,7 +122,6 @@ extends LayoutMIB2MMICombiTT {
         return super.getIntegerConstant(n);
     }
 
-    @Override
     public int[] getDisplayablePosition(int n) {
         if (n == 18) {
             return new int[]{0, -16};

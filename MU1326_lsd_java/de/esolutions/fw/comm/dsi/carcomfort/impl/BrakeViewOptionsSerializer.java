@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.BrakeConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.BrakeConfiguration;
 import org.dsi.ifc.carcomfort.BrakeViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class BrakeViewOptionsSerializer {
-    public static void putOptionalBrakeViewOptions(ISerializer iSerializer, BrakeViewOptions brakeViewOptions) {
+    public static void putOptionalBrakeViewOptions(ISerializer iSerializer, BrakeViewOptions brakeViewOptions) throws SerializerException {
         boolean bl = brakeViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class BrakeViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalBrakeViewOptionsVarArray(ISerializer iSerializer, BrakeViewOptions[] brakeViewOptionsArray) {
+    public static void putOptionalBrakeViewOptionsVarArray(ISerializer iSerializer, BrakeViewOptions[] brakeViewOptionsArray) throws SerializerException {
         boolean bl = brakeViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class BrakeViewOptionsSerializer {
         }
     }
 
-    public static BrakeViewOptions getOptionalBrakeViewOptions(IDeserializer iDeserializer) {
+    public static BrakeViewOptions getOptionalBrakeViewOptions(IDeserializer iDeserializer) throws SerializerException {
         BrakeViewOptions brakeViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class BrakeViewOptionsSerializer {
         return brakeViewOptions;
     }
 
-    public static BrakeViewOptions[] getOptionalBrakeViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static BrakeViewOptions[] getOptionalBrakeViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BrakeViewOptions[] brakeViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

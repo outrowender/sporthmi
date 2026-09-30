@@ -11,46 +11,41 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListTollGateInfoCont
 
 public class MixedListTollGateInfoRenderer
 extends AbstractKanziTemplateRenderer {
-    private static final String EAL_NODE_NAME;
-    private static final String PREFAB_NAME;
-    private static final String PROPERTY_LANE_COUNT;
-    private static final String[] PROPERTY_ATLAS_INDEX;
+    private static final String EAL_NODE_NAME = "mixedListTollGateInfo";
+    private static final String PREFAB_NAME = "Prefabs/ETC_AssistBox_prefab";
+    private static final String PROPERTY_LANE_COUNT = "etc_laneCount";
+    private static final String[] PROPERTY_ATLAS_INDEX = MixedListTollGateInfoRenderer.initAtlasIndexPropertyNames();
     private MixedListTollGateInfoController controller;
 
     public MixedListTollGateInfoRenderer(MixedListTollGateInfoController mixedListTollGateInfoController) {
         this.controller = mixedListTollGateInfoController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
         this.node.setPosition(n, n2, 0.0f);
         this.node.setVisible(this.controller.shouldRender());
-        this.setProperty("etc_laneCount", this.controller.getLaneCount());
-        mixedListItemLogCh.log(-2137614336, "MixedListLaneGuidanceRenderer#applyProperties laneCountr = %1", (long)this.controller.getLaneCount());
+        this.setProperty(PROPERTY_LANE_COUNT, this.controller.getLaneCount());
+        mixedListItemLogCh.log(10000000, "MixedListLaneGuidanceRenderer#applyProperties laneCountr = %1", (long)this.controller.getLaneCount());
         int[] nArray = this.controller.getAtlasIndex();
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.setProperty(PROPERTY_ATLAS_INDEX[i2], nArray[i2]);
         }
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/ETC_AssistBox_prefab";
+        return PREFAB_NAME;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "mixedListTollGateInfo";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 20;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -65,10 +60,6 @@ extends AbstractKanziTemplateRenderer {
             stringArray[i2] = buffer.toString();
         }
         return stringArray;
-    }
-
-    static {
-        PROPERTY_ATLAS_INDEX = MixedListTollGateInfoRenderer.initAtlasIndexPropertyNames();
     }
 }
 

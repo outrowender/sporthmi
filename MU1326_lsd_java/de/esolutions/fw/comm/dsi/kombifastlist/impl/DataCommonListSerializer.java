@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataCommonList;
 
 public class DataCommonListSerializer {
-    public static void putOptionalDataCommonList(ISerializer iSerializer, DataCommonList dataCommonList) {
+    public static void putOptionalDataCommonList(ISerializer iSerializer, DataCommonList dataCommonList) throws SerializerException {
         boolean bl = dataCommonList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class DataCommonListSerializer {
         }
     }
 
-    public static void putOptionalDataCommonListVarArray(ISerializer iSerializer, DataCommonList[] dataCommonListArray) {
+    public static void putOptionalDataCommonListVarArray(ISerializer iSerializer, DataCommonList[] dataCommonListArray) throws SerializerException {
         boolean bl = dataCommonListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class DataCommonListSerializer {
         }
     }
 
-    public static DataCommonList getOptionalDataCommonList(IDeserializer iDeserializer) {
+    public static DataCommonList getOptionalDataCommonList(IDeserializer iDeserializer) throws SerializerException {
         DataCommonList dataCommonList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class DataCommonListSerializer {
         return dataCommonList;
     }
 
-    public static DataCommonList[] getOptionalDataCommonListVarArray(IDeserializer iDeserializer) {
+    public static DataCommonList[] getOptionalDataCommonListVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataCommonList[] dataCommonListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

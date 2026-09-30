@@ -7,109 +7,104 @@ import de.vw.mib.bap.datatypes.ArrayHeader;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.audiosd.serializer.SourceList_Data$Attributes;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class SourceList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_SOURCE_TYPE_INSTANCE_ID_MEDIA_TYPE_ATTRIBUTES_NAME;
-    public static final int RECORD_ADDRESS_SOURCE_TYPE_INSTANCE_ID_MEDIA_TYPE_ATTRIBUTES;
-    public static final int RECORD_ADDRESS_NAME;
-    public static final int RECORD_ADDRESS_ATTRIBUTES;
-    public static final int RECORD_ADDRESS_MEDIA_TYPE;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_SOURCE_TYPE_INSTANCE_ID_MEDIA_TYPE_ATTRIBUTES_NAME = 0;
+    public static final int RECORD_ADDRESS_SOURCE_TYPE_INSTANCE_ID_MEDIA_TYPE_ATTRIBUTES = 1;
+    public static final int RECORD_ADDRESS_NAME = 2;
+    public static final int RECORD_ADDRESS_ATTRIBUTES = 3;
+    public static final int RECORD_ADDRESS_MEDIA_TYPE = 4;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public int sourceType;
-    private static final int SOURCE_TYPE_BITSIZE;
-    public static final int SOURCE_TYPE_NO_SOURCE;
-    public static final int SOURCE_TYPE_FM;
-    public static final int SOURCE_TYPE_AM;
-    public static final int SOURCE_TYPE_DAB;
-    public static final int SOURCE_TYPE_SDARS_XM;
-    public static final int SOURCE_TYPE_SDARS_SIRIUS;
-    public static final int SOURCE_TYPE_CD;
-    public static final int SOURCE_TYPE_CD_CHANGER;
-    public static final int SOURCE_TYPE_DVD;
-    public static final int SOURCE_TYPE_TV;
-    public static final int SOURCE_TYPE_HDD;
-    public static final int SOURCE_TYPE_SD;
-    public static final int SOURCE_TYPE_TP_MEMO_TIM;
-    public static final int SOURCE_TYPE_AUX_IN_AUDIO;
-    public static final int SOURCE_TYPE_AUX_IN_VIDEO;
-    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI;
-    public static final int SOURCE_TYPE_GENERIC_PLAYER;
-    public static final int SOURCE_TYPE_AM_TI_JAPAN;
-    public static final int SOURCE_TYPE_DVD_CHANGER;
-    public static final int SOURCE_TYPE_USB;
-    public static final int SOURCE_TYPE_JUKEBOX;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL;
-    public static final int SOURCE_TYPE_DVB_VIDEO_SERVICE;
-    public static final int SOURCE_TYPE_DVB_AUDIO_SERVICE;
-    public static final int SOURCE_TYPE_AM_SW_KURZWELLE_SHORT_WAVE;
-    public static final int SOURCE_TYPE_AM_LW_LANGWELLE_LONG_WAVE;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER;
-    public static final int SOURCE_TYPE_BLUE_RAY;
-    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER;
-    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY;
-    public static final int SOURCE_TYPE_AUX_IN_VIDEO_TV;
-    public static final int SOURCE_TYPE_HDMI_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1;
-    public static final int SOURCE_TYPE_COMMON_LIST_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_APPLE_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_MIRROR_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_GOOGLE_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_BAIDU_LINK_DF4_4;
-    public static final int SOURCE_TYPE_UNKNOWN_SOURCE;
+    private static final int SOURCE_TYPE_BITSIZE = 8;
+    public static final int SOURCE_TYPE_NO_SOURCE = 0;
+    public static final int SOURCE_TYPE_FM = 1;
+    public static final int SOURCE_TYPE_AM = 2;
+    public static final int SOURCE_TYPE_DAB = 3;
+    public static final int SOURCE_TYPE_SDARS_XM = 4;
+    public static final int SOURCE_TYPE_SDARS_SIRIUS = 5;
+    public static final int SOURCE_TYPE_CD = 6;
+    public static final int SOURCE_TYPE_CD_CHANGER = 7;
+    public static final int SOURCE_TYPE_DVD = 8;
+    public static final int SOURCE_TYPE_TV = 9;
+    public static final int SOURCE_TYPE_HDD = 10;
+    public static final int SOURCE_TYPE_SD = 11;
+    public static final int SOURCE_TYPE_TP_MEMO_TIM = 12;
+    public static final int SOURCE_TYPE_AUX_IN_AUDIO = 13;
+    public static final int SOURCE_TYPE_AUX_IN_VIDEO = 14;
+    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI = 15;
+    public static final int SOURCE_TYPE_GENERIC_PLAYER = 16;
+    public static final int SOURCE_TYPE_AM_TI_JAPAN = 17;
+    public static final int SOURCE_TYPE_DVD_CHANGER = 18;
+    public static final int SOURCE_TYPE_USB = 19;
+    public static final int SOURCE_TYPE_JUKEBOX = 20;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM = 21;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL = 22;
+    public static final int SOURCE_TYPE_DVB_VIDEO_SERVICE = 23;
+    public static final int SOURCE_TYPE_DVB_AUDIO_SERVICE = 24;
+    public static final int SOURCE_TYPE_AM_SW_KURZWELLE_SHORT_WAVE = 25;
+    public static final int SOURCE_TYPE_AM_LW_LANGWELLE_LONG_WAVE = 26;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE = 27;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER = 28;
+    public static final int SOURCE_TYPE_BLUE_RAY = 29;
+    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER = 30;
+    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY = 31;
+    public static final int SOURCE_TYPE_AUX_IN_VIDEO_TV = 32;
+    public static final int SOURCE_TYPE_HDMI_DF4_1 = 33;
+    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1 = 34;
+    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1 = 35;
+    public static final int SOURCE_TYPE_COMMON_LIST_DF4_2 = 36;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_APPLE_LINK_DF4_2 = 37;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_MIRROR_LINK_DF4_2 = 38;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_GOOGLE_LINK_DF4_2 = 39;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_BAIDU_LINK_DF4_4 = 40;
+    public static final int SOURCE_TYPE_UNKNOWN_SOURCE = 255;
     public int instance_Id;
-    private static final int INSTANCE_ID_BITSIZE;
+    private static final int INSTANCE_ID_BITSIZE = 8;
     public int mediaType;
-    private static final int MEDIA_TYPE_BITSIZE;
-    public static final int MEDIA_TYPE_MEDIA_TYPE_NOT_AVAIALBLE_NOT_APPLICABLE;
-    public static final int MEDIA_TYPE_CD_AUDIO;
-    public static final int MEDIA_TYPE_DVD_AUDIO;
-    public static final int MEDIA_TYPE_DVD_VIDEO;
-    public static final int MEDIA_TYPE_CD_VIDEO;
-    public static final int MEDIA_TYPE_CD_ROM;
-    public static final int MEDIA_TYPE_DVD_ROM;
-    public static final int MEDIA_TYPE_FILE_SYSTEM;
-    public static final int MEDIA_TYPE_RAW;
-    public static final int MEDIA_TYPE_RCP_REMOTE_CONTROL_PROTOCOL;
-    public static final int MEDIA_TYPE_AUDIO_BROADCASTING_RADIO;
-    public static final int MEDIA_TYPE_VIDEO_BROADCASTING_TV_DVB;
-    public static final int MEDIA_TYPE_I_POD;
-    public static final int MEDIA_TYPE_BLUE_RAY;
-    public static final int MEDIA_TYPE_UNKNOWN_MEDIA_TYPE;
-    public final SourceList_Data$Attributes attributes;
+    private static final int MEDIA_TYPE_BITSIZE = 8;
+    public static final int MEDIA_TYPE_MEDIA_TYPE_NOT_AVAIALBLE_NOT_APPLICABLE = 0;
+    public static final int MEDIA_TYPE_CD_AUDIO = 1;
+    public static final int MEDIA_TYPE_DVD_AUDIO = 2;
+    public static final int MEDIA_TYPE_DVD_VIDEO = 3;
+    public static final int MEDIA_TYPE_CD_VIDEO = 4;
+    public static final int MEDIA_TYPE_CD_ROM = 5;
+    public static final int MEDIA_TYPE_DVD_ROM = 6;
+    public static final int MEDIA_TYPE_FILE_SYSTEM = 7;
+    public static final int MEDIA_TYPE_RAW = 8;
+    public static final int MEDIA_TYPE_RCP_REMOTE_CONTROL_PROTOCOL = 9;
+    public static final int MEDIA_TYPE_AUDIO_BROADCASTING_RADIO = 10;
+    public static final int MEDIA_TYPE_VIDEO_BROADCASTING_TV_DVB = 11;
+    public static final int MEDIA_TYPE_I_POD = 12;
+    public static final int MEDIA_TYPE_BLUE_RAY = 13;
+    public static final int MEDIA_TYPE_UNKNOWN_MEDIA_TYPE = 255;
+    public final Attributes attributes;
     public final BAPString name;
-    private static final int MAX_NAME_LENGTH;
+    private static final int MAX_NAME_LENGTH = 61;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
 
     public SourceList_Data(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
-        this.attributes = new SourceList_Data$Attributes();
+        this.attributes = new Attributes();
         this.name = new BAPString(61);
         this.internalReset();
         this.customInitialization();
@@ -127,7 +122,6 @@ implements BAPArrayElement {
         this.mediaType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -135,7 +129,6 @@ implements BAPArrayElement {
         this.name.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SourceList_Data sourceList_Data = (SourceList_Data)bAPEntity;
         return this.arrayHeader.equalTo(sourceList_Data.arrayHeader) && this.pos == sourceList_Data.pos && this.sourceType == sourceList_Data.sourceType && this.instance_Id == sourceList_Data.instance_Id && this.mediaType == sourceList_Data.mediaType && this.attributes.equalTo(sourceList_Data.attributes) && this.name.equalTo(sourceList_Data.name);
@@ -144,7 +137,6 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SourceList_Data:");
@@ -401,7 +393,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -445,7 +436,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -487,7 +477,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -526,6 +515,133 @@ implements BAPArrayElement {
                 this.arrayHeader.deserializePosOfArrayElement(bitStream, this);
                 break;
             }
+        }
+    }
+
+    public static final class Attributes
+    implements BAPEntity {
+        public boolean reserved_bit_7;
+        public boolean mediumSupportBrowserList;
+        public boolean noImportRunning;
+        public boolean mediumIsNotBeingLoaded;
+        public boolean mediumIsReadable;
+        public boolean mediaIsPlayable;
+        public boolean mediumAudioNoError;
+        public boolean builtInAndReady;
+        private static final int ATTRIBUTES_BITSIZE = 8;
+
+        public Attributes() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public Attributes(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.reserved_bit_7 = false;
+            this.mediumSupportBrowserList = false;
+            this.noImportRunning = false;
+            this.mediumIsNotBeingLoaded = false;
+            this.mediumIsReadable = false;
+            this.mediaIsPlayable = false;
+            this.mediumAudioNoError = false;
+            this.builtInAndReady = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            Attributes attributes = (Attributes)bAPEntity;
+            return this.reserved_bit_7 == attributes.reserved_bit_7 && this.mediumSupportBrowserList == attributes.mediumSupportBrowserList && this.noImportRunning == attributes.noImportRunning && this.mediumIsNotBeingLoaded == attributes.mediumIsNotBeingLoaded && this.mediumIsReadable == attributes.mediumIsReadable && this.mediaIsPlayable == attributes.mediaIsPlayable && this.mediumAudioNoError == attributes.mediumAudioNoError && this.builtInAndReady == attributes.builtInAndReady;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Attributes:");
+            stringBuffer.append("\n - Bit 7: ");
+            if (this.reserved_bit_7) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 6: ");
+            if (this.mediumSupportBrowserList) {
+                stringBuffer.append("true  (medium support browser/list (DF4.2)");
+            } else {
+                stringBuffer.append("false  (medium not support browser/list (DF4.2)");
+            }
+            stringBuffer.append("\n - Bit 5: ");
+            if (this.noImportRunning) {
+                stringBuffer.append("true  (no import running");
+            } else {
+                stringBuffer.append("false  (import running");
+            }
+            stringBuffer.append("\n - Bit 4: ");
+            if (this.mediumIsNotBeingLoaded) {
+                stringBuffer.append("true  (medium is not being loaded");
+            } else {
+                stringBuffer.append("false  (medium is being loaded");
+            }
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.mediumIsReadable) {
+                stringBuffer.append("true  (medium is readable");
+            } else {
+                stringBuffer.append("false  (medium is not readable");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.mediaIsPlayable) {
+                stringBuffer.append("true  (media is playable");
+            } else {
+                stringBuffer.append("false  (medium is not playable (no playable files)");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.mediumAudioNoError) {
+                stringBuffer.append("true  (medium/audio no error");
+            } else {
+                stringBuffer.append("false  (medium/audio source error");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.builtInAndReady) {
+                stringBuffer.append("true  (built-in and ready (medium inserted)");
+            } else {
+                stringBuffer.append("false  (built-in but not ready (medium not inserted)");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.reserved_bit_7);
+            bitStream.pushBoolean(this.mediumSupportBrowserList);
+            bitStream.pushBoolean(this.noImportRunning);
+            bitStream.pushBoolean(this.mediumIsNotBeingLoaded);
+            bitStream.pushBoolean(this.mediumIsReadable);
+            bitStream.pushBoolean(this.mediaIsPlayable);
+            bitStream.pushBoolean(this.mediumAudioNoError);
+            bitStream.pushBoolean(this.builtInAndReady);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.reserved_bit_7 = bitStream.popFrontBoolean();
+            this.mediumSupportBrowserList = bitStream.popFrontBoolean();
+            this.noImportRunning = bitStream.popFrontBoolean();
+            this.mediumIsNotBeingLoaded = bitStream.popFrontBoolean();
+            this.mediumIsReadable = bitStream.popFrontBoolean();
+            this.mediaIsPlayable = bitStream.popFrontBoolean();
+            this.mediumAudioNoError = bitStream.popFrontBoolean();
+            this.builtInAndReady = bitStream.popFrontBoolean();
         }
     }
 }

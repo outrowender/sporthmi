@@ -39,26 +39,23 @@ AnimationListener {
         this.logAnimation = IWidgetLogChannel.logAnimation;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         if (this.listener != null && this.combinedTypeIndex == 1) {
             this.listener.animate(n, f2, 0);
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
         if (this.listener != null) {
             this.listener.animationStarted(n, n2);
         }
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         block7: {
             block8: {
                 if (!this.stopped && (this.combinedTypeIndex < this.combinedTypes.length - 1 || this.animationDirection != 1) && (this.combinedTypeIndex > 0 || this.animationDirection != 2)) break block8;
-                this.logAnimation.log(-2137614336, "CombinedAnimation#animationFinished type: %1, combinedIndex: %2, direction: %3", (long)n, (long)this.combinedTypeIndex, (long)this.animationDirection);
+                this.logAnimation.log(10000000, "CombinedAnimation#animationFinished type: %1, combinedIndex: %2, direction: %3", (long)n, (long)this.combinedTypeIndex, (long)this.animationDirection);
                 if (this.listener != null) {
                     this.listener.animationFinished(-1, 0);
                 }
@@ -97,11 +94,9 @@ AnimationListener {
         }
     }
 
-    @Override
     public void startScreenChangeAnimation(int[] nArray, boolean bl, IScreenData iScreenData, IScreenData iScreenData2) {
     }
 
-    @Override
     public void rollBackAnimation(boolean bl) {
         if (this.mainProgress >= 1.0f) {
             this.mainProgress = 0.0f;
@@ -121,41 +116,33 @@ AnimationListener {
         }
     }
 
-    @Override
     public void addListener(AnimationListener animationListener) {
         this.listener = animationListener;
     }
 
-    @Override
     public boolean isAnimating() {
         return this.nestedAnimation != null && this.nestedAnimation.isAnimating;
     }
 
-    @Override
     public void setBlocked(boolean bl) {
     }
 
-    @Override
     public boolean isBlocked() {
         return false;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public int getCombiSyncType(int n) {
         return -1;
     }
 
-    @Override
     public void setCombiSyncInfo(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
         this.combiSyncInfo = iMMICombiAnimationInfo;
     }
 
-    @Override
     public float getProgress() {
         if (this.nestedAnimation != null && this.nestedAnimation.isAnimating && this.combinedTypeIndex == 1) {
             this.mainProgress = this.nestedAnimation.getProgress();
@@ -163,32 +150,26 @@ AnimationListener {
         return this.mainProgress;
     }
 
-    @Override
     public long getPlannedDuration() {
         return 0L;
     }
 
-    @Override
     public long getStartTime() {
         return 0L;
     }
 
-    @Override
     public long getCurrentDuration() {
         return 0L;
     }
 
-    @Override
     public boolean isFadeIn() {
         return false;
     }
 
-    @Override
     public int getCurrentAnimationStep() {
         return 0;
     }
 
-    @Override
     public void stopAnimation() {
         this.stopped = true;
         if (this.nestedAnimation != null && this.nestedAnimation.isAnimating) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.audio.impl;
 import de.esolutions.fw.comm.asi.hmisync.audio.A2LSState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class A2LSStateSerializer {
-    public static void putOptionalA2LSState(ISerializer iSerializer, A2LSState a2LSState) {
+    public static void putOptionalA2LSState(ISerializer iSerializer, A2LSState a2LSState) throws SerializerException {
         boolean bl = a2LSState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class A2LSStateSerializer {
         }
     }
 
-    public static void putOptionalA2LSStateVarArray(ISerializer iSerializer, A2LSState[] a2LSStateArray) {
+    public static void putOptionalA2LSStateVarArray(ISerializer iSerializer, A2LSState[] a2LSStateArray) throws SerializerException {
         boolean bl = a2LSStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class A2LSStateSerializer {
         }
     }
 
-    public static A2LSState getOptionalA2LSState(IDeserializer iDeserializer) {
+    public static A2LSState getOptionalA2LSState(IDeserializer iDeserializer) throws SerializerException {
         A2LSState a2LSState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class A2LSStateSerializer {
         return a2LSState;
     }
 
-    public static A2LSState[] getOptionalA2LSStateVarArray(IDeserializer iDeserializer) {
+    public static A2LSState[] getOptionalA2LSStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         A2LSState[] a2LSStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

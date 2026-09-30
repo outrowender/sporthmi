@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class VoiceGuidance_SetGet
 implements SetGetProperty {
     public int voiceGuidance_State;
-    private static final int VOICE_GUIDANCE_STATE_BITSIZE;
-    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_FULL_COMPLETE_ANNOUNCEMENTS;
-    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_OFF;
-    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_REDUCED_ANNOUNCEMENTS_REDUCED_MODE;
-    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_REDUCED_ANNOUNCEMENT_TRAFFIC_DF4_1;
+    private static final int VOICE_GUIDANCE_STATE_BITSIZE = 8;
+    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_FULL_COMPLETE_ANNOUNCEMENTS = 0;
+    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_OFF = 1;
+    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_REDUCED_ANNOUNCEMENTS_REDUCED_MODE = 2;
+    public static final int VOICE_GUIDANCE_STATE_VOICE_GUIDANCE_ON_REDUCED_ANNOUNCEMENT_TRAFFIC_DF4_1 = 3;
 
     public VoiceGuidance_SetGet() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements SetGetProperty {
         this.voiceGuidance_State = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         VoiceGuidance_SetGet voiceGuidance_SetGet = (VoiceGuidance_SetGet)bAPEntity;
         return this.voiceGuidance_State == voiceGuidance_SetGet.voiceGuidance_State;
@@ -44,7 +42,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("VoiceGuidance_SetGet:");
@@ -73,18 +70,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.voiceGuidance_State);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.voiceGuidance_State = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements SetGetProperty {
         return 36;
     }
 
-    @Override
     public int getFunctionId() {
         return VoiceGuidance_SetGet.functionId();
     }

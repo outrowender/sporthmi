@@ -14,7 +14,6 @@ implements ITraceCommand {
         this.bid = s;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.disconnectBackend(this.bid);
         return false;

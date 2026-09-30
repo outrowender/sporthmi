@@ -4,40 +4,28 @@
 package org.apache.commons.logging;
 
 public interface Log {
-    default public void debug(Object object) {
-    }
+    public void debug(Object var1);
 
-    default public boolean isWarnEnabled() {
-    }
+    public boolean isWarnEnabled();
 
-    default public void warn(Object object) {
-    }
+    public void warn(Object var1);
 
-    default public void error(Object object) {
-    }
+    public void error(Object var1);
 
-    default public void info(Object object) {
-    }
+    public void info(Object var1);
 
-    default public boolean isDebugEnabled() {
-    }
+    public boolean isDebugEnabled();
 
-    default public void error(Object object, Throwable throwable) {
-    }
+    public void error(Object var1, Throwable var2);
 
-    default public boolean isErrorEnabled() {
-    }
+    public boolean isErrorEnabled();
 
-    default public boolean isInfoEnabled() {
-    }
+    public boolean isInfoEnabled();
 
-    default public boolean isFatalEnabled() {
-    }
+    public boolean isFatalEnabled();
 
-    default public void fatal(Object object, Throwable throwable) {
-    }
+    public void fatal(Object var1, Throwable var2);
 
-    default public void warn(Object object, Throwable throwable) {
-    }
+    public void warn(Object var1, Throwable var2);
 }
 

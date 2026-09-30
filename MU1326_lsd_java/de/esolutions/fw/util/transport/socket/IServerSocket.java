@@ -4,12 +4,11 @@
 package de.esolutions.fw.util.transport.socket;
 
 import de.esolutions.fw.util.transport.socket.ISocket;
+import java.io.IOException;
 
 public interface IServerSocket {
-    default public ISocket accept() {
-    }
+    public ISocket accept() throws IOException;
 
-    default public void close() {
-    }
+    public void close() throws IOException;
 }
 

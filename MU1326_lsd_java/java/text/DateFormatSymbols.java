@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class DateFormatSymbols
 implements Serializable,
 Cloneable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -5987973545549424702L;
     private String localPatternChars;
     String[] ampms;
     String[] eras;

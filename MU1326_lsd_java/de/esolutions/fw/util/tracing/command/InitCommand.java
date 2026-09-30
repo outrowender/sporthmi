@@ -8,7 +8,6 @@ import de.esolutions.fw.util.tracing.command.ITraceCommandExecutor;
 
 public class InitCommand
 implements ITraceCommand {
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.init();
         return false;

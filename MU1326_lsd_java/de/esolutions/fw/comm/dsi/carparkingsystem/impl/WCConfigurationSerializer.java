@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarArrayListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCConfiguration;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class WCConfigurationSerializer {
-    public static void putOptionalWCConfiguration(ISerializer iSerializer, WCConfiguration wCConfiguration) {
+    public static void putOptionalWCConfiguration(ISerializer iSerializer, WCConfiguration wCConfiguration) throws SerializerException {
         boolean bl = wCConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class WCConfigurationSerializer {
         }
     }
 
-    public static void putOptionalWCConfigurationVarArray(ISerializer iSerializer, WCConfiguration[] wCConfigurationArray) {
+    public static void putOptionalWCConfigurationVarArray(ISerializer iSerializer, WCConfiguration[] wCConfigurationArray) throws SerializerException {
         boolean bl = wCConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class WCConfigurationSerializer {
         }
     }
 
-    public static WCConfiguration getOptionalWCConfiguration(IDeserializer iDeserializer) {
+    public static WCConfiguration getOptionalWCConfiguration(IDeserializer iDeserializer) throws SerializerException {
         WCConfiguration wCConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class WCConfigurationSerializer {
         return wCConfiguration;
     }
 
-    public static WCConfiguration[] getOptionalWCConfigurationVarArray(IDeserializer iDeserializer) {
+    public static WCConfiguration[] getOptionalWCConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCConfiguration[] wCConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

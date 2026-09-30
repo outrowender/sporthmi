@@ -8,7 +8,6 @@ import org.osgi.framework.FrameworkEvent;
 
 public interface FrameworkListener
 extends EventListener {
-    default public void frameworkEvent(FrameworkEvent frameworkEvent) {
-    }
+    public void frameworkEvent(FrameworkEvent var1);
 }
 

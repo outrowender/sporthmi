@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.online.impl.PortalLocationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalLocation;
 import org.dsi.ifc.online.PortalNavigationData;
 
 public class PortalNavigationDataSerializer {
-    public static void putOptionalPortalNavigationData(ISerializer iSerializer, PortalNavigationData portalNavigationData) {
+    public static void putOptionalPortalNavigationData(ISerializer iSerializer, PortalNavigationData portalNavigationData) throws SerializerException {
         boolean bl = portalNavigationData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class PortalNavigationDataSerializer {
         }
     }
 
-    public static void putOptionalPortalNavigationDataVarArray(ISerializer iSerializer, PortalNavigationData[] portalNavigationDataArray) {
+    public static void putOptionalPortalNavigationDataVarArray(ISerializer iSerializer, PortalNavigationData[] portalNavigationDataArray) throws SerializerException {
         boolean bl = portalNavigationDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class PortalNavigationDataSerializer {
         }
     }
 
-    public static PortalNavigationData getOptionalPortalNavigationData(IDeserializer iDeserializer) {
+    public static PortalNavigationData getOptionalPortalNavigationData(IDeserializer iDeserializer) throws SerializerException {
         PortalNavigationData portalNavigationData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class PortalNavigationDataSerializer {
         return portalNavigationData;
     }
 
-    public static PortalNavigationData[] getOptionalPortalNavigationDataVarArray(IDeserializer iDeserializer) {
+    public static PortalNavigationData[] getOptionalPortalNavigationDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalNavigationData[] portalNavigationDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

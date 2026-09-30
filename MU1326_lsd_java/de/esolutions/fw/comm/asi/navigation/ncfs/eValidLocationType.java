@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eValidLocationType
 extends IEnum {
-    public static final int VALID_LT_EDGE;
-    public static final int VALID_LT_RECTANGLESET;
+    public static final int VALID_LT_EDGE = 0;
+    public static final int VALID_LT_RECTANGLESET = 1;
 }
 

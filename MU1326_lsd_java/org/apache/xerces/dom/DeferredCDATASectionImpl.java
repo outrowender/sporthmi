@@ -10,7 +10,7 @@ import org.apache.xerces.dom.DeferredNode;
 public class DeferredCDATASectionImpl
 extends CDATASectionImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 1983580632355645726L;
     protected transient int fNodeIndex;
 
     DeferredCDATASectionImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -19,12 +19,10 @@ implements DeferredNode {
         this.needsSyncData(true);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument();

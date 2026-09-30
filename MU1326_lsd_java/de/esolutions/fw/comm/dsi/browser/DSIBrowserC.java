@@ -3,136 +3,94 @@
  */
 package de.esolutions.fw.comm.dsi.browser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.browser.TimePeriod;
 
 public interface DSIBrowserC {
-    default public void cancelLoading() {
-    }
+    public void cancelLoading() throws MethodException;
 
-    default public void followLink(boolean bl) {
-    }
+    public void followLink(boolean var1) throws MethodException;
 
-    default public void getPreference(int n) {
-    }
+    public void getPreference(int var1) throws MethodException;
 
-    default public void goBack() {
-    }
+    public void goBack() throws MethodException;
 
-    default public void goForward() {
-    }
+    public void goForward() throws MethodException;
 
-    default public void gotoHomeUrl() {
-    }
+    public void gotoHomeUrl() throws MethodException;
 
-    default public void loadUrl(String string) {
-    }
+    public void loadUrl(String var1) throws MethodException;
 
-    default public void nextFocus(int n) {
-    }
+    public void nextFocus(int var1) throws MethodException;
 
-    default public void previousFocus(int n) {
-    }
+    public void previousFocus(int var1) throws MethodException;
 
-    default public void scroll(int n, int n2) {
-    }
+    public void scroll(int var1, int var2) throws MethodException;
 
-    default public void reloadUrl() {
-    }
+    public void reloadUrl() throws MethodException;
 
-    default public void setPreference(int n, int n2, String string) {
-    }
+    public void setPreference(int var1, int var2, String var3) throws MethodException;
 
-    default public void stopBrowser() {
-    }
+    public void stopBrowser() throws MethodException;
 
-    default public void zoom(int n, boolean bl) {
-    }
+    public void zoom(int var1, boolean var2) throws MethodException;
 
-    default public void suspendBrowser() {
-    }
+    public void suspendBrowser() throws MethodException;
 
-    default public void resumeBrowser() {
-    }
+    public void resumeBrowser() throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void deleteCookies() {
-    }
+    public void deleteCookies() throws MethodException;
 
-    default public void deleteHistory() {
-    }
+    public void deleteHistory() throws MethodException;
 
-    default public void deletePasswords() {
-    }
+    public void deletePasswords() throws MethodException;
 
-    default public void deleteCache() {
-    }
+    public void deleteCache() throws MethodException;
 
-    default public void downloadFile(String string, String string2) {
-    }
+    public void downloadFile(String var1, String var2) throws MethodException;
 
-    default public void enterImageSelectionMode() {
-    }
+    public void enterImageSelectionMode() throws MethodException;
 
-    default public void clickOnPosition(int n, int n2, boolean bl) {
-    }
+    public void clickOnPosition(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void javaScriptAlertAck() {
-    }
+    public void javaScriptAlertAck() throws MethodException;
 
-    default public void javaScriptConfirmAck(boolean bl) {
-    }
+    public void javaScriptConfirmAck(boolean var1) throws MethodException;
 
-    default public void javaScriptPromptAck(String string, boolean bl) {
-    }
+    public void javaScriptPromptAck(String var1, boolean var2) throws MethodException;
 
-    default public void bringToFront() {
-    }
+    public void bringToFront() throws MethodException;
 
-    default public void keyboardInput(String string) {
-    }
+    public void keyboardInput(String var1) throws MethodException;
 
-    default public void setSelection(int n, boolean bl) {
-    }
+    public void setSelection(int var1, boolean var2) throws MethodException;
 
-    default public void resetToFactoryDefaults() {
-    }
+    public void resetToFactoryDefaults() throws MethodException;
 
-    default public void exportBrowserData(String string) {
-    }
+    public void exportBrowserData(String var1) throws MethodException;
 
-    default public void importBrowserData(String string) {
-    }
+    public void importBrowserData(String var1) throws MethodException;
 
-    default public void getHistory(TimePeriod timePeriod) {
-    }
+    public void getHistory(TimePeriod var1) throws MethodException;
 
-    default public void executeJavaScript(String string) {
-    }
+    public void executeJavaScript(String var1) throws MethodException;
 
-    default public void touchScroll(int n, int n2) {
-    }
+    public void touchScroll(int var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

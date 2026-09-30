@@ -3,47 +3,35 @@
  */
 package de.esolutions.fw.comm.dsi.audio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAudioManagementC {
-    default public void fadeToConnection(int n, int n2) {
-    }
+    public void fadeToConnection(int var1, int var2) throws MethodException;
 
-    default public void releaseConnection(int n, int n2) {
-    }
+    public void releaseConnection(int var1, int var2) throws MethodException;
 
-    default public void getActiveConnection(int n) {
-    }
+    public void getActiveConnection(int var1) throws MethodException;
 
-    default public void getActiveEntertainmentConnection(int n) {
-    }
+    public void getActiveEntertainmentConnection(int var1) throws MethodException;
 
-    default public void requestConnection(int n, int n2, int n3) {
-    }
+    public void requestConnection(int var1, int var2, int var3) throws MethodException;
 
-    default public void setVolumelock(int n, int n2, boolean bl) {
-    }
+    public void setVolumelock(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void getVolumelock(int n, int n2) {
-    }
+    public void getVolumelock(int var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -122,7 +122,6 @@ implements IConfigValueTracer {
         return this.peer_list;
     }
 
-    @Override
     public void traceValues() {
         CommAgentTracing.CONFIG.log((short)2, "ping.send_interval           = %1 ms", new Integer(this.send_interval));
         CommAgentTracing.CONFIG.log((short)2, "ping.max_recv_interval       = %1 ms", new Integer(this.max_recv_interval));

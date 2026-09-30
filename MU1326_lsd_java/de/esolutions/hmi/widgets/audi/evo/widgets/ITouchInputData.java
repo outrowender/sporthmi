@@ -8,61 +8,42 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.ITouchInputDataChangeHandler;
 
 public interface ITouchInputData
 extends IInputTextInfoProvider {
-    default public void setPasswordMode(boolean bl) {
-    }
+    public void setPasswordMode(boolean var1);
 
-    default public void clear(boolean bl) {
-    }
+    public void clear(boolean var1);
 
-    default public int getCursorPos() {
-    }
+    public int getCursorPos();
 
-    default public void setKbdType(int n) {
-    }
+    public void setKbdType(int var1);
 
-    default public void setCaseBalanced(boolean bl) {
-    }
+    public void setCaseBalanced(boolean var1);
 
-    default public void setUpperCaseOnly(boolean bl) {
-    }
+    public void setUpperCaseOnly(boolean var1);
 
-    default public String doCaseBalancingForSuggestion(String string) {
-    }
+    public String doCaseBalancingForSuggestion(String var1);
 
-    default public void moveCursor(int n) {
-    }
+    public void moveCursor(int var1);
 
-    default public char insertString(String string, String[] stringArray, boolean bl) {
-    }
+    public char insertString(String var1, String[] var2, boolean var3);
 
-    default public void hideCharacters() {
-    }
+    public void hideCharacters();
 
-    default public boolean delete(boolean bl) {
-    }
+    public boolean delete(boolean var1);
 
-    default public String buildModelString() {
-    }
+    public String buildModelString();
 
-    default public void insertAutoCompletion(String string) {
-    }
+    public void insertAutoCompletion(String var1);
 
-    default public void registerDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
-    }
+    public void registerDataChangeListener(ITouchInputDataChangeHandler var1);
 
-    default public void unregisterDataChangeListener(ITouchInputDataChangeHandler iTouchInputDataChangeHandler) {
-    }
+    public void unregisterDataChangeListener(ITouchInputDataChangeHandler var1);
 
-    default public void setMaximumTextLength(int n) {
-    }
+    public void setMaximumTextLength(int var1);
 
-    default public int getMaximumTextLength() {
-    }
+    public int getMaximumTextLength();
 
-    default public void setMinimumTextLength(int n) {
-    }
+    public void setMinimumTextLength(int var1);
 
-    default public int getMinimumTextLength() {
-    }
+    public int getMinimumTextLength();
 }
 

@@ -73,14 +73,13 @@ implements Runnable {
         return this.startCounter;
     }
 
-    public synchronized void addJob(TransportJob transportJob) {
+    public synchronized void addJob(TransportJob transportJob) throws TransportException {
         if (this.queue == null) {
             throw new TransportException("Queue not available");
         }
         this.queue.put(transportJob);
     }
 
-    @Override
     public void run() {
         while (this.stayInRunLoop) {
             try {

@@ -12,91 +12,87 @@ import de.vw.mib.bap.stream.BitStream;
 public final class LaneGuidance_LaneGuidance
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_SIDESTREETS_LANE_TYPE_LANE_MARKING_LEFT_LANE_MARKING_RIGHT_LANE_DESCRIPTION_GUIDANCE_INFO;
-    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_SIDESTREETS_LANE_TYPE_LANE_DESCRIPTION_GUIDANCE_INFO;
-    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_DESCRIPTION_GUIDANCE_INFO;
-    public static final int RECORD_ADDRESS_LANE_DESCRIPTION_GUIDANCE_INFO;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_SIDESTREETS_LANE_TYPE_LANE_MARKING_LEFT_LANE_MARKING_RIGHT_LANE_DESCRIPTION_GUIDANCE_INFO = 0;
+    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_SIDESTREETS_LANE_TYPE_LANE_DESCRIPTION_GUIDANCE_INFO = 1;
+    public static final int RECORD_ADDRESS_LANE_DIRECTION_LANE_DESCRIPTION_GUIDANCE_INFO = 2;
+    public static final int RECORD_ADDRESS_LANE_DESCRIPTION_GUIDANCE_INFO = 3;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public int laneDirection;
-    private static final int LANE_DIRECTION_BITSIZE;
+    private static final int LANE_DIRECTION_BITSIZE = 8;
     public final BAPString laneSidestreets;
-    private static final int MAX_LANE_SIDESTREETS_LENGTH;
+    private static final int MAX_LANE_SIDESTREETS_LENGTH = 17;
     public int laneType;
-    private static final int LANE_TYPE_BITSIZE;
-    public static final int LANE_TYPE_UNSPECIFIC_LANE_TYPE;
-    public static final int LANE_TYPE_NORMAL_LANE;
-    public static final int LANE_TYPE_LANE_BLOCKED;
-    public static final int LANE_TYPE_LANE_FORBIDDEN;
-    public static final int LANE_TYPE_LANE_RESTRICTED;
-    public static final int LANE_TYPE_BREAKDOWN_LANE;
-    public static final int LANE_TYPE_DYNAMICALLY_CONTROLLED;
-    public static final int LANE_TYPE_CAR_POOLS;
-    public static final int LANE_TYPE_BUS_LANE;
-    public static final int LANE_TYPE_BICYCLE_LANE;
-    public static final int LANE_TYPE_TAXI_LANE;
-    public static final int LANE_TYPE_TRUCK_LANE;
-    public static final int LANE_TYPE_BUS_BICYCLE_LANE;
-    public static final int LANE_TYPE_BUS_TAXI_LANE;
-    public static final int LANE_TYPE_TAXI_BICYCLE_LANE;
-    public static final int LANE_TYPE_BUS_TAXI_BICYCLE_LANE;
-    public static final int LANE_TYPE_GREEN_STRIP;
-    public static final int LANE_TYPE_MOTORWAY_HIGHWAY_LANE;
-    public static final int LANE_TYPE_TRAMWAY_ON_NORMAL_ROAD;
-    public static final int LANE_TYPE_SEPARATED_TRAMWAY;
-    public static final int LANE_TYPE_EXIT_LANE;
-    public static final int LANE_TYPE_ENTER_LANE;
-    public static final int LANE_TYPE_TOLL_LANE;
-    public static final int LANE_TYPE_FURTHER_LANES_ON_THE_LEFT_HAND_SIDE_NOT_SHOWN;
-    public static final int LANE_TYPE_FURTHER_LANES_ON_THE_RIGHT_HAND_SIDE_NOT_SHOWN;
-    public static final int LANE_TYPE_HIDE_LANE;
-    public static final int LANE_TYPE_ETC_NON_ETC_MIXED_LANE_DF4_4;
+    private static final int LANE_TYPE_BITSIZE = 8;
+    public static final int LANE_TYPE_UNSPECIFIC_LANE_TYPE = 0;
+    public static final int LANE_TYPE_NORMAL_LANE = 1;
+    public static final int LANE_TYPE_LANE_BLOCKED = 2;
+    public static final int LANE_TYPE_LANE_FORBIDDEN = 3;
+    public static final int LANE_TYPE_LANE_RESTRICTED = 4;
+    public static final int LANE_TYPE_BREAKDOWN_LANE = 5;
+    public static final int LANE_TYPE_DYNAMICALLY_CONTROLLED = 6;
+    public static final int LANE_TYPE_CAR_POOLS = 7;
+    public static final int LANE_TYPE_BUS_LANE = 8;
+    public static final int LANE_TYPE_BICYCLE_LANE = 9;
+    public static final int LANE_TYPE_TAXI_LANE = 10;
+    public static final int LANE_TYPE_TRUCK_LANE = 11;
+    public static final int LANE_TYPE_BUS_BICYCLE_LANE = 12;
+    public static final int LANE_TYPE_BUS_TAXI_LANE = 13;
+    public static final int LANE_TYPE_TAXI_BICYCLE_LANE = 14;
+    public static final int LANE_TYPE_BUS_TAXI_BICYCLE_LANE = 15;
+    public static final int LANE_TYPE_GREEN_STRIP = 16;
+    public static final int LANE_TYPE_MOTORWAY_HIGHWAY_LANE = 17;
+    public static final int LANE_TYPE_TRAMWAY_ON_NORMAL_ROAD = 18;
+    public static final int LANE_TYPE_SEPARATED_TRAMWAY = 19;
+    public static final int LANE_TYPE_EXIT_LANE = 20;
+    public static final int LANE_TYPE_ENTER_LANE = 21;
+    public static final int LANE_TYPE_TOLL_LANE = 22;
+    public static final int LANE_TYPE_FURTHER_LANES_ON_THE_LEFT_HAND_SIDE_NOT_SHOWN = 23;
+    public static final int LANE_TYPE_FURTHER_LANES_ON_THE_RIGHT_HAND_SIDE_NOT_SHOWN = 24;
+    public static final int LANE_TYPE_HIDE_LANE = 25;
+    public static final int LANE_TYPE_ETC_NON_ETC_MIXED_LANE_DF4_4 = 26;
     public int laneMarking_left;
-    private static final int LANE_MARKING_LEFT_BITSIZE;
-    public static final int LANE_MARKING_LEFT_NO_LANE_MARKING_AT_THE_LEFT_BORDER_OF_THE_LANE_NO_LINE;
-    public static final int LANE_MARKING_LEFT_SOLID_DIVIDER_LINE;
-    public static final int LANE_MARKING_LEFT_DASHED_DIVIDER_LINE;
+    private static final int LANE_MARKING_LEFT_BITSIZE = 4;
+    public static final int LANE_MARKING_LEFT_NO_LANE_MARKING_AT_THE_LEFT_BORDER_OF_THE_LANE_NO_LINE = 0;
+    public static final int LANE_MARKING_LEFT_SOLID_DIVIDER_LINE = 1;
+    public static final int LANE_MARKING_LEFT_DASHED_DIVIDER_LINE = 2;
     public int laneMarking_right;
-    private static final int LANE_MARKING_RIGHT_BITSIZE;
-    public static final int LANE_MARKING_RIGHT_NO_LANE_MARKING_AT_THE_RIGHT_BORDER_OF_THE_LANE;
-    public static final int LANE_MARKING_RIGHT_SOLID_DIVIDER_LINE;
-    public static final int LANE_MARKING_RIGHT_DASHED_DIVIDER_LINE;
+    private static final int LANE_MARKING_RIGHT_BITSIZE = 4;
+    public static final int LANE_MARKING_RIGHT_NO_LANE_MARKING_AT_THE_RIGHT_BORDER_OF_THE_LANE = 0;
+    public static final int LANE_MARKING_RIGHT_SOLID_DIVIDER_LINE = 1;
+    public static final int LANE_MARKING_RIGHT_DASHED_DIVIDER_LINE = 2;
     public int laneDescription;
-    private static final int LANE_DESCRIPTION_BITSIZE;
-    public static final int LANE_DESCRIPTION_LANE_AVAILABLE;
-    public static final int LANE_DESCRIPTION_LANE_MERGING_TO_LEFT;
-    public static final int LANE_DESCRIPTION_LANE_MERGING_TO_RIGHT;
-    public static final int LANE_DESCRIPTION_LANE_ENDING_LATER;
-    public static final int LANE_DESCRIPTION_FORBIDDEN_LANE;
-    public static final int LANE_DESCRIPTION_LANE_EXPANDING_TO_LEFT;
-    public static final int LANE_DESCRIPTION_LANE_EXPANDING_TO_RIGHT;
-    public static final int LANE_DESCRIPTION_LANE_AVAILABLE_LATER;
-    public static final int LANE_DESCRIPTION_MULTIPLE_ADDITIONAL_LANE_BEGIN;
-    public static final int LANE_DESCRIPTION_MULTIPLE_CONTINUATION_WITH_LANE_ENDS;
-    public static final int LANE_DESCRIPTION_LANE_BEGINS_IN_THE_MIDDLE;
-    public static final int LANE_DESCRIPTION_NOT_SUPPORTED_NO_DESCRIPTION_AVAILABLE;
+    private static final int LANE_DESCRIPTION_BITSIZE = 4;
+    public static final int LANE_DESCRIPTION_LANE_AVAILABLE = 0;
+    public static final int LANE_DESCRIPTION_LANE_MERGING_TO_LEFT = 1;
+    public static final int LANE_DESCRIPTION_LANE_MERGING_TO_RIGHT = 2;
+    public static final int LANE_DESCRIPTION_LANE_ENDING_LATER = 3;
+    public static final int LANE_DESCRIPTION_FORBIDDEN_LANE = 4;
+    public static final int LANE_DESCRIPTION_LANE_EXPANDING_TO_LEFT = 5;
+    public static final int LANE_DESCRIPTION_LANE_EXPANDING_TO_RIGHT = 6;
+    public static final int LANE_DESCRIPTION_LANE_AVAILABLE_LATER = 7;
+    public static final int LANE_DESCRIPTION_MULTIPLE_ADDITIONAL_LANE_BEGIN = 8;
+    public static final int LANE_DESCRIPTION_MULTIPLE_CONTINUATION_WITH_LANE_ENDS = 9;
+    public static final int LANE_DESCRIPTION_LANE_BEGINS_IN_THE_MIDDLE = 10;
+    public static final int LANE_DESCRIPTION_NOT_SUPPORTED_NO_DESCRIPTION_AVAILABLE = 15;
     public int guidanceInfo;
-    private static final int GUIDANCE_INFO_BITSIZE;
-    public static final int GUIDANCE_INFO_NOT_RECOMMENDED_LANE;
-    public static final int GUIDANCE_INFO_RECOMMENDED_LANE;
-    public static final int GUIDANCE_INFO_BEST_RECOMMENDATION;
+    private static final int GUIDANCE_INFO_BITSIZE = 4;
+    public static final int GUIDANCE_INFO_NOT_RECOMMENDED_LANE = 0;
+    public static final int GUIDANCE_INFO_RECOMMENDED_LANE = 1;
+    public static final int GUIDANCE_INFO_BEST_RECOMMENDATION = 2;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -123,14 +119,12 @@ implements BAPArrayElement {
         this.guidanceInfo = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.laneSidestreets.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         LaneGuidance_LaneGuidance laneGuidance_LaneGuidance = (LaneGuidance_LaneGuidance)bAPEntity;
         return this.arrayHeader.equalTo(laneGuidance_LaneGuidance.arrayHeader) && this.pos == laneGuidance_LaneGuidance.pos && this.laneDirection == laneGuidance_LaneGuidance.laneDirection && this.laneSidestreets.equalTo(laneGuidance_LaneGuidance.laneSidestreets) && this.laneType == laneGuidance_LaneGuidance.laneType && this.laneMarking_left == laneGuidance_LaneGuidance.laneMarking_left && this.laneMarking_right == laneGuidance_LaneGuidance.laneMarking_right && this.laneDescription == laneGuidance_LaneGuidance.laneDescription && this.guidanceInfo == laneGuidance_LaneGuidance.guidanceInfo;
@@ -140,7 +134,6 @@ implements BAPArrayElement {
         this.laneSidestreets.setRawContent();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("LaneGuidance_LaneGuidance:");
@@ -377,7 +370,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -422,7 +414,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -465,7 +456,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {

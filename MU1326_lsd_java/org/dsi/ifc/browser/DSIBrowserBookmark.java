@@ -9,59 +9,49 @@ import org.dsi.ifc.browser.PathInfo;
 
 public interface DSIBrowserBookmark
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_LISTBOOKMARKS;
-    public static final int RT_ADDBOOKMARK;
-    public static final int RT_EDITBOOKMARK;
-    public static final int RT_DELETEBOOKMARK;
-    public static final int RT_CREATEFOLDER;
-    public static final int RT_DELETEFOLDER;
-    public static final int RT_RENAMEFOLDER;
-    public static final int RT_EXPORTBOOKMARKS;
-    public static final int RT_IMPORTBOOKMARKS;
-    public static final int RT_GETQUOTAINFORMATION;
-    public static final int ATTR_IMPORTBOOKMARKSPROGRESS;
-    public static final int ATTR_EXPORTBOOKMARKSPROGRESS;
-    public static final int RP_LISTBOOKMARKSRESULT;
-    public static final int RP_ADDBOOKMARKRESULT;
-    public static final int RP_EDITBOOKMARKRESULT;
-    public static final int RP_DELETEBOOKMARKRESULT;
-    public static final int RP_CREATEFOLDERRESULT;
-    public static final int RP_DELETEFOLDERRESULT;
-    public static final int RP_RENAMEFOLDERRESULT;
-    public static final int RP_EXPORTBOOKMARKSRESULT;
-    public static final int RP_IMPORTBOOKMARKSRESULT;
-    public static final int RP_GETQUOTAINFORMATIONRESULT;
-    public static final int IN_BOOKMARKLISTINVALID;
+    public static final String VERSION = "2.11.18";
+    public static final int RT_LISTBOOKMARKS = 1000;
+    public static final int RT_ADDBOOKMARK = 1001;
+    public static final int RT_EDITBOOKMARK = 1002;
+    public static final int RT_DELETEBOOKMARK = 1003;
+    public static final int RT_CREATEFOLDER = 1004;
+    public static final int RT_DELETEFOLDER = 1005;
+    public static final int RT_RENAMEFOLDER = 1006;
+    public static final int RT_EXPORTBOOKMARKS = 1007;
+    public static final int RT_IMPORTBOOKMARKS = 1008;
+    public static final int RT_GETQUOTAINFORMATION = 1009;
+    public static final int ATTR_IMPORTBOOKMARKSPROGRESS = 1;
+    public static final int ATTR_EXPORTBOOKMARKSPROGRESS = 2;
+    public static final int RP_LISTBOOKMARKSRESULT = 2000;
+    public static final int RP_ADDBOOKMARKRESULT = 2001;
+    public static final int RP_EDITBOOKMARKRESULT = 2002;
+    public static final int RP_DELETEBOOKMARKRESULT = 2003;
+    public static final int RP_CREATEFOLDERRESULT = 2004;
+    public static final int RP_DELETEFOLDERRESULT = 2005;
+    public static final int RP_RENAMEFOLDERRESULT = 2006;
+    public static final int RP_EXPORTBOOKMARKSRESULT = 2007;
+    public static final int RP_IMPORTBOOKMARKSRESULT = 2008;
+    public static final int RP_GETQUOTAINFORMATIONRESULT = 2009;
+    public static final int IN_BOOKMARKLISTINVALID = 3000;
 
-    default public void listBookmarks(String string) {
-    }
+    public void listBookmarks(String var1);
 
-    default public void addBookmark(Bookmark bookmark) {
-    }
+    public void addBookmark(Bookmark var1);
 
-    default public void editBookmark(Bookmark bookmark, Bookmark bookmark2) {
-    }
+    public void editBookmark(Bookmark var1, Bookmark var2);
 
-    default public void deleteBookmark(Bookmark bookmark) {
-    }
+    public void deleteBookmark(Bookmark var1);
 
-    default public void createFolder(Bookmark bookmark) {
-    }
+    public void createFolder(Bookmark var1);
 
-    default public void deleteFolder(String string) {
-    }
+    public void deleteFolder(String var1);
 
-    default public void renameFolder(String string, String string2) {
-    }
+    public void renameFolder(String var1, String var2);
 
-    default public void exportBookmarks(PathInfo pathInfo) {
-    }
+    public void exportBookmarks(PathInfo var1);
 
-    default public void importBookmarks(PathInfo pathInfo, boolean bl, boolean bl2) {
-    }
+    public void importBookmarks(PathInfo var1, boolean var2, boolean var3);
 
-    default public void getQuotaInformation() {
-    }
+    public void getQuotaInformation();
 }
 

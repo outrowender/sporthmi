@@ -11,6 +11,7 @@ import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlTransmittableEleme
 import de.esolutions.fw.comm.dsi.carhybrid.impl.BatteryControlWindowheaterInstallationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlClimateOperationModeInstallation;
 import org.dsi.ifc.carhybrid.BatteryControlConfiguration;
 import org.dsi.ifc.carhybrid.BatteryControlEngineInstallation;
@@ -20,7 +21,7 @@ import org.dsi.ifc.carhybrid.BatteryControlTransmittableElements;
 import org.dsi.ifc.carhybrid.BatteryControlWindowheaterInstallation;
 
 public class BatteryControlConfigurationSerializer {
-    public static void putOptionalBatteryControlConfiguration(ISerializer iSerializer, BatteryControlConfiguration batteryControlConfiguration) {
+    public static void putOptionalBatteryControlConfiguration(ISerializer iSerializer, BatteryControlConfiguration batteryControlConfiguration) throws SerializerException {
         boolean bl = batteryControlConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class BatteryControlConfigurationSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlConfigurationVarArray(ISerializer iSerializer, BatteryControlConfiguration[] batteryControlConfigurationArray) {
+    public static void putOptionalBatteryControlConfigurationVarArray(ISerializer iSerializer, BatteryControlConfiguration[] batteryControlConfigurationArray) throws SerializerException {
         boolean bl = batteryControlConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class BatteryControlConfigurationSerializer {
         }
     }
 
-    public static BatteryControlConfiguration getOptionalBatteryControlConfiguration(IDeserializer iDeserializer) {
+    public static BatteryControlConfiguration getOptionalBatteryControlConfiguration(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlConfiguration batteryControlConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class BatteryControlConfigurationSerializer {
         return batteryControlConfiguration;
     }
 
-    public static BatteryControlConfiguration[] getOptionalBatteryControlConfigurationVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlConfiguration[] getOptionalBatteryControlConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlConfiguration[] batteryControlConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

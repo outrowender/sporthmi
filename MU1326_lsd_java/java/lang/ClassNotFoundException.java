@@ -5,7 +5,7 @@ package java.lang;
 
 public class ClassNotFoundException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 9176873029745254542L;
     private Throwable ex;
 
     public ClassNotFoundException() {
@@ -25,7 +25,6 @@ extends Exception {
         return this.ex;
     }
 
-    @Override
     public Throwable getCause() {
         return this.ex;
     }

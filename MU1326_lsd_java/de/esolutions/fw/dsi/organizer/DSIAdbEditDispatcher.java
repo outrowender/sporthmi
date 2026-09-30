@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbEditReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbEditReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIAdbEditReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbEditListener == null ? (class$org$dsi$ifc$organizer$DSIAdbEditListener = DSIAdbEditDispatcher.class$("org.dsi.ifc.organizer.DSIAdbEditListener")) : class$org$dsi$ifc$organizer$DSIAdbEditListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateNewEntryAvailable(boolean bl, int n) {
+    public void updateNewEntryAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void updateNewPublicProfileEntryAvailable(boolean bl, int n) {
+    public void updateNewPublicProfileEntryAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void updateNewTopDestinationEntryAvailable(boolean bl, int n) {
+    public void updateNewTopDestinationEntryAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void updateNewPublicProfileTopDestEntryAvailable(boolean bl, int n) {
+    public void updateNewPublicProfileTopDestEntryAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void insertEntryResult(int n, AdbEntry adbEntry) {
+    public void insertEntryResult(int n, AdbEntry adbEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -162,8 +157,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
+    public void getEntriesResult(int n, AdbEntry[] adbEntryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -179,8 +173,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
+    public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -196,8 +189,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void changeEntryResult(int n, AdbEntry adbEntry) {
+    public void changeEntryResult(int n, AdbEntry adbEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -213,8 +205,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void copyEntryResult(int n, AdbEntry adbEntry) {
+    public void copyEntryResult(int n, AdbEntry adbEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -230,8 +221,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void deleteEntriesResult(int n) {
+    public void deleteEntriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -247,8 +237,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void setSpeedDialResult(int n) {
+    public void setSpeedDialResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -264,8 +253,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void deleteSpeedDialResult(int n) {
+    public void deleteSpeedDialResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -281,8 +269,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void getEntryByReferenceIdResult(int n, AdbEntry adbEntry) {
+    public void getEntryByReferenceIdResult(int n, AdbEntry adbEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -298,8 +285,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void updateNewOnlineDestinationEntryAvailable(boolean bl, int n) {
+    public void updateNewOnlineDestinationEntryAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -327,8 +313,7 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -344,14 +329,13 @@ implements DSIAdbEditReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbEditListener dSIAdbEditListener = (DSIAdbEditListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbEditDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbEditDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbEditListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbEditDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbEditDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbEditListener, new Object[]{string, string2});
                     continue;
                 }

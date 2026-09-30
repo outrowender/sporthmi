@@ -18,160 +18,108 @@ import org.dsi.ifc.carlight.TimeState;
 
 public interface DSICarLightListener
 extends DSIListener {
-    default public void updateIntLightViewOptions(IntLightViewOptions intLightViewOptions, int n) {
-    }
+    public void updateIntLightViewOptions(IntLightViewOptions var1, int var2);
 
-    default public void updateIntLightIlluminationSet1(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet1(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet2(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet2(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet3(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet3(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet4(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet4(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet5(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet5(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet6(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet6(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet7(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet7(int var1, int var2);
 
-    default public void updateIntLightIlluminationSet8(int n, int n2) {
-    }
+    public void updateIntLightIlluminationSet8(int var1, int var2);
 
-    default public void updateIntLightTemperature(boolean bl, int n) {
-    }
+    public void updateIntLightTemperature(boolean var1, int var2);
 
-    default public void updateIntLightColour(int n, int n2) {
-    }
+    public void updateIntLightColour(int var1, int var2);
 
-    default public void updateIntLightState(int n, int n2) {
-    }
+    public void updateIntLightState(int var1, int var2);
 
-    default public void updateIntLightEnvironment(boolean bl, int n) {
-    }
+    public void updateIntLightEnvironment(boolean var1, int var2);
 
-    default public void updateIntLightSpeed(boolean bl, int n) {
-    }
+    public void updateIntLightSpeed(boolean var1, int var2);
 
-    default public void updateIntLightBrightness(IntLightBrightness intLightBrightness, int n) {
-    }
+    public void updateIntLightBrightness(IntLightBrightness var1, int var2);
 
-    default public void updateIntLightIlluminationProfile1(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile1(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile2(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile2(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile3(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile3(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile4(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile4(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile5(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile5(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile6(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile6(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile7(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile7(int var1, int var2);
 
-    default public void updateIntLightIlluminationProfile8(int n, int n2) {
-    }
+    public void updateIntLightIlluminationProfile8(int var1, int var2);
 
-    default public void updateIntLightActiveProfile(int n, int n2) {
-    }
+    public void updateIntLightActiveProfile(int var1, int var2);
 
-    default public void updateIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues, int n) {
-    }
+    public void updateIntLightAmbientLightColor(IntLightRGBValues var1, int var2);
 
-    default public void updateIntLightContourLightColor(IntLightRGBValues intLightRGBValues, int n) {
-    }
+    public void updateIntLightContourLightColor(IntLightRGBValues var1, int var2);
 
-    default public void updateIntLightFollowUpTime(int n, int n2) {
-    }
+    public void updateIntLightFollowUpTime(int var1, int var2);
 
-    default public void updateIntLightDoorContact(boolean bl, int n) {
-    }
+    public void updateIntLightDoorContact(boolean var1, int var2);
 
-    default public void updateIntLightRGBColorListUpdateInfo(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int n) {
-    }
+    public void updateIntLightRGBColorListUpdateInfo(IntLightRGBColorListUpdateInfo var1, int var2);
 
-    default public void updateIntLightRGBColorListTotalNumberOfElements(int n, int n2) {
-    }
+    public void updateIntLightRGBColorListTotalNumberOfElements(int var1, int var2);
 
-    default public void responseIntLightRGBColorListRA0(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) {
-    }
+    public void responseIntLightRGBColorListRA0(IntLightRGBColorListUpdateInfo var1, IntLightRGBColorListRA0[] var2);
 
-    default public void responseIntLightRGBColorListRAF(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int[] nArray) {
-    }
+    public void responseIntLightRGBColorListRAF(IntLightRGBColorListUpdateInfo var1, int[] var2);
 
-    default public void updateExtLightComingHome(TimeState timeState, int n) {
-    }
+    public void updateExtLightComingHome(TimeState var1, int var2);
 
-    default public void updateExtLightLeavingHome(TimeState timeState, int n) {
-    }
+    public void updateExtLightLeavingHome(TimeState var1, int var2);
 
-    default public void updateExtLightSwitchOnSensitivity(int n, int n2) {
-    }
+    public void updateExtLightSwitchOnSensitivity(int var1, int var2);
 
-    default public void updateExtLightDaylight(boolean bl, int n) {
-    }
+    public void updateExtLightDaylight(boolean var1, int var2);
 
-    default public void updateExtLightTourist(boolean bl, int n) {
-    }
+    public void updateExtLightTourist(boolean var1, int var2);
 
-    default public void updateExtLightAdaptive(boolean bl, int n) {
-    }
+    public void updateExtLightAdaptive(boolean var1, int var2);
 
-    default public void updateExtLightHeadLightSystem(boolean bl, int n) {
-    }
+    public void updateExtLightHeadLightSystem(boolean var1, int var2);
 
-    default public void updateExtLightGlidingSystem(boolean bl, int n) {
-    }
+    public void updateExtLightGlidingSystem(boolean var1, int var2);
 
-    default public void updateExtLightViewOptions(ExtLightViewOptions extLightViewOptions, int n) {
-    }
+    public void updateExtLightViewOptions(ExtLightViewOptions var1, int var2);
 
-    default public void updateExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings, int n) {
-    }
+    public void updateExtLightMotorwayBlinking(MotorwayBlinkingSettings var1, int var2);
 
-    default public void updateExtLightMaskedHighBeam(boolean bl, int n) {
-    }
+    public void updateExtLightMaskedHighBeam(boolean var1, int var2);
 
-    default public void updateExtLightLampErrorDetection(ExtLightLampErrorDetectionState[] extLightLampErrorDetectionStateArray, int n) {
-    }
+    public void updateExtLightLampErrorDetection(ExtLightLampErrorDetectionState[] var1, int var2);
 
-    default public void updateExtLightLampErrorDetectionTrailer(ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray, int n) {
-    }
+    public void updateExtLightLampErrorDetectionTrailer(ExtLightLampErrorDetectionStateTrailer[] var1, int var2);
 
-    default public void updateExtLightSensorErrorDetection(ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray, int n) {
-    }
+    public void updateExtLightSensorErrorDetection(ExtLightSensorErrorDetectionState[] var1, int var2);
 
-    default public void updateExtLightAutomaticLight(boolean bl, boolean bl2, int n) {
-    }
+    public void updateExtLightAutomaticLight(boolean var1, boolean var2, int var3);
 
-    default public void acknowledgeIntLightSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeIntLightSetFactoryDefault(boolean var1);
 
-    default public void acknowledgeExtLightSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeExtLightSetFactoryDefault(boolean var1);
 
-    default public void updateExtLightLaserLight(boolean bl, int n) {
-    }
+    public void updateExtLightLaserLight(boolean var1, int var2);
 
-    default public void updateExtLightSignatureLight(boolean bl, int n) {
-    }
+    public void updateExtLightSignatureLight(boolean var1, int var2);
 
-    default public void updateExtLightHeadlightRange(int n, int n2) {
-    }
+    public void updateExtLightHeadlightRange(int var1, int var2);
 }
 

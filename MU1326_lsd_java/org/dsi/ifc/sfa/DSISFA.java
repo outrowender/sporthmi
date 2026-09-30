@@ -7,26 +7,22 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSISFA
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_AUDIOREQUEST;
-    public static final int ATTR_DISPLAYREQUEST;
-    public static final int RT_AUDIOREQUESTRESULT;
-    public static final int RT_DISPLAYREQUESTRESULT;
-    public static final int RT_REQUESTKEYTOUCHEVALUATION;
-    public static final int RT_REQUESTDISPLAYNOTVISIBLE;
-    public static final int RP_RESPONSEKEYTOUCHEVALUATION;
-    public static final int RP_RESPONSEDISPLAYNOTVISIBLE;
+    public static final String VERSION = "2.11.1";
+    public static final int ATTR_AUDIOREQUEST = 1;
+    public static final int ATTR_DISPLAYREQUEST = 2;
+    public static final int RT_AUDIOREQUESTRESULT = 1000;
+    public static final int RT_DISPLAYREQUESTRESULT = 1001;
+    public static final int RT_REQUESTKEYTOUCHEVALUATION = 1002;
+    public static final int RT_REQUESTDISPLAYNOTVISIBLE = 1003;
+    public static final int RP_RESPONSEKEYTOUCHEVALUATION = 2000;
+    public static final int RP_RESPONSEDISPLAYNOTVISIBLE = 2001;
 
-    default public void audioRequestResult(int n, int n2) {
-    }
+    public void audioRequestResult(int var1, int var2);
 
-    default public void displayRequestResult(int n, int n2) {
-    }
+    public void displayRequestResult(int var1, int var2);
 
-    default public void requestKeyTouchEvaluation(int n) {
-    }
+    public void requestKeyTouchEvaluation(int var1);
 
-    default public void requestDisplayNotVisible() {
-    }
+    public void requestDisplayNotVisible();
 }
 

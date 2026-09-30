@@ -6,42 +6,42 @@ package org.apache.xerces.util;
 import java.util.Arrays;
 
 public class XMLChar {
-    private static final byte[] CHARS = new byte[256];
-    public static final int MASK_VALID;
-    public static final int MASK_SPACE;
-    public static final int MASK_NAME_START;
-    public static final int MASK_NAME;
-    public static final int MASK_PUBID;
-    public static final int MASK_CONTENT;
-    public static final int MASK_NCNAME_START;
-    public static final int MASK_NCNAME;
+    private static final byte[] CHARS = new byte[65536];
+    public static final int MASK_VALID = 1;
+    public static final int MASK_SPACE = 2;
+    public static final int MASK_NAME_START = 4;
+    public static final int MASK_NAME = 8;
+    public static final int MASK_PUBID = 16;
+    public static final int MASK_CONTENT = 32;
+    public static final int MASK_NCNAME_START = 64;
+    public static final int MASK_NCNAME = 128;
 
     public static boolean isSupplemental(int n) {
-        return n >= 256 && n <= -61440;
+        return n >= 65536 && n <= 0x10FFFF;
     }
 
     public static int supplemental(char c2, char c3) {
-        return (c2 - 0xD80000) * 1024 + (c3 - 0xDC0000) + 256;
+        return (c2 - 55296) * 1024 + (c3 - 56320) + 65536;
     }
 
     public static char highSurrogate(int n) {
-        return (char)((n - 256 >> 10) + 0xD80000);
+        return (char)((n - 65536 >> 10) + 55296);
     }
 
     public static char lowSurrogate(int n) {
-        return (char)((n - 256 & 0x3FF) + 0xDC0000);
+        return (char)((n - 65536 & 0x3FF) + 56320);
     }
 
     public static boolean isHighSurrogate(int n) {
-        return 0xD80000 <= n && n <= -2424832;
+        return 55296 <= n && n <= 56319;
     }
 
     public static boolean isLowSurrogate(int n) {
-        return 0xDC0000 <= n && n <= -2162688;
+        return 56320 <= n && n <= 57343;
     }
 
     public static boolean isValid(int n) {
-        return n < 256 && (CHARS[n] & 1) != 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (CHARS[n] & 1) != 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isInvalid(int n) {
@@ -49,7 +49,7 @@ public class XMLChar {
     }
 
     public static boolean isContent(int n) {
-        return n < 256 && (CHARS[n] & 0x20) != 0 || 256 <= n && n <= -61440;
+        return n < 65536 && (CHARS[n] & 0x20) != 0 || 65536 <= n && n <= 0x10FFFF;
     }
 
     public static boolean isMarkup(int n) {
@@ -61,23 +61,23 @@ public class XMLChar {
     }
 
     public static boolean isNameStart(int n) {
-        return n < 256 && (CHARS[n] & 4) != 0;
+        return n < 65536 && (CHARS[n] & 4) != 0;
     }
 
     public static boolean isName(int n) {
-        return n < 256 && (CHARS[n] & 8) != 0;
+        return n < 65536 && (CHARS[n] & 8) != 0;
     }
 
     public static boolean isNCNameStart(int n) {
-        return n < 256 && (CHARS[n] & 0x40) != 0;
+        return n < 65536 && (CHARS[n] & 0x40) != 0;
     }
 
     public static boolean isNCName(int n) {
-        return n < 256 && (CHARS[n] & 0x80) != 0;
+        return n < 65536 && (CHARS[n] & 0x80) != 0;
     }
 
     public static boolean isPubid(int n) {
-        return n < 256 && (CHARS[n] & 0x10) != 0;
+        return n < 65536 && (CHARS[n] & 0x10) != 0;
     }
 
     public static boolean isValidName(String string) {
@@ -766,11 +766,11 @@ public class XMLChar {
         Arrays.fill(CHARS, 12543, 12549, (byte)33);
         Arrays.fill(CHARS, 12549, 12589, (byte)-19);
         Arrays.fill(CHARS, 12589, 19968, (byte)33);
-        Arrays.fill(CHARS, 19968, -1499529216, (byte)-19);
-        Arrays.fill(CHARS, -1499529216, 0xAC0000, (byte)33);
-        Arrays.fill(CHARS, 0xAC0000, -1529413632, (byte)-19);
-        Arrays.fill(CHARS, -1529413632, 0xD80000, (byte)33);
-        Arrays.fill(CHARS, 0xE00000, -16842752, (byte)33);
+        Arrays.fill(CHARS, 19968, 40870, (byte)-19);
+        Arrays.fill(CHARS, 40870, 44032, (byte)33);
+        Arrays.fill(CHARS, 44032, 55204, (byte)-19);
+        Arrays.fill(CHARS, 55204, 55296, (byte)33);
+        Arrays.fill(CHARS, 57344, 65534, (byte)33);
     }
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carhybrid;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carhybrid.DSICarHybridReply;
 import de.esolutions.fw.comm.dsi.carhybrid.impl.DSICarHybridReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -47,13 +48,11 @@ implements DSICarHybridReply {
         super(n, (class$org$dsi$ifc$carhybrid$DSICarHybridListener == null ? (class$org$dsi$ifc$carhybrid$DSICarHybridListener = DSICarHybridDispatcher.class$("org.dsi.ifc.carhybrid.DSICarHybridListener")) : class$org$dsi$ifc$carhybrid$DSICarHybridListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateHybridViewOptions(HybridViewOptions hybridViewOptions, int n) {
+    public void updateHybridViewOptions(HybridViewOptions hybridViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -81,8 +80,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridCharge(int n, int n2) {
+    public void updateHybridCharge(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -110,8 +108,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState, int n) {
+    public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -139,8 +136,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridRecoveredEnergy(int n, int n2) {
+    public void updateHybridRecoveredEnergy(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -168,8 +164,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridEnergyFlow(int n, int n2) {
+    public void updateHybridEnergyFlow(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -197,8 +192,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridEnergyAssistControl(boolean bl, int n) {
+    public void updateHybridEnergyAssistControl(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -226,8 +220,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridEnergyAssistState(int n, int n2) {
+    public void updateHybridEnergyAssistState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -255,8 +248,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
+    public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -284,8 +276,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlPlug(BatteryControlPlug batteryControlPlug, int n) {
+    public void updateBatteryControlPlug(BatteryControlPlug batteryControlPlug, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -313,8 +304,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) {
+    public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -342,8 +332,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlClimateState(BatteryControlClimateState batteryControlClimateState, int n) {
+    public void updateBatteryControlClimateState(BatteryControlClimateState batteryControlClimateState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -371,8 +360,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTimerState(BatteryControlTimerState batteryControlTimerState, int n) {
+    public void updateBatteryControlTimerState(BatteryControlTimerState batteryControlTimerState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -400,8 +388,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTimer1(BatteryControlTimer batteryControlTimer, int n) {
+    public void updateBatteryControlTimer1(BatteryControlTimer batteryControlTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -429,8 +416,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTimer2(BatteryControlTimer batteryControlTimer, int n) {
+    public void updateBatteryControlTimer2(BatteryControlTimer batteryControlTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -458,8 +444,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTimer3(BatteryControlTimer batteryControlTimer, int n) {
+    public void updateBatteryControlTimer3(BatteryControlTimer batteryControlTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -487,8 +472,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTimer4(BatteryControlTimer batteryControlTimer, int n) {
+    public void updateBatteryControlTimer4(BatteryControlTimer batteryControlTimer, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -516,8 +500,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTotalNumberOfProfiles(int n, int n2) {
+    public void updateBatteryControlTotalNumberOfProfiles(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -545,8 +528,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlProfilesListUpdateInfo(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray, int n) {
+    public void updateBatteryControlProfilesListUpdateInfo(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -574,8 +556,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlTotalNumberOfPowerProvider(int n, int n2) {
+    public void updateBatteryControlTotalNumberOfPowerProvider(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -603,8 +584,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlPowerProviderListUpdateInfo(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray, int n) {
+    public void updateBatteryControlPowerProviderListUpdateInfo(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -632,8 +612,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void acknowledgeBatteryControlSetFactoryDefault(boolean bl) {
+    public void acknowledgeBatteryControlSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -649,8 +628,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void acknowledgeBatteryControlImmediately(boolean bl, int n) {
+    public void acknowledgeBatteryControlImmediately(boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -666,8 +644,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA0(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA0[] batteryControlProfileRA0Array) {
+    public void responseProfileListRA0(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA0[] batteryControlProfileRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -683,8 +660,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA1(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA1[] batteryControlProfileRA1Array) {
+    public void responseProfileListRA1(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA1[] batteryControlProfileRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -700,8 +676,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA2(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA2[] batteryControlProfileRA2Array) {
+    public void responseProfileListRA2(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA2[] batteryControlProfileRA2Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -717,8 +692,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA3(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA3[] batteryControlProfileRA3Array) {
+    public void responseProfileListRA3(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA3[] batteryControlProfileRA3Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -734,8 +708,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA4(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA4[] batteryControlProfileRA4Array) {
+    public void responseProfileListRA4(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA4[] batteryControlProfileRA4Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -751,8 +724,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA5(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA5[] batteryControlProfileRA5Array) {
+    public void responseProfileListRA5(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA5[] batteryControlProfileRA5Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -768,8 +740,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA6(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA6[] batteryControlProfileRA6Array) {
+    public void responseProfileListRA6(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA6[] batteryControlProfileRA6Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -785,8 +756,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRA7(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA7[] batteryControlProfileRA7Array) {
+    public void responseProfileListRA7(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA7[] batteryControlProfileRA7Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -802,8 +772,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responseProfileListRAF(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray) {
+    public void responseProfileListRAF(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -819,8 +788,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responsePowerProviderListRA0(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) {
+    public void responsePowerProviderListRA0(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -836,8 +804,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responsePowerProviderListRA1(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) {
+    public void responsePowerProviderListRA1(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -853,8 +820,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responsePowerProviderListRA2(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) {
+    public void responsePowerProviderListRA2(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -870,8 +836,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responsePowerProviderListRAE(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) {
+    public void responsePowerProviderListRAE(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -887,8 +852,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void responsePowerProviderListRAF(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray) {
+    public void responsePowerProviderListRAF(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -904,8 +868,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridTargetRange(HybridTargetRange hybridTargetRange, int n) {
+    public void updateHybridTargetRange(HybridTargetRange hybridTargetRange, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -933,8 +896,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlPastErrorReason(int n, int n2, int n3, int n4) {
+    public void updateBatteryControlPastErrorReason(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -962,8 +924,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlPlugDisplayState(int n, int n2, int n3) {
+    public void updateBatteryControlPlugDisplayState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -991,8 +952,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlRemainingChargeTime(BatteryControlRemainingChargeTime batteryControlRemainingChargeTime, BatteryControlRemainingChargeTime batteryControlRemainingChargeTime2, int n) {
+    public void updateBatteryControlRemainingChargeTime(BatteryControlRemainingChargeTime batteryControlRemainingChargeTime, BatteryControlRemainingChargeTime batteryControlRemainingChargeTime2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1020,8 +980,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateBatteryControlLowestMaxCurrent(int n, int n2) {
+    public void updateBatteryControlLowestMaxCurrent(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1049,8 +1008,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridInhibitReason(HybridInhibitReason hybridInhibitReason, int n) {
+    public void updateHybridInhibitReason(HybridInhibitReason hybridInhibitReason, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1078,8 +1036,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void updateHybridActivePedal(boolean bl, int n) {
+    public void updateHybridActivePedal(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1107,8 +1064,7 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1124,14 +1080,13 @@ implements DSICarHybridReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarHybridListener dSICarHybridListener = (DSICarHybridListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarHybridDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarHybridDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarHybridListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarHybridDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarHybridDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarHybridListener, new Object[]{string, string2});
                     continue;
                 }

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.speechrec.impl.GraphemicGroupSerializer;
 import de.esolutions.fw.comm.dsi.speechrec.impl.NBestListEntrySerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.GraphemicGroup;
 import org.dsi.ifc.speechrec.NBestList;
 import org.dsi.ifc.speechrec.NBestListEntry;
 
 public class NBestListSerializer {
-    public static void putOptionalNBestList(ISerializer iSerializer, NBestList nBestList) {
+    public static void putOptionalNBestList(ISerializer iSerializer, NBestList nBestList) throws SerializerException {
         boolean bl = nBestList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class NBestListSerializer {
         }
     }
 
-    public static void putOptionalNBestListVarArray(ISerializer iSerializer, NBestList[] nBestListArray) {
+    public static void putOptionalNBestListVarArray(ISerializer iSerializer, NBestList[] nBestListArray) throws SerializerException {
         boolean bl = nBestListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class NBestListSerializer {
         }
     }
 
-    public static NBestList getOptionalNBestList(IDeserializer iDeserializer) {
+    public static NBestList getOptionalNBestList(IDeserializer iDeserializer) throws SerializerException {
         NBestList nBestList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class NBestListSerializer {
         return nBestList;
     }
 
-    public static NBestList[] getOptionalNBestListVarArray(IDeserializer iDeserializer) {
+    public static NBestList[] getOptionalNBestListVarArray(IDeserializer iDeserializer) throws SerializerException {
         NBestList[] nBestListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

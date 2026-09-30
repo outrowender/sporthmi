@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.TimePeriod;
 import org.dsi.ifc.global.DateTime;
 
 public class TimePeriodSerializer {
-    public static void putOptionalTimePeriod(ISerializer iSerializer, TimePeriod timePeriod) {
+    public static void putOptionalTimePeriod(ISerializer iSerializer, TimePeriod timePeriod) throws SerializerException {
         boolean bl = timePeriod == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TimePeriodSerializer {
         }
     }
 
-    public static void putOptionalTimePeriodVarArray(ISerializer iSerializer, TimePeriod[] timePeriodArray) {
+    public static void putOptionalTimePeriodVarArray(ISerializer iSerializer, TimePeriod[] timePeriodArray) throws SerializerException {
         boolean bl = timePeriodArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TimePeriodSerializer {
         }
     }
 
-    public static TimePeriod getOptionalTimePeriod(IDeserializer iDeserializer) {
+    public static TimePeriod getOptionalTimePeriod(IDeserializer iDeserializer) throws SerializerException {
         TimePeriod timePeriod = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class TimePeriodSerializer {
         return timePeriod;
     }
 
-    public static TimePeriod[] getOptionalTimePeriodVarArray(IDeserializer iDeserializer) {
+    public static TimePeriod[] getOptionalTimePeriodVarArray(IDeserializer iDeserializer) throws SerializerException {
         TimePeriod[] timePeriodArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

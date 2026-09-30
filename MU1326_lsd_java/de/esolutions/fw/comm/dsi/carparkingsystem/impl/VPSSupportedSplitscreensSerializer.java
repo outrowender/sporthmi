@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSSupportedSplitscreens;
 
 public class VPSSupportedSplitscreensSerializer {
-    public static void putOptionalVPSSupportedSplitscreens(ISerializer iSerializer, VPSSupportedSplitscreens vPSSupportedSplitscreens) {
+    public static void putOptionalVPSSupportedSplitscreens(ISerializer iSerializer, VPSSupportedSplitscreens vPSSupportedSplitscreens) throws SerializerException {
         boolean bl = vPSSupportedSplitscreens == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class VPSSupportedSplitscreensSerializer {
         }
     }
 
-    public static void putOptionalVPSSupportedSplitscreensVarArray(ISerializer iSerializer, VPSSupportedSplitscreens[] vPSSupportedSplitscreensArray) {
+    public static void putOptionalVPSSupportedSplitscreensVarArray(ISerializer iSerializer, VPSSupportedSplitscreens[] vPSSupportedSplitscreensArray) throws SerializerException {
         boolean bl = vPSSupportedSplitscreensArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class VPSSupportedSplitscreensSerializer {
         }
     }
 
-    public static VPSSupportedSplitscreens getOptionalVPSSupportedSplitscreens(IDeserializer iDeserializer) {
+    public static VPSSupportedSplitscreens getOptionalVPSSupportedSplitscreens(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedSplitscreens vPSSupportedSplitscreens = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class VPSSupportedSplitscreensSerializer {
         return vPSSupportedSplitscreens;
     }
 
-    public static VPSSupportedSplitscreens[] getOptionalVPSSupportedSplitscreensVarArray(IDeserializer iDeserializer) {
+    public static VPSSupportedSplitscreens[] getOptionalVPSSupportedSplitscreensVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedSplitscreens[] vPSSupportedSplitscreensArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

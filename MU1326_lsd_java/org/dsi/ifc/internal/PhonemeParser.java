@@ -74,9 +74,9 @@ public class PhonemeParser {
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
                 if (null == stringArray[i2]) continue;
                 if (i2 > 0) {
-                    string = new StringBuffer().append(string).append(" ").toString();
+                    string = string + " ";
                 }
-                string = new StringBuffer().append(string).append(stringArray[i2]).toString();
+                string = string + stringArray[i2];
             }
         }
         return string;
@@ -92,7 +92,7 @@ public class PhonemeParser {
         if (string.length() > 0 && (n = string.indexOf(")")) > 1) {
             phonemeData.phoneme = string.substring(n + 1);
             String string2 = string.substring(1, n);
-            phonemeData.alphabet = new StringBuffer().append(DatabaseProvider).append("_").append(string2).toString();
+            phonemeData.alphabet = DatabaseProvider + "_" + string2;
         }
         return phonemeData;
     }

@@ -3,15 +3,13 @@
  */
 package de.esolutions.fw.util.commons.pool;
 
-import de.esolutions.fw.util.commons.pool.ShortPool$Item;
-
 public final class ShortPool {
-    private ShortPool$Item[] items;
+    private Item[] items;
     private int count;
     protected int next;
 
     public ShortPool(short s) {
-        this.items = new ShortPool$Item[s];
+        this.items = new Item[s];
         this.fill();
         this.count = 0;
         this.next = 0;
@@ -19,8 +17,8 @@ public final class ShortPool {
 
     private void fill() {
         for (short s = 0; s < this.items.length; s = (short)(s + 1)) {
-            ShortPool$Item shortPool$Item;
-            this.items[s] = shortPool$Item = new ShortPool$Item(s);
+            Item item;
+            this.items[s] = item = new Item(s);
         }
     }
 
@@ -44,10 +42,10 @@ public final class ShortPool {
         boolean bl = false;
         int n = this.next;
         while (true) {
-            ShortPool$Item shortPool$Item;
-            if (!(shortPool$Item = this.items[n]).isUsed()) {
-                s = shortPool$Item.getKey();
-                shortPool$Item.setObject(object);
+            Item item;
+            if (!(item = this.items[n]).isUsed()) {
+                s = item.getKey();
+                item.setObject(object);
                 ++this.count;
                 break;
             }
@@ -62,10 +60,10 @@ public final class ShortPool {
 
     public Object remove(short s) {
         for (int i2 = 0; i2 < this.items.length; ++i2) {
-            ShortPool$Item shortPool$Item = this.items[i2];
-            if (shortPool$Item.getKey() != s || !shortPool$Item.isUsed()) continue;
-            Object object = shortPool$Item.getObject();
-            shortPool$Item.setObject(null);
+            Item item = this.items[i2];
+            if (item.getKey() != s || !item.isUsed()) continue;
+            Object object = item.getObject();
+            item.setObject(null);
             --this.count;
             return object;
         }
@@ -82,9 +80,9 @@ public final class ShortPool {
 
     public short findObject(Object object) {
         for (int n = 0; n < this.items.length; n = (int)((short)(n + 1))) {
-            ShortPool$Item shortPool$Item = this.items[n];
-            if (shortPool$Item.getObject() != object) continue;
-            return shortPool$Item.getKey();
+            Item item = this.items[n];
+            if (item.getObject() != object) continue;
+            return item.getKey();
         }
         return -1;
     }
@@ -96,9 +94,9 @@ public final class ShortPool {
         short[] sArray = new short[this.count];
         int n = 0;
         for (int i2 = 0; i2 < this.items.length; ++i2) {
-            ShortPool$Item shortPool$Item = this.items[i2];
-            if (!shortPool$Item.isUsed()) continue;
-            sArray[n] = shortPool$Item.getKey();
+            Item item = this.items[i2];
+            if (!item.isUsed()) continue;
+            sArray[n] = item.getKey();
             ++n;
         }
         return sArray;
@@ -111,12 +109,38 @@ public final class ShortPool {
         Object[] objectArray = new Object[this.count];
         int n = 0;
         for (int i2 = 0; i2 < this.items.length; ++i2) {
-            ShortPool$Item shortPool$Item = this.items[i2];
-            if (!shortPool$Item.isUsed()) continue;
-            objectArray[n] = shortPool$Item.getObject();
+            Item item = this.items[i2];
+            if (!item.isUsed()) continue;
+            objectArray[n] = item.getObject();
             ++n;
         }
         return objectArray;
+    }
+
+    private static final class Item {
+        private short key;
+        private Object object;
+
+        public Item(short s) {
+            this.key = s;
+            this.object = null;
+        }
+
+        public boolean isUsed() {
+            return this.object != null;
+        }
+
+        public void setObject(Object object) {
+            this.object = object;
+        }
+
+        public short getKey() {
+            return this.key;
+        }
+
+        public Object getObject() {
+            return this.object;
+        }
     }
 }
 

@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.komoview.DSIKOMOView;
 import de.esolutions.fw.comm.dsi.komoview.DSIKOMOViewC;
 import de.esolutions.fw.comm.dsi.komoview.DSIKOMOViewReply;
-import de.esolutions.fw.comm.dsi.komoview.impl.DSIKOMOViewProxy$1;
-import de.esolutions.fw.comm.dsi.komoview.impl.DSIKOMOViewProxy$2;
 import de.esolutions.fw.comm.dsi.komoview.impl.DSIKOMOViewReplyService;
+import de.esolutions.fw.comm.dsi.komoview.impl.RouteInfoElementSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.komoview.RouteInfoElement;
@@ -33,8 +34,7 @@ DSIKOMOViewC {
         return this.proxy;
     }
 
-    @Override
-    public void enableKomoView(boolean bl) {
+    public void enableKomoView(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -45,8 +45,7 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void notifyVisibility(boolean bl) {
+    public void notifyVisibility(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -57,20 +56,27 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void setRouteInfoElement(RouteInfoElement routeInfoElement) {
-        DSIKOMOViewProxy$1 dSIKOMOViewProxy$1 = new DSIKOMOViewProxy$1(this, routeInfoElement);
-        this.proxy.remoteCallMethod((short)20, dSIKOMOViewProxy$1);
+    public void setRouteInfoElement(final RouteInfoElement routeInfoElement) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteInfoElementSerializer.putOptionalRouteInfoElement(iSerializer, routeInfoElement);
+            }
+        };
+        this.proxy.remoteCallMethod((short)20, iSerializable);
     }
 
-    @Override
-    public void setRouteInfo(RouteInfoElement[] routeInfoElementArray) {
-        DSIKOMOViewProxy$2 dSIKOMOViewProxy$2 = new DSIKOMOViewProxy$2(this, routeInfoElementArray);
-        this.proxy.remoteCallMethod((short)21, dSIKOMOViewProxy$2);
+    public void setRouteInfo(final RouteInfoElement[] routeInfoElementArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteInfoElementSerializer.putOptionalRouteInfoElementVarArray(iSerializer, routeInfoElementArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void setKomoViewStyle(int n) {
+    public void setKomoViewStyle(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -81,8 +87,7 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -93,8 +98,7 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -105,13 +109,11 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -122,8 +124,7 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -134,13 +135,11 @@ DSIKOMOViewC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneNetworkState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTelephoneNetworkStateSerializer {
-    public static void putOptionalsTelephoneNetworkState(ISerializer iSerializer, sTelephoneNetworkState sTelephoneNetworkState2) {
+    public static void putOptionalsTelephoneNetworkState(ISerializer iSerializer, sTelephoneNetworkState sTelephoneNetworkState2) throws SerializerException {
         boolean bl = sTelephoneNetworkState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sTelephoneNetworkStateSerializer {
         }
     }
 
-    public static void putOptionalsTelephoneNetworkStateVarArray(ISerializer iSerializer, sTelephoneNetworkState[] sTelephoneNetworkStateArray) {
+    public static void putOptionalsTelephoneNetworkStateVarArray(ISerializer iSerializer, sTelephoneNetworkState[] sTelephoneNetworkStateArray) throws SerializerException {
         boolean bl = sTelephoneNetworkStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sTelephoneNetworkStateSerializer {
         }
     }
 
-    public static sTelephoneNetworkState getOptionalsTelephoneNetworkState(IDeserializer iDeserializer) {
+    public static sTelephoneNetworkState getOptionalsTelephoneNetworkState(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneNetworkState sTelephoneNetworkState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sTelephoneNetworkStateSerializer {
         return sTelephoneNetworkState2;
     }
 
-    public static sTelephoneNetworkState[] getOptionalsTelephoneNetworkStateVarArray(IDeserializer iDeserializer) {
+    public static sTelephoneNetworkState[] getOptionalsTelephoneNetworkStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneNetworkState[] sTelephoneNetworkStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

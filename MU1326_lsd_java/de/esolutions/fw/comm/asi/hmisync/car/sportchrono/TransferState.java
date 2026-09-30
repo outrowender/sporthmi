@@ -32,7 +32,7 @@ public class TransferState {
     }
 
     public String toString() {
-        return new StringBuffer("TransferState{").append("state=").append(this.state).append(", deviceId=").append(this.deviceId).append("}").toString();
+        return "TransferState{" + "state=" + this.state + ", deviceId=" + this.deviceId + "}";
     }
 }
 

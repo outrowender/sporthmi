@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.kombisync2;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombisync2.DisplayIdentification;
 import org.dsi.ifc.kombisync2.DisplayRequestResponse;
 import org.dsi.ifc.kombisync2.DisplayStatus;
@@ -12,49 +13,34 @@ import org.dsi.ifc.kombisync2.PopupRegisterRequestResponse;
 import org.dsi.ifc.kombisync2.PopupStatus;
 
 public interface DSIKombiSyncC {
-    default public void setMMIDisplayRequestResponse(DisplayRequestResponse displayRequestResponse) {
-    }
+    public void setMMIDisplayRequestResponse(DisplayRequestResponse var1) throws MethodException;
 
-    default public void setMMIDisplayStatus(DisplayStatus displayStatus) {
-    }
+    public void setMMIDisplayStatus(DisplayStatus var1) throws MethodException;
 
-    default public void setMenuState(MenuState menuState) {
-    }
+    public void setMenuState(MenuState var1) throws MethodException;
 
-    default public void setMMIPopupRegisterRequest(PopupRegisterRequestResponse popupRegisterRequestResponse) {
-    }
+    public void setMMIPopupRegisterRequest(PopupRegisterRequestResponse var1) throws MethodException;
 
-    default public void setMMIPopupActionResponse(PopupActionRequestResponse popupActionRequestResponse) {
-    }
+    public void setMMIPopupActionResponse(PopupActionRequestResponse var1) throws MethodException;
 
-    default public void setMMIPopupStatus(PopupStatus popupStatus) {
-    }
+    public void setMMIPopupStatus(PopupStatus var1) throws MethodException;
 
-    default public void setMMIDisplayIdentification(DisplayIdentification displayIdentification) {
-    }
+    public void setMMIDisplayIdentification(DisplayIdentification var1) throws MethodException;
 
-    default public void setHMIIsReady(boolean bl) {
-    }
+    public void setHMIIsReady(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

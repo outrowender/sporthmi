@@ -27,28 +27,23 @@ implements DSIDisplayManagement {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$displaymanagement$DSIDisplayManagement == null ? (class$org$dsi$ifc$displaymanagement$DSIDisplayManagement = DSIDisplayManagementProvider.class$("org.dsi.ifc.displaymanagement.DSIDisplayManagement")) : class$org$dsi$ifc$displaymanagement$DSIDisplayManagement).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDisplayManagementProxy(this.instance, (DSIDisplayManagementReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void declareContexts(DisplayContext[] displayContextArray) {
         try {
             this.proxy.declareContexts(displayContextArray);
@@ -58,7 +53,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void switchContext(int n, int n2, int n3) {
         try {
             this.proxy.switchContext(n, n2, n3);
@@ -68,7 +62,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setOpacity(int n, int n2, int n3) {
         try {
             this.proxy.setOpacity(n, n2, n3);
@@ -78,7 +71,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void fadeToOpacity(int n, int n2, int n3, int n4) {
         try {
             this.proxy.fadeToOpacity(n, n2, n3, n4);
@@ -88,7 +80,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setPosition(int n, int n2, int n3, int n4) {
         try {
             this.proxy.setPosition(n, n2, n3, n4);
@@ -98,7 +89,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getExtents(int n) {
         try {
             this.proxy.getExtents(n);
@@ -108,7 +98,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void takeScreenshot(int n, String string) {
         try {
             this.proxy.takeScreenshot(n, string);
@@ -118,7 +107,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void lockDisplay(int n) {
         try {
             this.proxy.lockDisplay(n);
@@ -128,7 +116,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void unlockDisplay(int n) {
         try {
             this.proxy.unlockDisplay(n);
@@ -138,7 +125,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void switchDisplayPower(int n, int n2) {
         try {
             this.proxy.switchDisplayPower(n, n2);
@@ -148,7 +134,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getDisplayPower(int n) {
         try {
             this.proxy.getDisplayPower(n);
@@ -158,7 +143,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setDisplayBrightness(int n, int n2) {
         try {
             this.proxy.setDisplayBrightness(n, n2);
@@ -168,7 +152,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getDisplayBrightness(int n) {
         try {
             this.proxy.getDisplayBrightness(n);
@@ -178,7 +161,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setBrightness(int n, int n2) {
         try {
             this.proxy.setBrightness(n, n2);
@@ -188,7 +170,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getBrightness(int n) {
         try {
             this.proxy.getBrightness(n);
@@ -198,7 +179,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setContrast(int n, int n2) {
         try {
             this.proxy.setContrast(n, n2);
@@ -208,7 +188,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getContrast(int n) {
         try {
             this.proxy.getContrast(n);
@@ -218,7 +197,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setColor(int n, int n2) {
         try {
             this.proxy.setColor(n, n2);
@@ -228,7 +206,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getColor(int n) {
         try {
             this.proxy.getColor(n);
@@ -238,7 +215,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setTint(int n, int n2) {
         try {
             this.proxy.setTint(n, n2);
@@ -248,7 +224,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getTint(int n) {
         try {
             this.proxy.getTint(n);
@@ -258,7 +233,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
         try {
             this.proxy.setCropping(n, n2, n3, n4, n5, n6, n7, n8, n9, n10);
@@ -268,7 +242,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getDisplayableInfo(int n, int n2) {
         try {
             this.proxy.getDisplayableInfo(n, n2);
@@ -278,7 +251,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setDimension(int n, int n2, int n3, int n4) {
         try {
             this.proxy.setDimension(n, n2, n3, n4);
@@ -288,7 +260,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setScaleMode(int n, int n2, int n3) {
         try {
             this.proxy.setScaleMode(n, n2, n3);
@@ -298,7 +269,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void takeScreenshotOnExternalStorage(int n, String string) {
         try {
             this.proxy.takeScreenshotOnExternalStorage(n, string);
@@ -308,7 +278,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setDisplayType(int n, int n2) {
         try {
             this.proxy.setDisplayType(n, n2);
@@ -318,7 +287,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getDisplayType(int n) {
         try {
             this.proxy.getDisplayType(n);
@@ -328,7 +296,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setUpdateRate(int n, int n2) {
         try {
             this.proxy.setUpdateRate(n, n2);
@@ -338,7 +305,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void getUpdateRate(int n) {
         try {
             this.proxy.getUpdateRate(n);
@@ -348,7 +314,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void startComponent(int n, int n2, int n3) {
         try {
             this.proxy.startComponent(n, n2, n3);
@@ -358,7 +323,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void stopComponent(int n, int n2, int n3) {
         try {
             this.proxy.stopComponent(n, n2, n3);
@@ -368,7 +332,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void createImageDisplayable(ResourceLocator resourceLocator, int n) {
         try {
             this.proxy.createImageDisplayable(resourceLocator, n);
@@ -378,7 +341,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void requestUpdateImageDisplayable(ResourceLocator resourceLocator, int n) {
         try {
             this.proxy.requestUpdateImageDisplayable(resourceLocator, n);
@@ -388,7 +350,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void destroyImageDisplayable(int n) {
         try {
             this.proxy.destroyImageDisplayable(n);
@@ -398,7 +359,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void initAnnotations(int n) {
         try {
             this.proxy.initAnnotations(n);
@@ -408,7 +368,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setAnnotationData(int n, int n2, String string) {
         try {
             this.proxy.setAnnotationData(n, n2, string);
@@ -418,7 +377,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -428,7 +386,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -438,7 +395,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -448,7 +404,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -458,7 +413,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -468,7 +422,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -478,7 +431,6 @@ implements DSIDisplayManagement {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

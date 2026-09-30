@@ -15,17 +15,18 @@ import de.esolutions.fw.comm.asi.hmisync.car.service.TireDisplayData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelPressures;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelStates;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelTemperatures;
-import de.esolutions.fw.comm.asi.hmisync.car.service.impl.ASIHMISyncCarServiceAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncCarServiceAbstractBaseService
 implements ASIHMISyncCarServiceS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.car.service.ASIHMISyncCarService");
-    private static final int attributesCount;
+    private static final int attributesCount = 20;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -207,39 +208,33 @@ implements ASIHMISyncCarServiceS {
     }
 
     public ASIHMISyncCarServiceAbstractBaseService() {
-        ASIHMISyncCarServiceAbstractBaseService$AttributesBitMapProvider aSIHMISyncCarServiceAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncCarServiceAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncCarService", aSIHMISyncCarServiceAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncCarService", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncCarServiceReply);
         this.sendAttributeUpdate(l, aSIHMISyncCarServiceReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.setNotification(aSIHMISyncCarServiceReply);
         this.sendAttributeUpdate(aSIHMISyncCarServiceReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncCarServiceReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncCarServiceReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncCarServiceReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.clearNotification(aSIHMISyncCarServiceReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncCarServiceReply);
     }
@@ -280,45 +275,45 @@ implements ASIHMISyncCarServiceS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
         try {
-            if (l == 0) {
+            if (l == 6L) {
                 aSIHMISyncCarServiceReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 14L) {
                 aSIHMISyncCarServiceReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 13L) {
                 aSIHMISyncCarServiceReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 11L) {
                 aSIHMISyncCarServiceReply.updateOilLevelData(this.OilLevelData, this.OilLevelData_valid);
-            } else if (l == 0) {
+            } else if (l == 12L) {
                 aSIHMISyncCarServiceReply.updateOilLevelDataVisibilityState(this.OilLevelDataVisibilityState, this.OilLevelDataVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 26L) {
                 aSIHMISyncCarServiceReply.updateAdBlueInfo(this.AdBlueInfo, this.AdBlueInfo_valid);
-            } else if (l == 0) {
+            } else if (l == 8L) {
                 aSIHMISyncCarServiceReply.updateAdBlueInfoVisibilityState(this.AdBlueInfoVisibilityState, this.AdBlueInfoVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 15L) {
                 aSIHMISyncCarServiceReply.updateSIAOilInspection(this.SIAOilInspection, this.SIAOilInspection_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncCarServiceReply.updateSIAOilInspectionVisibilityState(this.SIAOilInspectionVisibilityState, this.SIAOilInspectionVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncCarServiceReply.updateSIAServiceData(this.SIAServiceData, this.SIAServiceData_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncCarServiceReply.updateSIAServiceDataVisibilityState(this.SIAServiceDataVisibilityState, this.SIAServiceDataVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 24L) {
                 aSIHMISyncCarServiceReply.updateVinData(this.VinData, this.VinData_valid);
-            } else if (l == 0) {
+            } else if (l == 25L) {
                 aSIHMISyncCarServiceReply.updateVinDataVisibilityState(this.VinDataVisibilityState, this.VinDataVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 9L) {
                 aSIHMISyncCarServiceReply.updateKeyData(this.KeyData, this.KeyData_valid);
-            } else if (l == 0) {
+            } else if (l == 10L) {
                 aSIHMISyncCarServiceReply.updateKeyDataVisibilityState(this.KeyDataVisibilityState, this.KeyDataVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncCarServiceReply.updateTireDisplayData(this.TireDisplayData, this.TireDisplayData_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncCarServiceReply.updateTireDisplayDataVisibilityState(this.TireDisplayDataVisibilityState, this.TireDisplayDataVisibilityState_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncCarServiceReply.updateTireSystem(this.TireSystem, this.TireSystem_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncCarServiceReply.updateVehicleSpeedVisibility(this.VehicleSpeedVisibility, this.VehicleSpeedVisibility_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncCarServiceReply.updateVehicleSpeed(this.VehicleSpeed, this.VehicleSpeed_valid);
             } else {
                 System.out.println("unexpected");
@@ -329,11 +324,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncCarServiceAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(6);
@@ -347,11 +342,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -370,11 +365,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -393,11 +388,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateOilLevelData(OilLevelData oilLevelData) {
+    public void updateOilLevelData(OilLevelData oilLevelData) throws MethodException {
         this.updateOilLevelData(oilLevelData, true);
     }
 
-    public void updateOilLevelData(OilLevelData oilLevelData, boolean bl) {
+    public void updateOilLevelData(OilLevelData oilLevelData, boolean bl) throws MethodException {
         this.OilLevelData = ASIHMISyncCarServiceAbstractBaseService.copyOilLevelData(oilLevelData);
         this.OilLevelData_valid = bl;
         List list = this.baseService.getNotifications(11);
@@ -411,11 +406,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateOilLevelDataVisibilityState(int n) {
+    public void updateOilLevelDataVisibilityState(int n) throws MethodException {
         this.updateOilLevelDataVisibilityState(n, true);
     }
 
-    public void updateOilLevelDataVisibilityState(int n, boolean bl) {
+    public void updateOilLevelDataVisibilityState(int n, boolean bl) throws MethodException {
         this.OilLevelDataVisibilityState = n;
         this.OilLevelDataVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(12);
@@ -429,11 +424,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateAdBlueInfo(AdBlueInfo adBlueInfo) {
+    public void updateAdBlueInfo(AdBlueInfo adBlueInfo) throws MethodException {
         this.updateAdBlueInfo(adBlueInfo, true);
     }
 
-    public void updateAdBlueInfo(AdBlueInfo adBlueInfo, boolean bl) {
+    public void updateAdBlueInfo(AdBlueInfo adBlueInfo, boolean bl) throws MethodException {
         this.AdBlueInfo = ASIHMISyncCarServiceAbstractBaseService.copyAdBlueInfo(adBlueInfo);
         this.AdBlueInfo_valid = bl;
         List list = this.baseService.getNotifications(26);
@@ -447,11 +442,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateAdBlueInfoVisibilityState(int n) {
+    public void updateAdBlueInfoVisibilityState(int n) throws MethodException {
         this.updateAdBlueInfoVisibilityState(n, true);
     }
 
-    public void updateAdBlueInfoVisibilityState(int n, boolean bl) {
+    public void updateAdBlueInfoVisibilityState(int n, boolean bl) throws MethodException {
         this.AdBlueInfoVisibilityState = n;
         this.AdBlueInfoVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(8);
@@ -465,11 +460,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateSIAOilInspection(SIAOilInspection sIAOilInspection) {
+    public void updateSIAOilInspection(SIAOilInspection sIAOilInspection) throws MethodException {
         this.updateSIAOilInspection(sIAOilInspection, true);
     }
 
-    public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, boolean bl) {
+    public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, boolean bl) throws MethodException {
         this.SIAOilInspection = ASIHMISyncCarServiceAbstractBaseService.copySIAOilInspection(sIAOilInspection);
         this.SIAOilInspection_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -483,11 +478,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateSIAOilInspectionVisibilityState(int[] nArray) {
+    public void updateSIAOilInspectionVisibilityState(int[] nArray) throws MethodException {
         this.updateSIAOilInspectionVisibilityState(nArray, true);
     }
 
-    public void updateSIAOilInspectionVisibilityState(int[] nArray, boolean bl) {
+    public void updateSIAOilInspectionVisibilityState(int[] nArray, boolean bl) throws MethodException {
         if (nArray != null) {
             this.SIAOilInspectionVisibilityState = new int[nArray.length];
             System.arraycopy((Object)nArray, 0, (Object)this.SIAOilInspectionVisibilityState, 0, nArray.length);
@@ -506,11 +501,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateSIAServiceData(SIAServiceData sIAServiceData) {
+    public void updateSIAServiceData(SIAServiceData sIAServiceData) throws MethodException {
         this.updateSIAServiceData(sIAServiceData, true);
     }
 
-    public void updateSIAServiceData(SIAServiceData sIAServiceData, boolean bl) {
+    public void updateSIAServiceData(SIAServiceData sIAServiceData, boolean bl) throws MethodException {
         this.SIAServiceData = ASIHMISyncCarServiceAbstractBaseService.copySIAServiceData(sIAServiceData);
         this.SIAServiceData_valid = bl;
         List list = this.baseService.getNotifications(17);
@@ -524,11 +519,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateSIAServiceDataVisibilityState(int n) {
+    public void updateSIAServiceDataVisibilityState(int n) throws MethodException {
         this.updateSIAServiceDataVisibilityState(n, true);
     }
 
-    public void updateSIAServiceDataVisibilityState(int n, boolean bl) {
+    public void updateSIAServiceDataVisibilityState(int n, boolean bl) throws MethodException {
         this.SIAServiceDataVisibilityState = n;
         this.SIAServiceDataVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -542,11 +537,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateVinData(String string) {
+    public void updateVinData(String string) throws MethodException {
         this.updateVinData(string, true);
     }
 
-    public void updateVinData(String string, boolean bl) {
+    public void updateVinData(String string, boolean bl) throws MethodException {
         this.VinData = ASIHMISyncCarServiceAbstractBaseService.copyString(string);
         this.VinData_valid = bl;
         List list = this.baseService.getNotifications(24);
@@ -560,11 +555,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateVinDataVisibilityState(int n) {
+    public void updateVinDataVisibilityState(int n) throws MethodException {
         this.updateVinDataVisibilityState(n, true);
     }
 
-    public void updateVinDataVisibilityState(int n, boolean bl) {
+    public void updateVinDataVisibilityState(int n, boolean bl) throws MethodException {
         this.VinDataVisibilityState = n;
         this.VinDataVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(25);
@@ -578,11 +573,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateKeyData(int[] nArray) {
+    public void updateKeyData(int[] nArray) throws MethodException {
         this.updateKeyData(nArray, true);
     }
 
-    public void updateKeyData(int[] nArray, boolean bl) {
+    public void updateKeyData(int[] nArray, boolean bl) throws MethodException {
         if (nArray != null) {
             this.KeyData = new int[nArray.length];
             System.arraycopy((Object)nArray, 0, (Object)this.KeyData, 0, nArray.length);
@@ -601,11 +596,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateKeyDataVisibilityState(int n) {
+    public void updateKeyDataVisibilityState(int n) throws MethodException {
         this.updateKeyDataVisibilityState(n, true);
     }
 
-    public void updateKeyDataVisibilityState(int n, boolean bl) {
+    public void updateKeyDataVisibilityState(int n, boolean bl) throws MethodException {
         this.KeyDataVisibilityState = n;
         this.KeyDataVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(10);
@@ -619,11 +614,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateTireDisplayData(TireDisplayData tireDisplayData) {
+    public void updateTireDisplayData(TireDisplayData tireDisplayData) throws MethodException {
         this.updateTireDisplayData(tireDisplayData, true);
     }
 
-    public void updateTireDisplayData(TireDisplayData tireDisplayData, boolean bl) {
+    public void updateTireDisplayData(TireDisplayData tireDisplayData, boolean bl) throws MethodException {
         this.TireDisplayData = ASIHMISyncCarServiceAbstractBaseService.copyTireDisplayData(tireDisplayData);
         this.TireDisplayData_valid = bl;
         List list = this.baseService.getNotifications(19);
@@ -637,11 +632,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateTireDisplayDataVisibilityState(int n) {
+    public void updateTireDisplayDataVisibilityState(int n) throws MethodException {
         this.updateTireDisplayDataVisibilityState(n, true);
     }
 
-    public void updateTireDisplayDataVisibilityState(int n, boolean bl) {
+    public void updateTireDisplayDataVisibilityState(int n, boolean bl) throws MethodException {
         this.TireDisplayDataVisibilityState = n;
         this.TireDisplayDataVisibilityState_valid = bl;
         List list = this.baseService.getNotifications(20);
@@ -655,11 +650,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateTireSystem(int n) {
+    public void updateTireSystem(int n) throws MethodException {
         this.updateTireSystem(n, true);
     }
 
-    public void updateTireSystem(int n, boolean bl) {
+    public void updateTireSystem(int n, boolean bl) throws MethodException {
         this.TireSystem = n;
         this.TireSystem_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -673,11 +668,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateVehicleSpeedVisibility(int n) {
+    public void updateVehicleSpeedVisibility(int n) throws MethodException {
         this.updateVehicleSpeedVisibility(n, true);
     }
 
-    public void updateVehicleSpeedVisibility(int n, boolean bl) {
+    public void updateVehicleSpeedVisibility(int n, boolean bl) throws MethodException {
         this.VehicleSpeedVisibility = n;
         this.VehicleSpeedVisibility_valid = bl;
         List list = this.baseService.getNotifications(23);
@@ -691,11 +686,11 @@ implements ASIHMISyncCarServiceS {
         }
     }
 
-    public void updateVehicleSpeed(FloatBaseType floatBaseType) {
+    public void updateVehicleSpeed(FloatBaseType floatBaseType) throws MethodException {
         this.updateVehicleSpeed(floatBaseType, true);
     }
 
-    public void updateVehicleSpeed(FloatBaseType floatBaseType, boolean bl) {
+    public void updateVehicleSpeed(FloatBaseType floatBaseType, boolean bl) throws MethodException {
         this.VehicleSpeed = ASIHMISyncCarServiceAbstractBaseService.copyFloatBaseType(floatBaseType);
         this.VehicleSpeed_valid = bl;
         List list = this.baseService.getNotifications(22);
@@ -706,6 +701,43 @@ implements ASIHMISyncCarServiceS {
                 aSIHMISyncCarServiceReply.updateVehicleSpeed(floatBaseType, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(6L), new Integer(0));
+            this.map.put(new Long(14L), new Integer(1));
+            this.map.put(new Long(13L), new Integer(2));
+            this.map.put(new Long(11L), new Integer(3));
+            this.map.put(new Long(12L), new Integer(4));
+            this.map.put(new Long(26L), new Integer(5));
+            this.map.put(new Long(8L), new Integer(6));
+            this.map.put(new Long(15L), new Integer(7));
+            this.map.put(new Long(16L), new Integer(8));
+            this.map.put(new Long(17L), new Integer(9));
+            this.map.put(new Long(18L), new Integer(10));
+            this.map.put(new Long(24L), new Integer(11));
+            this.map.put(new Long(25L), new Integer(12));
+            this.map.put(new Long(9L), new Integer(13));
+            this.map.put(new Long(10L), new Integer(14));
+            this.map.put(new Long(19L), new Integer(15));
+            this.map.put(new Long(20L), new Integer(16));
+            this.map.put(new Long(21L), new Integer(17));
+            this.map.put(new Long(23L), new Integer(18));
+            this.map.put(new Long(22L), new Integer(19));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 20;
         }
     }
 }

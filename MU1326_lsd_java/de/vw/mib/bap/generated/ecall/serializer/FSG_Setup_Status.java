@@ -12,9 +12,9 @@ public final class FSG_Setup_Status
 implements StatusProperty {
     public FSG_Setup_GeneralSettings generalSettings = new FSG_Setup_GeneralSettings();
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
     public int extension3;
-    public static final int EXTENSION3_MIN;
+    public static final int EXTENSION3_MIN = 0;
 
     public FSG_Setup_Status() {
         this.internalReset();
@@ -31,13 +31,11 @@ implements StatusProperty {
         this.extension3 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.generalSettings.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)bAPEntity;
         return this.generalSettings.equalTo(fSG_Setup_Status.generalSettings) && this.extension2 == fSG_Setup_Status.extension2 && this.extension3 == fSG_Setup_Status.extension3;
@@ -46,7 +44,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Setup_Status");
@@ -56,19 +53,16 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.generalSettings.serialize(bitStream);
         bitStream.pushByte((byte)this.extension2);
         bitStream.pushByte((byte)this.extension3);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.generalSettings.deserialize(bitStream);
         this.extension2 = bitStream.popFrontByte();
@@ -79,7 +73,6 @@ implements StatusProperty {
         return 14;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_Setup_Status.functionId();
     }

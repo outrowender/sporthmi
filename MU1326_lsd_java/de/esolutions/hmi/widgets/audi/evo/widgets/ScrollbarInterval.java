@@ -11,8 +11,8 @@ public class ScrollbarInterval {
     private final float opacity;
 
     private ScrollbarInterval() {
-        this.firstPos = 32959;
-        this.lastPos = 32959;
+        this.firstPos = -1.0f;
+        this.lastPos = -1.0f;
         this.visible = false;
         this.opacity = 0.0f;
     }

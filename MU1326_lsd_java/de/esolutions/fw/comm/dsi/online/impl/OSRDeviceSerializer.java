@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.online.impl.OSRPersonalIdentifierSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRDevice;
 import org.dsi.ifc.online.OSRPersonalIdentifier;
 
 public class OSRDeviceSerializer {
-    public static void putOptionalOSRDevice(ISerializer iSerializer, OSRDevice oSRDevice) {
+    public static void putOptionalOSRDevice(ISerializer iSerializer, OSRDevice oSRDevice) throws SerializerException {
         boolean bl = oSRDevice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class OSRDeviceSerializer {
         }
     }
 
-    public static void putOptionalOSRDeviceVarArray(ISerializer iSerializer, OSRDevice[] oSRDeviceArray) {
+    public static void putOptionalOSRDeviceVarArray(ISerializer iSerializer, OSRDevice[] oSRDeviceArray) throws SerializerException {
         boolean bl = oSRDeviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class OSRDeviceSerializer {
         }
     }
 
-    public static OSRDevice getOptionalOSRDevice(IDeserializer iDeserializer) {
+    public static OSRDevice getOptionalOSRDevice(IDeserializer iDeserializer) throws SerializerException {
         OSRDevice oSRDevice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class OSRDeviceSerializer {
         return oSRDevice;
     }
 
-    public static OSRDevice[] getOptionalOSRDeviceVarArray(IDeserializer iDeserializer) {
+    public static OSRDevice[] getOptionalOSRDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRDevice[] oSRDeviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

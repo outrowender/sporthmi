@@ -25,28 +25,23 @@ implements DSIInfotainmentRecorder {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder == null ? (class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder = DSIInfotainmentRecorderProvider.class$("org.dsi.ifc.infotainmentrecorder.DSIInfotainmentRecorder")) : class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorder).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIInfotainmentRecorderProxy(this.instance, (DSIInfotainmentRecorderReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void logPanelName(String string) {
         try {
             this.proxy.logPanelName(string);
@@ -56,7 +51,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void logKeyEvent(int n, int n2, int n3) {
         try {
             this.proxy.logKeyEvent(n, n2, n3);
@@ -66,7 +60,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void backupTrigger(int n) {
         try {
             this.proxy.backupTrigger(n);
@@ -76,7 +69,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void enableTrigger(boolean bl, int n) {
         try {
             this.proxy.enableTrigger(bl, n);
@@ -86,7 +78,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void logInit() {
         try {
             this.proxy.logInit();
@@ -96,7 +87,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -116,7 +105,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -126,7 +114,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -136,7 +123,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -146,7 +132,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -156,7 +141,6 @@ implements DSIInfotainmentRecorder {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

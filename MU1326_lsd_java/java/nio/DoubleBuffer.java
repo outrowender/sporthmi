@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.nio;
 
@@ -42,7 +39,6 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         int n;
         if (object == null) {
@@ -89,8 +85,7 @@ implements Comparable {
         return object instanceof DoubleBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract double get() {
-    }
+    public abstract double get();
 
     public DoubleBuffer get(double[] dArray) {
         if (dArray == null) {
@@ -125,8 +120,7 @@ implements Comparable {
         return this;
     }
 
-    public abstract double get(int n) {
-    }
+    public abstract double get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -138,7 +132,7 @@ implements Comparable {
         int n3 = this.remaining();
         int n4 = 0;
         while (n4 < n3) {
-            n = (int)((long)n + (Double.doubleToLongBits((double)this.get(n4 + this.position())) << (n2 += 4)));
+            n = (int)((long)n + (Double.doubleToLongBits(this.get(n4 + this.position())) << (n2 += 4)));
             if (n2 > 20) {
                 n2 = 0;
             }
@@ -147,11 +141,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract DoubleBuffer put(double d2) {
-    }
+    public abstract DoubleBuffer put(double var1);
 
     public final DoubleBuffer put(double[] dArray) {
         if (dArray == null) {
@@ -197,14 +189,12 @@ implements Comparable {
         return this.put(dArray);
     }
 
-    public abstract DoubleBuffer put(int n, double d2) {
-    }
+    public abstract DoubleBuffer put(int var1, double var2);
 
-    public abstract DoubleBuffer slice() {
-    }
+    public abstract DoubleBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.DoubleBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.DoubleBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static DoubleBuffer wrap(double[] dArray) {
@@ -233,7 +223,6 @@ implements Comparable {
         return new DoubleBufferImpl(dArray, n, n2, dArray.length, 0);
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

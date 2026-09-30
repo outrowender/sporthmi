@@ -3,35 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.online;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIDestinationImportC {
-    default public void downloadAddressList(int n, boolean bl) {
-    }
+    public void downloadAddressList(int var1, boolean var2) throws MethodException;
 
-    default public void stopAction() {
-    }
+    public void stopAction() throws MethodException;
 
-    default public void setADBImportStatus(long[] lArray, int n) {
-    }
+    public void setADBImportStatus(long[] var1, int var2) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

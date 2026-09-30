@@ -4,19 +4,14 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 
 public interface IMLDimensions {
-    default public int getLineOffsetX() {
-    }
+    public int getLineOffsetX();
 
-    default public int getLineWidth() {
-    }
+    public int getLineWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public int charWidth(char c2) {
-    }
+    public int charWidth(char var1);
 
-    default public int stringWidth(String string) {
-    }
+    public int stringWidth(String var1);
 }
 

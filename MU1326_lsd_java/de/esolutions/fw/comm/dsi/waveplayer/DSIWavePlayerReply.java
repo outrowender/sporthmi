@@ -3,28 +3,24 @@
  */
 package de.esolutions.fw.comm.dsi.waveplayer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIWavePlayerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "769ce35c-50ad-5d34-9ac5-cfccf1aedd73";
+    public static final String IPL_COMM_INTERFACE_KEY = "353ec8df-dc25-5139-a159-43eaf2ee00e4";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.7";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.7";
 
-    default public void updatePlayTone(int n, int n2) {
-    }
+    public void updatePlayTone(int var1, int var2) throws MethodException;
 
-    default public void updateAudioRequest(int n, int n2) {
-    }
+    public void updateAudioRequest(int var1, int var2) throws MethodException;
 
-    default public void setPlayTone(int n) {
-    }
+    public void setPlayTone(int var1) throws MethodException;
 
-    default public void audioTriggerResponse(int n) {
-    }
+    public void audioTriggerResponse(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

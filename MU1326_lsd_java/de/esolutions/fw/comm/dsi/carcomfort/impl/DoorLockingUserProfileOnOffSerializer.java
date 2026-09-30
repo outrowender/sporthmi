@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingUserProfileOnOff;
 
 public class DoorLockingUserProfileOnOffSerializer {
-    public static void putOptionalDoorLockingUserProfileOnOff(ISerializer iSerializer, DoorLockingUserProfileOnOff doorLockingUserProfileOnOff) {
+    public static void putOptionalDoorLockingUserProfileOnOff(ISerializer iSerializer, DoorLockingUserProfileOnOff doorLockingUserProfileOnOff) throws SerializerException {
         boolean bl = doorLockingUserProfileOnOff == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DoorLockingUserProfileOnOffSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingUserProfileOnOffVarArray(ISerializer iSerializer, DoorLockingUserProfileOnOff[] doorLockingUserProfileOnOffArray) {
+    public static void putOptionalDoorLockingUserProfileOnOffVarArray(ISerializer iSerializer, DoorLockingUserProfileOnOff[] doorLockingUserProfileOnOffArray) throws SerializerException {
         boolean bl = doorLockingUserProfileOnOffArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DoorLockingUserProfileOnOffSerializer {
         }
     }
 
-    public static DoorLockingUserProfileOnOff getOptionalDoorLockingUserProfileOnOff(IDeserializer iDeserializer) {
+    public static DoorLockingUserProfileOnOff getOptionalDoorLockingUserProfileOnOff(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserProfileOnOff doorLockingUserProfileOnOff = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DoorLockingUserProfileOnOffSerializer {
         return doorLockingUserProfileOnOff;
     }
 
-    public static DoorLockingUserProfileOnOff[] getOptionalDoorLockingUserProfileOnOffVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingUserProfileOnOff[] getOptionalDoorLockingUserProfileOnOffVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserProfileOnOff[] doorLockingUserProfileOnOffArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

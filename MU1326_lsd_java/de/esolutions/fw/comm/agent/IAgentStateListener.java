@@ -6,10 +6,8 @@ package de.esolutions.fw.comm.agent;
 import de.esolutions.fw.comm.agent.Agent;
 
 public interface IAgentStateListener {
-    default public void agentStarted(Agent agent) {
-    }
+    public void agentStarted(Agent var1);
 
-    default public void agentAboutToStop(Agent agent) {
-    }
+    public void agentAboutToStop(Agent var1);
 }
 

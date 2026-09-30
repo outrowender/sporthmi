@@ -4,27 +4,21 @@
 package de.esolutions.fw.comm.asi.fec;
 
 import de.esolutions.fw.comm.asi.fec.FecManagerReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface FecManagerS {
-    default public void checkDataSignature(String string, short[] sArray, short[] sArray2, FecManagerReply fecManagerReply) {
-    }
+    public void checkDataSignature(String var1, short[] var2, short[] var3, FecManagerReply var4) throws MethodException;
 
-    default public void fecDetails(long l, long l2, FecManagerReply fecManagerReply) {
-    }
+    public void fecDetails(long var1, long var3, FecManagerReply var5) throws MethodException;
 
-    default public void importFecs(int n, FecManagerReply fecManagerReply) {
-    }
+    public void importFecs(int var1, FecManagerReply var2) throws MethodException;
 
-    default public void exportCCD(int n, FecManagerReply fecManagerReply) {
-    }
+    public void exportCCD(int var1, FecManagerReply var2) throws MethodException;
 
-    default public void getHistory(FecManagerReply fecManagerReply) {
-    }
+    public void getHistory(FecManagerReply var1) throws MethodException;
 
-    default public void encryptFile(String string, String string2, byte[] byArray, FecManagerReply fecManagerReply) {
-    }
+    public void encryptFile(String var1, String var2, byte[] var3, FecManagerReply var4) throws MethodException;
 
-    default public void decryptFile(String string, String string2, byte[] byArray, FecManagerReply fecManagerReply) {
-    }
+    public void decryptFile(String var1, String var2, byte[] var3, FecManagerReply var4) throws MethodException;
 }
 

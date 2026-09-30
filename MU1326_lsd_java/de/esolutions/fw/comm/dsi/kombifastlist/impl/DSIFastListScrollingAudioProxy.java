@@ -10,10 +10,12 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingAudio;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingAudioC;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingAudioReply;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingAudioProxy$1;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingAudioProxy$2;
-import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingAudioProxy$3;
 import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingAudioReplyService;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataCommonListSerializer;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataMediaBrowserSerializer;
+import de.esolutions.fw.comm.dsi.kombifastlist.impl.DataReceptionListSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataCommonList;
@@ -36,8 +38,7 @@ DSIFastListScrollingAudioC {
         return this.proxy;
     }
 
-    @Override
-    public void pushFunctionAvailabilityAudio(int n) {
+    public void pushFunctionAvailabilityAudio(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -48,8 +49,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void pushMOSTOperationStateAudio(int n) {
+    public void pushMOSTOperationStateAudio(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -60,8 +60,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void responseMediaBrowser(int n, int n2, int n3, int n4, int n5, int n6, int n7, long l, int n8, long l2, long l3, int n9, int n10, int n11) {
+    public void responseMediaBrowser(int n, int n2, int n3, int n4, int n5, int n6, int n7, long l, int n8, long l2, long l3, int n9, int n10, int n11) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -85,26 +84,43 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void responseMediaBrowserArray(long l, int n, DataMediaBrowser[] dataMediaBrowserArray) {
-        DSIFastListScrollingAudioProxy$1 dSIFastListScrollingAudioProxy$1 = new DSIFastListScrollingAudioProxy$1(this, l, n, dataMediaBrowserArray);
-        this.proxy.remoteCallMethod((short)15, dSIFastListScrollingAudioProxy$1);
+    public void responseMediaBrowserArray(final long l, final int n, final DataMediaBrowser[] dataMediaBrowserArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                DataMediaBrowserSerializer.putOptionalDataMediaBrowserVarArray(iSerializer, dataMediaBrowserArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void pushCommonList(long l, int n, DataCommonList[] dataCommonListArray) {
-        DSIFastListScrollingAudioProxy$2 dSIFastListScrollingAudioProxy$2 = new DSIFastListScrollingAudioProxy$2(this, l, n, dataCommonListArray);
-        this.proxy.remoteCallMethod((short)9, dSIFastListScrollingAudioProxy$2);
+    public void pushCommonList(final long l, final int n, final DataCommonList[] dataCommonListArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                DataCommonListSerializer.putOptionalDataCommonListVarArray(iSerializer, dataCommonListArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 
-    @Override
-    public void pushReceptionList(long l, int n, DataReceptionList[] dataReceptionListArray) {
-        DSIFastListScrollingAudioProxy$3 dSIFastListScrollingAudioProxy$3 = new DSIFastListScrollingAudioProxy$3(this, l, n, dataReceptionListArray);
-        this.proxy.remoteCallMethod((short)13, dSIFastListScrollingAudioProxy$3);
+    public void pushReceptionList(final long l, final int n, final DataReceptionList[] dataReceptionListArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                DataReceptionListSerializer.putOptionalDataReceptionListVarArray(iSerializer, dataReceptionListArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void pushCurrentListSizeAudio(int n, int n2, int n3) {
+    public void pushCurrentListSizeAudio(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -117,8 +133,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void responseMediaBrowserJobs(long l, int n, int n2) {
+    public void responseMediaBrowserJobs(long l, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -131,8 +146,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyCommonListPush(boolean bl) {
+    public void responseNotifyCommonListPush(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -143,8 +157,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyCurrentListSizeAudio(boolean bl) {
+    public void responseNotifyCurrentListSizeAudio(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -155,8 +168,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void responseNotifyReceptionList(boolean bl) {
+    public void responseNotifyReceptionList(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -167,8 +179,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -179,8 +190,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -191,13 +201,11 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)20, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -208,8 +216,7 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -220,13 +227,11 @@ DSIFastListScrollingAudioC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

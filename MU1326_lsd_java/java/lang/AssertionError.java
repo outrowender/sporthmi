@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.lang;
 
@@ -39,7 +36,7 @@ extends Error {
     }
 
     public AssertionError(double d2) {
-        this((Object)Double.toString((double)d2));
+        this((Object)Double.toString(d2));
     }
 }
 

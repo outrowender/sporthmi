@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.powermanagement.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.powermanagement.ClampSignal;
 
 public class ClampSignalSerializer {
-    public static void putOptionalClampSignal(ISerializer iSerializer, ClampSignal clampSignal) {
+    public static void putOptionalClampSignal(ISerializer iSerializer, ClampSignal clampSignal) throws SerializerException {
         boolean bl = clampSignal == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ClampSignalSerializer {
         }
     }
 
-    public static void putOptionalClampSignalVarArray(ISerializer iSerializer, ClampSignal[] clampSignalArray) {
+    public static void putOptionalClampSignalVarArray(ISerializer iSerializer, ClampSignal[] clampSignalArray) throws SerializerException {
         boolean bl = clampSignalArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ClampSignalSerializer {
         }
     }
 
-    public static ClampSignal getOptionalClampSignal(IDeserializer iDeserializer) {
+    public static ClampSignal getOptionalClampSignal(IDeserializer iDeserializer) throws SerializerException {
         ClampSignal clampSignal = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ClampSignalSerializer {
         return clampSignal;
     }
 
-    public static ClampSignal[] getOptionalClampSignalVarArray(IDeserializer iDeserializer) {
+    public static ClampSignal[] getOptionalClampSignalVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClampSignal[] clampSignalArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

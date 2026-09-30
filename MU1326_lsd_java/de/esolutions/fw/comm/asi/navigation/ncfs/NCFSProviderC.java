@@ -4,12 +4,11 @@
 package de.esolutions.fw.comm.asi.navigation.ncfs;
 
 import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface NCFSProviderC {
-    default public void requestVZORestrictions(sBoundingBox sBoundingBox2) {
-    }
+    public void requestVZORestrictions(sBoundingBox var1) throws MethodException;
 
-    default public void requestLGI(sBoundingBox sBoundingBox2) {
-    }
+    public void requestLGI(sBoundingBox var1) throws MethodException;
 }
 

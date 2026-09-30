@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carauxheatercooler;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerErrorReason;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerExtendedConditioning;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerMode;
@@ -11,81 +12,57 @@ import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerViewOptions;
 import org.dsi.ifc.global.CarBCTemperature;
 
 public interface DSICarAuxHeaterCoolerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "2c84d2cf-fe11-563b-afb2-bf49ce13acf7";
+    public static final String IPL_COMM_INTERFACE_KEY = "1145f0e8-59ff-5294-8be0-cf7da5c0d921";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.11";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.11";
 
-    default public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions, int n) {
-    }
+    public void updateAuxHeaterCoolerViewOptions(AuxHeaterCoolerViewOptions var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
-    }
+    public void updateAuxHeaterCoolerCurrentHeaterState(AuxHeaterCoolerErrorReason var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason, int n) {
-    }
+    public void updateAuxHeaterCoolerErrorReason(AuxHeaterCoolerErrorReason var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerState(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerState(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerOnOff(boolean bl, int n) {
-    }
+    public void updateAuxHeaterCoolerOnOff(boolean var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerRemainingTime(short s, int n) {
-    }
+    public void updateAuxHeaterCoolerRemainingTime(short var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerRunningTime(short s, int n) {
-    }
+    public void updateAuxHeaterCoolerRunningTime(short var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerMode(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerMode(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerDefaultStartMode(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerDefaultStartMode(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerEngineHeater(boolean bl, int n) {
-    }
+    public void updateAuxHeaterCoolerEngineHeater(boolean var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerActiveTimer(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerActiveTimer(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer, int n) {
-    }
+    public void updateAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer var1, int var2) throws MethodException;
 
-    default public void acknowledgeAuxHeaterSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeAuxHeaterSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void updateAuxHeaterCoolerPopup(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerPopup(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode auxHeaterCoolerMode, int n) {
-    }
+    public void updateAuxHeaterCoolerMode2(AuxHeaterCoolerMode var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning, AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning2, int n) {
-    }
+    public void updateAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning var1, AuxHeaterCoolerExtendedConditioning var2, int var3) throws MethodException;
 
-    default public void updateAuxHeaterCoolerWindowHeating(boolean bl, boolean bl2, int n) {
-    }
+    public void updateAuxHeaterCoolerWindowHeating(boolean var1, boolean var2, int var3) throws MethodException;
 
-    default public void updateAuxHeaterCoolerUnlockClimating(int n, int n2) {
-    }
+    public void updateAuxHeaterCoolerUnlockClimating(int var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature carBCTemperature, int n) {
-    }
+    public void updateAuxHeaterCoolerTargetTemperature(CarBCTemperature var1, int var2) throws MethodException;
 
-    default public void updateAuxHeaterCoolerAirQuality(boolean bl, boolean bl2, int n) {
-    }
+    public void updateAuxHeaterCoolerAirQuality(boolean var1, boolean var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

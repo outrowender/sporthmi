@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sTestStatus;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTestStatusSerializer {
-    public static void putOptionalsTestStatus(ISerializer iSerializer, sTestStatus sTestStatus2) {
+    public static void putOptionalsTestStatus(ISerializer iSerializer, sTestStatus sTestStatus2) throws SerializerException {
         boolean bl = sTestStatus2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sTestStatusSerializer {
         }
     }
 
-    public static void putOptionalsTestStatusVarArray(ISerializer iSerializer, sTestStatus[] sTestStatusArray) {
+    public static void putOptionalsTestStatusVarArray(ISerializer iSerializer, sTestStatus[] sTestStatusArray) throws SerializerException {
         boolean bl = sTestStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sTestStatusSerializer {
         }
     }
 
-    public static sTestStatus getOptionalsTestStatus(IDeserializer iDeserializer) {
+    public static sTestStatus getOptionalsTestStatus(IDeserializer iDeserializer) throws SerializerException {
         sTestStatus sTestStatus2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sTestStatusSerializer {
         return sTestStatus2;
     }
 
-    public static sTestStatus[] getOptionalsTestStatusVarArray(IDeserializer iDeserializer) {
+    public static sTestStatus[] getOptionalsTestStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTestStatus[] sTestStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

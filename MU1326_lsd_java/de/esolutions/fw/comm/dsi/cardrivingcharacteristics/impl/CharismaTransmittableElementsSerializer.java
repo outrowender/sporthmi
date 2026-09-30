@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaTransmittableElements;
 
 public class CharismaTransmittableElementsSerializer {
-    public static void putOptionalCharismaTransmittableElements(ISerializer iSerializer, CharismaTransmittableElements charismaTransmittableElements) {
+    public static void putOptionalCharismaTransmittableElements(ISerializer iSerializer, CharismaTransmittableElements charismaTransmittableElements) throws SerializerException {
         boolean bl = charismaTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CharismaTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalCharismaTransmittableElementsVarArray(ISerializer iSerializer, CharismaTransmittableElements[] charismaTransmittableElementsArray) {
+    public static void putOptionalCharismaTransmittableElementsVarArray(ISerializer iSerializer, CharismaTransmittableElements[] charismaTransmittableElementsArray) throws SerializerException {
         boolean bl = charismaTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CharismaTransmittableElementsSerializer {
         }
     }
 
-    public static CharismaTransmittableElements getOptionalCharismaTransmittableElements(IDeserializer iDeserializer) {
+    public static CharismaTransmittableElements getOptionalCharismaTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         CharismaTransmittableElements charismaTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CharismaTransmittableElementsSerializer {
         return charismaTransmittableElements;
     }
 
-    public static CharismaTransmittableElements[] getOptionalCharismaTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static CharismaTransmittableElements[] getOptionalCharismaTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaTransmittableElements[] charismaTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

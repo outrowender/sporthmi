@@ -6,10 +6,8 @@ package de.esolutions.fw.dsi.admin;
 import de.esolutions.fw.dsi.comm.IDSIServiceWorker;
 
 public interface IProviderService {
-    default public boolean checkAndClearStopFlag(String string, int n) {
-    }
+    public boolean checkAndClearStopFlag(String var1, int var2);
 
-    default public void stopServiceWorker(IDSIServiceWorker iDSIServiceWorker) {
-    }
+    public void stopServiceWorker(IDSIServiceWorker var1);
 }
 

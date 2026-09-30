@@ -6,49 +6,34 @@ package java.util;
 import java.util.Iterator;
 
 public interface Collection {
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    default public boolean addAll(Collection collection) {
-    }
+    public boolean addAll(Collection var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    default public boolean containsAll(Collection collection) {
-    }
+    public boolean containsAll(Collection var1);
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public int hashCode() {
-    }
+    public int hashCode();
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    default public boolean removeAll(Collection collection) {
-    }
+    public boolean removeAll(Collection var1);
 
-    default public boolean retainAll(Collection collection) {
-    }
+    public boolean retainAll(Collection var1);
 
-    default public int size() {
-    }
+    public int size();
 
-    default public Object[] toArray() {
-    }
+    public Object[] toArray();
 
-    default public Object[] toArray(Object[] objectArray) {
-    }
+    public Object[] toArray(Object[] var1);
 }
 

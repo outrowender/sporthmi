@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.comm.broker.v4.UpdateEvent;
 import de.esolutions.fw.comm.comm.broker.v4.impl.InstanceIDSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class UpdateEventSerializer {
-    public static void putOptionalUpdateEvent(ISerializer iSerializer, UpdateEvent updateEvent) {
+    public static void putOptionalUpdateEvent(ISerializer iSerializer, UpdateEvent updateEvent) throws SerializerException {
         boolean bl = updateEvent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class UpdateEventSerializer {
         }
     }
 
-    public static void putOptionalUpdateEventVarArray(ISerializer iSerializer, UpdateEvent[] updateEventArray) {
+    public static void putOptionalUpdateEventVarArray(ISerializer iSerializer, UpdateEvent[] updateEventArray) throws SerializerException {
         boolean bl = updateEventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class UpdateEventSerializer {
         }
     }
 
-    public static UpdateEvent getOptionalUpdateEvent(IDeserializer iDeserializer) {
+    public static UpdateEvent getOptionalUpdateEvent(IDeserializer iDeserializer) throws SerializerException {
         UpdateEvent updateEvent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class UpdateEventSerializer {
         return updateEvent;
     }
 
-    public static UpdateEvent[] getOptionalUpdateEventVarArray(IDeserializer iDeserializer) {
+    public static UpdateEvent[] getOptionalUpdateEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         UpdateEvent[] updateEventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

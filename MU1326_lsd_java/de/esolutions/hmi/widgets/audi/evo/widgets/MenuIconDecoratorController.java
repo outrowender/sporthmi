@@ -20,17 +20,17 @@ implements IMenuCallback {
             return;
         }
         if (!menuController.hasFocusedItem()) {
-            menuItemLogCh.log(-2137614336, "MenuIconDecoratorController#menuFocusChangeFinished: no focused item");
+            menuItemLogCh.log(10000000, "MenuIconDecoratorController#menuFocusChangeFinished: no focused item");
             this.setValue(-1);
         } else {
             MenuItemIndex menuItemIndex = menuController.getFocusedIndex();
             AbstractWidget abstractWidget = menuController.getChild(menuItemIndex.widget);
             if (abstractWidget instanceof IMenuItem) {
                 int n = ((IMenuItem)((Object)abstractWidget)).getWidgetID();
-                menuItemLogCh.log(-2137614336, "MenuIconDecoratorController#menuFocusChangeFinished: set value %2 for focused item %1", (Object)menuItemIndex, (long)n);
+                menuItemLogCh.log(10000000, "MenuIconDecoratorController#menuFocusChangeFinished: set value %2 for focused item %1", (Object)menuItemIndex, (long)n);
                 this.setValue(n);
             } else {
-                menuItemLogCh.log(-2137614336, "MenuIconDecoratorController#menuFocusChangeFinished: focused widget %1 is not a menuItem: %2", (Object)menuItemIndex, (Object)abstractWidget);
+                menuItemLogCh.log(10000000, "MenuIconDecoratorController#menuFocusChangeFinished: focused widget %1 is not a menuItem: %2", (Object)menuItemIndex, (Object)abstractWidget);
                 this.setValue(-1);
             }
         }
@@ -44,32 +44,25 @@ implements IMenuCallback {
         return null;
     }
 
-    @Override
     public void menuFocusChangeFinished() {
         this.setValueForFocusedMenuItem();
     }
 
-    @Override
     public void menuLayouted() {
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 }

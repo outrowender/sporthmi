@@ -20,7 +20,6 @@ extends AbstractSimpleIntMap {
         Arrays.fill(this.values, null);
     }
 
-    @Override
     protected void resizeValueArray(int n) {
         Object[] objectArray = new Object[n];
         if (n > this.values.length) {
@@ -33,12 +32,10 @@ extends AbstractSimpleIntMap {
         }
     }
 
-    @Override
     protected void clearValues() {
         Arrays.fill(this.values, null);
     }
 
-    @Override
     protected void clearValue(int n) {
         this.values[n] = null;
     }
@@ -59,20 +56,20 @@ extends AbstractSimpleIntMap {
         Object[] objectArray = new Object[this.size()];
         int n = 0;
         for (int i2 = 0; i2 < this.keys.length; ++i2) {
-            if (this.keys[i2] == 128) continue;
+            if (this.keys[i2] == Integer.MIN_VALUE) continue;
             objectArray[n] = this.values[i2];
             ++n;
         }
         return objectArray;
     }
 
-    public void valuesToArray(Object[] objectArray) {
+    public void valuesToArray(Object[] objectArray) throws IllegalArgumentException {
         if (this.size() != objectArray.length) {
-            throw new IllegalArgumentException(new StringBuffer().append("Array size ").append(objectArray.length).append(" does not match number of values ").append(this.size()).toString());
+            throw new IllegalArgumentException("Array size " + objectArray.length + " does not match number of values " + this.size());
         }
         int n = 0;
         for (int i2 = 0; i2 < this.keys.length; ++i2) {
-            if (this.keys[i2] == 128) continue;
+            if (this.keys[i2] == Integer.MIN_VALUE) continue;
             objectArray[n] = this.values[i2];
             ++n;
         }

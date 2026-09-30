@@ -11,10 +11,10 @@ extends EventObject {
     private transient Bundle bundle;
     private transient Throwable throwable;
     private transient int type;
-    public static final int STARTED;
-    public static final int ERROR;
-    public static final int PACKAGES_REFRESHED;
-    public static final int STARTLEVEL_CHANGED;
+    public static final int STARTED = 1;
+    public static final int ERROR = 2;
+    public static final int PACKAGES_REFRESHED = 4;
+    public static final int STARTLEVEL_CHANGED = 8;
 
     public FrameworkEvent(int n, Object object) {
         super(object);

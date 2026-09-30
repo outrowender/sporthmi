@@ -3,87 +3,63 @@
  */
 package de.esolutions.fw.comm.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.persistence.PartitionHandle;
 
 public interface IPersistenceAReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f4ac6df9-a35a-4f1c-a334-9c2890a41c09";
+    public static final String IPL_COMM_INTERFACE_KEY = "21034d62-3469-5d3a-b904-de8a9709a4ed";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.3.0";
+    public static final String IPL_COMM_MODULE_VERSION = "1.3.0";
 
-    default public void openResult(long l, String string, PartitionHandle partitionHandle, int n) {
-    }
+    public void openResult(long var1, String var3, PartitionHandle var4, int var5) throws MethodException;
 
-    default public void openResult(String string, String string2, PartitionHandle partitionHandle, int n) {
-    }
+    public void openResult(String var1, String var2, PartitionHandle var3, int var4) throws MethodException;
 
-    default public void closeResult(PartitionHandle partitionHandle, int n) {
-    }
+    public void closeResult(PartitionHandle var1, int var2) throws MethodException;
 
-    default public void versionResult(long l, String string, int n) {
-    }
+    public void versionResult(long var1, String var3, int var4) throws MethodException;
 
-    default public void versionResult(String string, String string2, int n) {
-    }
+    public void versionResult(String var1, String var2, int var3) throws MethodException;
 
-    default public void purgeResult(long l, int n) {
-    }
+    public void purgeResult(long var1, int var3) throws MethodException;
 
-    default public void purgeResult(String string, int n) {
-    }
+    public void purgeResult(String var1, int var2) throws MethodException;
 
-    default public void beginTransactionResult(PartitionHandle partitionHandle, int n) {
-    }
+    public void beginTransactionResult(PartitionHandle var1, int var2) throws MethodException;
 
-    default public void endTransactionResult(PartitionHandle partitionHandle, int n) {
-    }
+    public void endTransactionResult(PartitionHandle var1, int var2) throws MethodException;
 
-    default public void flushResult(PartitionHandle partitionHandle, int n) {
-    }
+    public void flushResult(PartitionHandle var1, int var2) throws MethodException;
 
-    default public void existsResult(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void existsResult(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void removeResult(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void removeResult(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void getIntResult(PartitionHandle partitionHandle, long l, long l2, int n) {
-    }
+    public void getIntResult(PartitionHandle var1, long var2, long var4, int var6) throws MethodException;
 
-    default public void getIntsResult(PartitionHandle partitionHandle, long[] lArray, long[] lArray2, int[] nArray) {
-    }
+    public void getIntsResult(PartitionHandle var1, long[] var2, long[] var3, int[] var4) throws MethodException;
 
-    default public void getStringResult(PartitionHandle partitionHandle, long l, String string, int n) {
-    }
+    public void getStringResult(PartitionHandle var1, long var2, String var4, int var5) throws MethodException;
 
-    default public void getStringsResult(PartitionHandle partitionHandle, long[] lArray, String[] stringArray, int[] nArray) {
-    }
+    public void getStringsResult(PartitionHandle var1, long[] var2, String[] var3, int[] var4) throws MethodException;
 
-    default public void getBlobResult(PartitionHandle partitionHandle, long l, short[] sArray, int n) {
-    }
+    public void getBlobResult(PartitionHandle var1, long var2, short[] var4, int var5) throws MethodException;
 
-    default public void getBlobsResult(PartitionHandle partitionHandle, long[] lArray, short[][] sArray, int[] nArray) {
-    }
+    public void getBlobsResult(PartitionHandle var1, long[] var2, short[][] var3, int[] var4) throws MethodException;
 
-    default public void setResult(PartitionHandle partitionHandle, long l, int n) {
-    }
+    public void setResult(PartitionHandle var1, long var2, int var4) throws MethodException;
 
-    default public void unsubscribeResult(PartitionHandle partitionHandle, long[] lArray, int[] nArray) {
-    }
+    public void unsubscribeResult(PartitionHandle var1, long[] var2, int[] var3) throws MethodException;
 
-    default public void stringValues(PartitionHandle partitionHandle, long[] lArray, String[] stringArray, int[] nArray) {
-    }
+    public void stringValues(PartitionHandle var1, long[] var2, String[] var3, int[] var4) throws MethodException;
 
-    default public void intValues(PartitionHandle partitionHandle, long[] lArray, long[] lArray2, int[] nArray) {
-    }
+    public void intValues(PartitionHandle var1, long[] var2, long[] var3, int[] var4) throws MethodException;
 
-    default public void blobValues(PartitionHandle partitionHandle, long[] lArray, short[][] sArray, int[] nArray) {
-    }
+    public void blobValues(PartitionHandle var1, long[] var2, short[][] var3, int[] var4) throws MethodException;
 
-    default public void convertResult(long l, String string, String string2, PartitionHandle partitionHandle, int n) {
-    }
+    public void convertResult(long var1, String var3, String var4, PartitionHandle var5, int var6) throws MethodException;
 
-    default public void convertResult(String string, String string2, String string3, PartitionHandle partitionHandle, int n) {
-    }
+    public void convertResult(String var1, String var2, String var3, PartitionHandle var4, int var5) throws MethodException;
 }
 

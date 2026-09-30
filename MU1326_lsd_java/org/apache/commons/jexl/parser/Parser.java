@@ -52,7 +52,6 @@ import org.apache.commons.jexl.parser.ASTWhileStatement;
 import org.apache.commons.jexl.parser.JJTParserState;
 import org.apache.commons.jexl.parser.Node;
 import org.apache.commons.jexl.parser.ParseException;
-import org.apache.commons.jexl.parser.Parser$JJCalls;
 import org.apache.commons.jexl.parser.ParserConstants;
 import org.apache.commons.jexl.parser.ParserTokenManager;
 import org.apache.commons.jexl.parser.ParserTreeConstants;
@@ -76,9 +75,9 @@ ParserConstants {
     private boolean jj_semLA;
     private int jj_gen;
     private final int[] jj_la1 = new int[34];
-    private final int[] jj_la1_0 = new int[]{23424, 23424, 4096, 22912, 768, 768, 3072, 3072, 4096, 8192, 16384, 32775, 32775, 248, 248, 0, 0, 0, 0, 22912, 22912, 384, 0, 512, 22912, 0, 0, 22912, 128, 0, 0, 16512, 16512, 384};
-    private final int[] jj_la1_1 = new int[]{284957476, 284957476, 4, 284950564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 24, 24, 992, 992, 284950564, 14680100, 0xE00020, 0xC00000, 256, 284957220, 1024, 16384, 284950564, 4, 32768, 4, 4, 4, 14680100};
-    private final Parser$JJCalls[] jj_2_rtns = new Parser$JJCalls[9];
+    private final int[] jj_la1_0 = new int[]{23424, 23424, 4096, 22912, 196608, 196608, 786432, 786432, 0x100000, 0x200000, 0x400000, 0x7800000, 0x7800000, -134217728, -134217728, 0, 0, 0, 0, 22912, 22912, 384, 0, 512, 22912, 0, 0, 22912, 128, 0, 0, 16512, 16512, 384};
+    private final int[] jj_la1_1 = new int[]{605813776, 605813776, 0x4000000, 604044304, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 24, 24, 992, 992, 604044304, 604037120, 0x2000E000, 49152, 65536, 605748240, 262144, 0x400000, 604044304, 0x4000000, 0x800000, 0x4000000, 0x4000000, 0x4000000, 604037120};
+    private final JJCalls[] jj_2_rtns = new JJCalls[9];
     private boolean jj_rescan = false;
     private int jj_gc = 0;
     private Vector jj_expentries = new Vector();
@@ -87,13 +86,13 @@ ParserConstants {
     private int[] jj_lasttokens = new int[100];
     private int jj_endpos;
 
-    public SimpleNode parse(Reader reader) {
+    public SimpleNode parse(Reader reader) throws Exception {
         this.ReInit(reader);
         SimpleNode simpleNode = this.JexlScript();
         return simpleNode;
     }
 
-    public final SimpleNode JexlScript() {
+    public final SimpleNode JexlScript() throws ParseException {
         ASTJexlScript aSTJexlScript = new ASTJexlScript(this, 0);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTJexlScript);
@@ -156,7 +155,7 @@ ParserConstants {
         }
     }
 
-    public final void Block() {
+    public final void Block() throws ParseException {
         ASTBlock aSTBlock = new ASTBlock(this, 1);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTBlock);
@@ -220,7 +219,7 @@ ParserConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    public final void EmptyFunction() {
+    public final void EmptyFunction() throws ParseException {
         ASTEmptyFunction aSTEmptyFunction = new ASTEmptyFunction(this, 2);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTEmptyFunction);
@@ -264,7 +263,7 @@ ParserConstants {
         }
     }
 
-    public final void SizeFunction() {
+    public final void SizeFunction() throws ParseException {
         ASTSizeFunction aSTSizeFunction = new ASTSizeFunction(this, 3);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTSizeFunction);
@@ -299,7 +298,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void Identifier() {
+    public final void Identifier() throws ParseException {
         ASTIdentifier aSTIdentifier = new ASTIdentifier(this, 4);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTIdentifier);
@@ -320,12 +319,12 @@ ParserConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    public final void Expression() {
+    public final void Expression() throws ParseException {
         ASTExpression aSTExpression = new ASTExpression(this, 5);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTExpression);
         try {
-            if (this.jj_2_1(-129)) {
+            if (this.jj_2_1(Integer.MAX_VALUE)) {
                 this.Assignment();
                 return;
             }
@@ -374,7 +373,7 @@ ParserConstants {
         }
     }
 
-    public final void Assignment() {
+    public final void Assignment() throws ParseException {
         ASTAssignment aSTAssignment = new ASTAssignment(this, 6);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTAssignment);
@@ -405,7 +404,7 @@ ParserConstants {
         }
     }
 
-    public final void ConditionalOrExpression() {
+    public final void ConditionalOrExpression() throws ParseException {
         this.ConditionalAndExpression();
         block17: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -489,7 +488,7 @@ ParserConstants {
         }
     }
 
-    public final void ConditionalAndExpression() {
+    public final void ConditionalAndExpression() throws ParseException {
         this.InclusiveOrExpression();
         block17: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -578,7 +577,7 @@ ParserConstants {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    public final void InclusiveOrExpression() {
+    public final void InclusiveOrExpression() throws ParseException {
         this.ExclusiveOrExpression();
         while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -625,7 +624,7 @@ ParserConstants {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    public final void ExclusiveOrExpression() {
+    public final void ExclusiveOrExpression() throws ParseException {
         this.AndExpression();
         while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -672,7 +671,7 @@ ParserConstants {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    public final void AndExpression() {
+    public final void AndExpression() throws ParseException {
         this.EqualityExpression();
         while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -714,7 +713,7 @@ ParserConstants {
         }
     }
 
-    public final void EqualityExpression() {
+    public final void EqualityExpression() throws ParseException {
         this.RelationalExpression();
         block29: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -860,7 +859,7 @@ ParserConstants {
         }
     }
 
-    public final void RelationalExpression() {
+    public final void RelationalExpression() throws ParseException {
         this.AdditiveExpression();
         block53: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -1130,7 +1129,7 @@ ParserConstants {
         }
     }
 
-    public final void AdditiveExpression() {
+    public final void AdditiveExpression() throws ParseException {
         this.MultiplicativeExpression();
         block17: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -1214,7 +1213,7 @@ ParserConstants {
         }
     }
 
-    public final void MultiplicativeExpression() {
+    public final void MultiplicativeExpression() throws ParseException {
         this.UnaryExpression();
         block35: while (true) {
             switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -1391,7 +1390,7 @@ ParserConstants {
         }
     }
 
-    public final void UnaryExpression() {
+    public final void UnaryExpression() throws ParseException {
         switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
             case 36: {
                 this.jj_consume_token(36);
@@ -1534,7 +1533,7 @@ ParserConstants {
         }
     }
 
-    public final void PrimaryExpression() {
+    public final void PrimaryExpression() throws ParseException {
         switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
             case 7: 
             case 8: 
@@ -1571,7 +1570,7 @@ ParserConstants {
         }
     }
 
-    public final void Literal() {
+    public final void Literal() throws ParseException {
         switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
             case 7: {
                 this.IntegerLiteral();
@@ -1605,7 +1604,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void NullLiteral() {
+    public final void NullLiteral() throws ParseException {
         ASTNullLiteral aSTNullLiteral = new ASTNullLiteral(this, 27);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTNullLiteral);
@@ -1622,7 +1621,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void BooleanLiteral() {
+    public final void BooleanLiteral() throws ParseException {
         switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
             case 46: {
                 ASTTrueNode aSTTrueNode = new ASTTrueNode(this, 28);
@@ -1663,7 +1662,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void IntegerLiteral() {
+    public final void IntegerLiteral() throws ParseException {
         ASTIntegerLiteral aSTIntegerLiteral = new ASTIntegerLiteral(this, 30);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTIntegerLiteral);
@@ -1683,7 +1682,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void FloatLiteral() {
+    public final void FloatLiteral() throws ParseException {
         ASTFloatLiteral aSTFloatLiteral = new ASTFloatLiteral(this, 31);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTFloatLiteral);
@@ -1703,7 +1702,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void StringLiteral() {
+    public final void StringLiteral() throws ParseException {
         ASTStringLiteral aSTStringLiteral = new ASTStringLiteral(this, 32);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTStringLiteral);
@@ -1720,7 +1719,7 @@ ParserConstants {
         }
     }
 
-    public final void Statement() {
+    public final void Statement() throws ParseException {
         block0 : switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
             case 48: {
                 this.jj_consume_token(48);
@@ -1732,11 +1731,11 @@ ParserConstants {
             }
             default: {
                 this.jj_la1[23] = this.jj_gen;
-                if (this.jj_2_2(-129)) {
+                if (this.jj_2_2(Integer.MAX_VALUE)) {
                     this.ReferenceExpression();
                     break;
                 }
-                if (this.jj_2_3(-129)) {
+                if (this.jj_2_3(Integer.MAX_VALUE)) {
                     this.StatementExpression();
                     break;
                 }
@@ -1778,7 +1777,7 @@ ParserConstants {
         }
     }
 
-    public final void ExpressionExpression() {
+    public final void ExpressionExpression() throws ParseException {
         ASTExpressionExpression aSTExpressionExpression = new ASTExpressionExpression(this, 33);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTExpressionExpression);
@@ -1808,7 +1807,7 @@ ParserConstants {
         }
     }
 
-    public final void StatementExpression() {
+    public final void StatementExpression() throws ParseException {
         ASTStatementExpression aSTStatementExpression = new ASTStatementExpression(this, 34);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTStatementExpression);
@@ -1838,7 +1837,7 @@ ParserConstants {
         }
     }
 
-    public final void ReferenceExpression() {
+    public final void ReferenceExpression() throws ParseException {
         ASTReferenceExpression aSTReferenceExpression = new ASTReferenceExpression(this, 35);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTReferenceExpression);
@@ -1872,7 +1871,7 @@ ParserConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    public final void IfStatement() {
+    public final void IfStatement() throws ParseException {
         ASTIfStatement aSTIfStatement = new ASTIfStatement(this, 36);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTIfStatement);
@@ -1914,7 +1913,7 @@ ParserConstants {
         }
     }
 
-    public final void WhileStatement() {
+    public final void WhileStatement() throws ParseException {
         ASTWhileStatement aSTWhileStatement = new ASTWhileStatement(this, 37);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTWhileStatement);
@@ -1947,7 +1946,7 @@ ParserConstants {
         }
     }
 
-    public final void ForeachStatement() {
+    public final void ForeachStatement() throws ParseException {
         ASTForeachStatement aSTForeachStatement = new ASTForeachStatement(this, 38);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTForeachStatement);
@@ -1982,7 +1981,7 @@ ParserConstants {
         }
     }
 
-    public final void Method() {
+    public final void Method() throws ParseException {
         ASTMethod aSTMethod = new ASTMethod(this, 39);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTMethod);
@@ -2047,7 +2046,7 @@ ParserConstants {
         }
     }
 
-    public final void ArrayAccess() {
+    public final void ArrayAccess() throws ParseException {
         ASTArrayAccess aSTArrayAccess = new ASTArrayAccess(this, 40);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTArrayAccess);
@@ -2109,7 +2108,7 @@ ParserConstants {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public final void SizeMethod() {
+    public final void SizeMethod() throws ParseException {
         ASTSizeMethod aSTSizeMethod = new ASTSizeMethod(this, 41);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTSizeMethod);
@@ -2125,12 +2124,12 @@ ParserConstants {
         }
     }
 
-    public final void Reference() {
+    public final void Reference() throws ParseException {
         ASTReference aSTReference = new ASTReference(this, 42);
         boolean bl = true;
         this.jjtree.openNodeScope(aSTReference);
         try {
-            if (this.jj_2_5(-129)) {
+            if (this.jj_2_5(Integer.MAX_VALUE)) {
                 this.ArrayAccess();
             } else {
                 switch (this.jj_ntk == -1 ? this.jj_ntk() : this.jj_ntk) {
@@ -2147,7 +2146,7 @@ ParserConstants {
             }
             block16: while (this.jj_2_6(2)) {
                 this.jj_consume_token(57);
-                if (this.jj_2_8(-129)) {
+                if (this.jj_2_8(Integer.MAX_VALUE)) {
                     this.ArrayAccess();
                     continue;
                 }
@@ -2205,7 +2204,7 @@ ParserConstants {
         }
     }
 
-    public final void Parameter() {
+    public final void Parameter() throws ParseException {
         if (this.jj_2_9(3)) {
             this.Expression();
         } else {
@@ -4111,7 +4110,7 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
@@ -4127,7 +4126,7 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
@@ -4142,7 +4141,7 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
@@ -4158,7 +4157,7 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
@@ -4172,7 +4171,7 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
@@ -4187,11 +4186,11 @@ ParserConstants {
             this.jj_la1[n] = -1;
         }
         for (n = 0; n < this.jj_2_rtns.length; ++n) {
-            this.jj_2_rtns[n] = new Parser$JJCalls();
+            this.jj_2_rtns[n] = new JJCalls();
         }
     }
 
-    private final Token jj_consume_token(int n) {
+    private final Token jj_consume_token(int n) throws ParseException {
         Token token = this.token;
         this.token = token.next != null ? this.token.next : (this.token.next = this.token_source.getNextToken());
         this.jj_ntk = -1;
@@ -4200,12 +4199,12 @@ ParserConstants {
             if (++this.jj_gc > 100) {
                 this.jj_gc = 0;
                 for (int i2 = 0; i2 < this.jj_2_rtns.length; ++i2) {
-                    Parser$JJCalls parser$JJCalls = this.jj_2_rtns[i2];
-                    while (parser$JJCalls != null) {
-                        if (parser$JJCalls.gen < this.jj_gen) {
-                            parser$JJCalls.first = null;
+                    JJCalls jJCalls = this.jj_2_rtns[i2];
+                    while (jJCalls != null) {
+                        if (jJCalls.gen < this.jj_gen) {
+                            jJCalls.first = null;
                         }
-                        parser$JJCalls = parser$JJCalls.next;
+                        jJCalls = jJCalls.next;
                     }
                 }
             }
@@ -4351,11 +4350,11 @@ ParserConstants {
     private final void jj_rescan_token() {
         this.jj_rescan = true;
         for (int i2 = 0; i2 < 9; ++i2) {
-            Parser$JJCalls parser$JJCalls = this.jj_2_rtns[i2];
+            JJCalls jJCalls = this.jj_2_rtns[i2];
             do {
-                if (parser$JJCalls.gen <= this.jj_gen) continue;
-                this.jj_la = parser$JJCalls.arg;
-                this.jj_lastpos = this.jj_scanpos = parser$JJCalls.first;
+                if (jJCalls.gen <= this.jj_gen) continue;
+                this.jj_la = jJCalls.arg;
+                this.jj_lastpos = this.jj_scanpos = jJCalls.first;
                 switch (i2) {
                     case 0: {
                         this.jj_3_1();
@@ -4393,23 +4392,33 @@ ParserConstants {
                         this.jj_3_9();
                     }
                 }
-            } while ((parser$JJCalls = parser$JJCalls.next) != null);
+            } while ((jJCalls = jJCalls.next) != null);
         }
         this.jj_rescan = false;
     }
 
     private final void jj_save(int n, int n2) {
-        Parser$JJCalls parser$JJCalls = this.jj_2_rtns[n];
-        while (parser$JJCalls.gen > this.jj_gen) {
-            if (parser$JJCalls.next == null) {
-                parser$JJCalls = parser$JJCalls.next = new Parser$JJCalls();
+        JJCalls jJCalls = this.jj_2_rtns[n];
+        while (jJCalls.gen > this.jj_gen) {
+            if (jJCalls.next == null) {
+                jJCalls = jJCalls.next = new JJCalls();
                 break;
             }
-            parser$JJCalls = parser$JJCalls.next;
+            jJCalls = jJCalls.next;
         }
-        parser$JJCalls.gen = this.jj_gen + n2 - this.jj_la;
-        parser$JJCalls.first = this.token;
-        parser$JJCalls.arg = n2;
+        jJCalls.gen = this.jj_gen + n2 - this.jj_la;
+        jJCalls.first = this.token;
+        jJCalls.arg = n2;
+    }
+
+    static final class JJCalls {
+        int gen;
+        Token first;
+        int arg;
+        JJCalls next;
+
+        JJCalls() {
+        }
     }
 }
 

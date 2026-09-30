@@ -8,23 +8,20 @@ import de.audi.atip.hmi.model.texteditor.DoubleCursor;
 import de.audi.atip.hmi.model.texteditor.MLUtils;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.widgets.MultilineTextFieldController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.DeleteKeyInputHandler$1;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.DeleteKeyInputHandler$2;
-import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.DeleteKeyInputHandler$3;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.ITimer;
 import de.esolutions.hmi.widgets.audi.evo.widgets.multiline.TimerHandler;
 
 public class DeleteKeyInputHandler {
-    public static final int TIMER_IDX_DELAY_1;
-    public static final int TIMER_IDX_DELAY_2;
-    public static final int TIMER_IDX_REPAINT;
-    public static final int REPAINT_DELAY;
-    public static final int FIRST_DELAY;
-    public static final int SECOND_DELAY;
-    public static final int DELAY_CHANGE_PERCENT;
-    public static final int FINAL_DELAY;
-    public static final int WORD_DELAY_CONSTANT;
-    public static final int WORD_DELAY_PERCENT;
+    public static final int TIMER_IDX_DELAY_1 = 0;
+    public static final int TIMER_IDX_DELAY_2 = 1;
+    public static final int TIMER_IDX_REPAINT = 2;
+    public static final int REPAINT_DELAY = 60;
+    public static final int FIRST_DELAY = 800;
+    public static final int SECOND_DELAY = 250;
+    public static final int DELAY_CHANGE_PERCENT = 95;
+    public static final int FINAL_DELAY = 60;
+    public static final int WORD_DELAY_CONSTANT = 160;
+    public static final int WORD_DELAY_PERCENT = 200;
     protected DoubleCursor m_cursor;
     protected boolean isFirstDelay = true;
     protected int m_currentDelay;
@@ -33,7 +30,54 @@ public class DeleteKeyInputHandler {
     protected TimerHandler m_timerHandler = null;
     protected int[] m_timerDelays = new int[]{800, 250, 60};
     protected boolean[] m_timerResets = new boolean[]{false, false, false};
-    protected ITimer[] timerOps = new ITimer[]{new DeleteKeyInputHandler$1(this), new DeleteKeyInputHandler$2(this), new DeleteKeyInputHandler$3(this)};
+    protected ITimer[] timerOps = new ITimer[]{new ITimer(){
+
+        public void onTimeout(int n) {
+            if (DeleteKeyInputHandler.this.m_cursor.getCursorMode() == 1) {
+                if (DeleteKeyInputHandler.this.repeatedDelete()) {
+                    DeleteKeyInputHandler.this.m_timerHandler.enqueueTimer(1);
+                }
+            } else if (DeleteKeyInputHandler.this.repeatedDeleteWord()) {
+                DeleteKeyInputHandler.this.m_timerHandler.enqueueTimer(1);
+            }
+        }
+
+        public void onEnqueue(int n) {
+        }
+
+        public void onCancel(int n) {
+        }
+    }, new ITimer(){
+
+        public void onTimeout(int n) {
+            if (DeleteKeyInputHandler.this.m_cursor.getCursorMode() == 1) {
+                if (DeleteKeyInputHandler.this.repeatedDelete()) {
+                    DeleteKeyInputHandler.this.m_timerHandler.enqueueTimer(1);
+                    DeleteKeyInputHandler.this.m_timerHandler.enqueueTimer(2);
+                }
+            } else if (DeleteKeyInputHandler.this.repeatedDeleteWord()) {
+                DeleteKeyInputHandler.this.m_timerHandler.enqueueTimer(1);
+            }
+        }
+
+        public void onEnqueue(int n) {
+        }
+
+        public void onCancel(int n) {
+            DeleteKeyInputHandler.this.m_timerDelays[1] = 250;
+        }
+    }, new ITimer(){
+
+        public void onTimeout(int n) {
+            DeleteKeyInputHandler.this.m_ctrl.repaintWidgetOnHMIThread();
+        }
+
+        public void onEnqueue(int n) {
+        }
+
+        public void onCancel(int n) {
+        }
+    }};
     protected MultilineTextFieldController m_ctrl;
 
     public DeleteKeyInputHandler(DoubleCursor doubleCursor, EventDispatcher eventDispatcher, MultilineTextFieldController multilineTextFieldController) {
@@ -80,7 +124,7 @@ public class DeleteKeyInputHandler {
                     this.m_ctrl.repaintWidgetOnHMIThread();
                 }
             } else {
-                IWidgetLogChannel.tpLogChannelKeypanel.log(-2137614336, "DeleteKeyInputHandler#firstDelete(): lock could not acquire");
+                IWidgetLogChannel.tpLogChannelKeypanel.log(10000000, "DeleteKeyInputHandler#firstDelete(): lock could not acquire");
             }
         }
         finally {
@@ -107,7 +151,7 @@ public class DeleteKeyInputHandler {
                     bl = nArray2[0] != -1;
                 }
             } else {
-                IWidgetLogChannel.tpLogChannelKeypanel.log(-2137614336, "DeleteKeyInputHandler#firstDeleteWord(): lock could not acquire");
+                IWidgetLogChannel.tpLogChannelKeypanel.log(10000000, "DeleteKeyInputHandler#firstDeleteWord(): lock could not acquire");
             }
         }
         finally {
@@ -157,7 +201,7 @@ public class DeleteKeyInputHandler {
                     }
                 }
             } else {
-                IWidgetLogChannel.tpLogChannelKeypanel.log(-2137614336, "DeleteKeyInputHandler#repeatedDelete(): lock could not acquire");
+                IWidgetLogChannel.tpLogChannelKeypanel.log(10000000, "DeleteKeyInputHandler#repeatedDelete(): lock could not acquire");
             }
         }
         finally {
@@ -176,14 +220,6 @@ public class DeleteKeyInputHandler {
 
     private boolean isInterpunctation(char c2) {
         return MLUtils.getCharType(c2) == 1;
-    }
-
-    static /* synthetic */ boolean access$000(DeleteKeyInputHandler deleteKeyInputHandler) {
-        return deleteKeyInputHandler.repeatedDelete();
-    }
-
-    static /* synthetic */ boolean access$100(DeleteKeyInputHandler deleteKeyInputHandler) {
-        return deleteKeyInputHandler.repeatedDeleteWord();
     }
 }
 

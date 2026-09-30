@@ -23,7 +23,6 @@ extends AbstractWidgetController {
     private AbstractWidget lastHighlightedChild;
     private boolean groupVisible = true;
 
-    @Override
     protected void initializeWidget() {
         if (this.model != null && this.model instanceof ChoiceModelGUI) {
             this.checkModelValue();
@@ -54,7 +53,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (this.isEnabled() && !bl) {
             for (int i2 = 0; i2 < this.getChildrenSize(); ++i2) {
@@ -71,12 +69,10 @@ extends AbstractWidgetController {
         this.renderer = iRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (!this.isEnabled() || !this.isVisible()) {
             return;
@@ -93,7 +89,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (!(abstractWidget instanceof IconController)) {
             return;
@@ -101,7 +96,6 @@ extends AbstractWidgetController {
         super.add(abstractWidget);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!this.isEnabled()) {
             return;
@@ -126,7 +120,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (!this.isEnabled()) {
             return;
@@ -210,7 +203,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         this.groupVisible = bl;
         List list = this.getChildren();
@@ -220,12 +212,10 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public boolean isVisible() {
         return this.groupVisible;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.checkModelValue();
         super.processModelUpdateEvent(modelUpdateEvent);

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.MenuContext;
 import org.dsi.ifc.kombisync2.PopupActionRequestResponse;
 
 public class PopupActionRequestResponseSerializer {
-    public static void putOptionalPopupActionRequestResponse(ISerializer iSerializer, PopupActionRequestResponse popupActionRequestResponse) {
+    public static void putOptionalPopupActionRequestResponse(ISerializer iSerializer, PopupActionRequestResponse popupActionRequestResponse) throws SerializerException {
         boolean bl = popupActionRequestResponse == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class PopupActionRequestResponseSerializer {
         }
     }
 
-    public static void putOptionalPopupActionRequestResponseVarArray(ISerializer iSerializer, PopupActionRequestResponse[] popupActionRequestResponseArray) {
+    public static void putOptionalPopupActionRequestResponseVarArray(ISerializer iSerializer, PopupActionRequestResponse[] popupActionRequestResponseArray) throws SerializerException {
         boolean bl = popupActionRequestResponseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class PopupActionRequestResponseSerializer {
         }
     }
 
-    public static PopupActionRequestResponse getOptionalPopupActionRequestResponse(IDeserializer iDeserializer) {
+    public static PopupActionRequestResponse getOptionalPopupActionRequestResponse(IDeserializer iDeserializer) throws SerializerException {
         PopupActionRequestResponse popupActionRequestResponse = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class PopupActionRequestResponseSerializer {
         return popupActionRequestResponse;
     }
 
-    public static PopupActionRequestResponse[] getOptionalPopupActionRequestResponseVarArray(IDeserializer iDeserializer) {
+    public static PopupActionRequestResponse[] getOptionalPopupActionRequestResponseVarArray(IDeserializer iDeserializer) throws SerializerException {
         PopupActionRequestResponse[] popupActionRequestResponseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -12,19 +12,14 @@ public interface IConversionDataFetcher
 extends ITouchInputDataChangeHandler {
     public static final IConversionDataFetcher NULL = new ConversionDataFetcherNull();
 
-    default public void requestConversions(String string, char c2, int n, int n2, boolean bl) {
-    }
+    public void requestConversions(String var1, char var2, int var3, int var4, boolean var5);
 
-    default public void requestInitialValidCharacters() {
-    }
+    public void requestInitialValidCharacters();
 
-    default public void registerConversionFetcherListener(IConversionDataFetcherListener iConversionDataFetcherListener) {
-    }
+    public void registerConversionFetcherListener(IConversionDataFetcherListener var1);
 
-    default public boolean unregisterConversionFetcherListener(IConversionDataFetcherListener iConversionDataFetcherListener) {
-    }
+    public boolean unregisterConversionFetcherListener(IConversionDataFetcherListener var1);
 
-    default public void setInputMethod(AsianInputMethod asianInputMethod) {
-    }
+    public void setInputMethod(AsianInputMethod var1);
 }
 

@@ -30,8 +30,7 @@ ASIHMISyncAudioC {
         return this.proxy;
     }
 
-    @Override
-    public void setAudioContext(int n) {
+    public void setAudioContext(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -42,8 +41,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void forceFrontAudioContext(int n) {
+    public void forceFrontAudioContext(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -54,8 +52,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void requestEnableA2LS(String string) {
+    public void requestEnableA2LS(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -66,13 +63,11 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void disableA2LS() {
+    public void disableA2LS() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void setVolume(int n) {
+    public void setVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -83,8 +78,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void increaseVolume(int n) {
+    public void increaseVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -95,8 +89,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void decreaseVolume(int n) {
+    public void decreaseVolume(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -107,13 +100,11 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void setNotification(long l) {
+    public void setNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -124,8 +115,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setNotification(long[] lArray) {
+    public void setNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -136,13 +126,11 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void clearNotification(long l) {
+    public void clearNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -153,8 +141,7 @@ ASIHMISyncAudioC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(long[] lArray) {
+    public void clearNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);

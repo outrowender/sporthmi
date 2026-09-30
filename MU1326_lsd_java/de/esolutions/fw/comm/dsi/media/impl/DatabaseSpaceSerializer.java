@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.DatabaseSpace;
 
 public class DatabaseSpaceSerializer {
-    public static void putOptionalDatabaseSpace(ISerializer iSerializer, DatabaseSpace databaseSpace) {
+    public static void putOptionalDatabaseSpace(ISerializer iSerializer, DatabaseSpace databaseSpace) throws SerializerException {
         boolean bl = databaseSpace == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DatabaseSpaceSerializer {
         }
     }
 
-    public static void putOptionalDatabaseSpaceVarArray(ISerializer iSerializer, DatabaseSpace[] databaseSpaceArray) {
+    public static void putOptionalDatabaseSpaceVarArray(ISerializer iSerializer, DatabaseSpace[] databaseSpaceArray) throws SerializerException {
         boolean bl = databaseSpaceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DatabaseSpaceSerializer {
         }
     }
 
-    public static DatabaseSpace getOptionalDatabaseSpace(IDeserializer iDeserializer) {
+    public static DatabaseSpace getOptionalDatabaseSpace(IDeserializer iDeserializer) throws SerializerException {
         DatabaseSpace databaseSpace = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DatabaseSpaceSerializer {
         return databaseSpace;
     }
 
-    public static DatabaseSpace[] getOptionalDatabaseSpaceVarArray(IDeserializer iDeserializer) {
+    public static DatabaseSpace[] getOptionalDatabaseSpaceVarArray(IDeserializer iDeserializer) throws SerializerException {
         DatabaseSpace[] databaseSpaceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

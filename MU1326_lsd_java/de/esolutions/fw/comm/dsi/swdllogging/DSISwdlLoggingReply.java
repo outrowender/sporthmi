@@ -3,31 +3,26 @@
  */
 package de.esolutions.fw.comm.dsi.swdllogging;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlLoggingReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "d4701228-4c5f-56da-b0bf-05699002e833";
+    public static final String IPL_COMM_INTERFACE_KEY = "b02bd6b4-bef1-5aba-9811-dee9d4328506";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void getHistory(String[] stringArray, int[] nArray) {
-    }
+    public void getHistory(String[] var1, int[] var2) throws MethodException;
 
-    default public void setUpdate(int n) {
-    }
+    public void setUpdate(int var1) throws MethodException;
 
-    default public void getGeneralInformation(boolean bl, String string, String string2, boolean bl2, String string3, String string4, int[] nArray, boolean bl3, int n, int[] nArray2) {
-    }
+    public void getGeneralInformation(boolean var1, String var2, String var3, boolean var4, String var5, String var6, int[] var7, boolean var8, int var9, int[] var10) throws MethodException;
 
-    default public void getUnusualEvents(int[] nArray, String[] stringArray) {
-    }
+    public void getUnusualEvents(int[] var1, String[] var2) throws MethodException;
 
-    default public void getUnusualEvent(int n, String string, String string2, String string3, byte by, int n2) {
-    }
+    public void getUnusualEvent(int var1, String var2, String var3, String var4, byte var5, int var6) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

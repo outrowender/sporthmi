@@ -22,12 +22,10 @@ extends INode3D {
         return iNode3DScene == null ? 0L : iNode3DScene.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -39,7 +37,6 @@ extends INode3D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -48,7 +45,6 @@ extends INode3D {
         this(ealswigJNI.new_eal_api_INode3DScene(IManager.getCPtr(iManager), iManager, string), true);
     }
 
-    @Override
     public boolean add(INode3D iNode3D) {
         return ealswigJNI.eal_api_INode3DScene_add__SWIG_0(this.swigCPtr, this, INode3D.getCPtr(iNode3D), iNode3D);
     }
@@ -57,7 +53,6 @@ extends INode3D {
         return ealswigJNI.eal_api_INode3DScene_add__SWIG_1(this.swigCPtr, this, INode3DCamera.getCPtr(iNode3DCamera), iNode3DCamera);
     }
 
-    @Override
     public boolean add(INode3D iNode3D, long l) {
         return ealswigJNI.eal_api_INode3DScene_add__SWIG_2(this.swigCPtr, this, INode3D.getCPtr(iNode3D), iNode3D, l);
     }
@@ -66,7 +61,6 @@ extends INode3D {
         return ealswigJNI.eal_api_INode3DScene_add__SWIG_3(this.swigCPtr, this, INode3DCamera.getCPtr(iNode3DCamera), iNode3DCamera, l);
     }
 
-    @Override
     public boolean addByIndex(INode3D iNode3D, int n) {
         return ealswigJNI.eal_api_INode3DScene_addByIndex__SWIG_0(this.swigCPtr, this, INode3D.getCPtr(iNode3D), iNode3D, n);
     }
@@ -75,7 +69,6 @@ extends INode3D {
         return ealswigJNI.eal_api_INode3DScene_addByIndex__SWIG_1(this.swigCPtr, this, INode3DCamera.getCPtr(iNode3DCamera), iNode3DCamera, n);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode3DScene_dispose(this.swigCPtr, this);
     }
@@ -92,7 +85,6 @@ extends INode3D {
         return ealswigJNI.eal_api_INode3DScene_setClearColor(this.swigCPtr, this, colorRGBAf.getCPtr(colorRGBAf2), colorRGBAf2);
     }
 
-    @Override
     public boolean setDepthTest(boolean bl) {
         return ealswigJNI.eal_api_INode3DScene_setDepthTest(this.swigCPtr, this, bl);
     }

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneAntennaState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTelephoneAntennaStateSerializer {
-    public static void putOptionalsTelephoneAntennaState(ISerializer iSerializer, sTelephoneAntennaState sTelephoneAntennaState2) {
+    public static void putOptionalsTelephoneAntennaState(ISerializer iSerializer, sTelephoneAntennaState sTelephoneAntennaState2) throws SerializerException {
         boolean bl = sTelephoneAntennaState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sTelephoneAntennaStateSerializer {
         }
     }
 
-    public static void putOptionalsTelephoneAntennaStateVarArray(ISerializer iSerializer, sTelephoneAntennaState[] sTelephoneAntennaStateArray) {
+    public static void putOptionalsTelephoneAntennaStateVarArray(ISerializer iSerializer, sTelephoneAntennaState[] sTelephoneAntennaStateArray) throws SerializerException {
         boolean bl = sTelephoneAntennaStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sTelephoneAntennaStateSerializer {
         }
     }
 
-    public static sTelephoneAntennaState getOptionalsTelephoneAntennaState(IDeserializer iDeserializer) {
+    public static sTelephoneAntennaState getOptionalsTelephoneAntennaState(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneAntennaState sTelephoneAntennaState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class sTelephoneAntennaStateSerializer {
         return sTelephoneAntennaState2;
     }
 
-    public static sTelephoneAntennaState[] getOptionalsTelephoneAntennaStateVarArray(IDeserializer iDeserializer) {
+    public static sTelephoneAntennaState[] getOptionalsTelephoneAntennaStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneAntennaState[] sTelephoneAntennaStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

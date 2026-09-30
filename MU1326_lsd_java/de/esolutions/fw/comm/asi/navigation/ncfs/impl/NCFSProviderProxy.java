@@ -6,13 +6,16 @@ package de.esolutions.fw.comm.asi.navigation.ncfs.impl;
 import de.esolutions.fw.comm.asi.navigation.ncfs.NCFSProvider;
 import de.esolutions.fw.comm.asi.navigation.ncfs.NCFSProviderC;
 import de.esolutions.fw.comm.asi.navigation.ncfs.NCFSProviderReply;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderProxy$1;
-import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderProxy$2;
 import de.esolutions.fw.comm.asi.navigation.ncfs.impl.NCFSProviderReplyService;
+import de.esolutions.fw.comm.asi.navigation.ncfs.impl.sBoundingBoxSerializer;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class NCFSProviderProxy
 implements NCFSProvider,
@@ -30,16 +33,24 @@ NCFSProviderC {
         return this.proxy;
     }
 
-    @Override
-    public void requestVZORestrictions(sBoundingBox sBoundingBox2) {
-        NCFSProviderProxy$1 nCFSProviderProxy$1 = new NCFSProviderProxy$1(this, sBoundingBox2);
-        this.proxy.remoteCallMethod((short)1, nCFSProviderProxy$1);
+    public void requestVZORestrictions(final sBoundingBox sBoundingBox2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBoundingBoxSerializer.putOptionalsBoundingBox(iSerializer, sBoundingBox2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void requestLGI(sBoundingBox sBoundingBox2) {
-        NCFSProviderProxy$2 nCFSProviderProxy$2 = new NCFSProviderProxy$2(this, sBoundingBox2);
-        this.proxy.remoteCallMethod((short)0, nCFSProviderProxy$2);
+    public void requestLGI(final sBoundingBox sBoundingBox2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBoundingBoxSerializer.putOptionalsBoundingBox(iSerializer, sBoundingBox2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 }
 

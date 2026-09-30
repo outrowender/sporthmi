@@ -28,7 +28,6 @@ extends AbstractWidgetController {
         this.separatorGap = f2;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

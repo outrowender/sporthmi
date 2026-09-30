@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.UnitmasterConfigurati
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterConfiguration;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class UnitmasterViewOptionsSerializer {
-    public static void putOptionalUnitmasterViewOptions(ISerializer iSerializer, UnitmasterViewOptions unitmasterViewOptions) {
+    public static void putOptionalUnitmasterViewOptions(ISerializer iSerializer, UnitmasterViewOptions unitmasterViewOptions) throws SerializerException {
         boolean bl = unitmasterViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -49,7 +50,7 @@ public class UnitmasterViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalUnitmasterViewOptionsVarArray(ISerializer iSerializer, UnitmasterViewOptions[] unitmasterViewOptionsArray) {
+    public static void putOptionalUnitmasterViewOptionsVarArray(ISerializer iSerializer, UnitmasterViewOptions[] unitmasterViewOptionsArray) throws SerializerException {
         boolean bl = unitmasterViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -60,7 +61,7 @@ public class UnitmasterViewOptionsSerializer {
         }
     }
 
-    public static UnitmasterViewOptions getOptionalUnitmasterViewOptions(IDeserializer iDeserializer) {
+    public static UnitmasterViewOptions getOptionalUnitmasterViewOptions(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterViewOptions unitmasterViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class UnitmasterViewOptionsSerializer {
         return unitmasterViewOptions;
     }
 
-    public static UnitmasterViewOptions[] getOptionalUnitmasterViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static UnitmasterViewOptions[] getOptionalUnitmasterViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnitmasterViewOptions[] unitmasterViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

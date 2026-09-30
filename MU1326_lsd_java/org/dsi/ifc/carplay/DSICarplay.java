@@ -13,184 +13,171 @@ import org.dsi.ifc.carplay.TouchEvent;
 
 public interface DSICarplay
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_DEVICEINFO;
-    public static final int ATTR_NOWPLAYINGDATA;
-    public static final int ATTR_PLAYBACKSTATE;
-    public static final int ATTR_PLAYPOSITION;
-    public static final int ATTR_COVERARTURL;
-    public static final int ATTR_TELEPHONYSTATE;
-    public static final int ATTR_CALLSTATE;
-    public static final int ATTR_MODE;
-    public static final int ATTR_TEXTINPUTSTATE;
-    public static final int ATTR_MAINAUDIOTYPE;
-    public static final int RT_STARTSERVICE;
-    public static final int RT_POSTBUTTONEVENT;
-    public static final int RT_POSTTOUCHEVENT;
-    public static final int RT_POSTROTARYEVENT;
-    public static final int RT_RESPONSEBTDEACTIVATION;
-    public static final int RT_REQUESTUI;
-    public static final int RT_REQUESTMODECHANGE;
-    public static final int RT_POSTCHARACTEREVENT;
-    public static final int RT_REQUESTNIGHTMODE;
-    public static final int RT_REQUESTSIRIACTION;
-    public static final int RT_RESPONSEUPDATEMODE;
-    public static final int RT_RESPONSEUPDATEMAINAUDIOTYPE;
-    public static final int RT_REQUESTUI2;
-    public static final int RP_RESPONSEMODECHANGE;
-    public static final int IN_REQUESTBTDEACTIVATION;
-    public static final int IN_DUCKAUDIO;
-    public static final int IN_UNDUCKAUDIO;
-    public static final int IN_OEMAPPSELECTED;
-    public static final int CHANGEMODERESULT_OK;
-    public static final int CHANGEMODERESULT_REJECTED;
-    public static final int SPEECHMODE_UNKNOWN;
-    public static final int SPEECHMODE_NONE;
-    public static final int SPEECHMODE_SPEAKING;
-    public static final int SPEECHMODE_RECOGNIZING;
-    public static final int APPLICATIONID_UNKNOWN;
-    public static final int APPLICATIONID_PHONE;
-    public static final int APPLICATIONID_NAVIGATION;
-    public static final int APPLICATIONID_SPEECH;
-    public static final int APPLICATIONOWNER_UNKNOWN;
-    public static final int APPLICATIONOWNER_MAINUNIT;
-    public static final int APPLICATIONOWNER_DEVICE;
-    public static final int RESOURCE_UNKNOWN;
-    public static final int RESOURCE_MAIN_AUDIO;
-    public static final int RESOURCE_MAIN_SCREEN;
-    public static final int RESOURCEOWNER_UNDEFINED;
-    public static final int RESOURCEOWNER_MAINUNIT;
-    public static final int RESOURCEOWNER_DEVICE;
-    public static final int RESOURCETRANSFERTYPE_UNKNOWN;
-    public static final int RESOURCETRANSFERTYPE_TAKE;
-    public static final int RESOURCETRANSFERTYPE_UNTAKE;
-    public static final int RESOURCETRANSFERTYPE_BORROW;
-    public static final int RESOURCETRANSFERTYPE_UNBORROW;
-    public static final int RESOURCETRANSFERPRIORITY_UNKNOWN;
-    public static final int RESOURCETRANSFERPRIORITY_USER_INITIATED;
-    public static final int RESOURCETRANSFERPRIORITY_NICE_TO_HAVE;
-    public static final int RESOURCESHARINGPOLICY_UKNOWN;
-    public static final int RESOURCESHARINGPOLICY_ALWAYS;
-    public static final int RESOURCESHARINGPOLICY_USER_INITIATED;
-    public static final int RESOURCESHARINGPOLICY_NEVER;
-    public static final int UI_UNKNOWN;
-    public static final int UI_HOME;
-    public static final int UI_PHONE;
-    public static final int UI_NAVIGATION;
-    public static final int UI_MEDIA;
-    public static final int UI_MEDIA_NOWPLAYING;
-    public static final int BUTTON_UNKNOWN;
-    public static final int BUTTON_SELECT;
-    public static final int BUTTON_HOME;
-    public static final int BUTTON_BACK;
-    public static final int BUTTON_VOICE;
-    public static final int BUTTON_LEFT;
-    public static final int BUTTON_RIGHT;
-    public static final int BUTTON_UP;
-    public static final int BUTTON_DOWN;
-    public static final int BUTTON_SKIP_FORWARD;
-    public static final int BUTTON_SKIP_BACKWARD;
-    public static final int BUTTON_SEEK_FORWARD;
-    public static final int BUTTON_SEEK_BACKWARD;
-    public static final int BUTTON_ACCEPT_CALL;
-    public static final int BUTTON_END_CALL;
-    public static final int BUTTON_PLAY_PAUSE;
-    public static final int BUTTON_PRIMARY;
-    public static final int BUTTON_SECONDARY;
-    public static final int BUTTON_PAUSE;
-    public static final int BUTTON_PLAY;
-    public static final int BUTTON_FLASH_CALL;
-    public static final int BUTTONSTATE_PRESSED;
-    public static final int BUTTONSTATE_RELEASED;
-    public static final int TOUCHSOURCE_TOUCHPAD;
-    public static final int TOUCHSOURCE_TOUCHSCREEN;
-    public static final int TEXTINPUTSTATE_INACTIVE;
-    public static final int TEXTINPUTSTATE_ACTIVE;
-    public static final int SCREENRESOLUTION_800_BY_480;
-    public static final int SCREENRESOLUTION_960_BY_540;
-    public static final int SCREENRESOLUTION_1024_BY_480;
-    public static final int SCREENRESOLUTION_CUSTOM;
-    public static final int CALLSTATE_DISCONNECTED;
-    public static final int CALLSTATE_ACTIVE;
-    public static final int CALLSTATE_HOLDING;
-    public static final int CALLSTATE_CONNECTING;
-    public static final int CALLDIRECTION_INCOMING;
-    public static final int CALLDIRECTION_OUTGOING;
-    public static final int CALLDIRECTION_UNKNOWN;
-    public static final int PLAYBACKSTATE_STOPPED;
-    public static final int PLAYBACKSTATE_PLAYING;
-    public static final int PLAYBACKSTATE_PAUSED;
-    public static final int PLAYBACKSTATE_SEEKFORWARD;
-    public static final int PLAYBACKSTATE_SEEKBACKWARD;
-    public static final int PLAYBACKMODESHUFFLE_OFF;
-    public static final int PLAYBACKMODESHUFFLE_SONGS;
-    public static final int PLAYBACKMODESHUFFLE_ALBUMS;
-    public static final int PLAYBACKMODEREPEAT_OFF;
-    public static final int PLAYBACKMODEREPEAT_ONE;
-    public static final int PLAYBACKMODEREPEAT_ALL;
-    public static final int SIGNALSTRENGTH_0_BARS_NO_SERVICE;
-    public static final int SIGNALSTRENGTH_1_BAR;
-    public static final int SIGNALSTRENGTH_2_BARS;
-    public static final int SIGNALSTRENGTH_3_BARS;
-    public static final int SIGNALSTRENGTH_4_BARS;
-    public static final int SIGNALSTRENGTH_5_BARS;
-    public static final int REGISTRATIONSTATE_UNKNOWN;
-    public static final int REGISTRATIONSTATE_NOT_REGISTERED;
-    public static final int REGISTRATIONSTATE_SEARCHING;
-    public static final int REGISTRATIONSTATE_DENIED;
-    public static final int REGISTRATIONSTATE_REGISTRED_HOME;
-    public static final int REGISTRATIONSTATE_ROAMING;
-    public static final int REGISTRATIONSTATE_EMERGENCY_CALLS_ONLY;
-    public static final int SIRIACTION_PREWARM;
-    public static final int SIRIACTION_START;
-    public static final int SIRIACTION_STOP;
-    public static final int AUDIOTYPE_NONE;
-    public static final int AUDIOTYPE_ALERT;
-    public static final int AUDIOTYPE_MEDIA;
-    public static final int AUDIOTYPE_TELEPHONY;
-    public static final int AUDIOTYPE_SPEECHRECOGNITION;
-    public static final int INPUTFEATURE_KNOB;
-    public static final int INPUTFEATURE_LOWFIDELITYTOUCH;
-    public static final int INPUTFEATURE_HIGHFIDELITYTOUCH;
-    public static final int INPUTFEATURE_TOUCHPAD;
+    public static final String VERSION = "2.11.10";
+    public static final int ATTR_DEVICEINFO = 2;
+    public static final int ATTR_NOWPLAYINGDATA = 3;
+    public static final int ATTR_PLAYBACKSTATE = 4;
+    public static final int ATTR_PLAYPOSITION = 5;
+    public static final int ATTR_COVERARTURL = 6;
+    public static final int ATTR_TELEPHONYSTATE = 7;
+    public static final int ATTR_CALLSTATE = 8;
+    public static final int ATTR_MODE = 9;
+    public static final int ATTR_TEXTINPUTSTATE = 10;
+    public static final int ATTR_MAINAUDIOTYPE = 12;
+    public static final int RT_STARTSERVICE = 1000;
+    public static final int RT_POSTBUTTONEVENT = 1002;
+    public static final int RT_POSTTOUCHEVENT = 1003;
+    public static final int RT_POSTROTARYEVENT = 1004;
+    public static final int RT_RESPONSEBTDEACTIVATION = 1005;
+    public static final int RT_REQUESTUI = 1006;
+    public static final int RT_REQUESTMODECHANGE = 1007;
+    public static final int RT_POSTCHARACTEREVENT = 1009;
+    public static final int RT_REQUESTNIGHTMODE = 1011;
+    public static final int RT_REQUESTSIRIACTION = 1012;
+    public static final int RT_RESPONSEUPDATEMODE = 1013;
+    public static final int RT_RESPONSEUPDATEMAINAUDIOTYPE = 1014;
+    public static final int RT_REQUESTUI2 = 1015;
+    public static final int RP_RESPONSEMODECHANGE = 2000;
+    public static final int IN_REQUESTBTDEACTIVATION = 3001;
+    public static final int IN_DUCKAUDIO = 3002;
+    public static final int IN_UNDUCKAUDIO = 3003;
+    public static final int IN_OEMAPPSELECTED = 3004;
+    public static final int CHANGEMODERESULT_OK = 0;
+    public static final int CHANGEMODERESULT_REJECTED = 1;
+    public static final int SPEECHMODE_UNKNOWN = 0;
+    public static final int SPEECHMODE_NONE = 1;
+    public static final int SPEECHMODE_SPEAKING = 2;
+    public static final int SPEECHMODE_RECOGNIZING = 3;
+    public static final int APPLICATIONID_UNKNOWN = 0;
+    public static final int APPLICATIONID_PHONE = 1;
+    public static final int APPLICATIONID_NAVIGATION = 2;
+    public static final int APPLICATIONID_SPEECH = 3;
+    public static final int APPLICATIONOWNER_UNKNOWN = 0;
+    public static final int APPLICATIONOWNER_MAINUNIT = 1;
+    public static final int APPLICATIONOWNER_DEVICE = 2;
+    public static final int RESOURCE_UNKNOWN = 0;
+    public static final int RESOURCE_MAIN_AUDIO = 1;
+    public static final int RESOURCE_MAIN_SCREEN = 2;
+    public static final int RESOURCEOWNER_UNDEFINED = 0;
+    public static final int RESOURCEOWNER_MAINUNIT = 1;
+    public static final int RESOURCEOWNER_DEVICE = 2;
+    public static final int RESOURCETRANSFERTYPE_UNKNOWN = 0;
+    public static final int RESOURCETRANSFERTYPE_TAKE = 1;
+    public static final int RESOURCETRANSFERTYPE_UNTAKE = 2;
+    public static final int RESOURCETRANSFERTYPE_BORROW = 3;
+    public static final int RESOURCETRANSFERTYPE_UNBORROW = 4;
+    public static final int RESOURCETRANSFERPRIORITY_UNKNOWN = 0;
+    public static final int RESOURCETRANSFERPRIORITY_USER_INITIATED = 1;
+    public static final int RESOURCETRANSFERPRIORITY_NICE_TO_HAVE = 2;
+    public static final int RESOURCESHARINGPOLICY_UKNOWN = 0;
+    public static final int RESOURCESHARINGPOLICY_ALWAYS = 1;
+    public static final int RESOURCESHARINGPOLICY_USER_INITIATED = 2;
+    public static final int RESOURCESHARINGPOLICY_NEVER = 3;
+    public static final int UI_UNKNOWN = 0;
+    public static final int UI_HOME = 1;
+    public static final int UI_PHONE = 2;
+    public static final int UI_NAVIGATION = 3;
+    public static final int UI_MEDIA = 4;
+    public static final int UI_MEDIA_NOWPLAYING = 5;
+    public static final int BUTTON_UNKNOWN = 0;
+    public static final int BUTTON_SELECT = 1;
+    public static final int BUTTON_HOME = 2;
+    public static final int BUTTON_BACK = 3;
+    public static final int BUTTON_VOICE = 4;
+    public static final int BUTTON_LEFT = 5;
+    public static final int BUTTON_RIGHT = 6;
+    public static final int BUTTON_UP = 7;
+    public static final int BUTTON_DOWN = 8;
+    public static final int BUTTON_SKIP_FORWARD = 9;
+    public static final int BUTTON_SKIP_BACKWARD = 10;
+    public static final int BUTTON_SEEK_FORWARD = 11;
+    public static final int BUTTON_SEEK_BACKWARD = 12;
+    public static final int BUTTON_ACCEPT_CALL = 13;
+    public static final int BUTTON_END_CALL = 14;
+    public static final int BUTTON_PLAY_PAUSE = 15;
+    public static final int BUTTON_PRIMARY = 16;
+    public static final int BUTTON_SECONDARY = 17;
+    public static final int BUTTON_PAUSE = 18;
+    public static final int BUTTON_PLAY = 19;
+    public static final int BUTTON_FLASH_CALL = 20;
+    public static final int BUTTONSTATE_PRESSED = 0;
+    public static final int BUTTONSTATE_RELEASED = 1;
+    public static final int TOUCHSOURCE_TOUCHPAD = 0;
+    public static final int TOUCHSOURCE_TOUCHSCREEN = 1;
+    public static final int TEXTINPUTSTATE_INACTIVE = 0;
+    public static final int TEXTINPUTSTATE_ACTIVE = 1;
+    public static final int SCREENRESOLUTION_800_BY_480 = 0;
+    public static final int SCREENRESOLUTION_960_BY_540 = 1;
+    public static final int SCREENRESOLUTION_1024_BY_480 = 2;
+    public static final int SCREENRESOLUTION_CUSTOM = 3;
+    public static final int CALLSTATE_DISCONNECTED = 0;
+    public static final int CALLSTATE_ACTIVE = 1;
+    public static final int CALLSTATE_HOLDING = 2;
+    public static final int CALLSTATE_CONNECTING = 3;
+    public static final int CALLDIRECTION_INCOMING = 0;
+    public static final int CALLDIRECTION_OUTGOING = 1;
+    public static final int CALLDIRECTION_UNKNOWN = 2;
+    public static final int PLAYBACKSTATE_STOPPED = 0;
+    public static final int PLAYBACKSTATE_PLAYING = 1;
+    public static final int PLAYBACKSTATE_PAUSED = 2;
+    public static final int PLAYBACKSTATE_SEEKFORWARD = 3;
+    public static final int PLAYBACKSTATE_SEEKBACKWARD = 4;
+    public static final int PLAYBACKMODESHUFFLE_OFF = 0;
+    public static final int PLAYBACKMODESHUFFLE_SONGS = 1;
+    public static final int PLAYBACKMODESHUFFLE_ALBUMS = 2;
+    public static final int PLAYBACKMODEREPEAT_OFF = 0;
+    public static final int PLAYBACKMODEREPEAT_ONE = 1;
+    public static final int PLAYBACKMODEREPEAT_ALL = 2;
+    public static final int SIGNALSTRENGTH_0_BARS_NO_SERVICE = 0;
+    public static final int SIGNALSTRENGTH_1_BAR = 1;
+    public static final int SIGNALSTRENGTH_2_BARS = 2;
+    public static final int SIGNALSTRENGTH_3_BARS = 3;
+    public static final int SIGNALSTRENGTH_4_BARS = 4;
+    public static final int SIGNALSTRENGTH_5_BARS = 5;
+    public static final int REGISTRATIONSTATE_UNKNOWN = 0;
+    public static final int REGISTRATIONSTATE_NOT_REGISTERED = 1;
+    public static final int REGISTRATIONSTATE_SEARCHING = 2;
+    public static final int REGISTRATIONSTATE_DENIED = 3;
+    public static final int REGISTRATIONSTATE_REGISTRED_HOME = 4;
+    public static final int REGISTRATIONSTATE_ROAMING = 5;
+    public static final int REGISTRATIONSTATE_EMERGENCY_CALLS_ONLY = 6;
+    public static final int SIRIACTION_PREWARM = 0;
+    public static final int SIRIACTION_START = 1;
+    public static final int SIRIACTION_STOP = 2;
+    public static final int AUDIOTYPE_NONE = 0;
+    public static final int AUDIOTYPE_ALERT = 1;
+    public static final int AUDIOTYPE_MEDIA = 2;
+    public static final int AUDIOTYPE_TELEPHONY = 3;
+    public static final int AUDIOTYPE_SPEECHRECOGNITION = 4;
+    public static final int INPUTFEATURE_KNOB = 1;
+    public static final int INPUTFEATURE_LOWFIDELITYTOUCH = 2;
+    public static final int INPUTFEATURE_HIGHFIDELITYTOUCH = 4;
+    public static final int INPUTFEATURE_TOUCHPAD = 8;
 
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1);
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2);
 
-    default public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
-    }
+    public void postTouchEvent(int var1, int var2, TouchEvent[] var3);
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1);
 
-    default public void postCharacterEvent(int n, String[] stringArray) {
-    }
+    public void postCharacterEvent(int var1, String[] var2);
 
-    default public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
-    }
+    public void requestModeChange(ResourceRequest[] var1, AppStateRequest[] var2, String var3);
 
-    default public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseUpdateMode(Resource[] var1, AppState[] var2);
 
-    default public void responseBTDeactivation() {
-    }
+    public void responseBTDeactivation();
 
-    default public void requestUI(int n) {
-    }
+    public void requestUI(int var1);
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1);
 
-    default public void requestSIRIAction(int n) {
-    }
+    public void requestSIRIAction(int var1);
 
-    default public void responseUpdateMainAudioType(int n) {
-    }
+    public void responseUpdateMainAudioType(int var1);
 
-    default public void requestUI2(String string) {
-    }
+    public void requestUI2(String var1);
 }
 

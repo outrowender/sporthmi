@@ -7,39 +7,35 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIMapViewerManeuverView
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_MANOEUVREVIEWACTIVE;
-    public static final int ATTR_MANOEUVREVIEWSAVAILABLE;
-    public static final int ATTR_BAPEXITVIEWID;
-    public static final int MANOEUVRETYPE_MAP;
-    public static final int MANOEUVRETYPE_RGS;
-    public static final int MANOEUVRETYPE_INTERSECTION;
-    public static final int MANOEUVRETYPE_INTERSECTION_3D;
-    public static final int MANOEUVRETYPE_JUNCTION;
-    public static final int MANOEUVRETYPE_REALISTIC_PICTURE;
-    public static final int MANOEUVRETYPE_CANBAN;
-    public static final int MANOEUVRETYPE_FOLLOW;
-    public static final int MANOEUVRETYPE_PREPARE;
-    public static final int MANOEUVRETYPE_UTURN;
-    public static final int MANOEUVRETYPE_OFFROAD;
-    public static final int MANOEUVRETYPE_DESTINATION;
-    public static final int MANOEUVRETYPE_MISCELLANEOUS;
-    public static final int MANOEUVRETYPE_INVALID_MANOEUVRE;
-    public static final int RT_HIDEMANOEUVREVIEW;
-    public static final int RT_SELECTMANOEUVREVIEW;
-    public static final int RT_SETDISTANCESTRING;
-    public static final int RT_DISABLEMANEUVERVIEWGENERATION;
+    public static final String VERSION = "2.11.62";
+    public static final int ATTR_MANOEUVREVIEWACTIVE = 1;
+    public static final int ATTR_MANOEUVREVIEWSAVAILABLE = 2;
+    public static final int ATTR_BAPEXITVIEWID = 3;
+    public static final int MANOEUVRETYPE_MAP = 0;
+    public static final int MANOEUVRETYPE_RGS = 1;
+    public static final int MANOEUVRETYPE_INTERSECTION = 2;
+    public static final int MANOEUVRETYPE_INTERSECTION_3D = 3;
+    public static final int MANOEUVRETYPE_JUNCTION = 4;
+    public static final int MANOEUVRETYPE_REALISTIC_PICTURE = 5;
+    public static final int MANOEUVRETYPE_CANBAN = 6;
+    public static final int MANOEUVRETYPE_FOLLOW = 7;
+    public static final int MANOEUVRETYPE_PREPARE = 8;
+    public static final int MANOEUVRETYPE_UTURN = 9;
+    public static final int MANOEUVRETYPE_OFFROAD = 10;
+    public static final int MANOEUVRETYPE_DESTINATION = 11;
+    public static final int MANOEUVRETYPE_MISCELLANEOUS = 12;
+    public static final int MANOEUVRETYPE_INVALID_MANOEUVRE = 255;
+    public static final int RT_HIDEMANOEUVREVIEW = 1000;
+    public static final int RT_SELECTMANOEUVREVIEW = 1001;
+    public static final int RT_SETDISTANCESTRING = 1002;
+    public static final int RT_DISABLEMANEUVERVIEWGENERATION = 1003;
 
-    default public void hideManoeuvreView() {
-    }
+    public void hideManoeuvreView();
 
-    default public void selectManoeuvreView(int n, boolean bl) {
-    }
+    public void selectManoeuvreView(int var1, boolean var2);
 
-    default public void setDistanceString(String string) {
-    }
+    public void setDistanceString(String var1);
 
-    default public void disableManeuverViewGeneration(boolean bl) {
-    }
+    public void disableManeuverViewGeneration(boolean var1);
 }
 

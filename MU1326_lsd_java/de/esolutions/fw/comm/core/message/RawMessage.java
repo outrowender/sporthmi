@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RawMessage
 extends AbstractMessage {
     private byte[] data;
 
-    public RawMessage(MessageType messageType, IDeserializer iDeserializer, boolean bl) {
+    public RawMessage(MessageType messageType, IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(messageType, iDeserializer, bl);
     }
 
@@ -21,13 +22,11 @@ extends AbstractMessage {
         this.data = byArray;
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putRawBytes(this.data);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         int n = iDeserializer.bytesLeft();
         this.data = new byte[n];
         iDeserializer.getRawBytes(this.data);

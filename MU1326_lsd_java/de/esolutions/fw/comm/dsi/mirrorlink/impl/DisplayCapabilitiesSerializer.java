@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.DisplayCapabilities;
 
 public class DisplayCapabilitiesSerializer {
-    public static void putOptionalDisplayCapabilities(ISerializer iSerializer, DisplayCapabilities displayCapabilities) {
+    public static void putOptionalDisplayCapabilities(ISerializer iSerializer, DisplayCapabilities displayCapabilities) throws SerializerException {
         boolean bl = displayCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class DisplayCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalDisplayCapabilitiesVarArray(ISerializer iSerializer, DisplayCapabilities[] displayCapabilitiesArray) {
+    public static void putOptionalDisplayCapabilitiesVarArray(ISerializer iSerializer, DisplayCapabilities[] displayCapabilitiesArray) throws SerializerException {
         boolean bl = displayCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class DisplayCapabilitiesSerializer {
         }
     }
 
-    public static DisplayCapabilities getOptionalDisplayCapabilities(IDeserializer iDeserializer) {
+    public static DisplayCapabilities getOptionalDisplayCapabilities(IDeserializer iDeserializer) throws SerializerException {
         DisplayCapabilities displayCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class DisplayCapabilitiesSerializer {
         return displayCapabilities;
     }
 
-    public static DisplayCapabilities[] getOptionalDisplayCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static DisplayCapabilities[] getOptionalDisplayCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayCapabilities[] displayCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

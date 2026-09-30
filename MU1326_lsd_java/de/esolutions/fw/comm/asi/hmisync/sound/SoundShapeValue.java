@@ -42,7 +42,7 @@ public class SoundShapeValue {
     }
 
     public String toString() {
-        return new StringBuffer("SoundShapeValue{").append("x=").append(this.x).append(", y=").append(this.y).append(", z=").append(this.z).append("}").toString();
+        return "SoundShapeValue{" + "x=" + this.x + ", y=" + this.y + ", z=" + this.z + "}";
     }
 }
 

@@ -33,22 +33,22 @@ public class ScriptFactory {
         return factory;
     }
 
-    public static Script createScript(String string) {
+    public static Script createScript(String string) throws Exception {
         return ScriptFactory.getInstance().createNewScript(string);
     }
 
-    public static Script createScript(File file) {
+    public static Script createScript(File file) throws Exception {
         if (file == null) {
             throw new NullPointerException("scriptFile is null");
         }
         if (!file.canRead()) {
-            throw new IOException(new StringBuffer().append("Can't read scriptFile (").append(file.getCanonicalPath()).append(")").toString());
+            throw new IOException("Can't read scriptFile (" + file.getCanonicalPath() + ")");
         }
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         return ScriptFactory.createScript(ScriptFactory.readerToString(bufferedReader));
     }
 
-    public static Script createScript(URL uRL) {
+    public static Script createScript(URL uRL) throws Exception {
         if (uRL == null) {
             throw new NullPointerException("scriptUrl is null");
         }
@@ -60,12 +60,12 @@ public class ScriptFactory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    protected Script createNewScript(String string) {
+    protected Script createNewScript(String string) throws Exception {
         SimpleNode simpleNode;
         String string2 = this.cleanScript(string);
         Parser parser = ScriptFactory.parser;
         synchronized (parser) {
-            log.debug(new StringBuffer().append("Parsing script: ").append(string2).toString());
+            log.debug("Parsing script: " + string2);
             try {
                 simpleNode = ScriptFactory.parser.parse(new StringReader(string2));
             }
@@ -82,7 +82,7 @@ public class ScriptFactory {
     private String cleanScript(String string) {
         String string2 = string.trim();
         if (!string2.endsWith(";")) {
-            string2 = new StringBuffer().append(string2).append(";").toString();
+            string2 = string2 + ";";
         }
         return string2;
     }
@@ -90,7 +90,7 @@ public class ScriptFactory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private static String readerToString(BufferedReader bufferedReader) {
+    private static String readerToString(BufferedReader bufferedReader) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         try {
             String string = null;

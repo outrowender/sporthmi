@@ -14,7 +14,6 @@ extends AnimationMIB2High {
         super(abstractAnimationController);
     }
 
-    @Override
     protected IAnimationParametersMIB2 getAnimationParameters() {
         return AnimationParametersMIB2Std.getAnimationParametersMIB2Std();
     }

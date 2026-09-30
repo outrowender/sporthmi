@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.search.impl.SuggestionSerializer;
 import de.esolutions.fw.comm.dsi.search.impl.TokenSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Country;
 import org.dsi.ifc.search.NavPosition;
 import org.dsi.ifc.search.SearchResult;
@@ -16,7 +17,7 @@ import org.dsi.ifc.search.Suggestion;
 import org.dsi.ifc.search.Token;
 
 public class SearchResultSerializer {
-    public static void putOptionalSearchResult(ISerializer iSerializer, SearchResult searchResult) {
+    public static void putOptionalSearchResult(ISerializer iSerializer, SearchResult searchResult) throws SerializerException {
         boolean bl = searchResult == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class SearchResultSerializer {
         }
     }
 
-    public static void putOptionalSearchResultVarArray(ISerializer iSerializer, SearchResult[] searchResultArray) {
+    public static void putOptionalSearchResultVarArray(ISerializer iSerializer, SearchResult[] searchResultArray) throws SerializerException {
         boolean bl = searchResultArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class SearchResultSerializer {
         }
     }
 
-    public static SearchResult getOptionalSearchResult(IDeserializer iDeserializer) {
+    public static SearchResult getOptionalSearchResult(IDeserializer iDeserializer) throws SerializerException {
         SearchResult searchResult = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -99,7 +100,7 @@ public class SearchResultSerializer {
         return searchResult;
     }
 
-    public static SearchResult[] getOptionalSearchResultVarArray(IDeserializer iDeserializer) {
+    public static SearchResult[] getOptionalSearchResultVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchResult[] searchResultArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

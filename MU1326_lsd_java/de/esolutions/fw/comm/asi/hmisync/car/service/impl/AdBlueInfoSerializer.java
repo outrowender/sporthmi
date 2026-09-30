@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.service.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.service.AdBlueInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AdBlueInfoSerializer {
-    public static void putOptionalAdBlueInfo(ISerializer iSerializer, AdBlueInfo adBlueInfo) {
+    public static void putOptionalAdBlueInfo(ISerializer iSerializer, AdBlueInfo adBlueInfo) throws SerializerException {
         boolean bl = adBlueInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class AdBlueInfoSerializer {
         }
     }
 
-    public static void putOptionalAdBlueInfoVarArray(ISerializer iSerializer, AdBlueInfo[] adBlueInfoArray) {
+    public static void putOptionalAdBlueInfoVarArray(ISerializer iSerializer, AdBlueInfo[] adBlueInfoArray) throws SerializerException {
         boolean bl = adBlueInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class AdBlueInfoSerializer {
         }
     }
 
-    public static AdBlueInfo getOptionalAdBlueInfo(IDeserializer iDeserializer) {
+    public static AdBlueInfo getOptionalAdBlueInfo(IDeserializer iDeserializer) throws SerializerException {
         AdBlueInfo adBlueInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class AdBlueInfoSerializer {
         return adBlueInfo;
     }
 
-    public static AdBlueInfo[] getOptionalAdBlueInfoVarArray(IDeserializer iDeserializer) {
+    public static AdBlueInfo[] getOptionalAdBlueInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         AdBlueInfo[] adBlueInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

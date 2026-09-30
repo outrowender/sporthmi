@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tmc.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tmc.TmcPhoneme;
 
 public class TmcPhonemeSerializer {
-    public static void putOptionalTmcPhoneme(ISerializer iSerializer, TmcPhoneme tmcPhoneme) {
+    public static void putOptionalTmcPhoneme(ISerializer iSerializer, TmcPhoneme tmcPhoneme) throws SerializerException {
         boolean bl = tmcPhoneme == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class TmcPhonemeSerializer {
         }
     }
 
-    public static void putOptionalTmcPhonemeVarArray(ISerializer iSerializer, TmcPhoneme[] tmcPhonemeArray) {
+    public static void putOptionalTmcPhonemeVarArray(ISerializer iSerializer, TmcPhoneme[] tmcPhonemeArray) throws SerializerException {
         boolean bl = tmcPhonemeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class TmcPhonemeSerializer {
         }
     }
 
-    public static TmcPhoneme getOptionalTmcPhoneme(IDeserializer iDeserializer) {
+    public static TmcPhoneme getOptionalTmcPhoneme(IDeserializer iDeserializer) throws SerializerException {
         TmcPhoneme tmcPhoneme = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class TmcPhonemeSerializer {
         return tmcPhoneme;
     }
 
-    public static TmcPhoneme[] getOptionalTmcPhonemeVarArray(IDeserializer iDeserializer) {
+    public static TmcPhoneme[] getOptionalTmcPhonemeVarArray(IDeserializer iDeserializer) throws SerializerException {
         TmcPhoneme[] tmcPhonemeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

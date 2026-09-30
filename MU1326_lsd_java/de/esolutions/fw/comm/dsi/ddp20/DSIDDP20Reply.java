@@ -3,31 +3,26 @@
  */
 package de.esolutions.fw.comm.dsi.ddp20;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.ddp20.DisplayStatus;
 import org.dsi.ifc.ddp20.VersionInfo;
 
 public interface DSIDDP20Reply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "2c995119-3a7d-5d8d-844d-975971b37be6";
+    public static final String IPL_COMM_INTERFACE_KEY = "0f83905d-671b-59bb-bbce-64775a0d8abf";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.2";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.2";
 
-    default public void updateVersionInfo(VersionInfo versionInfo, int n) {
-    }
+    public void updateVersionInfo(VersionInfo var1, int var2) throws MethodException;
 
-    default public void updatePowerStatus(int n, int n2) {
-    }
+    public void updatePowerStatus(int var1, int var2) throws MethodException;
 
-    default public void updateDisplayStatus(DisplayStatus displayStatus, int n) {
-    }
+    public void updateDisplayStatus(DisplayStatus var1, int var2) throws MethodException;
 
-    default public void updateBufferStatus(int n, int n2) {
-    }
+    public void updateBufferStatus(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

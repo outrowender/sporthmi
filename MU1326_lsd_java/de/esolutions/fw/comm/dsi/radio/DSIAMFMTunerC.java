@@ -3,101 +3,71 @@
  */
 package de.esolutions.fw.comm.dsi.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAMFMTunerC {
-    default public void tuneFrequencySteps(int n) {
-    }
+    public void tuneFrequencySteps(int var1) throws MethodException;
 
-    default public void selectStation(int n, int n2, int n3) {
-    }
+    public void selectStation(int var1, int var2, int var3) throws MethodException;
 
-    default public void prepareTuning(int n, int n2, int n3) {
-    }
+    public void prepareTuning(int var1, int var2, int var3) throws MethodException;
 
-    default public void seekStation(int n) {
-    }
+    public void seekStation(int var1) throws MethodException;
 
-    default public void switchAF(boolean bl) {
-    }
+    public void switchAF(boolean var1) throws MethodException;
 
-    default public void switchME(boolean bl) {
-    }
+    public void switchME(boolean var1) throws MethodException;
 
-    default public void switchREG(int n) {
-    }
+    public void switchREG(int var1) throws MethodException;
 
-    default public void switchLinkingDeviceUsage(int n) {
-    }
+    public void switchLinkingDeviceUsage(int var1) throws MethodException;
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1) throws MethodException;
 
-    default public void selectFrequency(int n) {
-    }
+    public void selectFrequency(int var1) throws MethodException;
 
-    default public void setAMBandRange(int n) {
-    }
+    public void setAMBandRange(int var1) throws MethodException;
 
-    default public void isOnPreset(int n, int n2, int n3, String string) {
-    }
+    public void isOnPreset(int var1, int var2, int var3, String var4) throws MethodException;
 
-    default public void forceFMUpdate(int n) {
-    }
+    public void forceFMUpdate(int var1) throws MethodException;
 
-    default public void switchPiIgnore(boolean bl) {
-    }
+    public void switchPiIgnore(boolean var1) throws MethodException;
 
-    default public void freePreset(int n) {
-    }
+    public void freePreset(int var1) throws MethodException;
 
-    default public void forceAMUpdate(int n) {
-    }
+    public void forceAMUpdate(int var1) throws MethodException;
 
-    default public void switchRDSIgnore(boolean bl) {
-    }
+    public void switchRDSIgnore(boolean var1) throws MethodException;
 
-    default public void enableRadiotextPlus(int[] nArray) {
-    }
+    public void enableRadiotextPlus(int[] var1) throws MethodException;
 
-    default public void setModeHD(int n) {
-    }
+    public void setModeHD(int var1) throws MethodException;
 
-    default public void setERTPrefered(boolean bl) {
-    }
+    public void setERTPrefered(boolean var1) throws MethodException;
 
-    default public void setERTDisplayable(boolean bl) {
-    }
+    public void setERTDisplayable(boolean var1) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

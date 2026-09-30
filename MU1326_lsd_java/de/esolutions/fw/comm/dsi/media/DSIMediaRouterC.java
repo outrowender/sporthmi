@@ -3,46 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.media.AudioRoute;
 
 public interface DSIMediaRouterC {
-    default public void registerClient(int n, String string, String string2) {
-    }
+    public void registerClient(int var1, String var2, String var3) throws MethodException;
 
-    default public void unregisterClient(int n) {
-    }
+    public void unregisterClient(int var1) throws MethodException;
 
-    default public void startStreaming(int n) {
-    }
+    public void startStreaming(int var1) throws MethodException;
 
-    default public void stopStreaming(int n) {
-    }
+    public void stopStreaming(int var1) throws MethodException;
 
-    default public void requestConfiguration(int n, int n2, int n3, int n4) {
-    }
+    public void requestConfiguration(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void setAudioRoutes(AudioRoute[] audioRouteArray) {
-    }
+    public void setAudioRoutes(AudioRoute[] var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

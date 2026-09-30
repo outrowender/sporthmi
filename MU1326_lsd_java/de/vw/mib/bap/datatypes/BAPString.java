@@ -9,32 +9,32 @@ import java.io.UnsupportedEncodingException;
 
 public class BAPString
 implements BAPEntity {
-    private static final int OVERFLOW_BIT_LENGTH;
-    private static final int OVERFLOW_BIT_VALUE;
-    private static final int SHORT_LEN_IDENTIFIER_BYTES;
-    private static final int MAX_SHORT_LEN_IDETIFIER_VALUE;
-    private static final int BYTE_BITS_SIZE;
-    private static final int SHORT_LEN_IDENTIFIER_BITSIZE;
-    private static final int LONG_LEN_IDENTIFIER_BYES;
-    private static final int LONG_LEN_IDENTIFIER_BITSIZE;
-    private static final int MAXIMUM_NUMBER_OF_BYTES_OF_ONE_UTF8_CHAR;
-    private static final String DOT_DOT_POSTFIX;
-    private static final int DOT_DOT_UTF8_SIZE;
-    private static final int MIN_SIZE_OF_STRING_MAX_SIZE_VALUE;
-    private static final int MAX_TRANSMITTED_BYTE_STRING_LENGTH;
-    private static final String STRING_ENCODING_TYPE;
-    private static final String STRING_ENCODING_TYPE_RAW;
-    private static final int BAP_NULL_STRING_BYTE_SIZE;
-    private static final String BAP_NULL_STRING_PAYLOAD;
+    private static final int OVERFLOW_BIT_LENGTH = 1;
+    private static final int OVERFLOW_BIT_VALUE = 1;
+    private static final int SHORT_LEN_IDENTIFIER_BYTES = 1;
+    private static final int MAX_SHORT_LEN_IDETIFIER_VALUE = 127;
+    private static final int BYTE_BITS_SIZE = 8;
+    private static final int SHORT_LEN_IDENTIFIER_BITSIZE = 8;
+    private static final int LONG_LEN_IDENTIFIER_BYES = 2;
+    private static final int LONG_LEN_IDENTIFIER_BITSIZE = 16;
+    private static final int MAXIMUM_NUMBER_OF_BYTES_OF_ONE_UTF8_CHAR = 3;
+    private static final String DOT_DOT_POSTFIX = "\ue009";
+    private static final int DOT_DOT_UTF8_SIZE = 3;
+    private static final int MIN_SIZE_OF_STRING_MAX_SIZE_VALUE = 1;
+    private static final int MAX_TRANSMITTED_BYTE_STRING_LENGTH = Short.MAX_VALUE;
+    private static final String STRING_ENCODING_TYPE = "UTF-8";
+    private static final String STRING_ENCODING_TYPE_RAW = "ISO8859_1";
+    private static final int BAP_NULL_STRING_BYTE_SIZE = 1;
+    private static final String BAP_NULL_STRING_PAYLOAD = "\u0000";
     private String content = "";
     private final int maxSize;
     private boolean reverseTrim;
     private int typeOfStringEncoding;
-    private static final int TYPE_OF_STRING_ENCODING_MAX_BYTE_LENGTH;
-    private static final int TYPE_OF_STRING_ENCODING_RAW_STRING;
-    private static final int TYPE_OF_STRING_ENCODING_LIMIT_BY_CHARACTERS;
-    private static final char ARABIC_BASIC_BEGIN;
-    private static final char ARABIC_BASIC_END;
+    private static final int TYPE_OF_STRING_ENCODING_MAX_BYTE_LENGTH = 0;
+    private static final int TYPE_OF_STRING_ENCODING_RAW_STRING = 1;
+    private static final int TYPE_OF_STRING_ENCODING_LIMIT_BY_CHARACTERS = 2;
+    private static final char ARABIC_BASIC_BEGIN = '\u0600';
+    private static final char ARABIC_BASIC_END = '\u06ff';
 
     public BAPString(int n) {
         this.maxSize = n;
@@ -42,18 +42,15 @@ implements BAPEntity {
         this.typeOfStringEncoding = 0;
     }
 
-    @Override
     public void reset() {
         this.setContent("");
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         BAPString bAPString = (BAPString)bAPEntity;
         return this.maxSize == bAPString.maxSize && this.typeOfStringEncoding == bAPString.typeOfStringEncoding && this.content.compareTo(bAPString.content) == 0;
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         String string;
         block5: {
@@ -62,10 +59,10 @@ implements BAPEntity {
                 byte[] byArray = bitStream.popFrontBytes(n);
                 try {
                     if (this.typeOfStringEncoding == 1) {
-                        string = new String(byArray, "ISO8859_1");
+                        string = new String(byArray, STRING_ENCODING_TYPE_RAW);
                         break block5;
                     }
-                    string = new String(byArray, "UTF-8");
+                    string = new String(byArray, STRING_ENCODING_TYPE);
                 }
                 catch (UnsupportedEncodingException unsupportedEncodingException) {
                     string = "";
@@ -77,19 +74,16 @@ implements BAPEntity {
         this._setContent(string);
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         byte[] byArray = this.getEncodedBytes();
         this.serializeStringLength(byArray.length, bitStream);
         bitStream.pushBytes(byArray);
     }
 
-    @Override
     public String toString() {
         return this.content;
     }
 
-    @Override
     public int bitSize() {
         int n = this.getEncodedBytes().length;
         int n2 = n % Short.MAX_VALUE;
@@ -168,12 +162,12 @@ implements BAPEntity {
             boolean bl2 = false;
             boolean bl3 = false;
             int n = this.computeMaximalStringPayloadByteLength();
-            int n2 = string2.getBytes("UTF-8").length;
+            int n2 = string2.getBytes(STRING_ENCODING_TYPE).length;
             while (n2 > n) {
                 int n3 = n2 - n;
                 int n4 = (int)Math.ceil((double)(string2.length() * n3) / (double)n2);
                 string2 = bl ? string2.substring(n4) : string2.substring(0, string2.length() - n4);
-                n2 = string2.getBytes("UTF-8").length;
+                n2 = string2.getBytes(STRING_ENCODING_TYPE).length;
                 if (!bl3 && n2 > 3) {
                     n -= 3;
                     bl2 = true;
@@ -181,7 +175,7 @@ implements BAPEntity {
                 bl3 = true;
             }
             if (bl2) {
-                string2 = bl ? new StringBuffer().append("\ue009").append(string2).toString() : new StringBuffer().append(string2).append("\ue009").toString();
+                string2 = bl ? DOT_DOT_POSTFIX + string2 : string2 + DOT_DOT_POSTFIX;
             }
         }
         catch (UnsupportedEncodingException unsupportedEncodingException) {
@@ -194,11 +188,11 @@ implements BAPEntity {
         String string2 = string.trim();
         int n = this.computeMaximalStringPayloadCharacterLength();
         if (string2.length() > n) {
-            if (n <= "\ue009".length()) {
+            if (n <= DOT_DOT_POSTFIX.length()) {
                 string2 = string2.substring(0, n);
             } else {
-                int n2 = n - "\ue009".length();
-                string2 = bl ? new StringBuffer().append("\ue009").append(string2.substring(string2.length() - n2)).toString() : new StringBuffer().append(string2.substring(0, n2)).append("\ue009").toString();
+                int n2 = n - DOT_DOT_POSTFIX.length();
+                string2 = bl ? DOT_DOT_POSTFIX + string2.substring(string2.length() - n2) : string2.substring(0, n2) + DOT_DOT_POSTFIX;
             }
         }
         return string2;
@@ -240,7 +234,7 @@ implements BAPEntity {
     }
 
     public void setNullString() {
-        this._setContent("\u0000");
+        this._setContent(BAP_NULL_STRING_PAYLOAD);
     }
 
     public void setEmptyString() {
@@ -261,7 +255,7 @@ implements BAPEntity {
         block5: {
             if (this.typeOfStringEncoding != 1) {
                 try {
-                    byte[] byArray2 = this.content.getBytes("UTF-8");
+                    byte[] byArray2 = this.content.getBytes(STRING_ENCODING_TYPE);
                     if (byArray2.length > Short.MAX_VALUE) {
                         byte[] byArray3 = new byte[Short.MAX_VALUE];
                         System.arraycopy((Object)byArray2, 0, (Object)byArray3, 0, Short.MAX_VALUE);
@@ -285,7 +279,7 @@ implements BAPEntity {
     }
 
     public boolean isNullString() {
-        return this.content.length() == 1 && this.content.endsWith("\u0000");
+        return this.content.length() == 1 && this.content.endsWith(BAP_NULL_STRING_PAYLOAD);
     }
 
     public boolean isArabic() {

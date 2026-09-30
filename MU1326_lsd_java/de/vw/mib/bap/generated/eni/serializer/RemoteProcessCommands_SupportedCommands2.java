@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class RemoteProcessCommands_SupportedCommands2
 implements BAPEntity {
-    private static final int RESERVED_BIT_1__7_BITSIZE;
+    private static final int RESERVED_BIT_1__7_BITSIZE = 7;
     public boolean requestNewLanguageSupportedDf3_4;
 
     public RemoteProcessCommands_SupportedCommands2() {
@@ -25,12 +25,10 @@ implements BAPEntity {
         this.requestNewLanguageSupportedDf3_4 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RemoteProcessCommands_SupportedCommands2 remoteProcessCommands_SupportedCommands2 = (RemoteProcessCommands_SupportedCommands2)bAPEntity;
         return this.requestNewLanguageSupportedDf3_4 == remoteProcessCommands_SupportedCommands2.requestNewLanguageSupportedDf3_4;
@@ -39,26 +37,22 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RemoteProcessCommands_SupportedCommands2");
-        stringBuffer.append(new StringBuffer().append("\n - requestNewLanguageSupportedDf3_4:").append(this.requestNewLanguageSupportedDf3_4).toString());
+        stringBuffer.append("\n - requestNewLanguageSupportedDf3_4:" + this.requestNewLanguageSupportedDf3_4);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(7);
         bitStream.pushBoolean(this.requestNewLanguageSupportedDf3_4);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(7);
         this.requestNewLanguageSupportedDf3_4 = bitStream.popFrontBoolean();

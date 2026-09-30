@@ -17,7 +17,6 @@ implements ITraceCommand {
         this.zone = traceTimeZone;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.registerTimeZone(this.epoch, this.zone);
         return false;

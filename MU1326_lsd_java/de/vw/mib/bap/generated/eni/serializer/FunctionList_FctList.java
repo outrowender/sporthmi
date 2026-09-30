@@ -13,7 +13,7 @@ implements BAPEntity {
     public boolean fctBap_ConfigAvailable;
     public boolean fctFunctionListAvailable;
     public boolean fctHeartbeatAvailable;
-    private static final int RESERVED_BIT_5__13_BITSIZE;
+    private static final int RESERVED_BIT_5__13_BITSIZE = 9;
     public boolean fctFsg_SetupAvailable;
     public boolean fctFsg_OperationStateAvailable;
     public boolean fctDestinationsListAvailable;
@@ -38,7 +38,7 @@ implements BAPEntity {
     public boolean fctIdOlbtripListAvailable;
     public boolean currentOnlineUpdateStateAvailable;
     public boolean onlineUpdateListAvailable;
-    private static final int RESERVED_BIT_38__63_BITSIZE;
+    private static final int RESERVED_BIT_38__63_BITSIZE = 26;
 
     public FunctionList_FctList() {
         this.internalReset();
@@ -82,12 +82,10 @@ implements BAPEntity {
         this.onlineUpdateListAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_FctList functionList_FctList = (FunctionList_FctList)bAPEntity;
         return this.reserved_bit_0 == functionList_FctList.reserved_bit_0 && this.fctGetAllAvailable == functionList_FctList.fctGetAllAvailable && this.fctBap_ConfigAvailable == functionList_FctList.fctBap_ConfigAvailable && this.fctFunctionListAvailable == functionList_FctList.fctFunctionListAvailable && this.fctHeartbeatAvailable == functionList_FctList.fctHeartbeatAvailable && this.fctFsg_SetupAvailable == functionList_FctList.fctFsg_SetupAvailable && this.fctFsg_OperationStateAvailable == functionList_FctList.fctFsg_OperationStateAvailable && this.fctDestinationsListAvailable == functionList_FctList.fctDestinationsListAvailable && this.fctDestinationList_AsgcapacityAvailable == functionList_FctList.fctDestinationList_AsgcapacityAvailable && this.fctIdTriggerRemoteProcessAvailable == functionList_FctList.fctIdTriggerRemoteProcessAvailable && this.fctIdRemoteProcessCommandsAvailable == functionList_FctList.fctIdRemoteProcessCommandsAvailable && this.fctIdRemoteProcessStateAvailable == functionList_FctList.fctIdRemoteProcessStateAvailable && this.fctIdUserListAvailable == functionList_FctList.fctIdUserListAvailable && this.fctIdServiceListAvailable == functionList_FctList.fctIdServiceListAvailable && this.fctIdActiveMonitoringsAvailable == functionList_FctList.fctIdActiveMonitoringsAvailable && this.fctIdPrivacySetupAvailable == functionList_FctList.fctIdPrivacySetupAvailable && this.fctIdAlertListAvailable == functionList_FctList.fctIdAlertListAvailable && this.fctIdMobileDeviceKeyCountAvailable == functionList_FctList.fctIdMobileDeviceKeyCountAvailable && this.fctIdVtandataEncryptedAvailable == functionList_FctList.fctIdVtandataEncryptedAvailable && this.fctIdOnlineUpdateStateAvailable == functionList_FctList.fctIdOnlineUpdateStateAvailable && this.fctIdConnectionStateAvailable == functionList_FctList.fctIdConnectionStateAvailable && this.fctIdChallengeDataAvailable == functionList_FctList.fctIdChallengeDataAvailable && this.fctIdFoDlistAvailable == functionList_FctList.fctIdFoDlistAvailable && this.fctIdFoDstateAvailable == functionList_FctList.fctIdFoDstateAvailable && this.fctIdActiveTripAvailable == functionList_FctList.fctIdActiveTripAvailable && this.fctIdOlbsettingsAvailable == functionList_FctList.fctIdOlbsettingsAvailable && this.fctIdOlbtripListAvailable == functionList_FctList.fctIdOlbtripListAvailable && this.currentOnlineUpdateStateAvailable == functionList_FctList.currentOnlineUpdateStateAvailable && this.onlineUpdateListAvailable == functionList_FctList.onlineUpdateListAvailable;
@@ -96,48 +94,45 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_FctList");
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_0:").append(this.reserved_bit_0).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctGetAllAvailable:").append(this.fctGetAllAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctBap_ConfigAvailable:").append(this.fctBap_ConfigAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctFunctionListAvailable:").append(this.fctFunctionListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctHeartbeatAvailable:").append(this.fctHeartbeatAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctFsg_SetupAvailable:").append(this.fctFsg_SetupAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctFsg_OperationStateAvailable:").append(this.fctFsg_OperationStateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctDestinationsListAvailable:").append(this.fctDestinationsListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctDestinationList_AsgcapacityAvailable:").append(this.fctDestinationList_AsgcapacityAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdTriggerRemoteProcessAvailable:").append(this.fctIdTriggerRemoteProcessAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdRemoteProcessCommandsAvailable:").append(this.fctIdRemoteProcessCommandsAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdRemoteProcessStateAvailable:").append(this.fctIdRemoteProcessStateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdUserListAvailable:").append(this.fctIdUserListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdServiceListAvailable:").append(this.fctIdServiceListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdActiveMonitoringsAvailable:").append(this.fctIdActiveMonitoringsAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdPrivacySetupAvailable:").append(this.fctIdPrivacySetupAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdAlertListAvailable:").append(this.fctIdAlertListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdMobileDeviceKeyCountAvailable:").append(this.fctIdMobileDeviceKeyCountAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdVtandataEncryptedAvailable:").append(this.fctIdVtandataEncryptedAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdOnlineUpdateStateAvailable:").append(this.fctIdOnlineUpdateStateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdConnectionStateAvailable:").append(this.fctIdConnectionStateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdChallengeDataAvailable:").append(this.fctIdChallengeDataAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdFoDlistAvailable:").append(this.fctIdFoDlistAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdFoDstateAvailable:").append(this.fctIdFoDstateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdActiveTripAvailable:").append(this.fctIdActiveTripAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdOlbsettingsAvailable:").append(this.fctIdOlbsettingsAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - fctIdOlbtripListAvailable:").append(this.fctIdOlbtripListAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - currentOnlineUpdateStateAvailable:").append(this.currentOnlineUpdateStateAvailable).toString());
-        stringBuffer.append(new StringBuffer().append("\n - onlineUpdateListAvailable:").append(this.onlineUpdateListAvailable).toString());
+        stringBuffer.append("\n - reserved_bit_0:" + this.reserved_bit_0);
+        stringBuffer.append("\n - fctGetAllAvailable:" + this.fctGetAllAvailable);
+        stringBuffer.append("\n - fctBap_ConfigAvailable:" + this.fctBap_ConfigAvailable);
+        stringBuffer.append("\n - fctFunctionListAvailable:" + this.fctFunctionListAvailable);
+        stringBuffer.append("\n - fctHeartbeatAvailable:" + this.fctHeartbeatAvailable);
+        stringBuffer.append("\n - fctFsg_SetupAvailable:" + this.fctFsg_SetupAvailable);
+        stringBuffer.append("\n - fctFsg_OperationStateAvailable:" + this.fctFsg_OperationStateAvailable);
+        stringBuffer.append("\n - fctDestinationsListAvailable:" + this.fctDestinationsListAvailable);
+        stringBuffer.append("\n - fctDestinationList_AsgcapacityAvailable:" + this.fctDestinationList_AsgcapacityAvailable);
+        stringBuffer.append("\n - fctIdTriggerRemoteProcessAvailable:" + this.fctIdTriggerRemoteProcessAvailable);
+        stringBuffer.append("\n - fctIdRemoteProcessCommandsAvailable:" + this.fctIdRemoteProcessCommandsAvailable);
+        stringBuffer.append("\n - fctIdRemoteProcessStateAvailable:" + this.fctIdRemoteProcessStateAvailable);
+        stringBuffer.append("\n - fctIdUserListAvailable:" + this.fctIdUserListAvailable);
+        stringBuffer.append("\n - fctIdServiceListAvailable:" + this.fctIdServiceListAvailable);
+        stringBuffer.append("\n - fctIdActiveMonitoringsAvailable:" + this.fctIdActiveMonitoringsAvailable);
+        stringBuffer.append("\n - fctIdPrivacySetupAvailable:" + this.fctIdPrivacySetupAvailable);
+        stringBuffer.append("\n - fctIdAlertListAvailable:" + this.fctIdAlertListAvailable);
+        stringBuffer.append("\n - fctIdMobileDeviceKeyCountAvailable:" + this.fctIdMobileDeviceKeyCountAvailable);
+        stringBuffer.append("\n - fctIdVtandataEncryptedAvailable:" + this.fctIdVtandataEncryptedAvailable);
+        stringBuffer.append("\n - fctIdOnlineUpdateStateAvailable:" + this.fctIdOnlineUpdateStateAvailable);
+        stringBuffer.append("\n - fctIdConnectionStateAvailable:" + this.fctIdConnectionStateAvailable);
+        stringBuffer.append("\n - fctIdChallengeDataAvailable:" + this.fctIdChallengeDataAvailable);
+        stringBuffer.append("\n - fctIdFoDlistAvailable:" + this.fctIdFoDlistAvailable);
+        stringBuffer.append("\n - fctIdFoDstateAvailable:" + this.fctIdFoDstateAvailable);
+        stringBuffer.append("\n - fctIdActiveTripAvailable:" + this.fctIdActiveTripAvailable);
+        stringBuffer.append("\n - fctIdOlbsettingsAvailable:" + this.fctIdOlbsettingsAvailable);
+        stringBuffer.append("\n - fctIdOlbtripListAvailable:" + this.fctIdOlbtripListAvailable);
+        stringBuffer.append("\n - currentOnlineUpdateStateAvailable:" + this.currentOnlineUpdateStateAvailable);
+        stringBuffer.append("\n - onlineUpdateListAvailable:" + this.onlineUpdateListAvailable);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllAvailable);
@@ -172,7 +167,6 @@ implements BAPEntity {
         bitStream.resetBits(26);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllAvailable = bitStream.popFrontBoolean();

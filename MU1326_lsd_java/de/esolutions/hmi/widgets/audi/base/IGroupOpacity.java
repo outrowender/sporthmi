@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface IGroupOpacity {
-    default public void setGroupOpacityEnabled(boolean bl) {
-    }
+    public void setGroupOpacityEnabled(boolean var1);
 }
 

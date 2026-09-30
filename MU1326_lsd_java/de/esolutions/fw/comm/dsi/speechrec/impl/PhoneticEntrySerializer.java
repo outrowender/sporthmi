@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.speechrec.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.speechrec.PhoneticEntry;
 
 public class PhoneticEntrySerializer {
-    public static void putOptionalPhoneticEntry(ISerializer iSerializer, PhoneticEntry phoneticEntry) {
+    public static void putOptionalPhoneticEntry(ISerializer iSerializer, PhoneticEntry phoneticEntry) throws SerializerException {
         boolean bl = phoneticEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class PhoneticEntrySerializer {
         }
     }
 
-    public static void putOptionalPhoneticEntryVarArray(ISerializer iSerializer, PhoneticEntry[] phoneticEntryArray) {
+    public static void putOptionalPhoneticEntryVarArray(ISerializer iSerializer, PhoneticEntry[] phoneticEntryArray) throws SerializerException {
         boolean bl = phoneticEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class PhoneticEntrySerializer {
         }
     }
 
-    public static PhoneticEntry getOptionalPhoneticEntry(IDeserializer iDeserializer) {
+    public static PhoneticEntry getOptionalPhoneticEntry(IDeserializer iDeserializer) throws SerializerException {
         PhoneticEntry phoneticEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class PhoneticEntrySerializer {
         return phoneticEntry;
     }
 
-    public static PhoneticEntry[] getOptionalPhoneticEntryVarArray(IDeserializer iDeserializer) {
+    public static PhoneticEntry[] getOptionalPhoneticEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         PhoneticEntry[] phoneticEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

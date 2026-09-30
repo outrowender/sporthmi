@@ -54,12 +54,10 @@ implements BAPEntity {
         this.serviceAllocatedToGroup2Df3_5 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceList_ServiceState serviceList_ServiceState = (ServiceList_ServiceState)bAPEntity;
         return this.serviceAllocatedToGroup1Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup1Df3_5 && this.licenseRequiredDf3_4 == serviceList_ServiceState.licenseRequiredDf3_4 && this.disablingByDriverAllowedDf3_3 == serviceList_ServiceState.disablingByDriverAllowedDf3_3 && this.reserved_bit_4 == serviceList_ServiceState.reserved_bit_4 && this.protectedService == serviceList_ServiceState.protectedService && this.licenseExpirationWarning == serviceList_ServiceState.licenseExpirationWarning && this.roamingAllowed == serviceList_ServiceState.roamingAllowed && this.serviceEnabled == serviceList_ServiceState.serviceEnabled && this.reserved_bit_15 == serviceList_ServiceState.reserved_bit_15 && this.reserved_bit_14 == serviceList_ServiceState.reserved_bit_14 && this.reserved_bit_13 == serviceList_ServiceState.reserved_bit_13 && this.serviceAllocatedToGroup6Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup6Df3_5 && this.serviceAllocatedToGroup5Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup5Df3_5 && this.serviceAllocatedToGroup4Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup4Df3_5 && this.serviceAllocatedToGroup3Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup3Df3_5 && this.serviceAllocatedToGroup2Df3_5 == serviceList_ServiceState.serviceAllocatedToGroup2Df3_5;
@@ -68,35 +66,32 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceList_ServiceState");
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup1Df3_5:").append(this.serviceAllocatedToGroup1Df3_5).toString());
-        stringBuffer.append(new StringBuffer().append("\n - licenseRequiredDf3_4:").append(this.licenseRequiredDf3_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - disablingByDriverAllowedDf3_3:").append(this.disablingByDriverAllowedDf3_3).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_4:").append(this.reserved_bit_4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - protectedService:").append(this.protectedService).toString());
-        stringBuffer.append(new StringBuffer().append("\n - licenseExpirationWarning:").append(this.licenseExpirationWarning).toString());
-        stringBuffer.append(new StringBuffer().append("\n - roamingAllowed:").append(this.roamingAllowed).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceEnabled:").append(this.serviceEnabled).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_15:").append(this.reserved_bit_15).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_14:").append(this.reserved_bit_14).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserved_bit_13:").append(this.reserved_bit_13).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup6Df3_5:").append(this.serviceAllocatedToGroup6Df3_5).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup5Df3_5:").append(this.serviceAllocatedToGroup5Df3_5).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup4Df3_5:").append(this.serviceAllocatedToGroup4Df3_5).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup3Df3_5:").append(this.serviceAllocatedToGroup3Df3_5).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceAllocatedToGroup2Df3_5:").append(this.serviceAllocatedToGroup2Df3_5).toString());
+        stringBuffer.append("\n - serviceAllocatedToGroup1Df3_5:" + this.serviceAllocatedToGroup1Df3_5);
+        stringBuffer.append("\n - licenseRequiredDf3_4:" + this.licenseRequiredDf3_4);
+        stringBuffer.append("\n - disablingByDriverAllowedDf3_3:" + this.disablingByDriverAllowedDf3_3);
+        stringBuffer.append("\n - reserved_bit_4:" + this.reserved_bit_4);
+        stringBuffer.append("\n - protectedService:" + this.protectedService);
+        stringBuffer.append("\n - licenseExpirationWarning:" + this.licenseExpirationWarning);
+        stringBuffer.append("\n - roamingAllowed:" + this.roamingAllowed);
+        stringBuffer.append("\n - serviceEnabled:" + this.serviceEnabled);
+        stringBuffer.append("\n - reserved_bit_15:" + this.reserved_bit_15);
+        stringBuffer.append("\n - reserved_bit_14:" + this.reserved_bit_14);
+        stringBuffer.append("\n - reserved_bit_13:" + this.reserved_bit_13);
+        stringBuffer.append("\n - serviceAllocatedToGroup6Df3_5:" + this.serviceAllocatedToGroup6Df3_5);
+        stringBuffer.append("\n - serviceAllocatedToGroup5Df3_5:" + this.serviceAllocatedToGroup5Df3_5);
+        stringBuffer.append("\n - serviceAllocatedToGroup4Df3_5:" + this.serviceAllocatedToGroup4Df3_5);
+        stringBuffer.append("\n - serviceAllocatedToGroup3Df3_5:" + this.serviceAllocatedToGroup3Df3_5);
+        stringBuffer.append("\n - serviceAllocatedToGroup2Df3_5:" + this.serviceAllocatedToGroup2Df3_5);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.serviceAllocatedToGroup1Df3_5);
         bitStream.pushBoolean(this.licenseRequiredDf3_4);
@@ -116,7 +111,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.serviceAllocatedToGroup2Df3_5);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.serviceAllocatedToGroup1Df3_5 = bitStream.popFrontBoolean();
         this.licenseRequiredDf3_4 = bitStream.popFrontBoolean();

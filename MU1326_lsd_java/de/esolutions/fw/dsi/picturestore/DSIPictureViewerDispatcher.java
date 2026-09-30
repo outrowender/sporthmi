@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.picturestore;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.picturestore.DSIPictureViewerReply;
 import de.esolutions.fw.comm.dsi.picturestore.impl.DSIPictureViewerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIPictureViewerReply {
         super(n, (class$org$dsi$ifc$picturestore$DSIPictureViewerListener == null ? (class$org$dsi$ifc$picturestore$DSIPictureViewerListener = DSIPictureViewerDispatcher.class$("org.dsi.ifc.picturestore.DSIPictureViewerListener")) : class$org$dsi$ifc$picturestore$DSIPictureViewerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateViewerState(int n, int n2) {
+    public void updateViewerState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void updateScrollMode(int n, int n2) {
+    public void updateScrollMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void updateListPosition(long l, int n, int n2) {
+    public void updateListPosition(long l, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void updateNumEntries(long l, int n) {
+    public void updateNumEntries(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void updateNumSelectedEntries(long l, int n) {
+    public void updateNumSelectedEntries(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -174,8 +169,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void getPictureInfoResult(long l, PictureEntryInfo pictureEntryInfo, int n) {
+    public void getPictureInfoResult(long l, PictureEntryInfo pictureEntryInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -191,8 +185,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void selectionResult(int n) {
+    public void selectionResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -208,8 +201,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void createFilterSetResult(int n, int n2) {
+    public void createFilterSetResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -225,8 +217,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void deleteFilterSetResult(int n, int n2) {
+    public void deleteFilterSetResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -242,8 +233,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void changedFilterSetResult(int n, int n2) {
+    public void changedFilterSetResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -259,8 +249,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void getAvailableYearsResult(int[] nArray, int n) {
+    public void getAvailableYearsResult(int[] nArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -276,8 +265,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void getAvailableMonthsResult(int[] nArray, int n) {
+    public void getAvailableMonthsResult(int[] nArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -293,8 +281,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2, int n3) {
+    public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -310,8 +297,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void deletePicturesWithFilterSetResult(int n, int n2) {
+    public void deletePicturesWithFilterSetResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -327,8 +313,7 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -344,14 +329,13 @@ implements DSIPictureViewerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPictureViewerListener dSIPictureViewerListener = (DSIPictureViewerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureViewerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureViewerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPictureViewerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPictureViewerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPictureViewerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPictureViewerListener, new Object[]{string, string2});
                     continue;
                 }

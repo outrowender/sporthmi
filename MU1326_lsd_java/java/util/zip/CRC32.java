@@ -10,18 +10,15 @@ implements Checksum {
     private long crc = 0L;
     long tbytes = 0L;
 
-    @Override
     public long getValue() {
         return this.crc;
     }
 
-    @Override
     public void reset() {
         this.crc = 0L;
         this.tbytes = 0L;
     }
 
-    @Override
     public void update(int n) {
         this.crc = this.updateByteImpl((byte)n, this.crc);
     }
@@ -30,7 +27,6 @@ implements Checksum {
         this.update(byArray, 0, byArray.length);
     }
 
-    @Override
     public void update(byte[] byArray, int n, int n2) {
         if (n <= byArray.length && n2 >= 0 && n >= 0 && byArray.length - n >= n2) {
             this.tbytes += (long)n2;
@@ -40,10 +36,8 @@ implements Checksum {
         this.crc = this.updateImpl(byArray, n, n2, this.crc);
     }
 
-    private native long updateImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native long updateImpl(byte[] var1, int var2, int var3, long var4);
 
-    private native long updateByteImpl(byte by, long l) {
-    }
+    private native long updateByteImpl(byte var1, long var2);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.filebrowser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.filebrowser.BrowsedFile;
 
 public class BrowsedFileSerializer {
-    public static void putOptionalBrowsedFile(ISerializer iSerializer, BrowsedFile browsedFile) {
+    public static void putOptionalBrowsedFile(ISerializer iSerializer, BrowsedFile browsedFile) throws SerializerException {
         boolean bl = browsedFile == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BrowsedFileSerializer {
         }
     }
 
-    public static void putOptionalBrowsedFileVarArray(ISerializer iSerializer, BrowsedFile[] browsedFileArray) {
+    public static void putOptionalBrowsedFileVarArray(ISerializer iSerializer, BrowsedFile[] browsedFileArray) throws SerializerException {
         boolean bl = browsedFileArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BrowsedFileSerializer {
         }
     }
 
-    public static BrowsedFile getOptionalBrowsedFile(IDeserializer iDeserializer) {
+    public static BrowsedFile getOptionalBrowsedFile(IDeserializer iDeserializer) throws SerializerException {
         BrowsedFile browsedFile = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BrowsedFileSerializer {
         return browsedFile;
     }
 
-    public static BrowsedFile[] getOptionalBrowsedFileVarArray(IDeserializer iDeserializer) {
+    public static BrowsedFile[] getOptionalBrowsedFileVarArray(IDeserializer iDeserializer) throws SerializerException {
         BrowsedFile[] browsedFileArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

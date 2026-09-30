@@ -47,7 +47,7 @@ public class sLineLocationReferenceContainer {
     }
 
     public String toString() {
-        return new StringBuffer("sLineLocationReferenceContainer{").append("validLocationReference=").append(this.validLocationReference).append(", OLRLocation=").append(this.OLRLocation).append(", TMCLocation=").append(this.TMCLocation).append("}").toString();
+        return "sLineLocationReferenceContainer{" + "validLocationReference=" + this.validLocationReference + ", OLRLocation=" + this.OLRLocation + ", TMCLocation=" + this.TMCLocation + "}";
     }
 }
 

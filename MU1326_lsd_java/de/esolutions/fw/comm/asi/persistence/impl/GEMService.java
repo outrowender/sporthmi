@@ -22,22 +22,19 @@ extends AbstractService {
         this.p_GEM = gEMS;
     }
 
-    @Override
     public IProxyFrontend createReplyProxy() {
         return new GEMReplyProxy();
     }
 
-    @Override
     public CallContext getCallContext() {
         return context;
     }
 
-    @Override
-    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) {
+    public void handleCallMethod(short s, IDeserializer iDeserializer, IProxyFrontend iProxyFrontend) throws MethodException {
         switch (s) {
             default: 
         }
-        throw new MethodException(new StringBuffer().append("Invalid Method Id ").append(s).toString());
+        throw new MethodException("Invalid Method Id " + s);
     }
 }
 

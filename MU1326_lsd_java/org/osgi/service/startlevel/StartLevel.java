@@ -6,25 +6,18 @@ package org.osgi.service.startlevel;
 import org.osgi.framework.Bundle;
 
 public interface StartLevel {
-    default public int getStartLevel() {
-    }
+    public int getStartLevel();
 
-    default public void setStartLevel(int n) {
-    }
+    public void setStartLevel(int var1);
 
-    default public int getBundleStartLevel(Bundle bundle) {
-    }
+    public int getBundleStartLevel(Bundle var1);
 
-    default public void setBundleStartLevel(Bundle bundle, int n) {
-    }
+    public void setBundleStartLevel(Bundle var1, int var2);
 
-    default public int getInitialBundleStartLevel() {
-    }
+    public int getInitialBundleStartLevel();
 
-    default public void setInitialBundleStartLevel(int n) {
-    }
+    public void setInitialBundleStartLevel(int var1);
 
-    default public boolean isBundlePersistentlyStarted(Bundle bundle) {
-    }
+    public boolean isBundlePersistentlyStarted(Bundle var1);
 }
 

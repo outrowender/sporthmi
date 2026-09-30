@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.SelectionEntry;
 
 public class SelectionEntrySerializer {
-    public static void putOptionalSelectionEntry(ISerializer iSerializer, SelectionEntry selectionEntry) {
+    public static void putOptionalSelectionEntry(ISerializer iSerializer, SelectionEntry selectionEntry) throws SerializerException {
         boolean bl = selectionEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SelectionEntrySerializer {
         }
     }
 
-    public static void putOptionalSelectionEntryVarArray(ISerializer iSerializer, SelectionEntry[] selectionEntryArray) {
+    public static void putOptionalSelectionEntryVarArray(ISerializer iSerializer, SelectionEntry[] selectionEntryArray) throws SerializerException {
         boolean bl = selectionEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SelectionEntrySerializer {
         }
     }
 
-    public static SelectionEntry getOptionalSelectionEntry(IDeserializer iDeserializer) {
+    public static SelectionEntry getOptionalSelectionEntry(IDeserializer iDeserializer) throws SerializerException {
         SelectionEntry selectionEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SelectionEntrySerializer {
         return selectionEntry;
     }
 
-    public static SelectionEntry[] getOptionalSelectionEntryVarArray(IDeserializer iDeserializer) {
+    public static SelectionEntry[] getOptionalSelectionEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         SelectionEntry[] selectionEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

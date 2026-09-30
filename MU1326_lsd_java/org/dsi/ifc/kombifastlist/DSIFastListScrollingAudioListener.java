@@ -8,19 +8,14 @@ import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public interface DSIFastListScrollingAudioListener
 extends DSIListener {
-    default public void indicationMediaBrowser(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void indicationMediaBrowser(int var1, int var2, int var3, int var4, long var5, int var7, int var8, int var9, int var10, int var11, int var12);
 
-    default public void indicationNotifyCommonListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCommonListPUSH(boolean var1, boolean var2);
 
-    default public void indicationNotifyReceptionListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyReceptionListPUSH(boolean var1, boolean var2);
 
-    default public void indicationNotifyCurrentListSizeAudio(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCurrentListSizeAudio(boolean var1, boolean var2);
 
-    default public void indicationMediaBrowserJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
-    }
+    public void indicationMediaBrowserJobs(int var1, int var2, int var3, ArrayHeader[] var4);
 }
 

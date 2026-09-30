@@ -30,7 +30,6 @@ import de.audi.tghu.hmi.evo.HMITerminalEvo;
 import de.audi.tghu.hmi.evo.IDrawerControllerEvo;
 import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
 import de.audi.tghu.hmi.evo.IDrawerListener;
-import de.audi.tghu.hmi.evo.IDrawerListener$CallbackFunction;
 import de.audi.tghu.hmi.evo.IFocusedPropertyObject;
 import de.audi.tghu.hmi.evo.IFocusedPropertyProvider;
 import de.audi.tghu.hmi.evo.IGEMKeyHandler;
@@ -40,7 +39,7 @@ import de.audi.tghu.hmi.evo.IPhoneKeyHandler;
 import de.audi.tghu.hmi.evo.IPresetInputHandler;
 import de.audi.tghu.hmi.evo.IPresetPopupData;
 import de.audi.tghu.hmi.evo.ScreenAreaFocus;
-import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem$Helper;
+import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem;
 import de.esolutions.hmi.widgets.audi.base.AbstractPartialPopupManager;
 import de.esolutions.hmi.widgets.audi.base.AbstractScreenWidget;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
@@ -50,14 +49,11 @@ import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.RedrawContext;
 import de.esolutions.hmi.widgets.audi.base.ScreenMainArea;
 import de.esolutions.hmi.widgets.audi.base.WidgetPersistenceManager;
-import de.esolutions.hmi.widgets.audi.base.WidgetPersistenceManager$DrawerPersistence;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimationController;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.DisplayControllerEvo;
 import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager;
 import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManagerEvo;
-import de.esolutions.hmi.widgets.audi.evo.DrawerFocusManager$1;
-import de.esolutions.hmi.widgets.audi.evo.DrawerFocusManager$DrawerClosingTimeoutAlarm;
 import de.esolutions.hmi.widgets.audi.evo.LockingManager;
 import de.esolutions.hmi.widgets.audi.evo.ScreenWidgetEVO;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
@@ -75,6 +71,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -83,13 +80,13 @@ implements IDrawerFocusManagerEvo,
 IWidgetLogChannel {
     private static final LogChannel lc = logDrawerFocusMain;
     private static final LogChannel lcD = logDrawerFocus;
-    private static final int PERSISTENCE_DRAWER_STATE_OPEN;
-    private static final int PERSISTENCE_DRAWER_STATE_CLOSE;
-    private static final int PERSISTENCE_DRAWER_STATE_UNDEFINED;
+    private static final int PERSISTENCE_DRAWER_STATE_OPEN = 1;
+    private static final int PERSISTENCE_DRAWER_STATE_CLOSE = 2;
+    private static final int PERSISTENCE_DRAWER_STATE_UNDEFINED = 3;
     private int drawerCloseRequest = 0;
     private WatchDog drawerClosingWatchdog;
-    private static final int DRAWER_CLOSING_TIMEOUT;
-    private static final int NOT_ALLOWED_WHILE_DRIVING_POPUP;
+    private static final int DRAWER_CLOSING_TIMEOUT = 8000;
+    private static final int NOT_ALLOWED_WHILE_DRIVING_POPUP = 191;
     private boolean partialPopupDrawerOpen = false;
     private int state;
     private int targetState = this.state = 16;
@@ -139,7 +136,7 @@ IWidgetLogChannel {
             return false;
         }
         if (this.state == 16 && n != 16 && this.getDrawer(n) == null) {
-            lc.log(-2137614336, "DrawerFocusManager#requestButtonDrawerState No drawer for state available, do not consume event, buttonTargetState=%1", (long)n);
+            lc.log(10000000, "DrawerFocusManager#requestButtonDrawerState No drawer for state available, do not consume event, buttonTargetState=%1", (long)n);
             return false;
         }
         int n3 = 16;
@@ -149,17 +146,17 @@ IWidgetLogChannel {
             }
         } else {
             if (n == 4 && this.state == 4 && this.isSubringOfSelectionDrawerOpened()) {
-                lc.log(1078071040, "DrawerFocusManager#requestButtonDrawerState Closing subring in selection drawer");
+                lc.log(1000000, "DrawerFocusManager#requestButtonDrawerState Closing subring in selection drawer");
                 return this.closeSubringOfSelectionDrawer();
             }
             this.requestDrawerState(16);
         }
         if (this.screenData != null) {
             if (n3 == 8) {
-                lcD.log(-2137614336, "DrawerFocusManager#requestButtonDrawerState set persistent option drawer state to opened state, screen=%1", (Object)this.screenData);
+                lcD.log(10000000, "DrawerFocusManager#requestButtonDrawerState set persistent option drawer state to opened state, screen=%1", (Object)this.screenData);
                 n2 = 1;
             } else {
-                lcD.log(-2137614336, "DrawerFocusManager#requestButtonDrawerState set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
+                lcD.log(10000000, "DrawerFocusManager#requestButtonDrawerState set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
                 n2 = 0;
             }
             Comparable comparable = this.getFocusedIndexOfDrawer((DrawerController)this.getDrawer(8));
@@ -178,7 +175,7 @@ IWidgetLogChannel {
     private boolean closeSubringOfSelectionDrawer() {
         SelectionMenuController selectionMenuController = this.getSelectionMenuController();
         if (selectionMenuController == null) {
-            lc.log(-2137614336, "DrawerFocusManager#closeSubringOfSelectionDrawer SelectionMenuController not found");
+            lc.log(10000000, "DrawerFocusManager#closeSubringOfSelectionDrawer SelectionMenuController not found");
             return false;
         }
         return selectionMenuController.closeSubList(true);
@@ -187,7 +184,7 @@ IWidgetLogChannel {
     private boolean isSubringOfSelectionDrawerOpened() {
         SelectionMenuController selectionMenuController = this.getSelectionMenuController();
         if (selectionMenuController == null) {
-            lcD.log(-2137614336, "DrawerFocusManager#isSubringOfSelectionDrawerOpened SelectionMenuController not found");
+            lcD.log(10000000, "DrawerFocusManager#isSubringOfSelectionDrawerOpened SelectionMenuController not found");
             return false;
         }
         return selectionMenuController.isSubListOpened();
@@ -195,21 +192,21 @@ IWidgetLogChannel {
 
     private SelectionMenuController getSelectionMenuController() {
         if (this.selectionDrawer == null) {
-            lcD.log(-2137614336, "DrawerFocusManager#getSelectionMenuController No selectionDrawer available");
+            lcD.log(10000000, "DrawerFocusManager#getSelectionMenuController No selectionDrawer available");
             return null;
         }
         if (!(this.selectionDrawer instanceof DrawerController)) {
-            lcD.log(-2137614336, "DrawerFocusManager#getSelectionMenuController selectionDrawer not a DrawerController");
+            lcD.log(10000000, "DrawerFocusManager#getSelectionMenuController selectionDrawer not a DrawerController");
             return null;
         }
         DrawerController drawerController = (DrawerController)this.selectionDrawer;
         DrawerMain drawerMain = drawerController.getDrawerMain();
         if (drawerMain == null) {
-            lcD.log(-2137614336, "DrawerFocusManager#getSelectionMenuController DrawerController has no main part");
+            lcD.log(10000000, "DrawerFocusManager#getSelectionMenuController DrawerController has no main part");
             return null;
         }
         if (!(drawerMain instanceof SelectionMenuController)) {
-            lcD.log(-2137614336, "DrawerFocusManager#getSelectionMenuController main part of DrawerController is not a SelectionMenuController");
+            lcD.log(10000000, "DrawerFocusManager#getSelectionMenuController main part of DrawerController is not a SelectionMenuController");
             return null;
         }
         return (SelectionMenuController)drawerMain;
@@ -235,7 +232,7 @@ IWidgetLogChannel {
 
     private void setFocusedIndexOfDrawer(DrawerController drawerController, MenuItemIndex menuItemIndex) {
         ContainerController containerController;
-        lcD.log(-2137614336, "DrawerFocusManager#setFocusedIndexOfDrawer %1", (Object)menuItemIndex);
+        lcD.log(10000000, "DrawerFocusManager#setFocusedIndexOfDrawer %1", (Object)menuItemIndex);
         if (drawerController != null && (containerController = (ContainerController)drawerController.getDrawerMain()) != null) {
             List list = containerController.getChildren();
             for (int i2 = 0; i2 < list.size(); ++i2) {
@@ -246,9 +243,8 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean requestDrawerState(int n) {
-        lc.log(1078071040, "DrawerFocusManager#requestDrawerState Requesting state %1", (Object)DrawerFocusManager.getStateName(n));
+        lc.log(1000000, "DrawerFocusManager#requestDrawerState Requesting state %1", (Object)DrawerFocusManager.getStateName(n));
         this.updateDrawerContent(n);
         if (!this.canShowState(n)) {
             return false;
@@ -274,31 +270,30 @@ IWidgetLogChannel {
             }
             boolean bl = iDrawerControllerEvo.canClose();
             if (!bl) {
-                lc.log(1078071040, "DrawerFocusManager#canShowState opened drawer in state %1 prevents closing itself", (long)this.state);
+                lc.log(1000000, "DrawerFocusManager#canShowState opened drawer in state %1 prevents closing itself", (long)this.state);
             }
             return bl;
         }
         if (n == 8 && this.isDisclaimerActive()) {
-            lc.log(1078071040, "DrawerFocusManager#canShowState disclaimer is active in state %1", (long)this.state);
+            lc.log(1000000, "DrawerFocusManager#canShowState disclaimer is active in state %1", (long)this.state);
             return false;
         }
         if (n == 8 && this.menuMoveModeActive) {
-            lc.log(1078071040, "DrawerFocusManager#canShowState moveModeActive do not open option drawer");
+            lc.log(1000000, "DrawerFocusManager#canShowState moveModeActive do not open option drawer");
             return false;
         }
         IDrawerControllerEvo iDrawerControllerEvo = this.getDrawer(n);
         if (iDrawerControllerEvo == null) {
-            lc.log(1078071040, "DrawerFocusManager#canShowState drawer for targetState %1 not available ", (long)n);
+            lc.log(1000000, "DrawerFocusManager#canShowState drawer for targetState %1 not available ", (long)n);
             return false;
         }
         boolean bl = iDrawerControllerEvo.canOpen();
         if (!bl) {
-            lc.log(1078071040, "DrawerFocusManager#canShowState closed drawer for targetState %1 prevents opening itself", (long)n);
+            lc.log(1000000, "DrawerFocusManager#canShowState closed drawer for targetState %1 prevents opening itself", (long)n);
         }
         return bl;
     }
 
-    @Override
     public void setMenuMoveModeActive(boolean bl) {
         this.menuMoveModeActive = bl;
     }
@@ -309,7 +304,7 @@ IWidgetLogChannel {
             return;
         }
         if (n == 32) {
-            IWidgetLogChannel.logEntertainmentDrawerEvents.log(-2137614336, "DrawerFocusManager#closeDrawer try to close EntertainmentDrawer");
+            IWidgetLogChannel.logEntertainmentDrawerEvents.log(10000000, "DrawerFocusManager#closeDrawer try to close EntertainmentDrawer");
             iDrawerControllerEvo.setDisplayDrawerState(1, iDrawerControllerEvo.isConnected(), true);
         }
         this.cancelIdleTimer(iDrawerControllerEvo);
@@ -339,7 +334,6 @@ IWidgetLogChannel {
         return null;
     }
 
-    @Override
     public void setPartialPopupManager(IPartialPopupManager iPartialPopupManager) {
         this.partialPopupManager = (IPartialPopupManagerEvo)iPartialPopupManager;
     }
@@ -348,7 +342,6 @@ IWidgetLogChannel {
         return this.partialPopupManager;
     }
 
-    @Override
     public void setPresetPopupHandler(IPresetInputHandler iPresetInputHandler) {
         this.presetPopupHandler = iPresetInputHandler;
     }
@@ -357,12 +350,10 @@ IWidgetLogChannel {
         return this.presetPopupHandler;
     }
 
-    @Override
     public void setPhoneKeyHandler(IPhoneKeyHandler iPhoneKeyHandler) {
         this.phoneKeyHandler = iPhoneKeyHandler;
     }
 
-    @Override
     public void setLongpressKeyHandler(ILongpressKeyHandler iLongpressKeyHandler) {
         this.longpressKeyHandler = iLongpressKeyHandler;
     }
@@ -375,7 +366,6 @@ IWidgetLogChannel {
         return this.longpressKeyHandler;
     }
 
-    @Override
     public void setGEMKeyHandler(IGEMKeyHandler iGEMKeyHandler) {
         this.gemKeyHandler = iGEMKeyHandler;
     }
@@ -391,7 +381,7 @@ IWidgetLogChannel {
         if (this.presetPopupHandler != null) {
             this.presetPopupHandler.keyPressed(keyEvent);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 consumed by presetPopupHandler", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 consumed by presetPopupHandler", (Object)keyEvent);
                 return;
             }
         }
@@ -400,7 +390,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyPressed(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
@@ -408,7 +398,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyPressed(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 consumed by popup drawer", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 consumed by popup drawer", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
@@ -416,9 +406,9 @@ IWidgetLogChannel {
         if (DrawerFocusManager.isPTTKey(n)) {
             if (this.state == 4 || this.state == 8) {
                 if (this.mmiCombiDrawerStateSync != null && this.mmiCombiDrawerStateSync.getCurrentFocus() != 2) {
-                    lc.log(1078071040, "DrawerFocusManager#keyPressed ptt -> not closing side drawers because focus is not hmi");
+                    lc.log(1000000, "DrawerFocusManager#keyPressed ptt -> not closing side drawers because focus is not hmi");
                 } else {
-                    lc.log(1078071040, "DrawerFocusManager#keyPressed ptt -> closing selection or option drawer");
+                    lc.log(1000000, "DrawerFocusManager#keyPressed ptt -> closing selection or option drawer");
                     this.requestDrawerState(16);
                 }
             }
@@ -428,7 +418,7 @@ IWidgetLogChannel {
             if (this.isG24MMIKombi()) {
                 this.phoneKeyHandler.handleMFLPhoneKeyPressed();
             } else {
-                lc.log(1078071040, "DrawerFocusManager#keyPressed MFL Phonekey pressed - but no G24 system - ignore press event");
+                lc.log(1000000, "DrawerFocusManager#keyPressed MFL Phonekey pressed - but no G24 system - ignore press event");
                 return;
             }
         }
@@ -440,7 +430,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyPressed(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
@@ -455,7 +445,7 @@ IWidgetLogChannel {
                 return;
             }
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1. don't open selection menu, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1. don't open selection menu, because main area is locked", (Object)keyEvent);
             } else if (this.requestButtonDrawerState(4)) {
                 keyEvent.consume();
                 return;
@@ -476,7 +466,7 @@ IWidgetLogChannel {
                 return;
             }
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1. don't open option menu, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1. don't open option menu, because main area is locked", (Object)keyEvent);
             } else {
                 this.requestButtonDrawerState(8);
                 keyEvent.consume();
@@ -495,7 +485,7 @@ IWidgetLogChannel {
         ScreenAreaFocus screenAreaFocus2 = this.getFocusedDrawer();
         if (screenAreaFocus2 != null) {
             if (this.state == 8 && this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 not sent to current focused drawer, because drawer is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 not sent to current focused drawer, because drawer is locked", (Object)keyEvent);
             } else {
                 screenAreaFocus2.keyPressed(keyEvent);
             }
@@ -509,14 +499,14 @@ IWidgetLogChannel {
             this.partialPopupManager.keyPressed(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1 not sent to current focused main area, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1 not sent to current focused main area, because main area is locked", (Object)keyEvent);
                 keyEvent.consume(false);
             } else {
                 screenAreaFocus.keyPressed(keyEvent);
@@ -533,7 +523,7 @@ IWidgetLogChannel {
                 return;
             }
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1. don't open selection menu, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1. don't open selection menu, because main area is locked", (Object)keyEvent);
             } else if (this.requestButtonDrawerState(4)) {
                 keyEvent.consume();
                 return;
@@ -554,7 +544,7 @@ IWidgetLogChannel {
                 return;
             }
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyPressed event: %1. don't open option menu, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyPressed event: %1. don't open option menu, because main area is locked", (Object)keyEvent);
             } else {
                 this.requestButtonDrawerState(8);
                 keyEvent.consume();
@@ -609,7 +599,7 @@ IWidgetLogChannel {
     private void handleAppChangeHardKey(KeyEvent keyEvent) {
         if (this.state == 4 || this.state == 8 || this.state == 32 && AbstractWidget.isVariantHigh()) {
             boolean bl = this.shouldConsumeAppChangeHardKeyInDrawer(keyEvent.getKeyCode());
-            lc.log(1078071040, "DrawerFocusManager#keyPressed handleAppChangeHardKey closing drawers, shouldConsume=%1", bl);
+            lc.log(1000000, "DrawerFocusManager#keyPressed handleAppChangeHardKey closing drawers, shouldConsume=%1", bl);
             if (bl) {
                 this.requestDrawerState(16);
                 keyEvent.consume();
@@ -629,27 +619,27 @@ IWidgetLogChannel {
         int n;
         int n2 = this.getDrawerState();
         if (n2 == 4 && this.selectionDrawer instanceof DrawerController && (n = ((DrawerController)this.selectionDrawer).getHkReturnEvent()) != -1 && AbstractWidget.hmiService != null) {
-            lc.log(1078071040, "DrawerFocusManager#handleBackKey: fire SM event %1 from open selection drawer", (long)n);
+            lc.log(1000000, "DrawerFocusManager#handleBackKey: fire SM event %1 from open selection drawer", (long)n);
             keyEvent.consume();
             this.requestDrawerClose(4);
             AbstractWidget.hmiService.fireSMEvent(this.terminal.getTerminalID(), n);
             return;
         }
         if (n2 != 16) {
-            lc.log(1078071040, "DrawerFocusManager#handleBackKey: go back to main area for screen: %1", (Object)this.screen);
+            lc.log(1000000, "DrawerFocusManager#handleBackKey: go back to main area for screen: %1", (Object)this.screen);
             this.requestButtonDrawerState(16);
             keyEvent.consume();
             return;
         }
         if (n2 == 16 && this.screen instanceof ScreenWidgetEVO && (n = (int)(((ScreenWidgetEVO)this.screen).isOpenSelectionDrawerByHkReturn() ? 1 : 0)) != 0) {
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#handleBackKey event: %1. don't go back to selection menu, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#handleBackKey event: %1. don't go back to selection menu, because main area is locked", (Object)keyEvent);
             } else {
-                lc.log(1078071040, "DrawerFocusManager#handleBackKey: go back to selection drawer from screen: %1", (Object)this.screen);
+                lc.log(1000000, "DrawerFocusManager#handleBackKey: go back to selection drawer from screen: %1", (Object)this.screen);
                 if (this.requestButtonDrawerState(4)) {
                     keyEvent.consume();
                 } else {
-                    lc.log(-1601830656, "DrawerFocusManager#handleBackKey: could not open selection drawer with HK_BACK");
+                    lc.log(100000, "DrawerFocusManager#handleBackKey: could not open selection drawer with HK_BACK");
                 }
             }
             return;
@@ -658,17 +648,17 @@ IWidgetLogChannel {
 
     private void runSDSAction(int n) {
         if (AbstractWidget.sdsService == null) {
-            lc.log(1078071040, "DrawerFocusManager#runSDSAction: no SDSService available. SDS action: %1", (long)n);
+            lc.log(1000000, "DrawerFocusManager#runSDSAction: no SDSService available. SDS action: %1", (long)n);
             return;
         }
         if (!AbstractWidget.sdsService.isSDSActive()) {
             return;
         }
         if (n == 0) {
-            lc.log(-2137614336, "DrawerFocusManager#runSDSAction: abort SDS service");
+            lc.log(10000000, "DrawerFocusManager#runSDSAction: abort SDS service");
             AbstractWidget.sdsService.abortSDSSession(false, (byte)3);
         } else if (n == 1) {
-            lc.log(-2137614336, "DrawerFocusManager#runSDSAction: silent abort SDS service");
+            lc.log(10000000, "DrawerFocusManager#runSDSAction: silent abort SDS service");
             AbstractWidget.sdsService.abortSDSSession(true, (byte)3);
         }
     }
@@ -775,7 +765,7 @@ IWidgetLogChannel {
             if (this.isG24MMIKombi()) {
                 this.phoneKeyHandler.handleMFLPhoneKeyReleased();
             } else {
-                lc.log(1078071040, "DrawerFocusManager#keyReleased MFL Phonekey released - but no G24 system - ignore release event");
+                lc.log(1000000, "DrawerFocusManager#keyReleased MFL Phonekey released - but no G24 system - ignore release event");
                 return;
             }
         }
@@ -787,7 +777,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyReleased(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
@@ -795,7 +785,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyReleased(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 consumed by popup drawer", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 consumed by popup drawer", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
@@ -805,14 +795,14 @@ IWidgetLogChannel {
             this.partialPopupManager.keyReleased(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 not sent to current focused drawer, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 not sent to current focused drawer, because main area is locked", (Object)keyEvent);
             } else {
                 screenAreaFocus2.keyReleased(keyEvent);
             }
@@ -823,14 +813,14 @@ IWidgetLogChannel {
             this.partialPopupManager.keyReleased(keyEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (keyEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)keyEvent);
                 this.doCheckedRepaint(keyEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(keyEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyReleased event: %1 not sent to current focused main area, because main area is locked", (Object)keyEvent);
+                lc.log(10000000, "DrawerFocusManager#keyReleased event: %1 not sent to current focused main area, because main area is locked", (Object)keyEvent);
                 keyEvent.consume(false);
             } else {
                 screenAreaFocus.keyReleased(keyEvent);
@@ -854,7 +844,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyTurned(wheelButtonEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (wheelButtonEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)wheelButtonEvent);
                 this.doCheckedRepaint(wheelButtonEvent);
                 return;
             }
@@ -862,7 +852,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyTurned(wheelButtonEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (wheelButtonEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 consumed by popup drawer", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 consumed by popup drawer", (Object)wheelButtonEvent);
                 this.doCheckedRepaint(wheelButtonEvent);
                 return;
             }
@@ -876,14 +866,14 @@ IWidgetLogChannel {
             this.partialPopupManager.keyTurned(wheelButtonEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (wheelButtonEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)wheelButtonEvent);
                 this.doCheckedRepaint(wheelButtonEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(wheelButtonEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 not sent to current focused main area, because main area is locked", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 not sent to current focused main area, because main area is locked", (Object)wheelButtonEvent);
             } else {
                 screenAreaFocus2.keyTurned(wheelButtonEvent);
             }
@@ -894,14 +884,14 @@ IWidgetLogChannel {
             this.partialPopupManager.keyTurned(wheelButtonEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (wheelButtonEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)wheelButtonEvent);
                 this.doCheckedRepaint(wheelButtonEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(wheelButtonEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyTurned event: %1 not sent to current focused main area, because main area is locked", (Object)wheelButtonEvent);
+                lc.log(10000000, "DrawerFocusManager#keyTurned event: %1 not sent to current focused main area, because main area is locked", (Object)wheelButtonEvent);
                 wheelButtonEvent.consume(false);
             } else {
                 screenAreaFocus.keyTurned(wheelButtonEvent);
@@ -952,7 +942,7 @@ IWidgetLogChannel {
         if (this.presetPopupHandler != null) {
             this.presetPopupHandler.keyMoved(joystickEvent);
             if (joystickEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by presetPopupHandler", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by presetPopupHandler", (Object)joystickEvent);
                 return;
             }
         }
@@ -966,7 +956,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyMoved(joystickEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (joystickEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)joystickEvent);
                 this.runSDSAction(joystickEvent.getSdsAction());
                 this.doCheckedRepaint(joystickEvent);
                 return;
@@ -975,7 +965,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyMoved(joystickEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (joystickEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by popup drawer", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by popup drawer", (Object)joystickEvent);
                 this.doCheckedRepaint(joystickEvent);
                 return;
             }
@@ -986,7 +976,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyMoved(joystickEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (joystickEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)joystickEvent);
                 this.runSDSAction(joystickEvent.getSdsAction());
                 this.doCheckedRepaint(joystickEvent);
                 return;
@@ -994,7 +984,7 @@ IWidgetLogChannel {
         }
         if ((screenAreaFocus = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(joystickEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 not sent to current focused drawer, because main area is locked", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 not sent to current focused drawer, because main area is locked", (Object)joystickEvent);
             } else {
                 screenAreaFocus.keyMoved(joystickEvent);
                 if (joystickEvent.isConsumed()) {
@@ -1028,7 +1018,7 @@ IWidgetLogChannel {
             this.partialPopupManager.keyMoved(joystickEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (joystickEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)joystickEvent);
                 this.runSDSAction(joystickEvent.getSdsAction());
                 this.doCheckedRepaint(joystickEvent);
                 return;
@@ -1042,7 +1032,7 @@ IWidgetLogChannel {
         ScreenAreaFocus screenAreaFocus2 = this.getFocusMainArea();
         if (screenAreaFocus2 != null) {
             if (this.screen.isEventBlocked(joystickEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 not sent to current focused main area, because main area is locked", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 not sent to current focused main area, because main area is locked", (Object)joystickEvent);
                 joystickEvent.consume(false);
             } else {
                 screenAreaFocus2.keyMoved(joystickEvent);
@@ -1050,14 +1040,14 @@ IWidgetLogChannel {
             this.restartAllIdleTimers();
         }
         if (joystickEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1 consumed by current focus area", (Object)joystickEvent);
+            lc.log(10000000, "DrawerFocusManager#keyMoved event: %1 consumed by current focus area", (Object)joystickEvent);
             this.runSDSAction(joystickEvent.getSdsAction());
             this.doCheckedRepaint(joystickEvent);
             return;
         }
         if (this.state == 16 && this.isSelectionDrawerDirection(n)) {
             if (this.screen.isEventBlocked(joystickEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1. don't open selection menu, because main area is locked", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1. don't open selection menu, because main area is locked", (Object)joystickEvent);
             } else if (this.requestButtonDrawerState(4)) {
                 joystickEvent.consume();
                 return;
@@ -1069,7 +1059,7 @@ IWidgetLogChannel {
         }
         if (this.state == 16 && this.isOptionDrawerDirection(n)) {
             if (this.screen.isEventBlocked(joystickEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1. don't open option menu, because main area is locked", (Object)joystickEvent);
+                lc.log(10000000, "DrawerFocusManager#keyMoved event: %1. don't open option menu, because main area is locked", (Object)joystickEvent);
             } else {
                 this.requestButtonDrawerState(8);
             }
@@ -1079,7 +1069,7 @@ IWidgetLogChannel {
         if (this.state == 16 && n == 6) {
             if (this.entertainmentDrawer != null && this.entertainmentDrawer.getDisplayDrawerState() != 2 && this.entertainmentDrawer.canOpen()) {
                 if (this.screen.isEventBlocked(joystickEvent)) {
-                    lc.log(-2137614336, "DrawerFocusManager#keyMoved event: %1. don't open entertainment drawer, because main area is locked", (Object)joystickEvent);
+                    lc.log(10000000, "DrawerFocusManager#keyMoved event: %1. don't open entertainment drawer, because main area is locked", (Object)joystickEvent);
                 } else {
                     this.requestButtonDrawerState(32);
                 }
@@ -1095,12 +1085,12 @@ IWidgetLogChannel {
         if (this.presetPopupHandler != null) {
             this.presetPopupHandler.touchPadPositionMoved(touchEvent);
             if (touchEvent.isConsumed()) {
-                lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by presetPopupHandler", (Object)touchEvent);
+                lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by presetPopupHandler", (Object)touchEvent);
                 return;
             }
         }
         if (this.ignoreTouchEvents) {
-            lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 ignored because virtual key has been pressed before", (Object)touchEvent);
+            lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 ignored because virtual key has been pressed before", (Object)touchEvent);
             return;
         }
         if (this.partialPopupManager != null) {
@@ -1109,7 +1099,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1118,14 +1108,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPositionMoved(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadPositionMoved(touchEvent);
             }
@@ -1136,14 +1126,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPositionMoved(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lcD.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lcD.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPositionMoved event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPositionMoved event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadPositionMoved(touchEvent);
             }
@@ -1158,7 +1148,7 @@ IWidgetLogChannel {
         if (this.presetPopupHandler != null) {
             this.presetPopupHandler.touchPadPressed(touchEvent);
             if (touchEvent.isConsumed()) {
-                lcD.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 consumed by presetPopupHandler", (Object)touchEvent);
+                lcD.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 consumed by presetPopupHandler", (Object)touchEvent);
                 return;
             }
         }
@@ -1171,7 +1161,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1180,14 +1170,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPressed(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadPressed(touchEvent);
             }
@@ -1198,14 +1188,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPressed(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPressed event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPressed event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadPressed(touchEvent);
             }
@@ -1226,7 +1216,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1235,14 +1225,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadReleased(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadReleased event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadReleased event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadReleased(touchEvent);
             }
@@ -1253,14 +1243,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadReleased(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadReleased event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadReleased event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadReleased event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
                 touchEvent.consume(false);
             } else {
                 screenAreaFocus.touchPadReleased(touchEvent);
@@ -1277,7 +1267,7 @@ IWidgetLogChannel {
             this.presetPopupHandler.touchPadCharactersRecognized(touchEvent);
         }
         if (this.ignoreTouchEvents) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 ignored because virtual key has been pressed before", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 ignored because virtual key has been pressed before", (Object)touchEvent);
             return;
         }
         if (this.partialPopupManager != null) {
@@ -1286,7 +1276,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.runSDSAction(touchEvent.getSdsAction());
             this.doCheckedRepaint(touchEvent);
             return;
@@ -1296,7 +1286,7 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadCharactersRecognized(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.runSDSAction(touchEvent.getSdsAction());
                 this.doCheckedRepaint(touchEvent);
                 return;
@@ -1304,7 +1294,7 @@ IWidgetLogChannel {
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadCharactersRecognized(touchEvent);
                 if (touchEvent.isConsumed()) {
@@ -1317,7 +1307,7 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadCharactersRecognized(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.runSDSAction(touchEvent.getSdsAction());
                 this.doCheckedRepaint(touchEvent);
                 return;
@@ -1325,7 +1315,7 @@ IWidgetLogChannel {
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadCharactersRecognized event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadCharactersRecognized event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadCharactersRecognized(touchEvent);
                 if (touchEvent.isConsumed()) {
@@ -1348,7 +1338,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1357,14 +1347,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadAbandoned(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadAbandoned event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadAbandoned event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadAbandoned(touchEvent);
             }
@@ -1374,14 +1364,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadAbandoned(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadAbandoned event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadAbandoned event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadAbandoned event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadAbandoned(touchEvent);
             }
@@ -1398,7 +1388,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1407,14 +1397,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPalmRecognized(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPalmRecognized event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPalmRecognized event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadPalmRecognized(touchEvent);
             }
@@ -1425,14 +1415,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadPalmRecognized(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPalmRecognized event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadPalmRecognized event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadPalmRecognized event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadPalmRecognized(touchEvent);
             }
@@ -1460,7 +1450,7 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (touchEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
+            lc.log(10000000, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)touchEvent);
             this.doCheckedRepaint(touchEvent);
             return;
         }
@@ -1469,14 +1459,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadApproached(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_BETWEEN_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus2 = this.getFocusedDrawer()) != null) {
             if (this.state == 8 && this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadApproached event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadApproached event: %1 not sent to current focused drawer, because drawer is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus2.touchPadApproached(touchEvent);
             }
@@ -1486,14 +1476,14 @@ IWidgetLogChannel {
             this.partialPopupManager.touchPadApproached(touchEvent);
             this.partialPopupManager.setFocusedLayer(-1);
             if (touchEvent.isConsumed()) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadApproached event: %1 consumed by partialPopupManager (LAYER_BEHIND_DRAWERS)", (Object)touchEvent);
                 this.doCheckedRepaint(touchEvent);
                 return;
             }
         }
         if ((screenAreaFocus = this.getFocusMainArea()) != null) {
             if (this.screen.isEventBlocked(touchEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#touchPadApproached event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
+                lc.log(10000000, "DrawerFocusManager#touchPadApproached event: %1 not sent to current focused main area, because main area is locked", (Object)touchEvent);
             } else {
                 screenAreaFocus.touchPadApproached(touchEvent);
             }
@@ -1501,13 +1491,12 @@ IWidgetLogChannel {
         this.doCheckedRepaint(touchEvent);
     }
 
-    @Override
     public void setScreen(IScreenData iScreenData, Screen screen) {
-        logScreenChange.log(1078071040, "DrawerFocusManager#setScreen screenData=%1, screen=%2", (Object)iScreenData, (Object)screen);
-        lc.log(1078071040, "DrawerFocusManager#setScreen Old screen %1, new screen %2, current state %3, drawerCloseRequest=%4", (Object)this.screen, (Object)screen, (Object)DrawerFocusManager.getStateName(this.state), (long)this.drawerCloseRequest);
+        logScreenChange.log(1000000, "DrawerFocusManager#setScreen screenData=%1, screen=%2", (Object)iScreenData, (Object)screen);
+        lc.log(1000000, "DrawerFocusManager#setScreen Old screen %1, new screen %2, current state %3, drawerCloseRequest=%4", (Object)this.screen, (Object)screen, (Object)DrawerFocusManager.getStateName(this.state), (long)this.drawerCloseRequest);
         this.isScreenChange = true;
         if (screen instanceof AbstractScreenWidget) {
-            WidgetPersistenceManager$DrawerPersistence widgetPersistenceManager$DrawerPersistence;
+            WidgetPersistenceManager.DrawerPersistence drawerPersistence;
             Object object;
             int n;
             AbstractScreenWidget abstractScreenWidget;
@@ -1515,9 +1504,9 @@ IWidgetLogChannel {
             this.screenData = iScreenData;
             int n2 = iScreenData.getAnimationInfo();
             boolean bl = (n2 & 1) != 0;
-            lc.log(-2137614336, "DrawerFocusManager#setScreen appChange=%1", bl);
+            lc.log(10000000, "DrawerFocusManager#setScreen appChange=%1", bl);
             if (bl && (this.state == 4 || this.state == 8)) {
-                lc.log(-2137614336, "DrawerFocusManager#setScreen closing side drawers because appChange is true");
+                lc.log(10000000, "DrawerFocusManager#setScreen closing side drawers because appChange is true");
                 n = 16;
             } else {
                 n = this.getPredictedDrawerState(iScreenData);
@@ -1527,16 +1516,16 @@ IWidgetLogChannel {
                 n = 16;
             }
             if (lc.isDebug()) {
-                lc.log(-2137614336, "DrawerFocusManager#setScreen state: %1, oldState: %2", (long)n, (long)this.state);
-                lc.log(-2137614336, "DrawerFocusManager#setScreen switching state of screen to %1, oldState %2", (Object)DrawerFocusManager.getStateName(n), (Object)DrawerFocusManager.getStateName(this.state));
+                lc.log(10000000, "DrawerFocusManager#setScreen state: %1, oldState: %2", (long)n, (long)this.state);
+                lc.log(10000000, "DrawerFocusManager#setScreen switching state of screen to %1, oldState %2", (Object)DrawerFocusManager.getStateName(n), (Object)DrawerFocusManager.getStateName(this.state));
             }
             if (n == this.state) {
                 object = this.getFocusedIndexOfDrawer((DrawerController)this.getDrawer(8));
                 this.setPersistenceOptionDrawerState(iScreenData, this.state, (Comparable)object);
             }
             this.requestDrawerState(n);
-            if (this.usePersistence && (widgetPersistenceManager$DrawerPersistence = ((WidgetPersistenceManager)(object = this.getWidgetPersistenceManager())).getDrawerState(iScreenData.getStates())) != null) {
-                MenuItemIndex menuItemIndex = (MenuItemIndex)widgetPersistenceManager$DrawerPersistence.getFocusedIndex();
+            if (this.usePersistence && (drawerPersistence = ((WidgetPersistenceManager)(object = this.getWidgetPersistenceManager())).getDrawerState(iScreenData.getStates())) != null) {
+                MenuItemIndex menuItemIndex = (MenuItemIndex)drawerPersistence.getFocusedIndex();
                 this.setFocusedIndexOfDrawer((DrawerController)this.getDrawer(8), menuItemIndex);
             }
             this.drawerAnimationManager.setScreen(abstractScreenWidget, n);
@@ -1545,7 +1534,7 @@ IWidgetLogChannel {
                 this.restartIdleTimer(abstractScreenWidget);
             }
         } else {
-            lc.log(-1601830656, "DrawerFocusManager#setScreen screen not a ScreenWidget", (Object)screen);
+            lc.log(100000, "DrawerFocusManager#setScreen screen not a ScreenWidget", (Object)screen);
             this.screen = null;
         }
         if (this.isCurrentScreenFocused()) {
@@ -1557,11 +1546,10 @@ IWidgetLogChannel {
         }
         this.updateDrawerStates(this.screen, true);
         this.isScreenChange = false;
-        IDrawerListener$CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_SCREEN_SET, new Object[]{iScreenData, screen});
+        IDrawerListener.CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_SCREEN_SET, new Object[]{iScreenData, screen});
         LockingManager.requestCurrentLockingState(this);
     }
 
-    @Override
     public void setDrawersAndPopupsInvalid() {
         if (this.screen != null) {
             this.screen.makeSubtreeDirty();
@@ -1581,12 +1569,12 @@ IWidgetLogChannel {
     }
 
     private void setPersistenceOptionDrawerState(IScreenData iScreenData, int n, Comparable comparable) {
-        lcD.log(-2137614336, "DrawerFocusManager#setPersistenceDrawerState screenData=%1, persistenceDrawerState=%2", (Object)iScreenData, (long)n);
+        lcD.log(10000000, "DrawerFocusManager#setPersistenceDrawerState screenData=%1, persistenceDrawerState=%2", (Object)iScreenData, (long)n);
         if (iScreenData == null) {
             return;
         }
         WidgetPersistenceManager widgetPersistenceManager = this.getWidgetPersistenceManager();
-        widgetPersistenceManager.setDrawerState(iScreenData.getStates(), new WidgetPersistenceManager$DrawerPersistence(n, comparable));
+        widgetPersistenceManager.setDrawerState(iScreenData.getStates(), new WidgetPersistenceManager.DrawerPersistence(n, comparable));
     }
 
     private int getPredictedDrawerState(IScreenData iScreenData) {
@@ -1597,45 +1585,45 @@ IWidgetLogChannel {
         int n = this.getPersistenceOptionDrawerState(iScreenData);
         if (n == 3) {
             if (this.state == 8) {
-                lcD.log(-2137614336, "DrawerFocusManager#getPredictedDrawerState changing state from option drawer to main area, because no persistence was used");
+                lcD.log(10000000, "DrawerFocusManager#getPredictedDrawerState changing state from option drawer to main area, because no persistence was used");
                 return 16;
             }
-            lcD.log(-2137614336, "DrawerFocusManager#getPredictedDrawerState returning old state %1", (Object)DrawerFocusManager.getStateName(this.state));
+            lcD.log(10000000, "DrawerFocusManager#getPredictedDrawerState returning old state %1", (Object)DrawerFocusManager.getStateName(this.state));
             return this.state;
         }
         if (n == 1 && this.state != 8) {
-            lcD.log(-2137614336, "DrawerFocusManager#getPredictedDrawerState opened option drawer");
+            lcD.log(10000000, "DrawerFocusManager#getPredictedDrawerState opened option drawer");
             return 8;
         }
         if (n == 2 && this.state == 8) {
-            lcD.log(-2137614336, "DrawerFocusManager#getPredictedDrawerState closed option drawer -> main state");
+            lcD.log(10000000, "DrawerFocusManager#getPredictedDrawerState closed option drawer -> main state");
             return 16;
         }
-        lcD.log(-2137614336, "DrawerFocusManager#getPredictedDrawerState already in wanted state %1", (Object)DrawerFocusManager.getStateName(this.state));
+        lcD.log(10000000, "DrawerFocusManager#getPredictedDrawerState already in wanted state %1", (Object)DrawerFocusManager.getStateName(this.state));
         return this.state;
     }
 
     private int getPersistenceOptionDrawerState(IScreenData iScreenData) {
         int n;
-        lcD.log(-2137614336, "DrawerFocusManager#getPersistenceOptionDrawerState screenData=%1", (Object)iScreenData);
+        lcD.log(10000000, "DrawerFocusManager#getPersistenceOptionDrawerState screenData=%1", (Object)iScreenData);
         if (iScreenData == null) {
             return 3;
         }
         boolean bl = iScreenData.isReinit();
-        lcD.log(-2137614336, "DrawerFocusManager#getPersistenceOptionDrawerState reinit=%1, usePersistence=%2", bl, this.usePersistence);
+        lcD.log(10000000, "DrawerFocusManager#getPersistenceOptionDrawerState reinit=%1, usePersistence=%2", bl, this.usePersistence);
         if (!this.usePersistence) {
             return 3;
         }
         int[] nArray = iScreenData.getStates();
-        lcD.log(-2137614336, "DrawerFocusManager#getPersistenceOptionDrawerState states=%1", (Object)nArray);
-        if (bl && nArray != null && nArray.length == 1 && nArray[0] == -426572800) {
+        lcD.log(10000000, "DrawerFocusManager#getPersistenceOptionDrawerState states=%1", (Object)nArray);
+        if (bl && nArray != null && nArray.length == 1 && nArray[0] == 300006) {
             return 2;
         }
         WidgetPersistenceManager widgetPersistenceManager = this.getWidgetPersistenceManager();
-        WidgetPersistenceManager$DrawerPersistence widgetPersistenceManager$DrawerPersistence = widgetPersistenceManager.getDrawerState(nArray);
-        int n2 = n = widgetPersistenceManager$DrawerPersistence != null ? widgetPersistenceManager$DrawerPersistence.getState() : 0;
+        WidgetPersistenceManager.DrawerPersistence drawerPersistence = widgetPersistenceManager.getDrawerState(nArray);
+        int n2 = n = drawerPersistence != null ? drawerPersistence.getState() : 0;
         int n3 = n == 0 ? 2 : (n == 1 ? 1 : 3);
-        lcD.log(-2137614336, "DrawerFocusManager#getPersistenceOptionDrawerState persistenceOptionDrawerState=%1, returning=%2", (long)n, (long)n3);
+        lcD.log(10000000, "DrawerFocusManager#getPersistenceOptionDrawerState persistenceOptionDrawerState=%1, returning=%2", (long)n, (long)n3);
         return n3;
     }
 
@@ -1651,56 +1639,55 @@ IWidgetLogChannel {
         boolean bl;
         boolean bl2 = bl = this.viewSize != 1 && this.state != 4 && this.state != 8;
         if (!bl) {
-            lcD.log(-2137614336, "DrawerFocusManager#shouldShowSideDrawerIcons small view size or opened side drawers -> hiding icons");
+            lcD.log(10000000, "DrawerFocusManager#shouldShowSideDrawerIcons small view size or opened side drawers -> hiding icons");
             return false;
         }
         if (abstractScreenWidget == null) {
-            lcD.log(-2137614336, "DrawerFocusManager#shouldShowSideDrawerIcons no screen -> showing icons");
+            lcD.log(10000000, "DrawerFocusManager#shouldShowSideDrawerIcons no screen -> showing icons");
             return true;
         }
         int n = abstractScreenWidget.getDrawerVisibility();
-        lcD.log(-2137614336, "DrawerFocusManager#shouldShowSideDrawerIcons screen drawerVisibility flag: %1", (long)n);
+        lcD.log(10000000, "DrawerFocusManager#shouldShowSideDrawerIcons screen drawerVisibility flag: %1", (long)n);
         return n == 0 || n == 2;
     }
 
     protected boolean shouldShowEntertainmentDrawer(AbstractScreenWidget abstractScreenWidget) {
         if (abstractScreenWidget == null) {
-            lcD.log(-2137614336, "DrawerFocusManager#shouldShowEntertainmentDrawer no screen -> showing entertainment drawer");
+            lcD.log(10000000, "DrawerFocusManager#shouldShowEntertainmentDrawer no screen -> showing entertainment drawer");
             return true;
         }
         int n = abstractScreenWidget.getDrawerVisibility();
-        lcD.log(-2137614336, "DrawerFocusManager#shouldShowEntertainmentDrawer screen drawerVisibility flag: %1", (long)n);
+        lcD.log(10000000, "DrawerFocusManager#shouldShowEntertainmentDrawer screen drawerVisibility flag: %1", (long)n);
         return n == 0 || n == 1;
     }
 
     private void doCheckedRepaint(KeyEvent keyEvent) {
         if (this.screen != null && keyEvent.isConsumed() && keyEvent.isRepaintNeeded()) {
-            logRepaintCause.log(-2137614336, "DrawerFocusManager#doCheckedRepaint: do checked repaint on screen %2. key event: %1", (Object)keyEvent, (long)this.screen.getID());
+            logRepaintCause.log(10000000, "DrawerFocusManager#doCheckedRepaint: do checked repaint on screen %2. key event: %1", (Object)keyEvent, (long)this.screen.getID());
             this.screen.doCheckedRepaint();
         }
     }
 
     private void doCheckedRepaint(TouchEvent touchEvent) {
         if (this.screen != null && touchEvent.isConsumed() && touchEvent.isRepaintNeeded()) {
-            logRepaintCause.log(-2137614336, "DrawerFocusManager#doCheckedRepaint: do checked repaint on screen %2. touch event: %1", (Object)touchEvent, (long)this.screen.getID());
+            logRepaintCause.log(10000000, "DrawerFocusManager#doCheckedRepaint: do checked repaint on screen %2. touch event: %1", (Object)touchEvent, (long)this.screen.getID());
             this.screen.doCheckedRepaint();
         }
     }
 
-    @Override
     public void setSelectionDrawer(Object object) {
-        lc.log(1078071040, "DrawerFocusManager#setSelectionDrawer current selection drawer: %1, new selection drawer: %2", (Object)this.selectionDrawer, object);
+        lc.log(1000000, "DrawerFocusManager#setSelectionDrawer current selection drawer: %1, new selection drawer: %2", (Object)this.selectionDrawer, object);
         this.previousSelectionDrawer = this.selectionDrawer;
         this.selectionDrawer = (IDrawerControllerEvo)object;
         if (this.selectionDrawer == null || !this.selectionDrawer.canOpen()) {
             if (this.state == 4) {
-                lc.log(-2137614336, "DrawerFocusManager#setSelectionDrawer Switching to main area because selection drawer is null");
+                lc.log(10000000, "DrawerFocusManager#setSelectionDrawer Switching to main area because selection drawer is null");
                 this.requestDrawerState(16);
             } else {
                 this.updateClosedDrawerIconVisibility();
             }
         } else if (!this.selectionDrawer.equals(this.previousSelectionDrawer)) {
-            lcD.log(-2137614336, "DrawerFocusManager#setSelectionDrawer initializing new selection drawer");
+            lcD.log(10000000, "DrawerFocusManager#setSelectionDrawer initializing new selection drawer");
             this.updateClosedDrawerIconVisibility();
             this.setTransitionOnSide(4, true);
             if (this.state == 4) {
@@ -1721,16 +1708,15 @@ IWidgetLogChannel {
         iDrawerControllerEvo.disconnecting();
     }
 
-    @Override
     public void setOptionDrawer(Object object, Comparable comparable) {
-        lc.log(1078071040, "DrawerFocusManager#setOptionDrawer current option drawer: %1, new option drawer: %2", (Object)this.optionDrawer, object);
+        lc.log(1000000, "DrawerFocusManager#setOptionDrawer current option drawer: %1, new option drawer: %2", (Object)this.optionDrawer, object);
         if (this.screenData != null) {
             int n;
             if (this.state == 8) {
-                lcD.log(-2137614336, "DrawerFocusManager#setOptionDrawer set persistent option drawer state to opened state, screen=%1", (Object)this.screenData);
+                lcD.log(10000000, "DrawerFocusManager#setOptionDrawer set persistent option drawer state to opened state, screen=%1", (Object)this.screenData);
                 n = 1;
             } else {
-                lcD.log(-2137614336, "DrawerFocusManager#setOptionDrawer set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
+                lcD.log(10000000, "DrawerFocusManager#setOptionDrawer set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
                 n = 0;
             }
             this.setPersistenceOptionDrawerState(this.screenData, n, comparable);
@@ -1744,18 +1730,18 @@ IWidgetLogChannel {
         }
         if (this.optionDrawer == null || !this.optionDrawer.canOpen()) {
             if (this.state == 8) {
-                lc.log(-2137614336, "DrawerFocusManager#setOptionDrawer Switching to main area because option drawer is null");
+                lc.log(10000000, "DrawerFocusManager#setOptionDrawer Switching to main area because option drawer is null");
                 this.requestDrawerState(16);
             } else {
                 this.updateClosedDrawerIconVisibility();
             }
             this.drawerAnimationManager.setOptionDrawer((DrawerController)this.optionDrawer, 1);
         } else if (!this.optionDrawer.equals(this.previousOptionDrawer)) {
-            lcD.log(-2137614336, "DrawerFocusManager#setOptionDrawer initializing new option drawer");
+            lcD.log(10000000, "DrawerFocusManager#setOptionDrawer initializing new option drawer");
             this.updateClosedDrawerIconVisibility();
             DrawerController drawerController = (DrawerController)this.optionDrawer;
-            boolean bl = ScreenChangeAnimationItem$Helper.isType(drawerController.getScreenChangeTarget(), 8) && ScreenChangeAnimationItem$Helper.isTransition(drawerController.getScreenChangeTarget(), 64);
-            lc.log(-2137614336, "DrawerFocusManager#setOptionDrawer drawerShallBeOpenDirectly=%1", bl);
+            boolean bl = ScreenChangeAnimationItem.Helper.isType(drawerController.getScreenChangeTarget(), 8) && ScreenChangeAnimationItem.Helper.isTransition(drawerController.getScreenChangeTarget(), 64);
+            lc.log(10000000, "DrawerFocusManager#setOptionDrawer drawerShallBeOpenDirectly=%1", bl);
             if (bl) {
                 this.setTransitionOnSide(8, true);
                 this.drawerAnimationManager.setOptionDrawer((DrawerController)this.optionDrawer, 2);
@@ -1763,7 +1749,7 @@ IWidgetLogChannel {
                 boolean bl2 = this.getPersistenceOptionDrawerState(this.screenData) == 1;
                 drawerController.setTransitionForward(bl2);
                 if (this.state == 8) {
-                    lc.log(-2137614336, "DrawerFocusManager#setOptionDrawer opening option drawer because state is option drawer");
+                    lc.log(10000000, "DrawerFocusManager#setOptionDrawer opening option drawer because state is option drawer");
                     drawerController.setTransitionForward(true);
                 }
                 this.drawerAnimationManager.setOptionDrawer((DrawerController)this.optionDrawer, 1);
@@ -1772,44 +1758,37 @@ IWidgetLogChannel {
         if (this.previousOptionDrawer != null && !this.previousOptionDrawer.equals(this.optionDrawer)) {
             this.disconnectDrawer(this.previousOptionDrawer);
         }
-        IDrawerListener$CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_OPTION_DRAWER_ACTIVATED, new Object[]{this.screenData, this.screen, this.optionDrawer});
+        IDrawerListener.CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_OPTION_DRAWER_ACTIVATED, new Object[]{this.screenData, this.screen, this.optionDrawer});
     }
 
     public Object getPreviosSelectionDrawer() {
         return this.previousSelectionDrawer;
     }
 
-    @Override
     public Object getPreviousOptionDrawer() {
         return this.previousOptionDrawer;
     }
 
-    @Override
     public Object getSelectionDrawer() {
         return this.selectionDrawer;
     }
 
-    @Override
     public Object getOptionDrawer() {
         return this.optionDrawer;
     }
 
-    @Override
     public Object getEntertainmentDrawer() {
         return this.entertainmentDrawer;
     }
 
-    @Override
     public Object getPreviousSelectionDrawer() {
         return this.previousSelectionDrawer;
     }
 
-    @Override
     public void screenChangeFinished() {
         this.drawerAnimationManager.screenChangeFinished();
     }
 
-    @Override
     public void screenFadedOut() {
         if (this.optionDrawer != null && this.isDrawerClosingRequested(8) && this.state == 8) {
             this.requestDrawerState(16);
@@ -1819,7 +1798,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void setEntertainmentDrawer(Object object) {
         this.entertainmentDrawer = (IDrawerControllerEvo)object;
         this.drawerAnimationManager.setEntertainmentDrawer((DrawerController)this.entertainmentDrawer, 0);
@@ -1827,9 +1805,8 @@ IWidgetLogChannel {
         entertainmentDrawerOpenCloseController.onDrawerVisibiltyChange(this.earlyEntertainmentVisible);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processModelUpdateEvent start, event: %1", (Object)modelUpdateEvent);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processModelUpdateEvent start, event: %1", (Object)modelUpdateEvent);
         long l = AbstractWidget.framework.getMonotonicTime();
         if (this.selectionDrawer != null) {
             this.selectionDrawer.processModelUpdateEvent(modelUpdateEvent);
@@ -1841,10 +1818,9 @@ IWidgetLogChannel {
             this.entertainmentDrawer.processModelUpdateEvent(modelUpdateEvent);
         }
         long l2 = AbstractWidget.framework.getMonotonicTime();
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processModelUpdateEvent finished, took %1 ms", l2 - l);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processModelUpdateEvent finished, took %1 ms", l2 - l);
     }
 
-    @Override
     public void paintDrawers() {
         HMITerminal hMITerminal;
         Object object;
@@ -1868,20 +1844,18 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public int getDrawerState() {
         return this.state;
     }
 
-    @Override
     public void setDrawerState(int n, boolean bl) {
-        lc.log(1078071040, "DrawerFocusManager#setDrawerState Setting state %1, animated=%2, old state is %3", (Object)DrawerFocusManager.getStateName(n), (Object)bl, (Object)DrawerFocusManager.getStateName(this.state));
+        lc.log(1000000, "DrawerFocusManager#setDrawerState Setting state %1, animated=%2, old state is %3", (Object)DrawerFocusManager.getStateName(n), (Object)bl, (Object)DrawerFocusManager.getStateName(this.state));
         if (n != 4 && n != 8 && n != 32 && n != 16) {
             lc.log(10000, "Wrong state number", (long)n);
             return;
         }
         if (this.lockingActive && n == 8 && this.optionDrawer != null && this.optionDrawer.isBlockedWhileLockingIsActive()) {
-            lc.log(1078071040, "DrawerFocusManager#setDrawerState lockingActive do not open OptionDrawer, try to show popup");
+            lc.log(1000000, "DrawerFocusManager#setDrawerState lockingActive do not open OptionDrawer, try to show popup");
             this.showNotAllowedWhileDrivingPopup();
             return;
         }
@@ -1933,7 +1907,7 @@ IWidgetLogChannel {
             this.restartIdleTimer(this.screen);
             this.setState(16);
         } else {
-            lcD.log(-2137614336, "DrawerFocusManager#setDrawerState drawer already open. state: %1, newState: %2", (Object)DrawerFocusManager.getStateName(this.state), (Object)DrawerFocusManager.getStateName(n));
+            lcD.log(10000000, "DrawerFocusManager#setDrawerState drawer already open. state: %1, newState: %2", (Object)DrawerFocusManager.getStateName(this.state), (Object)DrawerFocusManager.getStateName(n));
         }
         this.drawerAnimationManager.setDrawerState(n, bl);
         this.updateDrawerStates(this.screen, bl);
@@ -1966,7 +1940,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void updateOptionDrawerContent() {
         IFocusedPropertyObject iFocusedPropertyObject = this.getCurrentFocusedProperty();
         if (this.screen != null) {
@@ -1975,7 +1948,7 @@ IWidgetLogChannel {
     }
 
     private void setState(int n) {
-        lc.log(-2137614336, "DrawerFocusManager#setState Switching state from %1 to %2", (Object)DrawerFocusManager.getStateName(this.state), (Object)DrawerFocusManager.getStateName(n));
+        lc.log(10000000, "DrawerFocusManager#setState Switching state from %1 to %2", (Object)DrawerFocusManager.getStateName(this.state), (Object)DrawerFocusManager.getStateName(n));
         this.state = n;
         if (this.terminal != null && this.terminal.getKbdService() != null) {
             this.setIllumination(this.state);
@@ -1996,7 +1969,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void setPartialPopupDrawerOpen(boolean bl) {
         this.partialPopupDrawerOpen = bl;
         if (bl) {
@@ -2023,40 +1995,47 @@ IWidgetLogChannel {
         return null;
     }
 
-    @Override
     public void startTrackingServices(BundleContext bundleContext, HMITerminal hMITerminal) {
         this.initializeMMICombiDrawerStateSyncTracker(bundleContext);
     }
 
-    private void initializeMMICombiDrawerStateSyncTracker(BundleContext bundleContext) {
-        ServiceTracker serviceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync == null ? (class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync = DrawerFocusManager.class$("de.audi.atip.mmicombi.IMMICombiDrawerStateSync")) : class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync).getName(), (ServiceTrackerCustomizer)new DrawerFocusManager$1(this, bundleContext));
+    private void initializeMMICombiDrawerStateSyncTracker(final BundleContext bundleContext) {
+        ServiceTracker serviceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync == null ? (class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync = DrawerFocusManager.class$("de.audi.atip.mmicombi.IMMICombiDrawerStateSync")) : class$de$audi$atip$mmicombi$IMMICombiDrawerStateSync).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                DrawerFocusManager.this.mmiCombiDrawerStateSync = (IMMICombiDrawerStateSync)bundleContext.getService(serviceReference);
+                return DrawerFocusManager.this.mmiCombiDrawerStateSync;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                DrawerFocusManager.this.mmiCombiDrawerStateSync = null;
+            }
+        });
         serviceTracker.open();
     }
 
-    @Override
     public void registerDrawerFocusManagerService(IFrameworkAccess iFrameworkAccess) {
         Hashtable hashtable = new Hashtable();
         iFrameworkAccess.getBundleCxt().registerService(new String[]{(class$de$audi$tghu$hmi$evo$IDrawerFocusManagerEvo == null ? (class$de$audi$tghu$hmi$evo$IDrawerFocusManagerEvo = DrawerFocusManager.class$("de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo")) : class$de$audi$tghu$hmi$evo$IDrawerFocusManagerEvo).getName()}, (Object)this, (Dictionary)hashtable);
     }
 
-    @Override
     public void registerFocusPropertyProvider(IFocusedPropertyProvider iFocusedPropertyProvider) {
         this.focusPropertyProvider = iFocusedPropertyProvider;
     }
 
-    @Override
     public void deRegisterFocusPropertyProvider(IFocusedPropertyProvider iFocusedPropertyProvider) {
         if (this.focusPropertyProvider == iFocusedPropertyProvider) {
             this.focusPropertyProvider = null;
         }
     }
 
-    @Override
     public int getPredictedDrawerState(Screen screen, IScreenData iScreenData) {
         return this.getPredictedDrawerState(iScreenData);
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         IPresetPopupData iPresetPopupData = null;
         switch (this.state) {
@@ -2088,14 +2067,13 @@ IWidgetLogChannel {
         return iPresetPopupData;
     }
 
-    @Override
     public void setViewSize(int n, boolean bl) {
         boolean bl2;
-        lc.log(1078071040, "DrawerFocusManager#setViewSize size=%1, animate=%2", (Object)Util.createInteger(n), (Object)bl);
+        lc.log(1000000, "DrawerFocusManager#setViewSize size=%1, animate=%2", (Object)Util.createInteger(n), (Object)bl);
         boolean bl3 = this.screen != null && this.isMainAreaFocusable(this.screen.getMainArea());
         this.viewSize = n;
         if (this.viewSize == 1 && this.state == 8) {
-            lc.log(-2137614336, "DrawerFocusManager#setViewSize option drawer opened, switching to small stage -> closing drawer", (Object)Util.createInteger(n), (Object)bl);
+            lc.log(10000000, "DrawerFocusManager#setViewSize option drawer opened, switching to small stage -> closing drawer", (Object)Util.createInteger(n), (Object)bl);
             this.requestDrawerState(16);
         }
         if (this.screen != null && this.state == 16 && bl3 != (bl2 = this.isMainAreaFocusable(this.screen.getMainArea()))) {
@@ -2110,7 +2088,7 @@ IWidgetLogChannel {
     }
 
     private void updateDrawerStates(AbstractScreenWidget abstractScreenWidget, boolean bl) {
-        lcD.log(-2137614336, "DrawerFocusManager#updateDrawerStates screen=%1, animate=%2", (Object)abstractScreenWidget, (Object)bl);
+        lcD.log(10000000, "DrawerFocusManager#updateDrawerStates screen=%1, animate=%2", (Object)abstractScreenWidget, (Object)bl);
         this.updateClosedDrawerIconVisibility();
         boolean bl2 = this.shouldShowEntertainmentDrawer(abstractScreenWidget);
         int n = bl2 ? 1 : 2;
@@ -2133,11 +2111,11 @@ IWidgetLogChannel {
 
     private void updateClosedDrawerIconVisibility() {
         boolean bl;
-        lcD.log(-2137614336, "DrawerFocusManager#updateClosedDrawerIconVisibility");
+        lcD.log(10000000, "DrawerFocusManager#updateClosedDrawerIconVisibility");
         boolean bl2 = this.shouldShowSideDrawerIcons(this.screen);
         if (this.selectionDrawer != null) {
             bl = this.selectionDrawer.canOpen();
-            lcD.log(-2137614336, "DrawerFocusManager#updateClosedDrawerIconVisibility selection drawer can open: %1", bl);
+            lcD.log(10000000, "DrawerFocusManager#updateClosedDrawerIconVisibility selection drawer can open: %1", bl);
             this.selectionDrawer.setClosedIconVisible(bl2 && bl);
         }
         if (this.optionDrawer != null) {
@@ -2147,7 +2125,7 @@ IWidgetLogChannel {
         if (this.entertainmentDrawer != null) {
             this.entertainmentDrawer.setClosedIconVisible(bl);
         }
-        lcD.log(-2137614336, "DrawerFocusManager#updateClosedDrawerIconVisibility drawer closed icon visibility: side drawers: %1, entertainment drawer %2", bl2, bl);
+        lcD.log(10000000, "DrawerFocusManager#updateClosedDrawerIconVisibility drawer closed icon visibility: side drawers: %1, entertainment drawer %2", bl2, bl);
     }
 
     private void fireFocusChangedScreen(AbstractScreenWidget abstractScreenWidget, int n, int n2, int n3) {
@@ -2186,11 +2164,11 @@ IWidgetLogChannel {
 
     private void fireFocusChanged(ScreenAreaFocus screenAreaFocus, int n, int n2, int n3) {
         if (screenAreaFocus == null) {
-            lc.log(-2137614336, "DrawerFocusManager#fireFocusChanged focusEvent: %1 drawerState:%2 reasonMask: %3", (long)n, (long)n2, (long)n3);
+            lc.log(10000000, "DrawerFocusManager#fireFocusChanged focusEvent: %1 drawerState:%2 reasonMask: %3", (long)n, (long)n2, (long)n3);
             return;
         }
         if (lc.isDebug()) {
-            lc.log(-2137614336, "DrawerFocusManager#fireFocusChanged focusEvent: %1 drawerState:%2 screenAreaFocus: %3 reasonMask: %4", (Object)Util.createInteger(n), (Object)Util.createInteger(n2), (Object)screenAreaFocus, (long)n3);
+            lc.log(10000000, "DrawerFocusManager#fireFocusChanged focusEvent: %1 drawerState:%2 screenAreaFocus: %3 reasonMask: %4", (Object)Util.createInteger(n), (Object)Util.createInteger(n2), (Object)screenAreaFocus, (long)n3);
         }
         screenAreaFocus.focusChanged(n, n2, n3);
     }
@@ -2213,10 +2191,9 @@ IWidgetLogChannel {
         return new StringBuffer().append("UNKNOWN_STATE").append(n).toString();
     }
 
-    @Override
     public void processKeyEvent(KeyEvent keyEvent) {
-        lc.log(-2137614336, "[DrawerFocusManager].processKeyEvent(%1)", (Object)keyEvent);
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processKeyEvent start, event: %1", (Object)keyEvent);
+        lc.log(10000000, "[DrawerFocusManager].processKeyEvent(%1)", (Object)keyEvent);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processKeyEvent start, event: %1", (Object)keyEvent);
         long l = AbstractWidget.framework.getMonotonicTime();
         switch (keyEvent.getID()) {
             case 10401: {
@@ -2236,7 +2213,7 @@ IWidgetLogChannel {
                     this.keyTurned((WheelButtonEvent)keyEvent);
                     break;
                 }
-                lc.log(-1601830656, "[DrawerFocusManager].processKeyEvent(%1) - unsupported event type", (Object)keyEvent);
+                lc.log(100000, "[DrawerFocusManager].processKeyEvent(%1) - unsupported event type", (Object)keyEvent);
                 break;
             }
             case 10404: {
@@ -2249,15 +2226,15 @@ IWidgetLogChannel {
                     this.checkForUnblockingOptionDrawerAnimation();
                     break;
                 }
-                lc.log(-1601830656, "[DrawerFocusManager].processKeyEvent(%1) - unsupported event type", (Object)keyEvent);
+                lc.log(100000, "[DrawerFocusManager].processKeyEvent(%1) - unsupported event type", (Object)keyEvent);
                 break;
             }
             default: {
-                lc.log(-1601830656, "[DrawerFocusManager].processKeyEvent(%1) - unknown key event type", (Object)keyEvent);
+                lc.log(100000, "[DrawerFocusManager].processKeyEvent(%1) - unknown key event type", (Object)keyEvent);
             }
         }
         long l2 = AbstractWidget.framework.getMonotonicTime();
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processKeyEvent finished, took %1 ms", l2 - l);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processKeyEvent finished, took %1 ms", l2 - l);
     }
 
     private void checkForUnblockingOptionDrawerAnimation() {
@@ -2276,12 +2253,11 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void processTouchPadEvent(TouchEvent touchEvent) {
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processTouchPadEvent start, event: %1", (Object)touchEvent);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processTouchPadEvent start, event: %1", (Object)touchEvent);
         long l = AbstractWidget.framework.getMonotonicTime();
         LockingManager.userInput();
-        lcD.log(-2137614336, "[DrawerFocusManager].processTouchPadEvent(%1)", (Object)touchEvent);
+        lcD.log(10000000, "[DrawerFocusManager].processTouchPadEvent(%1)", (Object)touchEvent);
         switch (touchEvent.getID()) {
             case 10908: {
                 this.touchPadCharactersRecognized(touchEvent);
@@ -2316,16 +2292,15 @@ IWidgetLogChannel {
                 break;
             }
             default: {
-                lc.log(-1601830656, "[DrawerFocusManager].processTouchPadEvent(%1) - unknown touch pad event type", (Object)touchEvent);
+                lc.log(100000, "[DrawerFocusManager].processTouchPadEvent(%1) - unknown touch pad event type", (Object)touchEvent);
             }
         }
         long l2 = AbstractWidget.framework.getMonotonicTime();
-        logWidgetPerformance.log(1078071040, "DrawerFocusManager#processTouchPadEvent finished, took %1 ms", l2 - l);
+        logWidgetPerformance.log(1000000, "DrawerFocusManager#processTouchPadEvent finished, took %1 ms", l2 - l);
     }
 
-    @Override
     public void processGestureEvent(GestureEvent gestureEvent) {
-        lcD.log(1078071040, "DrawerFocusManager#processGestureEvent start, event: %1", (Object)gestureEvent);
+        lcD.log(1000000, "DrawerFocusManager#processGestureEvent start, event: %1", (Object)gestureEvent);
         LockingManager.userInput();
         if (this.partialPopupManager != null) {
             this.partialPopupManager.setFocusedLayer(1);
@@ -2333,30 +2308,29 @@ IWidgetLogChannel {
             this.partialPopupManager.setFocusedLayer(-1);
         }
         if (gestureEvent.isConsumed()) {
-            lc.log(-2137614336, "DrawerFocusManager#processGestureEvent event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)gestureEvent);
+            lc.log(10000000, "DrawerFocusManager#processGestureEvent event: %1 consumed by partialPopupManager (LAYER_IN_FRONT_OF_DRAWERS)", (Object)gestureEvent);
             return;
         }
         ScreenAreaFocus screenAreaFocus = this.getFocusMainArea();
         if (screenAreaFocus != null) {
             if (this.screen.isEventBlocked(gestureEvent)) {
-                lc.log(-2137614336, "DrawerFocusManager#processGestureEvent event: %1 not sent to current focused main area, because main area is locked", (Object)gestureEvent);
+                lc.log(10000000, "DrawerFocusManager#processGestureEvent event: %1 not sent to current focused main area, because main area is locked", (Object)gestureEvent);
             } else {
                 screenAreaFocus.triggerGestureEvent(gestureEvent);
             }
         }
     }
 
-    @Override
     public void requestDrawerClose(int n) {
-        lcD.log(-2137614336, "DrawerFocusManager#requestDrawerClose requesting to close drawer(s) %1, current state %2, current drawerCloseRequest=%3", (long)n, (long)this.state, (long)this.drawerCloseRequest);
+        lcD.log(10000000, "DrawerFocusManager#requestDrawerClose requesting to close drawer(s) %1, current state %2, current drawerCloseRequest=%3", (long)n, (long)this.state, (long)this.drawerCloseRequest);
         if ((n & this.state) == 0) {
-            lcD.log(-2137614336, "DrawerFocusManager#requestDrawerClose request ignored because drawer(s) already closed");
+            lcD.log(10000000, "DrawerFocusManager#requestDrawerClose request ignored because drawer(s) already closed");
             return;
         }
         this.drawerCloseRequest |= n;
-        lcD.log(-2137614336, "DrawerFocusManager#requestDrawerClose setting drawerCloseRequest to %1", (long)this.drawerCloseRequest);
+        lcD.log(10000000, "DrawerFocusManager#requestDrawerClose setting drawerCloseRequest to %1", (long)this.drawerCloseRequest);
         if ((n & 8) != 0 && this.screenData != null) {
-            lcD.log(-2137614336, "DrawerFocusManager#requestDrawerClose set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
+            lcD.log(10000000, "DrawerFocusManager#requestDrawerClose set persistent option drawer state to closed state, screen=%1", (Object)this.screenData);
             Comparable comparable = this.getFocusedIndexOfDrawer((DrawerController)this.getDrawer(8));
             this.setPersistenceOptionDrawerState(this.screenData, 2, comparable);
         }
@@ -2365,26 +2339,25 @@ IWidgetLogChannel {
 
     private void restartDrawerClosingWatchdog() {
         if (this.drawerClosingWatchdog == null) {
-            lc.log(-2137614336, "DrawerFocusManager#restartDrawerClosingWatchdog creating watchdog");
-            this.drawerClosingWatchdog = AbstractWidget.framework.getErrorMgr().createWatchDog(0, new DrawerFocusManager$DrawerClosingTimeoutAlarm(this, null), "DrawerClosingWatchdog", 0, 1, 0, false);
+            lc.log(10000000, "DrawerFocusManager#restartDrawerClosingWatchdog creating watchdog");
+            this.drawerClosingWatchdog = AbstractWidget.framework.getErrorMgr().createWatchDog(8000L, new DrawerClosingTimeoutAlarm(), "DrawerClosingWatchdog", 0, 1, 0, false);
         } else {
-            lc.log(-2137614336, "DrawerFocusManager#restartDrawerClosingWatchdog restarting watchdog");
+            lc.log(10000000, "DrawerFocusManager#restartDrawerClosingWatchdog restarting watchdog");
             this.drawerClosingWatchdog.restart();
         }
     }
 
     private void stopDrawerClosingWatchdog() {
-        lcD.log(-2137614336, "DrawerFocusManager#stopDrawerClosingWatchdog");
+        lcD.log(10000000, "DrawerFocusManager#stopDrawerClosingWatchdog");
         if (this.drawerClosingWatchdog != null) {
-            lc.log(-2137614336, "DrawerFocusManager#stopDrawerClosingWatchdog cancel");
+            lc.log(10000000, "DrawerFocusManager#stopDrawerClosingWatchdog cancel");
             this.drawerClosingWatchdog.cancel();
         }
     }
 
-    @Override
     public boolean isDrawerClosingRequested(int n) {
         boolean bl = (this.drawerCloseRequest & n) != 0;
-        lcD.log(-2137614336, "DrawerFocusManager#isDrawerCloseRequested checking drawer %1: %2", (Object)DrawerFocusManager.getStateName(n), (Object)bl);
+        lcD.log(10000000, "DrawerFocusManager#isDrawerCloseRequested checking drawer %1: %2", (Object)DrawerFocusManager.getStateName(n), (Object)bl);
         return bl;
     }
 
@@ -2415,64 +2388,58 @@ IWidgetLogChannel {
     private void clearDrawerCloseFlags(int n) {
         int n2 = this.drawerCloseRequest;
         this.drawerCloseRequest &= ~n;
-        lcD.log(-2137614336, "DrawerFocusManager#clearDrawerCloseFlags removing flags %1, drawerCloseRequest: %2 -> %3", (long)n, (long)n2, (long)this.drawerCloseRequest);
+        lcD.log(10000000, "DrawerFocusManager#clearDrawerCloseFlags removing flags %1, drawerCloseRequest: %2 -> %3", (long)n, (long)n2, (long)this.drawerCloseRequest);
         if (n2 != 0 && this.drawerCloseRequest == 0) {
             this.stopDrawerClosingWatchdog();
         }
     }
 
-    @Override
     public void setUsePersistence(boolean bl) {
         this.usePersistence = bl;
     }
 
-    @Override
     public boolean isUsePersistence() {
         return this.usePersistence;
     }
 
-    @Override
     public IDrawerControllerEvo getLastValidOptionDrawer() {
         return this.lastValidOptionDrawer;
     }
 
-    @Override
     public void processDrawerEvent(DrawerEvent drawerEvent) {
         int n = drawerEvent.getAction();
-        lc.log(1078071040, "DrawerFocusManager#processDrawerEvent action=%1", (long)n);
+        lc.log(1000000, "DrawerFocusManager#processDrawerEvent action=%1", (long)n);
         if ((n & 2) != 0 && (this.state == 8 || this.partialPopupDrawerOpen) || (n & 1) != 0 && this.state == 4 || (n & 4) != 0 && this.state == 32) {
-            lc.log(1078071040, "DrawerFocusManager#processDrawerEvent request STATE_MAIN_AREA");
+            lc.log(1000000, "DrawerFocusManager#processDrawerEvent request STATE_MAIN_AREA");
             this.requestDrawerState(16);
             if (this.partialPopupDrawerOpen && this.popupDrawerCloseAction != null) {
-                lc.log(1078071040, "DrawerFocusManager#processDrawerEvent close popup drawer");
+                lc.log(1000000, "DrawerFocusManager#processDrawerEvent close popup drawer");
                 this.popupDrawerCloseAction.run();
             }
         }
         if ((n & 0x10) != 0 && this.state != 8) {
-            lc.log(1078071040, "DrawerFocusManager#processDrawerEvent request STATE_OPTION_MENU");
+            lc.log(1000000, "DrawerFocusManager#processDrawerEvent request STATE_OPTION_MENU");
             this.requestDrawerState(8);
         }
         if ((n & 8) != 0 && this.state != 4) {
-            lc.log(1078071040, "DrawerFocusManager#processDrawerEvent request STATE_SELECTION_MENU");
+            lc.log(1000000, "DrawerFocusManager#processDrawerEvent request STATE_SELECTION_MENU");
             this.requestDrawerState(4);
             if (this.partialPopupDrawerOpen && this.popupDrawerCloseAction != null) {
-                lc.log(1078071040, "DrawerFocusManager#processDrawerEvent close popup drawer");
+                lc.log(1000000, "DrawerFocusManager#processDrawerEvent close popup drawer");
                 this.popupDrawerCloseAction.run();
             }
         }
         if ((n & 0x20) != 0 && this.state != 32) {
-            lc.log(-1601830656, "DrawerFocusManager#processDrawerEvent request STATE_ENTERTAINMENT_MENU not implemented!");
+            lc.log(100000, "DrawerFocusManager#processDrawerEvent request STATE_ENTERTAINMENT_MENU not implemented!");
         }
     }
 
-    @Override
     public void registerPopupDrawerAction(Runnable runnable) {
         this.popupDrawerCloseAction = runnable;
     }
 
-    @Override
     public void reconnectDrawers() {
-        screenLogChannel.log(1078071040, "DrawerFocusManager#reconnectDrawers. Current screen: %1", (Object)this.screen);
+        screenLogChannel.log(1000000, "DrawerFocusManager#reconnectDrawers. Current screen: %1", (Object)this.screen);
         if (this.screen != null && this.screen.isConnected()) {
             AbstractWidget abstractWidget = this.screen;
             while (abstractWidget.getParent() != null) {
@@ -2507,7 +2474,6 @@ IWidgetLogChannel {
         return this.disclaimerActive;
     }
 
-    @Override
     public void setDisclaimerActive(boolean bl) {
         this.disclaimerActive = bl;
         if (bl) {
@@ -2515,12 +2481,10 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void registerDrawerAnimationListener(DrawerAnimationListener drawerAnimationListener) {
         this.drawerAnimationManager.registerListener(drawerAnimationListener);
     }
 
-    @Override
     public void unregisterDrawerAnimationListener(DrawerAnimationListener drawerAnimationListener) {
         this.drawerAnimationManager.unregisterListener(drawerAnimationListener);
     }
@@ -2529,9 +2493,8 @@ IWidgetLogChannel {
         return this.drawerAnimationManager;
     }
 
-    @Override
     public void closeCurrentOptionDrawer() {
-        lc.log(-2137614336, "DrawerFocusManager#closeCurrentOptionDrawer");
+        lc.log(10000000, "DrawerFocusManager#closeCurrentOptionDrawer");
         if (this.state == 8) {
             this.requestDrawerState(16);
         }
@@ -2540,22 +2503,18 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void initializeDrawerAnimation(DrawerAnimationListener drawerAnimationListener) {
         this.drawerAnimationManager.initializeDrawerAnimation(drawerAnimationListener);
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
         this.drawerAnimationManager.setScreenChangeProgress(f2);
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
         this.drawerAnimationManager.setScreenChangeTarget(n);
     }
 
-    @Override
     public void addDrawerListener(IDrawerListener iDrawerListener) {
         if (!this.drawerListeners.containsKey(iDrawerListener)) {
             this.drawerListeners.put(iDrawerListener, iDrawerListener);
@@ -2564,7 +2523,6 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void removeDrawerListener(IDrawerListener iDrawerListener) {
         if (this.drawerListeners.containsKey(iDrawerListener)) {
             this.drawerListeners.remove(iDrawerListener);
@@ -2573,11 +2531,10 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void reinitScreen(Screen screen) {
-        lcD.log(-2137614336, "DrawerFocusManager#reinitScreen screen=%1", (Object)screen);
+        lcD.log(10000000, "DrawerFocusManager#reinitScreen screen=%1", (Object)screen);
         if (!screen.equals(this.screen)) {
-            lc.log(-2137614336, "DrawerFocusManager#reinitScreen current screen %1 not %2", (Object)this.screen, (Object)screen);
+            lc.log(10000000, "DrawerFocusManager#reinitScreen current screen %1 not %2", (Object)this.screen, (Object)screen);
             return;
         }
         if (this.isCurrentScreenFocused()) {
@@ -2586,57 +2543,49 @@ IWidgetLogChannel {
         this.screenChangeFinished();
     }
 
-    @Override
     public void changeToCurrentConnectedScreen(boolean bl) {
-        lcD.log(-2137614336, "DrawerFocusManager#changeToCurrentConnectedScreen reinit=%1", bl);
+        lcD.log(10000000, "DrawerFocusManager#changeToCurrentConnectedScreen reinit=%1", bl);
         if (bl && this.isCurrentScreenFocused()) {
             this.fireFocusChanged(this.screen, 1, this.state, 5120);
         }
     }
 
-    @Override
     public void setOptionIconOffset(int n, int n2) {
         this.drawerAnimationManager.setOptionIconOffset(n, n2);
     }
 
-    @Override
     public int getDrawerTargetState() {
         return this.targetState;
     }
 
-    @Override
     public void atLeastOnePartialPopupVisible(boolean bl) {
         int n = 0;
         n = bl ? 64 : 128;
         this.fireFocusChanged(this.state, this.state, n);
     }
 
-    @Override
     public void setOptionDrawerOpenedDuringScreenChange(boolean bl) {
         this.optionDrawerOpenedDuringScreenChange = bl;
     }
 
-    @Override
     public void setEarlyEntertainmentDrawerVisibility(boolean bl) {
         this.earlyEntertainmentVisible = bl;
     }
 
-    @Override
     public void isLockingActive(boolean bl, boolean bl2) {
         if (this.optionDrawer != null) {
             boolean bl3 = this.lockingActive = bl && this.optionDrawer.isBlockedWhileLockingIsActive();
             if (this.lockingActive) {
                 this.closeCurrentOptionDrawer();
             } else if (this.optionDrawer.isBlockedWhileLockingIsActive()) {
-                logLocking.log(1078071040, "DrawerFocusManager#lockingActive locking inactive try to hide notpopup");
+                logLocking.log(1000000, "DrawerFocusManager#lockingActive locking inactive try to hide notpopup");
                 this.hideNotAllowedWhileDrivingPopup();
             }
-            logLocking.log(1078071040, "DrawerFocusManager#lockingActive inform IDrawerListener lockingActive=%1", this.lockingActive);
-            IDrawerListener$CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_OPTION_DRAWER_LOCKED, new Object[]{this.lockingActive});
+            logLocking.log(1000000, "DrawerFocusManager#lockingActive inform IDrawerListener lockingActive=%1", this.lockingActive);
+            IDrawerListener.CallbackFunction.informListeners(this.drawerListeners, IDrawerListener.CALLBACK_OPTION_DRAWER_LOCKED, new Object[]{this.lockingActive});
         }
     }
 
-    @Override
     public boolean isInterestedOnTimerEvents() {
         return false;
     }
@@ -2650,25 +2599,20 @@ IWidgetLogChannel {
         }
     }
 
-    static /* synthetic */ IMMICombiDrawerStateSync access$002(DrawerFocusManager drawerFocusManager, IMMICombiDrawerStateSync iMMICombiDrawerStateSync) {
-        drawerFocusManager.mmiCombiDrawerStateSync = iMMICombiDrawerStateSync;
-        return drawerFocusManager.mmiCombiDrawerStateSync;
-    }
+    private class DrawerClosingTimeoutAlarm
+    implements Runnable {
+        private DrawerClosingTimeoutAlarm() {
+        }
 
-    static /* synthetic */ IMMICombiDrawerStateSync access$000(DrawerFocusManager drawerFocusManager) {
-        return drawerFocusManager.mmiCombiDrawerStateSync;
-    }
-
-    static /* synthetic */ AbstractScreenWidget access$200(DrawerFocusManager drawerFocusManager) {
-        return drawerFocusManager.screen;
-    }
-
-    static /* synthetic */ LogChannel access$300() {
-        return lc;
-    }
-
-    static /* synthetic */ void access$400(DrawerFocusManager drawerFocusManager) {
-        drawerFocusManager.restartDrawerClosingWatchdog();
+        public void run() {
+            if (DrawerFocusManager.this.screen != null && DrawerFocusManager.this.screen.isLocked()) {
+                lc.log(1000000, "DrawerFocusManager#DrawerClosingTimeoutAlarm restarting watchdog because screen is locked, screen=%1", (Object)DrawerFocusManager.this.screen);
+                DrawerFocusManager.this.restartDrawerClosingWatchdog();
+            } else {
+                lc.log(10000, "DrawerFocusManager#DrawerClosingTimeoutAlarm closing drawers");
+                DrawerFocusManager.this.requestDrawerState(16);
+            }
+        }
     }
 }
 

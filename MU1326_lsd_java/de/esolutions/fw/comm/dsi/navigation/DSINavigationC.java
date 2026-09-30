@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.navigation;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.global.NavSegmentID;
@@ -16,571 +17,382 @@ import org.dsi.ifc.navigation.TryBestMatchData;
 import org.dsi.ifc.navigation.TryMatchLocationData;
 
 public interface DSINavigationC {
-    default public void afaRepeat(int n) {
-    }
+    public void afaRepeat(int var1) throws MethodException;
 
-    default public void createExportFile(String string, int n) {
-    }
+    public void createExportFile(String var1, int var2) throws MethodException;
 
-    default public void dmFlagDestinationSet(NavLocation navLocation) {
-    }
+    public void dmFlagDestinationSet(NavLocation var1) throws MethodException;
 
-    default public void dmFlagDestinationRemove() {
-    }
+    public void dmFlagDestinationRemove() throws MethodException;
 
-    default public void dmFlagDestinationSetName(String string) {
-    }
+    public void dmFlagDestinationSetName(String var1) throws MethodException;
 
-    default public void dmLastDestinationsAddList(NavLastDest[] navLastDestArray) {
-    }
+    public void dmLastDestinationsAddList(NavLastDest[] var1) throws MethodException;
 
-    default public void dmLastDestinationsDelete(long l) {
-    }
+    public void dmLastDestinationsDelete(long var1) throws MethodException;
 
-    default public void dmLastDestinationsDeleteAll() {
-    }
+    public void dmLastDestinationsDeleteAll() throws MethodException;
 
-    default public void dmLastDestinationsGet(long l) {
-    }
+    public void dmLastDestinationsGet(long var1) throws MethodException;
 
-    default public void dmLastDestinationsReplace(long l, NavLocation navLocation, String string) {
-    }
+    public void dmLastDestinationsReplace(long var1, NavLocation var3, String var4) throws MethodException;
 
-    default public void dmRecentRoutesAdd(Route route, String string) {
-    }
+    public void dmRecentRoutesAdd(Route var1, String var2) throws MethodException;
 
-    default public void dmRecentRoutesDelete(long l) {
-    }
+    public void dmRecentRoutesDelete(long var1) throws MethodException;
 
-    default public void dmRecentRoutesDeleteAll() {
-    }
+    public void dmRecentRoutesDeleteAll() throws MethodException;
 
-    default public void dmRecentRoutesGet(long l) {
-    }
+    public void dmRecentRoutesGet(long var1) throws MethodException;
 
-    default public void dmRecentRoutesReplace(long l, Route route, String string) {
-    }
+    public void dmRecentRoutesReplace(long var1, Route var3, String var4) throws MethodException;
 
-    default public void enableRgStreetLists(boolean bl) {
-    }
+    public void enableRgStreetLists(boolean var1) throws MethodException;
 
-    default public void enableRgLaneGuidance(boolean bl) {
-    }
+    public void enableRgLaneGuidance(boolean var1) throws MethodException;
 
-    default public void enableRgPoiInfo(boolean bl) {
-    }
+    public void enableRgPoiInfo(boolean var1) throws MethodException;
 
-    default public void etcGetCountryAbbreviation(String string) {
-    }
+    public void etcGetCountryAbbreviation(String var1) throws MethodException;
 
-    default public void etcSetDemoMode(boolean bl) {
-    }
+    public void etcSetDemoMode(boolean var1) throws MethodException;
 
-    default public void etcSetDemoModeSpeed(long l) {
-    }
+    public void etcSetDemoModeSpeed(long var1) throws MethodException;
 
-    default public void etcSetMetricSystem(int n) {
-    }
+    public void etcSetMetricSystem(int var1) throws MethodException;
 
-    default public void etcSelectDatabase(int n) {
-    }
+    public void etcSelectDatabase(int var1) throws MethodException;
 
-    default public void etcSelectNavDataBase(int n) {
-    }
+    public void etcSelectNavDataBase(int var1) throws MethodException;
 
-    default public void importFile(String string, int n) {
-    }
+    public void importFile(String var1, int var2) throws MethodException;
 
-    default public void languageSpellableCharacters(String string) {
-    }
+    public void languageSpellableCharacters(String var1) throws MethodException;
 
-    default public void liGetCurrentState() {
-    }
+    public void liGetCurrentState() throws MethodException;
 
-    default public void liGetLastCityHistoryEntry(long l) {
-    }
+    public void liGetLastCityHistoryEntry(long var1) throws MethodException;
 
-    default public void liGetLastStreetHistoryEntry(long l) {
-    }
+    public void liGetLastStreetHistoryEntry(long var1) throws MethodException;
 
-    default public void liGetLocationDescriptionTransform(NavLocation navLocation) {
-    }
+    public void liGetLocationDescriptionTransform(NavLocation var1) throws MethodException;
 
-    default public void liGetLocationDescriptionTransformNearBy(NavLocation navLocation) {
-    }
+    public void liGetLocationDescriptionTransformNearBy(NavLocation var1) throws MethodException;
 
-    default public void liGetState() {
-    }
+    public void liGetState() throws MethodException;
 
-    default public void liGetLastStateHistoryEntry(long l) {
-    }
+    public void liGetLastStateHistoryEntry(long var1) throws MethodException;
 
-    default public void liLastStateHistoryAdd(NavLocation navLocation, boolean bl, String string) {
-    }
+    public void liLastStateHistoryAdd(NavLocation var1, boolean var2, String var3) throws MethodException;
 
-    default public void liLastStateHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
-    }
+    public void liLastStateHistoryAddExtended(NavLocation var1, boolean var2, String var3, LIExtData[] var4) throws MethodException;
 
-    default public void liLastStateHistoryDelete(long l) {
-    }
+    public void liLastStateHistoryDelete(long var1) throws MethodException;
 
-    default public void liLastStateHistoryDeleteAll() {
-    }
+    public void liLastStateHistoryDeleteAll() throws MethodException;
 
-    default public void liLastCityHistoryAdd(NavLocation navLocation, boolean bl, String string) {
-    }
+    public void liLastCityHistoryAdd(NavLocation var1, boolean var2, String var3) throws MethodException;
 
-    default public void liLastCityHistoryAddExtended(NavLocation navLocation, boolean bl, String string, LIExtData[] lIExtDataArray) {
-    }
+    public void liLastCityHistoryAddExtended(NavLocation var1, boolean var2, String var3, LIExtData[] var4) throws MethodException;
 
-    default public void liLastCityHistoryDelete(long l) {
-    }
+    public void liLastCityHistoryDelete(long var1) throws MethodException;
 
-    default public void liLastCityHistoryDeleteAll() {
-    }
+    public void liLastCityHistoryDeleteAll() throws MethodException;
 
-    default public void liLastStreetHistoryAdd(NavLocation navLocation, String string) {
-    }
+    public void liLastStreetHistoryAdd(NavLocation var1, String var2) throws MethodException;
 
-    default public void liLastStreetHistoryAddExtended(NavLocation navLocation, String string, LIExtData[] lIExtDataArray) {
-    }
+    public void liLastStreetHistoryAddExtended(NavLocation var1, String var2, LIExtData[] var3) throws MethodException;
 
-    default public void liLastStreetHistoryDelete(long l) {
-    }
+    public void liLastStreetHistoryDelete(long var1) throws MethodException;
 
-    default public void liLastStreetHistoryDeleteAll() {
-    }
+    public void liLastStreetHistoryDeleteAll() throws MethodException;
 
-    default public void liRestoreState(LISpellerData lISpellerData) {
-    }
+    public void liRestoreState(LISpellerData var1) throws MethodException;
 
-    default public void liSetCountryForCityAndStreetHistory(String string) {
-    }
+    public void liSetCountryForCityAndStreetHistory(String var1) throws MethodException;
 
-    default public void liSetHistory(String string, String string2) {
-    }
+    public void liSetHistory(String var1, String var2) throws MethodException;
 
-    default public void liSetStreetForCityHistory(String string) {
-    }
+    public void liSetStreetForCityHistory(String var1) throws MethodException;
 
-    default public void liDeleteHistory() {
-    }
+    public void liDeleteHistory() throws MethodException;
 
-    default public void liSetCurrentLD(NavLocation navLocation) {
-    }
+    public void liSetCurrentLD(NavLocation var1) throws MethodException;
 
-    default public void lispAddCharacter(String string) {
-    }
+    public void lispAddCharacter(String var1) throws MethodException;
 
-    default public void lispCancelSpeller() {
-    }
+    public void lispCancelSpeller() throws MethodException;
 
-    default public void lispDeleteAllCharacters() {
-    }
+    public void lispDeleteAllCharacters() throws MethodException;
 
-    default public void lispRequestValueListByListIndex(int n, boolean bl) {
-    }
+    public void lispRequestValueListByListIndex(int var1, boolean var2) throws MethodException;
 
-    default public void lispSelectListItem(int n) {
-    }
+    public void lispSelectListItem(int var1) throws MethodException;
 
-    default public void lispSelectItemFromLocation(NavLocation navLocation) {
-    }
+    public void lispSelectItemFromLocation(NavLocation var1) throws MethodException;
 
-    default public void lispSelectByCategoryUid(int n) {
-    }
+    public void lispSelectByCategoryUid(int var1) throws MethodException;
 
-    default public void lispSelectByMultipleCategoryUids(int[] nArray) {
-    }
+    public void lispSelectByMultipleCategoryUids(int[] var1) throws MethodException;
 
-    default public void lispSetInput(String string, boolean bl) {
-    }
+    public void lispSetInput(String var1, boolean var2) throws MethodException;
 
-    default public void lispGetMatchingNVC(String string) {
-    }
+    public void lispGetMatchingNVC(String var1) throws MethodException;
 
-    default public void lispUndoCharacter() {
-    }
+    public void lispUndoCharacter() throws MethodException;
 
-    default public void liStartMultiCriteriaSpeller(int n, int n2, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void liStartMultiCriteriaSpeller(int var1, int var2, boolean var3, boolean var4, boolean var5) throws MethodException;
 
-    default public void liStartSpeller(int n, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void liStartSpeller(int var1, boolean var2, boolean var3, boolean var4) throws MethodException;
 
-    default public void liTryBestMatch(TryBestMatchData tryBestMatchData) {
-    }
+    public void liTryBestMatch(TryBestMatchData var1) throws MethodException;
 
-    default public void liValueListFilename(String string) {
-    }
+    public void liValueListFilename(String var1) throws MethodException;
 
-    default public void liValueListOutputMethod(int n) {
-    }
+    public void liValueListOutputMethod(int var1) throws MethodException;
 
-    default public void locationToStream(NavLocation navLocation) {
-    }
+    public void locationToStream(NavLocation var1) throws MethodException;
 
-    default public void poiSelectSelectionCriteria(long l) {
-    }
+    public void poiSelectSelectionCriteria(long var1) throws MethodException;
 
-    default public void poiSetContext(NavLocation navLocation) {
-    }
+    public void poiSetContext(NavLocation var1) throws MethodException;
 
-    default public void poiSetSortOrder2(int n) {
-    }
+    public void poiSetSortOrder2(int var1) throws MethodException;
 
-    default public void poiStartSpellerAlongRoute(int n, long l, long l2) {
-    }
+    public void poiStartSpellerAlongRoute(int var1, long var2, long var4) throws MethodException;
 
-    default public void poiStartSpellerAlongRouteAdvanced(int n, long l, long l2, long l3, boolean bl) {
-    }
+    public void poiStartSpellerAlongRouteAdvanced(int var1, long var2, long var4, long var6, boolean var8) throws MethodException;
 
-    default public void requestSoPosPositionDescriptionVehicle() {
-    }
+    public void requestSoPosPositionDescriptionVehicle() throws MethodException;
 
-    default public void rgCalculateRoute(Route route, int n) {
-    }
+    public void rgCalculateRoute(Route var1, int var2) throws MethodException;
 
-    default public void rgSetPosition(NavLocation navLocation) {
-    }
+    public void rgSetPosition(NavLocation var1) throws MethodException;
 
-    default public void rgSetRouteGuidanceMode(int n) {
-    }
+    public void rgSetRouteGuidanceMode(int var1) throws MethodException;
 
-    default public void rgSetRouteOptions(RouteOptions routeOptions) {
-    }
+    public void rgSetRouteOptions(RouteOptions var1) throws MethodException;
 
-    default public void rgStartGuidanceCalculatedRoute(int n) {
-    }
+    public void rgStartGuidanceCalculatedRoute(int var1) throws MethodException;
 
-    default public void rgStopGuidance() {
-    }
+    public void rgStopGuidance() throws MethodException;
 
-    default public void rmMakeRoutePersistent(Route route) {
-    }
+    public void rmMakeRoutePersistent(Route var1) throws MethodException;
 
-    default public void rmRouteAdd(int n, Route route, String string) {
-    }
+    public void rmRouteAdd(int var1, Route var2, String var3) throws MethodException;
 
-    default public void rmRouteDelete(int n, long l) {
-    }
+    public void rmRouteDelete(int var1, long var2) throws MethodException;
 
-    default public void rmRouteDeleteAll(int n) {
-    }
+    public void rmRouteDeleteAll(int var1) throws MethodException;
 
-    default public void rmRouteGet(int n, long l) {
-    }
+    public void rmRouteGet(int var1, long var2) throws MethodException;
 
-    default public void rmRouteRename(int n, long l, String string) {
-    }
+    public void rmRouteRename(int var1, long var2, String var4) throws MethodException;
 
-    default public void rrdStartCalculationByListIndex(int n, long l) {
-    }
+    public void rrdStartCalculationByListIndex(int var1, long var2) throws MethodException;
 
-    default public void rrdStartCalculationForPosition(NavLocationWgs84[] navLocationWgs84Array) {
-    }
+    public void rrdStartCalculationForPosition(NavLocationWgs84[] var1) throws MethodException;
 
-    default public void rrdStopCalculation() {
-    }
+    public void rrdStopCalculation() throws MethodException;
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void streamToLocation(byte[] byArray) {
-    }
+    public void streamToLocation(byte[] var1) throws MethodException;
 
-    default public void translateRoute(Route route) {
-    }
+    public void translateRoute(Route var1) throws MethodException;
 
-    default public void trCreateWaypoint() {
-    }
+    public void trCreateWaypoint() throws MethodException;
 
-    default public void trDeleteAllTraces() {
-    }
+    public void trDeleteAllTraces() throws MethodException;
 
-    default public void trDeleteTrace(NavSegmentID navSegmentID) {
-    }
+    public void trDeleteTrace(NavSegmentID var1) throws MethodException;
 
-    default public void trRenameTrace(NavSegmentID navSegmentID, String string) {
-    }
+    public void trRenameTrace(NavSegmentID var1, String var2) throws MethodException;
 
-    default public void trStartTraceRecording(int n) {
-    }
+    public void trStartTraceRecording(int var1) throws MethodException;
 
-    default public void trStopTraceRecording() {
-    }
+    public void trStopTraceRecording() throws MethodException;
 
-    default public void trStoreTrace(String string) {
-    }
+    public void trStoreTrace(String var1) throws MethodException;
 
-    default public void liStripLocation(NavLocation navLocation, int n) {
-    }
+    public void liStripLocation(NavLocation var1, int var2) throws MethodException;
 
-    default public void liSetNVCRange(int n) {
-    }
+    public void liSetNVCRange(int var1) throws MethodException;
 
-    default public void liValueListWindowSize(int n) {
-    }
+    public void liValueListWindowSize(int var1) throws MethodException;
 
-    default public void requestAudioTrigger(int n) {
-    }
+    public void requestAudioTrigger(int var1) throws MethodException;
 
-    default public void liThesaurusHistoryAdd(String string) {
-    }
+    public void liThesaurusHistoryAdd(String var1) throws MethodException;
 
-    default public void liThesaurusHistoryGetEntry(int n) {
-    }
+    public void liThesaurusHistoryGetEntry(int var1) throws MethodException;
 
-    default public void liThesaurusHistoryDelete(int n) {
-    }
+    public void liThesaurusHistoryDelete(int var1) throws MethodException;
 
-    default public void liThesaurusHistoryDeleteAll() {
-    }
+    public void liThesaurusHistoryDeleteAll() throws MethodException;
 
-    default public void ehGetAllCategories(int n) {
-    }
+    public void ehGetAllCategories(int var1) throws MethodException;
 
-    default public void ehGetAllBrandsOfCategory(int n, int n2) {
-    }
+    public void ehGetAllBrandsOfCategory(int var1, int var2) throws MethodException;
 
-    default public void ehSetCategoryVisibility(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetCategoryVisibility(int var1, int[] var2, boolean[] var3) throws MethodException;
 
-    default public void ehSetCategoryVisibilityToDefault(int n) {
-    }
+    public void ehSetCategoryVisibilityToDefault(int var1) throws MethodException;
 
-    default public void ehSetCategoryAudioWarning(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetCategoryAudioWarning(int var1, int[] var2, boolean[] var3) throws MethodException;
 
-    default public void ehSetCategoryMonitoring(int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetCategoryMonitoring(int[] var1, boolean[] var2) throws MethodException;
 
-    default public void ehSetBrandVisibility(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetBrandVisibility(int var1, int[] var2, boolean[] var3) throws MethodException;
 
-    default public void ehSetBrandPreference(int n, int[] nArray, boolean[] blArray) {
-    }
+    public void ehSetBrandPreference(int var1, int[] var2, boolean[] var3) throws MethodException;
 
-    default public void setRemainingRangeOfVehicle(int n) {
-    }
+    public void setRemainingRangeOfVehicle(int var1) throws MethodException;
 
-    default public void setUserDefinedPOIs(NavLocation[] navLocationArray) {
-    }
+    public void setUserDefinedPOIs(NavLocation[] var1) throws MethodException;
 
-    default public void setTrailerStatus(boolean bl) {
-    }
+    public void setTrailerStatus(boolean var1) throws MethodException;
 
-    default public void requestCountryInfo(String string) {
-    }
+    public void requestCountryInfo(String var1) throws MethodException;
 
-    default public void jumpToNextManeuver() {
-    }
+    public void jumpToNextManeuver() throws MethodException;
 
-    default public void liGetViaPointCountryList() {
-    }
+    public void liGetViaPointCountryList() throws MethodException;
 
-    default public void liSetViaPointCountry(String string) {
-    }
+    public void liSetViaPointCountry(String var1) throws MethodException;
 
-    default public void liGetViaPointList(int n, int n2, int n3, int n4) {
-    }
+    public void liGetViaPointList(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void liSelectViaPoint(int n) {
-    }
+    public void liSelectViaPoint(int var1) throws MethodException;
 
-    default public void rgStartGuidanceCalculatedRouteByUID(NavSegmentID navSegmentID) {
-    }
+    public void rgStartGuidanceCalculatedRouteByUID(NavSegmentID var1) throws MethodException;
 
-    default public void liGetSpellableCharacters(NavLocation navLocation, int n) {
-    }
+    public void liGetSpellableCharacters(NavLocation var1, int var2) throws MethodException;
 
-    default public void liStopSpeller() {
-    }
+    public void liStopSpeller() throws MethodException;
 
-    default public void liValueListMaximumLength(int n) {
-    }
+    public void liValueListMaximumLength(int var1) throws MethodException;
 
-    default public void setPathsToPersonalPOIDataBases(String[] stringArray) {
-    }
+    public void setPathsToPersonalPOIDataBases(String[] var1) throws MethodException;
 
-    default public void deletePersonalPOIDataBases(String[] stringArray) {
-    }
+    public void deletePersonalPOIDataBases(String[] var1) throws MethodException;
 
-    default public void rgStopRouteCalculation() {
-    }
+    public void rgStopRouteCalculation() throws MethodException;
 
-    default public void rgSwitchToNextPossibleRoad() {
-    }
+    public void rgSwitchToNextPossibleRoad() throws MethodException;
 
-    default public void setVehicleFuelType(int n) {
-    }
+    public void setVehicleFuelType(int var1) throws MethodException;
 
-    default public void createNavLocationOfPOIUID(long l) {
-    }
+    public void createNavLocationOfPOIUID(long var1) throws MethodException;
 
-    default public void lispSelectListItemByIdent(String string) {
-    }
+    public void lispSelectListItemByIdent(String var1) throws MethodException;
 
-    default public void rmRouteReplace(int n, long l, Route route) {
-    }
+    public void rmRouteReplace(int var1, long var2, Route var4) throws MethodException;
 
-    default public void setNavInternalDataToFactorySettings() {
-    }
+    public void setNavInternalDataToFactorySettings() throws MethodException;
 
-    default public void liTryMatchLocation(TryMatchLocationData tryMatchLocationData) {
-    }
+    public void liTryMatchLocation(TryMatchLocationData var1) throws MethodException;
 
-    default public void trImportTrails(String string) {
-    }
+    public void trImportTrails(String var1) throws MethodException;
 
-    default public void trExportTrails(NavSegmentID[] navSegmentIDArray, String string) {
-    }
+    public void trExportTrails(NavSegmentID[] var1, String var2) throws MethodException;
 
-    default public void rgSkipNextWayPoints(int n) {
-    }
+    public void rgSkipNextWayPoints(int var1) throws MethodException;
 
-    default public void rgReverseTrailDirection() {
-    }
+    public void rgReverseTrailDirection() throws MethodException;
 
-    default public void rgPrepareRubberbandManipulation(boolean bl) {
-    }
+    public void rgPrepareRubberbandManipulation(boolean var1) throws MethodException;
 
-    default public void rgStartRubberbandManipulation(int n) {
-    }
+    public void rgStartRubberbandManipulation(int var1) throws MethodException;
 
-    default public void rgSetRubberbandPosition(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void rgSetRubberbandPosition(NavLocationWgs84 var1) throws MethodException;
 
-    default public void rgGetRouteBoundingRectangle(boolean bl, int n) {
-    }
+    public void rgGetRouteBoundingRectangle(boolean var1, int var2) throws MethodException;
 
-    default public void rgGetLocationOnRoute(long l) {
-    }
+    public void rgGetLocationOnRoute(long var1) throws MethodException;
 
-    default public void rgStopRubberbandManipulation() {
-    }
+    public void rgStopRubberbandManipulation() throws MethodException;
 
-    default public void rgDeleteCalculatedRubberbandPoint() {
-    }
+    public void rgDeleteCalculatedRubberbandPoint() throws MethodException;
 
-    default public void rgGetRubberBandPointPosition() {
-    }
+    public void rgGetRubberBandPointPosition() throws MethodException;
 
-    default public void rgEnableEnhancedSignPostInfo(boolean bl) {
-    }
+    public void rgEnableEnhancedSignPostInfo(boolean var1) throws MethodException;
 
-    default public void lispGetLocationFromLiValueListElement(int n) {
-    }
+    public void lispGetLocationFromLiValueListElement(int var1) throws MethodException;
 
-    default public void rgSetTurnListMode(int n) {
-    }
+    public void rgSetTurnListMode(int var1) throws MethodException;
 
-    default public void liHistoryAddLocation(NavLocation navLocation) {
-    }
+    public void liHistoryAddLocation(NavLocation var1) throws MethodException;
 
-    default public void liLastCityHistorySetStreet(NavLocation navLocation) {
-    }
+    public void liLastCityHistorySetStreet(NavLocation var1) throws MethodException;
 
-    default public void liLastStreetHistorySetCity(NavLocation navLocation) {
-    }
+    public void liLastStreetHistorySetCity(NavLocation var1) throws MethodException;
 
-    default public void enableRgMotorwayInfo(boolean bl) {
-    }
+    public void enableRgMotorwayInfo(boolean var1) throws MethodException;
 
-    default public void rgTriggerRCCIUpdate() {
-    }
+    public void rgTriggerRCCIUpdate() throws MethodException;
 
-    default public void poiGetXt9LDBs(NavLocation navLocation, int n) {
-    }
+    public void poiGetXt9LDBs(NavLocation var1, int var2) throws MethodException;
 
-    default public void poiSetListStyle(int n) {
-    }
+    public void poiSetListStyle(int var1) throws MethodException;
 
-    default public void etcGetPositionTimeInfo(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void etcGetPositionTimeInfo(NavLocationWgs84 var1) throws MethodException;
 
-    default public void poiGetCategoryTypesFromUId(int n) {
-    }
+    public void poiGetCategoryTypesFromUId(int var1) throws MethodException;
 
-    default public void rgDeletePersistedRouteData() {
-    }
+    public void rgDeletePersistedRouteData() throws MethodException;
 
-    default public void rgCalculate1stRouteAndPostponeRemaining(Route route, int n, boolean bl) {
-    }
+    public void rgCalculate1stRouteAndPostponeRemaining(Route var1, int var2, boolean var3) throws MethodException;
 
-    default public void liDisambiguateLocation(NavLocation navLocation) {
-    }
+    public void liDisambiguateLocation(NavLocation var1) throws MethodException;
 
-    default public void triggerEventAudioMessage(int n) {
-    }
+    public void triggerEventAudioMessage(int var1) throws MethodException;
 
-    default public void lispAddStroke(String string) {
-    }
+    public void lispAddStroke(String var1) throws MethodException;
 
-    default public void lispRequestNVCList(int n, int n2, int n3) {
-    }
+    public void lispRequestNVCList(int var1, int var2, int var3) throws MethodException;
 
-    default public void poiConfigureContext(String string, int n, NavLocation navLocation, int[] nArray) {
-    }
+    public void poiConfigureContext(String var1, int var2, NavLocation var3, int[] var4) throws MethodException;
 
-    default public void etcTriggerNavigationRestart(int n) {
-    }
+    public void etcTriggerNavigationRestart(int var1) throws MethodException;
 
-    default public void rmImportToursFromGpxFile(int n, String string) {
-    }
+    public void rmImportToursFromGpxFile(int var1, String var2) throws MethodException;
 
-    default public void rmAbortImportToursFromGpxFile() {
-    }
+    public void rmAbortImportToursFromGpxFile() throws MethodException;
 
-    default public void importRouteFromGpxFile(String string) {
-    }
+    public void importRouteFromGpxFile(String var1) throws MethodException;
 
-    default public void poiRequestExtendedInfo(NavLocation navLocation) {
-    }
+    public void poiRequestExtendedInfo(NavLocation var1) throws MethodException;
 
-    default public void rgConfigurePoiInfo(NavPoiInfoConfiguration navPoiInfoConfiguration) {
-    }
+    public void rgConfigurePoiInfo(NavPoiInfoConfiguration var1) throws MethodException;
 
-    default public void trClearRecordedTraceCache() {
-    }
+    public void trClearRecordedTraceCache() throws MethodException;
 
-    default public void setVirtualRouteGuidance(boolean bl) {
-    }
+    public void setVirtualRouteGuidance(boolean var1) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void deleteSatelliteCache() {
-    }
+    public void deleteSatelliteCache() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

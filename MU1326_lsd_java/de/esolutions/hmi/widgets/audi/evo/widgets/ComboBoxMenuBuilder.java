@@ -23,7 +23,7 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 
 public class ComboBoxMenuBuilder {
-    private static final int CLOSED_ICON_INDEX;
+    private static final int CLOSED_ICON_INDEX = 42;
     private final ExtHMITerminalEvo terminal;
 
     public ComboBoxMenuBuilder(ExtHMITerminalEvo extHMITerminalEvo) {

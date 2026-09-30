@@ -4,18 +4,15 @@
 package de.esolutions.fw.comm.asi.speech.onlinesds;
 
 import de.esolutions.fw.comm.asi.speech.onlinesds.LanguageInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface OnlineSDSC {
-    default public void onlineCapabilities(LanguageInfo[] languageInfoArray) {
-    }
+    public void onlineCapabilities(LanguageInfo[] var1) throws MethodException;
 
-    default public void responseSetLanguage(int n) {
-    }
+    public void responseSetLanguage(int var1) throws MethodException;
 
-    default public void sendOnlineResult(int n, int n2, String string) {
-    }
+    public void sendOnlineResult(int var1, int var2, String var3) throws MethodException;
 
-    default public void responseCancel(int n, int n2) {
-    }
+    public void responseCancel(int var1, int var2) throws MethodException;
 }
 

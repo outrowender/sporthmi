@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carseat;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carseat.DSICarSeatReply;
 import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -32,13 +33,11 @@ implements DSICarSeatReply {
         super(n, (class$org$dsi$ifc$carseat$DSICarSeatListener == null ? (class$org$dsi$ifc$carseat$DSICarSeatListener = DSICarSeatDispatcher.class$("org.dsi.ifc.carseat.DSICarSeatListener")) : class$org$dsi$ifc$carseat$DSICarSeatListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSeatViewOptions(SeatViewOptions seatViewOptions, int n) {
+    public void updateSeatViewOptions(SeatViewOptions seatViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -66,8 +65,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatRadioKeyAutomatic(boolean bl, int n) {
+    public void updateSeatRadioKeyAutomatic(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -95,8 +93,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition, int n) {
+    public void updateSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -124,8 +121,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition, int n) {
+    public void updateSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -153,8 +149,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatFrontLeftStopButton(boolean bl, int n) {
+    public void updateSeatFrontLeftStopButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -182,8 +177,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatFrontRightStopButton(boolean bl, int n) {
+    public void updateSeatFrontRightStopButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -211,8 +205,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatRearLeftStopButton(boolean bl, int n) {
+    public void updateSeatRearLeftStopButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -240,8 +233,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatRearRightStopButton(boolean bl, int n) {
+    public void updateSeatRearRightStopButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -269,8 +261,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatCodriverSettingsFromDriver(boolean bl, int n) {
+    public void updateSeatCodriverSettingsFromDriver(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -298,8 +289,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatCodriverSettingsFromRear(boolean bl, int n) {
+    public void updateSeatCodriverSettingsFromRear(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -327,8 +317,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageData1RL(MassageData massageData, int n) {
+    public void updateSeatMassageData1RL(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -356,8 +345,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageData1RR(MassageData massageData, int n) {
+    public void updateSeatMassageData1RR(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -385,8 +373,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageData2RL(MassageData massageData, int n) {
+    public void updateSeatMassageData2RL(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -414,8 +401,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageData2RR(MassageData massageData, int n) {
+    public void updateSeatMassageData2RR(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -443,8 +429,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -472,8 +457,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -501,8 +485,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -530,8 +513,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -559,8 +541,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -588,8 +569,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -617,8 +597,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -646,8 +625,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -675,8 +653,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataUp2RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataUp2RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -704,8 +681,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataDown2RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataDown2RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -733,8 +709,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataForward2RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataForward2RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -762,8 +737,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataBack2RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataBack2RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -791,8 +765,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataUp2RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataUp2RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -820,8 +793,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataDown2RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatSwitcherDataDown2RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -849,8 +821,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataForward2RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataForward2RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -878,8 +849,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatSwitcherDataBack2RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatSwitcherDataBack2RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -907,8 +877,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatContent(SeatContent seatContent, int n) {
+    public void updateSeatContent(SeatContent seatContent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -936,8 +905,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatEasyEntryFrontLeft(boolean bl, int n) {
+    public void updateSeatEasyEntryFrontLeft(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -965,8 +933,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatEasyEntryFrontRight(boolean bl, int n) {
+    public void updateSeatEasyEntryFrontRight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -994,8 +961,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatEasyEntryRearLeft(boolean bl, int n) {
+    public void updateSeatEasyEntryRearLeft(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1023,8 +989,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatEasyEntryRearRight(boolean bl, int n) {
+    public void updateSeatEasyEntryRearRight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1052,8 +1017,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void requestSeatPopup(SeatContent seatContent) {
+    public void requestSeatPopup(SeatContent seatContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1069,8 +1033,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatPopup(SeatContent seatContent) {
+    public void acknowledgeSeatPopup(SeatContent seatContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1086,8 +1049,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticViewOptions(SeatPneumaticViewOptions seatPneumaticViewOptions, int n) {
+    public void updateSeatPneumaticViewOptions(SeatPneumaticViewOptions seatPneumaticViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1115,8 +1077,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticCodriverSettingsFromDriver(boolean bl, int n) {
+    public void updateSeatPneumaticCodriverSettingsFromDriver(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1144,8 +1105,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticMassageData1RL(MassageData massageData, int n) {
+    public void updateSeatPneumaticMassageData1RL(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1173,8 +1133,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticMassageData1RR(MassageData massageData, int n) {
+    public void updateSeatPneumaticMassageData1RR(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -1202,8 +1161,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatPneumaticSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1231,8 +1189,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatPneumaticSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -1260,8 +1217,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatPneumaticSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -1289,8 +1245,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatPneumaticSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1318,8 +1273,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatPneumaticSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1347,8 +1301,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
+    public void updateSeatPneumaticSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -1376,8 +1329,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatPneumaticSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -1405,8 +1357,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
+    public void updateSeatPneumaticSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -1434,8 +1385,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPneumaticContent(SeatPneumaticContent seatPneumaticContent, int n) {
+    public void updateSeatPneumaticContent(SeatPneumaticContent seatPneumaticContent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1463,8 +1413,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void requestSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
+    public void requestSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1480,8 +1429,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
+    public void acknowledgeSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1497,8 +1445,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatSetFactoryDefault(boolean bl) {
+    public void acknowledgeSeatSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1514,8 +1461,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatPneumaticSetFactoryDefault(boolean bl) {
+    public void acknowledgeSeatPneumaticSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1531,8 +1477,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatDeleteSpecialPosition(boolean bl) {
+    public void acknowledgeSeatDeleteSpecialPosition(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1548,8 +1493,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void acknowledgeSeatMoveRearSeatDisplay(boolean bl) {
+    public void acknowledgeSeatMoveRearSeatDisplay(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1565,8 +1509,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatAdjustment1RL(SeatAdjustment seatAdjustment, int n) {
+    public void updateSeatAdjustment1RL(SeatAdjustment seatAdjustment, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1594,8 +1537,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatAdjustment1RR(SeatAdjustment seatAdjustment, int n) {
+    public void updateSeatAdjustment1RR(SeatAdjustment seatAdjustment, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -1623,8 +1565,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatAdjustment2RL(SeatAdjustment seatAdjustment, int n) {
+    public void updateSeatAdjustment2RL(SeatAdjustment seatAdjustment, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -1652,8 +1593,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatAdjustment2RR(SeatAdjustment seatAdjustment, int n) {
+    public void updateSeatAdjustment2RR(SeatAdjustment seatAdjustment, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1681,8 +1621,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatCoDriverSettingsFromRearActivation(boolean bl, int n) {
+    public void updateSeatCoDriverSettingsFromRearActivation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -1710,8 +1649,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatRestSeatStatus(RestSeatStatus restSeatStatus, int n) {
+    public void updateSeatRestSeatStatus(RestSeatStatus restSeatStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1739,8 +1677,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatFoldHeadRestRearDriver(boolean bl, int n) {
+    public void updateSeatFoldHeadRestRearDriver(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1768,8 +1705,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatFoldHeadRestRearCoDriver(boolean bl, int n) {
+    public void updateSeatFoldHeadRestRearCoDriver(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1797,8 +1733,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageData1RL(MassageData massageData, int n) {
+    public void updateSeatPremiumMassageData1RL(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -1826,8 +1761,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageData1RR(MassageData massageData, int n) {
+    public void updateSeatPremiumMassageData1RR(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(58);
@@ -1855,8 +1789,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageData2RL(MassageData massageData, int n) {
+    public void updateSeatPremiumMassageData2RL(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(59);
@@ -1884,8 +1817,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageData2RR(MassageData massageData, int n) {
+    public void updateSeatPremiumMassageData2RR(MassageData massageData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(60);
@@ -1913,8 +1845,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageSwitcher1RL(boolean bl, int n) {
+    public void updateSeatPremiumMassageSwitcher1RL(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(61);
@@ -1942,8 +1873,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageSwitcher1RR(boolean bl, int n) {
+    public void updateSeatPremiumMassageSwitcher1RR(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -1971,8 +1901,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageSwitcher2RL(boolean bl, int n) {
+    public void updateSeatPremiumMassageSwitcher2RL(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -2000,8 +1929,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatPremiumMassageSwitcher2RR(boolean bl, int n) {
+    public void updateSeatPremiumMassageSwitcher2RR(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -2029,8 +1957,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageSwitcher1RL(boolean bl, int n) {
+    public void updateSeatMassageSwitcher1RL(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(65);
@@ -2058,8 +1985,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageSwitcher1RR(boolean bl, int n) {
+    public void updateSeatMassageSwitcher1RR(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -2087,8 +2013,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageSwitcher2RL(boolean bl, int n) {
+    public void updateSeatMassageSwitcher2RL(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(67);
@@ -2116,8 +2041,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void updateSeatMassageSwitcher2RR(boolean bl, int n) {
+    public void updateSeatMassageSwitcher2RR(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(68);
@@ -2145,8 +2069,7 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2162,14 +2085,13 @@ implements DSICarSeatReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarSeatListener dSICarSeatListener = (DSICarSeatListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarSeatDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarSeatDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarSeatListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarSeatDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarSeatDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarSeatListener, new Object[]{string, string2});
                     continue;
                 }

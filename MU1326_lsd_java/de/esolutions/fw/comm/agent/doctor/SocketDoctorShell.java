@@ -46,7 +46,7 @@ implements Runnable {
             }
             this.in = new BufferedReader(inputStreamReader);
             this.stay = true;
-            this.thread = new Thread(this, new StringBuffer().append("commDoc").append(this.id).toString());
+            this.thread = new Thread(this, "commDoc" + this.id);
             this.thread.start();
             return true;
         }
@@ -60,7 +60,6 @@ implements Runnable {
         this.stay = false;
     }
 
-    @Override
     public void run() {
         CommAgentTracing.DOCTOR.log((short)1, "+ run client #%1: %2", new Integer(this.id), (Object)this.socket.getRemoteSocketAddress());
         this.shell.printWelcome(this.out);

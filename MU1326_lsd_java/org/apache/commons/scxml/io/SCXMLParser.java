@@ -3,14 +3,17 @@
  */
 package org.apache.commons.scxml.io;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.SCXML;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXParseException;
 
 public class SCXMLParser {
-    public static SCXML parse(URL uRL, ErrorHandler errorHandler) {
+    public static SCXML parse(URL uRL, ErrorHandler errorHandler) throws ModelException, SAXParseException, IOException {
         return null;
     }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.UnifiedRadioText;
 
 public class UnifiedRadioTextSerializer {
-    public static void putOptionalUnifiedRadioText(ISerializer iSerializer, UnifiedRadioText unifiedRadioText) {
+    public static void putOptionalUnifiedRadioText(ISerializer iSerializer, UnifiedRadioText unifiedRadioText) throws SerializerException {
         boolean bl = unifiedRadioText == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class UnifiedRadioTextSerializer {
         }
     }
 
-    public static void putOptionalUnifiedRadioTextVarArray(ISerializer iSerializer, UnifiedRadioText[] unifiedRadioTextArray) {
+    public static void putOptionalUnifiedRadioTextVarArray(ISerializer iSerializer, UnifiedRadioText[] unifiedRadioTextArray) throws SerializerException {
         boolean bl = unifiedRadioTextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class UnifiedRadioTextSerializer {
         }
     }
 
-    public static UnifiedRadioText getOptionalUnifiedRadioText(IDeserializer iDeserializer) {
+    public static UnifiedRadioText getOptionalUnifiedRadioText(IDeserializer iDeserializer) throws SerializerException {
         UnifiedRadioText unifiedRadioText = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class UnifiedRadioTextSerializer {
         return unifiedRadioText;
     }
 
-    public static UnifiedRadioText[] getOptionalUnifiedRadioTextVarArray(IDeserializer iDeserializer) {
+    public static UnifiedRadioText[] getOptionalUnifiedRadioTextVarArray(IDeserializer iDeserializer) throws SerializerException {
         UnifiedRadioText[] unifiedRadioTextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCStatisticsReset;
 
 public class BCStatisticsResetSerializer {
-    public static void putOptionalBCStatisticsReset(ISerializer iSerializer, BCStatisticsReset bCStatisticsReset) {
+    public static void putOptionalBCStatisticsReset(ISerializer iSerializer, BCStatisticsReset bCStatisticsReset) throws SerializerException {
         boolean bl = bCStatisticsReset == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCStatisticsResetSerializer {
         }
     }
 
-    public static void putOptionalBCStatisticsResetVarArray(ISerializer iSerializer, BCStatisticsReset[] bCStatisticsResetArray) {
+    public static void putOptionalBCStatisticsResetVarArray(ISerializer iSerializer, BCStatisticsReset[] bCStatisticsResetArray) throws SerializerException {
         boolean bl = bCStatisticsResetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCStatisticsResetSerializer {
         }
     }
 
-    public static BCStatisticsReset getOptionalBCStatisticsReset(IDeserializer iDeserializer) {
+    public static BCStatisticsReset getOptionalBCStatisticsReset(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsReset bCStatisticsReset = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCStatisticsResetSerializer {
         return bCStatisticsReset;
     }
 
-    public static BCStatisticsReset[] getOptionalBCStatisticsResetVarArray(IDeserializer iDeserializer) {
+    public static BCStatisticsReset[] getOptionalBCStatisticsResetVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsReset[] bCStatisticsResetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

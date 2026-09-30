@@ -4,34 +4,24 @@
 package org.apache.xerces.xni;
 
 public interface XMLResourceIdentifier {
-    default public void setPublicId(String string) {
-    }
+    public void setPublicId(String var1);
 
-    default public String getPublicId() {
-    }
+    public String getPublicId();
 
-    default public void setExpandedSystemId(String string) {
-    }
+    public void setExpandedSystemId(String var1);
 
-    default public String getExpandedSystemId() {
-    }
+    public String getExpandedSystemId();
 
-    default public void setLiteralSystemId(String string) {
-    }
+    public void setLiteralSystemId(String var1);
 
-    default public String getLiteralSystemId() {
-    }
+    public String getLiteralSystemId();
 
-    default public void setBaseSystemId(String string) {
-    }
+    public void setBaseSystemId(String var1);
 
-    default public String getBaseSystemId() {
-    }
+    public String getBaseSystemId();
 
-    default public void setNamespace(String string) {
-    }
+    public void setNamespace(String var1);
 
-    default public String getNamespace() {
-    }
+    public String getNamespace();
 }
 

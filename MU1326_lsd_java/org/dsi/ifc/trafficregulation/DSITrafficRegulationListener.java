@@ -10,19 +10,14 @@ import org.dsi.ifc.trafficregulation.TrafficSignInformationOnRoute;
 
 public interface DSITrafficRegulationListener
 extends DSIListener {
-    default public void updateCountrySpeedInformation(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) {
-    }
+    public void updateCountrySpeedInformation(RoadClassSpeedInfo[] var1, int var2);
 
-    default public void updateCurrentTrafficSign(TrafficSignInformation trafficSignInformation, int n) {
-    }
+    public void updateCurrentTrafficSign(TrafficSignInformation var1, int var2);
 
-    default public void updateTrafficSignOnRoute(TrafficSignInformationOnRoute[] trafficSignInformationOnRouteArray, int n) {
-    }
+    public void updateTrafficSignOnRoute(TrafficSignInformationOnRoute[] var1, int var2);
 
-    default public void requestRoadClassSpeedInfoForCountryResult(RoadClassSpeedInfo[] roadClassSpeedInfoArray, int n) {
-    }
+    public void requestRoadClassSpeedInfoForCountryResult(RoadClassSpeedInfo[] var1, int var2);
 
-    default public void updateTrailerStatus(int n, int n2) {
-    }
+    public void updateTrailerStatus(int var1, int var2);
 }
 

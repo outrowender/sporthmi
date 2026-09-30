@@ -8,10 +8,8 @@ import org.dsi.ifc.browser.SearchHit;
 
 public interface DSIBrowserBoardbookListener
 extends DSIListener {
-    default public void indicateSearchResults(String string, int n, SearchHit[] searchHitArray, int n2) {
-    }
+    public void indicateSearchResults(String var1, int var2, SearchHit[] var3, int var4);
 
-    default public void updateBoardbookStatus(int n, int n2) {
-    }
+    public void updateBoardbookStatus(int var1, int var2);
 }
 

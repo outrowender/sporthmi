@@ -7,31 +7,22 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIKombiPictureServerListener
 extends DSIListener {
-    default public void indicationCoverArt(long l, int n, int n2) {
-    }
+    public void indicationCoverArt(long var1, int var3, int var4);
 
-    default public void indicationStationArt(long l, int n, int n2) {
-    }
+    public void indicationStationArt(long var1, int var3, int var4);
 
-    default public void indicationActiveCallPicture(int n) {
-    }
+    public void indicationActiveCallPicture(int var1);
 
-    default public void indicationActiveCallPictureInstance(int n, int n2) {
-    }
+    public void indicationActiveCallPictureInstance(int var1, int var2);
 
-    default public void indicationDynamicIcon(int n, int n2) {
-    }
+    public void indicationDynamicIcon(int var1, int var2);
 
-    default public void indicationInternalAddressID(long l, int n) {
-    }
+    public void indicationInternalAddressID(long var1, int var3);
 
-    default public void indicationAdbContactPicture(long l, int n) {
-    }
+    public void indicationAdbContactPicture(long var1, int var3);
 
-    default public void indicationPictureStreamAbilities() {
-    }
+    public void indicationPictureStreamAbilities();
 
-    default public void indicationPictureStream(int n, short s, short s2, int n2, int n3, int n4, int n5, byte[] byArray) {
-    }
+    public void indicationPictureStream(int var1, short var2, short var3, int var4, int var5, int var6, int var7, byte[] var8);
 }
 

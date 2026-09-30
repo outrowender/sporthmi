@@ -22,10 +22,10 @@ import java.util.List;
 public class InfoLineRendererHigh
 extends AbstractKanziTemplateRenderer
 implements IInfoLineRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
-    private static final int INFOLINE_FONT_INDEX;
-    private static final int MAX_LINES;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/generic_infoline";
+    private static final String EAL_NODE_NAME = "infoline";
+    private static final int INFOLINE_FONT_INDEX = 3;
+    private static final int MAX_LINES = 2;
     private InfolineController controller;
     private IWrappedNode3DText[] textNodeInfo;
     private int oldAvailableWithForText;
@@ -42,17 +42,14 @@ implements IInfoLineRenderer {
         this.controller = infolineController;
     }
 
-    @Override
     public void setController(InfolineController infolineController) {
         this.controller = infolineController;
     }
 
-    @Override
     public void setFonts(Object[] objectArray) {
         super.setFonts((IWrappedFont[])objectArray);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         this.node.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
         float f2 = this.getShowProgress();
@@ -70,7 +67,7 @@ implements IInfoLineRenderer {
     }
 
     private void applyKzbProperties(RedrawContextHigh redrawContextHigh) {
-        this.setProperty("if_infoIconPosX", 20546);
+        this.setProperty("if_infoIconPosX", 52.0f);
         this.setProperty("if_width", this.controller.getWidth());
         this.setProperty("if_height", this.controller.getHeight());
         this.setProperty("if_separatorVisible", 1.0f);
@@ -107,7 +104,7 @@ implements IInfoLineRenderer {
         int n6 = EALManager.createColorCode(n2);
         for (int i2 = 0; i2 < this.textNodeInfo.length; ++i2) {
             this.textNodeInfo[i2].getInterfaceText().setColor(n6);
-            this.textNodeInfo[i2].setPosition(46658, n5, 0.0f);
+            this.textNodeInfo[i2].setPosition(91.0f, n5, 0.0f);
             n5 += n3;
             this.textNodeInfo[i2].setVisible(f2 > 0.0f);
             this.textNodeInfo[i2].setOpacity(f2);
@@ -168,7 +165,6 @@ implements IInfoLineRenderer {
         return n - 104 - n2;
     }
 
-    @Override
     public void disconnect() {
         this.destroyTextNode();
         this.cachedLines = null;
@@ -188,17 +184,14 @@ implements IInfoLineRenderer {
         this.oldText = null;
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/generic_infoline";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "infoline";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -207,7 +200,6 @@ implements IInfoLineRenderer {
         return this.getPreferredHeight(this.controller.getWidth());
     }
 
-    @Override
     public int getPreferredHeight(int n) {
         String string = this.controller.getText();
         if (string == null) {
@@ -220,17 +212,14 @@ implements IInfoLineRenderer {
         return this.controller.getTerminalImpl().getLayout().getIntegerConstant(13);
     }
 
-    @Override
     public int getAutoWrap() {
         return this.autoWrap;
     }
 
-    @Override
     public void setAutoWrap(int n) {
         this.autoWrap = n;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

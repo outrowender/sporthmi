@@ -22,7 +22,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean open(boolean bl) {
         MemoryTransferFile memoryTransferFile = this;
         synchronized (memoryTransferFile) {
@@ -50,7 +49,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean write(byte[] byArray) {
         MemoryTransferFile memoryTransferFile = this;
         synchronized (memoryTransferFile) {
@@ -74,7 +72,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public byte[] read(int n) {
         MemoryTransferFile memoryTransferFile = this;
         synchronized (memoryTransferFile) {
@@ -104,7 +101,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean close() {
         MemoryTransferFile memoryTransferFile = this;
         synchronized (memoryTransferFile) {

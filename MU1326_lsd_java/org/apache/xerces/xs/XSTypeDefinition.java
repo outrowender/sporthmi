@@ -7,28 +7,21 @@ import org.apache.xerces.xs.XSObject;
 
 public interface XSTypeDefinition
 extends XSObject {
-    public static final short COMPLEX_TYPE;
-    public static final short SIMPLE_TYPE;
+    public static final short COMPLEX_TYPE = 15;
+    public static final short SIMPLE_TYPE = 16;
 
-    default public short getTypeCategory() {
-    }
+    public short getTypeCategory();
 
-    default public XSTypeDefinition getBaseType() {
-    }
+    public XSTypeDefinition getBaseType();
 
-    default public boolean isFinal(short s) {
-    }
+    public boolean isFinal(short var1);
 
-    default public short getFinal() {
-    }
+    public short getFinal();
 
-    default public boolean getAnonymous() {
-    }
+    public boolean getAnonymous();
 
-    default public boolean derivedFromType(XSTypeDefinition xSTypeDefinition, short s) {
-    }
+    public boolean derivedFromType(XSTypeDefinition var1, short var2);
 
-    default public boolean derivedFrom(String string, String string2, short s) {
-    }
+    public boolean derivedFrom(String var1, String var2, short var3);
 }
 

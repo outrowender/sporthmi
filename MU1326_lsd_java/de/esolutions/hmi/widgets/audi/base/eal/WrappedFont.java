@@ -18,17 +18,14 @@ implements IWrappedFont {
         this.fontGroup = iFontGroup;
     }
 
-    @Override
     public int getSize() {
         return this.size;
     }
 
-    @Override
     public IFontGroup getFontGroup() {
         return this.fontGroup;
     }
 
-    @Override
     public ITextLayout getLayout() {
         if (this.layout == null) {
             this.layout = this.createLayout();
@@ -64,7 +61,6 @@ implements IWrappedFont {
         return this.size == wrappedFont.size;
     }
 
-    @Override
     public ITextLayout createLayout() {
         this.getFontGroup().activate();
         return new ITextLayout(this.getSize());

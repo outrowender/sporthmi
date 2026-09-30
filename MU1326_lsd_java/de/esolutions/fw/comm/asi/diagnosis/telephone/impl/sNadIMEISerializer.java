@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sNadIMEI;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNadIMEISerializer {
-    public static void putOptionalsNadIMEI(ISerializer iSerializer, sNadIMEI sNadIMEI2) {
+    public static void putOptionalsNadIMEI(ISerializer iSerializer, sNadIMEI sNadIMEI2) throws SerializerException {
         boolean bl = sNadIMEI2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sNadIMEISerializer {
         }
     }
 
-    public static void putOptionalsNadIMEIVarArray(ISerializer iSerializer, sNadIMEI[] sNadIMEIArray) {
+    public static void putOptionalsNadIMEIVarArray(ISerializer iSerializer, sNadIMEI[] sNadIMEIArray) throws SerializerException {
         boolean bl = sNadIMEIArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sNadIMEISerializer {
         }
     }
 
-    public static sNadIMEI getOptionalsNadIMEI(IDeserializer iDeserializer) {
+    public static sNadIMEI getOptionalsNadIMEI(IDeserializer iDeserializer) throws SerializerException {
         sNadIMEI sNadIMEI2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sNadIMEISerializer {
         return sNadIMEI2;
     }
 
-    public static sNadIMEI[] getOptionalsNadIMEIVarArray(IDeserializer iDeserializer) {
+    public static sNadIMEI[] getOptionalsNadIMEIVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNadIMEI[] sNadIMEIArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,30 +4,23 @@
 package de.esolutions.fw.comm.asi.imageserver;
 
 import de.esolutions.fw.comm.asi.imageserver.ImageServerReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ImageServerS {
-    default public void requestImage(String[] stringArray, byte by, boolean bl, ImageServerReply imageServerReply) {
-    }
+    public void requestImage(String[] var1, byte var2, boolean var3, ImageServerReply var4) throws MethodException;
 
-    default public void requestImageInformation(String[] stringArray, ImageServerReply imageServerReply) {
-    }
+    public void requestImageInformation(String[] var1, ImageServerReply var2) throws MethodException;
 
-    default public void setNotification(ImageServerReply imageServerReply) {
-    }
+    public void setNotification(ImageServerReply var1) throws MethodException;
 
-    default public void setNotification(long l, ImageServerReply imageServerReply) {
-    }
+    public void setNotification(long var1, ImageServerReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ImageServerReply imageServerReply) {
-    }
+    public void setNotification(long[] var1, ImageServerReply var2) throws MethodException;
 
-    default public void clearNotification(ImageServerReply imageServerReply) {
-    }
+    public void clearNotification(ImageServerReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ImageServerReply imageServerReply) {
-    }
+    public void clearNotification(long var1, ImageServerReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ImageServerReply imageServerReply) {
-    }
+    public void clearNotification(long[] var1, ImageServerReply var2) throws MethodException;
 }
 

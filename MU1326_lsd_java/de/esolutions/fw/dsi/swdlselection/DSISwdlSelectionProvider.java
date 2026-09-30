@@ -25,28 +25,23 @@ implements DSISwdlSelection {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$swdlselection$DSISwdlSelection == null ? (class$org$dsi$ifc$swdlselection$DSISwdlSelection = DSISwdlSelectionProvider.class$("org.dsi.ifc.swdlselection.DSISwdlSelection")) : class$org$dsi$ifc$swdlselection$DSISwdlSelection).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSISwdlSelectionProxy(this.instance, (DSISwdlSelectionReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setUserSwdl(boolean bl) {
         try {
             this.proxy.setUserSwdl(bl);
@@ -56,7 +51,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setGotFocus(boolean bl) {
         try {
             this.proxy.setGotFocus(bl);
@@ -66,7 +60,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void getMedia() {
         try {
             this.proxy.getMedia();
@@ -76,7 +69,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeNfsIpAddress(String string) {
         try {
             this.proxy.storeNfsIpAddress(string);
@@ -86,7 +78,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeNfsPath(String string) {
         try {
             this.proxy.storeNfsPath(string);
@@ -96,7 +87,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setMedium(int n) {
         try {
             this.proxy.setMedium(n);
@@ -106,7 +96,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setRelease(long l) {
         try {
             this.proxy.setRelease(l);
@@ -116,7 +105,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void getUserDefinedAllowed() {
         try {
             this.proxy.getUserDefinedAllowed();
@@ -126,7 +114,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setInstallationType(boolean bl) {
         try {
             this.proxy.setInstallationType(bl);
@@ -136,7 +123,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setTargetLanguage(short s) {
         try {
             this.proxy.setTargetLanguage(s);
@@ -146,7 +132,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void getIncompatibleDevices() {
         try {
             this.proxy.getIncompatibleDevices();
@@ -156,7 +141,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void startDownload() {
         try {
             this.proxy.startDownload();
@@ -166,7 +150,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void createCriticalUnlock() {
         try {
             this.proxy.createCriticalUnlock();
@@ -176,7 +159,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void startVersionUpload() {
         try {
             this.proxy.startVersionUpload();
@@ -186,7 +168,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void abortVersionUpload() {
         try {
             this.proxy.abortVersionUpload();
@@ -196,7 +177,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void endVersionUpload() {
         try {
             this.proxy.endVersionUpload();
@@ -206,7 +186,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeCifsServer(String string) {
         try {
             this.proxy.storeCifsServer(string);
@@ -216,7 +195,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeCifsPath(String string) {
         try {
             this.proxy.storeCifsPath(string);
@@ -226,7 +204,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeCifsUser(String string) {
         try {
             this.proxy.storeCifsUser(string);
@@ -236,7 +213,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeCifsPassword(String string) {
         try {
             this.proxy.storeCifsPassword(string);
@@ -246,7 +222,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void storeFsPath(String string) {
         try {
             this.proxy.storeFsPath(string);
@@ -256,7 +231,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void checkConsistency() {
         try {
             this.proxy.checkConsistency();
@@ -266,7 +240,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void abortSetMedium() {
         try {
             this.proxy.abortSetMedium();
@@ -276,7 +249,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void abortSetRelease() {
         try {
             this.proxy.abortSetRelease();
@@ -286,7 +258,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void getFinalizeTargets() {
         try {
             this.proxy.getFinalizeTargets();
@@ -296,7 +267,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setFinalizeTarget(int n) {
         try {
             this.proxy.setFinalizeTarget(n);
@@ -306,7 +276,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void enterComponentUpdateConfirmation(boolean bl) {
         try {
             this.proxy.enterComponentUpdateConfirmation(bl);
@@ -316,7 +285,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -326,7 +294,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -336,7 +303,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -346,7 +312,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -356,7 +321,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -366,7 +330,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -376,7 +339,6 @@ implements DSISwdlSelection {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

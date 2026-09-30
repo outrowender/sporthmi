@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIPoiOnlineSearchReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIPoiOnlineSearchReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIPoiOnlineSearchReply {
         super(n, (class$org$dsi$ifc$online$DSIPoiOnlineSearchListener == null ? (class$org$dsi$ifc$online$DSIPoiOnlineSearchListener = DSIPoiOnlineSearchDispatcher.class$("org.dsi.ifc.online.DSIPoiOnlineSearchListener")) : class$org$dsi$ifc$online$DSIPoiOnlineSearchListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void poiResult(int n, int n2, int n3) {
+    public void poiResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIPoiOnlineSearchReply {
         }
     }
 
-    @Override
-    public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
+    public void poiSpellingSuggestion(int n, String string, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIPoiOnlineSearchReply {
         }
     }
 
-    @Override
-    public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
+    public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -79,8 +76,7 @@ implements DSIPoiOnlineSearchReply {
         }
     }
 
-    @Override
-    public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) {
+    public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -96,8 +92,7 @@ implements DSIPoiOnlineSearchReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -113,14 +108,13 @@ implements DSIPoiOnlineSearchReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPoiOnlineSearchListener dSIPoiOnlineSearchListener = (DSIPoiOnlineSearchListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPoiOnlineSearchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPoiOnlineSearchDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPoiOnlineSearchListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPoiOnlineSearchDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPoiOnlineSearchDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPoiOnlineSearchListener, new Object[]{string, string2});
                     continue;
                 }

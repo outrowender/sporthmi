@@ -92,7 +92,7 @@ public class sLastPairedBtDevices {
     }
 
     public String toString() {
-        return new StringBuffer("sLastPairedBtDevices{").append("msg_id=").append(this.msg_id).append(", whichLastPaired=").append(this.whichLastPaired).append(", deviceAdress=").append(this.deviceAdress).append(", deviceName=").append(this.deviceName).append(", btSupplierName=").append(this.btSupplierName).append(", btModel=").append(this.btModel).append(", btSoftwareVersion=").append(this.btSoftwareVersion).append(", btProfilesVersion=").append("[").append(this.btProfilesVersion == null ? "null" : new StringBuffer().append("size=").append(this.btProfilesVersion.length).toString()).append("]").append("}").toString();
+        return "sLastPairedBtDevices{" + "msg_id=" + this.msg_id + ", whichLastPaired=" + this.whichLastPaired + ", deviceAdress=" + this.deviceAdress + ", deviceName=" + this.deviceName + ", btSupplierName=" + this.btSupplierName + ", btModel=" + this.btModel + ", btSoftwareVersion=" + this.btSoftwareVersion + ", btProfilesVersion=" + "[" + (this.btProfilesVersion == null ? "null" : "size=" + this.btProfilesVersion.length) + "]" + "}";
     }
 }
 

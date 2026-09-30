@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.WCConfigurationSerializer
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCConfiguration;
 import org.dsi.ifc.carparkingsystem.WCViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class WCViewOptionsSerializer {
-    public static void putOptionalWCViewOptions(ISerializer iSerializer, WCViewOptions wCViewOptions) {
+    public static void putOptionalWCViewOptions(ISerializer iSerializer, WCViewOptions wCViewOptions) throws SerializerException {
         boolean bl = wCViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class WCViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalWCViewOptionsVarArray(ISerializer iSerializer, WCViewOptions[] wCViewOptionsArray) {
+    public static void putOptionalWCViewOptionsVarArray(ISerializer iSerializer, WCViewOptions[] wCViewOptionsArray) throws SerializerException {
         boolean bl = wCViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class WCViewOptionsSerializer {
         }
     }
 
-    public static WCViewOptions getOptionalWCViewOptions(IDeserializer iDeserializer) {
+    public static WCViewOptions getOptionalWCViewOptions(IDeserializer iDeserializer) throws SerializerException {
         WCViewOptions wCViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class WCViewOptionsSerializer {
         return wCViewOptions;
     }
 
-    public static WCViewOptions[] getOptionalWCViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static WCViewOptions[] getOptionalWCViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCViewOptions[] wCViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -16,7 +16,7 @@ import de.esolutions.fw.util.config.query.ConfigPathQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map$Entry;
+import java.util.Map;
 
 public class CommConfigTransportStatic
 implements IConfigValueTracer {
@@ -130,14 +130,13 @@ implements IConfigValueTracer {
         return commConfigTransportParams;
     }
 
-    @Override
     public void traceValues() {
         Iterator iterator = this.mapValues.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Short s = (Short)map$Entry.getKey();
-            this.key = new StringBuffer().append(this.key).append(".").append(s.toString()).toString();
-            CommConfigTransportParams commConfigTransportParams = (CommConfigTransportParams)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Short s = (Short)entry.getKey();
+            this.key = this.key + "." + s.toString();
+            CommConfigTransportParams commConfigTransportParams = (CommConfigTransportParams)entry.getValue();
             CommAgentTracing.CONFIG.log((short)2, "%2.queueLimitBytes = %1", new Integer(commConfigTransportParams.getQueueLimitBytes()), (Object)this.key);
             CommAgentTracing.CONFIG.log((short)2, "%2.queueLimitJobs  = %1", new Integer(commConfigTransportParams.getQueueLimitJobs()), (Object)this.key);
             CommAgentTracing.CONFIG.log((short)2, "%2.priority        = %1", new Integer(commConfigTransportParams.getPriority()), (Object)this.key);

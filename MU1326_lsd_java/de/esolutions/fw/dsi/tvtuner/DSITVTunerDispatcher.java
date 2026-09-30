@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tvtuner;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tvtuner.DSITVTunerReply;
 import de.esolutions.fw.comm.dsi.tvtuner.impl.DSITVTunerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -27,13 +28,11 @@ implements DSITVTunerReply {
         super(n, (class$org$dsi$ifc$tvtuner$DSITVTunerListener == null ? (class$org$dsi$ifc$tvtuner$DSITVTunerListener = DSITVTunerDispatcher.class$("org.dsi.ifc.tvtuner.DSITVTunerListener")) : class$org$dsi$ifc$tvtuner$DSITVTunerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateTunerState(int n, int n2) {
+    public void updateTunerState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -61,8 +60,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) {
+    public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -90,8 +88,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedService(ProgramInfo programInfo, int n) {
+    public void updateSelectedService(ProgramInfo programInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -119,8 +116,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateSelectedSource(int n, int n2) {
+    public void updateSelectedSource(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -148,8 +144,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTVNormArea(int n, int n2) {
+    public void updateTVNormArea(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -177,8 +172,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateAudioChannel(int n, int n2) {
+    public void updateAudioChannel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -206,8 +200,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateMuteState(int n, int n2) {
+    public void updateMuteState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -235,8 +228,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateInfoTextState(String string, int n) {
+    public void updateInfoTextState(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -264,8 +256,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTerminalMode(int n, int n2, int n3) {
+    public void updateTerminalMode(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -293,8 +284,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateServiceLinking(boolean bl, int n) {
+    public void updateServiceLinking(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -322,8 +312,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTVNormList(int[] nArray, int n) {
+    public void updateTVNormList(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -351,8 +340,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTVNormAreaSubList(int[] nArray, int n) {
+    public void updateTVNormAreaSubList(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -380,8 +368,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateAVNorm(int n, int n2) {
+    public void updateAVNorm(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -409,8 +396,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateEWSInfoList(EWSInfo[] eWSInfoArray, int n) {
+    public void updateEWSInfoList(EWSInfo[] eWSInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -438,8 +424,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void selectService(int n) {
+    public void selectService(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -455,8 +440,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void selectNextService(int n) {
+    public void selectNextService(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -472,8 +456,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void abortSeek(int n) {
+    public void abortSeek(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -489,8 +472,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void switchSource(int n) {
+    public void switchSource(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -506,8 +488,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateSubtitle(boolean bl, int n) {
+    public void updateSubtitle(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -535,8 +516,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateLogoList(LogoInfo[] logoInfoArray, int n) {
+    public void updateLogoList(LogoInfo[] logoInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -564,8 +544,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateCASInfo(boolean bl, String string, int n) {
+    public void updateCASInfo(boolean bl, String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -593,8 +572,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3, int n) {
+    public void updateTuneStatus(boolean bl, boolean bl2, boolean bl3, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -622,8 +600,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateMessageService(int n, int n2) {
+    public void updateMessageService(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -651,8 +628,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateStartUpMUConfig(StartUpConfig startUpConfig, int n) {
+    public void updateStartUpMUConfig(StartUpConfig startUpConfig, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -680,8 +656,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateTMTVKeyPanel(short s, short s2, int n) {
+    public void updateTMTVKeyPanel(short s, short s2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -709,8 +684,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void updateBrowserListSort(int n, int n2) {
+    public void updateBrowserListSort(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -738,8 +712,7 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -755,14 +728,13 @@ implements DSITVTunerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITVTunerListener dSITVTunerListener = (DSITVTunerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITVTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITVTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITVTunerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITVTunerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITVTunerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITVTunerListener, new Object[]{string, string2});
                     continue;
                 }

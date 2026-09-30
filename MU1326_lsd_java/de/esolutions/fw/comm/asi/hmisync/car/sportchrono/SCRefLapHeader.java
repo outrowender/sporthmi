@@ -42,7 +42,7 @@ public class SCRefLapHeader {
     }
 
     public String toString() {
-        return new StringBuffer("SCRefLapHeader{").append("uid=").append(this.uid).append(", numOfRecords=").append(this.numOfRecords).append(", header=").append("[").append(this.header == null ? "null" : new StringBuffer().append("size=").append(this.header.length).toString()).append("]").append("}").toString();
+        return "SCRefLapHeader{" + "uid=" + this.uid + ", numOfRecords=" + this.numOfRecords + ", header=" + "[" + (this.header == null ? "null" : "size=" + this.header.length) + "]" + "}";
     }
 }
 

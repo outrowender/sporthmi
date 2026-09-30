@@ -8,10 +8,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.SpellerBandState;
 
 public interface ISpellerListenerAsia
 extends ISpellerListener {
-    default public void spellerBandStateChanged(SpellerBandState spellerBandState, SpellerBandState spellerBandState2) {
-    }
+    public void spellerBandStateChanged(SpellerBandState var1, SpellerBandState var2);
 
-    default public void touchWordPredictionContextUpdateNeeded(String string) {
-    }
+    public void touchWordPredictionContextUpdateNeeded(String var1);
 }
 

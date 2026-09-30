@@ -10,7 +10,7 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class SAXMessageFormatter {
-    public static String formatMessage(Locale locale, String string, Object[] objectArray) {
+    public static String formatMessage(Locale locale, String string, Object[] objectArray) throws MissingResourceException {
         String string2;
         ResourceBundle resourceBundle = null;
         resourceBundle = locale != null ? PropertyResourceBundle.getBundle("org.apache.xerces.impl.msg.SAXMessages", locale) : PropertyResourceBundle.getBundle("org.apache.xerces.impl.msg.SAXMessages");
@@ -22,7 +22,7 @@ public class SAXMessageFormatter {
                 }
                 catch (Exception exception) {
                     string2 = resourceBundle.getString("FormatFailed");
-                    string2 = new StringBuffer().append(string2).append(" ").append(resourceBundle.getString(string)).toString();
+                    string2 = string2 + " " + resourceBundle.getString(string);
                 }
             }
         }

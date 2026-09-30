@@ -8,22 +8,16 @@ import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public interface DSIFastListScrollingTelephoneListener
 extends DSIListener {
-    default public void indicationPhonebook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void indicationPhonebook(int var1, int var2, int var3, int var4, long var5, int var7, int var8, int var9, int var10, int var11, int var12);
 
-    default public void indicationGetInitialsTelephone(int n, int n2, int n3, int n4) {
-    }
+    public void indicationGetInitialsTelephone(int var1, int var2, int var3, int var4);
 
-    default public void indicationNotifyFavoriteListPush(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyFavoriteListPush(boolean var1, boolean var2);
 
-    default public void indicationNotifyCombinedNumbersPush(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCombinedNumbersPush(boolean var1, boolean var2);
 
-    default public void indicationNotifyCurrentListSizeTelephone(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCurrentListSizeTelephone(boolean var1, boolean var2);
 
-    default public void indicationPhonebookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
-    }
+    public void indicationPhonebookJobs(int var1, int var2, int var3, ArrayHeader[] var4);
 }
 

@@ -24,19 +24,18 @@ extends AbstractPRPRule {
         this.isCaseSensitive = bl;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         RecognizerResult recognizerResult = SmartDeleteRule.searchCharacters(list, new char[]{'\b'})[0];
         if (recognizerResult != null && recognizerResult.getConfidence() > 70) {
-            IWidgetLogChannel.logPRPEngine.log(-2137614336, "SmartDelete: Do nothing, because backspace is in the result!");
+            IWidgetLogChannel.logPRPEngine.log(10000000, "SmartDelete: Do nothing, because backspace is in the result!");
             return;
         }
         if (this.lastDeleteIndex > -1 && this.lastInput.getCharacter() != '\b' && this.lastDeleteIndex != this.getInfoProvider().getCurrentText().length() + 1) {
             this.resetSmartDelete();
         }
-        IWidgetLogChannel.logPRPEngine.log(-2137614336, "SmartDelete: smartDeleteList=%1", (Object)this.smartDeleteList);
+        IWidgetLogChannel.logPRPEngine.log(10000000, "SmartDelete: smartDeleteList=%1", (Object)this.smartDeleteList);
         List list2 = this.checkForLastDeleteChars(list);
-        IWidgetLogChannel.logPRPEngine.log(-2137614336, "SmartDelete: matchedSmartDeleteList=%1", (Object)list2);
+        IWidgetLogChannel.logPRPEngine.log(10000000, "SmartDelete: matchedSmartDeleteList=%1", (Object)list2);
         if (list2.isEmpty()) {
             this.resetSmartDelete();
         } else {
@@ -72,18 +71,17 @@ extends AbstractPRPRule {
         return arrayList;
     }
 
-    @Override
     public String getRuleName() {
         return "Smart-Delete-Rule";
     }
 
     public void resetSmartDelete() {
-        IWidgetLogChannel.logPRPEngine.log(-2137614336, "SmartDeleteRule#resetSmartDelete: called!");
+        IWidgetLogChannel.logPRPEngine.log(10000000, "SmartDeleteRule#resetSmartDelete: called!");
         this.smartDeleteList.clear();
     }
 
     public void characterEntered(RecognizerResult recognizerResult) {
-        IWidgetLogChannel.logPRPEngine.log(-2137614336, "SmartDeleteRule#characterEntered: character entered: %1 (lastInput=%2)", (Object)recognizerResult, (Object)this.lastInput);
+        IWidgetLogChannel.logPRPEngine.log(10000000, "SmartDeleteRule#characterEntered: character entered: %1 (lastInput=%2)", (Object)recognizerResult, (Object)this.lastInput);
         if (recognizerResult != null && recognizerResult.getCharacter() == '\b') {
             this.lastDeleteIndex = this.getInfoProvider().getCurrentText().length();
             if (this.lastInput != null && this.lastInput.getCharacter() != '\b') {

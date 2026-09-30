@@ -23,10 +23,9 @@ extends AbstractNotification {
     }
 
     public String toString() {
-        return new StringBuffer().append("[ServiceListenerStub:stub=").append(this.stub).append(",attached=").append(this.attached).append("]").toString();
+        return "[ServiceListenerStub:stub=" + this.stub + ",attached=" + this.attached + "]";
     }
 
-    @Override
     public void performNotification() {
         CommAgentTracing.NOTIFICATION.log((short)1, "{ ServiceListenerStubNotification: stub=%1 attached=%2", this.stub, (Object)new Boolean(this.attached));
         ListIterator listIterator = this.listeners.listIterator();

@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class Altitude_Status
 implements StatusProperty {
     public int altitude;
-    private static final int ALTITUDE_BITSIZE;
+    private static final int ALTITUDE_BITSIZE = 16;
     public int unit;
-    private static final int UNIT_BITSIZE;
-    public static final int UNIT_METER;
-    public static final int UNIT_FEET;
+    private static final int UNIT_BITSIZE = 8;
+    public static final int UNIT_METER = 0;
+    public static final int UNIT_FEET = 1;
 
     public Altitude_Status() {
         this.internalReset();
@@ -31,12 +31,10 @@ implements StatusProperty {
         this.unit = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Altitude_Status altitude_Status = (Altitude_Status)bAPEntity;
         return this.altitude == altitude_Status.altitude && this.unit == altitude_Status.unit;
@@ -45,7 +43,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Altitude_Status:");
@@ -68,20 +65,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.altitude);
         bitStream.pushByte((byte)this.unit);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.altitude = (short)bitStream.popFrontShort();
         this.unit = bitStream.popFrontByte();
@@ -91,7 +85,6 @@ implements StatusProperty {
         return 47;
     }
 
-    @Override
     public int getFunctionId() {
         return Altitude_Status.functionId();
     }

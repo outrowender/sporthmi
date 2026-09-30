@@ -7,50 +7,36 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface ICarViewerRenderer
 extends IRenderer {
-    public static final int DEFAULT;
-    public static final int QQ1;
-    public static final int QQ2;
+    public static final int DEFAULT = 0;
+    public static final int QQ1 = 1;
+    public static final int QQ2 = 2;
 
-    default public void setCarMenuIndex(int n) {
-    }
+    public void setCarMenuIndex(int var1);
 
-    default public void setMode(int n) {
-    }
+    public void setMode(int var1);
 
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public void setDriveSelectValues(int n, float f2, float f3, int n2, int n3, int n4, int n5, int n6, int n7, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void setDriveSelectValues(int var1, float var2, float var3, int var4, int var5, int var6, int var7, int var8, int var9, boolean var10, boolean var11, boolean var12);
 
-    default public void setDriveSelectDDBOpen(boolean bl) {
-    }
+    public void setDriveSelectDDBOpen(boolean var1);
 
-    default public void setAmbientLightValues(float[] fArray, float[] fArray2, float[] fArray3) {
-    }
+    public void setAmbientLightValues(float[] var1, float[] var2, float[] var3);
 
-    default public void setAmbientLightPackage(int n) {
-    }
+    public void setAmbientLightPackage(int var1);
 
-    default public void setViewSizeTargetChanged(int n, boolean bl) {
-    }
+    public void setViewSizeTargetChanged(int var1, boolean var2);
 
-    default public void setViewSizeAnimationFinished(int n) {
-    }
+    public void setViewSizeAnimationFinished(int var1);
 
-    default public void setSmallStagePositionPercentage(float f2) {
-    }
+    public void setSmallStagePositionPercentage(float var1);
 
-    default public void stopAnimations() {
-    }
+    public void stopAnimations();
 
-    default public void setDriveSelectPHEVValues(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
-    }
+    public void setDriveSelectPHEVValues(int var1, int var2, int var3, int var4, int var5, int var6, int var7);
 
-    default public void setUGDOMode(int n) {
-    }
+    public void setUGDOMode(int var1);
 
-    default public void updateSmallStageTranslationOffset(float f2) {
-    }
+    public void updateSmallStageTranslationOffset(float var1);
 }
 

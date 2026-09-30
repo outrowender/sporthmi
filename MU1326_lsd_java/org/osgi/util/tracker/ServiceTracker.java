@@ -6,22 +6,25 @@ package org.osgi.util.tracker;
 import de.dreisoft.lsd.BundleInfo;
 import de.dreisoft.lsd.LSDWatchdog;
 import de.dreisoft.lsd.ServiceFilter;
+import de.dreisoft.lsd.ServiceInfo;
+import de.dreisoft.lsd.ServiceObserver;
+import de.dreisoft.lsd.ServiceRegistry;
 import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.ServiceReference;
-import org.osgi.util.tracker.ServiceTracker$AlarmHandler;
-import org.osgi.util.tracker.ServiceTracker$LSDFramework;
-import org.osgi.util.tracker.ServiceTracker$Tracked;
+import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class ServiceTracker
 implements ServiceTrackerCustomizer {
-    private static final boolean DEBUG;
-    private static final LSDWatchdog WATCHDOG;
-    private ServiceTracker$AlarmHandler alarmHandler = new ServiceTracker$AlarmHandler(this, null);
+    private static final boolean DEBUG = false;
+    private static final LSDWatchdog WATCHDOG = new LSDWatchdog("Tracker");
+    private AlarmHandler alarmHandler = new AlarmHandler();
     protected final BundleContext context;
-    private ServiceTracker$Tracked tracked;
+    private Tracked tracked;
     private ServiceTrackerCustomizer customizer;
     private String[] svcInterfaces;
     private ServiceFilter svcFilter;
@@ -69,9 +72,9 @@ implements ServiceTrackerCustomizer {
      */
     public synchronized void open() {
         if (this.tracked == null) {
-            ServiceTracker$Tracked serviceTracker$Tracked = this.tracked = new ServiceTracker$Tracked(this);
-            synchronized (serviceTracker$Tracked) {
-                ServiceTracker$LSDFramework.getServiceRegistry().addObserver(this.tracked);
+            Tracked tracked = this.tracked = new Tracked();
+            synchronized (tracked) {
+                LSDFramework.getServiceRegistry().addObserver(this.tracked);
             }
         }
     }
@@ -79,22 +82,19 @@ implements ServiceTrackerCustomizer {
     public synchronized void close() {
         if (this.tracked != null) {
             this.tracked.close();
-            ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
+            Tracked tracked = this.tracked;
             this.tracked = null;
-            ServiceTracker$LSDFramework.getServiceRegistry().removeObserver(serviceTracker$Tracked);
+            LSDFramework.getServiceRegistry().removeObserver(tracked);
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         return this.context.getService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.context.ungetService(serviceReference);
     }
@@ -102,20 +102,20 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public Object waitForService(long l) {
+    public Object waitForService(long l) throws InterruptedException {
         if (l < 0L) {
             throw new IllegalArgumentException("timeout value is negative");
         }
         Object object = this.getService();
         while (object == null) {
-            ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-            if (serviceTracker$Tracked == null) {
+            Tracked tracked = this.tracked;
+            if (tracked == null) {
                 return null;
             }
-            ServiceTracker$Tracked serviceTracker$Tracked2 = serviceTracker$Tracked;
-            synchronized (serviceTracker$Tracked2) {
-                if (serviceTracker$Tracked.size() == 0) {
-                    super.wait(l);
+            Tracked tracked2 = tracked;
+            synchronized (tracked2) {
+                if (tracked.size() == 0) {
+                    tracked.wait(l);
                 }
             }
             object = this.getService();
@@ -129,18 +129,18 @@ implements ServiceTrackerCustomizer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public ServiceReference[] getServiceReferences() {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return null;
         }
-        ServiceTracker$Tracked serviceTracker$Tracked2 = serviceTracker$Tracked;
-        synchronized (serviceTracker$Tracked2) {
-            int n = serviceTracker$Tracked.size();
+        Tracked tracked2 = tracked;
+        synchronized (tracked2) {
+            int n = tracked.size();
             if (n == 0) {
                 return null;
             }
             ServiceReference[] serviceReferenceArray = new ServiceReference[n];
-            Enumeration enumeration = serviceTracker$Tracked.keys();
+            Enumeration enumeration = tracked.keys();
             for (int i2 = 0; i2 < n; ++i2) {
                 serviceReferenceArray[i2] = (ServiceReference)enumeration.nextElement();
             }
@@ -152,18 +152,18 @@ implements ServiceTrackerCustomizer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public Object[] getServices() {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return null;
         }
-        ServiceTracker$Tracked serviceTracker$Tracked2 = serviceTracker$Tracked;
-        synchronized (serviceTracker$Tracked2) {
-            int n = serviceTracker$Tracked.size();
+        Tracked tracked2 = tracked;
+        synchronized (tracked2) {
+            int n = tracked.size();
             if (n == 0) {
                 return null;
             }
             Object[] objectArray = new Object[n];
-            Enumeration enumeration = serviceTracker$Tracked.elements();
+            Enumeration enumeration = tracked.elements();
             for (int i2 = 0; i2 < n; ++i2) {
                 objectArray[i2] = enumeration.nextElement();
             }
@@ -181,7 +181,7 @@ implements ServiceTrackerCustomizer {
                 int n4;
                 int[] nArray = new int[n];
                 int n5 = 0;
-                int n6 = 128;
+                int n6 = Integer.MIN_VALUE;
                 for (int i2 = 0; i2 < n; ++i2) {
                     Object object = serviceReferenceArray[i2].getProperty("service.ranking");
                     nArray[i2] = n4 = object instanceof Integer ? (Integer)object : 0;
@@ -210,11 +210,11 @@ implements ServiceTrackerCustomizer {
     }
 
     public Object getService(ServiceReference serviceReference) {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return null;
         }
-        return serviceTracker$Tracked.get(serviceReference);
+        return tracked.get(serviceReference);
     }
 
     public Object getService() {
@@ -226,35 +226,35 @@ implements ServiceTrackerCustomizer {
     }
 
     public void remove(ServiceReference serviceReference) {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return;
         }
         try {
-            serviceTracker$Tracked.untrack(serviceReference);
+            tracked.untrack(serviceReference);
         }
         catch (Exception exception) {
             StringBuffer stringBuffer = new StringBuffer(256);
             stringBuffer.append("exception removing service from ServiceTrackerCustomizer of bundle ");
             stringBuffer.append(" '").append(((BundleInfo)this.context).getBundleName()).append("' ");
-            ServiceTracker$LSDFramework.getLogService().log(serviceReference, 1, stringBuffer.toString(), exception);
+            LSDFramework.getLogService().log(serviceReference, 1, stringBuffer.toString(), exception);
         }
     }
 
     public int size() {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return 0;
         }
-        return serviceTracker$Tracked.size();
+        return tracked.size();
     }
 
     public int getTrackingCount() {
-        ServiceTracker$Tracked serviceTracker$Tracked = this.tracked;
-        if (serviceTracker$Tracked == null) {
+        Tracked tracked = this.tracked;
+        if (tracked == null) {
             return -1;
         }
-        return serviceTracker$Tracked.getTrackingCount();
+        return tracked.getTrackingCount();
     }
 
     public String toString() {
@@ -278,29 +278,205 @@ implements ServiceTrackerCustomizer {
         return stringBuffer.toString();
     }
 
-    static /* synthetic */ String[] access$100(ServiceTracker serviceTracker) {
-        return serviceTracker.svcInterfaces;
-    }
-
-    static /* synthetic */ ServiceFilter access$200(ServiceTracker serviceTracker) {
-        return serviceTracker.svcFilter;
-    }
-
-    static /* synthetic */ ServiceTracker$AlarmHandler access$300(ServiceTracker serviceTracker) {
-        return serviceTracker.alarmHandler;
-    }
-
-    static /* synthetic */ LSDWatchdog access$400() {
-        return WATCHDOG;
-    }
-
-    static /* synthetic */ ServiceTrackerCustomizer access$500(ServiceTracker serviceTracker) {
-        return serviceTracker.customizer;
-    }
-
     static {
-        WATCHDOG = new LSDWatchdog("Tracker");
         LSDWatchdog.startWatchdog(WATCHDOG);
+    }
+
+    private class Tracked
+    implements ServiceObserver {
+        private static final long serialVersionUID = -5234368493803321949L;
+        private final Hashtable services = new Hashtable();
+        private Vector adding = new Vector(10, 10);
+        private boolean closed = false;
+        private int trackingCount = 0;
+
+        protected Tracked() {
+        }
+
+        protected void close() {
+            this.closed = true;
+        }
+
+        protected int getTrackingCount() {
+            return this.trackingCount;
+        }
+
+        protected int size() {
+            return this.services.size();
+        }
+
+        protected Enumeration keys() {
+            return this.services.keys();
+        }
+
+        protected Enumeration elements() {
+            return this.services.elements();
+        }
+
+        protected Object get(ServiceReference serviceReference) {
+            return this.services.get(serviceReference);
+        }
+
+        protected void put(ServiceReference serviceReference, Object object) {
+            this.services.put(serviceReference, object);
+        }
+
+        public String[] getObservedClasses() {
+            return ServiceTracker.this.svcInterfaces;
+        }
+
+        public boolean addingService(ServiceInfo serviceInfo) {
+            if (this.closed) {
+                return false;
+            }
+            if (ServiceTracker.this.svcFilter != null && !ServiceTracker.this.svcFilter.match(serviceInfo)) {
+                return false;
+            }
+            try {
+                return this.track(serviceInfo);
+            }
+            catch (Exception exception) {
+                StringBuffer stringBuffer = new StringBuffer(256);
+                stringBuffer.append("exception adding service to ServiceTrackerCustomizer of bundle ");
+                stringBuffer.append(" '").append(((BundleInfo)ServiceTracker.this.context).getBundleName()).append("' ");
+                LSDFramework.getLogService().log(serviceInfo, 1, stringBuffer.toString(), exception);
+                return false;
+            }
+        }
+
+        public void removedService(ServiceInfo serviceInfo) {
+            if (ServiceTracker.this.svcFilter != null && !ServiceTracker.this.svcFilter.match(serviceInfo)) {
+                return;
+            }
+            try {
+                this.untrack(serviceInfo);
+            }
+            catch (Exception exception) {
+                StringBuffer stringBuffer = new StringBuffer(256);
+                stringBuffer.append("exception removing service from ServiceTrackerCustomizer of bundle ");
+                stringBuffer.append(" '").append(((BundleInfo)ServiceTracker.this.context).getBundleName()).append("' ");
+                LSDFramework.getLogService().log(serviceInfo, 1, stringBuffer.toString(), exception);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected boolean track(ServiceReference serviceReference) {
+            Object object = this.get(serviceReference);
+            if (object != null) {
+                ServiceTracker.this.alarmHandler.setTrackedService(serviceReference, Thread.currentThread().getName());
+                WATCHDOG.setAlarm(2000L, "call of modifiedService timed out", ServiceTracker.this.alarmHandler);
+                ServiceTracker.this.customizer.modifiedService(serviceReference, object);
+                WATCHDOG.cancelAlarm();
+                return true;
+            }
+            Tracked tracked = this;
+            synchronized (tracked) {
+                if (this.adding.indexOf(serviceReference, 0) != -1) {
+                    return false;
+                }
+                this.adding.addElement(serviceReference);
+            }
+            boolean bl = false;
+            boolean bl2 = true;
+            try {
+                ServiceTracker.this.alarmHandler.setTrackedService(serviceReference, Thread.currentThread().getName());
+                WATCHDOG.setAlarm(2000L, "call of addingService timed out", ServiceTracker.this.alarmHandler);
+                object = ServiceTracker.this.customizer.addingService(serviceReference);
+                WATCHDOG.cancelAlarm();
+            }
+            finally {
+                Tracked tracked2 = this;
+                synchronized (tracked2) {
+                    if (this.adding.removeElement(serviceReference)) {
+                        if (object != null) {
+                            this.put(serviceReference, object);
+                            ++this.trackingCount;
+                            this.notifyAll();
+                        } else {
+                            bl2 = false;
+                        }
+                    } else {
+                        bl = true;
+                    }
+                }
+            }
+            if (bl) {
+                ServiceTracker.this.alarmHandler.setTrackedService(serviceReference, Thread.currentThread().getName());
+                WATCHDOG.setAlarm(2000L, "call of removedService timed out", ServiceTracker.this.alarmHandler);
+                ServiceTracker.this.customizer.removedService(serviceReference, object);
+                WATCHDOG.cancelAlarm();
+            }
+            return bl2;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected void untrack(ServiceReference serviceReference) {
+            Object object;
+            Tracked tracked = this;
+            synchronized (tracked) {
+                if (this.adding.removeElement(serviceReference)) {
+                    return;
+                }
+                object = this.services.remove(serviceReference);
+                if (object == null) {
+                    return;
+                }
+                ++this.trackingCount;
+            }
+            ServiceTracker.this.alarmHandler.setTrackedService(serviceReference, Thread.currentThread().getName());
+            WATCHDOG.setAlarm(2000L, "call of removedService timed out", ServiceTracker.this.alarmHandler);
+            ServiceTracker.this.customizer.removedService(serviceReference, object);
+            WATCHDOG.cancelAlarm();
+        }
+
+        public String toString() {
+            return ServiceTracker.this.toString();
+        }
+    }
+
+    private class AlarmHandler
+    implements Runnable {
+        String thread = null;
+        ServiceInfo svcInfo = null;
+
+        private AlarmHandler() {
+        }
+
+        public void setTrackedService(ServiceReference serviceReference, String string) {
+            this.svcInfo = (ServiceInfo)serviceReference;
+            this.thread = string;
+        }
+
+        public void run() {
+            long l = this.svcInfo.getServiceID();
+            String[] stringArray = this.svcInfo.getServiceInterfaces();
+            BundleInfo bundleInfo = (BundleInfo)this.svcInfo.getBundle();
+            String string = bundleInfo.getBundleName();
+            String string2 = ((BundleInfo)ServiceTracker.this.context).getBundleName();
+            System.err.println(new StringBuffer().append("[").append(this.thread).append("] bundle ").append(string2).append(" tracked service (").append(l).append(") of bundle ").append(string).toString());
+            for (int i2 = 0; i2 < stringArray.length; ++i2) {
+                System.err.print("  ");
+                System.err.print(stringArray[i2]);
+            }
+        }
+    }
+
+    private static class LSDFramework
+    extends de.dreisoft.lsd.LSDFramework {
+        private LSDFramework() {
+        }
+
+        public static ServiceRegistry getServiceRegistry() {
+            return serviceRegistry;
+        }
+
+        public static LogService getLogService() {
+            return logService;
+        }
     }
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 import de.esolutions.fw.comm.dsi.carseat.impl.MassageProgsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageConfig;
 import org.dsi.ifc.carseat.MassageProgs;
 
 public class MassageConfigSerializer {
-    public static void putOptionalMassageConfig(ISerializer iSerializer, MassageConfig massageConfig) {
+    public static void putOptionalMassageConfig(ISerializer iSerializer, MassageConfig massageConfig) throws SerializerException {
         boolean bl = massageConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class MassageConfigSerializer {
         }
     }
 
-    public static void putOptionalMassageConfigVarArray(ISerializer iSerializer, MassageConfig[] massageConfigArray) {
+    public static void putOptionalMassageConfigVarArray(ISerializer iSerializer, MassageConfig[] massageConfigArray) throws SerializerException {
         boolean bl = massageConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class MassageConfigSerializer {
         }
     }
 
-    public static MassageConfig getOptionalMassageConfig(IDeserializer iDeserializer) {
+    public static MassageConfig getOptionalMassageConfig(IDeserializer iDeserializer) throws SerializerException {
         MassageConfig massageConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class MassageConfigSerializer {
         return massageConfig;
     }
 
-    public static MassageConfig[] getOptionalMassageConfigVarArray(IDeserializer iDeserializer) {
+    public static MassageConfig[] getOptionalMassageConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         MassageConfig[] massageConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

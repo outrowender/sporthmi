@@ -3,8 +3,10 @@
  */
 package de.esolutions.fw.util.tracing.protocol;
 
+import de.esolutions.fw.util.transport.exception.TransportException;
+import java.io.IOException;
+
 public interface ITimeSyncSender {
-    default public void sendTimeSync(long l, byte by, byte by2) {
-    }
+    public void sendTimeSync(long var1, byte var3, byte var4) throws TransportException, IOException, InterruptedException;
 }
 

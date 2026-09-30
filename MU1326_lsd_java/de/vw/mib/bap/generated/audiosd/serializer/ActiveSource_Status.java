@@ -4,80 +4,79 @@
 package de.vw.mib.bap.generated.audiosd.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.audiosd.serializer.ActiveSource_Status$ListAvailable;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class ActiveSource_Status
 implements StatusProperty {
     public int sourceType;
-    private static final int SOURCE_TYPE_BITSIZE;
-    public static final int SOURCE_TYPE_NO_SOURCE_ACTIVE;
-    public static final int SOURCE_TYPE_FM;
-    public static final int SOURCE_TYPE_AM;
-    public static final int SOURCE_TYPE_DAB;
-    public static final int SOURCE_TYPE_SDARS_XM;
-    public static final int SOURCE_TYPE_SDARS_SIRIUS;
-    public static final int SOURCE_TYPE_CD;
-    public static final int SOURCE_TYPE_CD_CHANGER;
-    public static final int SOURCE_TYPE_DVD;
-    public static final int SOURCE_TYPE_TV;
-    public static final int SOURCE_TYPE_HDD;
-    public static final int SOURCE_TYPE_SD;
-    public static final int SOURCE_TYPE_TP_MEMO_TIM;
-    public static final int SOURCE_TYPE_AUX_IN_AUDIO;
-    public static final int SOURCE_TYPE_AUX_IN_VIDEO;
-    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI;
-    public static final int SOURCE_TYPE_GENERIC_PLAYER;
-    public static final int SOURCE_TYPE_AM_TI_JAPAN;
-    public static final int SOURCE_TYPE_DVD_CHANGER;
-    public static final int SOURCE_TYPE_USB;
-    public static final int SOURCE_TYPE_JUKEBOX;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL;
-    public static final int SOURCE_TYPE_DVB_VIDEO_SERVICE;
-    public static final int SOURCE_TYPE_DVB_AUDIO_SERVICE;
-    public static final int SOURCE_TYPE_AM_SW_KURZWELLE_SHORT_WAVE;
-    public static final int SOURCE_TYPE_AM_LW_LANGWELLE_LONG_WAVE;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER;
-    public static final int SOURCE_TYPE_BLUE_RAY;
-    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER;
-    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY;
-    public static final int SOURCE_TYPE_AUX_IN_VIDEO_TV;
-    public static final int SOURCE_TYPE_HDMI_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1;
-    public static final int SOURCE_TYPE_COMMON_LIST_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_APPLE_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_MIRROR_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_GOOGLE_LINK_DF4_2;
-    public static final int SOURCE_TYPE_MOBILE_DEVICE_BAIDU_LINK_DF4_4;
-    public static final int SOURCE_TYPE_UNKNOWN_SOURCE;
+    private static final int SOURCE_TYPE_BITSIZE = 8;
+    public static final int SOURCE_TYPE_NO_SOURCE_ACTIVE = 0;
+    public static final int SOURCE_TYPE_FM = 1;
+    public static final int SOURCE_TYPE_AM = 2;
+    public static final int SOURCE_TYPE_DAB = 3;
+    public static final int SOURCE_TYPE_SDARS_XM = 4;
+    public static final int SOURCE_TYPE_SDARS_SIRIUS = 5;
+    public static final int SOURCE_TYPE_CD = 6;
+    public static final int SOURCE_TYPE_CD_CHANGER = 7;
+    public static final int SOURCE_TYPE_DVD = 8;
+    public static final int SOURCE_TYPE_TV = 9;
+    public static final int SOURCE_TYPE_HDD = 10;
+    public static final int SOURCE_TYPE_SD = 11;
+    public static final int SOURCE_TYPE_TP_MEMO_TIM = 12;
+    public static final int SOURCE_TYPE_AUX_IN_AUDIO = 13;
+    public static final int SOURCE_TYPE_AUX_IN_VIDEO = 14;
+    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI = 15;
+    public static final int SOURCE_TYPE_GENERIC_PLAYER = 16;
+    public static final int SOURCE_TYPE_AM_TI_JAPAN = 17;
+    public static final int SOURCE_TYPE_DVD_CHANGER = 18;
+    public static final int SOURCE_TYPE_USB = 19;
+    public static final int SOURCE_TYPE_JUKEBOX = 20;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM = 21;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL = 22;
+    public static final int SOURCE_TYPE_DVB_VIDEO_SERVICE = 23;
+    public static final int SOURCE_TYPE_DVB_AUDIO_SERVICE = 24;
+    public static final int SOURCE_TYPE_AM_SW_KURZWELLE_SHORT_WAVE = 25;
+    public static final int SOURCE_TYPE_AM_LW_LANGWELLE_LONG_WAVE = 26;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE = 27;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER = 28;
+    public static final int SOURCE_TYPE_BLUE_RAY = 29;
+    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER = 30;
+    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY = 31;
+    public static final int SOURCE_TYPE_AUX_IN_VIDEO_TV = 32;
+    public static final int SOURCE_TYPE_HDMI_DF4_1 = 33;
+    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1 = 34;
+    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1 = 35;
+    public static final int SOURCE_TYPE_COMMON_LIST_DF4_2 = 36;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_APPLE_LINK_DF4_2 = 37;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_MIRROR_LINK_DF4_2 = 38;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_GOOGLE_LINK_DF4_2 = 39;
+    public static final int SOURCE_TYPE_MOBILE_DEVICE_BAIDU_LINK_DF4_4 = 40;
+    public static final int SOURCE_TYPE_UNKNOWN_SOURCE = 255;
     public int sourceList_Reference;
-    private static final int SOURCE_LIST_REFERENCE_BITSIZE;
+    private static final int SOURCE_LIST_REFERENCE_BITSIZE = 16;
     public int typeOfNumber;
-    private static final int TYPE_OF_NUMBER_BITSIZE;
-    public static final int TYPE_OF_NUMBER_ANY_MEANING;
-    public static final int TYPE_OF_NUMBER_PRESET_BANK_ID;
-    public static final int TYPE_OF_NUMBER_PRESET_ID;
-    public static final int TYPE_OF_NUMBER_AUTO_STORE_BANK_ID;
-    public static final int TYPE_OF_NUMBER_AUTO_STORE_ID;
-    public static final int TYPE_OF_NUMBER_CD_DVD_BLUE_RAY_ID;
-    public static final int TYPE_OF_NUMBER_INVALID_NUMBER;
-    public final ActiveSource_Status$ListAvailable listAvailable = new ActiveSource_Status$ListAvailable();
+    private static final int TYPE_OF_NUMBER_BITSIZE = 4;
+    public static final int TYPE_OF_NUMBER_ANY_MEANING = 0;
+    public static final int TYPE_OF_NUMBER_PRESET_BANK_ID = 1;
+    public static final int TYPE_OF_NUMBER_PRESET_ID = 2;
+    public static final int TYPE_OF_NUMBER_AUTO_STORE_BANK_ID = 3;
+    public static final int TYPE_OF_NUMBER_AUTO_STORE_ID = 4;
+    public static final int TYPE_OF_NUMBER_CD_DVD_BLUE_RAY_ID = 5;
+    public static final int TYPE_OF_NUMBER_INVALID_NUMBER = 15;
+    public final ListAvailable listAvailable = new ListAvailable();
     public int list_State;
-    private static final int LIST_STATE_BITSIZE;
-    public static final int LIST_STATE_UNKNOWN_LIST_STATE;
-    public static final int LIST_STATE_LIST_IS_BEING_LOADED;
-    public static final int LIST_STATE_LIST_IS_INCOMPLETELY_LOADED;
-    public static final int LIST_STATE_LIST_COMPLETELY_LOADED;
-    public static final int LIST_STATE_LIST_IS_BEING_UPDATED;
-    public static final int EXTENSION1_MIN;
+    private static final int LIST_STATE_BITSIZE = 4;
+    public static final int LIST_STATE_UNKNOWN_LIST_STATE = 0;
+    public static final int LIST_STATE_LIST_IS_BEING_LOADED = 1;
+    public static final int LIST_STATE_LIST_IS_INCOMPLETELY_LOADED = 2;
+    public static final int LIST_STATE_LIST_COMPLETELY_LOADED = 3;
+    public static final int LIST_STATE_LIST_IS_BEING_UPDATED = 4;
+    public static final int EXTENSION1_MIN = 0;
     public int extension1;
-    private static final int EXTENSION1_BITSIZE;
+    private static final int EXTENSION1_BITSIZE = 4;
     public int number;
-    private static final int NUMBER_BITSIZE;
+    private static final int NUMBER_BITSIZE = 8;
 
     public ActiveSource_Status() {
         this.internalReset();
@@ -98,13 +97,11 @@ implements StatusProperty {
         this.number = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.listAvailable.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveSource_Status activeSource_Status = (ActiveSource_Status)bAPEntity;
         return this.sourceType == activeSource_Status.sourceType && this.sourceList_Reference == activeSource_Status.sourceList_Reference && this.typeOfNumber == activeSource_Status.typeOfNumber && this.listAvailable.equalTo(activeSource_Status.listAvailable) && this.list_State == activeSource_Status.list_State && this.extension1 == activeSource_Status.extension1 && this.number == activeSource_Status.number;
@@ -113,7 +110,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveSource_Status:");
@@ -362,7 +358,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -374,7 +369,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.sourceType);
         bitStream.pushShort((short)this.sourceList_Reference);
@@ -385,7 +379,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.number);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.sourceType = bitStream.popFrontByte();
         this.sourceList_Reference = bitStream.popFrontShort();
@@ -400,9 +393,95 @@ implements StatusProperty {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveSource_Status.functionId();
+    }
+
+    public static final class ListAvailable
+    implements BAPEntity {
+        public boolean reserved_bit_3;
+        public boolean mediaBrowserListAvailable;
+        public boolean presetListAvailable;
+        public boolean receptionListAvailable;
+        private static final int LIST_AVAILABLE_BITSIZE = 4;
+
+        public ListAvailable() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public ListAvailable(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.reserved_bit_3 = false;
+            this.mediaBrowserListAvailable = false;
+            this.presetListAvailable = false;
+            this.receptionListAvailable = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            ListAvailable listAvailable = (ListAvailable)bAPEntity;
+            return this.reserved_bit_3 == listAvailable.reserved_bit_3 && this.mediaBrowserListAvailable == listAvailable.mediaBrowserListAvailable && this.presetListAvailable == listAvailable.presetListAvailable && this.receptionListAvailable == listAvailable.receptionListAvailable;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("ListAvailable:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.reserved_bit_3) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.mediaBrowserListAvailable) {
+                stringBuffer.append("true  (media browser list available");
+            } else {
+                stringBuffer.append("false  (media browser list not available");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.presetListAvailable) {
+                stringBuffer.append("true  (preset list available");
+            } else {
+                stringBuffer.append("false  (preset list not available");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.receptionListAvailable) {
+                stringBuffer.append("true  (reception list available");
+            } else {
+                stringBuffer.append("false  (reception list not available");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 4;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.reserved_bit_3);
+            bitStream.pushBoolean(this.mediaBrowserListAvailable);
+            bitStream.pushBoolean(this.presetListAvailable);
+            bitStream.pushBoolean(this.receptionListAvailable);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.reserved_bit_3 = bitStream.popFrontBoolean();
+            this.mediaBrowserListAvailable = bitStream.popFrontBoolean();
+            this.presetListAvailable = bitStream.popFrontBoolean();
+            this.receptionListAvailable = bitStream.popFrontBoolean();
+        }
     }
 }
 

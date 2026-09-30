@@ -9,21 +9,16 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
 
 public interface IWrappedNode3DText
 extends IBaseWrappedNode3DText {
-    public static final int ABBREVIATE_WIDTH_UNLIMITED;
+    public static final int ABBREVIATE_WIDTH_UNLIMITED = 10000;
 
-    default public void setText(String string, IWrappedFont iWrappedFont) {
-    }
+    public void setText(String var1, IWrappedFont var2);
 
-    default public void setText(String string, IWrappedFont iWrappedFont, int n, EALManager eALManager) {
-    }
+    public void setText(String var1, IWrappedFont var2, int var3, EALManager var4);
 
-    default public void setColor(int n) {
-    }
+    public void setColor(int var1);
 
-    default public IWrappedFont getFont() {
-    }
+    public IWrappedFont getFont();
 
-    default public int getAbbreviateWidth() {
-    }
+    public int getAbbreviateWidth();
 }
 

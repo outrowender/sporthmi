@@ -9,37 +9,26 @@ import de.vw.mib.bap.datatypes.BAPArrayElement;
 
 public interface StatusArray
 extends BAPArray {
-    default public int getAsgId() {
-    }
+    public int getAsgId();
 
-    default public void setAsgId(int n) {
-    }
+    public void setAsgId(int var1);
 
-    default public boolean isBroadcast() {
-    }
+    public boolean isBroadcast();
 
-    default public void setBroadcast(boolean bl) {
-    }
+    public void setBroadcast(boolean var1);
 
-    default public int getTransactionId() {
-    }
+    public int getTransactionId();
 
-    default public void setTransactionId(int n) {
-    }
+    public void setTransactionId(int var1);
 
-    default public int getNumberOfElements() {
-    }
+    public int getNumberOfElements();
 
-    default public void setNumberOfElements(int n) {
-    }
+    public void setNumberOfElements(int var1);
 
-    default public BAPArrayData getArrayData() {
-    }
+    public BAPArrayData getArrayData();
 
-    default public void setArrayData(BAPArrayData bAPArrayData) {
-    }
+    public void setArrayData(BAPArrayData var1);
 
-    default public BAPArrayElement createArrayElement() {
-    }
+    public BAPArrayElement createArrayElement();
 }
 

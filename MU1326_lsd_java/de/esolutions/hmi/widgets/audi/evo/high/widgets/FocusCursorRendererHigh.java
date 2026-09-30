@@ -13,10 +13,10 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.FocusCursorController;
 
 public class FocusCursorRendererHigh
 extends AbstractCursorRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
-    private static final String SHADOW_TEMPLATE_NODE_PATH;
-    private static final String SHADOW_EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/c1";
+    private static final String EAL_NODE_NAME = "focuscursor";
+    private static final String SHADOW_TEMPLATE_NODE_PATH = "Prefabs/c1_shadow";
+    private static final String SHADOW_EAL_NODE_NAME = "focuscursor_shadow";
     private int cachedCursorColor;
     private int cachedCursorColorEAL;
     private int cachedIconColor;
@@ -24,13 +24,12 @@ extends AbstractCursorRenderer {
     private IWrappedNode3D shadow;
     private int cachedX = -1;
     private int cachedY = -1;
-    private float cachedOpacity = 32959;
+    private float cachedOpacity = -1.0f;
 
     public FocusCursorRendererHigh(CursorController cursorController) {
         super(cursorController);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         Object object;
         int n = this.controller.getX();
@@ -88,7 +87,6 @@ extends AbstractCursorRenderer {
         }
     }
 
-    @Override
     protected void applyVisibility(boolean bl) {
         super.applyVisibility(bl);
         if (this.shadow != null) {
@@ -97,7 +95,7 @@ extends AbstractCursorRenderer {
     }
 
     private IWrappedNode3D createShadowNode(IWrappedNode3D iWrappedNode3D) {
-        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName("focuscursor_shadow", this), 0.0f, 0.0f, 6, "Prefabs/c1_shadow", this.getInitContext().getScreenID());
+        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName(SHADOW_EAL_NODE_NAME, this), 0.0f, 0.0f, 6, SHADOW_TEMPLATE_NODE_PATH, this.getInitContext().getScreenID());
     }
 
     private int getColor(RedrawContextHigh redrawContextHigh, boolean bl) {
@@ -119,7 +117,6 @@ extends AbstractCursorRenderer {
         return this.cachedCursorColorEAL;
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         if (this.shadow != null) {
@@ -128,20 +125,17 @@ extends AbstractCursorRenderer {
         }
         this.cachedX = -1;
         this.cachedY = -1;
-        this.cachedOpacity = 32959;
+        this.cachedOpacity = -1.0f;
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/c1";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "focuscursor";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

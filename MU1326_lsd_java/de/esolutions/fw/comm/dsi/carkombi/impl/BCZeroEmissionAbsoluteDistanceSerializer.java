@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCZeroEmissionAbsoluteDistance;
 
 public class BCZeroEmissionAbsoluteDistanceSerializer {
-    public static void putOptionalBCZeroEmissionAbsoluteDistance(ISerializer iSerializer, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance) {
+    public static void putOptionalBCZeroEmissionAbsoluteDistance(ISerializer iSerializer, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance) throws SerializerException {
         boolean bl = bCZeroEmissionAbsoluteDistance == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCZeroEmissionAbsoluteDistanceSerializer {
         }
     }
 
-    public static void putOptionalBCZeroEmissionAbsoluteDistanceVarArray(ISerializer iSerializer, BCZeroEmissionAbsoluteDistance[] bCZeroEmissionAbsoluteDistanceArray) {
+    public static void putOptionalBCZeroEmissionAbsoluteDistanceVarArray(ISerializer iSerializer, BCZeroEmissionAbsoluteDistance[] bCZeroEmissionAbsoluteDistanceArray) throws SerializerException {
         boolean bl = bCZeroEmissionAbsoluteDistanceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCZeroEmissionAbsoluteDistanceSerializer {
         }
     }
 
-    public static BCZeroEmissionAbsoluteDistance getOptionalBCZeroEmissionAbsoluteDistance(IDeserializer iDeserializer) {
+    public static BCZeroEmissionAbsoluteDistance getOptionalBCZeroEmissionAbsoluteDistance(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCZeroEmissionAbsoluteDistanceSerializer {
         return bCZeroEmissionAbsoluteDistance;
     }
 
-    public static BCZeroEmissionAbsoluteDistance[] getOptionalBCZeroEmissionAbsoluteDistanceVarArray(IDeserializer iDeserializer) {
+    public static BCZeroEmissionAbsoluteDistance[] getOptionalBCZeroEmissionAbsoluteDistanceVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionAbsoluteDistance[] bCZeroEmissionAbsoluteDistanceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

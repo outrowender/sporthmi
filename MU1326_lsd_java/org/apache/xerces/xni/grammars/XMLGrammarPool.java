@@ -7,22 +7,16 @@ import org.apache.xerces.xni.grammars.Grammar;
 import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 
 public interface XMLGrammarPool {
-    default public Grammar[] retrieveInitialGrammarSet(String string) {
-    }
+    public Grammar[] retrieveInitialGrammarSet(String var1);
 
-    default public void cacheGrammars(String string, Grammar[] grammarArray) {
-    }
+    public void cacheGrammars(String var1, Grammar[] var2);
 
-    default public Grammar retrieveGrammar(XMLGrammarDescription xMLGrammarDescription) {
-    }
+    public Grammar retrieveGrammar(XMLGrammarDescription var1);
 
-    default public void lockPool() {
-    }
+    public void lockPool();
 
-    default public void unlockPool() {
-    }
+    public void unlockPool();
 
-    default public void clear() {
-    }
+    public void clear();
 }
 

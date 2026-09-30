@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.search.impl;
 import de.esolutions.fw.comm.dsi.search.impl.TokenSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.SearchFilter;
 import org.dsi.ifc.search.Token;
 
 public class SearchFilterSerializer {
-    public static void putOptionalSearchFilter(ISerializer iSerializer, SearchFilter searchFilter) {
+    public static void putOptionalSearchFilter(ISerializer iSerializer, SearchFilter searchFilter) throws SerializerException {
         boolean bl = searchFilter == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SearchFilterSerializer {
         }
     }
 
-    public static void putOptionalSearchFilterVarArray(ISerializer iSerializer, SearchFilter[] searchFilterArray) {
+    public static void putOptionalSearchFilterVarArray(ISerializer iSerializer, SearchFilter[] searchFilterArray) throws SerializerException {
         boolean bl = searchFilterArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SearchFilterSerializer {
         }
     }
 
-    public static SearchFilter getOptionalSearchFilter(IDeserializer iDeserializer) {
+    public static SearchFilter getOptionalSearchFilter(IDeserializer iDeserializer) throws SerializerException {
         SearchFilter searchFilter = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class SearchFilterSerializer {
         return searchFilter;
     }
 
-    public static SearchFilter[] getOptionalSearchFilterVarArray(IDeserializer iDeserializer) {
+    public static SearchFilter[] getOptionalSearchFilterVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchFilter[] searchFilterArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

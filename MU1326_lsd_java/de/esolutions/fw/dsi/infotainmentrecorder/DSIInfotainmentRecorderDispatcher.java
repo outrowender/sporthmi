@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.infotainmentrecorder;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.infotainmentrecorder.DSIInfotainmentRecorderReply;
 import de.esolutions.fw.comm.dsi.infotainmentrecorder.impl.DSIInfotainmentRecorderReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIInfotainmentRecorderReply {
         super(n, (class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorderListener == null ? (class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorderListener = DSIInfotainmentRecorderDispatcher.class$("org.dsi.ifc.infotainmentrecorder.DSIInfotainmentRecorderListener")) : class$org$dsi$ifc$infotainmentrecorder$DSIInfotainmentRecorderListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateEnabledTriggers(boolean[] blArray, int n) {
+    public void updateEnabledTriggers(boolean[] blArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIInfotainmentRecorderReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -73,14 +71,13 @@ implements DSIInfotainmentRecorderReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIInfotainmentRecorderListener dSIInfotainmentRecorderListener = (DSIInfotainmentRecorderListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIInfotainmentRecorderDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIInfotainmentRecorderDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIInfotainmentRecorderListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIInfotainmentRecorderDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIInfotainmentRecorderDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIInfotainmentRecorderListener, new Object[]{string, string2});
                     continue;
                 }

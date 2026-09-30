@@ -3,32 +3,26 @@
  */
 package org.elektrobit.json.simple.parser;
 
+import java.io.IOException;
+import org.elektrobit.json.simple.parser.ParseException;
+
 public interface ContentHandler {
-    default public void startJSON() {
-    }
+    public void startJSON() throws ParseException, IOException;
 
-    default public void endJSON() {
-    }
+    public void endJSON() throws ParseException, IOException;
 
-    default public boolean startObject() {
-    }
+    public boolean startObject() throws ParseException, IOException;
 
-    default public boolean endObject() {
-    }
+    public boolean endObject() throws ParseException, IOException;
 
-    default public boolean startObjectEntry(String string) {
-    }
+    public boolean startObjectEntry(String var1) throws ParseException, IOException;
 
-    default public boolean endObjectEntry() {
-    }
+    public boolean endObjectEntry() throws ParseException, IOException;
 
-    default public boolean startArray() {
-    }
+    public boolean startArray() throws ParseException, IOException;
 
-    default public boolean endArray() {
-    }
+    public boolean endArray() throws ParseException, IOException;
 
-    default public boolean primitive(Object object) {
-    }
+    public boolean primitive(Object var1) throws ParseException, IOException;
 }
 

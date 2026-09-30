@@ -16,7 +16,6 @@ implements IFileFactory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public IFile createFile(String string) {
         MemoryTransferFile memoryTransferFile = new MemoryTransferFile(string);
         memoryTransferFile.open(true);

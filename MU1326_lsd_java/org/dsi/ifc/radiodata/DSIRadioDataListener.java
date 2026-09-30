@@ -13,55 +13,38 @@ import org.dsi.ifc.radiodata.RadioStationLogoResponse;
 
 public interface DSIRadioDataListener
 extends DSIListener {
-    default public void responseRadioStationData(RadioStationDataResponse[] radioStationDataResponseArray, int n) {
-    }
+    public void responseRadioStationData(RadioStationDataResponse[] var1, int var2);
 
-    default public void responseRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
-    }
+    public void responseRadioStationLogos(RadioStationLogoResponse[] var1, int var2);
 
-    default public void responseDynamicDatabaseAlteration(int n, int n2) {
-    }
+    public void responseDynamicDatabaseAlteration(int var1, int var2);
 
-    default public void responseCountryList(int[] nArray, int n) {
-    }
+    public void responseCountryList(int[] var1, int var2);
 
-    default public void responseDatabaseVersionInfo(int n, int n2, int n3, String string, int n4, int n5, int n6) {
-    }
+    public void responseDatabaseVersionInfo(int var1, int var2, int var3, String var4, int var5, int var6, int var7);
 
-    default public void updateDatabaseState(int n, int n2) {
-    }
+    public void updateDatabaseState(int var1, int var2);
 
-    default public void responsePersistStationLogos(int n, int n2) {
-    }
+    public void responsePersistStationLogos(int var1, int var2);
 
-    default public void updateRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
-    }
+    public void updateRadioStationLogos(RadioStationLogoResponse[] var1, int var2);
 
-    default public void responseCountryRegionData(CountryRegionData[] countryRegionDataArray, int n) {
-    }
+    public void responseCountryRegionData(CountryRegionData[] var1, int var2);
 
-    default public void responseCountryRegionTranslationData(CountryRegionTranslationData[] countryRegionTranslationDataArray, int n) {
-    }
+    public void responseCountryRegionTranslationData(CountryRegionTranslationData[] var1, int var2);
 
-    default public void responsePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
-    }
+    public void responsePersistStationLogosWithChangedUrls(RadioStationData[] var1, ResourceLocator[] var2, int var3, int var4);
 
-    default public void updatePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
-    }
+    public void updatePersistStationLogosWithChangedUrls(RadioStationData[] var1, ResourceLocator[] var2, int var3, int var4);
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3);
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2);
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3);
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2);
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1);
 }
 

@@ -43,7 +43,6 @@ extends Exception {
         return this.input;
     }
 
-    @Override
     public String getMessage() {
         String string = super.getMessage();
         if (this.index != -1) {

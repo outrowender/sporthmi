@@ -12,48 +12,35 @@ import de.esolutions.fw.comm.asi.diagnosis.telephone.sSimState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneAntennaState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneNetworkState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneTemperature;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2TelephoneDiagServiceC {
-    default public void responseErrorTelephone(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorTelephone(sClientResponseError var1) throws MethodException;
 
-    default public void responseSimState(sSimState sSimState2) {
-    }
+    public void responseSimState(sSimState var1) throws MethodException;
 
-    default public void responseNadIMEI(sNadIMEI sNadIMEI2) {
-    }
+    public void responseNadIMEI(sNadIMEI var1) throws MethodException;
 
-    default public void responseTelephoneAntennaState(sTelephoneAntennaState sTelephoneAntennaState2) {
-    }
+    public void responseTelephoneAntennaState(sTelephoneAntennaState var1) throws MethodException;
 
-    default public void responseConnectedBtHandset(sConnectedBtHandset sConnectedBtHandset2) {
-    }
+    public void responseConnectedBtHandset(sConnectedBtHandset var1) throws MethodException;
 
-    default public void responseNumberHandsetsHUCs(sNumberHandsetsHUCs sNumberHandsetsHUCs2) {
-    }
+    public void responseNumberHandsetsHUCs(sNumberHandsetsHUCs var1) throws MethodException;
 
-    default public void responseTelephoneNetworkState(sTelephoneNetworkState sTelephoneNetworkState2) {
-    }
+    public void responseTelephoneNetworkState(sTelephoneNetworkState var1) throws MethodException;
 
-    default public void responseTelephoneTemperature(sTelephoneTemperature sTelephoneTemperature2) {
-    }
+    public void responseTelephoneTemperature(sTelephoneTemperature var1) throws MethodException;
 
-    default public void responseDeleteMemory(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseDeleteMemory(sRoutineResponse var1) throws MethodException;
 
-    default public void responseNetworkName(long l, String string) {
-    }
+    public void responseNetworkName(long var1, String var3) throws MethodException;
 
-    default public void responseNetworkType(long l, int n) {
-    }
+    public void responseNetworkType(long var1, int var3) throws MethodException;
 
-    default public void responseDialNumber(long l) {
-    }
+    public void responseDialNumber(long var1) throws MethodException;
 
-    default public void responseCallStatus(long l, boolean bl) {
-    }
+    public void responseCallStatus(long var1, boolean var3) throws MethodException;
 
-    default public void responseInternalSimIdentification(long l, String string, String string2) {
-    }
+    public void responseInternalSimIdentification(long var1, String var3, String var4) throws MethodException;
 }
 

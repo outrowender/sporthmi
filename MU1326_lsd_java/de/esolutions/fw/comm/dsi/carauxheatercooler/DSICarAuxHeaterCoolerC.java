@@ -3,77 +3,55 @@
  */
 package de.esolutions.fw.comm.dsi.carauxheatercooler;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerExtendedConditioning;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerTimer;
 
 public interface DSICarAuxHeaterCoolerC {
-    default public void setAuxHeaterCoolerOnOff(boolean bl) {
-    }
+    public void setAuxHeaterCoolerOnOff(boolean var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerRunningTime(short s) {
-    }
+    public void setAuxHeaterCoolerRunningTime(short var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerMode(int n) {
-    }
+    public void setAuxHeaterCoolerMode(int var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerDefaultStartMode(int n) {
-    }
+    public void setAuxHeaterCoolerDefaultStartMode(int var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerEngineHeater(boolean bl) {
-    }
+    public void setAuxHeaterCoolerEngineHeater(boolean var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerActiveTimer(int n) {
-    }
+    public void setAuxHeaterCoolerActiveTimer(int var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
-    }
+    public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerPopup(int n) {
-    }
+    public void setAuxHeaterCoolerPopup(int var1) throws MethodException;
 
-    default public void setAuxHeaterSetFactoryDefault() {
-    }
+    public void setAuxHeaterSetFactoryDefault() throws MethodException;
 
-    default public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) {
-    }
+    public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerWindowHeating(boolean bl) {
-    }
+    public void setAuxHeaterCoolerWindowHeating(boolean var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerUnlockClimating(int n) {
-    }
+    public void setAuxHeaterCoolerUnlockClimating(int var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerTargetTemperature(float f2) {
-    }
+    public void setAuxHeaterCoolerTargetTemperature(float var1) throws MethodException;
 
-    default public void setAuxHeaterCoolerAirQuality(boolean bl) {
-    }
+    public void setAuxHeaterCoolerAirQuality(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

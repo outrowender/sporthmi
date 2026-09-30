@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.online.OperatorCallData;
 
 public class OperatorCallDataSerializer {
-    public static void putOptionalOperatorCallData(ISerializer iSerializer, OperatorCallData operatorCallData) {
+    public static void putOptionalOperatorCallData(ISerializer iSerializer, OperatorCallData operatorCallData) throws SerializerException {
         boolean bl = operatorCallData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class OperatorCallDataSerializer {
         }
     }
 
-    public static void putOptionalOperatorCallDataVarArray(ISerializer iSerializer, OperatorCallData[] operatorCallDataArray) {
+    public static void putOptionalOperatorCallDataVarArray(ISerializer iSerializer, OperatorCallData[] operatorCallDataArray) throws SerializerException {
         boolean bl = operatorCallDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class OperatorCallDataSerializer {
         }
     }
 
-    public static OperatorCallData getOptionalOperatorCallData(IDeserializer iDeserializer) {
+    public static OperatorCallData getOptionalOperatorCallData(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallData operatorCallData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class OperatorCallDataSerializer {
         return operatorCallData;
     }
 
-    public static OperatorCallData[] getOptionalOperatorCallDataVarArray(IDeserializer iDeserializer) {
+    public static OperatorCallData[] getOptionalOperatorCallDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallData[] operatorCallDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

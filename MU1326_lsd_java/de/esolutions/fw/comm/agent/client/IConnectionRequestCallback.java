@@ -6,10 +6,8 @@ package de.esolutions.fw.comm.agent.client;
 import de.esolutions.fw.comm.agent.client.IClientHandler;
 
 public interface IConnectionRequestCallback {
-    default public void connectionEstablished(IClientHandler iClientHandler) {
-    }
+    public void connectionEstablished(IClientHandler var1);
 
-    default public void connectionFailed(IClientHandler iClientHandler, String string) {
-    }
+    public void connectionFailed(IClientHandler var1, String var2);
 }
 

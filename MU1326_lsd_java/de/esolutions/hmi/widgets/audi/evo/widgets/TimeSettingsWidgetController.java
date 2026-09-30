@@ -19,10 +19,10 @@ import java.util.List;
 
 public class TimeSettingsWidgetController
 extends AbstractTimeDateController {
-    private static final int INDEX_TEXT_AM;
-    private static final int INDEX_TEXT_PM;
-    public static byte cursorPosHours;
-    public static byte cursorPosMinutes;
+    private static final int INDEX_TEXT_AM = 0;
+    private static final int INDEX_TEXT_PM = 1;
+    public static byte cursorPosHours = 0;
+    public static byte cursorPosMinutes = 1;
     protected ITimeDateSetttingsRenderer renderer;
     private boolean timeFormat12Hours = true;
     private int[] textIds;
@@ -32,17 +32,16 @@ extends AbstractTimeDateController {
     private boolean cachedTimeFormat12Hours;
     private int cachedAmPm;
     private int[] labelArrangement = new int[4];
-    private static final int LTR;
-    private static final int RTL;
+    private static final int LTR = 0;
+    private static final int RTL = 1;
     private int currentDirection = -1;
     private int lastDirection = -1;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (!this.isConnected()) {
             super.connected(initializationContext);
             this.cachedLineDescription = null;
-            menuItemLogCh.log(-2137614336, "TimeSettingsWidgetController#connected %1", (long)this.hashCode());
+            menuItemLogCh.log(10000000, "TimeSettingsWidgetController#connected %1", (long)this.hashCode());
             if (this.model instanceof MetricsModel) {
                 DateMetric dateMetric = (DateMetric)((MetricsModel)this.model).getMetric();
                 if (dateMetric != null) {
@@ -77,7 +76,6 @@ extends AbstractTimeDateController {
         }
     }
 
-    @Override
     protected void enterEditableMode() {
         super.enterEditableMode();
         this.isInEditableMode = true;
@@ -86,7 +84,6 @@ extends AbstractTimeDateController {
         this.switchOFFParentMenuCursor();
     }
 
-    @Override
     protected void exitEditableMode() {
         this.isInEditableMode = false;
         this.setHighlighted(false);
@@ -95,7 +92,6 @@ extends AbstractTimeDateController {
         this.writeDataToModel();
     }
 
-    @Override
     protected void exitEditableModeWithoutSavings() {
         this.isInEditableMode = false;
         this.setHighlighted(false);
@@ -104,7 +100,6 @@ extends AbstractTimeDateController {
         this.readDataFromModel(this.getModel(), this.getCalendar());
     }
 
-    @Override
     public List getLineDescription() {
         boolean bl;
         int n = this.getCalendar().get(11);
@@ -125,7 +120,7 @@ extends AbstractTimeDateController {
             ArrayList arrayList = new ArrayList(5);
             arrayList.add(new LineElement(String.valueOf(n), true, this.renderer.getTextWidth("00"), this.currentDirection == 1 ? 1 : 3));
             arrayList.add(new LineElement(":"));
-            arrayList.add(new LineElement(new StringBuffer().append(TimeSettingsWidgetController.appendOneLeadingZero(n2)).append(n2).toString(), true));
+            arrayList.add(new LineElement(TimeSettingsWidgetController.appendOneLeadingZero(n2) + n2, true));
             if (this.isAmPm()) {
                 int n4 = this.getTextID(0);
                 int n5 = this.getTextID(1);
@@ -159,7 +154,6 @@ extends AbstractTimeDateController {
         return this.cachedLineDescription;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -175,14 +169,12 @@ extends AbstractTimeDateController {
         return this.timeFormat12Hours;
     }
 
-    @Override
     public boolean isInEditableMode() {
         return this.isInEditableMode;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        menuItemLogCh.log(-2137614336, "TimeSettingsWidget#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "TimeSettingsWidget#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
         if (this.dds_pressed && keyEvent.getKeyCode() == 17) {
             if (this.getCurrentVisState() == 1) {
                 this.enterEditableMode();
@@ -203,7 +195,6 @@ extends AbstractTimeDateController {
         }
     }
 
-    @Override
     public void keyTurned1(WheelButtonEvent wheelButtonEvent) {
         if (this.getCurrentVisState() == 3) {
             int n = wheelButtonEvent.getClickCount();
@@ -217,9 +208,8 @@ extends AbstractTimeDateController {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        menuItemLogCh.log(-2137614336, "TimeSettingsWidgetController#processModelUpdateEvent");
+        menuItemLogCh.log(10000000, "TimeSettingsWidgetController#processModelUpdateEvent");
         int n = modelUpdateEvent.getModelType();
         if (n == 9) {
             switch (modelUpdateEvent.getUpdateType()) {
@@ -249,11 +239,6 @@ extends AbstractTimeDateController {
 
     public void setTextIds(int[] nArray) {
         this.textIds = nArray;
-    }
-
-    static {
-        cursorPosHours = 0;
-        cursorPosMinutes = 1;
     }
 }
 

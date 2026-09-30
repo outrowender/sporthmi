@@ -3,6 +3,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,7 +19,7 @@ import org.apache.xerces.xs.XSTypeDefinition;
 public class PSVIAttrNSImpl
 extends AttrNSImpl
 implements AttributePSVI {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -3241738699421018889L;
     protected XSAttributeDeclaration fDeclaration = null;
     protected XSTypeDefinition fTypeDecl = null;
     protected boolean fSpecified = true;
@@ -40,52 +41,42 @@ implements AttributePSVI {
         super(coreDocumentImpl, string, string2);
     }
 
-    @Override
     public String getSchemaDefault() {
         return this.fDeclaration == null ? null : this.fDeclaration.getConstraintValue();
     }
 
-    @Override
     public String getSchemaNormalizedValue() {
         return this.fNormalizedValue;
     }
 
-    @Override
     public boolean getIsSchemaSpecified() {
         return this.fSpecified;
     }
 
-    @Override
     public short getValidationAttempted() {
         return this.fValidationAttempted;
     }
 
-    @Override
     public short getValidity() {
         return this.fValidity;
     }
 
-    @Override
     public StringList getErrorCodes() {
         return this.fErrorCodes;
     }
 
-    @Override
     public String getValidationContext() {
         return this.fValidationContext;
     }
 
-    @Override
     public XSTypeDefinition getTypeDefinition() {
         return this.fTypeDecl;
     }
 
-    @Override
     public XSSimpleTypeDefinition getMemberTypeDefinition() {
         return this.fMemberType;
     }
 
-    @Override
     public XSAttributeDeclaration getAttributeDeclaration() {
         return this.fDeclaration;
     }
@@ -105,27 +96,24 @@ implements AttributePSVI {
         this.fSpecified = attributePSVI.getIsSchemaSpecified();
     }
 
-    @Override
     public Object getActualNormalizedValue() {
         return this.fActualValue;
     }
 
-    @Override
     public short getActualNormalizedValueType() {
         return this.fActualValueType;
     }
 
-    @Override
     public ShortList getItemValueTypes() {
         return this.fItemValueTypes;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        throw new NotSerializableException(super.getClass().getName());
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        throw new NotSerializableException(this.getClass().getName());
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        throw new NotSerializableException(super.getClass().getName());
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        throw new NotSerializableException(this.getClass().getName());
     }
 }
 

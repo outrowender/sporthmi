@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconAirVolume;
 
 public class AirconAirVolumeSerializer {
-    public static void putOptionalAirconAirVolume(ISerializer iSerializer, AirconAirVolume airconAirVolume) {
+    public static void putOptionalAirconAirVolume(ISerializer iSerializer, AirconAirVolume airconAirVolume) throws SerializerException {
         boolean bl = airconAirVolume == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AirconAirVolumeSerializer {
         }
     }
 
-    public static void putOptionalAirconAirVolumeVarArray(ISerializer iSerializer, AirconAirVolume[] airconAirVolumeArray) {
+    public static void putOptionalAirconAirVolumeVarArray(ISerializer iSerializer, AirconAirVolume[] airconAirVolumeArray) throws SerializerException {
         boolean bl = airconAirVolumeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AirconAirVolumeSerializer {
         }
     }
 
-    public static AirconAirVolume getOptionalAirconAirVolume(IDeserializer iDeserializer) {
+    public static AirconAirVolume getOptionalAirconAirVolume(IDeserializer iDeserializer) throws SerializerException {
         AirconAirVolume airconAirVolume = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AirconAirVolumeSerializer {
         return airconAirVolume;
     }
 
-    public static AirconAirVolume[] getOptionalAirconAirVolumeVarArray(IDeserializer iDeserializer) {
+    public static AirconAirVolume[] getOptionalAirconAirVolumeVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconAirVolume[] airconAirVolumeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

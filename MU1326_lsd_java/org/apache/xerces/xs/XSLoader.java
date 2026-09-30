@@ -10,19 +10,14 @@ import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.ls.LSInput;
 
 public interface XSLoader {
-    default public DOMConfiguration getConfig() {
-    }
+    public DOMConfiguration getConfig();
 
-    default public XSModel loadURIList(StringList stringList) {
-    }
+    public XSModel loadURIList(StringList var1);
 
-    default public XSModel loadInputList(LSInputList lSInputList) {
-    }
+    public XSModel loadInputList(LSInputList var1);
 
-    default public XSModel loadURI(String string) {
-    }
+    public XSModel loadURI(String var1);
 
-    default public XSModel load(LSInput lSInput) {
-    }
+    public XSModel load(LSInput var1);
 }
 

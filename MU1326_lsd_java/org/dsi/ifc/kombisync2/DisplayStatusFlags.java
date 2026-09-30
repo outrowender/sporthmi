@@ -15,7 +15,7 @@ public class DisplayStatusFlags {
     }
 
     public boolean isAllFlagsInvalid() {
-        return 0 != (this.statusFlags & 0x800000);
+        return 0 != (this.statusFlags & 0x8000);
     }
 
     public boolean isUserStage() {

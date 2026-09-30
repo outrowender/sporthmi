@@ -3,14 +3,13 @@
  */
 package de.esolutions.fw.util.serializer.connection;
 
+import de.esolutions.fw.util.serializer.connection.ConnectionFactoryException;
 import de.esolutions.fw.util.serializer.connection.IConnectionFactory;
 import de.esolutions.fw.util.serializer.connection.ISpawnConnectionFactory;
 
 public interface IConnectionFactoryProvider {
-    default public IConnectionFactory createConnectionFactory(String string, String string2) {
-    }
+    public IConnectionFactory createConnectionFactory(String var1, String var2) throws ConnectionFactoryException;
 
-    default public ISpawnConnectionFactory createSpawnConnectionFactory(String string, String string2) {
-    }
+    public ISpawnConnectionFactory createSpawnConnectionFactory(String var1, String var2) throws ConnectionFactoryException;
 }
 

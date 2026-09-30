@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSDynParkingMode;
 
 public class VPSDynParkingModeSerializer {
-    public static void putOptionalVPSDynParkingMode(ISerializer iSerializer, VPSDynParkingMode vPSDynParkingMode) {
+    public static void putOptionalVPSDynParkingMode(ISerializer iSerializer, VPSDynParkingMode vPSDynParkingMode) throws SerializerException {
         boolean bl = vPSDynParkingMode == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class VPSDynParkingModeSerializer {
         }
     }
 
-    public static void putOptionalVPSDynParkingModeVarArray(ISerializer iSerializer, VPSDynParkingMode[] vPSDynParkingModeArray) {
+    public static void putOptionalVPSDynParkingModeVarArray(ISerializer iSerializer, VPSDynParkingMode[] vPSDynParkingModeArray) throws SerializerException {
         boolean bl = vPSDynParkingModeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class VPSDynParkingModeSerializer {
         }
     }
 
-    public static VPSDynParkingMode getOptionalVPSDynParkingMode(IDeserializer iDeserializer) {
+    public static VPSDynParkingMode getOptionalVPSDynParkingMode(IDeserializer iDeserializer) throws SerializerException {
         VPSDynParkingMode vPSDynParkingMode = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class VPSDynParkingModeSerializer {
         return vPSDynParkingMode;
     }
 
-    public static VPSDynParkingMode[] getOptionalVPSDynParkingModeVarArray(IDeserializer iDeserializer) {
+    public static VPSDynParkingMode[] getOptionalVPSDynParkingModeVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSDynParkingMode[] vPSDynParkingModeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

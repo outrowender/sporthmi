@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class SwitchRadioMedia_Result
 implements ResultMethod {
     public int switchRadioMediaResult;
-    private static final int SWITCH_RADIO_MEDIA_RESULT_BITSIZE;
-    public static final int SWITCH_RADIO_MEDIA_RESULT_SUCCESSFUL;
-    public static final int SWITCH_RADIO_MEDIA_RESULT_NOT_SUCCESSFUL;
-    public static final int SWITCH_RADIO_MEDIA_RESULT_ABORT_SUCCESSFUL;
-    public static final int SWITCH_RADIO_MEDIA_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int SWITCH_RADIO_MEDIA_RESULT_BITSIZE = 8;
+    public static final int SWITCH_RADIO_MEDIA_RESULT_SUCCESSFUL = 0;
+    public static final int SWITCH_RADIO_MEDIA_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int SWITCH_RADIO_MEDIA_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int SWITCH_RADIO_MEDIA_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.switchRadioMediaResult;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.switchRadioMediaResult = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         SwitchRadioMedia_Result switchRadioMedia_Result = (SwitchRadioMedia_Result)bAPEntity;
         return this.switchRadioMediaResult == switchRadioMedia_Result.switchRadioMediaResult;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SwitchRadioMedia_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.switchRadioMediaResult);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.switchRadioMediaResult = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 45;
     }
 
-    @Override
     public int getFunctionId() {
         return SwitchRadioMedia_Result.functionId();
     }

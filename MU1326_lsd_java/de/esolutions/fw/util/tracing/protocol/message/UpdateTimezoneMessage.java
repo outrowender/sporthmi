@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
@@ -27,15 +28,13 @@ extends AbstractMessage {
         super(MessageType.UPDATE_TIMEZONE);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt32(this.id);
         iSerializer.putInt64(this.tzTime);
         iSerializer.putInt64(this.coreTime);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.id = iDeserializer.getInt32();
         this.tzTime = iDeserializer.getInt64();
         this.coreTime = iDeserializer.getInt64();
@@ -53,17 +52,14 @@ extends AbstractMessage {
         return this.coreTime;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.coreTime;
     }
 
-    @Override
     public long getExternalTimeStamp() {
         return this.tzTime;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("Update TimeZone: id=");
         buffer.append(this.id);

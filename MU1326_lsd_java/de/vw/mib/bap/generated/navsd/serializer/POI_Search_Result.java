@@ -10,15 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class POI_Search_Result
 implements ResultMethod {
     public int amountOfFoundEntries;
-    private static final int AMOUNT_OF_FOUND_ENTRIES_BITSIZE;
+    private static final int AMOUNT_OF_FOUND_ENTRIES_BITSIZE = 8;
     public int poi_Search_Result;
-    private static final int POI_SEARCH_RESULT_BITSIZE;
-    public static final int POI_SEARCH_RESULT_SUCCESSFUL;
-    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL;
-    public static final int POI_SEARCH_RESULT_ABORT_SUCCESSFUL;
-    public static final int POI_SEARCH_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL_ENTRY_NOT_FOUND;
-    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL_POI_TYPE_DOES_NOT_MATCH_TO_FSG_INTERNAL_VALUE;
+    private static final int POI_SEARCH_RESULT_BITSIZE = 8;
+    public static final int POI_SEARCH_RESULT_SUCCESSFUL = 0;
+    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int POI_SEARCH_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int POI_SEARCH_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL_ENTRY_NOT_FOUND = 4;
+    public static final int POI_SEARCH_RESULT_NOT_SUCCESSFUL_POI_TYPE_DOES_NOT_MATCH_TO_FSG_INTERNAL_VALUE = 5;
 
     public POI_Search_Result() {
         this.internalReset();
@@ -35,12 +35,10 @@ implements ResultMethod {
         this.poi_Search_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         POI_Search_Result pOI_Search_Result = (POI_Search_Result)bAPEntity;
         return this.amountOfFoundEntries == pOI_Search_Result.amountOfFoundEntries && this.poi_Search_Result == pOI_Search_Result.poi_Search_Result;
@@ -49,7 +47,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("POI_Search_Result:");
@@ -88,20 +85,17 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.amountOfFoundEntries);
         bitStream.pushByte((byte)this.poi_Search_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.amountOfFoundEntries = bitStream.popFrontByte();
         this.poi_Search_Result = bitStream.popFrontByte();
@@ -111,12 +105,10 @@ implements ResultMethod {
         return 51;
     }
 
-    @Override
     public int getFunctionId() {
         return POI_Search_Result.functionId();
     }
 
-    @Override
     public int getResultCode() {
         return this.poi_Search_Result;
     }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatmemoryConfig;
 
 public class SeatmemoryConfigSerializer {
-    public static void putOptionalSeatmemoryConfig(ISerializer iSerializer, SeatmemoryConfig seatmemoryConfig) {
+    public static void putOptionalSeatmemoryConfig(ISerializer iSerializer, SeatmemoryConfig seatmemoryConfig) throws SerializerException {
         boolean bl = seatmemoryConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class SeatmemoryConfigSerializer {
         }
     }
 
-    public static void putOptionalSeatmemoryConfigVarArray(ISerializer iSerializer, SeatmemoryConfig[] seatmemoryConfigArray) {
+    public static void putOptionalSeatmemoryConfigVarArray(ISerializer iSerializer, SeatmemoryConfig[] seatmemoryConfigArray) throws SerializerException {
         boolean bl = seatmemoryConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class SeatmemoryConfigSerializer {
         }
     }
 
-    public static SeatmemoryConfig getOptionalSeatmemoryConfig(IDeserializer iDeserializer) {
+    public static SeatmemoryConfig getOptionalSeatmemoryConfig(IDeserializer iDeserializer) throws SerializerException {
         SeatmemoryConfig seatmemoryConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class SeatmemoryConfigSerializer {
         return seatmemoryConfig;
     }
 
-    public static SeatmemoryConfig[] getOptionalSeatmemoryConfigVarArray(IDeserializer iDeserializer) {
+    public static SeatmemoryConfig[] getOptionalSeatmemoryConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatmemoryConfig[] seatmemoryConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

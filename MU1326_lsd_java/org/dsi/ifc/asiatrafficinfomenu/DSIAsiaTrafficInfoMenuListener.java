@@ -13,37 +13,26 @@ import org.dsi.ifc.global.DateTime;
 
 public interface DSIAsiaTrafficInfoMenuListener
 extends DSIListener {
-    default public void updateActiveInterrupts(Interrupt[] interruptArray, int n) {
-    }
+    public void updateActiveInterrupts(Interrupt[] var1, int var2);
 
-    default public void updateTrafficType(TrafficInformation[] trafficInformationArray, int n) {
-    }
+    public void updateTrafficType(TrafficInformation[] var1, int var2);
 
-    default public void updatePrefecture(String string, int n) {
-    }
+    public void updatePrefecture(String var1, int var2);
 
-    default public void updateProbeDataSetting(boolean bl, int n) {
-    }
+    public void updateProbeDataSetting(boolean var1, int var2);
 
-    default public void updateFrequency(int n, int n2) {
-    }
+    public void updateFrequency(int var1, int var2);
 
-    default public void updateReceptionStatus(int n, int n2) {
-    }
+    public void updateReceptionStatus(int var1, int var2);
 
-    default public void updateReceptionDate(DateTime dateTime, int n) {
-    }
+    public void updateReceptionDate(DateTime var1, int var2);
 
-    default public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
-    }
+    public void requestResourceInformationResponse(int var1, ResourceInformation var2);
 
-    default public void requestTrafficInformationDetailsResponse(int n, TrafficInformationDetails[] trafficInformationDetailsArray) {
-    }
+    public void requestTrafficInformationDetailsResponse(int var1, TrafficInformationDetails[] var2);
 
-    default public void updateReceivableStations(TunerData[] tunerDataArray, int n) {
-    }
+    public void updateReceivableStations(TunerData[] var1, int var2);
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1);
 }
 

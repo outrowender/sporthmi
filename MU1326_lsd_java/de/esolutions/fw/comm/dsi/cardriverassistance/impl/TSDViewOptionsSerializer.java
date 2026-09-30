@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardriverassistance.impl.TSDConfigurationSerial
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.TSDConfiguration;
 import org.dsi.ifc.cardriverassistance.TSDViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class TSDViewOptionsSerializer {
-    public static void putOptionalTSDViewOptions(ISerializer iSerializer, TSDViewOptions tSDViewOptions) {
+    public static void putOptionalTSDViewOptions(ISerializer iSerializer, TSDViewOptions tSDViewOptions) throws SerializerException {
         boolean bl = tSDViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class TSDViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalTSDViewOptionsVarArray(ISerializer iSerializer, TSDViewOptions[] tSDViewOptionsArray) {
+    public static void putOptionalTSDViewOptionsVarArray(ISerializer iSerializer, TSDViewOptions[] tSDViewOptionsArray) throws SerializerException {
         boolean bl = tSDViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class TSDViewOptionsSerializer {
         }
     }
 
-    public static TSDViewOptions getOptionalTSDViewOptions(IDeserializer iDeserializer) {
+    public static TSDViewOptions getOptionalTSDViewOptions(IDeserializer iDeserializer) throws SerializerException {
         TSDViewOptions tSDViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class TSDViewOptionsSerializer {
         return tSDViewOptions;
     }
 
-    public static TSDViewOptions[] getOptionalTSDViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static TSDViewOptions[] getOptionalTSDViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         TSDViewOptions[] tSDViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothDeviceName;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sBluetoothDeviceNameSerializer {
-    public static void putOptionalsBluetoothDeviceName(ISerializer iSerializer, sBluetoothDeviceName sBluetoothDeviceName2) {
+    public static void putOptionalsBluetoothDeviceName(ISerializer iSerializer, sBluetoothDeviceName sBluetoothDeviceName2) throws SerializerException {
         boolean bl = sBluetoothDeviceName2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sBluetoothDeviceNameSerializer {
         }
     }
 
-    public static void putOptionalsBluetoothDeviceNameVarArray(ISerializer iSerializer, sBluetoothDeviceName[] sBluetoothDeviceNameArray) {
+    public static void putOptionalsBluetoothDeviceNameVarArray(ISerializer iSerializer, sBluetoothDeviceName[] sBluetoothDeviceNameArray) throws SerializerException {
         boolean bl = sBluetoothDeviceNameArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sBluetoothDeviceNameSerializer {
         }
     }
 
-    public static sBluetoothDeviceName getOptionalsBluetoothDeviceName(IDeserializer iDeserializer) {
+    public static sBluetoothDeviceName getOptionalsBluetoothDeviceName(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothDeviceName sBluetoothDeviceName2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sBluetoothDeviceNameSerializer {
         return sBluetoothDeviceName2;
     }
 
-    public static sBluetoothDeviceName[] getOptionalsBluetoothDeviceNameVarArray(IDeserializer iDeserializer) {
+    public static sBluetoothDeviceName[] getOptionalsBluetoothDeviceNameVarArray(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothDeviceName[] sBluetoothDeviceNameArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,13 +6,16 @@ package de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl;
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.MapRegionInfo;
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.MapRegionInfoC;
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.MapRegionInfoReply;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoProxy$1;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoProxy$2;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoProxy$3;
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
+import de.esolutions.fw.comm.dsi.global.impl.NavRectangleSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.global.NavRectangle;
 
@@ -32,22 +35,37 @@ MapRegionInfoC {
         return this.proxy;
     }
 
-    @Override
-    public void requestGetDatabaseInfo(NavLocationWgs84 navLocationWgs84, int n) {
-        MapRegionInfoProxy$1 mapRegionInfoProxy$1 = new MapRegionInfoProxy$1(this, navLocationWgs84, n);
-        this.proxy.remoteCallMethod((short)3, mapRegionInfoProxy$1);
+    public void requestGetDatabaseInfo(final NavLocationWgs84 navLocationWgs84, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84(iSerializer, navLocationWgs84);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void requestGetMultipleDatabaseInfo(NavLocationWgs84[] navLocationWgs84Array, int n) {
-        MapRegionInfoProxy$2 mapRegionInfoProxy$2 = new MapRegionInfoProxy$2(this, navLocationWgs84Array, n);
-        this.proxy.remoteCallMethod((short)4, mapRegionInfoProxy$2);
+    public void requestGetMultipleDatabaseInfo(final NavLocationWgs84[] navLocationWgs84Array, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavLocationWgs84Serializer.putOptionalNavLocationWgs84VarArray(iSerializer, navLocationWgs84Array);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void requestGetRegionsInVicinity(NavRectangle navRectangle, int n) {
-        MapRegionInfoProxy$3 mapRegionInfoProxy$3 = new MapRegionInfoProxy$3(this, navRectangle, n);
-        this.proxy.remoteCallMethod((short)6, mapRegionInfoProxy$3);
+    public void requestGetRegionsInVicinity(final NavRectangle navRectangle, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavRectangleSerializer.putOptionalNavRectangle(iSerializer, navRectangle);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 }
 

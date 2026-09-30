@@ -15,7 +15,6 @@ implements Queue {
     protected AbstractQueue() {
     }
 
-    @Override
     public boolean add(Object object) {
         if (this.offer(object)) {
             return true;
@@ -23,7 +22,6 @@ implements Queue {
         throw new IllegalStateException("Queue full");
     }
 
-    @Override
     public Object remove() {
         Object object = this.poll();
         if (object != null) {
@@ -32,7 +30,6 @@ implements Queue {
         throw new NoSuchElementException();
     }
 
-    @Override
     public Object element() {
         Object object = this.peek();
         if (object != null) {
@@ -41,13 +38,11 @@ implements Queue {
         throw new NoSuchElementException();
     }
 
-    @Override
     public void clear() {
         while (this.poll() != null) {
         }
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         if (collection == null) {
             throw new NullPointerException();

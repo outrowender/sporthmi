@@ -14,41 +14,39 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ServiceList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_SERVICE_ID_SERVICE_NAME_SERVICE_VERSION_SERVICE_STATE_USER_SETTINGS_LICENSE_STATE_LICENSE_ID_PERIOD_OF_VALIDITY_DATE_OF_EXPIRY_DATE_OF_ACTIVATION;
-    public static final int RECORD_ADDRESS_SERVICE_ID_USER_SETTINGS;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_SERVICE_ID_SERVICE_NAME_SERVICE_VERSION_SERVICE_STATE_USER_SETTINGS_LICENSE_STATE_LICENSE_ID_PERIOD_OF_VALIDITY_DATE_OF_EXPIRY_DATE_OF_ACTIVATION = 1;
+    public static final int RECORD_ADDRESS_SERVICE_ID_USER_SETTINGS = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
-    private static final int MAX_SERVICEID_LENGTH;
+    private static final int MAX_SERVICEID_LENGTH = 33;
     public final BAPString serviceId;
-    private static final int MAX_SERVICENAME_LENGTH;
+    private static final int MAX_SERVICENAME_LENGTH = 34;
     public final BAPString serviceName;
-    private static final int MAX_SERVICEVERSION_LENGTH;
+    private static final int MAX_SERVICEVERSION_LENGTH = 9;
     public final BAPString serviceVersion;
     public ServiceList_ServiceState serviceState;
     public ServiceList_UserSettings userSettings;
-    public static final int LICENSE_STATE_NOT_LICENSED;
-    public static final int LICENSE_STATE_NOT_ACTIVATED;
-    public static final int LICENSE_STATE_ACTIVATED;
-    public static final int LICENSE_STATE_EXPIRED;
-    public static final int LICENSE_STATE_TEMPORARY_OFFER;
-    public static final int LICENSE_STATE_LICENSE_ERROR;
+    public static final int LICENSE_STATE_NOT_LICENSED = 0;
+    public static final int LICENSE_STATE_NOT_ACTIVATED = 1;
+    public static final int LICENSE_STATE_ACTIVATED = 2;
+    public static final int LICENSE_STATE_EXPIRED = 3;
+    public static final int LICENSE_STATE_TEMPORARY_OFFER = 4;
+    public static final int LICENSE_STATE_LICENSE_ERROR = 5;
     public int licenseState;
-    private static final int MAX_LICENSEID_LENGTH;
+    private static final int MAX_LICENSEID_LENGTH = 33;
     public final BAPString licenseId;
-    private static final int MAX_PERIODOFVALIDITY_LENGTH;
+    private static final int MAX_PERIODOFVALIDITY_LENGTH = 18;
     public final BAPString periodOfValidity;
-    private static final int MAX_DATEOFEXPIRY_LENGTH;
+    private static final int MAX_DATEOFEXPIRY_LENGTH = 18;
     public final BAPString dateOfExpiry;
-    private static final int MAX_DATEOFACTIVATION_LENGTH;
+    private static final int MAX_DATEOFACTIVATION_LENGTH = 18;
     public final BAPString dateOfActivation;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -78,7 +76,6 @@ implements BAPArrayElement {
         this.licenseState = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -93,7 +90,6 @@ implements BAPArrayElement {
         this.dateOfActivation.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceList_Data serviceList_Data = (ServiceList_Data)bAPEntity;
         return this.arrayHeader.equalTo(serviceList_Data.arrayHeader) && this.pos == serviceList_Data.pos && this.serviceId.equalTo(serviceList_Data.serviceId) && this.serviceName.equalTo(serviceList_Data.serviceName) && this.serviceVersion.equalTo(serviceList_Data.serviceVersion) && this.serviceState.equalTo(serviceList_Data.serviceState) && this.userSettings.equalTo(serviceList_Data.userSettings) && this.licenseState == serviceList_Data.licenseState && this.licenseId.equalTo(serviceList_Data.licenseId) && this.periodOfValidity.equalTo(serviceList_Data.periodOfValidity) && this.dateOfExpiry.equalTo(serviceList_Data.dateOfExpiry) && this.dateOfActivation.equalTo(serviceList_Data.dateOfActivation);
@@ -102,30 +98,27 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceList_Data");
-        stringBuffer.append(new StringBuffer().append("\n - pos:").append(this.pos).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceId:").append(this.serviceId.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceName:").append(this.serviceName.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceVersion:").append(this.serviceVersion.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - serviceState:").append(this.serviceState.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - userSettings:").append(this.userSettings.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - licenseState:").append(this.licenseState).toString());
-        stringBuffer.append(new StringBuffer().append("\n - licenseId:").append(this.licenseId.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - periodOfValidity:").append(this.periodOfValidity.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - dateOfExpiry:").append(this.dateOfExpiry.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - dateOfActivation:").append(this.dateOfActivation.toString()).toString());
+        stringBuffer.append("\n - pos:" + this.pos);
+        stringBuffer.append("\n - serviceId:" + this.serviceId.toString());
+        stringBuffer.append("\n - serviceName:" + this.serviceName.toString());
+        stringBuffer.append("\n - serviceVersion:" + this.serviceVersion.toString());
+        stringBuffer.append("\n - serviceState:" + this.serviceState.toString());
+        stringBuffer.append("\n - userSettings:" + this.userSettings.toString());
+        stringBuffer.append("\n - licenseState:" + this.licenseState);
+        stringBuffer.append("\n - licenseId:" + this.licenseId.toString());
+        stringBuffer.append("\n - periodOfValidity:" + this.periodOfValidity.toString());
+        stringBuffer.append("\n - dateOfExpiry:" + this.dateOfExpiry.toString());
+        stringBuffer.append("\n - dateOfActivation:" + this.dateOfActivation.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -155,7 +148,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -185,12 +177,10 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

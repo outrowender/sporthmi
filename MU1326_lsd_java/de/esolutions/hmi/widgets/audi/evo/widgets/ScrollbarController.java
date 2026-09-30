@@ -25,10 +25,10 @@ public class ScrollbarController
 extends AbstractWidgetController
 implements AnimationListener,
 IMenuCallback {
-    private static final float EPSILON;
-    private static final float DEFAULT_MINIMAL_SCROLLBAR_HEIGHT;
-    private static final int ANIMATION_TARGET;
-    static final int ANIMATION_TYPE;
+    private static final float EPSILON = 0.008f;
+    private static final float DEFAULT_MINIMAL_SCROLLBAR_HEIGHT = 20.0f;
+    private static final int ANIMATION_TARGET = 1000;
+    static final int ANIMATION_TYPE = 71;
     private ScrollbarRenderer renderer;
     private ScrollbarInterval animationStartInterval = ScrollbarInterval.getInvisibleInterval();
     private ScrollbarInterval targetInterval = ScrollbarInterval.getInvisibleInterval();
@@ -49,16 +49,15 @@ IMenuCallback {
     private boolean alignTop;
     private float scrollbarHeight;
     private float scrollbarPosition;
-    private float menuMaxVisibleItemCount = 32959;
+    private float menuMaxVisibleItemCount = -1.0f;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.clearCache();
     }
 
     public void setInterval(int n, int n2, int n3, boolean bl) {
-        logScrollbar.log(-2137614336, "ScrollbarController#setInterval: from %1 to %2, count: %3", (long)n, (long)n2, (long)n3);
+        logScrollbar.log(10000000, "ScrollbarController#setInterval: from %1 to %2, count: %3", (long)n, (long)n2, (long)n3);
         float f2 = ScrollbarController.getPosition(n, n3);
         float f3 = ScrollbarController.getPosition(n2 + 1, n3);
         ScrollbarInterval scrollbarInterval = ScrollbarController.createInterval(f2, f3);
@@ -76,9 +75,9 @@ IMenuCallback {
             this.animationStartInterval = this.animationInterval;
             this.targetInterval = scrollbarInterval;
             if (abstractAnimation.isAnimating()) {
-                abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+                abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
             } else {
-                abstractAnimation.startDynamicAnimation(0.0f, 31300, 71, this.targetInterval.isVisible(), this);
+                abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, 71, this.targetInterval.isVisible(), this);
             }
         }
     }
@@ -87,7 +86,7 @@ IMenuCallback {
         if (f2 < 0.0f || f3 < 0.0f) {
             return ScrollbarInterval.getInvisibleInterval();
         }
-        if (f2 <= 1863451452 && f3 >= -1225556673) {
+        if (f2 <= 0.008f && f3 >= 0.992f) {
             return ScrollbarInterval.getInvisibleInterval();
         }
         return new ScrollbarInterval(f2, f3, 1.0f);
@@ -95,12 +94,11 @@ IMenuCallback {
 
     private static float getPosition(int n, int n2) {
         if (n < 0 || n2 <= 0 || n > n2) {
-            return 32959;
+            return -1.0f;
         }
         return (float)n / (float)n2;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -113,7 +111,6 @@ IMenuCallback {
         return this.animationInterval;
     }
 
-    @Override
     public void animate(int n, float f2) {
         AbstractAnimation abstractAnimation = this.getAnimation();
         if (n == 71) {
@@ -122,11 +119,9 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (n == 71) {
             this.animationInterval = this.targetInterval;
@@ -143,7 +138,6 @@ IMenuCallback {
         return this.animation;
     }
 
-    @Override
     protected void destroyWidget() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -204,7 +198,7 @@ IMenuCallback {
             this.menuMaxVisibleItemCount = this.computeVisibleItemCount(menuController, f2);
         }
         f2 = (float)this.getHeight() / (float)n;
-        this.scrollbarHeight = ScrollbarController.clamp(41025, this.getHeight(), this.menuMaxVisibleItemCount * f2);
+        this.scrollbarHeight = ScrollbarController.clamp(20.0f, this.getHeight(), this.menuMaxVisibleItemCount * f2);
         float f3 = scrollbarInterval.getLastPos() - scrollbarInterval.getFirstPos();
         this.scrollbarPosition = ScrollbarController.changeScale(1.0f - f3, (float)this.getHeight() - this.scrollbarHeight, scrollbarInterval.getFirstPos());
         this.animationInterval = scrollbarInterval;
@@ -250,7 +244,7 @@ IMenuCallback {
 
     private ScrollbarInterval createIntervalFromCachedValues(MenuController menuController) {
         if (this.cachedFlatMenuItemCount == 0) {
-            logScrollbar.log(-2137614336, "ScrollbarController#createIntervalFromCachedValues: menu is empty");
+            logScrollbar.log(10000000, "ScrollbarController#createIntervalFromCachedValues: menu is empty");
             return ScrollbarInterval.getInvisibleInterval();
         }
         if (this.entireMax <= 0) {
@@ -267,7 +261,7 @@ IMenuCallback {
                     f3 = this.cachedTopItemFlatPos + 1;
                 }
             }
-            logScrollbar.log(-2137614336, "ScrollbarController#createIntervalFromCachedValues: menu size: %1, visible items: %2 - %3", (double)this.cachedFlatMenuItemCount, (double)f2, (double)f3);
+            logScrollbar.log(10000000, "ScrollbarController#createIntervalFromCachedValues: menu size: %1, visible items: %2 - %3", (double)this.cachedFlatMenuItemCount, (double)f2, (double)f3);
             return ScrollbarController.createInterval(f2 / (float)this.cachedFlatMenuItemCount, f3 / (float)this.cachedFlatMenuItemCount);
         }
         float f4 = ((float)this.entireValue + (float)this.cachedTopItemFlatPos - this.cachedTopVisibleRatio + 1.0f) / (float)this.entireMax;
@@ -333,7 +327,7 @@ IMenuCallback {
         this.cachedFlatMenuItemCount = 0;
         this.cachedTopVisibleRatio = 1.0f;
         this.cachedBottomVisibleRatio = 1.0f;
-        this.menuMaxVisibleItemCount = 32959;
+        this.menuMaxVisibleItemCount = -1.0f;
     }
 
     private MenuController getMenu() {
@@ -344,12 +338,10 @@ IMenuCallback {
         return null;
     }
 
-    @Override
     public void menuLayouted() {
         this.updateScrollbarPosition();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateModelValue();
         super.processModelUpdateEvent(modelUpdateEvent);
@@ -363,28 +355,22 @@ IMenuCallback {
         }
     }
 
-    @Override
     public void viewportUpdated(boolean bl) {
         this.clearCache();
     }
 
-    @Override
     public void menuFocusChanged(MenuItemIndex menuItemIndex) {
     }
 
-    @Override
     public void menuFocusChangeFinished() {
     }
 
-    @Override
     public void menuSelectionChanged(MenuItemIndex menuItemIndex, Long l, MenuUpdateDelta menuUpdateDelta) {
     }
 
-    @Override
     public void setActiveMenuController(MenuController menuController) {
     }
 
-    @Override
     public void setHideOverlayDecoratorDuringScrolling(boolean bl) {
     }
 

@@ -26,28 +26,23 @@ implements DSIKombiPictureServer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServer == null ? (class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServer = DSIKombiPictureServerProvider.class$("org.dsi.ifc.kombipictureserver.DSIKombiPictureServer")) : class$org$dsi$ifc$kombipictureserver$DSIKombiPictureServer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIKombiPictureServerProxy(this.instance, (DSIKombiPictureServerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setKombiHmiReady() {
         try {
             this.proxy.setKombiHmiReady();
@@ -57,7 +52,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseCoverArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseCoverArt(l, n, n2, n3, resourceLocator);
@@ -67,7 +61,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseStationArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseStationArt(l, n, n2, n3, resourceLocator);
@@ -77,7 +70,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseActiveCallPicture(n, n2, resourceLocator);
@@ -87,7 +79,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseActiveCallPictureInstance(int n, int n2, int n3, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseActiveCallPictureInstance(n, n2, n3, resourceLocator);
@@ -97,7 +88,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseDynamicIcon(int n, int n2, boolean bl, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseDynamicIcon(n, n2, bl, resourceLocator);
@@ -107,7 +97,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseAdbContactPicture(long l, int n, int n2, ResourceLocator resourceLocator) {
         try {
             this.proxy.responseAdbContactPicture(l, n, n2, resourceLocator);
@@ -117,7 +106,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responseInternalAddressID(long l, int n, int n2) {
         try {
             this.proxy.responseInternalAddressID(l, n, n2);
@@ -127,7 +115,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responsePictureServerAbilities(int n) {
         try {
             this.proxy.responsePictureServerAbilities(n);
@@ -137,7 +124,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void responsePictureStream(int n, short s, short s2, int n2, int n3, byte[] byArray) {
         try {
             this.proxy.responsePictureStream(n, s, s2, n2, n3, byArray);
@@ -147,7 +133,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -157,7 +142,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -167,7 +151,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -177,7 +160,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -187,7 +169,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -197,7 +178,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -207,7 +187,6 @@ implements DSIKombiPictureServer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

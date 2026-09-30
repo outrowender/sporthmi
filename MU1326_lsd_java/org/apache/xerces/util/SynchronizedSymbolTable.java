@@ -24,7 +24,6 @@ extends SymbolTable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String addSymbol(String string) {
         SymbolTable symbolTable = this.fSymbolTable;
         synchronized (symbolTable) {
@@ -35,7 +34,6 @@ extends SymbolTable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String addSymbol(char[] cArray, int n, int n2) {
         SymbolTable symbolTable = this.fSymbolTable;
         synchronized (symbolTable) {
@@ -46,7 +44,6 @@ extends SymbolTable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean containsSymbol(String string) {
         SymbolTable symbolTable = this.fSymbolTable;
         synchronized (symbolTable) {
@@ -57,7 +54,6 @@ extends SymbolTable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean containsSymbol(char[] cArray, int n, int n2) {
         SymbolTable symbolTable = this.fSymbolTable;
         synchronized (symbolTable) {

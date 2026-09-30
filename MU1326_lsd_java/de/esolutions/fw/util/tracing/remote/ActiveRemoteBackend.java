@@ -38,7 +38,6 @@ implements Runnable {
         super.exit();
     }
 
-    @Override
     public void run() {
         if (!this.doInit()) {
             return;
@@ -58,13 +57,10 @@ implements Runnable {
         this.doExit();
     }
 
-    protected abstract boolean doInit() {
-    }
+    protected abstract boolean doInit();
 
-    protected abstract boolean doWork() {
-    }
+    protected abstract boolean doWork() throws InterruptedException;
 
-    protected abstract void doExit() {
-    }
+    protected abstract void doExit();
 }
 

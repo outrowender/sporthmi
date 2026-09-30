@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.mirrorlink.Application;
 
 public class ApplicationSerializer {
-    public static void putOptionalApplication(ISerializer iSerializer, Application application) {
+    public static void putOptionalApplication(ISerializer iSerializer, Application application) throws SerializerException {
         boolean bl = application == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class ApplicationSerializer {
         }
     }
 
-    public static void putOptionalApplicationVarArray(ISerializer iSerializer, Application[] applicationArray) {
+    public static void putOptionalApplicationVarArray(ISerializer iSerializer, Application[] applicationArray) throws SerializerException {
         boolean bl = applicationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class ApplicationSerializer {
         }
     }
 
-    public static Application getOptionalApplication(IDeserializer iDeserializer) {
+    public static Application getOptionalApplication(IDeserializer iDeserializer) throws SerializerException {
         Application application = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class ApplicationSerializer {
         return application;
     }
 
-    public static Application[] getOptionalApplicationVarArray(IDeserializer iDeserializer) {
+    public static Application[] getOptionalApplicationVarArray(IDeserializer iDeserializer) throws SerializerException {
         Application[] applicationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

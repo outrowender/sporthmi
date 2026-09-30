@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.bap;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.bap.DSIBAPReply;
 import de.esolutions.fw.comm.dsi.bap.impl.DSIBAPReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIBAPReply {
         super(n, (class$org$dsi$ifc$bap$DSIBAPListener == null ? (class$org$dsi$ifc$bap$DSIBAPListener = DSIBAPDispatcher.class$("org.dsi.ifc.bap.DSIBAPListener")) : class$org$dsi$ifc$bap$DSIBAPListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void bapStateStatus(int n, int n2) {
+    public void bapStateStatus(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void indication(int n, int n2, int n3, int n4, int n5) {
+    public void indication(int n, int n2, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void indicationVoid(int n, int n2, int n3) {
+    public void indicationVoid(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void indicationByteSequence(int n, int n2, int n3, byte[] byArray) {
+    public void indicationByteSequence(int n, int n2, int n3, byte[] byArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,8 +90,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void indicationError(int n, int n2, int n3) {
+    public void indicationError(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -111,8 +106,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void acknowledge(int n, int n2, int n3) {
+    public void acknowledge(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -128,8 +122,7 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -145,14 +138,13 @@ implements DSIBAPReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIBAPListener dSIBAPListener = (DSIBAPListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBAPDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBAPDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIBAPListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBAPDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBAPDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIBAPListener, new Object[]{string, string2});
                     continue;
                 }

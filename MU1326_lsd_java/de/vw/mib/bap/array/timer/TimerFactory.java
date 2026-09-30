@@ -7,7 +7,6 @@ import de.vw.mib.bap.array.timer.Timer;
 import de.vw.mib.bap.array.timer.TimerNotifier;
 
 public interface TimerFactory {
-    default public Timer createTimer(TimerNotifier timerNotifier, long l) {
-    }
+    public Timer createTimer(TimerNotifier var1, long var2);
 }
 

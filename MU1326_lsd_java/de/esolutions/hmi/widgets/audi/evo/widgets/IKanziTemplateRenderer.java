@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IKanziTemplateRenderer
 extends IRenderer {
-    default public void setKzbIDs(int[] nArray) {
-    }
+    public void setKzbIDs(int[] var1);
 }
 

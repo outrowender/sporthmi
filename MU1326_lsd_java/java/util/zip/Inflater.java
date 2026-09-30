@@ -19,8 +19,7 @@ public class Inflater {
         Inflater.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     public synchronized void end() {
         if (this.streamHandle != -1L) {
@@ -32,8 +31,7 @@ public class Inflater {
         }
     }
 
-    private synchronized native void endImpl(long l) {
-    }
+    private synchronized native void endImpl(long var1);
 
     protected void finalize() {
         this.end();
@@ -50,8 +48,7 @@ public class Inflater {
         return this.getAdlerImpl(this.streamHandle);
     }
 
-    private synchronized native int getAdlerImpl(long l) {
-    }
+    private synchronized native int getAdlerImpl(long var1);
 
     public synchronized int getRemaining() {
         return this.inLength - this.inRead;
@@ -64,8 +61,7 @@ public class Inflater {
         return this.getTotalInImpl(this.streamHandle);
     }
 
-    private synchronized native int getTotalInImpl(long l) {
-    }
+    private synchronized native int getTotalInImpl(long var1);
 
     public synchronized int getTotalOut() {
         if (this.streamHandle == -1L) {
@@ -74,14 +70,13 @@ public class Inflater {
         return this.getTotalOutImpl(this.streamHandle);
     }
 
-    private synchronized native int getTotalOutImpl(long l) {
-    }
+    private synchronized native int getTotalOutImpl(long var1);
 
-    public int inflate(byte[] byArray) {
+    public int inflate(byte[] byArray) throws DataFormatException {
         return this.inflate(byArray, 0, byArray.length);
     }
 
-    public synchronized int inflate(byte[] byArray, int n, int n2) {
+    public synchronized int inflate(byte[] byArray, int n, int n2) throws DataFormatException {
         if (n <= byArray.length && n2 >= 0 && n >= 0 && byArray.length - n >= n2) {
             if (this.streamHandle == -1L) {
                 throw new IllegalStateException();
@@ -97,8 +92,7 @@ public class Inflater {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    private synchronized native int inflateImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private synchronized native int inflateImpl(byte[] var1, int var2, int var3, long var4);
 
     public Inflater() {
         this(false);
@@ -132,8 +126,7 @@ public class Inflater {
         this.resetImpl(this.streamHandle);
     }
 
-    private synchronized native void resetImpl(long l) {
-    }
+    private synchronized native void resetImpl(long var1);
 
     public synchronized void setDictionary(byte[] byArray) {
         this.setDictionary(byArray, 0, byArray.length);
@@ -149,8 +142,7 @@ public class Inflater {
         this.setDictionaryImpl(byArray, n, n2, this.streamHandle);
     }
 
-    private synchronized native void setDictionaryImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private synchronized native void setDictionaryImpl(byte[] var1, int var2, int var3, long var4);
 
     public synchronized void setInput(byte[] byArray) {
         this.setInput(byArray, 0, byArray.length);
@@ -169,10 +161,8 @@ public class Inflater {
         this.setInputImpl(byArray, n, n2, this.streamHandle);
     }
 
-    private synchronized native void setInputImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private synchronized native void setInputImpl(byte[] var1, int var2, int var3, long var4);
 
-    private native long createStream(boolean bl) {
-    }
+    private native long createStream(boolean var1);
 }
 

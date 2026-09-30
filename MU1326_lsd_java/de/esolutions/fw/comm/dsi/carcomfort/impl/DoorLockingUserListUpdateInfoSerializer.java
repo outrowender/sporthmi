@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingUserListUpdateInfo;
 
 public class DoorLockingUserListUpdateInfoSerializer {
-    public static void putOptionalDoorLockingUserListUpdateInfo(ISerializer iSerializer, DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo) {
+    public static void putOptionalDoorLockingUserListUpdateInfo(ISerializer iSerializer, DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo) throws SerializerException {
         boolean bl = doorLockingUserListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class DoorLockingUserListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingUserListUpdateInfoVarArray(ISerializer iSerializer, DoorLockingUserListUpdateInfo[] doorLockingUserListUpdateInfoArray) {
+    public static void putOptionalDoorLockingUserListUpdateInfoVarArray(ISerializer iSerializer, DoorLockingUserListUpdateInfo[] doorLockingUserListUpdateInfoArray) throws SerializerException {
         boolean bl = doorLockingUserListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class DoorLockingUserListUpdateInfoSerializer {
         }
     }
 
-    public static DoorLockingUserListUpdateInfo getOptionalDoorLockingUserListUpdateInfo(IDeserializer iDeserializer) {
+    public static DoorLockingUserListUpdateInfo getOptionalDoorLockingUserListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListUpdateInfo doorLockingUserListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class DoorLockingUserListUpdateInfoSerializer {
         return doorLockingUserListUpdateInfo;
     }
 
-    public static DoorLockingUserListUpdateInfo[] getOptionalDoorLockingUserListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingUserListUpdateInfo[] getOptionalDoorLockingUserListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListUpdateInfo[] doorLockingUserListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

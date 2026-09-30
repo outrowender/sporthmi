@@ -3,65 +3,47 @@
  */
 package de.esolutions.fw.comm.dsi.kombifastlist;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombifastlist.DataAddress;
 import org.dsi.ifc.kombifastlist.DataInitials;
 
 public interface DSIFastListScrollingNavigationC {
-    default public void pushFunctionAvailabilityNavigation(int n) {
-    }
+    public void pushFunctionAvailabilityNavigation(int var1) throws MethodException;
 
-    default public void pushMOSTOperationStateNavigation(int n) {
-    }
+    public void pushMOSTOperationStateNavigation(int var1) throws MethodException;
 
-    default public void responseNavBook(int n, int n2, int n3, int n4, int n5, long l, int n6, int n7, int n8, int n9, int n10, int n11, int n12) {
-    }
+    public void responseNavBook(int var1, int var2, int var3, int var4, int var5, long var6, int var8, int var9, int var10, int var11, int var12, int var13, int var14) throws MethodException;
 
-    default public void responseNavBookArray(int n, int n2, DataAddress[] dataAddressArray) {
-    }
+    public void responseNavBookArray(int var1, int var2, DataAddress[] var3) throws MethodException;
 
-    default public void responseGetInitialsNavigation(int n, int n2, int n3, int n4, DataInitials[] dataInitialsArray) {
-    }
+    public void responseGetInitialsNavigation(int var1, int var2, int var3, int var4, DataInitials[] var5) throws MethodException;
 
-    default public void pushLastDestList(int n, int n2, DataAddress[] dataAddressArray) {
-    }
+    public void pushLastDestList(int var1, int var2, DataAddress[] var3) throws MethodException;
 
-    default public void pushUpdateFavoriteDestList(int n, int n2, DataAddress[] dataAddressArray) {
-    }
+    public void pushUpdateFavoriteDestList(int var1, int var2, DataAddress[] var3) throws MethodException;
 
-    default public void pushCurrentListSizeNavigation(int n, int n2, int n3) {
-    }
+    public void pushCurrentListSizeNavigation(int var1, int var2, int var3) throws MethodException;
 
-    default public void responseNavBookJobs(int n, int n2, int n3) {
-    }
+    public void responseNavBookJobs(int var1, int var2, int var3) throws MethodException;
 
-    default public void responseNotifyCurrentListSizesNavigation(boolean bl) {
-    }
+    public void responseNotifyCurrentListSizesNavigation(boolean var1) throws MethodException;
 
-    default public void responseNotifyFavoriteDestList(boolean bl) {
-    }
+    public void responseNotifyFavoriteDestList(boolean var1) throws MethodException;
 
-    default public void responseNotifyLastDestList(boolean bl) {
-    }
+    public void responseNotifyLastDestList(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.keypanel;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.keypanel.DSIKeyPanelReply;
 import de.esolutions.fw.comm.dsi.keypanel.impl.DSIKeyPanelReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIKeyPanelReply {
         super(n, (class$org$dsi$ifc$keypanel$DSIKeyPanelListener == null ? (class$org$dsi$ifc$keypanel$DSIKeyPanelListener = DSIKeyPanelDispatcher.class$("org.dsi.ifc.keypanel.DSIKeyPanelListener")) : class$org$dsi$ifc$keypanel$DSIKeyPanelListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateKey2(int n, int n2, int n3, int n4, int n5) {
+    public void updateKey2(int n, int n2, int n3, int n4, int n5) throws MethodException {
         if ((n5 & 0x80) == 128) {
             n5 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -56,8 +55,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateEncoder2(int n, int n2, int n3, int n4, int n5) {
+    public void updateEncoder2(int n, int n2, int n3, int n4, int n5) throws MethodException {
         if ((n5 & 0x80) == 128) {
             n5 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -85,8 +83,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateDisplayTurnMechStatus(int n, int n2) {
+    public void updateDisplayTurnMechStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -114,8 +111,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateRecognizerLanguage2(int n, String string, int n2, int n3) {
+    public void updateRecognizerLanguage2(int n, String string, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -143,8 +139,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateRecognizerMode(int n, int n2, int n3) {
+    public void updateRecognizerMode(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -172,8 +167,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) {
+    public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -201,8 +195,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) {
+    public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) throws MethodException {
         if ((n9 & 0x80) == 128) {
             n9 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -230,8 +223,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void genericSettingResponse(int n, int n2, int n3) {
+    public void genericSettingResponse(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -247,8 +239,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateProximity(int n, int n2, int n3) {
+    public void updateProximity(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -276,8 +267,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
+    public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) throws MethodException {
         if ((n10 & 0x80) == 128) {
             n10 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -305,8 +295,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void lastKey(int n, int n2, int n3) {
+    public void lastKey(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -322,8 +311,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateKeyboardType(int n, int n2) {
+    public void updateKeyboardType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -351,8 +339,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) {
+    public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) throws MethodException {
         if ((n6 & 0x80) == 128) {
             n6 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -380,8 +367,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void getVersionInfo(int n, int n2, String string) {
+    public void getVersionInfo(int n, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -397,8 +383,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void updateInputPanelReady(int n, int n2, int n3) {
+    public void updateInputPanelReady(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -426,8 +411,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) {
+    public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -443,8 +427,7 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -460,14 +443,13 @@ implements DSIKeyPanelReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIKeyPanelListener dSIKeyPanelListener = (DSIKeyPanelListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKeyPanelDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKeyPanelDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIKeyPanelListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIKeyPanelDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIKeyPanelDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIKeyPanelListener, new Object[]{string, string2});
                     continue;
                 }

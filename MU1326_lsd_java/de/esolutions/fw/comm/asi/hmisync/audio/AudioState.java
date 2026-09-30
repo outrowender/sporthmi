@@ -32,7 +32,7 @@ public class AudioState {
     }
 
     public String toString() {
-        return new StringBuffer("AudioState{").append("audioContext=").append(this.audioContext).append(", audioState=").append(this.audioState).append("}").toString();
+        return "AudioState{" + "audioContext=" + this.audioContext + ", audioState=" + this.audioState + "}";
     }
 }
 

@@ -41,15 +41,15 @@ implements IPresetManager,
 WidgetConstants,
 MsgListener {
     private static LogChannel lc = IWidgetLogChannel.logPreset;
-    public static final int PRESET_NONE;
-    public static final int PRESET_1;
-    public static final int PRESET_2;
-    public static final int PRESET_3;
-    public static final int PRESET_4;
-    public static final int PRESET_5;
-    public static final int PRESET_6;
-    public static final int PRESET_7;
-    public static final int PRESET_8;
+    public static final int PRESET_NONE = -1;
+    public static final int PRESET_1 = 0;
+    public static final int PRESET_2 = 1;
+    public static final int PRESET_3 = 2;
+    public static final int PRESET_4 = 3;
+    public static final int PRESET_5 = 4;
+    public static final int PRESET_6 = 5;
+    public static final int PRESET_7 = 6;
+    public static final int PRESET_8 = 7;
     protected HMITerminalEvo terminal;
     protected PresetDefinitionHandlerRegistry presetDefinitionReg;
     private PresetExecutionHandlerRegistry presetExecutionReg;
@@ -119,16 +119,16 @@ MsgListener {
     }
 
     public void sendDefinitionRequest(int n) {
-        lc.log(-2137614336, "PresetManager#sendDefinitionRequest()");
+        lc.log(10000000, "PresetManager#sendDefinitionRequest()");
         PresetPopupData presetPopupData = (PresetPopupData)this.terminal.getDrawerFocusManager().getPresetPopupData();
         if (presetPopupData == null) {
-            lc.log(1078071040, "PresetManager#sendDefinitionRequest entry is not storable - no request is sent to application, responseDefine is called directly");
+            lc.log(1000000, "PresetManager#sendDefinitionRequest entry is not storable - no request is sent to application, responseDefine is called directly");
             this.setNotStorablePreset(n);
         } else {
             Preset preset = presetPopupData.getPreset();
             switch (preset.getType()) {
                 case -1: {
-                    lc.log(-2137614336, "PresetManager#sendDefinitionRequest presetType: TYPE_UNDEFINED, cannot store preset");
+                    lc.log(10000000, "PresetManager#sendDefinitionRequest presetType: TYPE_UNDEFINED, cannot store preset");
                     break;
                 }
                 case 1: {
@@ -146,11 +146,11 @@ MsgListener {
                             iAppPresetDefinitionHandler.requestDefinition((DefinitionRequest)object);
                             break;
                         }
-                        lc.log(1078071040, "PresetManager#sendDefinitionRequest no app preset handler registered for modelID: %1, cannot store preset", (long)n2);
+                        lc.log(1000000, "PresetManager#sendDefinitionRequest no app preset handler registered for modelID: %1, cannot store preset", (long)n2);
                         this.setNotStorablePreset(n);
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#sendDefinitionRequest presetType: TYPE_APPLICATION, cannot determine model, cannot store preset");
+                    lc.log(100000, "PresetManager#sendDefinitionRequest presetType: TYPE_APPLICATION, cannot determine model, cannot store preset");
                     this.setNotStorablePreset(n);
                     break;
                 }
@@ -167,7 +167,7 @@ MsgListener {
                         this.setNotStorablePreset(n);
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#sendDefinitionRequest presetType: TYPE_SETTING, no modelID set, cannot store preset");
+                    lc.log(100000, "PresetManager#sendDefinitionRequest presetType: TYPE_SETTING, no modelID set, cannot store preset");
                     this.setNotStorablePreset(n);
                     break;
                 }
@@ -178,11 +178,11 @@ MsgListener {
                         this.presetDefinitionReg.getPresetDefinitionHandler(3, 0).requestDefinition(definitionRequest);
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#sendDefinitionRequest presetType: TYPE_DIRECT_ACCESS, no modelID set, cannot store preset");
+                    lc.log(100000, "PresetManager#sendDefinitionRequest presetType: TYPE_DIRECT_ACCESS, no modelID set, cannot store preset");
                     break;
                 }
                 default: {
-                    lc.log(-1601830656, "PresetManager#sendDefinitionRequest unknown presetType: %1 ", (long)preset.getType());
+                    lc.log(100000, "PresetManager#sendDefinitionRequest unknown presetType: %1 ", (long)preset.getType());
                 }
             }
         }
@@ -197,7 +197,7 @@ MsgListener {
     }
 
     protected void responseDefineEvent(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
-        lc.log(-2137614336, "PresetManager#responseDefineEvent called - request=%1, result=%2", (Object)definitionRequest, (long)n);
+        lc.log(10000000, "PresetManager#responseDefineEvent called - request=%1, result=%2", (Object)definitionRequest, (long)n);
         if (n == 3) {
             PresetPopupData presetPopupData = this.getPresetStorageProvider().getNotStorablePopupData();
             presetPopupData.setResult(n);
@@ -226,7 +226,7 @@ MsgListener {
     boolean handleExecution(int n) {
         IPresetPopupData iPresetPopupData = this.presetStorageProvider.getPersistedPresetPopupData(n);
         if (iPresetPopupData == null || iPresetPopupData.getPreset() == null) {
-            lc.log(-1601830656, "PresetManager#handleExecution storedEntryPopupData: %1 or preset is null or presetType is undefined, cannot execute preset", (Object)iPresetPopupData);
+            lc.log(100000, "PresetManager#handleExecution storedEntryPopupData: %1 or preset is null or presetType is undefined, cannot execute preset", (Object)iPresetPopupData);
             return true;
         }
         Preset preset = iPresetPopupData.getPreset();
@@ -234,7 +234,7 @@ MsgListener {
         IAppPresetExecutionHandler iAppPresetExecutionHandler = this.presetExecutionReg.getPresetExecutionHandler(n2);
         switch (preset.getType()) {
             case -1: {
-                lc.log(-2137614336, "PresetManager#handleExecution presetType: TYPE_UNDEFINED, cannot execute preset");
+                lc.log(10000000, "PresetManager#handleExecution presetType: TYPE_UNDEFINED, cannot execute preset");
                 break;
             }
             case 1: {
@@ -243,11 +243,11 @@ MsgListener {
                         iAppPresetExecutionHandler.requestExecute(new ExecuteRequest(this, preset));
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#handleExecution no app preset handler registered for modelID: %1, cannot execute preset", (long)n2);
+                    lc.log(100000, "PresetManager#handleExecution no app preset handler registered for modelID: %1, cannot execute preset", (long)n2);
                     this.setNoAppRegisteredPreset(n);
                     return false;
                 }
-                lc.log(-1601830656, "PresetManager#handleExecution presetType: TYPE_LIST, cannot determine model, cannot execute preset");
+                lc.log(100000, "PresetManager#handleExecution presetType: TYPE_LIST, cannot determine model, cannot execute preset");
                 break;
             }
             case 0: {
@@ -256,10 +256,10 @@ MsgListener {
                         iAppPresetExecutionHandler.requestExecute(new ExecuteRequest(this, preset));
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#handleExecution no statemachine preset handler registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
+                    lc.log(100000, "PresetManager#handleExecution no statemachine preset handler registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
                     break;
                 }
-                lc.log(-1601830656, "PresetManager#handleExecution presetType: TYPE_SMI, no event set, cannot execute preset");
+                lc.log(100000, "PresetManager#handleExecution presetType: TYPE_SMI, no event set, cannot execute preset");
                 break;
             }
             case 2: {
@@ -268,10 +268,10 @@ MsgListener {
                         iAppPresetExecutionHandler.requestExecute(new ExecuteRequest(this, preset));
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#handleExecution registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
+                    lc.log(100000, "PresetManager#handleExecution registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
                     break;
                 }
-                lc.log(-1601830656, "PresetManager#handleExecution presetType: TYPE_MAP, no modelID set, cannot execute preset");
+                lc.log(100000, "PresetManager#handleExecution presetType: TYPE_MAP, no modelID set, cannot execute preset");
                 break;
             }
             case 3: {
@@ -280,14 +280,14 @@ MsgListener {
                         iAppPresetExecutionHandler.requestExecute(new ExecuteRequest(this, preset));
                         break;
                     }
-                    lc.log(-1601830656, "PresetManager#handleExecution registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
+                    lc.log(100000, "PresetManager#handleExecution registered for smEventID: %1, cannot execute preset", (Object)iAppPresetExecutionHandler);
                     break;
                 }
-                lc.log(-1601830656, "PresetManager#handleExecution presetType: TYPE_CHECKBOX, no modelID set, cannot execute preset");
+                lc.log(100000, "PresetManager#handleExecution presetType: TYPE_CHECKBOX, no modelID set, cannot execute preset");
                 break;
             }
             default: {
-                lc.log(-1601830656, "PresetManager#handleExecution unknown presetType: %1 ", (long)preset.getType());
+                lc.log(100000, "PresetManager#handleExecution unknown presetType: %1 ", (long)preset.getType());
             }
         }
         return true;
@@ -322,7 +322,6 @@ MsgListener {
         this.notifyTouchInputManager(bl);
     }
 
-    @Override
     public void responseDefine(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
         if (AbstractWidget.hmiService.getEventDispatcher().isDispatchThread()) {
             this.responseDefineEvent(definitionRequest, n, serializable, presetListRow, n2);
@@ -331,20 +330,17 @@ MsgListener {
         }
     }
 
-    @Override
     public void responseExecute(ExecuteRequest executeRequest, int n) {
         if (AbstractWidget.hmiService.getEventDispatcher().isDispatchThread()) {
-            lc.log(-2137614336, "PresetManager#responseExecute result: %1", (long)n);
+            lc.log(10000000, "PresetManager#responseExecute result: %1", (long)n);
         } else {
             lc.log(10000, "PresetManager#responseExecute callback is not from event-thread! result: %1", (long)n);
         }
     }
 
-    @Override
     public void favoriteDefinitionChanged(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 34) {
             this.doFactoryReset();
@@ -352,7 +348,7 @@ MsgListener {
     }
 
     protected void doFactoryReset() {
-        lc.log(1078071040, "PresetManager#doFactoryReset");
+        lc.log(1000000, "PresetManager#doFactoryReset");
         this.presetStorageProvider.reset();
         this.getPresetPopupController();
         if (this.presetPopupController != null) {

@@ -3,17 +3,17 @@
  */
 package de.esolutions.hmi.widgets.audi.base.eal;
 
+import de.audi.atip.hmi.event.MergeKZBAsyncEvent;
 import de.esolutions.graphics.eal.api.INode2D;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.base.eal.IMixedListCallback;
-import de.esolutions.hmi.widgets.audi.base.eal.MixedListKZBMerger$1;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -32,30 +32,47 @@ public class MixedListKZBMerger {
         } else {
             ealManager.getMasterRoot().addAuto(iNode2D, -50);
             iNode2D.dispose();
-            IWidgetLogChannel.mixedListLogChannel.log(-2137614336, "MixedListKZBMerger#kZBMergedCallback Merging successful.");
+            IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListKZBMerger#kZBMergedCallback Merging successful.");
             kzbMerged = true;
         }
         Iterator iterator = mixedListCallbackListener.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            IMixedListCallback iMixedListCallback = (IMixedListCallback)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            IMixedListCallback iMixedListCallback = (IMixedListCallback)entry.getValue();
             iMixedListCallback.kZBMergedCallback(kzbMerged);
         }
     }
 
     public static void mergeKZBAsync(int n, int n2, EALManager eALManager) {
-        IWidgetLogChannel.mixedListLogChannel.log(-2137614336, "MixedListKZBMerger#mergeKZBAsync");
+        IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListKZBMerger#mergeKZBAsync");
         ealManager = eALManager;
         if (!kzbMerged && ealManager != null) {
-            IWidgetLogChannel.mixedListLogChannel.log(-2137614336, "MixedListKZBMerger#mergeKZBAsync Start merging.");
+            IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListKZBMerger#mergeKZBAsync Start merging.");
             ealManager.mergeProjectAsync(n, -50, n2);
         }
     }
 
     public static void startTrackingAndMerge(BundleContext bundleContext, EALManager eALManager) {
         if (AbstractWidget.framework.isTarget()) {
-            IWidgetLogChannel.mixedListLogChannel.log(-2137614336, "MixedListKZBMerger#startTrackingAndMerge");
-            hmiBundleTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = MixedListKZBMerger.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), (ServiceTrackerCustomizer)new MixedListKZBMerger$1());
+            IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListKZBMerger#startTrackingAndMerge");
+            hmiBundleTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = MixedListKZBMerger.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), new ServiceTrackerCustomizer(){
+
+                public Object addingService(ServiceReference serviceReference) {
+                    if (serviceReference.getBundle().getLocation().equals("HMINavi")) {
+                        IWidgetLogChannel.mixedListLogChannel.log(10000000, "MixedListKZBMerger#startTrackingAndMerge addingService: Post MergeKZBEvent");
+                        MergeKZBAsyncEvent mergeKZBAsyncEvent = new MergeKZBAsyncEvent(AbstractWidget.hmiService.getRootWindow(0), 255, 17);
+                        AbstractWidget.hmiService.getEventDispatcher().postEvent(mergeKZBAsyncEvent);
+                        hmiBundleTracker.close();
+                    }
+                    return serviceReference;
+                }
+
+                public void modifiedService(ServiceReference serviceReference, Object object) {
+                }
+
+                public void removedService(ServiceReference serviceReference, Object object) {
+                }
+            });
             hmiBundleTracker.open();
         }
     }
@@ -79,10 +96,6 @@ public class MixedListKZBMerger {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ServiceTracker access$000() {
-        return hmiBundleTracker;
     }
 
     static {

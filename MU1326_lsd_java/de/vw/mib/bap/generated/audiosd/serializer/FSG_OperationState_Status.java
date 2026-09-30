@@ -10,15 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class FSG_OperationState_Status
 implements StatusProperty {
     public int op_State;
-    private static final int OP_STATE_BITSIZE;
-    public static final int OP_STATE_NORMAL_OPERATION;
-    public static final int OP_STATE_OFF_STAND_BY;
-    public static final int OP_STATE_INITIALISING;
-    public static final int OP_STATE_DEFECTIVE;
+    private static final int OP_STATE_BITSIZE = 8;
+    public static final int OP_STATE_NORMAL_OPERATION = 0;
+    public static final int OP_STATE_OFF_STAND_BY = 1;
+    public static final int OP_STATE_INITIALISING = 3;
+    public static final int OP_STATE_DEFECTIVE = 15;
     public int hmi_State;
-    private static final int HMI_STATE_BITSIZE;
-    public static final int HMI_STATE_NO_ANIMATION_RUNNING_ON_FSG_HMI_STATE_UNKNOWN;
-    public static final int HMI_STATE_WELCOME_ANIMATION_RUNNING_ON_FSG;
+    private static final int HMI_STATE_BITSIZE = 8;
+    public static final int HMI_STATE_NO_ANIMATION_RUNNING_ON_FSG_HMI_STATE_UNKNOWN = 0;
+    public static final int HMI_STATE_WELCOME_ANIMATION_RUNNING_ON_FSG = 1;
 
     public FSG_OperationState_Status() {
         this.internalReset();
@@ -35,12 +35,10 @@ implements StatusProperty {
         this.hmi_State = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)bAPEntity;
         return this.op_State == fSG_OperationState_Status.op_State && this.hmi_State == fSG_OperationState_Status.hmi_State;
@@ -49,7 +47,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_OperationState_Status:");
@@ -92,20 +89,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.op_State);
         bitStream.pushByte((byte)this.hmi_State);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.op_State = bitStream.popFrontByte();
         this.hmi_State = bitStream.popFrontByte();
@@ -115,7 +109,6 @@ implements StatusProperty {
         return 15;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_OperationState_Status.functionId();
     }

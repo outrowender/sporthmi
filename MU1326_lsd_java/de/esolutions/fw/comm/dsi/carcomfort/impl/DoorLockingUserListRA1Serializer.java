@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingUserListRA1;
 
 public class DoorLockingUserListRA1Serializer {
-    public static void putOptionalDoorLockingUserListRA1(ISerializer iSerializer, DoorLockingUserListRA1 doorLockingUserListRA1) {
+    public static void putOptionalDoorLockingUserListRA1(ISerializer iSerializer, DoorLockingUserListRA1 doorLockingUserListRA1) throws SerializerException {
         boolean bl = doorLockingUserListRA1 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DoorLockingUserListRA1Serializer {
         }
     }
 
-    public static void putOptionalDoorLockingUserListRA1VarArray(ISerializer iSerializer, DoorLockingUserListRA1[] doorLockingUserListRA1Array) {
+    public static void putOptionalDoorLockingUserListRA1VarArray(ISerializer iSerializer, DoorLockingUserListRA1[] doorLockingUserListRA1Array) throws SerializerException {
         boolean bl = doorLockingUserListRA1Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DoorLockingUserListRA1Serializer {
         }
     }
 
-    public static DoorLockingUserListRA1 getOptionalDoorLockingUserListRA1(IDeserializer iDeserializer) {
+    public static DoorLockingUserListRA1 getOptionalDoorLockingUserListRA1(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListRA1 doorLockingUserListRA1 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class DoorLockingUserListRA1Serializer {
         return doorLockingUserListRA1;
     }
 
-    public static DoorLockingUserListRA1[] getOptionalDoorLockingUserListRA1VarArray(IDeserializer iDeserializer) {
+    public static DoorLockingUserListRA1[] getOptionalDoorLockingUserListRA1VarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListRA1[] doorLockingUserListRA1Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -22,11 +22,10 @@ import java.net.UnknownHostException;
 public class RemoteListenBackendManagerPlugin
 implements ITracePlugin {
     private RemoteListenBackendManager mgr;
-    private static final String chn;
+    private static final String chn = "RemotenListManagerBackend";
 
-    @Override
     public void start(TraceFrontend traceFrontend, TraceConfigPlugin traceConfigPlugin) {
-        TraceMe.msg(TraceMe.TRACE, "RemotenListManagerBackend", "start");
+        TraceMe.msg(TraceMe.TRACE, chn, "start");
         IConfigQuery iConfigQuery = traceConfigPlugin.getQuery();
         ISpawnConnectionFactory iSpawnConnectionFactory = null;
         String string = iConfigQuery.getStringValue("transportService");
@@ -49,13 +48,12 @@ implements ITracePlugin {
             this.mgr.setForceActive(bl);
             this.mgr.start();
         } else {
-            TraceMe.msg(TraceMe.ERROR, "RemotenListManagerBackend", "can't start!");
+            TraceMe.msg(TraceMe.ERROR, chn, "can't start!");
         }
     }
 
-    @Override
     public void stop() {
-        TraceMe.msg(TraceMe.TRACE, "RemotenListManagerBackend", "stop");
+        TraceMe.msg(TraceMe.TRACE, chn, "stop");
         if (this.mgr != null) {
             this.mgr.stop();
         }
@@ -64,18 +62,18 @@ implements ITracePlugin {
     private ISpawnConnectionFactory createFactoryForTransportService(String string) {
         TransportConfig transportConfig = TransportConfig.getInstance();
         if (!transportConfig.isValid()) {
-            TraceMe.msg(TraceMe.ERROR, "RemotenListManagerBackend", "transport config invalid!");
+            TraceMe.msg(TraceMe.ERROR, chn, "transport config invalid!");
             return null;
         }
         String string2 = transportConfig.getSystemConfig().getMyNodeName();
         try {
             ConfigConnectionFactoryProvider configConnectionFactoryProvider = new ConfigConnectionFactoryProvider(transportConfig);
             ISpawnConnectionFactory iSpawnConnectionFactory = configConnectionFactoryProvider.createSpawnConnectionFactory(string, string2);
-            TraceMe.msg(TraceMe.INFO, "RemotenListManagerBackend", "using transport service: %1", string);
+            TraceMe.msg(TraceMe.INFO, chn, "using transport service: %1", string);
             return iSpawnConnectionFactory;
         }
         catch (ConnectionFactoryException connectionFactoryException) {
-            TraceMe.msg(TraceMe.ERROR, "RemotenListManagerBackend", "Unknown remote listen backend service: %1", string);
+            TraceMe.msg(TraceMe.ERROR, chn, "Unknown remote listen backend service: %1", string);
             return null;
         }
     }
@@ -84,10 +82,10 @@ implements ITracePlugin {
         TCPSpawnTransportFactory tCPSpawnTransportFactory = null;
         try {
             tCPSpawnTransportFactory = new TCPSpawnTransportFactory(InetAddress.getByName(string), (int)s);
-            TraceMe.msg(TraceMe.INFO, "RemotenListManagerBackend", "using host: %1:%2", string, new Short(s));
+            TraceMe.msg(TraceMe.INFO, chn, "using host: %1:%2", string, new Short(s));
         }
         catch (UnknownHostException unknownHostException) {
-            TraceMe.msg(TraceMe.ERROR, "RemotenListManagerBackend", "Unknown remote listen backend host: %1", string);
+            TraceMe.msg(TraceMe.ERROR, chn, "Unknown remote listen backend host: %1", string);
             return null;
         }
         BEDefaultSerializerFactory bEDefaultSerializerFactory = new BEDefaultSerializerFactory();

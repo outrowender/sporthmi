@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.menu.list;
 
 public interface ListItemWidget {
-    default public int getModelColumn() {
-    }
+    public int getModelColumn();
 }
 

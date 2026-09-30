@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOSpecialFeaturesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOButtonListRA2;
 import org.dsi.ifc.carcomfort.UGDOSpecialFeatures;
 
 public class UGDOButtonListRA2Serializer {
-    public static void putOptionalUGDOButtonListRA2(ISerializer iSerializer, UGDOButtonListRA2 uGDOButtonListRA2) {
+    public static void putOptionalUGDOButtonListRA2(ISerializer iSerializer, UGDOButtonListRA2 uGDOButtonListRA2) throws SerializerException {
         boolean bl = uGDOButtonListRA2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class UGDOButtonListRA2Serializer {
         }
     }
 
-    public static void putOptionalUGDOButtonListRA2VarArray(ISerializer iSerializer, UGDOButtonListRA2[] uGDOButtonListRA2Array) {
+    public static void putOptionalUGDOButtonListRA2VarArray(ISerializer iSerializer, UGDOButtonListRA2[] uGDOButtonListRA2Array) throws SerializerException {
         boolean bl = uGDOButtonListRA2Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class UGDOButtonListRA2Serializer {
         }
     }
 
-    public static UGDOButtonListRA2 getOptionalUGDOButtonListRA2(IDeserializer iDeserializer) {
+    public static UGDOButtonListRA2 getOptionalUGDOButtonListRA2(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListRA2 uGDOButtonListRA2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class UGDOButtonListRA2Serializer {
         return uGDOButtonListRA2;
     }
 
-    public static UGDOButtonListRA2[] getOptionalUGDOButtonListRA2VarArray(IDeserializer iDeserializer) {
+    public static UGDOButtonListRA2[] getOptionalUGDOButtonListRA2VarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOButtonListRA2[] uGDOButtonListRA2Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

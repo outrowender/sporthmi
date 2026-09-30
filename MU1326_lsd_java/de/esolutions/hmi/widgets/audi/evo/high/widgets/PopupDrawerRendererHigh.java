@@ -17,12 +17,10 @@ extends ContainerRendererHigh {
         super(containerController);
     }
 
-    @Override
     protected IWrappedNode3D getParentNode(RedrawContextHigh redrawContextHigh) {
         return this.getEALManager().getOptionDrawerNode();
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         ContainerController containerController = this.getContainerController();
         float f2 = (float)containerController.getX() + containerController.getTransX();

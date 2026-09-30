@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CertificateFactory {
-    private static final String KEY_PREFIX;
+    private static final String KEY_PREFIX = "CertificateFactory.";
     private String type;
     private Provider provider;
     private CertificateFactorySpi certificateFactorySpi;
@@ -32,7 +32,7 @@ public class CertificateFactory {
         this.certificateFactorySpi = certificateFactorySpi;
     }
 
-    private static CertificateFactory createCertificateFactory(Provider provider, Class clazz, String string) {
+    private static CertificateFactory createCertificateFactory(Provider provider, Class clazz, String string) throws CertificateException {
         try {
             CertificateFactorySpi certificateFactorySpi = (CertificateFactorySpi)clazz.newInstance();
             return new CertificateFactory(certificateFactorySpi, provider, string);
@@ -43,35 +43,35 @@ public class CertificateFactory {
         throw new CertificateException(string);
     }
 
-    public final Certificate generateCertificate(InputStream inputStream) {
+    public final Certificate generateCertificate(InputStream inputStream) throws CertificateException {
         if (inputStream == null) {
             throw new CertificateException(Msg.getString("K00a5", "null"));
         }
         return this.certificateFactorySpi.engineGenerateCertificate(inputStream);
     }
 
-    public final Collection generateCertificates(InputStream inputStream) {
+    public final Collection generateCertificates(InputStream inputStream) throws CertificateException {
         if (inputStream == null) {
             throw new CertificateException(Msg.getString("K00a5", "null"));
         }
         return this.certificateFactorySpi.engineGenerateCertificates(inputStream);
     }
 
-    public final CRL generateCRL(InputStream inputStream) {
+    public final CRL generateCRL(InputStream inputStream) throws CRLException {
         if (inputStream == null) {
             throw new CRLException(Msg.getString("K00a5", "null"));
         }
         return this.certificateFactorySpi.engineGenerateCRL(inputStream);
     }
 
-    public final CertPath generateCertPath(InputStream inputStream) {
+    public final CertPath generateCertPath(InputStream inputStream) throws CertificateException {
         if (inputStream == null) {
             throw new CertificateException(Msg.getString("K00a5", "null"));
         }
         return this.certificateFactorySpi.engineGenerateCertPath(inputStream);
     }
 
-    public final CertPath generateCertPath(InputStream inputStream, String string) {
+    public final CertPath generateCertPath(InputStream inputStream, String string) throws CertificateException {
         if (inputStream == null) {
             throw new CertificateException(Msg.getString("K00a5", "null"));
         }
@@ -82,7 +82,7 @@ public class CertificateFactory {
         return this.certificateFactorySpi.engineGenerateCertPath(inputStream, string);
     }
 
-    public final CertPath generateCertPath(List list) {
+    public final CertPath generateCertPath(List list) throws CertificateException {
         if (list == null) {
             throw new CertificateException(Msg.getString("K00a5", "null"));
         }
@@ -93,21 +93,21 @@ public class CertificateFactory {
         return this.certificateFactorySpi.engineGetCertPathEncodings();
     }
 
-    public final Collection generateCRLs(InputStream inputStream) {
+    public final Collection generateCRLs(InputStream inputStream) throws CRLException {
         if (inputStream == null) {
             throw new CRLException(Msg.getString("K00a5", "null"));
         }
         return this.certificateFactorySpi.engineGenerateCRLs(inputStream);
     }
 
-    public static final CertificateFactory getInstance(String string) {
+    public static final CertificateFactory getInstance(String string) throws CertificateException {
         if (string == null) {
             throw new CertificateException(Msg.getString("K0337"));
         }
         return CertificateFactory.toCertificateFactoryImplementation(string);
     }
 
-    public static final CertificateFactory getInstance(String string, String string2) {
+    public static final CertificateFactory getInstance(String string, String string2) throws CertificateException, NoSuchProviderException {
         if (string2 == null) {
             throw new IllegalArgumentException();
         }
@@ -121,7 +121,7 @@ public class CertificateFactory {
         return CertificateFactory.toCertificateFactoryImplementation(string, provider);
     }
 
-    public static final CertificateFactory getInstance(String string, Provider provider) {
+    public static final CertificateFactory getInstance(String string, Provider provider) throws CertificateException {
         if (string == null) {
             throw new CertificateException(Msg.getString("K0337"));
         }
@@ -147,7 +147,7 @@ public class CertificateFactory {
         this.type = string;
     }
 
-    private static CertificateFactory toCertificateFactoryImplementation(String string) {
+    private static CertificateFactory toCertificateFactoryImplementation(String string) throws CertificateException {
         Provider[] providerArray = Security.getProviders();
         int n = 0;
         while (n < providerArray.length) {
@@ -162,10 +162,10 @@ public class CertificateFactory {
         throw new CertificateException(string);
     }
 
-    private static CertificateFactory toCertificateFactoryImplementation(String string, Provider provider) {
+    private static CertificateFactory toCertificateFactoryImplementation(String string, Provider provider) throws CertificateException {
         String string2;
         try {
-            string2 = CertificateFactory.lookupProperty(provider, "CertificateFactory.", string);
+            string2 = CertificateFactory.lookupProperty(provider, KEY_PREFIX, string);
         }
         catch (ClassCastException classCastException) {
             throw new CertificateException(string);
@@ -174,7 +174,7 @@ public class CertificateFactory {
             throw new CertificateException(string);
         }
         try {
-            Class clazz = Class.forName(string2, true, super.getClass().getClassLoader());
+            Class clazz = Class.forName(string2, true, provider.getClass().getClassLoader());
             return CertificateFactory.createCertificateFactory(provider, clazz, string);
         }
         catch (ClassNotFoundException classNotFoundException) {
@@ -198,14 +198,14 @@ public class CertificateFactory {
     }
 
     private static String lookupProperty(Provider provider, String string, String string2) {
-        String string3 = new StringBuffer(String.valueOf(string)).append(string2).toString();
+        String string3 = String.valueOf(string) + string2;
         String string4 = CertificateFactory.lookupProperty(provider, string3);
         if (string4 != null) {
             return string4;
         }
-        string4 = CertificateFactory.lookupProperty(provider, new StringBuffer("Alg.Alias.").append(string3).toString());
+        string4 = CertificateFactory.lookupProperty(provider, "Alg.Alias." + string3);
         if (string4 != null) {
-            return provider.getProperty(new StringBuffer(String.valueOf(string)).append(string4).toString());
+            return provider.getProperty(String.valueOf(string) + string4);
         }
         return null;
     }

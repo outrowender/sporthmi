@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.media;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaBrowserReply;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaBrowserReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIMediaBrowserReply {
         super(n, (class$org$dsi$ifc$media$DSIMediaBrowserListener == null ? (class$org$dsi$ifc$media$DSIMediaBrowserListener = DSIMediaBrowserDispatcher.class$("org.dsi.ifc.media.DSIMediaBrowserListener")) : class$org$dsi$ifc$media$DSIMediaBrowserListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateBrowseMode(int n, int n2) {
+    public void updateBrowseMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -60,8 +59,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateContentFilter(int n, int n2) {
+    public void updateContentFilter(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -89,8 +87,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateBrowseMedia(long l, long l2, int n) {
+    public void updateBrowseMedia(long l, long l2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -118,8 +115,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateBrowseFolder(ListEntry[] listEntryArray, int n) {
+    public void updateBrowseFolder(ListEntry[] listEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -147,8 +143,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateListSize(int n, int n2, int n3) {
+    public void updateListSize(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -176,8 +171,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateAlphabeticalIndex(CharacterInfo[] characterInfoArray, int n) {
+    public void updateAlphabeticalIndex(CharacterInfo[] characterInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -205,8 +199,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseList(ListEntry[] listEntryArray, int n) {
+    public void responseList(ListEntry[] listEntryArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -222,8 +215,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responsePickList(ListEntry[] listEntryArray) {
+    public void responsePickList(ListEntry[] listEntryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -239,8 +231,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) {
+    public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -256,8 +247,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseSetSearchCriteria(int n, boolean bl) {
+    public void responseSetSearchCriteria(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -273,8 +263,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateSearchSize(int n, int n2, int n3, int n4, int n5) {
+    public void updateSearchSize(int n, int n2, int n3, int n4, int n5) throws MethodException {
         if ((n5 & 0x80) == 128) {
             n5 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -302,8 +291,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseSelectSearchResult(long l, long l2, boolean bl) {
+    public void responseSelectSearchResult(long l, long l2, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -319,8 +307,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseSetSearchString(String string, boolean bl) {
+    public void responseSetSearchString(String string, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -336,8 +323,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void updateSearchSpellerState(int n, int n2) {
+    public void updateSearchSpellerState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -365,8 +351,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseSearchList(SearchListEntry[] searchListEntryArray, int n) {
+    public void responseSearchList(SearchListEntry[] searchListEntryArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -382,8 +367,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseSearchListExt(SearchListEntryExt[] searchListEntryExtArray, int n) {
+    public void responseSearchListExt(SearchListEntryExt[] searchListEntryExtArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -399,8 +383,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void responseFullyQualifiedName(long l, String string) {
+    public void responseFullyQualifiedName(long l, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -416,8 +399,7 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -433,14 +415,13 @@ implements DSIMediaBrowserReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMediaBrowserListener dSIMediaBrowserListener = (DSIMediaBrowserListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMediaBrowserListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMediaBrowserListener, new Object[]{string, string2});
                     continue;
                 }

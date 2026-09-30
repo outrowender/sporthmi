@@ -3,31 +3,26 @@
  */
 package de.esolutions.fw.comm.asi.ooc.app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface IOocApplicationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "41a9d241-c39d-4427-aafb-b8d8cb9db3a5";
+    public static final String IPL_COMM_INTERFACE_KEY = "60a20cee-c632-5bc3-8a99-ef22ee11b8a8";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.3.0";
+    public static final String IPL_COMM_MODULE_VERSION = "1.3.1";
 
-    default public void updatePowerState(long l) {
-    }
+    public void updatePowerState(long var1) throws MethodException;
 
-    default public void updateShutdownRequest(int n) {
-    }
+    public void updateShutdownRequest(int var1) throws MethodException;
 
-    default public void updateClampSignal(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    public void updateClampSignal(boolean var1, boolean var2, boolean var3, boolean var4) throws MethodException;
 
-    default public void updateVoltageLevel(int n) {
-    }
+    public void updateVoltageLevel(int var1) throws MethodException;
 
-    default public void updateRunMode(int n) {
-    }
+    public void updateRunMode(int var1) throws MethodException;
 
-    default public void updateCarLockSignal(boolean bl) {
-    }
+    public void updateCarLockSignal(boolean var1) throws MethodException;
 
-    default public void updatePowerOnPinStatus(boolean bl) {
-    }
+    public void updatePowerOnPinStatus(boolean var1) throws MethodException;
 }
 

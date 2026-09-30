@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.Bookmark;
 
 public class BookmarkSerializer {
-    public static void putOptionalBookmark(ISerializer iSerializer, Bookmark bookmark) {
+    public static void putOptionalBookmark(ISerializer iSerializer, Bookmark bookmark) throws SerializerException {
         boolean bl = bookmark == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BookmarkSerializer {
         }
     }
 
-    public static void putOptionalBookmarkVarArray(ISerializer iSerializer, Bookmark[] bookmarkArray) {
+    public static void putOptionalBookmarkVarArray(ISerializer iSerializer, Bookmark[] bookmarkArray) throws SerializerException {
         boolean bl = bookmarkArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BookmarkSerializer {
         }
     }
 
-    public static Bookmark getOptionalBookmark(IDeserializer iDeserializer) {
+    public static Bookmark getOptionalBookmark(IDeserializer iDeserializer) throws SerializerException {
         Bookmark bookmark = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class BookmarkSerializer {
         return bookmark;
     }
 
-    public static Bookmark[] getOptionalBookmarkVarArray(IDeserializer iDeserializer) {
+    public static Bookmark[] getOptionalBookmarkVarArray(IDeserializer iDeserializer) throws SerializerException {
         Bookmark[] bookmarkArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

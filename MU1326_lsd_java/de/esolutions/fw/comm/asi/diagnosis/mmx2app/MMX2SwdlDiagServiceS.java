@@ -6,12 +6,11 @@ package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SwdlDiagServiceReply;
 import de.esolutions.fw.comm.asi.diagnosis.swdl.sModuleVersionNumbers;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2SwdlDiagServiceS {
-    default public void responseErrorSwdl(sClientResponseError sClientResponseError2, MMX2SwdlDiagServiceReply mMX2SwdlDiagServiceReply) {
-    }
+    public void responseErrorSwdl(sClientResponseError var1, MMX2SwdlDiagServiceReply var2) throws MethodException;
 
-    default public void responseModuleVersionNumbers(sModuleVersionNumbers sModuleVersionNumbers2, MMX2SwdlDiagServiceReply mMX2SwdlDiagServiceReply) {
-    }
+    public void responseModuleVersionNumbers(sModuleVersionNumbers var1, MMX2SwdlDiagServiceReply var2) throws MethodException;
 }
 

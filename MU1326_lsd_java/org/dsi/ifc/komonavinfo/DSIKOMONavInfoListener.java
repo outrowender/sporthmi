@@ -7,31 +7,22 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIKOMONavInfoListener
 extends DSIListener {
-    default public void setCurrentStreetResult(int n) {
-    }
+    public void setCurrentStreetResult(int var1);
 
-    default public void setTurnToStreetResult(int n) {
-    }
+    public void setTurnToStreetResult(int var1);
 
-    default public void setCityNameResult(int n) {
-    }
+    public void setCityNameResult(int var1);
 
-    default public void setSemiDynRouteResult(int n) {
-    }
+    public void setSemiDynRouteResult(int var1);
 
-    default public void setTrafficOffsetResult(int n) {
-    }
+    public void setTrafficOffsetResult(int var1);
 
-    default public void setRgSelectResult(int n) {
-    }
+    public void setRgSelectResult(int var1);
 
-    default public void setCapabilitiesResult(int n) {
-    }
+    public void setCapabilitiesResult(int var1);
 
-    default public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
-    }
+    public void setMapScaleResult(int var1, int var2, boolean[] var3, int var4, int var5, boolean[] var6, boolean var7);
 
-    default public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
-    }
+    public void setMapScale(int var1, int var2, boolean[] var3, int var4, int var5, int var6);
 }
 

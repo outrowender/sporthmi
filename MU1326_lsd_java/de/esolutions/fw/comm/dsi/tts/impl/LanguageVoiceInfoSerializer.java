@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tts.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tts.LanguageVoiceInfo;
 
 public class LanguageVoiceInfoSerializer {
-    public static void putOptionalLanguageVoiceInfo(ISerializer iSerializer, LanguageVoiceInfo languageVoiceInfo) {
+    public static void putOptionalLanguageVoiceInfo(ISerializer iSerializer, LanguageVoiceInfo languageVoiceInfo) throws SerializerException {
         boolean bl = languageVoiceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class LanguageVoiceInfoSerializer {
         }
     }
 
-    public static void putOptionalLanguageVoiceInfoVarArray(ISerializer iSerializer, LanguageVoiceInfo[] languageVoiceInfoArray) {
+    public static void putOptionalLanguageVoiceInfoVarArray(ISerializer iSerializer, LanguageVoiceInfo[] languageVoiceInfoArray) throws SerializerException {
         boolean bl = languageVoiceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class LanguageVoiceInfoSerializer {
         }
     }
 
-    public static LanguageVoiceInfo getOptionalLanguageVoiceInfo(IDeserializer iDeserializer) {
+    public static LanguageVoiceInfo getOptionalLanguageVoiceInfo(IDeserializer iDeserializer) throws SerializerException {
         LanguageVoiceInfo languageVoiceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class LanguageVoiceInfoSerializer {
         return languageVoiceInfo;
     }
 
-    public static LanguageVoiceInfo[] getOptionalLanguageVoiceInfoVarArray(IDeserializer iDeserializer) {
+    public static LanguageVoiceInfo[] getOptionalLanguageVoiceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         LanguageVoiceInfo[] languageVoiceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

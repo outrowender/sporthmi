@@ -8,49 +8,34 @@ import org.dsi.ifc.uota.PackageInfo;
 
 public interface DSIUotAListener
 extends DSIListener {
-    default public void updateDownloadState(int n, int n2, int n3) {
-    }
+    public void updateDownloadState(int var1, int var2, int var3);
 
-    default public void updateDownloadProgress(int n, int n2, int n3, String string, int n4) {
-    }
+    public void updateDownloadProgress(int var1, int var2, int var3, String var4, int var5);
 
-    default public void getServerList(int n, String[] stringArray) {
-    }
+    public void getServerList(int var1, String[] var2);
 
-    default public void getUpdatePackages(int n, int n2, PackageInfo[] packageInfoArray, int[] nArray) {
-    }
+    public void getUpdatePackages(int var1, int var2, PackageInfo[] var3, int[] var4);
 
-    default public void toggleSelection(int n, int n2, int[] nArray) {
-    }
+    public void toggleSelection(int var1, int var2, int[] var3);
 
-    default public void startDownload(int n, int n2) {
-    }
+    public void startDownload(int var1, int var2);
 
-    default public void triggerAction(int n, int n2, int n3, String string) {
-    }
+    public void triggerAction(int var1, int var2, int var3, String var4);
 
-    default public void updatePackagesAvailable(int n, int n2) {
-    }
+    public void updatePackagesAvailable(int var1, int var2);
 
-    default public void featureResult(String string, int n, boolean bl) {
-    }
+    public void featureResult(String var1, int var2, boolean var3);
 
-    default public void attributeResult(int n, int n2, int n3, String string) {
-    }
+    public void attributeResult(int var1, int var2, int var3, String var4);
 
-    default public void updateServcieReady(int n, boolean bl, int n2) {
-    }
+    public void updateServcieReady(int var1, boolean var2, int var3);
 
-    default public void getUpdatePackagesForDestinations(int n, int n2, PackageInfo[] packageInfoArray, int[] nArray) {
-    }
+    public void getUpdatePackagesForDestinations(int var1, int var2, PackageInfo[] var3, int[] var4);
 
-    default public void getUpdatePackagesViaApp(int n, int n2, PackageInfo[] packageInfoArray, int[] nArray) {
-    }
+    public void getUpdatePackagesViaApp(int var1, int var2, PackageInfo[] var3, int[] var4);
 
-    default public void abortDownload(int n, int n2) {
-    }
+    public void abortDownload(int var1, int var2);
 
-    default public void customerDownloadFinished(int n, int n2) {
-    }
+    public void customerDownloadFinished(int var1, int var2);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VAttendee;
 
 public class VAttendeeSerializer {
-    public static void putOptionalVAttendee(ISerializer iSerializer, VAttendee vAttendee) {
+    public static void putOptionalVAttendee(ISerializer iSerializer, VAttendee vAttendee) throws SerializerException {
         boolean bl = vAttendee == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class VAttendeeSerializer {
         }
     }
 
-    public static void putOptionalVAttendeeVarArray(ISerializer iSerializer, VAttendee[] vAttendeeArray) {
+    public static void putOptionalVAttendeeVarArray(ISerializer iSerializer, VAttendee[] vAttendeeArray) throws SerializerException {
         boolean bl = vAttendeeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class VAttendeeSerializer {
         }
     }
 
-    public static VAttendee getOptionalVAttendee(IDeserializer iDeserializer) {
+    public static VAttendee getOptionalVAttendee(IDeserializer iDeserializer) throws SerializerException {
         VAttendee vAttendee = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class VAttendeeSerializer {
         return vAttendee;
     }
 
-    public static VAttendee[] getOptionalVAttendeeVarArray(IDeserializer iDeserializer) {
+    public static VAttendee[] getOptionalVAttendeeVarArray(IDeserializer iDeserializer) throws SerializerException {
         VAttendee[] vAttendeeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

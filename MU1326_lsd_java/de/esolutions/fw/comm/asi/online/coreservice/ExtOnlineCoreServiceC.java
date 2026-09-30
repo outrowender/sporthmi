@@ -5,36 +5,27 @@ package de.esolutions.fw.comm.asi.online.coreservice;
 
 import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.comm.asi.online.coreservice.RequestDescriptor;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ExtOnlineCoreServiceC {
-    default public void init(String string) {
-    }
+    public void init(String var1) throws MethodException;
 
-    default public void init(String string, String string2) {
-    }
+    public void init(String var1, String var2) throws MethodException;
 
-    default public void registerService(String string, String string2, boolean bl) {
-    }
+    public void registerService(String var1, String var2, boolean var3) throws MethodException;
 
-    default public void getServiceListEntry(String string) {
-    }
+    public void getServiceListEntry(String var1) throws MethodException;
 
-    default public void precheckOnlineServiceServiceID(String string) {
-    }
+    public void precheckOnlineServiceServiceID(String var1) throws MethodException;
 
-    default public void precheckOnlineService() {
-    }
+    public void precheckOnlineService() throws MethodException;
 
-    default public void requestUpdateKeyStore() {
-    }
+    public void requestUpdateKeyStore() throws MethodException;
 
-    default public void getToken(String string, boolean bl) {
-    }
+    public void getToken(String var1, boolean var2) throws MethodException;
 
-    default public void onlineRequest(RequestDescriptor requestDescriptor, int n, KeyValPair[] keyValPairArray, KeyValPair[] keyValPairArray2, byte[] byArray) {
-    }
+    public void onlineRequest(RequestDescriptor var1, int var2, KeyValPair[] var3, KeyValPair[] var4, byte[] var5) throws MethodException;
 
-    default public void registerForCredentialUpdates(int[] nArray) {
-    }
+    public void registerForCredentialUpdates(int[] var1) throws MethodException;
 }
 

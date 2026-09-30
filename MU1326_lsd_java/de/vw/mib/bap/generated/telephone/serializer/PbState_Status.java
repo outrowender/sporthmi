@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PbState_Status
 implements StatusProperty {
     public int downloadState;
-    private static final int DOWNLOAD_STATE_BITSIZE;
-    public static final int DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE;
-    public static final int DOWNLOAD_STATE_CURRENTLY_BEING_LOADED;
-    public static final int DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_UHV;
-    public static final int DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE;
-    public static final int DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION;
+    private static final int DOWNLOAD_STATE_BITSIZE = 8;
+    public static final int DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE = 0;
+    public static final int DOWNLOAD_STATE_CURRENTLY_BEING_LOADED = 1;
+    public static final int DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_UHV = 2;
+    public static final int DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE = 3;
+    public static final int DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION = 4;
     public int pbEntriesUhv;
-    private static final int PB_ENTRIES_UHV_BITSIZE;
+    private static final int PB_ENTRIES_UHV_BITSIZE = 16;
 
     public PbState_Status() {
         this.internalReset();
@@ -34,12 +34,10 @@ implements StatusProperty {
         this.pbEntriesUhv = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PbState_Status pbState_Status = (PbState_Status)bAPEntity;
         return this.downloadState == pbState_Status.downloadState && this.pbEntriesUhv == pbState_Status.pbEntriesUhv;
@@ -48,7 +46,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PbState_Status:");
@@ -83,20 +80,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.downloadState);
         bitStream.pushShort((short)this.pbEntriesUhv);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.downloadState = bitStream.popFrontByte();
         this.pbEntriesUhv = bitStream.popFrontShort();
@@ -106,7 +100,6 @@ implements StatusProperty {
         return 51;
     }
 
-    @Override
     public int getFunctionId() {
         return PbState_Status.functionId();
     }

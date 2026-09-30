@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class ConfigProviderLegacy {
     private static final boolean TRACING_ENABLED = Boolean.getBoolean("trace.config");
-    private static final String SYSPROP_CONFIGDIR;
-    private static final String DEFAULT_CONFIGDIR;
-    private static final String SYSPROP_CONFIG_PREFIX;
-    private static final String CONFIG_SUFFIX;
+    private static final String SYSPROP_CONFIGDIR = "config.dir";
+    private static final String DEFAULT_CONFIGDIR = "config";
+    private static final String SYSPROP_CONFIG_PREFIX = "config.file.";
+    private static final String CONFIG_SUFFIX = ".properties";
     private static ConfigProviderLegacy provider;
     private Map configMap = new HashMap();
     private String configDirName = System.getProperty("config.dir", "config");
@@ -30,16 +30,16 @@ public class ConfigProviderLegacy {
 
     public Config getConfig(String string) {
         if (TRACING_ENABLED) {
-            System.out.println(new StringBuffer().append("[CONFIG] Config for following domain requested: ").append(string).toString());
+            System.out.println("[CONFIG] Config for following domain requested: " + string);
         }
         Config config = null;
         if (this.configMap.containsKey(string)) {
             config = (Config)this.configMap.get(string);
         } else {
-            String string2 = new StringBuffer().append(this.configDirName).append(File.separator).append(string).append(".properties").toString();
-            String string3 = System.getProperty(new StringBuffer().append("config.file.").append(string).toString(), string2);
+            String string2 = this.configDirName + File.separator + string + CONFIG_SUFFIX;
+            String string3 = System.getProperty(SYSPROP_CONFIG_PREFIX + string, string2);
             if (TRACING_ENABLED) {
-                System.out.println(new StringBuffer().append("[CONFIG] Load config file: ").append(string3).toString());
+                System.out.println("[CONFIG] Load config file: " + string3);
             }
             config = new Config(string, string3);
             this.configMap.put(string, config);

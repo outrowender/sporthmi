@@ -72,7 +72,7 @@ public class WheelStates {
     }
 
     public String toString() {
-        return new StringBuffer("WheelStates{").append("frontLeft=").append(this.frontLeft).append(", frontRight=").append(this.frontRight).append(", rearLeft=").append(this.rearLeft).append(", rearRight=").append(this.rearRight).append(", spareWheel=").append(this.spareWheel).append(", collectedState=").append(this.collectedState).append("}").toString();
+        return "WheelStates{" + "frontLeft=" + this.frontLeft + ", frontRight=" + this.frontRight + ", rearLeft=" + this.rearLeft + ", rearRight=" + this.rearRight + ", spareWheel=" + this.spareWheel + ", collectedState=" + this.collectedState + "}";
     }
 }
 

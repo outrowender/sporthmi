@@ -4,7 +4,7 @@
 package de.esolutions.fw.comm.dsi.tpegservices;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSITPEGSERVICES_TPEGCONTENTAVAILABILITY;
-    public static final int ATTRIBUTE_ID_DSITPEGSERVICES_SIMPLEMAPSBOOKMARKS;
+    public static final int ATTRIBUTE_ID_DSITPEGSERVICES_TPEGCONTENTAVAILABILITY = 1;
+    public static final int ATTRIBUTE_ID_DSITPEGSERVICES_SIMPLEMAPSBOOKMARKS = 2;
 }
 

@@ -4,10 +4,8 @@
 package java.util;
 
 public interface Comparator {
-    default public int compare(Object object, Object object2) {
-    }
+    public int compare(Object var1, Object var2);
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 }
 

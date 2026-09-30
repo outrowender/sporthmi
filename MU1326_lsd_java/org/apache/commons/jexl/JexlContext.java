@@ -6,10 +6,8 @@ package org.apache.commons.jexl;
 import java.util.Map;
 
 public interface JexlContext {
-    default public void setVars(Map map) {
-    }
+    public void setVars(Map var1);
 
-    default public Map getVars() {
-    }
+    public Map getVars();
 }
 

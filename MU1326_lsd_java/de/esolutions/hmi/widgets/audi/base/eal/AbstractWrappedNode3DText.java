@@ -24,7 +24,7 @@ implements IBaseWrappedNode3DText {
         this.text = string;
         this.ealManager = eALManager;
         this.shouldFlipBack = true;
-        iNode3DText.rotateX(13379);
+        iNode3DText.rotateX(180.0f);
         this.setScale(1.0f, 1.0f, 1.0f);
     }
 
@@ -32,7 +32,6 @@ implements IBaseWrappedNode3DText {
         return this.ealManager;
     }
 
-    @Override
     public IINodeText getInterfaceText() {
         if (this.interfaceText != null) {
             return this.interfaceText;
@@ -41,17 +40,14 @@ implements IBaseWrappedNode3DText {
         return this.interfaceText;
     }
 
-    @Override
     protected boolean shouldFlipBack() {
         return this.shouldFlipBack && !this.isLtr;
     }
 
-    @Override
     public INode3DText getTextNode() {
         return this.node;
     }
 
-    @Override
     public String getText() {
         return this.text;
     }
@@ -60,13 +56,11 @@ implements IBaseWrappedNode3DText {
         this.text = string;
     }
 
-    @Override
     public void resetTransformation() {
         super.resetTransformation();
-        this.node.rotateX(13379);
+        this.node.rotateX(180.0f);
     }
 
-    @Override
     public void setVisible(boolean bl) {
         boolean bl2;
         this.visible = bl;
@@ -77,7 +71,6 @@ implements IBaseWrappedNode3DText {
         this.node.setVisible(bl2);
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         if (this.interfaceText != null) {

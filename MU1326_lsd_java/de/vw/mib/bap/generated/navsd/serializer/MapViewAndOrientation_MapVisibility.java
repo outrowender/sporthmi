@@ -8,10 +8,10 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class MapViewAndOrientation_MapVisibility
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean supplementaryMapViewIsVisible;
     public boolean lvdsMapIsVisible;
-    private static final int MAP_VIEW_AND_ORIENTATION_MAP_VISIBILITY_BITSIZE;
+    private static final int MAP_VIEW_AND_ORIENTATION_MAP_VISIBILITY_BITSIZE = 8;
 
     public MapViewAndOrientation_MapVisibility() {
         this.internalReset();
@@ -28,12 +28,10 @@ implements BAPEntity {
         this.lvdsMapIsVisible = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MapViewAndOrientation_MapVisibility mapViewAndOrientation_MapVisibility = (MapViewAndOrientation_MapVisibility)bAPEntity;
         return this.supplementaryMapViewIsVisible == mapViewAndOrientation_MapVisibility.supplementaryMapViewIsVisible && this.lvdsMapIsVisible == mapViewAndOrientation_MapVisibility.lvdsMapIsVisible;
@@ -42,7 +40,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MapViewAndOrientation_MapVisibility:");
@@ -61,20 +58,17 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.supplementaryMapViewIsVisible);
         bitStream.pushBoolean(this.lvdsMapIsVisible);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.supplementaryMapViewIsVisible = bitStream.popFrontBoolean();

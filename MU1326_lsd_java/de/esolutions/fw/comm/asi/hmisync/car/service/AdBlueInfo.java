@@ -92,7 +92,7 @@ public class AdBlueInfo {
     }
 
     public String toString() {
-        return new StringBuffer("AdBlueInfo{").append("range=").append(this.range).append(", rangeUnit=").append(this.rangeUnit).append(", level=").append(this.level).append(", tankVolume=").append(this.tankVolume).append(", state=").append(this.state).append(", volumeUnit=").append(this.volumeUnit).append(", minRefill=").append(this.minRefill).append(", maxRefill=").append(this.maxRefill).append("}").toString();
+        return "AdBlueInfo{" + "range=" + this.range + ", rangeUnit=" + this.rangeUnit + ", level=" + this.level + ", tankVolume=" + this.tankVolume + ", state=" + this.state + ", volumeUnit=" + this.volumeUnit + ", minRefill=" + this.minRefill + ", maxRefill=" + this.maxRefill + "}";
     }
 }
 

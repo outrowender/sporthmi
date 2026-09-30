@@ -18,14 +18,12 @@ extends Command {
         this.connected = bl;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doClientHandlerUpdate(this.clientHandler, this.connected);
     }
 
-    @Override
     public String getArgsString() {
-        return new StringBuffer().append("agent=#").append(this.clientHandler.getPeerAgentID()).append(" connected=").append(this.connected).toString();
+        return "agent=#" + this.clientHandler.getPeerAgentID() + " connected=" + this.connected;
     }
 }
 

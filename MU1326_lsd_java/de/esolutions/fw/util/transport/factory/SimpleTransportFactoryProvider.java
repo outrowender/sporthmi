@@ -7,7 +7,6 @@ import de.esolutions.fw.util.transport.exception.TransportFactoryException;
 import de.esolutions.fw.util.transport.factory.ISingleTransportFactory;
 import de.esolutions.fw.util.transport.factory.ISpawnTransportFactory;
 import de.esolutions.fw.util.transport.factory.ITransportFactoryProvider;
-import de.esolutions.fw.util.transport.factory.SimpleTransportFactoryProvider$AddressPort;
 import de.esolutions.fw.util.transport.factory.TCPSingleTransportFactory;
 import de.esolutions.fw.util.transport.factory.TCPSpawnTransportFactory;
 import java.io.IOException;
@@ -28,38 +27,46 @@ implements ITransportFactoryProvider {
     }
 
     public void addTCPConnection(String string, String string2, String string3, String string4, int n) {
-        SimpleTransportFactoryProvider$AddressPort simpleTransportFactoryProvider$AddressPort = new SimpleTransportFactoryProvider$AddressPort(string4, n);
-        this.procMap.put(new StringBuffer().append(string).append(":").append(string2).toString(), simpleTransportFactoryProvider$AddressPort);
-        this.nodeMap.put(new StringBuffer().append(string).append(":").append(string2).append(":").append(string3).toString(), simpleTransportFactoryProvider$AddressPort);
+        AddressPort addressPort = new AddressPort(string4, n);
+        this.procMap.put(string + ":" + string2, addressPort);
+        this.nodeMap.put(string + ":" + string2 + ":" + string3, addressPort);
     }
 
-    @Override
-    public ISingleTransportFactory createSingleTransportFactory(String string, String string2) {
-        SimpleTransportFactoryProvider$AddressPort simpleTransportFactoryProvider$AddressPort = (SimpleTransportFactoryProvider$AddressPort)this.procMap.get(new StringBuffer().append(string).append(":").append(string2).toString());
-        if (simpleTransportFactoryProvider$AddressPort == null) {
-            throw new TransportFactoryException(new StringBuffer().append("transport for proc ").append(string).append(":").append(string2).append(" not found!").toString());
+    public ISingleTransportFactory createSingleTransportFactory(String string, String string2) throws TransportFactoryException {
+        AddressPort addressPort = (AddressPort)this.procMap.get(string + ":" + string2);
+        if (addressPort == null) {
+            throw new TransportFactoryException("transport for proc " + string + ":" + string2 + " not found!");
         }
         try {
-            InetAddress inetAddress = InetAddress.getByName(simpleTransportFactoryProvider$AddressPort.address);
-            return new TCPSingleTransportFactory(inetAddress, simpleTransportFactoryProvider$AddressPort.port);
+            InetAddress inetAddress = InetAddress.getByName(addressPort.address);
+            return new TCPSingleTransportFactory(inetAddress, addressPort.port);
         }
         catch (IOException iOException) {
-            throw new TransportFactoryException(new StringBuffer().append("Failed IO: ").append(iOException).toString());
+            throw new TransportFactoryException("Failed IO: " + iOException);
         }
     }
 
-    @Override
-    public ISpawnTransportFactory createSpawnTransportFactory(String string, String string2) {
-        SimpleTransportFactoryProvider$AddressPort simpleTransportFactoryProvider$AddressPort = (SimpleTransportFactoryProvider$AddressPort)this.nodeMap.get(new StringBuffer().append(string).append(":").append(this.myProcName).append(":").append(string2).toString());
-        if (simpleTransportFactoryProvider$AddressPort == null) {
-            throw new TransportFactoryException(new StringBuffer().append("transport for node ").append(string).append(":").append(string2).append(" not found!").toString());
+    public ISpawnTransportFactory createSpawnTransportFactory(String string, String string2) throws TransportFactoryException {
+        AddressPort addressPort = (AddressPort)this.nodeMap.get(string + ":" + this.myProcName + ":" + string2);
+        if (addressPort == null) {
+            throw new TransportFactoryException("transport for node " + string + ":" + string2 + " not found!");
         }
         try {
-            InetAddress inetAddress = InetAddress.getByName(simpleTransportFactoryProvider$AddressPort.address);
-            return new TCPSpawnTransportFactory(inetAddress, simpleTransportFactoryProvider$AddressPort.port);
+            InetAddress inetAddress = InetAddress.getByName(addressPort.address);
+            return new TCPSpawnTransportFactory(inetAddress, addressPort.port);
         }
         catch (IOException iOException) {
-            throw new TransportFactoryException(new StringBuffer().append("Failed IO: ").append(iOException).toString());
+            throw new TransportFactoryException("Failed IO: " + iOException);
+        }
+    }
+
+    protected static class AddressPort {
+        public String address;
+        public int port;
+
+        public AddressPort(String string, int n) {
+            this.address = string;
+            this.port = n;
         }
     }
 }

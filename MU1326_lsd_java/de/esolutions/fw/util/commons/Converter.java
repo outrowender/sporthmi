@@ -8,12 +8,12 @@ import de.esolutions.fw.util.commons.Formatter;
 import java.lang.reflect.Array;
 
 public class Converter {
-    private static final String SEPARATOR;
-    private static final String NULL;
+    private static final String SEPARATOR = ", ";
+    private static final String NULL = "null";
 
     public static String array2String(Object object) {
         if (object == null) {
-            return "null";
+            return NULL;
         }
         Converter.checkObjectIsArray(object);
         Buffer buffer = new Buffer().append('[');
@@ -26,7 +26,7 @@ public class Converter {
                 buffer.append(object2);
             }
             if (Converter.isLastItem(i2, n)) continue;
-            buffer.append(", ");
+            buffer.append(SEPARATOR);
         }
         buffer.append(']');
         return buffer.toString();

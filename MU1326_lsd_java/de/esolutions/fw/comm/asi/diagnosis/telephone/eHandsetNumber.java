@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eHandsetNumber
 extends IEnum {
-    public static final int HANDSET_1;
-    public static final int HANDSET_2;
+    public static final int HANDSET_1 = 1;
+    public static final int HANDSET_2 = 2;
 }
 

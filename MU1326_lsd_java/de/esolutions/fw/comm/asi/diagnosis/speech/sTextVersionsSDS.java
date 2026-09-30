@@ -42,7 +42,7 @@ public class sTextVersionsSDS {
     }
 
     public String toString() {
-        return new StringBuffer("sTextVersionsSDS{").append("msg_id=").append(this.msg_id).append(", version_1=").append(this.version_1).append(", version_2=").append(this.version_2).append("}").toString();
+        return "sTextVersionsSDS{" + "msg_id=" + this.msg_id + ", version_1=" + this.version_1 + ", version_2=" + this.version_2 + "}";
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.swdlprogress.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.swdlprogress.GeneralProgress;
 
 public class GeneralProgressSerializer {
-    public static void putOptionalGeneralProgress(ISerializer iSerializer, GeneralProgress generalProgress) {
+    public static void putOptionalGeneralProgress(ISerializer iSerializer, GeneralProgress generalProgress) throws SerializerException {
         boolean bl = generalProgress == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class GeneralProgressSerializer {
         }
     }
 
-    public static void putOptionalGeneralProgressVarArray(ISerializer iSerializer, GeneralProgress[] generalProgressArray) {
+    public static void putOptionalGeneralProgressVarArray(ISerializer iSerializer, GeneralProgress[] generalProgressArray) throws SerializerException {
         boolean bl = generalProgressArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class GeneralProgressSerializer {
         }
     }
 
-    public static GeneralProgress getOptionalGeneralProgress(IDeserializer iDeserializer) {
+    public static GeneralProgress getOptionalGeneralProgress(IDeserializer iDeserializer) throws SerializerException {
         GeneralProgress generalProgress = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class GeneralProgressSerializer {
         return generalProgress;
     }
 
-    public static GeneralProgress[] getOptionalGeneralProgressVarArray(IDeserializer iDeserializer) {
+    public static GeneralProgress[] getOptionalGeneralProgressVarArray(IDeserializer iDeserializer) throws SerializerException {
         GeneralProgress[] generalProgressArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.caraircondition.impl.AirconZoneViewOptionsSeria
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconRowConfiguration;
 import org.dsi.ifc.caraircondition.AirconRowViewOptions;
 import org.dsi.ifc.caraircondition.AirconZoneViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class AirconRowViewOptionsSerializer {
-    public static void putOptionalAirconRowViewOptions(ISerializer iSerializer, AirconRowViewOptions airconRowViewOptions) {
+    public static void putOptionalAirconRowViewOptions(ISerializer iSerializer, AirconRowViewOptions airconRowViewOptions) throws SerializerException {
         boolean bl = airconRowViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class AirconRowViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalAirconRowViewOptionsVarArray(ISerializer iSerializer, AirconRowViewOptions[] airconRowViewOptionsArray) {
+    public static void putOptionalAirconRowViewOptionsVarArray(ISerializer iSerializer, AirconRowViewOptions[] airconRowViewOptionsArray) throws SerializerException {
         boolean bl = airconRowViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class AirconRowViewOptionsSerializer {
         }
     }
 
-    public static AirconRowViewOptions getOptionalAirconRowViewOptions(IDeserializer iDeserializer) {
+    public static AirconRowViewOptions getOptionalAirconRowViewOptions(IDeserializer iDeserializer) throws SerializerException {
         AirconRowViewOptions airconRowViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class AirconRowViewOptionsSerializer {
         return airconRowViewOptions;
     }
 
-    public static AirconRowViewOptions[] getOptionalAirconRowViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static AirconRowViewOptions[] getOptionalAirconRowViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconRowViewOptions[] airconRowViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

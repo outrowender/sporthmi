@@ -23,12 +23,10 @@ extends IEventListener {
         return cAbstractEventListener == null ? 0L : cAbstractEventListener.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -55,7 +53,6 @@ extends IEventListener {
         ealswigJNI.eal_CAbstractEventListener_change_ownership(this, this.swigCPtr, true);
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -65,14 +62,12 @@ extends IEventListener {
         ealswigJNI.eal_CAbstractEventListener_director_connect(this, this.swigCPtr, this.swigCMemOwn, true);
     }
 
-    @Override
     public String getName() {
-        return super.getClass() == (class$de$esolutions$graphics$eal$CAbstractEventListener == null ? (class$de$esolutions$graphics$eal$CAbstractEventListener = CAbstractEventListener.class$("de.esolutions.graphics.eal.CAbstractEventListener")) : class$de$esolutions$graphics$eal$CAbstractEventListener) ? ealswigJNI.eal_CAbstractEventListener_getName(this.swigCPtr, this) : ealswigJNI.eal_CAbstractEventListener_getNameSwigExplicitCAbstractEventListener(this.swigCPtr, this);
+        return this.getClass() == (class$de$esolutions$graphics$eal$CAbstractEventListener == null ? (class$de$esolutions$graphics$eal$CAbstractEventListener = CAbstractEventListener.class$("de.esolutions.graphics.eal.CAbstractEventListener")) : class$de$esolutions$graphics$eal$CAbstractEventListener) ? ealswigJNI.eal_CAbstractEventListener_getName(this.swigCPtr, this) : ealswigJNI.eal_CAbstractEventListener_getNameSwigExplicitCAbstractEventListener(this.swigCPtr, this);
     }
 
-    @Override
     public void process(IEvent iEvent) {
-        if (super.getClass() == (class$de$esolutions$graphics$eal$CAbstractEventListener == null ? (class$de$esolutions$graphics$eal$CAbstractEventListener = CAbstractEventListener.class$("de.esolutions.graphics.eal.CAbstractEventListener")) : class$de$esolutions$graphics$eal$CAbstractEventListener)) {
+        if (this.getClass() == (class$de$esolutions$graphics$eal$CAbstractEventListener == null ? (class$de$esolutions$graphics$eal$CAbstractEventListener = CAbstractEventListener.class$("de.esolutions.graphics.eal.CAbstractEventListener")) : class$de$esolutions$graphics$eal$CAbstractEventListener)) {
             ealswigJNI.eal_CAbstractEventListener_process(this.swigCPtr, this, IEvent.getCPtr(iEvent), iEvent);
         } else {
             ealswigJNI.eal_CAbstractEventListener_processSwigExplicitCAbstractEventListener(this.swigCPtr, this, IEvent.getCPtr(iEvent), iEvent);

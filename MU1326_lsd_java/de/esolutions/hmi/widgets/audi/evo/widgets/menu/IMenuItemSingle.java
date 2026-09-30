@@ -9,46 +9,32 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.IMenuItem;
 
 public interface IMenuItemSingle
 extends IMenuItem {
-    default public void showExtended(boolean bl) {
-    }
+    public void showExtended(boolean var1);
 
-    default public int getPreferredHeight(boolean bl, int n) {
-    }
+    public int getPreferredHeight(boolean var1, int var2);
 
-    default public IFocusedPropertyObject getProperty() {
-    }
+    public IFocusedPropertyObject getProperty();
 
-    default public boolean isSelected() {
-    }
+    public boolean isSelected();
 
-    default public int getMargin(boolean bl) {
-    }
+    public int getMargin(boolean var1);
 
-    default public int getGlassplateInsets(boolean bl) {
-    }
+    public int getGlassplateInsets(boolean var1);
 
-    default public int getNoCursorArea(boolean bl) {
-    }
+    public int getNoCursorArea(boolean var1);
 
-    default public IPresetPopupData getPresetPopupData() {
-    }
+    public IPresetPopupData getPresetPopupData();
 
-    default public int getSdsItemSelectedAction() {
-    }
+    public int getSdsItemSelectedAction();
 
-    default public boolean hasInfolineText() {
-    }
+    public boolean hasInfolineText();
 
-    default public String getInfolineText() {
-    }
+    public String getInfolineText();
 
-    default public boolean isFocusable() {
-    }
+    public boolean isFocusable();
 
-    default public int getOptionIconYOffset() {
-    }
+    public int getOptionIconYOffset();
 
-    default public void setOptionsIconSpace(int n) {
-    }
+    public void setOptionsIconSpace(int var1);
 }
 

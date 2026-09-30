@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.picturestore.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.picturestore.GeoPicture;
 
 public class GeoPictureSerializer {
-    public static void putOptionalGeoPicture(ISerializer iSerializer, GeoPicture geoPicture) {
+    public static void putOptionalGeoPicture(ISerializer iSerializer, GeoPicture geoPicture) throws SerializerException {
         boolean bl = geoPicture == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class GeoPictureSerializer {
         }
     }
 
-    public static void putOptionalGeoPictureVarArray(ISerializer iSerializer, GeoPicture[] geoPictureArray) {
+    public static void putOptionalGeoPictureVarArray(ISerializer iSerializer, GeoPicture[] geoPictureArray) throws SerializerException {
         boolean bl = geoPictureArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class GeoPictureSerializer {
         }
     }
 
-    public static GeoPicture getOptionalGeoPicture(IDeserializer iDeserializer) {
+    public static GeoPicture getOptionalGeoPicture(IDeserializer iDeserializer) throws SerializerException {
         GeoPicture geoPicture = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class GeoPictureSerializer {
         return geoPicture;
     }
 
-    public static GeoPicture[] getOptionalGeoPictureVarArray(IDeserializer iDeserializer) {
+    public static GeoPicture[] getOptionalGeoPictureVarArray(IDeserializer iDeserializer) throws SerializerException {
         GeoPicture[] geoPictureArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCCrashWarningRightLeft;
 
 public class PDCCrashWarningRightLeftSerializer {
-    public static void putOptionalPDCCrashWarningRightLeft(ISerializer iSerializer, PDCCrashWarningRightLeft pDCCrashWarningRightLeft) {
+    public static void putOptionalPDCCrashWarningRightLeft(ISerializer iSerializer, PDCCrashWarningRightLeft pDCCrashWarningRightLeft) throws SerializerException {
         boolean bl = pDCCrashWarningRightLeft == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCCrashWarningRightLeftSerializer {
         }
     }
 
-    public static void putOptionalPDCCrashWarningRightLeftVarArray(ISerializer iSerializer, PDCCrashWarningRightLeft[] pDCCrashWarningRightLeftArray) {
+    public static void putOptionalPDCCrashWarningRightLeftVarArray(ISerializer iSerializer, PDCCrashWarningRightLeft[] pDCCrashWarningRightLeftArray) throws SerializerException {
         boolean bl = pDCCrashWarningRightLeftArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCCrashWarningRightLeftSerializer {
         }
     }
 
-    public static PDCCrashWarningRightLeft getOptionalPDCCrashWarningRightLeft(IDeserializer iDeserializer) {
+    public static PDCCrashWarningRightLeft getOptionalPDCCrashWarningRightLeft(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarningRightLeft pDCCrashWarningRightLeft = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCCrashWarningRightLeftSerializer {
         return pDCCrashWarningRightLeft;
     }
 
-    public static PDCCrashWarningRightLeft[] getOptionalPDCCrashWarningRightLeftVarArray(IDeserializer iDeserializer) {
+    public static PDCCrashWarningRightLeft[] getOptionalPDCCrashWarningRightLeftVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarningRightLeft[] pDCCrashWarningRightLeftArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

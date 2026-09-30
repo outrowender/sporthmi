@@ -8,7 +8,6 @@ import org.apache.xerces.xs.XSAttributeDeclaration;
 
 public interface AttributePSVI
 extends ItemPSVI {
-    default public XSAttributeDeclaration getAttributeDeclaration() {
-    }
+    public XSAttributeDeclaration getAttributeDeclaration();
 }
 

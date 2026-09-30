@@ -12,43 +12,41 @@ import de.vw.mib.bap.stream.BitStream;
 public final class OLBTripList_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_WAY_TYPE_BUSINESS_PARTNER_TRIP_REASON_ORIGIN_STATE_ORIGIN_TOWN_ORIGIN_STREET_ORIGIN_STREET_NUMBER_DESTINATION_STATE_DESTINATION_TOWN_DESTINATION_STREET_DESTINATION_STREET_NUMBER;
-    public static final int RECORD_ADDRESS_WAY_TYPE_BUSINESS_PARTNER_TRIP_REASON_DESTINATION_STATE_DESTINATION_TOWN_DESTINATION_STREET_DESTINATION_STREET_NUMBER;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_WAY_TYPE_BUSINESS_PARTNER_TRIP_REASON_ORIGIN_STATE_ORIGIN_TOWN_ORIGIN_STREET_ORIGIN_STREET_NUMBER_DESTINATION_STATE_DESTINATION_TOWN_DESTINATION_STREET_DESTINATION_STREET_NUMBER = 1;
+    public static final int RECORD_ADDRESS_WAY_TYPE_BUSINESS_PARTNER_TRIP_REASON_DESTINATION_STATE_DESTINATION_TOWN_DESTINATION_STREET_DESTINATION_STREET_NUMBER = 2;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
-    public static final int WAY_TYPE_INITIAL;
-    public static final int WAY_TYPE_BUSINESS;
-    public static final int WAY_TYPE_PRIVATE;
-    public static final int WAY_TYPE_WAY_TO_WORK;
+    public static final int WAY_TYPE_INITIAL = 0;
+    public static final int WAY_TYPE_BUSINESS = 1;
+    public static final int WAY_TYPE_PRIVATE = 2;
+    public static final int WAY_TYPE_WAY_TO_WORK = 3;
     public int wayType;
-    private static final int MAX_BUSINESSPARTNER_LENGTH;
+    private static final int MAX_BUSINESSPARTNER_LENGTH = 242;
     public final BAPString businessPartner;
-    private static final int MAX_TRIPREASON_LENGTH;
+    private static final int MAX_TRIPREASON_LENGTH = 242;
     public final BAPString tripReason;
-    private static final int MAX_ORIGINSTATE_LENGTH;
+    private static final int MAX_ORIGINSTATE_LENGTH = 61;
     public final BAPString originState;
-    private static final int MAX_ORIGINTOWN_LENGTH;
+    private static final int MAX_ORIGINTOWN_LENGTH = 61;
     public final BAPString originTown;
-    private static final int MAX_ORIGINSTREET_LENGTH;
+    private static final int MAX_ORIGINSTREET_LENGTH = 128;
     public final BAPString originStreet;
-    private static final int MAX_ORIGINSTREETNUMBER_LENGTH;
+    private static final int MAX_ORIGINSTREETNUMBER_LENGTH = 11;
     public final BAPString originStreetNumber;
-    private static final int MAX_DESTINATIONSTATE_LENGTH;
+    private static final int MAX_DESTINATIONSTATE_LENGTH = 61;
     public final BAPString destinationState;
-    private static final int MAX_DESTINATIONTOWN_LENGTH;
+    private static final int MAX_DESTINATIONTOWN_LENGTH = 61;
     public final BAPString destinationTown;
-    private static final int MAX_DESTINATIONSTREET_LENGTH;
+    private static final int MAX_DESTINATIONSTREET_LENGTH = 128;
     public final BAPString destinationStreet;
-    private static final int MAX_DESTINATIONSTREETNUMBER_LENGTH;
+    private static final int MAX_DESTINATIONSTREETNUMBER_LENGTH = 11;
     public final BAPString destinationStreetNumber;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -79,7 +77,6 @@ implements BAPArrayElement {
         this.wayType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -95,7 +92,6 @@ implements BAPArrayElement {
         this.destinationStreetNumber.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OLBTripList_Data oLBTripList_Data = (OLBTripList_Data)bAPEntity;
         return this.arrayHeader.equalTo(oLBTripList_Data.arrayHeader) && this.pos == oLBTripList_Data.pos && this.wayType == oLBTripList_Data.wayType && this.businessPartner.equalTo(oLBTripList_Data.businessPartner) && this.tripReason.equalTo(oLBTripList_Data.tripReason) && this.originState.equalTo(oLBTripList_Data.originState) && this.originTown.equalTo(oLBTripList_Data.originTown) && this.originStreet.equalTo(oLBTripList_Data.originStreet) && this.originStreetNumber.equalTo(oLBTripList_Data.originStreetNumber) && this.destinationState.equalTo(oLBTripList_Data.destinationState) && this.destinationTown.equalTo(oLBTripList_Data.destinationTown) && this.destinationStreet.equalTo(oLBTripList_Data.destinationStreet) && this.destinationStreetNumber.equalTo(oLBTripList_Data.destinationStreetNumber);
@@ -104,31 +100,28 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OLBTripList_Data");
-        stringBuffer.append(new StringBuffer().append("\n - pos:").append(this.pos).toString());
-        stringBuffer.append(new StringBuffer().append("\n - wayType:").append(this.wayType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - businessPartner:").append(this.businessPartner.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - tripReason:").append(this.tripReason.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - originState:").append(this.originState.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - originTown:").append(this.originTown.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - originStreet:").append(this.originStreet.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - originStreetNumber:").append(this.originStreetNumber.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - destinationState:").append(this.destinationState.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - destinationTown:").append(this.destinationTown.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - destinationStreet:").append(this.destinationStreet.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - destinationStreetNumber:").append(this.destinationStreetNumber.toString()).toString());
+        stringBuffer.append("\n - pos:" + this.pos);
+        stringBuffer.append("\n - wayType:" + this.wayType);
+        stringBuffer.append("\n - businessPartner:" + this.businessPartner.toString());
+        stringBuffer.append("\n - tripReason:" + this.tripReason.toString());
+        stringBuffer.append("\n - originState:" + this.originState.toString());
+        stringBuffer.append("\n - originTown:" + this.originTown.toString());
+        stringBuffer.append("\n - originStreet:" + this.originStreet.toString());
+        stringBuffer.append("\n - originStreetNumber:" + this.originStreetNumber.toString());
+        stringBuffer.append("\n - destinationState:" + this.destinationState.toString());
+        stringBuffer.append("\n - destinationTown:" + this.destinationTown.toString());
+        stringBuffer.append("\n - destinationStreet:" + this.destinationStreet.toString());
+        stringBuffer.append("\n - destinationStreetNumber:" + this.destinationStreetNumber.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -164,7 +157,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -200,12 +192,10 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

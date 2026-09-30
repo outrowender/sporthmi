@@ -10,13 +10,12 @@ import java.util.List;
 
 public class Oo0Rule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         RecognizerResult recognizerResult;
         boolean bl2 = false;
-        int n = 128;
+        int n = Integer.MIN_VALUE;
         boolean bl3 = false;
-        int n2 = 128;
+        int n2 = Integer.MIN_VALUE;
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             recognizerResult = (RecognizerResult)iterator.next();
@@ -49,7 +48,6 @@ extends AbstractPRPRule {
         list.add(recognizerResult);
     }
 
-    @Override
     public String getRuleName() {
         return "Oo0-Rule";
     }

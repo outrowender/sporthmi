@@ -36,13 +36,12 @@ extends ActiveRemoteBackend {
     private boolean bulkLogData;
     private boolean bulkCreateEntity;
     private boolean bulkChangeLevel;
-    private static final String chn;
+    private static final String chn = "RemoteConnectBackend";
 
     public RemoteConnectBackend() {
         super("remoteConnect");
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         IConfigQuery iConfigQuery = traceConfigBackend.getQuery();
@@ -63,7 +62,6 @@ extends ActiveRemoteBackend {
         }
     }
 
-    @Override
     public int getFlags() {
         int n = super.getFlags();
         if (this.bulkLogData) {
@@ -78,9 +76,8 @@ extends ActiveRemoteBackend {
         return n;
     }
 
-    @Override
     public boolean connect() {
-        TraceMe.msg(TraceMe.INFO, "RemoteConnectBackend", "start worker");
+        TraceMe.msg(TraceMe.INFO, chn, "start worker");
         this.startWorker();
         this.listener.logMessage(this.bid, "trigger remote connect");
         if (!this.isConnected) {
@@ -89,13 +86,12 @@ extends ActiveRemoteBackend {
         return true;
     }
 
-    @Override
     public void disconnect() {
         this.listener.logMessage(this.bid, "remote disconnect");
         if (this.isConnected) {
             this.doDisconnect = true;
         }
-        TraceMe.msg(TraceMe.INFO, "RemoteConnectBackend", "stop worker");
+        TraceMe.msg(TraceMe.INFO, chn, "stop worker");
         this.stopWorker();
     }
 
@@ -103,28 +99,28 @@ extends ActiveRemoteBackend {
         if (this.remoteProc != null) {
             TransportConfig transportConfig = TransportConfig.getInstance();
             if (!transportConfig.isValid()) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("Invalid Transport Config: ").append(transportConfig.getFailString()).toString());
+                this.listener.logMessage(this.bid, "Invalid Transport Config: " + transportConfig.getFailString());
                 return false;
             }
             try {
                 ConfigConnectionFactoryProvider configConnectionFactoryProvider = new ConfigConnectionFactoryProvider(transportConfig);
                 this.factory = configConnectionFactoryProvider.createConnectionFactory("tracing", this.remoteProc);
-                this.listener.logMessage(this.bid, new StringBuffer().append("Got Transport Factory for tracing:").append(this.remoteProc).toString());
+                this.listener.logMessage(this.bid, "Got Transport Factory for tracing:" + this.remoteProc);
                 return true;
             }
             catch (ConnectionFactoryException connectionFactoryException) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("Transport Provider failed: ").append(connectionFactoryException.getMessage()).toString());
+                this.listener.logMessage(this.bid, "Transport Provider failed: " + connectionFactoryException.getMessage());
                 return false;
             }
         }
         if (this.remoteHost != null && this.remotePort != -1) {
-            this.listener.logMessage(this.bid, new StringBuffer().append("setting up factory to ").append(this.remoteHost).append(":").append(this.remotePort).toString());
+            this.listener.logMessage(this.bid, "setting up factory to " + this.remoteHost + ":" + this.remotePort);
             TCPSingleTransportFactory tCPSingleTransportFactory = null;
             try {
                 tCPSingleTransportFactory = new TCPSingleTransportFactory(InetAddress.getByName(this.remoteHost), this.remotePort);
             }
             catch (UnknownHostException unknownHostException) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("ERROR: unknown host: ").append(this.remoteHost).toString());
+                this.listener.logMessage(this.bid, "ERROR: unknown host: " + this.remoteHost);
                 return false;
             }
             BEDefaultSerializerFactory bEDefaultSerializerFactory = new BEDefaultSerializerFactory();
@@ -135,9 +131,8 @@ extends ActiveRemoteBackend {
         return false;
     }
 
-    @Override
     protected boolean doInit() {
-        TraceMe.msg(TraceMe.DEBUG, "RemoteConnectBackend", "doInit");
+        TraceMe.msg(TraceMe.DEBUG, chn, "doInit");
         if (!this.setupFactory()) {
             this.listener.connected(this.bid, false);
             return false;
@@ -153,16 +148,16 @@ extends ActiveRemoteBackend {
             if (this.connectAfter > 0) {
                 if (l < (long)this.connectAfter) {
                     long l2 = (long)this.connectAfter - l;
-                    this.listener.logMessage(this.bid, new StringBuffer().append("connectAfter: waiting for ").append(l2).append(" ms").toString());
+                    this.listener.logMessage(this.bid, "connectAfter: waiting for " + l2 + " ms");
                     Thread.sleep(l2);
                 }
             } else if (this.ignoreDelayAfter > 0 && this.connectDelay > 0) {
                 if (l < (long)this.ignoreDelayAfter) {
-                    this.listener.logMessage(this.bid, new StringBuffer().append("ignoreDelayAfter: waiting for ").append(this.connectDelay).append(" ms").toString());
+                    this.listener.logMessage(this.bid, "ignoreDelayAfter: waiting for " + this.connectDelay + " ms");
                     Thread.sleep(this.connectDelay);
                 }
             } else if (this.connectDelay > 0) {
-                this.listener.logMessage(this.bid, new StringBuffer().append("connectDelay: waiting for ").append(this.connectDelay).append(" ms").toString());
+                this.listener.logMessage(this.bid, "connectDelay: waiting for " + this.connectDelay + " ms");
                 Thread.sleep(this.connectDelay);
             }
         }
@@ -171,42 +166,40 @@ extends ActiveRemoteBackend {
         }
     }
 
-    @Override
-    protected boolean doWork() {
+    protected boolean doWork() throws InterruptedException {
         if (this.doConnect && !this.isConnected) {
-            TraceMe.msg(TraceMe.DEBUG, "RemoteConnectBackend", "remote connect");
+            TraceMe.msg(TraceMe.DEBUG, chn, "remote connect");
             this.isConnected = this.remoteConnect(this.factory.createConnection(), true, false, false);
             if (!this.isConnected) {
                 try {
-                    this.listener.logMessage(this.bid, new StringBuffer().append("delay for reconnect ").append(this.retryInterval).append(" ms").toString());
+                    this.listener.logMessage(this.bid, "delay for reconnect " + this.retryInterval + " ms");
                     Thread.sleep(this.retryInterval);
                 }
                 catch (InterruptedException interruptedException) {}
             }
         } else if (this.doDisconnect && this.isConnected) {
-            TraceMe.msg(TraceMe.DEBUG, "RemoteConnectBackend", "remote disconnect");
+            TraceMe.msg(TraceMe.DEBUG, chn, "remote disconnect");
             this.remoteDisconnect();
             this.doDisconnect = false;
             this.isConnected = false;
         } else if (this.isConnected) {
             if (!this.handleProtocol()) {
                 if (!this.doRun) {
-                    TraceMe.msg(TraceMe.INFO, "RemoteConnectBackend", "handleProtocol returned -> shutdown");
+                    TraceMe.msg(TraceMe.INFO, chn, "handleProtocol returned -> shutdown");
                     return false;
                 }
-                TraceMe.msg(TraceMe.INFO, "RemoteConnectBackend", "handleProtocol returned -> disconnect");
+                TraceMe.msg(TraceMe.INFO, chn, "handleProtocol returned -> disconnect");
                 this.doDisconnect = true;
                 this.doConnect = true;
             }
         } else {
-            Thread.sleep(0);
+            Thread.sleep(500L);
         }
         return true;
     }
 
-    @Override
     protected void doExit() {
-        TraceMe.msg(TraceMe.DEBUG, "RemoteConnectBackend", "doExit");
+        TraceMe.msg(TraceMe.DEBUG, chn, "doExit");
         if (this.isConnected) {
             this.remoteDisconnect();
             this.isConnected = false;

@@ -25,7 +25,6 @@ LayoutManager {
     private DefaultBoundedLayout() {
     }
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         if (abstractWidget != null) {
             Iterator iterator;
@@ -54,7 +53,6 @@ LayoutManager {
         }
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         int[] nArray = DUMMY_PREFRRED_SIZE;
         if (abstractWidget instanceof EntertainmentDrawerContentController) {
@@ -70,7 +68,6 @@ LayoutManager {
         return nArray;
     }
 
-    @Override
     public void flushCache() {
     }
 }

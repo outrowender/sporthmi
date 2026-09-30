@@ -30,28 +30,23 @@ implements DSICarLight {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carlight$DSICarLight == null ? (class$org$dsi$ifc$carlight$DSICarLight = DSICarLightProvider.class$("org.dsi.ifc.carlight.DSICarLight")) : class$org$dsi$ifc$carlight$DSICarLight).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarLightProxy(this.instance, (DSICarLightReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setExtLightComingHome(TimeState timeState) {
         try {
             this.proxy.setExtLightComingHome(timeState);
@@ -61,7 +56,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightLeavingHome(TimeState timeState) {
         try {
             this.proxy.setExtLightLeavingHome(timeState);
@@ -71,7 +65,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightSwitchOnSensitivity(int n) {
         try {
             this.proxy.setExtLightSwitchOnSensitivity(n);
@@ -81,7 +74,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightDayLight(boolean bl) {
         try {
             this.proxy.setExtLightDayLight(bl);
@@ -91,7 +83,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightHeadLightSystem(boolean bl) {
         try {
             this.proxy.setExtLightHeadLightSystem(bl);
@@ -101,7 +92,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightGlidingLightSystem(boolean bl) {
         try {
             this.proxy.setExtLightGlidingLightSystem(bl);
@@ -111,7 +101,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightAdaptive(boolean bl) {
         try {
             this.proxy.setExtLightAdaptive(bl);
@@ -121,7 +110,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightTourist(boolean bl) {
         try {
             this.proxy.setExtLightTourist(bl);
@@ -131,7 +119,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings) {
         try {
             this.proxy.setExtLightMotorwayBlinking(motorwayBlinkingSettings);
@@ -141,7 +128,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightMaskedHighBeam(boolean bl) {
         try {
             this.proxy.setExtLightMaskedHighBeam(bl);
@@ -151,7 +137,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightAutomaticLight(boolean bl, boolean bl2) {
         try {
             this.proxy.setExtLightAutomaticLight(bl, bl2);
@@ -161,7 +146,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightSetFactoryDefault() {
         try {
             this.proxy.setExtLightSetFactoryDefault();
@@ -171,7 +155,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightLaserLight(boolean bl) {
         try {
             this.proxy.setExtLightLaserLight(bl);
@@ -181,7 +164,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightSignatureLight(boolean bl) {
         try {
             this.proxy.setExtLightSignatureLight(bl);
@@ -191,7 +173,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setExtLightHeadlightRange(int n) {
         try {
             this.proxy.setExtLightHeadlightRange(n);
@@ -201,7 +182,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightIlluminationSet(int n, int n2) {
         try {
             this.proxy.setIntLightIlluminationSet(n, n2);
@@ -211,7 +191,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightColour(int n) {
         try {
             this.proxy.setIntLightColour(n);
@@ -221,7 +200,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightState(int n) {
         try {
             this.proxy.setIntLightState(n);
@@ -231,7 +209,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightEnvironment(boolean bl) {
         try {
             this.proxy.setIntLightEnvironment(bl);
@@ -241,7 +218,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightSpeed(boolean bl) {
         try {
             this.proxy.setIntLightSpeed(bl);
@@ -251,7 +227,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightTemperature(boolean bl) {
         try {
             this.proxy.setIntLightTemperature(bl);
@@ -261,7 +236,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightBrightness(IntLightBrightness intLightBrightness) {
         try {
             this.proxy.setIntLightBrightness(intLightBrightness);
@@ -271,7 +245,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightSetFactoryDefault() {
         try {
             this.proxy.setIntLightSetFactoryDefault();
@@ -281,7 +254,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightIlluminationProfile(int n, int n2) {
         try {
             this.proxy.setIntLightIlluminationProfile(n, n2);
@@ -291,7 +263,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightActiveProfile(int n) {
         try {
             this.proxy.setIntLightActiveProfile(n);
@@ -301,7 +272,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues) {
         try {
             this.proxy.setIntLightAmbientLightColor(intLightRGBValues);
@@ -311,7 +281,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightContourLightColor(IntLightRGBValues intLightRGBValues) {
         try {
             this.proxy.setIntLightContourLightColor(intLightRGBValues);
@@ -321,7 +290,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightFollowUpTime(int n) {
         try {
             this.proxy.setIntLightFollowUpTime(n);
@@ -331,7 +299,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setIntLightDoorContact(boolean bl) {
         try {
             this.proxy.setIntLightDoorContact(bl);
@@ -341,7 +308,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void requestIntLightRGBColorList(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo) {
         try {
             this.proxy.requestIntLightRGBColorList(intLightRGBColorListUpdateInfo);
@@ -351,7 +317,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -361,7 +326,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -371,7 +335,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -381,7 +344,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -391,7 +353,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -401,7 +362,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -411,7 +371,6 @@ implements DSICarLight {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

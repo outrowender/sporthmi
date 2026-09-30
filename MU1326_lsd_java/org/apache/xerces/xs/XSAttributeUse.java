@@ -5,33 +5,26 @@ package org.apache.xerces.xs;
 
 import org.apache.xerces.xs.ShortList;
 import org.apache.xerces.xs.XSAttributeDeclaration;
+import org.apache.xerces.xs.XSException;
 import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 
 public interface XSAttributeUse
 extends XSObject {
-    default public boolean getRequired() {
-    }
+    public boolean getRequired();
 
-    default public XSAttributeDeclaration getAttrDeclaration() {
-    }
+    public XSAttributeDeclaration getAttrDeclaration();
 
-    default public short getConstraintType() {
-    }
+    public short getConstraintType();
 
-    default public String getConstraintValue() {
-    }
+    public String getConstraintValue();
 
-    default public Object getActualVC() {
-    }
+    public Object getActualVC() throws XSException;
 
-    default public short getActualVCType() {
-    }
+    public short getActualVCType() throws XSException;
 
-    default public ShortList getItemValueTypes() {
-    }
+    public ShortList getItemValueTypes() throws XSException;
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

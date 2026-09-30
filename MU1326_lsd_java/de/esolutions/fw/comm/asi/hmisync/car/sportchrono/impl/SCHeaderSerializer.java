@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SCHeaderSerializer {
-    public static void putOptionalSCHeader(ISerializer iSerializer, SCHeader sCHeader) {
+    public static void putOptionalSCHeader(ISerializer iSerializer, SCHeader sCHeader) throws SerializerException {
         boolean bl = sCHeader == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SCHeaderSerializer {
         }
     }
 
-    public static void putOptionalSCHeaderVarArray(ISerializer iSerializer, SCHeader[] sCHeaderArray) {
+    public static void putOptionalSCHeaderVarArray(ISerializer iSerializer, SCHeader[] sCHeaderArray) throws SerializerException {
         boolean bl = sCHeaderArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SCHeaderSerializer {
         }
     }
 
-    public static SCHeader getOptionalSCHeader(IDeserializer iDeserializer) {
+    public static SCHeader getOptionalSCHeader(IDeserializer iDeserializer) throws SerializerException {
         SCHeader sCHeader = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SCHeaderSerializer {
         return sCHeader;
     }
 
-    public static SCHeader[] getOptionalSCHeaderVarArray(IDeserializer iDeserializer) {
+    public static SCHeader[] getOptionalSCHeaderVarArray(IDeserializer iDeserializer) throws SerializerException {
         SCHeader[] sCHeaderArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

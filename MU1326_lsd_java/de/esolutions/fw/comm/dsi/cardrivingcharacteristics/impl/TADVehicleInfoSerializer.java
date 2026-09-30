@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.TADVehicleInfo;
 
 public class TADVehicleInfoSerializer {
-    public static void putOptionalTADVehicleInfo(ISerializer iSerializer, TADVehicleInfo tADVehicleInfo) {
+    public static void putOptionalTADVehicleInfo(ISerializer iSerializer, TADVehicleInfo tADVehicleInfo) throws SerializerException {
         boolean bl = tADVehicleInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TADVehicleInfoSerializer {
         }
     }
 
-    public static void putOptionalTADVehicleInfoVarArray(ISerializer iSerializer, TADVehicleInfo[] tADVehicleInfoArray) {
+    public static void putOptionalTADVehicleInfoVarArray(ISerializer iSerializer, TADVehicleInfo[] tADVehicleInfoArray) throws SerializerException {
         boolean bl = tADVehicleInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TADVehicleInfoSerializer {
         }
     }
 
-    public static TADVehicleInfo getOptionalTADVehicleInfo(IDeserializer iDeserializer) {
+    public static TADVehicleInfo getOptionalTADVehicleInfo(IDeserializer iDeserializer) throws SerializerException {
         TADVehicleInfo tADVehicleInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TADVehicleInfoSerializer {
         return tADVehicleInfo;
     }
 
-    public static TADVehicleInfo[] getOptionalTADVehicleInfoVarArray(IDeserializer iDeserializer) {
+    public static TADVehicleInfo[] getOptionalTADVehicleInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         TADVehicleInfo[] tADVehicleInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

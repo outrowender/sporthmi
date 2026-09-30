@@ -52,7 +52,7 @@ public class sTelephoneTemperature {
     }
 
     public String toString() {
-        return new StringBuffer("sTelephoneTemperature{").append("msg_id=").append(this.msg_id).append(", current=").append(this.current).append(", min=").append(this.min).append(", max=").append(this.max).append("}").toString();
+        return "sTelephoneTemperature{" + "msg_id=" + this.msg_id + ", current=" + this.current + ", min=" + this.min + ", max=" + this.max + "}";
     }
 }
 

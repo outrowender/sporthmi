@@ -3,14 +3,13 @@
  */
 package org.apache.xerces.xs;
 
+import org.apache.xerces.xs.XSException;
+
 public interface ShortList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public boolean contains(short s) {
-    }
+    public boolean contains(short var1);
 
-    default public short item(int n) {
-    }
+    public short item(int var1) throws XSException;
 }
 

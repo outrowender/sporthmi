@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.careco;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.careco.DSICarEcoReply;
 import de.esolutions.fw.comm.dsi.careco.impl.DSICarEcoReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -43,13 +44,11 @@ implements DSICarEcoReply {
         super(n, (class$org$dsi$ifc$careco$DSICarEcoListener == null ? (class$org$dsi$ifc$careco$DSICarEcoListener = DSICarEcoDispatcher.class$("org.dsi.ifc.careco.DSICarEcoListener")) : class$org$dsi$ifc$careco$DSICarEcoListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateBCmEViewOptions(BCmEViewOptions bCmEViewOptions, int n) {
+    public void updateBCmEViewOptions(BCmEViewOptions bCmEViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -77,8 +76,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEListUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
+    public void updateBCmEListUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -106,8 +104,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumption(int n, int n2, int n3, int n4) {
+    public void updateBCmEConsumption(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -135,8 +132,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmELiveTip(int n, boolean bl, int n2) {
+    public void updateBCmELiveTip(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -164,8 +160,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerList[] bCmEConsumerListArray) {
+    public void responseBCmEConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerList[] bCmEConsumerListArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -181,8 +176,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void acknowledgeBcmeSetFactoryDefault(boolean bl) {
+    public void acknowledgeBcmeSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -198,8 +192,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
+    public void updateStartStopProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -227,8 +220,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseStartStopProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopProhibitList[] startStopProhibitListArray) {
+    public void responseStartStopProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopProhibitList[] startStopProhibitListArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -244,8 +236,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopRestartReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
+    public void updateStartStopRestartReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -273,8 +264,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseStartStopRestartReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartList[] startStopRestartListArray) {
+    public void responseStartStopRestartReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartList[] startStopRestartListArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -290,8 +280,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopRestartProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) {
+    public void updateStartStopRestartProhibitReasonListUpdateInfo(StartStopListUpdateInfo startStopListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -319,8 +308,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseStartStopRestartProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartProhibitList[] startStopRestartProhibitListArray) {
+    public void responseStartStopRestartProhibitReasonList(StartStopListUpdateInfo startStopListUpdateInfo, StartStopRestartProhibitList[] startStopRestartProhibitListArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -336,8 +324,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopState(int n, int n2) {
+    public void updateStartStopState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -365,8 +352,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopProhibitReasonListTotalNumberOfElements(int n, int n2) {
+    public void updateStartStopProhibitReasonListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -394,8 +380,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopRestartReasonListTotalNumberOfElements(int n, int n2) {
+    public void updateStartStopRestartReasonListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -423,8 +408,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopRestartProhibitReasonListTotalNumberOfElements(int n, int n2) {
+    public void updateStartStopRestartProhibitReasonListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -452,8 +436,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopViewOptions(StartStopViewOptions startStopViewOptions, int n) {
+    public void updateStartStopViewOptions(StartStopViewOptions startStopViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -481,8 +464,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateStartStopCollectedReasons(int n, int n2) {
+    public void updateStartStopCollectedReasons(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -510,8 +492,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDViewOptions(RangeDataViewOptions rangeDataViewOptions, int n) {
+    public void updateRDViewOptions(RangeDataViewOptions rangeDataViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -539,8 +520,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionMotorway1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionMotorway1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -568,8 +548,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionMotorway2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionMotorway2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -597,8 +576,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionHighway1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionHighway1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -626,8 +604,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionHighway2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionHighway2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -655,8 +632,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionCountryRoad1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionCountryRoad1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -684,8 +660,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionCountryRoad2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionCountryRoad2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -713,8 +688,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionDistrictRoad1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionDistrictRoad1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -742,8 +716,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionDistrictRoad2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionDistrictRoad2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -771,8 +744,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionLocalRoad1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionLocalRoad1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -800,8 +772,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionLocalRoad2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionLocalRoad2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -829,8 +800,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionRuralRoad1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionRuralRoad1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -858,8 +828,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionRuralRoad2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionRuralRoad2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -887,8 +856,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionUnclassifiedRoad1(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionUnclassifiedRoad1(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -916,8 +884,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDConsumptionUnclassifiedRoad2(CarBCConsumption carBCConsumption, int n) {
+    public void updateRDConsumptionUnclassifiedRoad2(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -945,8 +912,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDMaxRange1(CarBCCurrentRange carBCCurrentRange, int n) {
+    public void updateRDMaxRange1(CarBCCurrentRange carBCCurrentRange, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -974,8 +940,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDMaxRange2(CarBCCurrentRange carBCCurrentRange, int n) {
+    public void updateRDMaxRange2(CarBCCurrentRange carBCCurrentRange, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1003,8 +968,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDResidualEnergy1(RangeDataResidualEnergy rangeDataResidualEnergy, int n) {
+    public void updateRDResidualEnergy1(RangeDataResidualEnergy rangeDataResidualEnergy, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -1032,8 +996,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateRDResidualEnergy2(RangeDataResidualEnergy rangeDataResidualEnergy, int n) {
+    public void updateRDResidualEnergy2(RangeDataResidualEnergy rangeDataResidualEnergy, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -1061,8 +1024,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void acknowledgeRDSetFactoryDefault(boolean bl) {
+    public void acknowledgeRDSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1078,8 +1040,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumerListConsumptionUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
+    public void updateBCmEConsumerListConsumptionUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -1107,8 +1068,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumerListRangeUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
+    public void updateBCmEConsumerListRangeUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1136,8 +1096,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEEnergyFlowComfort(BCmEEnergyFlowComfort bCmEEnergyFlowComfort, int n) {
+    public void updateBCmEEnergyFlowComfort(BCmEEnergyFlowComfort bCmEEnergyFlowComfort, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1165,8 +1124,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmERangeGainTotal(BCmERangeGainTotal bCmERangeGainTotal, int n) {
+    public void updateBCmERangeGainTotal(BCmERangeGainTotal bCmERangeGainTotal, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1194,8 +1152,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListConsumptionRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array) {
+    public void responseBCmEConsumerListConsumptionRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA0[] bCmEConsumerListConsumptionRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1211,8 +1168,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListConsumptionRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA1[] bCmEConsumerListConsumptionRA1Array) {
+    public void responseBCmEConsumerListConsumptionRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListConsumptionRA1[] bCmEConsumerListConsumptionRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1228,8 +1184,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListConsumptionRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) {
+    public void responseBCmEConsumerListConsumptionRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1245,8 +1200,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListRangeRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA0[] bCmEConsumerListRangeRA0Array) {
+    public void responseBCmEConsumerListRangeRA0(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA0[] bCmEConsumerListRangeRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1262,8 +1216,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListRangeRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA1[] bCmEConsumerListRangeRA1Array) {
+    public void responseBCmEConsumerListRangeRA1(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA1[] bCmEConsumerListRangeRA1Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1279,8 +1232,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListRangeRA2(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) {
+    public void responseBCmEConsumerListRangeRA2(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1296,8 +1248,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void responseBCmEConsumerListRangeRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) {
+    public void responseBCmEConsumerListRangeRAF(BCmEListUpdateInfo bCmEListUpdateInfo, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1313,8 +1264,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmECurrentRange(BCmECurrentRange bCmECurrentRange, int n) {
+    public void updateBCmECurrentRange(BCmECurrentRange bCmECurrentRange, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1342,8 +1292,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumerListTotalNumberOfElements(int n, int n2) {
+    public void updateBCmEConsumerListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1371,8 +1320,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumerListConsumptionTotalNumberOfElements(int n, int n2) {
+    public void updateBCmEConsumerListConsumptionTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -1400,8 +1348,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmEConsumerListRangeTotalNumberOfElements(int n, int n2) {
+    public void updateBCmEConsumerListRangeTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -1429,8 +1376,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmECurrentRangeSOC(int n, int n2, int n3, int n4) {
+    public void updateBCmECurrentRangeSOC(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1458,8 +1404,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateBCmECatalogueRange(int n, int n2, int n3, int n4) {
+    public void updateBCmECatalogueRange(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -1487,8 +1432,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateEAViewOptions(EAViewOptions eAViewOptions, int n) {
+    public void updateEAViewOptions(EAViewOptions eAViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1516,8 +1460,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateEASystem(boolean bl, int n) {
+    public void updateEASystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -1545,8 +1488,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateEAPedalJerk(boolean bl, int n) {
+    public void updateEAPedalJerk(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1574,8 +1516,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void acknowledgeEASetFactoryDefault(boolean bl) {
+    public void acknowledgeEASetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1591,8 +1532,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateEAFreeWheeling(boolean bl, int n) {
+    public void updateEAFreeWheeling(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -1620,8 +1560,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void updateEAStartStop(boolean bl, int n) {
+    public void updateEAStartStop(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1649,8 +1588,7 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1666,14 +1604,13 @@ implements DSICarEcoReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarEcoListener dSICarEcoListener = (DSICarEcoListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarEcoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarEcoDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarEcoListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarEcoDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarEcoDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarEcoListener, new Object[]{string, string2});
                     continue;
                 }

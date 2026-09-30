@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.filebrowser.impl.GPSInfoSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.filebrowser.GPSInfo;
 import org.dsi.ifc.filebrowser.PreviewInfo;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class PreviewInfoSerializer {
-    public static void putOptionalPreviewInfo(ISerializer iSerializer, PreviewInfo previewInfo) {
+    public static void putOptionalPreviewInfo(ISerializer iSerializer, PreviewInfo previewInfo) throws SerializerException {
         boolean bl = previewInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class PreviewInfoSerializer {
         }
     }
 
-    public static void putOptionalPreviewInfoVarArray(ISerializer iSerializer, PreviewInfo[] previewInfoArray) {
+    public static void putOptionalPreviewInfoVarArray(ISerializer iSerializer, PreviewInfo[] previewInfoArray) throws SerializerException {
         boolean bl = previewInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class PreviewInfoSerializer {
         }
     }
 
-    public static PreviewInfo getOptionalPreviewInfo(IDeserializer iDeserializer) {
+    public static PreviewInfo getOptionalPreviewInfo(IDeserializer iDeserializer) throws SerializerException {
         PreviewInfo previewInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class PreviewInfoSerializer {
         return previewInfo;
     }
 
-    public static PreviewInfo[] getOptionalPreviewInfoVarArray(IDeserializer iDeserializer) {
+    public static PreviewInfo[] getOptionalPreviewInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PreviewInfo[] previewInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

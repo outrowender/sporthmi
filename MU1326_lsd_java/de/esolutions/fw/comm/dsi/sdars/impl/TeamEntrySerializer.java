@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.TeamEntry;
 
 public class TeamEntrySerializer {
-    public static void putOptionalTeamEntry(ISerializer iSerializer, TeamEntry teamEntry) {
+    public static void putOptionalTeamEntry(ISerializer iSerializer, TeamEntry teamEntry) throws SerializerException {
         boolean bl = teamEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class TeamEntrySerializer {
         }
     }
 
-    public static void putOptionalTeamEntryVarArray(ISerializer iSerializer, TeamEntry[] teamEntryArray) {
+    public static void putOptionalTeamEntryVarArray(ISerializer iSerializer, TeamEntry[] teamEntryArray) throws SerializerException {
         boolean bl = teamEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class TeamEntrySerializer {
         }
     }
 
-    public static TeamEntry getOptionalTeamEntry(IDeserializer iDeserializer) {
+    public static TeamEntry getOptionalTeamEntry(IDeserializer iDeserializer) throws SerializerException {
         TeamEntry teamEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class TeamEntrySerializer {
         return teamEntry;
     }
 
-    public static TeamEntry[] getOptionalTeamEntryVarArray(IDeserializer iDeserializer) {
+    public static TeamEntry[] getOptionalTeamEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         TeamEntry[] teamEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,25 +6,18 @@ package org.apache.commons.scxml;
 import java.util.Map;
 
 public interface Context {
-    default public void set(String string, Object object) {
-    }
+    public void set(String var1, Object var2);
 
-    default public void setLocal(String string, Object object) {
-    }
+    public void setLocal(String var1, Object var2);
 
-    default public Object get(String string) {
-    }
+    public Object get(String var1);
 
-    default public boolean has(String string) {
-    }
+    public boolean has(String var1);
 
-    default public Map getVars() {
-    }
+    public Map getVars();
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public Context getParent() {
-    }
+    public Context getParent();
 }
 

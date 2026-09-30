@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 import de.esolutions.fw.comm.dsi.tvtuner.impl.TimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tvtuner.EWSInfo;
 import org.dsi.ifc.tvtuner.Time;
 
 public class EWSInfoSerializer {
-    public static void putOptionalEWSInfo(ISerializer iSerializer, EWSInfo eWSInfo) {
+    public static void putOptionalEWSInfo(ISerializer iSerializer, EWSInfo eWSInfo) throws SerializerException {
         boolean bl = eWSInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class EWSInfoSerializer {
         }
     }
 
-    public static void putOptionalEWSInfoVarArray(ISerializer iSerializer, EWSInfo[] eWSInfoArray) {
+    public static void putOptionalEWSInfoVarArray(ISerializer iSerializer, EWSInfo[] eWSInfoArray) throws SerializerException {
         boolean bl = eWSInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class EWSInfoSerializer {
         }
     }
 
-    public static EWSInfo getOptionalEWSInfo(IDeserializer iDeserializer) {
+    public static EWSInfo getOptionalEWSInfo(IDeserializer iDeserializer) throws SerializerException {
         EWSInfo eWSInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class EWSInfoSerializer {
         return eWSInfo;
     }
 
-    public static EWSInfo[] getOptionalEWSInfoVarArray(IDeserializer iDeserializer) {
+    public static EWSInfo[] getOptionalEWSInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         EWSInfo[] eWSInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

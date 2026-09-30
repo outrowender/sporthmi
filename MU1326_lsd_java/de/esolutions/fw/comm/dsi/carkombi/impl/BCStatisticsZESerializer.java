@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCCounterSerializer;
 import de.esolutions.fw.comm.dsi.carkombi.impl.BCZeroEmissionRelativeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCCounter;
 import org.dsi.ifc.carkombi.BCStatisticsZE;
 import org.dsi.ifc.carkombi.BCZeroEmissionRelative;
 
 public class BCStatisticsZESerializer {
-    public static void putOptionalBCStatisticsZE(ISerializer iSerializer, BCStatisticsZE bCStatisticsZE) {
+    public static void putOptionalBCStatisticsZE(ISerializer iSerializer, BCStatisticsZE bCStatisticsZE) throws SerializerException {
         boolean bl = bCStatisticsZE == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class BCStatisticsZESerializer {
         }
     }
 
-    public static void putOptionalBCStatisticsZEVarArray(ISerializer iSerializer, BCStatisticsZE[] bCStatisticsZEArray) {
+    public static void putOptionalBCStatisticsZEVarArray(ISerializer iSerializer, BCStatisticsZE[] bCStatisticsZEArray) throws SerializerException {
         boolean bl = bCStatisticsZEArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class BCStatisticsZESerializer {
         }
     }
 
-    public static BCStatisticsZE getOptionalBCStatisticsZE(IDeserializer iDeserializer) {
+    public static BCStatisticsZE getOptionalBCStatisticsZE(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsZE bCStatisticsZE = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BCStatisticsZESerializer {
         return bCStatisticsZE;
     }
 
-    public static BCStatisticsZE[] getOptionalBCStatisticsZEVarArray(IDeserializer iDeserializer) {
+    public static BCStatisticsZE[] getOptionalBCStatisticsZEVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCStatisticsZE[] bCStatisticsZEArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

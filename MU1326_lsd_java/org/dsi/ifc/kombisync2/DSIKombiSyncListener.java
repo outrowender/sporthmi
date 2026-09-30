@@ -13,43 +13,30 @@ import org.dsi.ifc.kombisync2.PopupStatus;
 
 public interface DSIKombiSyncListener
 extends DSIListener {
-    default public void updateKombiCommunicationState(boolean bl, int n) {
-    }
+    public void updateKombiCommunicationState(boolean var1, int var2);
 
-    default public void updateKombiMessageStateDisplayIdentification(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayIdentification(int var1, int var2);
 
-    default public void updateKombiMessageStateDisplayRequestResponse(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayRequestResponse(int var1, int var2);
 
-    default public void updateKombiMessageStateDisplayStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayStatus(int var1, int var2);
 
-    default public void updateKombiMessageStatePopupActionRequest(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupActionRequest(int var1, int var2);
 
-    default public void updateKombiMessageStatePopupRegisterResponse(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupRegisterResponse(int var1, int var2);
 
-    default public void updateKombiMessageStatePopupStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupStatus(int var1, int var2);
 
-    default public void responseKombiDisplayRequestResponse(DisplayRequestResponse displayRequestResponse) {
-    }
+    public void responseKombiDisplayRequestResponse(DisplayRequestResponse var1);
 
-    default public void responseKombiDisplayStatus(DisplayStatus displayStatus) {
-    }
+    public void responseKombiDisplayStatus(DisplayStatus var1);
 
-    default public void responseKombiDisplayIdentification(DisplayIdentification displayIdentification) {
-    }
+    public void responseKombiDisplayIdentification(DisplayIdentification var1);
 
-    default public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse popupRegisterRequestResponse) {
-    }
+    public void responseKombiPopupRegisterResponse(PopupRegisterRequestResponse var1);
 
-    default public void responseKombiPopupActionRequest(PopupActionRequestResponse popupActionRequestResponse) {
-    }
+    public void responseKombiPopupActionRequest(PopupActionRequestResponse var1);
 
-    default public void responseKombiPopupStatus(PopupStatus popupStatus) {
-    }
+    public void responseKombiPopupStatus(PopupStatus var1);
 }
 

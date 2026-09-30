@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.telephone;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.telephone.DSICallStacksReply;
 import de.esolutions.fw.comm.dsi.telephone.impl.DSICallStacksReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSICallStacksReply {
         super(n, (class$org$dsi$ifc$telephone$DSICallStacksListener == null ? (class$org$dsi$ifc$telephone$DSICallStacksListener = DSICallStacksDispatcher.class$("org.dsi.ifc.telephone.DSICallStacksListener")) : class$org$dsi$ifc$telephone$DSICallStacksListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateIsReverted(boolean bl, int n) {
+    public void updateIsReverted(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -87,8 +85,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) {
+    public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void updateMEDataValidity(int n, int n2) {
+    public void updateMEDataValidity(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -174,8 +169,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) {
+    public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -203,8 +197,7 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -220,14 +213,13 @@ implements DSICallStacksReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICallStacksListener dSICallStacksListener = (DSICallStacksListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICallStacksDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICallStacksDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICallStacksListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICallStacksDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICallStacksDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICallStacksListener, new Object[]{string, string2});
                     continue;
                 }

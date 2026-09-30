@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.carlight;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carlight.DSICarLightReply;
 import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -33,13 +34,11 @@ implements DSICarLightReply {
         super(n, (class$org$dsi$ifc$carlight$DSICarLightListener == null ? (class$org$dsi$ifc$carlight$DSICarLightListener = DSICarLightDispatcher.class$("org.dsi.ifc.carlight.DSICarLightListener")) : class$org$dsi$ifc$carlight$DSICarLightListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateIntLightViewOptions(IntLightViewOptions intLightViewOptions, int n) {
+    public void updateIntLightViewOptions(IntLightViewOptions intLightViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -67,8 +66,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet1(int n, int n2) {
+    public void updateIntLightIlluminationSet1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -96,8 +94,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet2(int n, int n2) {
+    public void updateIntLightIlluminationSet2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -125,8 +122,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet3(int n, int n2) {
+    public void updateIntLightIlluminationSet3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -154,8 +150,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet4(int n, int n2) {
+    public void updateIntLightIlluminationSet4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -183,8 +178,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet5(int n, int n2) {
+    public void updateIntLightIlluminationSet5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -212,8 +206,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet6(int n, int n2) {
+    public void updateIntLightIlluminationSet6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -241,8 +234,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet7(int n, int n2) {
+    public void updateIntLightIlluminationSet7(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -270,8 +262,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationSet8(int n, int n2) {
+    public void updateIntLightIlluminationSet8(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -299,8 +290,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightTemperature(boolean bl, int n) {
+    public void updateIntLightTemperature(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -328,8 +318,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightColour(int n, int n2) {
+    public void updateIntLightColour(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -357,8 +346,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightState(int n, int n2) {
+    public void updateIntLightState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -386,8 +374,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightEnvironment(boolean bl, int n) {
+    public void updateIntLightEnvironment(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -415,8 +402,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightSpeed(boolean bl, int n) {
+    public void updateIntLightSpeed(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -444,8 +430,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightBrightness(IntLightBrightness intLightBrightness, int n) {
+    public void updateIntLightBrightness(IntLightBrightness intLightBrightness, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -473,8 +458,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile1(int n, int n2) {
+    public void updateIntLightIlluminationProfile1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -502,8 +486,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile2(int n, int n2) {
+    public void updateIntLightIlluminationProfile2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -531,8 +514,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile3(int n, int n2) {
+    public void updateIntLightIlluminationProfile3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -560,8 +542,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile4(int n, int n2) {
+    public void updateIntLightIlluminationProfile4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -589,8 +570,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile5(int n, int n2) {
+    public void updateIntLightIlluminationProfile5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -618,8 +598,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile6(int n, int n2) {
+    public void updateIntLightIlluminationProfile6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -647,8 +626,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile7(int n, int n2) {
+    public void updateIntLightIlluminationProfile7(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -676,8 +654,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightIlluminationProfile8(int n, int n2) {
+    public void updateIntLightIlluminationProfile8(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -705,8 +682,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightActiveProfile(int n, int n2) {
+    public void updateIntLightActiveProfile(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -734,8 +710,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues, int n) {
+    public void updateIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -763,8 +738,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightContourLightColor(IntLightRGBValues intLightRGBValues, int n) {
+    public void updateIntLightContourLightColor(IntLightRGBValues intLightRGBValues, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -792,8 +766,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightFollowUpTime(int n, int n2) {
+    public void updateIntLightFollowUpTime(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -821,8 +794,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightDoorContact(boolean bl, int n) {
+    public void updateIntLightDoorContact(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -850,8 +822,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightRGBColorListUpdateInfo(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int n) {
+    public void updateIntLightRGBColorListUpdateInfo(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -879,8 +850,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateIntLightRGBColorListTotalNumberOfElements(int n, int n2) {
+    public void updateIntLightRGBColorListTotalNumberOfElements(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -908,8 +878,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void responseIntLightRGBColorListRA0(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) {
+    public void responseIntLightRGBColorListRA0(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -925,8 +894,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void responseIntLightRGBColorListRAF(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int[] nArray) {
+    public void responseIntLightRGBColorListRAF(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -942,8 +910,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightComingHome(TimeState timeState, int n) {
+    public void updateExtLightComingHome(TimeState timeState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -971,8 +938,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightLeavingHome(TimeState timeState, int n) {
+    public void updateExtLightLeavingHome(TimeState timeState, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -1000,8 +966,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightSwitchOnSensitivity(int n, int n2) {
+    public void updateExtLightSwitchOnSensitivity(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -1029,8 +994,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightDaylight(boolean bl, int n) {
+    public void updateExtLightDaylight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -1058,8 +1022,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightTourist(boolean bl, int n) {
+    public void updateExtLightTourist(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -1087,8 +1050,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightAdaptive(boolean bl, int n) {
+    public void updateExtLightAdaptive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -1116,8 +1078,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightHeadLightSystem(boolean bl, int n) {
+    public void updateExtLightHeadLightSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -1145,8 +1106,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightGlidingSystem(boolean bl, int n) {
+    public void updateExtLightGlidingSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1174,8 +1134,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightViewOptions(ExtLightViewOptions extLightViewOptions, int n) {
+    public void updateExtLightViewOptions(ExtLightViewOptions extLightViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -1203,8 +1162,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings, int n) {
+    public void updateExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1232,8 +1190,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightMaskedHighBeam(boolean bl, int n) {
+    public void updateExtLightMaskedHighBeam(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1261,8 +1218,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightLampErrorDetection(ExtLightLampErrorDetectionState[] extLightLampErrorDetectionStateArray, int n) {
+    public void updateExtLightLampErrorDetection(ExtLightLampErrorDetectionState[] extLightLampErrorDetectionStateArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1290,8 +1246,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightLampErrorDetectionTrailer(ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray, int n) {
+    public void updateExtLightLampErrorDetectionTrailer(ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -1319,8 +1274,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightSensorErrorDetection(ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray, int n) {
+    public void updateExtLightSensorErrorDetection(ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -1348,8 +1302,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightAutomaticLight(boolean bl, boolean bl2, int n) {
+    public void updateExtLightAutomaticLight(boolean bl, boolean bl2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -1377,8 +1330,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void acknowledgeIntLightSetFactoryDefault(boolean bl) {
+    public void acknowledgeIntLightSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1394,8 +1346,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void acknowledgeExtLightSetFactoryDefault(boolean bl) {
+    public void acknowledgeExtLightSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1411,8 +1362,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightLaserLight(boolean bl, int n) {
+    public void updateExtLightLaserLight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1440,8 +1390,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightSignatureLight(boolean bl, int n) {
+    public void updateExtLightSignatureLight(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -1469,8 +1418,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void updateExtLightHeadlightRange(int n, int n2) {
+    public void updateExtLightHeadlightRange(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1498,8 +1446,7 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1515,14 +1462,13 @@ implements DSICarLightReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarLightListener dSICarLightListener = (DSICarLightListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarLightDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarLightDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarLightListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarLightDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarLightDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarLightListener, new Object[]{string, string2});
                     continue;
                 }

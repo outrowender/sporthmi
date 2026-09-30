@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCElementContentSelectionListUpdateInfo;
 
 public class DCElementContentSelectionListUpdateInfoSerializer {
-    public static void putOptionalDCElementContentSelectionListUpdateInfo(ISerializer iSerializer, DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo) {
+    public static void putOptionalDCElementContentSelectionListUpdateInfo(ISerializer iSerializer, DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo) throws SerializerException {
         boolean bl = dCElementContentSelectionListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class DCElementContentSelectionListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalDCElementContentSelectionListUpdateInfoVarArray(ISerializer iSerializer, DCElementContentSelectionListUpdateInfo[] dCElementContentSelectionListUpdateInfoArray) {
+    public static void putOptionalDCElementContentSelectionListUpdateInfoVarArray(ISerializer iSerializer, DCElementContentSelectionListUpdateInfo[] dCElementContentSelectionListUpdateInfoArray) throws SerializerException {
         boolean bl = dCElementContentSelectionListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class DCElementContentSelectionListUpdateInfoSerializer {
         }
     }
 
-    public static DCElementContentSelectionListUpdateInfo getOptionalDCElementContentSelectionListUpdateInfo(IDeserializer iDeserializer) {
+    public static DCElementContentSelectionListUpdateInfo getOptionalDCElementContentSelectionListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class DCElementContentSelectionListUpdateInfoSerializer {
         return dCElementContentSelectionListUpdateInfo;
     }
 
-    public static DCElementContentSelectionListUpdateInfo[] getOptionalDCElementContentSelectionListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static DCElementContentSelectionListUpdateInfo[] getOptionalDCElementContentSelectionListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCElementContentSelectionListUpdateInfo[] dCElementContentSelectionListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -15,37 +15,26 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICarlifeListener
 extends DSIListener {
-    default public void responseSetMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseSetMode(Resource[] var1, AppState[] var2);
 
-    default public void updateCallState(CallState callState, int n) {
-    }
+    public void updateCallState(CallState var1, int var2);
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2);
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2);
 
-    default public void updatePlaymodeState(PlaymodeInfo playmodeInfo, int n) {
-    }
+    public void updatePlaymodeState(PlaymodeInfo var1, int var2);
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2);
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2);
 
-    default public void updateNavigationNextTurnInfo(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnInfo(String var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
-    }
+    public void updateDeviceInfo(DeviceInfo var1, int var2);
 
-    default public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void requestModeChange(Resource[] var1, AppState[] var2);
 
-    default public void updateVideoAvailable(boolean bl, int n) {
-    }
+    public void updateVideoAvailable(boolean var1, int var2);
 }
 

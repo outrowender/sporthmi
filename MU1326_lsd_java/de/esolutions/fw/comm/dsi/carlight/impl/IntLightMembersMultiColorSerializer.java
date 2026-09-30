@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightMembersMultiColor;
 
 public class IntLightMembersMultiColorSerializer {
-    public static void putOptionalIntLightMembersMultiColor(ISerializer iSerializer, IntLightMembersMultiColor intLightMembersMultiColor) {
+    public static void putOptionalIntLightMembersMultiColor(ISerializer iSerializer, IntLightMembersMultiColor intLightMembersMultiColor) throws SerializerException {
         boolean bl = intLightMembersMultiColor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class IntLightMembersMultiColorSerializer {
         }
     }
 
-    public static void putOptionalIntLightMembersMultiColorVarArray(ISerializer iSerializer, IntLightMembersMultiColor[] intLightMembersMultiColorArray) {
+    public static void putOptionalIntLightMembersMultiColorVarArray(ISerializer iSerializer, IntLightMembersMultiColor[] intLightMembersMultiColorArray) throws SerializerException {
         boolean bl = intLightMembersMultiColorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class IntLightMembersMultiColorSerializer {
         }
     }
 
-    public static IntLightMembersMultiColor getOptionalIntLightMembersMultiColor(IDeserializer iDeserializer) {
+    public static IntLightMembersMultiColor getOptionalIntLightMembersMultiColor(IDeserializer iDeserializer) throws SerializerException {
         IntLightMembersMultiColor intLightMembersMultiColor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -127,7 +128,7 @@ public class IntLightMembersMultiColorSerializer {
         return intLightMembersMultiColor;
     }
 
-    public static IntLightMembersMultiColor[] getOptionalIntLightMembersMultiColorVarArray(IDeserializer iDeserializer) {
+    public static IntLightMembersMultiColor[] getOptionalIntLightMembersMultiColorVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightMembersMultiColor[] intLightMembersMultiColorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

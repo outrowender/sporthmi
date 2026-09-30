@@ -11,91 +11,62 @@ import org.dsi.ifc.global.CarViewOption;
 
 public interface DSIGeneralVehicleStatesListener
 extends DSIListener {
-    default public void updateAirbagData(AirbagData airbagData, int n) {
-    }
+    public void updateAirbagData(AirbagData var1, int var2);
 
-    default public void updateTankInfo(TankInfo tankInfo, int n) {
-    }
+    public void updateTankInfo(TankInfo var1, int var2);
 
-    default public void updateDimmedHeadlight(boolean bl, int n) {
-    }
+    public void updateDimmedHeadlight(boolean var1, int var2);
 
-    default public void updateAcousticParkingSystem(boolean bl, int n) {
-    }
+    public void updateAcousticParkingSystem(boolean var1, int var2);
 
-    default public void updateReverseGear(boolean bl, int n) {
-    }
+    public void updateReverseGear(boolean var1, int var2);
 
-    default public void updateVehicleStandstill(boolean bl, int n) {
-    }
+    public void updateVehicleStandstill(boolean var1, int var2);
 
-    default public void updateCarVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateCarVelocityThreshold(boolean var1, int var2);
 
-    default public void updateTVVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateTVVelocityThreshold(boolean var1, int var2);
 
-    default public void updateHDDVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateHDDVelocityThreshold(boolean var1, int var2);
 
-    default public void updateBrowserSlideShowVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserSlideShowVelocityThreshold(boolean var1, int var2);
 
-    default public void updateBrowserBordBookVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserBordBookVelocityThreshold(boolean var1, int var2);
 
-    default public void updateBrowserTravelAgentVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserTravelAgentVelocityThreshold(boolean var1, int var2);
 
-    default public void updateBrowserWebVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBrowserWebVelocityThreshold(boolean var1, int var2);
 
-    default public void updateBWSVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBWSVelocityThreshold(boolean var1, int var2);
 
-    default public void updateRadiotextVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateRadiotextVelocityThreshold(boolean var1, int var2);
 
-    default public void updateDisplayDayNightDesign(boolean bl, int n) {
-    }
+    public void updateDisplayDayNightDesign(boolean var1, int var2);
 
-    default public void updateBTBondingVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateBTBondingVelocityThreshold(boolean var1, int var2);
 
-    default public void updateMessagingVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateMessagingVelocityThreshold(boolean var1, int var2);
 
-    default public void updateDestinationInputVelocityThreshold(boolean bl, int n) {
-    }
+    public void updateDestinationInputVelocityThreshold(boolean var1, int var2);
 
-    default public void updateDSSSViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateDSSSViewOption(CarViewOption var1, int var2);
 
-    default public void updateServiceKeyData(byte[] byArray, int n) {
-    }
+    public void updateServiceKeyData(byte[] var1, int var2);
 
-    default public void updateServiceKeyViewOption(CarViewOption carViewOption, int n) {
-    }
+    public void updateServiceKeyViewOption(CarViewOption var1, int var2);
 
-    default public void updatePersonalizationStatus(boolean bl, int n, int n2) {
-    }
+    public void updatePersonalizationStatus(boolean var1, int var2, int var3);
 
-    default public void updateTLOViewOptions(TLOViewOptions tLOViewOptions, int n) {
-    }
+    public void updateTLOViewOptions(TLOViewOptions var1, int var2);
 
-    default public void updateEmergencyAssistVolLowering(int n, int n2) {
-    }
+    public void updateEmergencyAssistVolLowering(int var1, int var2);
 
-    default public void updateParkingBrake(boolean bl, int n) {
-    }
+    public void updateParkingBrake(boolean var1, int var2);
 
-    default public void updateAppConnectTrigger(int n, int n2) {
-    }
+    public void updateAppConnectTrigger(int var1, int var2);
 
-    default public void updateSTPState(int n, int n2) {
-    }
+    public void updateSTPState(int var1, int var2);
 
-    default public void updateAutomaticGearShiftTransMode(int n, int n2) {
-    }
+    public void updateAutomaticGearShiftTransMode(int var1, int var2);
 }
 

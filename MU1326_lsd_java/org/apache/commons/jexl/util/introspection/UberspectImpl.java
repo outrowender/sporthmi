@@ -3,7 +3,9 @@
  */
 package org.apache.commons.jexl.util.introspection;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -17,9 +19,6 @@ import org.apache.commons.jexl.util.PropertyExecutor;
 import org.apache.commons.jexl.util.introspection.Info;
 import org.apache.commons.jexl.util.introspection.Introspector;
 import org.apache.commons.jexl.util.introspection.Uberspect;
-import org.apache.commons.jexl.util.introspection.UberspectImpl$VelGetterImpl;
-import org.apache.commons.jexl.util.introspection.UberspectImpl$VelMethodImpl;
-import org.apache.commons.jexl.util.introspection.UberspectImpl$VelSetterImpl;
 import org.apache.commons.jexl.util.introspection.UberspectLoggable;
 import org.apache.commons.jexl.util.introspection.VelMethod;
 import org.apache.commons.jexl.util.introspection.VelPropertyGet;
@@ -29,23 +28,20 @@ import org.apache.commons.logging.Log;
 public class UberspectImpl
 implements Uberspect,
 UberspectLoggable {
-    private static final int PROPERTY_START_INDEX;
+    private static final int PROPERTY_START_INDEX = 3;
     private Log rlog;
     private static Introspector introspector;
     static /* synthetic */ Class class$java$util$Map;
 
-    @Override
-    public void init() {
+    public void init() throws Exception {
     }
 
-    @Override
     public void setRuntimeLogger(Log log) {
         this.rlog = log;
         introspector = new Introspector(this.rlog);
     }
 
-    @Override
-    public Iterator getIterator(Object object, Info info) {
+    public Iterator getIterator(Object object, Info info) throws Exception {
         if (object.getClass().isArray()) {
             return new ArrayIterator(object);
         }
@@ -67,8 +63,7 @@ UberspectLoggable {
         return null;
     }
 
-    @Override
-    public VelMethod getMethod(Object object, String string, Object[] objectArray, Info info) {
+    public VelMethod getMethod(Object object, String string, Object[] objectArray, Info info) throws Exception {
         if (object == null) {
             return null;
         }
@@ -76,11 +71,10 @@ UberspectLoggable {
         if (method == null && object instanceof Class) {
             method = introspector.getMethod((Class)object, string, objectArray);
         }
-        return method == null ? null : new UberspectImpl$VelMethodImpl(this, method);
+        return method == null ? null : new VelMethodImpl(method);
     }
 
-    @Override
-    public VelPropertyGet getPropertyGet(Object object, String string, Info info) {
+    public VelPropertyGet getPropertyGet(Object object, String string, Info info) throws Exception {
         Class clazz = object.getClass();
         AbstractExecutor abstractExecutor = new PropertyExecutor(this.rlog, introspector, clazz, string);
         if (!abstractExecutor.isAlive()) {
@@ -89,11 +83,10 @@ UberspectLoggable {
         if (!abstractExecutor.isAlive()) {
             abstractExecutor = new GetExecutor(this.rlog, introspector, clazz, string);
         }
-        return abstractExecutor == null ? null : new UberspectImpl$VelGetterImpl(this, abstractExecutor);
+        return abstractExecutor == null ? null : new VelGetterImpl(abstractExecutor);
     }
 
-    @Override
-    public VelPropertySet getPropertySet(Object object, String string, Object object2, Info info) {
+    public VelPropertySet getPropertySet(Object object, String string, Object object2, Info info) throws Exception {
         VelMethod velMethod;
         block8: {
             Class clazz = object.getClass();
@@ -123,10 +116,10 @@ UberspectLoggable {
             catch (NoSuchMethodException noSuchMethodException) {
                 Object[] objectArray;
                 if (!(class$java$util$Map == null ? (class$java$util$Map = UberspectImpl.class$("java.util.Map")) : class$java$util$Map).isAssignableFrom(clazz) || (velMethod = this.getMethod(object, "put", objectArray = new Object[]{new Object(), new Object()}, info)) == null) break block8;
-                return new UberspectImpl$VelSetterImpl(this, velMethod, string);
+                return new VelSetterImpl(velMethod, string);
             }
         }
-        return velMethod == null ? null : new UberspectImpl$VelSetterImpl(this, velMethod);
+        return velMethod == null ? null : new VelSetterImpl(velMethod);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -135,6 +128,98 @@ UberspectLoggable {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public class VelGetterImpl
+    implements VelPropertyGet {
+        protected AbstractExecutor ae = null;
+
+        public VelGetterImpl(AbstractExecutor abstractExecutor) {
+            this.ae = abstractExecutor;
+        }
+
+        public Object invoke(Object object) throws Exception {
+            return this.ae.execute(object);
+        }
+
+        public boolean isCacheable() {
+            return true;
+        }
+
+        public String getMethodName() {
+            return this.ae.getMethod().getName();
+        }
+    }
+
+    public class VelMethodImpl
+    implements VelMethod {
+        protected Method method = null;
+
+        public VelMethodImpl(Method method) {
+            this.method = method;
+        }
+
+        public Object invoke(Object object, Object[] objectArray) throws Exception {
+            try {
+                return this.method.invoke(object, objectArray);
+            }
+            catch (InvocationTargetException invocationTargetException) {
+                Throwable throwable = invocationTargetException.getTargetException();
+                if (throwable instanceof Exception) {
+                    throw (Exception)throwable;
+                }
+                if (throwable instanceof Error) {
+                    throw (Error)throwable;
+                }
+                throw invocationTargetException;
+            }
+        }
+
+        public boolean isCacheable() {
+            return true;
+        }
+
+        public String getMethodName() {
+            return this.method.getName();
+        }
+
+        public Class getReturnType() {
+            return this.method.getReturnType();
+        }
+    }
+
+    public class VelSetterImpl
+    implements VelPropertySet {
+        protected VelMethod vm = null;
+        protected String putKey = null;
+
+        public VelSetterImpl(VelMethod velMethod) {
+            this.vm = velMethod;
+        }
+
+        public VelSetterImpl(VelMethod velMethod, String string) {
+            this.vm = velMethod;
+            this.putKey = string;
+        }
+
+        public Object invoke(Object object, Object object2) throws Exception {
+            ArrayList arrayList = new ArrayList();
+            if (this.putKey == null) {
+                arrayList.add(object2);
+            } else {
+                arrayList.add(this.putKey);
+                arrayList.add(object2);
+            }
+            return this.vm.invoke(object, arrayList.toArray());
+        }
+
+        public boolean isCacheable() {
+            return true;
+        }
+
+        public String getMethodName() {
+            return this.vm.getMethodName();
         }
     }
 }

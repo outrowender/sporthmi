@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.DownloadInfo;
 
 public class DownloadInfoSerializer {
-    public static void putOptionalDownloadInfo(ISerializer iSerializer, DownloadInfo downloadInfo) {
+    public static void putOptionalDownloadInfo(ISerializer iSerializer, DownloadInfo downloadInfo) throws SerializerException {
         boolean bl = downloadInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DownloadInfoSerializer {
         }
     }
 
-    public static void putOptionalDownloadInfoVarArray(ISerializer iSerializer, DownloadInfo[] downloadInfoArray) {
+    public static void putOptionalDownloadInfoVarArray(ISerializer iSerializer, DownloadInfo[] downloadInfoArray) throws SerializerException {
         boolean bl = downloadInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DownloadInfoSerializer {
         }
     }
 
-    public static DownloadInfo getOptionalDownloadInfo(IDeserializer iDeserializer) {
+    public static DownloadInfo getOptionalDownloadInfo(IDeserializer iDeserializer) throws SerializerException {
         DownloadInfo downloadInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DownloadInfoSerializer {
         return downloadInfo;
     }
 
-    public static DownloadInfo[] getOptionalDownloadInfoVarArray(IDeserializer iDeserializer) {
+    public static DownloadInfo[] getOptionalDownloadInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         DownloadInfo[] downloadInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -8,7 +8,6 @@ import de.esolutions.hmi.widgets.audi.evo.high.LayoutMIB2MMICombiTT;
 
 public class LayoutMIB2MMICombiTTSport
 extends LayoutMIB2MMICombiTT {
-    @Override
     public int getIntegerConstant(int n) {
         switch (n) {
             case 80: {

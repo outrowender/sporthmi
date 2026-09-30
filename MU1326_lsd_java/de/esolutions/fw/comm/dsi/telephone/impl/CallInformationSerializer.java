@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.comm.dsi.telephone.impl.CallInformationExtSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephone.CallInformation;
 import org.dsi.ifc.telephone.CallInformationExt;
 
 public class CallInformationSerializer {
-    public static void putOptionalCallInformation(ISerializer iSerializer, CallInformation callInformation) {
+    public static void putOptionalCallInformation(ISerializer iSerializer, CallInformation callInformation) throws SerializerException {
         boolean bl = callInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class CallInformationSerializer {
         }
     }
 
-    public static void putOptionalCallInformationVarArray(ISerializer iSerializer, CallInformation[] callInformationArray) {
+    public static void putOptionalCallInformationVarArray(ISerializer iSerializer, CallInformation[] callInformationArray) throws SerializerException {
         boolean bl = callInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class CallInformationSerializer {
         }
     }
 
-    public static CallInformation getOptionalCallInformation(IDeserializer iDeserializer) {
+    public static CallInformation getOptionalCallInformation(IDeserializer iDeserializer) throws SerializerException {
         CallInformation callInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -91,7 +92,7 @@ public class CallInformationSerializer {
         return callInformation;
     }
 
-    public static CallInformation[] getOptionalCallInformationVarArray(IDeserializer iDeserializer) {
+    public static CallInformation[] getOptionalCallInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         CallInformation[] callInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

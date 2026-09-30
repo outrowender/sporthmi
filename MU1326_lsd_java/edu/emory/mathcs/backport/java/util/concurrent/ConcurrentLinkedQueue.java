@@ -5,29 +5,28 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 
 import edu.emory.mathcs.backport.java.util.AbstractQueue;
 import edu.emory.mathcs.backport.java.util.Queue;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentLinkedQueue$Itr;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentLinkedQueue$Node;
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentLinkedQueue$SerializableLock;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ConcurrentLinkedQueue
 extends AbstractQueue
 implements Queue,
 Serializable {
-    private static final long serialVersionUID;
-    private final Object headLock = new ConcurrentLinkedQueue$SerializableLock(null);
-    private final Object tailLock = new ConcurrentLinkedQueue$SerializableLock(null);
-    private volatile transient ConcurrentLinkedQueue$Node head;
-    private volatile transient ConcurrentLinkedQueue$Node tail = this.head = new ConcurrentLinkedQueue$Node(null, null);
+    private static final long serialVersionUID = 196745693267521676L;
+    private final Object headLock = new SerializableLock();
+    private final Object tailLock = new SerializableLock();
+    private volatile transient Node head;
+    private volatile transient Node tail = this.head = new Node(null, null);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private boolean casTail(ConcurrentLinkedQueue$Node node, ConcurrentLinkedQueue$Node node2) {
+    private boolean casTail(Node node, Node node2) {
         Object object = this.tailLock;
         synchronized (object) {
             if (this.tail == node) {
@@ -41,7 +40,7 @@ Serializable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private boolean casHead(ConcurrentLinkedQueue$Node node, ConcurrentLinkedQueue$Node node2) {
+    private boolean casHead(Node node, Node node2) {
         Object object = this.headLock;
         synchronized (object) {
             if (this.head == node) {
@@ -62,154 +61,249 @@ Serializable {
         }
     }
 
-    @Override
     public boolean add(Object object) {
         return this.offer(object);
     }
 
-    @Override
     public boolean offer(Object object) {
         if (object == null) {
             throw new NullPointerException();
         }
-        ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = new ConcurrentLinkedQueue$Node(object, null);
+        Node node = new Node(object, null);
         while (true) {
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node2 = this.tail;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node3 = concurrentLinkedQueue$Node2.getNext();
-            if (concurrentLinkedQueue$Node2 != this.tail) continue;
-            if (concurrentLinkedQueue$Node3 == null) {
-                if (!concurrentLinkedQueue$Node2.casNext(concurrentLinkedQueue$Node3, concurrentLinkedQueue$Node)) continue;
-                this.casTail(concurrentLinkedQueue$Node2, concurrentLinkedQueue$Node);
+            Node node2 = this.tail;
+            Node node3 = node2.getNext();
+            if (node2 != this.tail) continue;
+            if (node3 == null) {
+                if (!node2.casNext(node3, node)) continue;
+                this.casTail(node2, node);
                 return true;
             }
-            this.casTail(concurrentLinkedQueue$Node2, concurrentLinkedQueue$Node3);
+            this.casTail(node2, node3);
         }
     }
 
-    @Override
     public Object poll() {
         Object object;
-        ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node;
+        Node node;
         while (true) {
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node2 = this.head;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node3 = this.tail;
-            concurrentLinkedQueue$Node = concurrentLinkedQueue$Node2.getNext();
-            if (concurrentLinkedQueue$Node2 != this.head) continue;
-            if (concurrentLinkedQueue$Node2 == concurrentLinkedQueue$Node3) {
-                if (concurrentLinkedQueue$Node == null) {
+            Node node2 = this.head;
+            Node node3 = this.tail;
+            node = node2.getNext();
+            if (node2 != this.head) continue;
+            if (node2 == node3) {
+                if (node == null) {
                     return null;
                 }
-                this.casTail(concurrentLinkedQueue$Node3, concurrentLinkedQueue$Node);
+                this.casTail(node3, node);
                 continue;
             }
-            if (this.casHead(concurrentLinkedQueue$Node2, concurrentLinkedQueue$Node) && (object = concurrentLinkedQueue$Node.getItem()) != null) break;
+            if (this.casHead(node2, node) && (object = node.getItem()) != null) break;
         }
-        concurrentLinkedQueue$Node.setItem(null);
+        node.setItem(null);
         return object;
     }
 
-    @Override
     public Object peek() {
         while (true) {
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.head;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node2 = this.tail;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node3 = concurrentLinkedQueue$Node.getNext();
-            if (concurrentLinkedQueue$Node != this.head) continue;
-            if (concurrentLinkedQueue$Node == concurrentLinkedQueue$Node2) {
-                if (concurrentLinkedQueue$Node3 == null) {
+            Node node = this.head;
+            Node node2 = this.tail;
+            Node node3 = node.getNext();
+            if (node != this.head) continue;
+            if (node == node2) {
+                if (node3 == null) {
                     return null;
                 }
-                this.casTail(concurrentLinkedQueue$Node2, concurrentLinkedQueue$Node3);
+                this.casTail(node2, node3);
                 continue;
             }
-            Object object = concurrentLinkedQueue$Node3.getItem();
+            Object object = node3.getItem();
             if (object != null) {
                 return object;
             }
-            this.casHead(concurrentLinkedQueue$Node, concurrentLinkedQueue$Node3);
+            this.casHead(node, node3);
         }
     }
 
-    ConcurrentLinkedQueue$Node first() {
+    Node first() {
         while (true) {
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.head;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node2 = this.tail;
-            ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node3 = concurrentLinkedQueue$Node.getNext();
-            if (concurrentLinkedQueue$Node != this.head) continue;
-            if (concurrentLinkedQueue$Node == concurrentLinkedQueue$Node2) {
-                if (concurrentLinkedQueue$Node3 == null) {
+            Node node = this.head;
+            Node node2 = this.tail;
+            Node node3 = node.getNext();
+            if (node != this.head) continue;
+            if (node == node2) {
+                if (node3 == null) {
                     return null;
                 }
-                this.casTail(concurrentLinkedQueue$Node2, concurrentLinkedQueue$Node3);
+                this.casTail(node2, node3);
                 continue;
             }
-            if (concurrentLinkedQueue$Node3.getItem() != null) {
-                return concurrentLinkedQueue$Node3;
+            if (node3.getItem() != null) {
+                return node3;
             }
-            this.casHead(concurrentLinkedQueue$Node, concurrentLinkedQueue$Node3);
+            this.casHead(node, node3);
         }
     }
 
-    @Override
     public boolean isEmpty() {
         return this.first() == null;
     }
 
-    @Override
     public int size() {
         int n = 0;
-        for (ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.first(); concurrentLinkedQueue$Node != null && (concurrentLinkedQueue$Node.getItem() == null || ++n != -129); concurrentLinkedQueue$Node = concurrentLinkedQueue$Node.getNext()) {
+        for (Node node = this.first(); node != null && (node.getItem() == null || ++n != Integer.MAX_VALUE); node = node.getNext()) {
         }
         return n;
     }
 
-    @Override
     public boolean contains(Object object) {
         if (object == null) {
             return false;
         }
-        for (ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.first(); concurrentLinkedQueue$Node != null; concurrentLinkedQueue$Node = concurrentLinkedQueue$Node.getNext()) {
-            Object object2 = concurrentLinkedQueue$Node.getItem();
+        for (Node node = this.first(); node != null; node = node.getNext()) {
+            Object object2 = node.getItem();
             if (object2 == null || !object.equals(object2)) continue;
             return true;
         }
         return false;
     }
 
-    @Override
     public boolean remove(Object object) {
         if (object == null) {
             return false;
         }
-        for (ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.first(); concurrentLinkedQueue$Node != null; concurrentLinkedQueue$Node = concurrentLinkedQueue$Node.getNext()) {
-            Object object2 = concurrentLinkedQueue$Node.getItem();
-            if (object2 == null || !object.equals(object2) || !concurrentLinkedQueue$Node.casItem(object2, null)) continue;
+        for (Node node = this.first(); node != null; node = node.getNext()) {
+            Object object2 = node.getItem();
+            if (object2 == null || !object.equals(object2) || !node.casItem(object2, null)) continue;
             return true;
         }
         return false;
     }
 
-    @Override
     public Iterator iterator() {
-        return new ConcurrentLinkedQueue$Itr(this);
+        return new Itr();
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
-        for (ConcurrentLinkedQueue$Node concurrentLinkedQueue$Node = this.first(); concurrentLinkedQueue$Node != null; concurrentLinkedQueue$Node = concurrentLinkedQueue$Node.getNext()) {
-            Object object = concurrentLinkedQueue$Node.getItem();
+        for (Node node = this.first(); node != null; node = node.getNext()) {
+            Object object = node.getItem();
             if (object == null) continue;
             objectOutputStream.writeObject(object);
         }
         objectOutputStream.writeObject(null);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         Object object;
         objectInputStream.defaultReadObject();
-        this.tail = this.head = new ConcurrentLinkedQueue$Node(null, null);
+        this.tail = this.head = new Node(null, null);
         while ((object = objectInputStream.readObject()) != null) {
             this.offer(object);
+        }
+    }
+
+    private class Itr
+    implements Iterator {
+        private Node nextNode;
+        private Object nextItem;
+        private Node lastRet;
+
+        Itr() {
+            this.advance();
+        }
+
+        private Object advance() {
+            Node node;
+            this.lastRet = this.nextNode;
+            Object object = this.nextItem;
+            Node node2 = node = this.nextNode == null ? ConcurrentLinkedQueue.this.first() : this.nextNode.getNext();
+            while (true) {
+                if (node == null) {
+                    this.nextNode = null;
+                    this.nextItem = null;
+                    return object;
+                }
+                Object object2 = node.getItem();
+                if (object2 != null) {
+                    this.nextNode = node;
+                    this.nextItem = object2;
+                    return object;
+                }
+                node = node.getNext();
+            }
+        }
+
+        public boolean hasNext() {
+            return this.nextNode != null;
+        }
+
+        public Object next() {
+            if (this.nextNode == null) {
+                throw new NoSuchElementException();
+            }
+            return this.advance();
+        }
+
+        public void remove() {
+            Node node = this.lastRet;
+            if (node == null) {
+                throw new IllegalStateException();
+            }
+            node.setItem(null);
+            this.lastRet = null;
+        }
+    }
+
+    private static class Node {
+        private volatile Object item;
+        private volatile Node next;
+
+        Node(Object object) {
+            this.item = object;
+        }
+
+        Node(Object object, Node node) {
+            this.item = object;
+            this.next = node;
+        }
+
+        Object getItem() {
+            return this.item;
+        }
+
+        synchronized boolean casItem(Object object, Object object2) {
+            if (this.item == object) {
+                this.item = object2;
+                return true;
+            }
+            return false;
+        }
+
+        synchronized void setItem(Object object) {
+            this.item = object;
+        }
+
+        Node getNext() {
+            return this.next;
+        }
+
+        synchronized boolean casNext(Node node, Node node2) {
+            if (this.next == node) {
+                this.next = node2;
+                return true;
+            }
+            return false;
+        }
+
+        synchronized void setNext(Node node) {
+            this.next = node;
+        }
+    }
+
+    private static class SerializableLock
+    implements Serializable {
+        private SerializableLock() {
         }
     }
 }

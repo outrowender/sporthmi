@@ -3,11 +3,11 @@
  */
 package de.esolutions.fw.comm.asi.fec;
 
-public interface FecAppMMXC {
-    default public void registerForFec(int n) {
-    }
+import de.esolutions.fw.comm.core.method.MethodException;
 
-    default public void checkPkgSignature(String string, short[] sArray, short[] sArray2) {
-    }
+public interface FecAppMMXC {
+    public void registerForFec(int var1) throws MethodException;
+
+    public void checkPkgSignature(String var1, short[] var2, short[] var3) throws MethodException;
 }
 

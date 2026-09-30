@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCStatusLevelRightLeft;
 
 public class PDCStatusLevelRightLeftSerializer {
-    public static void putOptionalPDCStatusLevelRightLeft(ISerializer iSerializer, PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
+    public static void putOptionalPDCStatusLevelRightLeft(ISerializer iSerializer, PDCStatusLevelRightLeft pDCStatusLevelRightLeft) throws SerializerException {
         boolean bl = pDCStatusLevelRightLeft == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCStatusLevelRightLeftSerializer {
         }
     }
 
-    public static void putOptionalPDCStatusLevelRightLeftVarArray(ISerializer iSerializer, PDCStatusLevelRightLeft[] pDCStatusLevelRightLeftArray) {
+    public static void putOptionalPDCStatusLevelRightLeftVarArray(ISerializer iSerializer, PDCStatusLevelRightLeft[] pDCStatusLevelRightLeftArray) throws SerializerException {
         boolean bl = pDCStatusLevelRightLeftArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCStatusLevelRightLeftSerializer {
         }
     }
 
-    public static PDCStatusLevelRightLeft getOptionalPDCStatusLevelRightLeft(IDeserializer iDeserializer) {
+    public static PDCStatusLevelRightLeft getOptionalPDCStatusLevelRightLeft(IDeserializer iDeserializer) throws SerializerException {
         PDCStatusLevelRightLeft pDCStatusLevelRightLeft = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCStatusLevelRightLeftSerializer {
         return pDCStatusLevelRightLeft;
     }
 
-    public static PDCStatusLevelRightLeft[] getOptionalPDCStatusLevelRightLeftVarArray(IDeserializer iDeserializer) {
+    public static PDCStatusLevelRightLeft[] getOptionalPDCStatusLevelRightLeftVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCStatusLevelRightLeft[] pDCStatusLevelRightLeftArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

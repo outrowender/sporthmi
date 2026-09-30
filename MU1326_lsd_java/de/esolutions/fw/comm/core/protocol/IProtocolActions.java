@@ -7,31 +7,22 @@ import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.util.serializer.IDeserializer;
 
 public interface IProtocolActions {
-    default public void handleCreateStub(short s, short s2, ServiceInstanceID serviceInstanceID) {
-    }
+    public void handleCreateStub(short var1, short var2, ServiceInstanceID var3);
 
-    default public void handleCreateRRStub(short s, short s2, ServiceInstanceID serviceInstanceID, ServiceInstanceID serviceInstanceID2, short s3) {
-    }
+    public void handleCreateRRStub(short var1, short var2, ServiceInstanceID var3, ServiceInstanceID var4, short var5);
 
-    default public void handleStubCreated(short s, short s2) {
-    }
+    public void handleStubCreated(short var1, short var2);
 
-    default public void handleStubFailed(short s, byte by) {
-    }
+    public void handleStubFailed(short var1, byte var2);
 
-    default public void handleDestroyStub(short s) {
-    }
+    public void handleDestroyStub(short var1);
 
-    default public void handleProxyAlive(short s) {
-    }
+    public void handleProxyAlive(short var1);
 
-    default public void handleCallMethod(short s, short s2, IDeserializer iDeserializer) {
-    }
+    public void handleCallMethod(short var1, short var2, IDeserializer var3);
 
-    default public void handleRRStubCreated(short s, short s2, short s3) {
-    }
+    public void handleRRStubCreated(short var1, short var2, short var3);
 
-    default public void handlePing() {
-    }
+    public void handlePing();
 }
 

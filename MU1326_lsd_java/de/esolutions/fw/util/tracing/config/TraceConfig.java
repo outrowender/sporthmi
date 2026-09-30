@@ -63,7 +63,7 @@ public final class TraceConfig {
     private boolean enableCoreStatistics = false;
     private int coreStatisticsInterval = 10000;
     private Integer traceCoreCPU = null;
-    private static final String chn;
+    private static final String chn = "Config";
 
     public TraceConfig(String string, String string2) {
         this.name = string;
@@ -86,11 +86,11 @@ public final class TraceConfig {
                 return this.readConfig(configValue);
             }
             catch (ReadConfigException readConfigException) {
-                this.failString = new StringBuffer().append("ERROR reading tracing config: ").append(string).append(": ").append(readConfigException.getMessage()).toString();
+                this.failString = "ERROR reading tracing config: " + string + ": " + readConfigException.getMessage();
                 return false;
             }
         }
-        this.failString = new StringBuffer().append("Can't find config file: ").append(string).toString();
+        this.failString = "Can't find config file: " + string;
         return false;
     }
 
@@ -103,12 +103,12 @@ public final class TraceConfig {
         if (configValue == null) {
             this.configProvider = TraceConfigProvider.getInstance();
             if (!this.configProvider.isValid()) {
-                this.failString = new StringBuffer().append("Trace config provider is not valid: ").append(this.configProvider.getFailString()).toString();
+                this.failString = "Trace config provider is not valid: " + this.configProvider.getFailString();
                 this.isValid = false;
                 return false;
             }
             String string = this.configProvider.getFileName();
-            TraceMe.msg(TraceMe.INFO, "Config", "loaded config: %1", string);
+            TraceMe.msg(TraceMe.INFO, chn, "loaded config: %1", string);
             iConfigQuery = this.configProvider.getPathQuery();
             File file = new File(string);
             this.configPath = file.getParent();
@@ -140,10 +140,10 @@ public final class TraceConfig {
     }
 
     private void overlayStartupPreset() {
-        TraceMe.msg(TraceMe.INFO, "Config", "looking for overlayStartupPreset: %1", this.startupPresetFile);
+        TraceMe.msg(TraceMe.INFO, chn, "looking for overlayStartupPreset: %1", this.startupPresetFile);
         File file = new File(this.startupPresetFile);
         if (file.exists() && file.isFile()) {
-            TraceMe.msg(TraceMe.INFO, "Config", "-> found file");
+            TraceMe.msg(TraceMe.INFO, chn, "-> found file");
             try {
                 ConfigReaderRegistry configReaderRegistry = ConfigReaderRegistry.getInstance();
                 ConfigValue configValue = configReaderRegistry.readFromFile(this.startupPresetFile);
@@ -151,23 +151,23 @@ public final class TraceConfig {
                     String string = this.getOverlayPresetName(configValue);
                     if (string != null) {
                         ConfigPathQuery configPathQuery = new ConfigPathQuery(configValue);
-                        String string2 = new StringBuffer().append(string).append(".").append(this.name).append(".levels").toString();
+                        String string2 = string + "." + this.name + ".levels";
                         ConfigValue configValue2 = configPathQuery.getDictionary(string2);
                         if (configValue2 != null) {
-                            TraceMe.msg(TraceMe.INFO, "Config", "-> replacing levels with overlay at %1", string2);
+                            TraceMe.msg(TraceMe.INFO, chn, "-> replacing levels with overlay at %1", string2);
                             this.overlayLevels(configValue2);
                         } else {
-                            TraceMe.msg(TraceMe.INFO, "Config", "-> failed findind key: %1", string2);
+                            TraceMe.msg(TraceMe.INFO, chn, "-> failed findind key: %1", string2);
                         }
                     } else {
-                        TraceMe.msg(TraceMe.INFO, "Config", "-> no preset found in file");
+                        TraceMe.msg(TraceMe.INFO, chn, "-> no preset found in file");
                     }
                 } else {
-                    TraceMe.msg(TraceMe.INFO, "Config", "-> failed reading: no root!");
+                    TraceMe.msg(TraceMe.INFO, chn, "-> failed reading: no root!");
                 }
             }
             catch (ReadConfigException readConfigException) {
-                TraceMe.msg(TraceMe.ERROR, "Config", "-> failed reading: %1", readConfigException);
+                TraceMe.msg(TraceMe.ERROR, chn, "-> failed reading: %1", readConfigException);
             }
         }
     }
@@ -189,10 +189,10 @@ public final class TraceConfig {
         if ((configValue4 = iConfigQuery.getDictionary("formatters")) != null) {
             this.parseMessageFormatters(configValue4);
         }
-        ConfigValue configValue6 = iConfigQuery.getDictionary(new StringBuffer().append(this.coreClass).append(".default").toString());
-        ConfigValue configValue7 = iConfigQuery.getDictionary(new StringBuffer().append(this.coreClass).append(".").append(this.name).toString());
+        ConfigValue configValue6 = iConfigQuery.getDictionary(this.coreClass + ".default");
+        ConfigValue configValue7 = iConfigQuery.getDictionary(this.coreClass + "." + this.name);
         if (configValue6 == null && configValue7 == null) {
-            this.failString = new StringBuffer().append("Neither default nor proc client entry found for ").append(this.coreClass).append(" ").append(this.name).toString();
+            this.failString = "Neither default nor proc client entry found for " + this.coreClass + " " + this.name;
             System.out.println(this.failString);
             return false;
         }
@@ -250,7 +250,7 @@ public final class TraceConfig {
             this.maxBackends = 32;
         }
         if (this.startupPresetFile.length() > 0 && (c2 = this.startupPresetFile.charAt(0)) != File.separatorChar && c2 != '.') {
-            this.startupPresetFile = new StringBuffer().append(this.configPath).append(File.separator).append(this.startupPresetFile).toString();
+            this.startupPresetFile = this.configPath + File.separator + this.startupPresetFile;
         }
         return true;
     }
@@ -267,38 +267,38 @@ public final class TraceConfig {
             TraceMe.enable(this.traceMe);
         }
         if (TraceMe.isEnabled()) {
-            TraceMe.msg(TraceMe.INFO, "Config", "I am proc:                   %1", this.name);
-            TraceMe.msg(TraceMe.INFO, "Config", "core class:                  %1", this.coreClass);
-            TraceMe.msg(TraceMe.INFO, "Config", "traceCoreCPU:                %1", this.traceCoreCPU);
-            TraceMe.msg(TraceMe.INFO, "Config", "enabled:                     %1", new Boolean(this.enabled));
-            TraceMe.msg(TraceMe.INFO, "Config", "path                         %1", this.configPath);
-            TraceMe.msg(TraceMe.INFO, "Config", "messageBufferSize:           %1", new Integer(this.messageBufferSize));
-            TraceMe.msg(TraceMe.INFO, "Config", "startupMessageBufferSize     %1", new Integer(this.messageBufferStartupSize));
-            TraceMe.msg(TraceMe.INFO, "Config", "messageBufferThreshold:      %1", new Integer(this.messageBufferThreshold));
-            TraceMe.msg(TraceMe.INFO, "Config", "messageBufferFlushInterval:  %1", new Integer(this.messageBufferFlushInterval));
-            TraceMe.msg(TraceMe.INFO, "Config", "commandBufferSize:           %1", new Integer(this.commandBufferSize));
-            TraceMe.msg(TraceMe.INFO, "Config", "maxBackends:                 %1", new Integer(this.maxBackends));
-            TraceMe.msg(TraceMe.INFO, "Config", "entityPoolSize:              %1", new Integer(this.entityPoolSize));
-            TraceMe.msg(TraceMe.INFO, "Config", "entityFlushInterval:         %1", new Integer(this.entityFlushInterval));
-            TraceMe.msg(TraceMe.INFO, "Config", "useDefaultConsole:           %1", new Boolean(this.useDefaultConsole));
-            TraceMe.msg(TraceMe.INFO, "Config", "allowOverwrite:              %1", new Boolean(this.allowOverwrite));
-            TraceMe.msg(TraceMe.INFO, "Config", "omitMessagePrefix:           %1", new Boolean(this.omitMessagePrefix));
-            TraceMe.msg(TraceMe.INFO, "Config", "emergencyLogFile:            %1", this.emergencyLogFile);
-            TraceMe.msg(TraceMe.INFO, "Config", "decoders:                    %1", StringUtils.toString(this.decoders));
-            TraceMe.msg(TraceMe.INFO, "Config", "formatters:                  %1", StringUtils.toString(this.formatters));
-            TraceMe.msg(TraceMe.INFO, "Config", "backends:                    %1", StringUtils.toString(this.backends));
-            TraceMe.msg(TraceMe.INFO, "Config", "enforceSpeedLimit:           %1", new Boolean(this.enforceSpeedLimit));
-            TraceMe.msg(TraceMe.INFO, "Config", "lowerSizeLimit:              %1", new Integer(this.lowerSizeLimit));
-            TraceMe.msg(TraceMe.INFO, "Config", "upperSizeLimit:              %1", new Integer(this.upperSizeLimit));
-            TraceMe.msg(TraceMe.INFO, "Config", "lowerCountLimit:             %1", new Integer(this.lowerCountLimit));
-            TraceMe.msg(TraceMe.INFO, "Config", "upperCountLimit:             %1", new Integer(this.upperCountLimit));
-            TraceMe.msg(TraceMe.INFO, "Config", "checkIntervals:              %1", new Integer(this.checkIntervals));
-            TraceMe.msg(TraceMe.INFO, "Config", "disableSpeedLimitFile:       %1", this.disableSpeedLimitFile);
-            TraceMe.msg(TraceMe.INFO, "Config", "maxTimeZones:                %1", new Integer(this.maxTimeZones));
-            TraceMe.msg(TraceMe.INFO, "Config", "ignoreStartupPreset:         %1", new Boolean(this.ignoreStartupPreset));
-            TraceMe.msg(TraceMe.INFO, "Config", "startupPresetFile:           %1", new String(this.startupPresetFile));
-            TraceMe.msg(TraceMe.INFO, "Config", "enableCoreStatistics:        %1", new Boolean(this.enableCoreStatistics));
-            TraceMe.msg(TraceMe.INFO, "Config", "coreStatisticsInterval:      %1", new Integer(this.coreStatisticsInterval));
+            TraceMe.msg(TraceMe.INFO, chn, "I am proc:                   %1", this.name);
+            TraceMe.msg(TraceMe.INFO, chn, "core class:                  %1", this.coreClass);
+            TraceMe.msg(TraceMe.INFO, chn, "traceCoreCPU:                %1", this.traceCoreCPU);
+            TraceMe.msg(TraceMe.INFO, chn, "enabled:                     %1", new Boolean(this.enabled));
+            TraceMe.msg(TraceMe.INFO, chn, "path                         %1", this.configPath);
+            TraceMe.msg(TraceMe.INFO, chn, "messageBufferSize:           %1", new Integer(this.messageBufferSize));
+            TraceMe.msg(TraceMe.INFO, chn, "startupMessageBufferSize     %1", new Integer(this.messageBufferStartupSize));
+            TraceMe.msg(TraceMe.INFO, chn, "messageBufferThreshold:      %1", new Integer(this.messageBufferThreshold));
+            TraceMe.msg(TraceMe.INFO, chn, "messageBufferFlushInterval:  %1", new Integer(this.messageBufferFlushInterval));
+            TraceMe.msg(TraceMe.INFO, chn, "commandBufferSize:           %1", new Integer(this.commandBufferSize));
+            TraceMe.msg(TraceMe.INFO, chn, "maxBackends:                 %1", new Integer(this.maxBackends));
+            TraceMe.msg(TraceMe.INFO, chn, "entityPoolSize:              %1", new Integer(this.entityPoolSize));
+            TraceMe.msg(TraceMe.INFO, chn, "entityFlushInterval:         %1", new Integer(this.entityFlushInterval));
+            TraceMe.msg(TraceMe.INFO, chn, "useDefaultConsole:           %1", new Boolean(this.useDefaultConsole));
+            TraceMe.msg(TraceMe.INFO, chn, "allowOverwrite:              %1", new Boolean(this.allowOverwrite));
+            TraceMe.msg(TraceMe.INFO, chn, "omitMessagePrefix:           %1", new Boolean(this.omitMessagePrefix));
+            TraceMe.msg(TraceMe.INFO, chn, "emergencyLogFile:            %1", this.emergencyLogFile);
+            TraceMe.msg(TraceMe.INFO, chn, "decoders:                    %1", StringUtils.toString(this.decoders));
+            TraceMe.msg(TraceMe.INFO, chn, "formatters:                  %1", StringUtils.toString(this.formatters));
+            TraceMe.msg(TraceMe.INFO, chn, "backends:                    %1", StringUtils.toString(this.backends));
+            TraceMe.msg(TraceMe.INFO, chn, "enforceSpeedLimit:           %1", new Boolean(this.enforceSpeedLimit));
+            TraceMe.msg(TraceMe.INFO, chn, "lowerSizeLimit:              %1", new Integer(this.lowerSizeLimit));
+            TraceMe.msg(TraceMe.INFO, chn, "upperSizeLimit:              %1", new Integer(this.upperSizeLimit));
+            TraceMe.msg(TraceMe.INFO, chn, "lowerCountLimit:             %1", new Integer(this.lowerCountLimit));
+            TraceMe.msg(TraceMe.INFO, chn, "upperCountLimit:             %1", new Integer(this.upperCountLimit));
+            TraceMe.msg(TraceMe.INFO, chn, "checkIntervals:              %1", new Integer(this.checkIntervals));
+            TraceMe.msg(TraceMe.INFO, chn, "disableSpeedLimitFile:       %1", this.disableSpeedLimitFile);
+            TraceMe.msg(TraceMe.INFO, chn, "maxTimeZones:                %1", new Integer(this.maxTimeZones));
+            TraceMe.msg(TraceMe.INFO, chn, "ignoreStartupPreset:         %1", new Boolean(this.ignoreStartupPreset));
+            TraceMe.msg(TraceMe.INFO, chn, "startupPresetFile:           %1", new String(this.startupPresetFile));
+            TraceMe.msg(TraceMe.INFO, chn, "enableCoreStatistics:        %1", new Boolean(this.enableCoreStatistics));
+            TraceMe.msg(TraceMe.INFO, chn, "coreStatisticsInterval:      %1", new Integer(this.coreStatisticsInterval));
         }
     }
 

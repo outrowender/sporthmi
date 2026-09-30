@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaProgButton;
 
 public class CharismaProgButtonSerializer {
-    public static void putOptionalCharismaProgButton(ISerializer iSerializer, CharismaProgButton charismaProgButton) {
+    public static void putOptionalCharismaProgButton(ISerializer iSerializer, CharismaProgButton charismaProgButton) throws SerializerException {
         boolean bl = charismaProgButton == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CharismaProgButtonSerializer {
         }
     }
 
-    public static void putOptionalCharismaProgButtonVarArray(ISerializer iSerializer, CharismaProgButton[] charismaProgButtonArray) {
+    public static void putOptionalCharismaProgButtonVarArray(ISerializer iSerializer, CharismaProgButton[] charismaProgButtonArray) throws SerializerException {
         boolean bl = charismaProgButtonArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CharismaProgButtonSerializer {
         }
     }
 
-    public static CharismaProgButton getOptionalCharismaProgButton(IDeserializer iDeserializer) {
+    public static CharismaProgButton getOptionalCharismaProgButton(IDeserializer iDeserializer) throws SerializerException {
         CharismaProgButton charismaProgButton = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CharismaProgButtonSerializer {
         return charismaProgButton;
     }
 
-    public static CharismaProgButton[] getOptionalCharismaProgButtonVarArray(IDeserializer iDeserializer) {
+    public static CharismaProgButton[] getOptionalCharismaProgButtonVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaProgButton[] charismaProgButtonArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

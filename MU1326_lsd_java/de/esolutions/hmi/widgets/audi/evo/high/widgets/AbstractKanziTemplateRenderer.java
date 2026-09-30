@@ -18,15 +18,14 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IKanziTemplateRenderer;
 public abstract class AbstractKanziTemplateRenderer
 extends AbstractRendererHigh
 implements IKanziTemplateRenderer {
-    private static final int OFFSCREEN_FBO_HEIGHT_DEFAULT;
-    private static final int OFFSCREEN_FBO_HEIGHT_RES_400;
-    private static final int OFFSCREEEN_FBO_WIDTH_DEFAULT;
-    private static final int OFFSCREEN_FBO_WIDTH_RES_400;
-    private static final int OFFSCREEN_FBO_WIDTH_RES_800;
+    private static final int OFFSCREEN_FBO_HEIGHT_DEFAULT = 400;
+    private static final int OFFSCREEN_FBO_HEIGHT_RES_400 = 200;
+    private static final int OFFSCREEEN_FBO_WIDTH_DEFAULT = 950;
+    private static final int OFFSCREEN_FBO_WIDTH_RES_400 = 380;
+    private static final int OFFSCREEN_FBO_WIDTH_RES_800 = 800;
     protected IWrappedNode3D node;
     protected final EALPropertyCache propertyCache = new EALPropertyCache();
 
-    @Override
     public void render(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         int n = redrawContext.getCalculatedNodeIndex(this.getAbstractController().getDepth());
@@ -54,14 +53,11 @@ implements IKanziTemplateRenderer {
         this.node.setVisible(bl);
     }
 
-    protected abstract void applyProperties(RedrawContextHigh redrawContextHigh) {
-    }
+    protected abstract void applyProperties(RedrawContextHigh var1);
 
-    protected abstract String getTemplateNodePath() {
-    }
+    protected abstract String getTemplateNodePath();
 
-    protected abstract String getEALNodeName() {
-    }
+    protected abstract String getEALNodeName();
 
     protected IWrappedNode3D createNode(IWrappedNode3D iWrappedNode3D, int n) {
         IWrappedNode3D iWrappedNode3D2 = null;
@@ -96,10 +92,8 @@ implements IKanziTemplateRenderer {
         return iWrappedNode3D2;
     }
 
-    protected abstract int getKzbConstant() {
-    }
+    protected abstract int getKzbConstant();
 
-    @Override
     public void disconnect() {
         this.destroyProperties();
         super.disconnect();
@@ -137,7 +131,6 @@ implements IKanziTemplateRenderer {
         return this.propertyCache.setProperty(this.node, string, iTexture);
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 

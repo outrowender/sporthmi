@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.VPSSupportedRVModes;
 
 public class VPSSupportedRVModesSerializer {
-    public static void putOptionalVPSSupportedRVModes(ISerializer iSerializer, VPSSupportedRVModes vPSSupportedRVModes) {
+    public static void putOptionalVPSSupportedRVModes(ISerializer iSerializer, VPSSupportedRVModes vPSSupportedRVModes) throws SerializerException {
         boolean bl = vPSSupportedRVModes == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class VPSSupportedRVModesSerializer {
         }
     }
 
-    public static void putOptionalVPSSupportedRVModesVarArray(ISerializer iSerializer, VPSSupportedRVModes[] vPSSupportedRVModesArray) {
+    public static void putOptionalVPSSupportedRVModesVarArray(ISerializer iSerializer, VPSSupportedRVModes[] vPSSupportedRVModesArray) throws SerializerException {
         boolean bl = vPSSupportedRVModesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class VPSSupportedRVModesSerializer {
         }
     }
 
-    public static VPSSupportedRVModes getOptionalVPSSupportedRVModes(IDeserializer iDeserializer) {
+    public static VPSSupportedRVModes getOptionalVPSSupportedRVModes(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedRVModes vPSSupportedRVModes = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class VPSSupportedRVModesSerializer {
         return vPSSupportedRVModes;
     }
 
-    public static VPSSupportedRVModes[] getOptionalVPSSupportedRVModesVarArray(IDeserializer iDeserializer) {
+    public static VPSSupportedRVModes[] getOptionalVPSSupportedRVModesVarArray(IDeserializer iDeserializer) throws SerializerException {
         VPSSupportedRVModes[] vPSSupportedRVModesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

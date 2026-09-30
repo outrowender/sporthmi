@@ -72,7 +72,7 @@ public class SoundShapeRange {
     }
 
     public String toString() {
-        return new StringBuffer("SoundShapeRange{").append("minXRange=").append(this.minXRange).append(", minYRange=").append(this.minYRange).append(", minZRange=").append(this.minZRange).append(", maxXRange=").append(this.maxXRange).append(", maxYRange=").append(this.maxYRange).append(", maxZRange=").append(this.maxZRange).append("}").toString();
+        return "SoundShapeRange{" + "minXRange=" + this.minXRange + ", minYRange=" + this.minYRange + ", minZRange=" + this.minZRange + ", maxXRange=" + this.maxXRange + ", maxYRange=" + this.maxYRange + ", maxZRange=" + this.maxZRange + "}";
     }
 }
 

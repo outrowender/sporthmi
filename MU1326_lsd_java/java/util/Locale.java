@@ -8,17 +8,15 @@ import com.ibm.oti.locale.Language;
 import com.ibm.oti.util.PriviAction;
 import com.ibm.oti.vm.JxeUtil;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Enumeration;
-import java.util.Locale$1;
-import java.util.Locale$2;
 import java.util.MissingResourceException;
 import java.util.PropertyPermission;
 import java.util.ResourceBundle;
@@ -30,7 +28,7 @@ import java.util.zip.ZipFile;
 public final class Locale
 implements Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 9149081749638150636L;
     private transient String countryCode;
     private transient String languageCode;
     private transient String variantCode;
@@ -179,8 +177,13 @@ Serializable {
         Locale[] localeArray;
         int n = string.lastIndexOf(47);
         String string2 = string.substring(0, n + 1);
-        String string3 = string.substring(n + 1, string.length());
-        Locale$1 locale$1 = new Locale$1(string3);
+        final String string3 = string.substring(n + 1, string.length());
+        FilenameFilter filenameFilter = new FilenameFilter(){
+
+            public boolean accept(File file, String string) {
+                return string.startsWith(string3);
+            }
+        };
         Vector vector = new Vector();
         StringTokenizer stringTokenizer = new StringTokenizer(System.getProperty("com.ibm.oti.system.class.path", ""), System.getProperty("path.separator", ";"));
         while (stringTokenizer.hasMoreTokens()) {
@@ -206,7 +209,7 @@ Serializable {
                     object = file.getCanonicalPath();
                     object2 = ((String)object).charAt(((String)object).length() - 1) == File.separatorChar ? new File(new StringBuffer(String.valueOf(object)).append(string2).toString()) : new File(new StringBuffer(String.valueOf(object)).append(File.separatorChar).append(string2).toString());
                     if (!((File)object2).isDirectory()) continue;
-                    stringArray = ((File)object2).list(locale$1);
+                    stringArray = ((File)object2).list(filenameFilter);
                     int n3 = 0;
                     while (n3 < stringArray.length) {
                         vector.addElement(stringArray[n3]);
@@ -256,7 +259,12 @@ Serializable {
 
     public static Locale[] getAvailableLocales() {
         if (availableLocales == null) {
-            availableLocales = (Locale[])AccessController.doPrivileged(new Locale$2());
+            availableLocales = (Locale[])AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    return Locale.find("com/ibm/oti/locale/Locale_");
+                }
+            });
         }
         return (Locale[])availableLocales.clone();
     }
@@ -383,7 +391,7 @@ Serializable {
         return stringBuffer.toString();
     }
 
-    public String getISO3Country() {
+    public String getISO3Country() throws MissingResourceException {
         if (this.countryCode.length() == 0) {
             return "";
         }
@@ -391,7 +399,7 @@ Serializable {
         return resourceBundle.getString(this.countryCode);
     }
 
-    public String getISO3Language() {
+    public String getISO3Language() throws MissingResourceException {
         if (this.languageCode.length() == 0) {
             return "";
         }
@@ -469,20 +477,20 @@ Serializable {
         return (ResourceBundle)AccessController.doPrivileged(new PriviAction(new StringBuffer("com.ibm.oti.locale.").append(string).toString(), locale));
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("country", this.countryCode);
-        objectOutputStream$PutField.put("hashcode", -1);
-        objectOutputStream$PutField.put("language", this.languageCode);
-        objectOutputStream$PutField.put("variant", this.variantCode);
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("country", this.countryCode);
+        putField.put("hashcode", -1);
+        putField.put("language", this.languageCode);
+        putField.put("variant", this.variantCode);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        this.countryCode = (String)objectInputStream$GetField.get("country", "");
-        this.languageCode = (String)objectInputStream$GetField.get("language", "");
-        this.variantCode = (String)objectInputStream$GetField.get("variant", "");
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        this.countryCode = (String)getField.get("country", "");
+        this.languageCode = (String)getField.get("language", "");
+        this.variantCode = (String)getField.get("variant", "");
     }
 }
 

@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class DisasterWarning_NotificationRequests
 implements BAPEntity {
-    private static final int RESERVED_BIT_3__7_BITSIZE;
+    private static final int RESERVED_BIT_3__7_BITSIZE = 5;
     public boolean userAlertNecessaryNormal;
     public boolean popupNecessaryImmediate;
     public boolean displayInHmi;
@@ -29,12 +29,10 @@ implements BAPEntity {
         this.displayInHmi = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DisasterWarning_NotificationRequests disasterWarning_NotificationRequests = (DisasterWarning_NotificationRequests)bAPEntity;
         return this.userAlertNecessaryNormal == disasterWarning_NotificationRequests.userAlertNecessaryNormal && this.popupNecessaryImmediate == disasterWarning_NotificationRequests.popupNecessaryImmediate && this.displayInHmi == disasterWarning_NotificationRequests.displayInHmi;
@@ -43,7 +41,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DisasterWarning_NotificationRequests");
@@ -53,12 +50,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(5);
         bitStream.pushBoolean(this.userAlertNecessaryNormal);
@@ -66,7 +61,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.displayInHmi);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(5);
         this.userAlertNecessaryNormal = bitStream.popFrontBoolean();

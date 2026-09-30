@@ -30,8 +30,7 @@ DSIKOMONavInfoC {
         return this.proxy;
     }
 
-    @Override
-    public void setDistanceToNextManeuver(long l, int n, boolean bl) {
+    public void setDistanceToNextManeuver(long l, int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -44,8 +43,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setETA(int n, short s, short s2, short s3, boolean bl, boolean bl2) {
+    public void setETA(int n, short s, short s2, short s3, boolean bl, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -61,8 +59,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setCurrentStreet(String string) {
+    public void setCurrentStreet(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -73,8 +70,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setTurnToStreet(String string, String string2) {
+    public void setTurnToStreet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -86,8 +82,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setCityName(String string) {
+    public void setCityName(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -98,8 +93,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setDistanceToDestination(long l, int n, boolean bl) {
+    public void setDistanceToDestination(long l, int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -112,8 +106,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setSemiDynRoute(boolean bl) {
+    public void setSemiDynRoute(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -124,8 +117,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setTrafficOffset(int n, short s, short s2, short s3, boolean bl) {
+    public void setTrafficOffset(int n, short s, short s2, short s3, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -140,8 +132,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setRTT(short s, short s2, boolean bl) {
+    public void setRTT(short s, short s2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -154,8 +145,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setRgSelect(int n) {
+    public void setRgSelect(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -166,8 +156,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setCapabilities(boolean[] blArray) {
+    public void setCapabilities(boolean[] blArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalBoolVarArray(blArray);
@@ -178,8 +167,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
+    public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -195,8 +183,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
+    public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -213,8 +200,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -225,8 +211,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -237,13 +222,11 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -254,8 +237,7 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -266,13 +248,11 @@ DSIKOMONavInfoC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

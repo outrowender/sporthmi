@@ -4,10 +4,8 @@
 package org.apache.xerces.impl.validation;
 
 public interface EntityState {
-    default public boolean isEntityDeclared(String string) {
-    }
+    public boolean isEntityDeclared(String var1);
 
-    default public boolean isEntityUnparsed(String string) {
-    }
+    public boolean isEntityUnparsed(String var1);
 }
 

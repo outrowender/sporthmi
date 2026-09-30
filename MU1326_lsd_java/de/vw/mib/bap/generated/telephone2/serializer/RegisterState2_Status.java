@@ -10,35 +10,35 @@ import de.vw.mib.bap.stream.BitStream;
 public final class RegisterState2_Status
 implements StatusProperty {
     public int registerState;
-    private static final int REGISTER_STATE_BITSIZE;
-    public static final int REGISTER_STATE_NOT_REGISTERED_AND_NOT_SEARCHING;
-    public static final int REGISTER_STATE_REGISTERED;
-    public static final int REGISTER_STATE_NOT_REGISTERED_AND_SEARCHING;
-    public static final int REGISTER_STATE_REGISTRATION_DENIED;
-    public static final int REGISTER_STATE_REGISTERED_AND_ROAMING;
-    public static final int REGISTER_STATE_REGISTERED_AND_ROAMING_ALTERNATIVE;
-    public static final int REGISTER_STATE_FUNCTION_NOT_SUPPORTED_BY_ME;
+    private static final int REGISTER_STATE_BITSIZE = 8;
+    public static final int REGISTER_STATE_NOT_REGISTERED_AND_NOT_SEARCHING = 0;
+    public static final int REGISTER_STATE_REGISTERED = 1;
+    public static final int REGISTER_STATE_NOT_REGISTERED_AND_SEARCHING = 2;
+    public static final int REGISTER_STATE_REGISTRATION_DENIED = 3;
+    public static final int REGISTER_STATE_REGISTERED_AND_ROAMING = 4;
+    public static final int REGISTER_STATE_REGISTERED_AND_ROAMING_ALTERNATIVE = 5;
+    public static final int REGISTER_STATE_FUNCTION_NOT_SUPPORTED_BY_ME = 255;
     public int networkType;
-    private static final int NETWORK_TYPE_BITSIZE;
-    public static final int NETWORK_TYPE_UNKNOWN;
-    public static final int NETWORK_TYPE_GSM;
-    public static final int NETWORK_TYPE_UMTS;
-    public static final int NETWORK_TYPE_CDMA;
-    public static final int NETWORK_TYPE_LTE;
-    public static final int NETWORK_TYPE_HSPA_DF4_1;
-    public static final int NETWORK_TYPE_LTE_ADVANCED_DF4_1;
+    private static final int NETWORK_TYPE_BITSIZE = 8;
+    public static final int NETWORK_TYPE_UNKNOWN = 0;
+    public static final int NETWORK_TYPE_GSM = 1;
+    public static final int NETWORK_TYPE_UMTS = 2;
+    public static final int NETWORK_TYPE_CDMA = 3;
+    public static final int NETWORK_TYPE_LTE = 4;
+    public static final int NETWORK_TYPE_HSPA_DF4_1 = 5;
+    public static final int NETWORK_TYPE_LTE_ADVANCED_DF4_1 = 6;
     public int packetDataNetworkType;
-    private static final int PACKET_DATA_NETWORK_TYPE_BITSIZE;
-    public static final int PACKET_DATA_NETWORK_TYPE_NO_DATA_SERVICE;
-    public static final int PACKET_DATA_NETWORK_TYPE_GSM_GPRS;
-    public static final int PACKET_DATA_NETWORK_TYPE_GSM_EDGE;
-    public static final int PACKET_DATA_NETWORK_TYPE_HSDPA_HIGH_SPEED_DOWNLINK_PACKET_ACCESS;
-    public static final int PACKET_DATA_NETWORK_TYPE_HSUPA_HIGH_SPEED_UPLINK_PACKET_ACCESS;
-    public static final int PACKET_DATA_NETWORK_TYPE_CDMA;
-    public static final int PACKET_DATA_NETWORK_TYPE_LTE;
-    public static final int PACKET_DATA_NETWORK_TYPE_HSPA_DF4_1;
-    public static final int PACKET_DATA_NETWORK_TYPE_LTE_ADVANCED_DF4_1;
-    public static final int PACKET_DATA_NETWORK_TYPE_UNKNOWN_PACKET_DATA_NETWORK;
+    private static final int PACKET_DATA_NETWORK_TYPE_BITSIZE = 8;
+    public static final int PACKET_DATA_NETWORK_TYPE_NO_DATA_SERVICE = 0;
+    public static final int PACKET_DATA_NETWORK_TYPE_GSM_GPRS = 1;
+    public static final int PACKET_DATA_NETWORK_TYPE_GSM_EDGE = 2;
+    public static final int PACKET_DATA_NETWORK_TYPE_HSDPA_HIGH_SPEED_DOWNLINK_PACKET_ACCESS = 3;
+    public static final int PACKET_DATA_NETWORK_TYPE_HSUPA_HIGH_SPEED_UPLINK_PACKET_ACCESS = 4;
+    public static final int PACKET_DATA_NETWORK_TYPE_CDMA = 5;
+    public static final int PACKET_DATA_NETWORK_TYPE_LTE = 6;
+    public static final int PACKET_DATA_NETWORK_TYPE_HSPA_DF4_1 = 7;
+    public static final int PACKET_DATA_NETWORK_TYPE_LTE_ADVANCED_DF4_1 = 8;
+    public static final int PACKET_DATA_NETWORK_TYPE_UNKNOWN_PACKET_DATA_NETWORK = 255;
 
     public RegisterState2_Status() {
         this.internalReset();
@@ -56,12 +56,10 @@ implements StatusProperty {
         this.packetDataNetworkType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RegisterState2_Status registerState2_Status = (RegisterState2_Status)bAPEntity;
         return this.registerState == registerState2_Status.registerState && this.networkType == registerState2_Status.networkType && this.packetDataNetworkType == registerState2_Status.packetDataNetworkType;
@@ -70,7 +68,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RegisterState2_Status:");
@@ -191,7 +188,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -199,14 +195,12 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.registerState);
         bitStream.pushByte((byte)this.networkType);
         bitStream.pushByte((byte)this.packetDataNetworkType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.registerState = bitStream.popFrontByte();
         this.networkType = bitStream.popFrontByte();
@@ -217,7 +211,6 @@ implements StatusProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return RegisterState2_Status.functionId();
     }

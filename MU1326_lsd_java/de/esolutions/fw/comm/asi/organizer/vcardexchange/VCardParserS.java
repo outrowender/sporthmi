@@ -4,37 +4,28 @@
 package de.esolutions.fw.comm.asi.organizer.vcardexchange;
 
 import de.esolutions.fw.comm.asi.organizer.vcardexchange.VCardParserReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface VCardParserS {
-    default public void parseVCard(String string, int n, int n2, VCardParserReply vCardParserReply) {
-    }
+    public void parseVCard(String var1, int var2, int var3, VCardParserReply var4) throws MethodException;
 
-    default public void parseVCardDirectory(String string, int n, int n2, VCardParserReply vCardParserReply) {
-    }
+    public void parseVCardDirectory(String var1, int var2, int var3, VCardParserReply var4) throws MethodException;
 
-    default public void exportVCard(AdbEntry adbEntry, String string, int n, VCardParserReply vCardParserReply) {
-    }
+    public void exportVCard(AdbEntry var1, String var2, int var3, VCardParserReply var4) throws MethodException;
 
-    default public void exportSmallVCard(AdbEntry adbEntry, String string, int n, VCardParserReply vCardParserReply) {
-    }
+    public void exportSmallVCard(AdbEntry var1, String var2, int var3, VCardParserReply var4) throws MethodException;
 
-    default public void finishParsing(int n, VCardParserReply vCardParserReply) {
-    }
+    public void finishParsing(int var1, VCardParserReply var2) throws MethodException;
 
-    default public void finishExport(int n, int n2, VCardParserReply vCardParserReply) {
-    }
+    public void finishExport(int var1, int var2, VCardParserReply var3) throws MethodException;
 
-    default public void finishSmallExport(String string, int n, VCardParserReply vCardParserReply) {
-    }
+    public void finishSmallExport(String var1, int var2, VCardParserReply var3) throws MethodException;
 
-    default public void setBinaryContentTempPath(String string, VCardParserReply vCardParserReply) {
-    }
+    public void setBinaryContentTempPath(String var1, VCardParserReply var2) throws MethodException;
 
-    default public void setBinaryContentQuotaPerFile(long l, VCardParserReply vCardParserReply) {
-    }
+    public void setBinaryContentQuotaPerFile(long var1, VCardParserReply var3) throws MethodException;
 
-    default public void setExtendedAddressHandling(boolean bl, VCardParserReply vCardParserReply) {
-    }
+    public void setExtendedAddressHandling(boolean var1, VCardParserReply var2) throws MethodException;
 }
 

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class CalendarConfigSerializer {
-    public static void putOptionalCalendarConfig(ISerializer iSerializer, CalendarConfig calendarConfig) {
+    public static void putOptionalCalendarConfig(ISerializer iSerializer, CalendarConfig calendarConfig) throws SerializerException {
         boolean bl = calendarConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class CalendarConfigSerializer {
         }
     }
 
-    public static void putOptionalCalendarConfigVarArray(ISerializer iSerializer, CalendarConfig[] calendarConfigArray) {
+    public static void putOptionalCalendarConfigVarArray(ISerializer iSerializer, CalendarConfig[] calendarConfigArray) throws SerializerException {
         boolean bl = calendarConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class CalendarConfigSerializer {
         }
     }
 
-    public static CalendarConfig getOptionalCalendarConfig(IDeserializer iDeserializer) {
+    public static CalendarConfig getOptionalCalendarConfig(IDeserializer iDeserializer) throws SerializerException {
         CalendarConfig calendarConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -87,7 +88,7 @@ public class CalendarConfigSerializer {
         return calendarConfig;
     }
 
-    public static CalendarConfig[] getOptionalCalendarConfigVarArray(IDeserializer iDeserializer) {
+    public static CalendarConfig[] getOptionalCalendarConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         CalendarConfig[] calendarConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

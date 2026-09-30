@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 import de.esolutions.fw.comm.dsi.ddp20.impl.FrameUpdateSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.FrameUpdate;
 import org.dsi.ifc.ddp20.UpdateRequest;
 
 public class UpdateRequestSerializer {
-    public static void putOptionalUpdateRequest(ISerializer iSerializer, UpdateRequest updateRequest) {
+    public static void putOptionalUpdateRequest(ISerializer iSerializer, UpdateRequest updateRequest) throws SerializerException {
         boolean bl = updateRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UpdateRequestSerializer {
         }
     }
 
-    public static void putOptionalUpdateRequestVarArray(ISerializer iSerializer, UpdateRequest[] updateRequestArray) {
+    public static void putOptionalUpdateRequestVarArray(ISerializer iSerializer, UpdateRequest[] updateRequestArray) throws SerializerException {
         boolean bl = updateRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UpdateRequestSerializer {
         }
     }
 
-    public static UpdateRequest getOptionalUpdateRequest(IDeserializer iDeserializer) {
+    public static UpdateRequest getOptionalUpdateRequest(IDeserializer iDeserializer) throws SerializerException {
         UpdateRequest updateRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class UpdateRequestSerializer {
         return updateRequest;
     }
 
-    public static UpdateRequest[] getOptionalUpdateRequestVarArray(IDeserializer iDeserializer) {
+    public static UpdateRequest[] getOptionalUpdateRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         UpdateRequest[] updateRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

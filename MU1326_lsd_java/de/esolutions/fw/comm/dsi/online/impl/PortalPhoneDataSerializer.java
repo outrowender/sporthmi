@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalPhoneData;
 
 public class PortalPhoneDataSerializer {
-    public static void putOptionalPortalPhoneData(ISerializer iSerializer, PortalPhoneData portalPhoneData) {
+    public static void putOptionalPortalPhoneData(ISerializer iSerializer, PortalPhoneData portalPhoneData) throws SerializerException {
         boolean bl = portalPhoneData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PortalPhoneDataSerializer {
         }
     }
 
-    public static void putOptionalPortalPhoneDataVarArray(ISerializer iSerializer, PortalPhoneData[] portalPhoneDataArray) {
+    public static void putOptionalPortalPhoneDataVarArray(ISerializer iSerializer, PortalPhoneData[] portalPhoneDataArray) throws SerializerException {
         boolean bl = portalPhoneDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PortalPhoneDataSerializer {
         }
     }
 
-    public static PortalPhoneData getOptionalPortalPhoneData(IDeserializer iDeserializer) {
+    public static PortalPhoneData getOptionalPortalPhoneData(IDeserializer iDeserializer) throws SerializerException {
         PortalPhoneData portalPhoneData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PortalPhoneDataSerializer {
         return portalPhoneData;
     }
 
-    public static PortalPhoneData[] getOptionalPortalPhoneDataVarArray(IDeserializer iDeserializer) {
+    public static PortalPhoneData[] getOptionalPortalPhoneDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalPhoneData[] portalPhoneDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

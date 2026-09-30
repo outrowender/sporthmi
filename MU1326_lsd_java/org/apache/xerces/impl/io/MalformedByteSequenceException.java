@@ -9,7 +9,7 @@ import org.apache.xerces.util.MessageFormatter;
 
 public class MalformedByteSequenceException
 extends CharConversionException {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 8436382245048328739L;
     private MessageFormatter fFormatter;
     private Locale fLocale;
     private String fDomain;
@@ -37,7 +37,6 @@ extends CharConversionException {
         return this.fArguments;
     }
 
-    @Override
     public String getMessage() {
         if (this.fMessage == null) {
             this.fMessage = this.fFormatter.formatMessage(this.fLocale, this.fKey, this.fArguments);

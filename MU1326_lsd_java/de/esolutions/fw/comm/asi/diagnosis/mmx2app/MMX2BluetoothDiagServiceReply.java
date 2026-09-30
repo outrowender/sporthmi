@@ -3,43 +3,34 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface MMX2BluetoothDiagServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "a2aba5f9-4aae-436e-802a-26bbd44eec8e";
+    public static final String IPL_COMM_INTERFACE_KEY = "53cec102-0ba4-570c-9109-ebc8f698e1cf";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.8.0";
 
-    default public void requestBluetoothState(long l) {
-    }
+    public void requestBluetoothState(long var1) throws MethodException;
 
-    default public void requestBluetoothMAC(long l) {
-    }
+    public void requestBluetoothMAC(long var1) throws MethodException;
 
-    default public void requestBluetoothDevices(long l) {
-    }
+    public void requestBluetoothDevices(long var1) throws MethodException;
 
-    default public void requestLastPairedBtDevices(long l, short s) {
-    }
+    public void requestLastPairedBtDevices(long var1, short var3) throws MethodException;
 
-    default public void requestPairedBtDevices(long l) {
-    }
+    public void requestPairedBtDevices(long var1) throws MethodException;
 
-    default public void requestConnectedBtDevices(long l) {
-    }
+    public void requestConnectedBtDevices(long var1) throws MethodException;
 
-    default public void requestConnectedBtDevice(long l, short s) {
-    }
+    public void requestConnectedBtDevice(long var1, short var3) throws MethodException;
 
-    default public void requestAutoConnectBtHandset(long l, int n) {
-    }
+    public void requestAutoConnectBtHandset(long var1, int var3) throws MethodException;
 
-    default public void requestBtDeleteLinkKeys(long l, int n, int n2) {
-    }
+    public void requestBtDeleteLinkKeys(long var1, int var3, int var4) throws MethodException;
 
-    default public void requestBtDeviceSearch(long l, short s, short s2) {
-    }
+    public void requestBtDeviceSearch(long var1, short var3, short var4) throws MethodException;
 
-    default public void requestConnectionToLastBtDevice(long l, short s, short s2) {
-    }
+    public void requestConnectionToLastBtDevice(long var1, short var3, short var4) throws MethodException;
 }
 

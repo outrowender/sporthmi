@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.comm.dsi.map.impl.RectSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.map.PosInfo;
 import org.dsi.ifc.map.Rect;
 
 public class PosInfoSerializer {
-    public static void putOptionalPosInfo(ISerializer iSerializer, PosInfo posInfo) {
+    public static void putOptionalPosInfo(ISerializer iSerializer, PosInfo posInfo) throws SerializerException {
         boolean bl = posInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class PosInfoSerializer {
         }
     }
 
-    public static void putOptionalPosInfoVarArray(ISerializer iSerializer, PosInfo[] posInfoArray) {
+    public static void putOptionalPosInfoVarArray(ISerializer iSerializer, PosInfo[] posInfoArray) throws SerializerException {
         boolean bl = posInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class PosInfoSerializer {
         }
     }
 
-    public static PosInfo getOptionalPosInfo(IDeserializer iDeserializer) {
+    public static PosInfo getOptionalPosInfo(IDeserializer iDeserializer) throws SerializerException {
         PosInfo posInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class PosInfoSerializer {
         return posInfo;
     }
 
-    public static PosInfo[] getOptionalPosInfoVarArray(IDeserializer iDeserializer) {
+    public static PosInfo[] getOptionalPosInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PosInfo[] posInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

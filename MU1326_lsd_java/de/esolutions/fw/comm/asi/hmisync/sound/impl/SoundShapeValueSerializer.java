@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.sound.impl;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeValue;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SoundShapeValueSerializer {
-    public static void putOptionalSoundShapeValue(ISerializer iSerializer, SoundShapeValue soundShapeValue) {
+    public static void putOptionalSoundShapeValue(ISerializer iSerializer, SoundShapeValue soundShapeValue) throws SerializerException {
         boolean bl = soundShapeValue == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SoundShapeValueSerializer {
         }
     }
 
-    public static void putOptionalSoundShapeValueVarArray(ISerializer iSerializer, SoundShapeValue[] soundShapeValueArray) {
+    public static void putOptionalSoundShapeValueVarArray(ISerializer iSerializer, SoundShapeValue[] soundShapeValueArray) throws SerializerException {
         boolean bl = soundShapeValueArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SoundShapeValueSerializer {
         }
     }
 
-    public static SoundShapeValue getOptionalSoundShapeValue(IDeserializer iDeserializer) {
+    public static SoundShapeValue getOptionalSoundShapeValue(IDeserializer iDeserializer) throws SerializerException {
         SoundShapeValue soundShapeValue = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SoundShapeValueSerializer {
         return soundShapeValue;
     }
 
-    public static SoundShapeValue[] getOptionalSoundShapeValueVarArray(IDeserializer iDeserializer) {
+    public static SoundShapeValue[] getOptionalSoundShapeValueVarArray(IDeserializer iDeserializer) throws SerializerException {
         SoundShapeValue[] soundShapeValueArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

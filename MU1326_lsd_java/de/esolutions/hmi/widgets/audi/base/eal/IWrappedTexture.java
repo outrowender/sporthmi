@@ -8,25 +8,18 @@ import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.base.eal.TextureDescription;
 
 public interface IWrappedTexture {
-    default public ITexture getTexture() {
-    }
+    public ITexture getTexture();
 
-    default public TextureDescription getDescription() {
-    }
+    public TextureDescription getDescription();
 
-    default public int releaseTexture(boolean bl, Object object) {
-    }
+    public int releaseTexture(boolean var1, Object var2);
 
-    default public int getWidth() {
-    }
+    public int getWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public EALManager getEALManager() {
-    }
+    public EALManager getEALManager();
 
-    default public int getRawImageSize() {
-    }
+    public int getRawImageSize();
 }
 

@@ -16,7 +16,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.asia.TouchInputDataAsia;
 public final class TouchInputDataKorean
 extends TouchInputDataAsia
 implements ITouchInputDataAsia {
-    @Override
     public void appendUnconvertedCharacters(String string, boolean bl) {
         if (!StringUtilities.isNullOrEmpty(string)) {
             String string2 = this.getUnconvertedCharacters();
@@ -24,7 +23,6 @@ implements ITouchInputDataAsia {
         }
     }
 
-    @Override
     protected void deleteLastUnconvertedCharacter() {
         if (this.hasUnconvertedCharacters()) {
             String string;
@@ -65,13 +63,13 @@ implements ITouchInputDataAsia {
         }
     }
 
-    public static String deletLastUnconverted(String string) {
+    public static String deletLastUnconverted(String string) throws KoreanStringConversion.KrstrException {
         return KoreanStringConversion.delete_last_jamo((String)string);
     }
 
-    public static String[] getHangulConversion(String string, String string2) {
+    public static String[] getHangulConversion(String string, String string2) throws KoreanStringConversion.KrstrException {
         String[] stringArray = new String[2];
-        String string3 = KoreanStringConversion.jamo_to_hangul((String)new StringBuffer().append(string).append(string2).toString());
+        String string3 = KoreanStringConversion.jamo_to_hangul((String)(string + string2));
         stringArray[0] = string3.substring(0, string3.length() - 1);
         stringArray[1] = Character.toString(string3.charAt(string3.length() - 1));
         return stringArray;

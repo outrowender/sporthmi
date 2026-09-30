@@ -35,12 +35,10 @@ IListenerTracker {
         this.bundleContext = AdapterActivator.bundleContext;
     }
 
-    @Override
     public void setDSIAdmin(DSIAdmin dSIAdmin) {
         this.admin = dSIAdmin;
     }
 
-    @Override
     public void open() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, (class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = ListenerTrackerLocal.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
@@ -49,7 +47,6 @@ IListenerTracker {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void close() {
         this.serviceTracker.close();
         ListenerTrackerLocal listenerTrackerLocal = this;
@@ -58,7 +55,6 @@ IListenerTracker {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         String string = this.getMapKeyFromReference(serviceReference);
@@ -67,11 +63,9 @@ IListenerTracker {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         IDispatcher iDispatcher;
         String string = this.getMapKeyFromReference(serviceReference);
@@ -154,7 +148,6 @@ IListenerTracker {
         }
     }
 
-    @Override
     public Object[] getDSIListener(String string, int n) {
         return this.getDSIListenerList(string, n);
     }

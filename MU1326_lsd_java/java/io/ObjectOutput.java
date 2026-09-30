@@ -4,28 +4,20 @@
 package java.io;
 
 import java.io.DataOutput;
+import java.io.IOException;
 
 public interface ObjectOutput
 extends DataOutput {
-    default public void close() {
-    }
+    public void close() throws IOException;
 
-    default public void flush() {
-    }
+    public void flush() throws IOException;
 
-    @Override
-    default public void write(byte[] byArray) {
-    }
+    public void write(byte[] var1) throws IOException;
 
-    @Override
-    default public void write(byte[] byArray, int n, int n2) {
-    }
+    public void write(byte[] var1, int var2, int var3) throws IOException;
 
-    @Override
-    default public void write(int n) {
-    }
+    public void write(int var1) throws IOException;
 
-    default public void writeObject(Object object) {
-    }
+    public void writeObject(Object var1) throws IOException;
 }
 

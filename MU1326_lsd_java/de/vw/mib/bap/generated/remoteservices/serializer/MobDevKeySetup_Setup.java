@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class MobDevKeySetup_Setup
 implements BAPEntity {
-    private static final int RESERVED_BIT_4__7_BITSIZE;
+    private static final int RESERVED_BIT_4__7_BITSIZE = 4;
     public boolean smartcardActivationRequested;
     public boolean mobileDeviceKeyReset;
     public boolean smartcardEnabled;
@@ -31,12 +31,10 @@ implements BAPEntity {
         this.mobileDeviceKeyEnabled = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeySetup_Setup mobDevKeySetup_Setup = (MobDevKeySetup_Setup)bAPEntity;
         return this.smartcardActivationRequested == mobDevKeySetup_Setup.smartcardActivationRequested && this.mobileDeviceKeyReset == mobDevKeySetup_Setup.mobileDeviceKeyReset && this.smartcardEnabled == mobDevKeySetup_Setup.smartcardEnabled && this.mobileDeviceKeyEnabled == mobDevKeySetup_Setup.mobileDeviceKeyEnabled;
@@ -45,7 +43,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeySetup_Setup");
@@ -56,12 +53,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(4);
         bitStream.pushBoolean(this.smartcardActivationRequested);
@@ -70,7 +65,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.mobileDeviceKeyEnabled);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(4);
         this.smartcardActivationRequested = bitStream.popFrontBoolean();

@@ -22,8 +22,7 @@ implements Expression {
         this.node = simpleNode;
     }
 
-    @Override
-    public Object evaluate(JexlContext jexlContext) {
+    public Object evaluate(JexlContext jexlContext) throws Exception {
         Object object = null;
         if (this.preResolvers != null && (object = this.tryResolver(this.preResolvers, jexlContext)) != JexlExprResolver.NO_VALUE) {
             return object;
@@ -47,12 +46,10 @@ implements Expression {
         return object;
     }
 
-    @Override
     public String getExpression() {
         return this.expression;
     }
 
-    @Override
     public void addPreResolver(JexlExprResolver jexlExprResolver) {
         if (this.preResolvers == null) {
             this.preResolvers = new ArrayList();
@@ -60,7 +57,6 @@ implements Expression {
         this.preResolvers.add(jexlExprResolver);
     }
 
-    @Override
     public void addPostResolver(JexlExprResolver jexlExprResolver) {
         if (this.postResolvers == null) {
             this.postResolvers = new ArrayList();

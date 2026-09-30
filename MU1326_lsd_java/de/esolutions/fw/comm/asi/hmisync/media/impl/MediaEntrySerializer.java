@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.hmisync.media.MediaI18NString;
 import de.esolutions.fw.comm.asi.hmisync.media.impl.MediaI18NStringSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MediaEntrySerializer {
-    public static void putOptionalMediaEntry(ISerializer iSerializer, MediaEntry mediaEntry) {
+    public static void putOptionalMediaEntry(ISerializer iSerializer, MediaEntry mediaEntry) throws SerializerException {
         boolean bl = mediaEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class MediaEntrySerializer {
         }
     }
 
-    public static void putOptionalMediaEntryVarArray(ISerializer iSerializer, MediaEntry[] mediaEntryArray) {
+    public static void putOptionalMediaEntryVarArray(ISerializer iSerializer, MediaEntry[] mediaEntryArray) throws SerializerException {
         boolean bl = mediaEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class MediaEntrySerializer {
         }
     }
 
-    public static MediaEntry getOptionalMediaEntry(IDeserializer iDeserializer) {
+    public static MediaEntry getOptionalMediaEntry(IDeserializer iDeserializer) throws SerializerException {
         MediaEntry mediaEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -73,7 +74,7 @@ public class MediaEntrySerializer {
         return mediaEntry;
     }
 
-    public static MediaEntry[] getOptionalMediaEntryVarArray(IDeserializer iDeserializer) {
+    public static MediaEntry[] getOptionalMediaEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaEntry[] mediaEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

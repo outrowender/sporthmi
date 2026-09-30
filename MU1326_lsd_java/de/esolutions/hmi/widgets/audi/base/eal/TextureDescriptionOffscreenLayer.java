@@ -19,27 +19,22 @@ extends AbstractTextureDescription {
         this.flagImage = flagImage;
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         return this.viewport.enableOffscreen();
     }
 
-    @Override
     public Object getCacheKey() {
         return this.viewport.getName();
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return this.flagImage;
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return new int[]{this.viewport.getWidth(), this.viewport.getHeight()};
     }
 
-    @Override
     public IWrappedTexture getTexture(Object object) {
         return this.createTexture();
     }

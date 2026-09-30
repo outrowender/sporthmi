@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.service.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelTemperatures;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WheelTemperaturesSerializer {
-    public static void putOptionalWheelTemperatures(ISerializer iSerializer, WheelTemperatures wheelTemperatures) {
+    public static void putOptionalWheelTemperatures(ISerializer iSerializer, WheelTemperatures wheelTemperatures) throws SerializerException {
         boolean bl = wheelTemperatures == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class WheelTemperaturesSerializer {
         }
     }
 
-    public static void putOptionalWheelTemperaturesVarArray(ISerializer iSerializer, WheelTemperatures[] wheelTemperaturesArray) {
+    public static void putOptionalWheelTemperaturesVarArray(ISerializer iSerializer, WheelTemperatures[] wheelTemperaturesArray) throws SerializerException {
         boolean bl = wheelTemperaturesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class WheelTemperaturesSerializer {
         }
     }
 
-    public static WheelTemperatures getOptionalWheelTemperatures(IDeserializer iDeserializer) {
+    public static WheelTemperatures getOptionalWheelTemperatures(IDeserializer iDeserializer) throws SerializerException {
         WheelTemperatures wheelTemperatures = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class WheelTemperaturesSerializer {
         return wheelTemperatures;
     }
 
-    public static WheelTemperatures[] getOptionalWheelTemperaturesVarArray(IDeserializer iDeserializer) {
+    public static WheelTemperatures[] getOptionalWheelTemperaturesVarArray(IDeserializer iDeserializer) throws SerializerException {
         WheelTemperatures[] wheelTemperaturesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

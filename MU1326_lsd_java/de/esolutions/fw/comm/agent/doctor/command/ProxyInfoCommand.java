@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class ProxyInfoCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"proxy_info", "pi"};
     }
 
-    @Override
     public String getDescription() {
         return "info on prox(y|ies)";
     }
 
-    @Override
     public String getUsage() {
         return "[proxy_id|uuid][,proxy_id|uuid...]";
     }
 
-    @Override
     protected void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllProxies();

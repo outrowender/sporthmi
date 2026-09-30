@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAServiceAttributes;
 
 public class SIAServiceAttributesSerializer {
-    public static void putOptionalSIAServiceAttributes(ISerializer iSerializer, SIAServiceAttributes sIAServiceAttributes) {
+    public static void putOptionalSIAServiceAttributes(ISerializer iSerializer, SIAServiceAttributes sIAServiceAttributes) throws SerializerException {
         boolean bl = sIAServiceAttributes == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SIAServiceAttributesSerializer {
         }
     }
 
-    public static void putOptionalSIAServiceAttributesVarArray(ISerializer iSerializer, SIAServiceAttributes[] sIAServiceAttributesArray) {
+    public static void putOptionalSIAServiceAttributesVarArray(ISerializer iSerializer, SIAServiceAttributes[] sIAServiceAttributesArray) throws SerializerException {
         boolean bl = sIAServiceAttributesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SIAServiceAttributesSerializer {
         }
     }
 
-    public static SIAServiceAttributes getOptionalSIAServiceAttributes(IDeserializer iDeserializer) {
+    public static SIAServiceAttributes getOptionalSIAServiceAttributes(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceAttributes sIAServiceAttributes = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class SIAServiceAttributesSerializer {
         return sIAServiceAttributes;
     }
 
-    public static SIAServiceAttributes[] getOptionalSIAServiceAttributesVarArray(IDeserializer iDeserializer) {
+    public static SIAServiceAttributes[] getOptionalSIAServiceAttributesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceAttributes[] sIAServiceAttributesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

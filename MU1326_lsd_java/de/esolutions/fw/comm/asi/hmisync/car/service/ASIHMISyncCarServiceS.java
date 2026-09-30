@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.hmisync.car.service;
 
 import de.esolutions.fw.comm.asi.hmisync.car.service.ASIHMISyncCarServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarServiceS {
-    default public void setNotification(ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void setNotification(ASIHMISyncCarServiceReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncCarServiceReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncCarServiceReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void clearNotification(ASIHMISyncCarServiceReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncCarServiceReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncCarServiceReply aSIHMISyncCarServiceReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncCarServiceReply var2) throws MethodException;
 }
 

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.fec.impl;
 import de.esolutions.fw.comm.asi.fec.SFecDetails;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SFecDetailsSerializer {
-    public static void putOptionalSFecDetails(ISerializer iSerializer, SFecDetails sFecDetails) {
+    public static void putOptionalSFecDetails(ISerializer iSerializer, SFecDetails sFecDetails) throws SerializerException {
         boolean bl = sFecDetails == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SFecDetailsSerializer {
         }
     }
 
-    public static void putOptionalSFecDetailsVarArray(ISerializer iSerializer, SFecDetails[] sFecDetailsArray) {
+    public static void putOptionalSFecDetailsVarArray(ISerializer iSerializer, SFecDetails[] sFecDetailsArray) throws SerializerException {
         boolean bl = sFecDetailsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SFecDetailsSerializer {
         }
     }
 
-    public static SFecDetails getOptionalSFecDetails(IDeserializer iDeserializer) {
+    public static SFecDetails getOptionalSFecDetails(IDeserializer iDeserializer) throws SerializerException {
         SFecDetails sFecDetails = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class SFecDetailsSerializer {
         return sFecDetails;
     }
 
-    public static SFecDetails[] getOptionalSFecDetailsVarArray(IDeserializer iDeserializer) {
+    public static SFecDetails[] getOptionalSFecDetailsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SFecDetails[] sFecDetailsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

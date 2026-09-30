@@ -97,7 +97,6 @@ LanguageAware {
         this.bundleContext = bundleContext;
     }
 
-    @Override
     public int getTerminalID() {
         return this.terminalID;
     }
@@ -106,7 +105,6 @@ LanguageAware {
         return this.layout;
     }
 
-    @Override
     public void start() {
         if (this.logBenchmark == null) {
             this.logBenchmark = AbstractWidget.framework.getLogChannel("Ext.Benchmark");
@@ -115,7 +113,7 @@ LanguageAware {
             this.logBenchmark.log(10000, "HMITerminal#start terminal already started, ignore.");
             return;
         }
-        this.logBenchmark.log(-2137614336, "HMITerminal#start before terminal start");
+        this.logBenchmark.log(10000000, "HMITerminal#start before terminal start");
         this.initializeComponents();
         this.initializeRootWindow();
         this.initializeGraphics();
@@ -123,7 +121,7 @@ LanguageAware {
         this.framework.getHMIService().setFallbackScreen(this.terminalID, this.createFallbackScreen());
         this.started = true;
         this.initializeOSGi();
-        this.logBenchmark.log(-2137614336, "HMITerminal#start after terminal start");
+        this.logBenchmark.log(10000000, "HMITerminal#start after terminal start");
     }
 
     protected void initializeComponents() {
@@ -171,23 +169,17 @@ LanguageAware {
         }
     }
 
-    protected abstract StringUtility generateStringUtility() {
-    }
+    protected abstract StringUtility generateStringUtility();
 
-    protected abstract IDrawerFocusManagerEvo generateDrawerFocusManager() {
-    }
+    protected abstract IDrawerFocusManagerEvo generateDrawerFocusManager();
 
-    protected abstract IDrawerManager generateDrawerManager() {
-    }
+    protected abstract IDrawerManager generateDrawerManager();
 
-    protected abstract IViewSizeManager generateViewSizeManager() {
-    }
+    protected abstract IViewSizeManager generateViewSizeManager();
 
-    protected abstract IDrawerConditionEngine generateDrawerConditionEngine(BundleContext bundleContext) {
-    }
+    protected abstract IDrawerConditionEngine generateDrawerConditionEngine(BundleContext var1);
 
-    protected abstract ITouchInputManager generateTouchInputManager() {
-    }
+    protected abstract ITouchInputManager generateTouchInputManager();
 
     protected void initializeRootWindow() {
         this.rootWindow = (IRootWindowEvo)this.framework.getHMIService().getRootWindow(this.terminalID);
@@ -195,11 +187,9 @@ LanguageAware {
         this.rootWindow.setViewSizeManager(this.viewSizeManager);
     }
 
-    protected abstract void initializeGraphics() {
-    }
+    protected abstract void initializeGraphics();
 
-    protected abstract void initializeBins() {
-    }
+    protected abstract void initializeBins();
 
     protected void initializeOSGi() {
         this.animationController.registerService(this.framework);
@@ -225,20 +215,16 @@ LanguageAware {
         }
     }
 
-    protected abstract void initializeApplicationModels() {
-    }
+    protected abstract void initializeApplicationModels();
 
-    protected abstract Screen createFallbackScreen() {
-    }
+    protected abstract Screen createFallbackScreen();
 
     public int getOffscreenContainerThresholdSize() {
         return 10000;
     }
 
-    protected abstract DumpInfoProvider createRenderInfoProvider() {
-    }
+    protected abstract DumpInfoProvider createRenderInfoProvider();
 
-    @Override
     public void stop() {
         this.started = false;
         this.disposeComponents();
@@ -252,8 +238,7 @@ LanguageAware {
         }
     }
 
-    protected abstract void disposeGraphics() {
-    }
+    protected abstract void disposeGraphics();
 
     protected void disposeOSGi() {
         if (this.sReg != null) {
@@ -262,40 +247,29 @@ LanguageAware {
         }
     }
 
-    @Override
     public boolean isStarted() {
         return this.started;
     }
 
-    protected abstract Layout generateLayout() {
-    }
+    protected abstract Layout generateLayout();
 
-    protected abstract IAnimationController generateAnimationController() {
-    }
+    protected abstract IAnimationController generateAnimationController();
 
-    protected abstract IImageLoader generateImageLoader() {
-    }
+    protected abstract IImageLoader generateImageLoader();
 
-    protected abstract IFontLoader generateFontLoader() {
-    }
+    protected abstract IFontLoader generateFontLoader();
 
-    protected abstract IPartialPopupManagerEvo generatePartialPopupManagerEvo() {
-    }
+    protected abstract IPartialPopupManagerEvo generatePartialPopupManagerEvo();
 
-    protected abstract IPresetInputHandler generatePresetPopupHandler() {
-    }
+    protected abstract IPresetInputHandler generatePresetPopupHandler();
 
-    protected abstract ICarCodingHelper generateCarCodingHelper() {
-    }
+    protected abstract ICarCodingHelper generateCarCodingHelper();
 
-    protected abstract IKzbMappingHelper generateKzbMappingHelper(ICarCodingHelper iCarCodingHelper) {
-    }
+    protected abstract IKzbMappingHelper generateKzbMappingHelper(ICarCodingHelper var1);
 
-    protected abstract IPhoneKeyHandler generatePhoneKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
-    }
+    protected abstract IPhoneKeyHandler generatePhoneKeyHandler(IDrawerFocusManagerEvo var1);
 
-    protected abstract ILongpressKeyHandler generateLongpressKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
-    }
+    protected abstract ILongpressKeyHandler generateLongpressKeyHandler(IDrawerFocusManagerEvo var1);
 
     protected WidgetRegistry generateWidgetRegistry() {
         return new WidgetRegistry();
@@ -309,7 +283,6 @@ LanguageAware {
         this.redrawContext = redrawContext;
     }
 
-    @Override
     public IAnimationController getIAnimationController() {
         return this.animationController;
     }
@@ -322,7 +295,6 @@ LanguageAware {
         return fontLoader;
     }
 
-    @Override
     public IImageLoader getImageLoader() {
         return imageLoader;
     }
@@ -343,17 +315,14 @@ LanguageAware {
         return 1;
     }
 
-    @Override
     public IStatistics getStatistics() {
         return this.statistics;
     }
 
-    @Override
     public ScreenCache getScreenCache() {
         return this.screenCache;
     }
 
-    @Override
     public IPartialPopupManager getPartialPopupManager() {
         return this.partialPopupManagerEvo;
     }
@@ -366,12 +335,10 @@ LanguageAware {
         return this.presetPopupHandler;
     }
 
-    @Override
     public ITTSHandler getTTSHandler() {
         return ttsHandler;
     }
 
-    @Override
     public void setFocus(boolean bl) {
         if (!this.hasFocus && bl) {
             if (!this.isInJointMode() && this.kbdService != null) {
@@ -387,14 +354,12 @@ LanguageAware {
         this.hasFocus = bl;
     }
 
-    protected abstract void setJointTerminalFocus(int n) {
-    }
+    protected abstract void setJointTerminalFocus(int var1);
 
     public boolean hasFocus() {
         return this.hasFocus;
     }
 
-    @Override
     public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
         if (ttsHandler != null) {
             ttsHandler.setTTSService(tTSSessionBasedService);
@@ -450,7 +415,6 @@ LanguageAware {
         return this.viewSizeManager;
     }
 
-    @Override
     public ITouchInputManager getTouchInputManager() {
         return this.touchInputManager;
     }
@@ -459,7 +423,6 @@ LanguageAware {
         this.kbdService = kbdService;
     }
 
-    @Override
     public KbdService getKbdService() {
         return this.kbdService;
     }
@@ -476,10 +439,8 @@ LanguageAware {
         this.layout = layout;
     }
 
-    public abstract IUserHintHandler getUserHintHandler() {
-    }
+    public abstract IUserHintHandler getUserHintHandler();
 
-    @Override
     public void languageChanged(LanguageChangedEvent languageChangedEvent) {
         this.partialPopupManagerEvo.processLanguageChangedEvent(languageChangedEvent);
         this.drawerFocusManager.reconnectDrawers();

@@ -60,7 +60,7 @@ implements Runnable {
         if (this.thread != null) {
             this.thread.interrupt();
             try {
-                this.thread.join(0);
+                this.thread.join(500L);
                 this.thread = null;
             }
             catch (InterruptedException interruptedException) {
@@ -91,7 +91,6 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         CommAgentTracing.DOCTOR.log((short)2, "SocketServer worker started.");
         while (this.stay) {

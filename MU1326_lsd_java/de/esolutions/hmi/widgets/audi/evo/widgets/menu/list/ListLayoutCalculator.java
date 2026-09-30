@@ -18,10 +18,10 @@ import java.util.Map;
 public class ListLayoutCalculator
 implements WidgetConstants,
 IWidgetLogChannel {
-    public static final int LAYOUTSIZE_HEIGHT_EXPANDED;
-    public static final int LAYOUTSIZE_HEIGHT_NOT_EXPANDED;
-    public static final int LAYOUTSIZE_GLASPLATE_INSETS;
-    public static final int LAYOUTSIZE_MARGIN;
+    public static final int LAYOUTSIZE_HEIGHT_EXPANDED = 1;
+    public static final int LAYOUTSIZE_HEIGHT_NOT_EXPANDED = 2;
+    public static final int LAYOUTSIZE_GLASPLATE_INSETS = 4;
+    public static final int LAYOUTSIZE_MARGIN = 8;
     private final ListController listWidget;
     private Map cachedItemLayouts = new HashMap(4);
     private boolean cacheItemHeights = true;

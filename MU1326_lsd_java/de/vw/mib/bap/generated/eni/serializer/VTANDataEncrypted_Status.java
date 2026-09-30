@@ -11,7 +11,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class VTANDataEncrypted_Status
 implements StatusProperty {
     public final BAPString vtandataEncrypted = new BAPString(700);
-    private static final int MAX_VTANDATAENCRYPTED_LENGTH;
+    private static final int MAX_VTANDATAENCRYPTED_LENGTH = 700;
 
     public VTANDataEncrypted_Status() {
         this.internalReset();
@@ -26,13 +26,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.vtandataEncrypted.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         VTANDataEncrypted_Status vTANDataEncrypted_Status = (VTANDataEncrypted_Status)bAPEntity;
         return this.vtandataEncrypted.equalTo(vTANDataEncrypted_Status.vtandataEncrypted);
@@ -41,25 +39,21 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("VTANDataEncrypted_Status");
-        stringBuffer.append(new StringBuffer().append("\n - vtandataEncrypted:").append(this.vtandataEncrypted.toString()).toString());
+        stringBuffer.append("\n - vtandataEncrypted:" + this.vtandataEncrypted.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.vtandataEncrypted.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.vtandataEncrypted.deserialize(bitStream);
     }
@@ -68,7 +62,6 @@ implements StatusProperty {
         return 27;
     }
 
-    @Override
     public int getFunctionId() {
         return VTANDataEncrypted_Status.functionId();
     }

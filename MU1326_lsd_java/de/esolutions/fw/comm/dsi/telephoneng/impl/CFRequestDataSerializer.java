@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.CFRequestData;
 
 public class CFRequestDataSerializer {
-    public static void putOptionalCFRequestData(ISerializer iSerializer, CFRequestData cFRequestData) {
+    public static void putOptionalCFRequestData(ISerializer iSerializer, CFRequestData cFRequestData) throws SerializerException {
         boolean bl = cFRequestData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CFRequestDataSerializer {
         }
     }
 
-    public static void putOptionalCFRequestDataVarArray(ISerializer iSerializer, CFRequestData[] cFRequestDataArray) {
+    public static void putOptionalCFRequestDataVarArray(ISerializer iSerializer, CFRequestData[] cFRequestDataArray) throws SerializerException {
         boolean bl = cFRequestDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CFRequestDataSerializer {
         }
     }
 
-    public static CFRequestData getOptionalCFRequestData(IDeserializer iDeserializer) {
+    public static CFRequestData getOptionalCFRequestData(IDeserializer iDeserializer) throws SerializerException {
         CFRequestData cFRequestData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CFRequestDataSerializer {
         return cFRequestData;
     }
 
-    public static CFRequestData[] getOptionalCFRequestDataVarArray(IDeserializer iDeserializer) {
+    public static CFRequestData[] getOptionalCFRequestDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         CFRequestData[] cFRequestDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

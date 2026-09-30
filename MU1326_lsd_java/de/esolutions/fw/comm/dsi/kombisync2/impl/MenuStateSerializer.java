@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.MenuState;
 
 public class MenuStateSerializer {
-    public static void putOptionalMenuState(ISerializer iSerializer, MenuState menuState) {
+    public static void putOptionalMenuState(ISerializer iSerializer, MenuState menuState) throws SerializerException {
         boolean bl = menuState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -63,7 +64,7 @@ public class MenuStateSerializer {
         }
     }
 
-    public static void putOptionalMenuStateVarArray(ISerializer iSerializer, MenuState[] menuStateArray) {
+    public static void putOptionalMenuStateVarArray(ISerializer iSerializer, MenuState[] menuStateArray) throws SerializerException {
         boolean bl = menuStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -74,7 +75,7 @@ public class MenuStateSerializer {
         }
     }
 
-    public static MenuState getOptionalMenuState(IDeserializer iDeserializer) {
+    public static MenuState getOptionalMenuState(IDeserializer iDeserializer) throws SerializerException {
         MenuState menuState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -131,7 +132,7 @@ public class MenuStateSerializer {
         return menuState;
     }
 
-    public static MenuState[] getOptionalMenuStateVarArray(IDeserializer iDeserializer) {
+    public static MenuState[] getOptionalMenuStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         MenuState[] menuStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarBCConsumptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCComfortPowerConsumption;
 import org.dsi.ifc.global.CarBCConsumption;
 
 public class BCComfortPowerConsumptionSerializer {
-    public static void putOptionalBCComfortPowerConsumption(ISerializer iSerializer, BCComfortPowerConsumption bCComfortPowerConsumption) {
+    public static void putOptionalBCComfortPowerConsumption(ISerializer iSerializer, BCComfortPowerConsumption bCComfortPowerConsumption) throws SerializerException {
         boolean bl = bCComfortPowerConsumption == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BCComfortPowerConsumptionSerializer {
         }
     }
 
-    public static void putOptionalBCComfortPowerConsumptionVarArray(ISerializer iSerializer, BCComfortPowerConsumption[] bCComfortPowerConsumptionArray) {
+    public static void putOptionalBCComfortPowerConsumptionVarArray(ISerializer iSerializer, BCComfortPowerConsumption[] bCComfortPowerConsumptionArray) throws SerializerException {
         boolean bl = bCComfortPowerConsumptionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BCComfortPowerConsumptionSerializer {
         }
     }
 
-    public static BCComfortPowerConsumption getOptionalBCComfortPowerConsumption(IDeserializer iDeserializer) {
+    public static BCComfortPowerConsumption getOptionalBCComfortPowerConsumption(IDeserializer iDeserializer) throws SerializerException {
         BCComfortPowerConsumption bCComfortPowerConsumption = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class BCComfortPowerConsumptionSerializer {
         return bCComfortPowerConsumption;
     }
 
-    public static BCComfortPowerConsumption[] getOptionalBCComfortPowerConsumptionVarArray(IDeserializer iDeserializer) {
+    public static BCComfortPowerConsumption[] getOptionalBCComfortPowerConsumptionVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCComfortPowerConsumption[] bCComfortPowerConsumptionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

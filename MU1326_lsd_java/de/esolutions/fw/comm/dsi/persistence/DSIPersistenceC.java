@@ -3,101 +3,71 @@
  */
 package de.esolutions.fw.comm.dsi.persistence;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIPersistenceC {
-    default public void writeInt(int n, long l, int n2) {
-    }
+    public void writeInt(int var1, long var2, int var4) throws MethodException;
 
-    default public void readInt(int n, long l) {
-    }
+    public void readInt(int var1, long var2) throws MethodException;
 
-    default public void readIntTimeout(int n, long l, int n2) {
-    }
+    public void readIntTimeout(int var1, long var2, int var4) throws MethodException;
 
-    default public void writeBuffer(int n, long l, byte[] byArray) {
-    }
+    public void writeBuffer(int var1, long var2, byte[] var4) throws MethodException;
 
-    default public void readBuffer(int n, long l) {
-    }
+    public void readBuffer(int var1, long var2) throws MethodException;
 
-    default public void readBufferTimeout(int n, long l, int n2) {
-    }
+    public void readBufferTimeout(int var1, long var2, int var4) throws MethodException;
 
-    default public void writeString(int n, long l, String string) {
-    }
+    public void writeString(int var1, long var2, String var4) throws MethodException;
 
-    default public void readString(int n, long l) {
-    }
+    public void readString(int var1, long var2) throws MethodException;
 
-    default public void readStringTimeout(int n, long l, int n2) {
-    }
+    public void readStringTimeout(int var1, long var2, int var4) throws MethodException;
 
-    default public void writeArray(int n, long l, int[] nArray) {
-    }
+    public void writeArray(int var1, long var2, int[] var4) throws MethodException;
 
-    default public void readArray(int n, long l) {
-    }
+    public void readArray(int var1, long var2) throws MethodException;
 
-    default public void readArrayTimeout(int n, long l, int n2) {
-    }
+    public void readArrayTimeout(int var1, long var2, int var4) throws MethodException;
 
-    default public void writeStringArray(int n, long l, String[] stringArray) {
-    }
+    public void writeStringArray(int var1, long var2, String[] var4) throws MethodException;
 
-    default public void readStringArray(int n, long l) {
-    }
+    public void readStringArray(int var1, long var2) throws MethodException;
 
-    default public void readStringArrayTimeout(int n, long l, int n2) {
-    }
+    public void readStringArrayTimeout(int var1, long var2, int var4) throws MethodException;
 
-    default public void enterEngineeringSession(int n) {
-    }
+    public void enterEngineeringSession(int var1) throws MethodException;
 
-    default public void exitEngineeringSession(int n) {
-    }
+    public void exitEngineeringSession(int var1) throws MethodException;
 
-    default public void getVisibleSystemLanguages() {
-    }
+    public void getVisibleSystemLanguages() throws MethodException;
 
-    default public void flushSQLDatabase() {
-    }
+    public void flushSQLDatabase() throws MethodException;
 
-    default public void setSQLDatabaseMedium(int n) {
-    }
+    public void setSQLDatabaseMedium(int var1) throws MethodException;
 
-    default public void beginTransaction(int n) {
-    }
+    public void beginTransaction(int var1) throws MethodException;
 
-    default public void endTransaction(int n, boolean bl) {
-    }
+    public void endTransaction(int var1, boolean var2) throws MethodException;
 
-    default public void subscribe(int n, int[] nArray, long[] lArray, int n2) {
-    }
+    public void subscribe(int var1, int[] var2, long[] var3, int var4) throws MethodException;
 
-    default public void unsubscribe(int n, int[] nArray, long[] lArray) {
-    }
+    public void unsubscribe(int var1, int[] var2, long[] var3) throws MethodException;
 
-    default public void unsubscribeAll(int n) {
-    }
+    public void unsubscribeAll(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

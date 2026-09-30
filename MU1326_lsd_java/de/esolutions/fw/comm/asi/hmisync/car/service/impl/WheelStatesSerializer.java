@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.service.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelStates;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WheelStatesSerializer {
-    public static void putOptionalWheelStates(ISerializer iSerializer, WheelStates wheelStates) {
+    public static void putOptionalWheelStates(ISerializer iSerializer, WheelStates wheelStates) throws SerializerException {
         boolean bl = wheelStates == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class WheelStatesSerializer {
         }
     }
 
-    public static void putOptionalWheelStatesVarArray(ISerializer iSerializer, WheelStates[] wheelStatesArray) {
+    public static void putOptionalWheelStatesVarArray(ISerializer iSerializer, WheelStates[] wheelStatesArray) throws SerializerException {
         boolean bl = wheelStatesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class WheelStatesSerializer {
         }
     }
 
-    public static WheelStates getOptionalWheelStates(IDeserializer iDeserializer) {
+    public static WheelStates getOptionalWheelStates(IDeserializer iDeserializer) throws SerializerException {
         WheelStates wheelStates = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class WheelStatesSerializer {
         return wheelStates;
     }
 
-    public static WheelStates[] getOptionalWheelStatesVarArray(IDeserializer iDeserializer) {
+    public static WheelStates[] getOptionalWheelStatesVarArray(IDeserializer iDeserializer) throws SerializerException {
         WheelStates[] wheelStatesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

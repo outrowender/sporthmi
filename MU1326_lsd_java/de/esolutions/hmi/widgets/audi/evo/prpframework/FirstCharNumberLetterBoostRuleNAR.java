@@ -11,7 +11,6 @@ public class FirstCharNumberLetterBoostRuleNAR
 extends AbstractPRPRule {
     private int boostParamId = 12;
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (this.getInfoProvider().isStartOfWord()) {
             RecognizerResult[] recognizerResultArray = FirstCharNumberLetterBoostRuleNAR.searchCharacters(list, new char[]{'1', 'I', 'l'});
@@ -29,12 +28,10 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "First-Char-Number-Letter-Boosting-Rule-NAR";
     }
 
-    @Override
     public int getValidity() {
         return 2;
     }

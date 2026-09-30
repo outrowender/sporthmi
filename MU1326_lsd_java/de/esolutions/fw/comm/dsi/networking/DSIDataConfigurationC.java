@@ -3,52 +3,38 @@
  */
 package de.esolutions.fw.comm.dsi.networking;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.networking.CDataProfile;
 
 public interface DSIDataConfigurationC {
-    default public void setDataProfile(CDataProfile cDataProfile) {
-    }
+    public void setDataProfile(CDataProfile var1) throws MethodException;
 
-    default public void automaticProfile(int n) {
-    }
+    public void automaticProfile(int var1) throws MethodException;
 
-    default public void setRoamingState(int n) {
-    }
+    public void setRoamingState(int var1) throws MethodException;
 
-    default public void setConnectionMode(int n) {
-    }
+    public void setConnectionMode(int var1) throws MethodException;
 
-    default public void setRequestSetting(int n, int n2) {
-    }
+    public void setRequestSetting(int var1, int var2) throws MethodException;
 
-    default public void acceptDataRequest(int n, boolean bl) {
-    }
+    public void acceptDataRequest(int var1, boolean var2) throws MethodException;
 
-    default public void resetPacketCounter() {
-    }
+    public void resetPacketCounter() throws MethodException;
 
-    default public void restoreFactorySettings() {
-    }
+    public void restoreFactorySettings() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

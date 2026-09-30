@@ -15,19 +15,16 @@ extends AbstractWidgetController
 implements IMixedListCallback {
     private MapOverlayPlateRenderer renderer;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         MixedListKZBMerger.addCallbackListener(this);
     }
 
-    @Override
     public void disconnecting() {
         MixedListKZBMerger.removeCallbackListener(this);
         super.disconnecting();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -36,9 +33,8 @@ implements IMixedListCallback {
         this.renderer = mapOverlayPlateRenderer;
     }
 
-    @Override
     public void kZBMergedCallback(boolean bl) {
-        mixedListItemLogCh.log(-2137614336, "MapOverlayPlateController#kZBMergedCallback success: %1", bl);
+        mixedListItemLogCh.log(10000000, "MapOverlayPlateController#kZBMergedCallback success: %1", bl);
         if (bl) {
             this.setCompositesDirty(true);
             this.triggerRepaint();

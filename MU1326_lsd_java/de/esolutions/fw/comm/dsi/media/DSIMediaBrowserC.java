@@ -3,85 +3,60 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.media.ListEntry;
 
 public interface DSIMediaBrowserC {
-    default public void setContentFilter(int n) {
-    }
+    public void setContentFilter(int var1) throws MethodException;
 
-    default public void setBrowseMode(int n) {
-    }
+    public void setBrowseMode(int var1) throws MethodException;
 
-    default public void setBrowseMedia(long l, long l2) {
-    }
+    public void setBrowseMedia(long var1, long var3) throws MethodException;
 
-    default public void changeFolder(ListEntry[] listEntryArray) {
-    }
+    public void changeFolder(ListEntry[] var1) throws MethodException;
 
-    default public void requestList(long l, int n, int n2, int n3) {
-    }
+    public void requestList(long var1, int var3, int var4, int var5) throws MethodException;
 
-    default public void requestPickList(long[] lArray) {
-    }
+    public void requestPickList(long[] var1) throws MethodException;
 
-    default public void enableRecurseSubdirectories(boolean bl) {
-    }
+    public void enableRecurseSubdirectories(boolean var1) throws MethodException;
 
-    default public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) {
-    }
+    public void addSelection(boolean var1, int var2, long var3, int var5, boolean var6) throws MethodException;
 
-    default public void undoLastSelection() {
-    }
+    public void undoLastSelection() throws MethodException;
 
-    default public void resetSelection() {
-    }
+    public void resetSelection() throws MethodException;
 
-    default public void setSearchString(String string) {
-    }
+    public void setSearchString(String var1) throws MethodException;
 
-    default public void setSearchCriteria(int n) {
-    }
+    public void setSearchCriteria(int var1) throws MethodException;
 
-    default public void activateSearchSpeller() {
-    }
+    public void activateSearchSpeller() throws MethodException;
 
-    default public void deactivateSearchSpeller() {
-    }
+    public void deactivateSearchSpeller() throws MethodException;
 
-    default public void selectSearchResult(long l) {
-    }
+    public void selectSearchResult(long var1) throws MethodException;
 
-    default public void requestSearchList(long l, int n, int n2) {
-    }
+    public void requestSearchList(long var1, int var3, int var4) throws MethodException;
 
-    default public void resetSearchString() {
-    }
+    public void resetSearchString() throws MethodException;
 
-    default public void requestSearchListExt(long l, int n, int n2) {
-    }
+    public void requestSearchListExt(long var1, int var3, int var4) throws MethodException;
 
-    default public void requestFullyQualifiedName(long l) {
-    }
+    public void requestFullyQualifiedName(long var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

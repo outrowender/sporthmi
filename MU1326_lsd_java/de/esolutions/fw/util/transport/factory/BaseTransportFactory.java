@@ -11,8 +11,8 @@ import de.esolutions.fw.util.transport.async.AsyncTXTransport;
 public class BaseTransportFactory {
     protected boolean isAsync = false;
     protected boolean doAggregate = false;
-    protected long asyncTxBufferSize = 0;
-    protected long asyncRxBufferSize = 0;
+    protected long asyncTxBufferSize = 0x200000L;
+    protected long asyncRxBufferSize = 0x200000L;
 
     public boolean isAsync() {
         return this.isAsync;

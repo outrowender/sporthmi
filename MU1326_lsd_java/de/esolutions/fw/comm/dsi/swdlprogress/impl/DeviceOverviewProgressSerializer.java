@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.swdlprogress.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.swdlprogress.DeviceOverviewProgress;
 
 public class DeviceOverviewProgressSerializer {
-    public static void putOptionalDeviceOverviewProgress(ISerializer iSerializer, DeviceOverviewProgress deviceOverviewProgress) {
+    public static void putOptionalDeviceOverviewProgress(ISerializer iSerializer, DeviceOverviewProgress deviceOverviewProgress) throws SerializerException {
         boolean bl = deviceOverviewProgress == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DeviceOverviewProgressSerializer {
         }
     }
 
-    public static void putOptionalDeviceOverviewProgressVarArray(ISerializer iSerializer, DeviceOverviewProgress[] deviceOverviewProgressArray) {
+    public static void putOptionalDeviceOverviewProgressVarArray(ISerializer iSerializer, DeviceOverviewProgress[] deviceOverviewProgressArray) throws SerializerException {
         boolean bl = deviceOverviewProgressArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DeviceOverviewProgressSerializer {
         }
     }
 
-    public static DeviceOverviewProgress getOptionalDeviceOverviewProgress(IDeserializer iDeserializer) {
+    public static DeviceOverviewProgress getOptionalDeviceOverviewProgress(IDeserializer iDeserializer) throws SerializerException {
         DeviceOverviewProgress deviceOverviewProgress = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class DeviceOverviewProgressSerializer {
         return deviceOverviewProgress;
     }
 
-    public static DeviceOverviewProgress[] getOptionalDeviceOverviewProgressVarArray(IDeserializer iDeserializer) {
+    public static DeviceOverviewProgress[] getOptionalDeviceOverviewProgressVarArray(IDeserializer iDeserializer) throws SerializerException {
         DeviceOverviewProgress[] deviceOverviewProgressArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

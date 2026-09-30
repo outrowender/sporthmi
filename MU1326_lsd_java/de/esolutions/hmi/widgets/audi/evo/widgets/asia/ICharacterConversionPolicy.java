@@ -6,25 +6,18 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ITouchInputDataAsia;
 
 public interface ICharacterConversionPolicy {
-    default public boolean doesLongPressTriggerConversion() {
-    }
+    public boolean doesLongPressTriggerConversion();
 
-    default public void longPressOnCharacterOccured(ITouchInputDataAsia iTouchInputDataAsia) {
-    }
+    public void longPressOnCharacterOccured(ITouchInputDataAsia var1);
 
-    default public void spellerClosed(ITouchInputDataAsia iTouchInputDataAsia) {
-    }
+    public void spellerClosed(ITouchInputDataAsia var1);
 
-    default public void enteredHandWrittenMode(ITouchInputDataAsia iTouchInputDataAsia) {
-    }
+    public void enteredHandWrittenMode(ITouchInputDataAsia var1);
 
-    default public void willChangeInputMethod(ITouchInputDataAsia iTouchInputDataAsia) {
-    }
+    public void willChangeInputMethod(ITouchInputDataAsia var1);
 
-    default public void onWordPredictionServiceRemoved(ITouchInputDataAsia iTouchInputDataAsia) {
-    }
+    public void onWordPredictionServiceRemoved(ITouchInputDataAsia var1);
 
-    default public boolean characterToBeInserted(ITouchInputDataAsia iTouchInputDataAsia, String string) {
-    }
+    public boolean characterToBeInserted(ITouchInputDataAsia var1, String var2);
 }
 

@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 
@@ -24,8 +25,7 @@ extends AbstractMessage {
         super(MessageType.EXECUTE_CALLBACK);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt32(this.cbid);
         if (this.payload == null) {
             iSerializer.putInt8VarArray(new byte[0]);
@@ -34,8 +34,7 @@ extends AbstractMessage {
         }
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.cbid = iDeserializer.getInt32();
         this.payload = iDeserializer.getInt8VarArray();
     }
@@ -48,7 +47,6 @@ extends AbstractMessage {
         return this.payload;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("Execute Callback: cbid=");
         buffer.append(this.cbid);

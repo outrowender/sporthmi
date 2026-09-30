@@ -3,71 +3,51 @@
  */
 package de.esolutions.fw.comm.dsi.tvtuner;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSITVTunerC {
-    default public void selectService(long l, int n, int n2) {
-    }
+    public void selectService(long var1, int var3, int var4) throws MethodException;
 
-    default public void selectNextService(int n, int n2) {
-    }
+    public void selectNextService(int var1, int var2) throws MethodException;
 
-    default public void abortSeek() {
-    }
+    public void abortSeek() throws MethodException;
 
-    default public void switchSource(int n) {
-    }
+    public void switchSource(int var1) throws MethodException;
 
-    default public void setAudioChannel(int n) {
-    }
+    public void setAudioChannel(int var1) throws MethodException;
 
-    default public void setNormArea(int n) {
-    }
+    public void setNormArea(int var1) throws MethodException;
 
-    default public void enableServiceLinking(boolean bl) {
-    }
+    public void enableServiceLinking(boolean var1) throws MethodException;
 
-    default public void setTerminalMode(int n, int n2) {
-    }
+    public void setTerminalMode(int var1, int var2) throws MethodException;
 
-    default public void setNormAreaSubList(int[] nArray) {
-    }
+    public void setNormAreaSubList(int[] var1) throws MethodException;
 
-    default public void setAVNorm(int n) {
-    }
+    public void setAVNorm(int var1) throws MethodException;
 
-    default public void incMoved(byte by) {
-    }
+    public void incMoved(byte var1) throws MethodException;
 
-    default public void setCoordinateRel(short s, short s2, short s3) {
-    }
+    public void setCoordinateRel(short var1, short var2, short var3) throws MethodException;
 
-    default public void setTMTVKeyPanel(short s, short s2) {
-    }
+    public void setTMTVKeyPanel(short var1, short var2) throws MethodException;
 
-    default public void enableSubtitle(boolean bl) {
-    }
+    public void enableSubtitle(boolean var1) throws MethodException;
 
-    default public void setBrowserListSort(int n) {
-    }
+    public void setBrowserListSort(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

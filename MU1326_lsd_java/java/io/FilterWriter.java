@@ -3,6 +3,7 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.Writer;
 
 public abstract class FilterWriter
@@ -17,8 +18,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.out.close();
@@ -28,8 +28,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.out.flush();
@@ -39,8 +38,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(char[] cArray, int n, int n2) {
+    public void write(char[] cArray, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.out.write(cArray, n, n2);
@@ -50,8 +48,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.out.write(n);
@@ -61,8 +58,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(String string, int n, int n2) {
+    public void write(String string, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             this.out.write(string, n, n2);

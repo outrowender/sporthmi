@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ActiveRgType_Status
 implements StatusProperty {
     public int rgtype;
-    private static final int RG_TYPE_BITSIZE;
-    public static final int RG_TYPE_RGI_FROM_BAP_FUNCTION_MANEUVER_DESCRIPTIOR;
-    public static final int RG_TYPE_MOST_KDK;
-    public static final int RG_TYPE_COMPASS_FROM_BAP_FUNCTION_COMPASS_INFO;
-    public static final int RG_TYPE_MOST_MAP;
-    public static final int RG_TYPE_LVDS_MAP_VIDEO_STREAM_RECEIVED_VIA_LVDS_DF4_1;
-    public static final int RG_TYPE_LVDS_KDK_VIDEO_STREAM_RECEIVED_VIA_LVDS_DF4_3;
-    public static final int RG_TYPE_APPLY_ASG_DEFAULT_ROUTE_GUIDANCE_PRESENTATION;
+    private static final int RG_TYPE_BITSIZE = 8;
+    public static final int RG_TYPE_RGI_FROM_BAP_FUNCTION_MANEUVER_DESCRIPTIOR = 0;
+    public static final int RG_TYPE_MOST_KDK = 1;
+    public static final int RG_TYPE_COMPASS_FROM_BAP_FUNCTION_COMPASS_INFO = 2;
+    public static final int RG_TYPE_MOST_MAP = 3;
+    public static final int RG_TYPE_LVDS_MAP_VIDEO_STREAM_RECEIVED_VIA_LVDS_DF4_1 = 4;
+    public static final int RG_TYPE_LVDS_KDK_VIDEO_STREAM_RECEIVED_VIA_LVDS_DF4_3 = 5;
+    public static final int RG_TYPE_APPLY_ASG_DEFAULT_ROUTE_GUIDANCE_PRESENTATION = 255;
 
     public ActiveRgType_Status() {
         this.internalReset();
@@ -33,12 +33,10 @@ implements StatusProperty {
         this.rgtype = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveRgType_Status activeRgType_Status = (ActiveRgType_Status)bAPEntity;
         return this.rgtype == activeRgType_Status.rgtype;
@@ -47,7 +45,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveRgType_Status:");
@@ -88,18 +85,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.rgtype);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.rgtype = bitStream.popFrontByte();
     }
@@ -108,7 +102,6 @@ implements StatusProperty {
         return 39;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveRgType_Status.functionId();
     }

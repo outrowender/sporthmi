@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.persistence;
 
 import de.esolutions.fw.comm.asi.persistence.AttributesReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface AttributesS {
-    default public void subscribe(long[] lArray, long[] lArray2, AttributesReply attributesReply) {
-    }
+    public void subscribe(long[] var1, long[] var2, AttributesReply var3) throws MethodException;
 
-    default public void unsubscribe(long[] lArray, long[] lArray2, AttributesReply attributesReply) {
-    }
+    public void unsubscribe(long[] var1, long[] var2, AttributesReply var3) throws MethodException;
 
-    default public void unsubscribeAll(AttributesReply attributesReply) {
-    }
+    public void unsubscribeAll(AttributesReply var1) throws MethodException;
 
-    default public void putInts(long[] lArray, long[] lArray2, int[] nArray, AttributesReply attributesReply) {
-    }
+    public void putInts(long[] var1, long[] var2, int[] var3, AttributesReply var4) throws MethodException;
 
-    default public void putStrings(long[] lArray, long[] lArray2, String[] stringArray, AttributesReply attributesReply) {
-    }
+    public void putStrings(long[] var1, long[] var2, String[] var3, AttributesReply var4) throws MethodException;
 
-    default public void putBlobs(long[] lArray, long[] lArray2, short[][] sArray, AttributesReply attributesReply) {
-    }
+    public void putBlobs(long[] var1, long[] var2, short[][] var3, AttributesReply var4) throws MethodException;
 }
 

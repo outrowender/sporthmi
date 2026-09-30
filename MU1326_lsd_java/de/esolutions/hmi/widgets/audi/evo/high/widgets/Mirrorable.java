@@ -4,13 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 public interface Mirrorable {
-    default public void mirror(boolean bl) {
-    }
+    public void mirror(boolean var1);
 
-    default public void toggleMirror() {
-    }
+    public void toggleMirror();
 
-    default public boolean isMirrored() {
-    }
+    public boolean isMirrored();
 }
 

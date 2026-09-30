@@ -39,7 +39,6 @@ implements CharacterIterator {
         this.offset = n3;
     }
 
-    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -49,10 +48,9 @@ implements CharacterIterator {
         }
     }
 
-    @Override
     public char current() {
         if (this.offset == this.end) {
-            return '\uffff0000';
+            return '\uffff';
         }
         return this.string.charAt(this.offset);
     }
@@ -65,26 +63,22 @@ implements CharacterIterator {
         return this.string.equals(stringCharacterIterator.string) && this.start == stringCharacterIterator.start && this.end == stringCharacterIterator.end && this.offset == stringCharacterIterator.offset;
     }
 
-    @Override
     public char first() {
         if (this.start == this.end) {
-            return '\uffff0000';
+            return '\uffff';
         }
         this.offset = this.start;
         return this.string.charAt(this.offset);
     }
 
-    @Override
     public int getBeginIndex() {
         return this.start;
     }
 
-    @Override
     public int getEndIndex() {
         return this.end;
     }
 
-    @Override
     public int getIndex() {
         return this.offset;
     }
@@ -93,40 +87,36 @@ implements CharacterIterator {
         return this.string.hashCode() + this.start + this.end + this.offset;
     }
 
-    @Override
     public char last() {
         if (this.start == this.end) {
-            return '\uffff0000';
+            return '\uffff';
         }
         this.offset = this.end - 1;
         return this.string.charAt(this.offset);
     }
 
-    @Override
     public char next() {
         if (this.offset >= this.end - 1) {
             this.offset = this.end;
-            return '\uffff0000';
+            return '\uffff';
         }
         return this.string.charAt(++this.offset);
     }
 
-    @Override
     public char previous() {
         if (this.offset == this.start) {
-            return '\uffff0000';
+            return '\uffff';
         }
         return this.string.charAt(--this.offset);
     }
 
-    @Override
     public char setIndex(int n) {
         if (n < this.start || n > this.end) {
             throw new IllegalArgumentException();
         }
         this.offset = n;
         if (this.offset == this.end) {
-            return '\uffff0000';
+            return '\uffff';
         }
         return this.string.charAt(this.offset);
     }

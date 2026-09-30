@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DialService_StartResult
 implements StartResultMethod {
     public int serviceType;
-    private static final int SERVICE_TYPE_BITSIZE;
-    public static final int SERVICE_TYPE_VOICE_MAILBOX;
-    public static final int SERVICE_TYPE_INFO_CALL;
-    public static final int SERVICE_TYPE_SERVICE_CALL;
-    public static final int SERVICE_TYPE_EMERGENCY_CALL;
+    private static final int SERVICE_TYPE_BITSIZE = 8;
+    public static final int SERVICE_TYPE_VOICE_MAILBOX = 0;
+    public static final int SERVICE_TYPE_INFO_CALL = 1;
+    public static final int SERVICE_TYPE_SERVICE_CALL = 2;
+    public static final int SERVICE_TYPE_EMERGENCY_CALL = 3;
 
     public DialService_StartResult() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StartResultMethod {
         this.serviceType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DialService_StartResult dialService_StartResult = (DialService_StartResult)bAPEntity;
         return this.serviceType == dialService_StartResult.serviceType;
@@ -44,7 +42,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DialService_StartResult:");
@@ -73,18 +70,15 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.serviceType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.serviceType = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StartResultMethod {
         return 27;
     }
 
-    @Override
     public int getFunctionId() {
         return DialService_StartResult.functionId();
     }

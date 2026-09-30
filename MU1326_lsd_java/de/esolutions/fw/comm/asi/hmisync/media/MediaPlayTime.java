@@ -42,7 +42,7 @@ public class MediaPlayTime {
     }
 
     public String toString() {
-        return new StringBuffer("MediaPlayTime{").append("id=").append(this.id).append(", time=").append(this.time).append(", totalTime=").append(this.totalTime).append("}").toString();
+        return "MediaPlayTime{" + "id=" + this.id + ", time=" + this.time + ", totalTime=" + this.totalTime + "}";
     }
 }
 

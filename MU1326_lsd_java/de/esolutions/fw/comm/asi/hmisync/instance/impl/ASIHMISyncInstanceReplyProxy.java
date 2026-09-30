@@ -4,20 +4,20 @@
 package de.esolutions.fw.comm.asi.hmisync.instance.impl;
 
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceReply;
-import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceReplyProxy$3;
-import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceReplyProxy$4;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncInstanceReplyProxy
 implements ASIHMISyncInstanceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.instance.ASIHMISyncInstance");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncInstanceReplyProxy() {
@@ -25,33 +25,54 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void responseInstanceId(String string, String string2, int n, int n2) {
-        ASIHMISyncInstanceReplyProxy$1 aSIHMISyncInstanceReplyProxy$1 = new ASIHMISyncInstanceReplyProxy$1(this, string, string2, n, n2);
-        this.proxy.remoteCallMethod((short)4, aSIHMISyncInstanceReplyProxy$1);
+    public void responseInstanceId(final String string, final String string2, final int n, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncInstanceReplyProxy$2 aSIHMISyncInstanceReplyProxy$2 = new ASIHMISyncInstanceReplyProxy$2(this, string, bl);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncInstanceReplyProxy$2);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncInstanceReplyProxy$3 aSIHMISyncInstanceReplyProxy$3 = new ASIHMISyncInstanceReplyProxy$3(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)10, aSIHMISyncInstanceReplyProxy$3);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncInstanceReplyProxy$4 aSIHMISyncInstanceReplyProxy$4 = new ASIHMISyncInstanceReplyProxy$4(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)9, aSIHMISyncInstanceReplyProxy$4);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)9, iSerializable);
     }
 }
 

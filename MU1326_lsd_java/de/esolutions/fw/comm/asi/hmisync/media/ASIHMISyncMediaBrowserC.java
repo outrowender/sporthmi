@@ -5,42 +5,31 @@ package de.esolutions.fw.comm.asi.hmisync.media;
 
 import de.esolutions.fw.comm.asi.hmisync.media.MediaEntry;
 import de.esolutions.fw.comm.asi.hmisync.media.MediaSourceSlot;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMediaBrowserC {
-    default public void activate(MediaSourceSlot mediaSourceSlot) {
-    }
+    public void activate(MediaSourceSlot var1) throws MethodException;
 
-    default public void deactivate() {
-    }
+    public void deactivate() throws MethodException;
 
-    default public void setBrowseMode(int n) {
-    }
+    public void setBrowseMode(int var1) throws MethodException;
 
-    default public void changeFolder(MediaEntry[] mediaEntryArray) {
-    }
+    public void changeFolder(MediaEntry[] var1) throws MethodException;
 
-    default public void addSelection(int n, MediaEntry mediaEntry) {
-    }
+    public void addSelection(int var1, MediaEntry var2) throws MethodException;
 
-    default public void requestList(int n, long l, int n2, int n3) {
-    }
+    public void requestList(int var1, long var2, int var4, int var5) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

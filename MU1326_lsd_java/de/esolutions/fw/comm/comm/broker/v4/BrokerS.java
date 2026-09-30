@@ -4,18 +4,15 @@
 package de.esolutions.fw.comm.comm.broker.v4;
 
 import de.esolutions.fw.comm.comm.broker.v4.InstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface BrokerS {
-    default public void announce(InstanceID instanceID) {
-    }
+    public void announce(InstanceID var1) throws MethodException;
 
-    default public void registerService(InstanceID instanceID, int n) {
-    }
+    public void registerService(InstanceID var1, int var2) throws MethodException;
 
-    default public void unregisterService(InstanceID instanceID, int n) {
-    }
+    public void unregisterService(InstanceID var1, int var2) throws MethodException;
 
-    default public void lookupService(InstanceID instanceID, int n) {
-    }
+    public void lookupService(InstanceID var1, int var2) throws MethodException;
 }
 

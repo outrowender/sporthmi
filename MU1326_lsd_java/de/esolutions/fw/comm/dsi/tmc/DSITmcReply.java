@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.tmc;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavRectangle;
 import org.dsi.ifc.tmc.AreaWarningInfo;
 import org.dsi.ifc.tmc.LocalHazardInformation;
@@ -10,66 +11,47 @@ import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TrafficSource;
 
 public interface DSITmcReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "a73f6b98-aa3b-5dba-a907-2d574d8b6cb8";
+    public static final String IPL_COMM_INTERFACE_KEY = "1672f1b5-572a-5457-b33e-fd154fd0e075";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.36";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.36";
 
-    default public void updateEventsOnRoute(long l, int n) {
-    }
+    public void updateEventsOnRoute(long var1, int var3) throws MethodException;
 
-    default public void updateEventsTotal(int n, long l, long l2, int n2) {
-    }
+    public void updateEventsTotal(int var1, long var2, long var4, int var6) throws MethodException;
 
-    default public void updateTmcState(int n, int n2) {
-    }
+    public void updateTmcState(int var1, int var2) throws MethodException;
 
-    default public void updateActiveTrafficSources(int[] nArray, int n) {
-    }
+    public void updateActiveTrafficSources(int[] var1, int var2) throws MethodException;
 
-    default public void updateIsEngineeringMode(boolean bl, int n) {
-    }
+    public void updateIsEngineeringMode(boolean var1, int var2) throws MethodException;
 
-    default public void updateCurrentLanguage(String string, int n) {
-    }
+    public void updateCurrentLanguage(String var1, int var2) throws MethodException;
 
-    default public void updateIsTmcProAvailable(boolean bl, int n) {
-    }
+    public void updateIsTmcProAvailable(boolean var1, int var2) throws MethodException;
 
-    default public void windowChange(int n) {
-    }
+    public void windowChange(int var1) throws MethodException;
 
-    default public void tmcWindowResult(int n, int n2, TmcListElement[] tmcListElementArray) {
-    }
+    public void tmcWindowResult(int var1, int var2, TmcListElement[] var3) throws MethodException;
 
-    default public void setMessageFilterResult(int n, int n2) {
-    }
+    public void setMessageFilterResult(int var1, int var2) throws MethodException;
 
-    default public void getMessageIdsForListElementResult(long[] lArray) {
-    }
+    public void getMessageIdsForListElementResult(long[] var1) throws MethodException;
 
-    default public void getBoundingRectangleForTrafficMessagesResult(NavRectangle navRectangle) {
-    }
+    public void getBoundingRectangleForTrafficMessagesResult(NavRectangle var1) throws MethodException;
 
-    default public void updateAreaWarning(AreaWarningInfo areaWarningInfo, int n) {
-    }
+    public void updateAreaWarning(AreaWarningInfo var1, int var2) throws MethodException;
 
-    default public void updateAreaWarnings(AreaWarningInfo[] areaWarningInfoArray, int n) {
-    }
+    public void updateAreaWarnings(AreaWarningInfo[] var1, int var2) throws MethodException;
 
-    default public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray, int n) {
-    }
+    public void updateLocalHazardInformation(LocalHazardInformation[] var1, int var2) throws MethodException;
 
-    default public void updateTrafficFlowStatisticsStatus(boolean bl, int n) {
-    }
+    public void updateTrafficFlowStatisticsStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateTrafficSourceInformation(TrafficSource[] trafficSourceArray, int n) {
-    }
+    public void updateTrafficSourceInformation(TrafficSource[] var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

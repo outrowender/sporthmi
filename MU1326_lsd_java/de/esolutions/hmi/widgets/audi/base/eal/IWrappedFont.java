@@ -7,16 +7,12 @@ import de.esolutions.graphics.eal.api.IFontGroup;
 import de.esolutions.graphics.eal.api.ITextLayout;
 
 public interface IWrappedFont {
-    default public int getSize() {
-    }
+    public int getSize();
 
-    default public IFontGroup getFontGroup() {
-    }
+    public IFontGroup getFontGroup();
 
-    default public ITextLayout getLayout() {
-    }
+    public ITextLayout getLayout();
 
-    default public ITextLayout createLayout() {
-    }
+    public ITextLayout createLayout();
 }
 

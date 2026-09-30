@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataAddress;
 
 public class DataAddressSerializer {
-    public static void putOptionalDataAddress(ISerializer iSerializer, DataAddress dataAddress) {
+    public static void putOptionalDataAddress(ISerializer iSerializer, DataAddress dataAddress) throws SerializerException {
         boolean bl = dataAddress == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class DataAddressSerializer {
         }
     }
 
-    public static void putOptionalDataAddressVarArray(ISerializer iSerializer, DataAddress[] dataAddressArray) {
+    public static void putOptionalDataAddressVarArray(ISerializer iSerializer, DataAddress[] dataAddressArray) throws SerializerException {
         boolean bl = dataAddressArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class DataAddressSerializer {
         }
     }
 
-    public static DataAddress getOptionalDataAddress(IDeserializer iDeserializer) {
+    public static DataAddress getOptionalDataAddress(IDeserializer iDeserializer) throws SerializerException {
         DataAddress dataAddress = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class DataAddressSerializer {
         return dataAddress;
     }
 
-    public static DataAddress[] getOptionalDataAddressVarArray(IDeserializer iDeserializer) {
+    public static DataAddress[] getOptionalDataAddressVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataAddress[] dataAddressArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

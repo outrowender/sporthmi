@@ -44,52 +44,42 @@ implements XMLResourceIdentifier {
         this.fNamespace = null;
     }
 
-    @Override
     public void setPublicId(String string) {
         this.fPublicId = string;
     }
 
-    @Override
     public void setLiteralSystemId(String string) {
         this.fLiteralSystemId = string;
     }
 
-    @Override
     public void setBaseSystemId(String string) {
         this.fBaseSystemId = string;
     }
 
-    @Override
     public void setExpandedSystemId(String string) {
         this.fExpandedSystemId = string;
     }
 
-    @Override
     public void setNamespace(String string) {
         this.fNamespace = string;
     }
 
-    @Override
     public String getPublicId() {
         return this.fPublicId;
     }
 
-    @Override
     public String getLiteralSystemId() {
         return this.fLiteralSystemId;
     }
 
-    @Override
     public String getBaseSystemId() {
         return this.fBaseSystemId;
     }
 
-    @Override
     public String getExpandedSystemId() {
         return this.fExpandedSystemId;
     }
 
-    @Override
     public String getNamespace() {
         return this.fNamespace;
     }

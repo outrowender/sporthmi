@@ -18,14 +18,14 @@ import org.json.simple.parser.Yylex;
 import org.json.simple.parser.Yytoken;
 
 public class JSONParser {
-    public static final int S_INIT;
-    public static final int S_IN_FINISHED_VALUE;
-    public static final int S_IN_OBJECT;
-    public static final int S_IN_ARRAY;
-    public static final int S_PASSED_PAIR_KEY;
-    public static final int S_IN_PAIR_VALUE;
-    public static final int S_END;
-    public static final int S_IN_ERROR;
+    public static final int S_INIT = 0;
+    public static final int S_IN_FINISHED_VALUE = 1;
+    public static final int S_IN_OBJECT = 2;
+    public static final int S_IN_ARRAY = 3;
+    public static final int S_PASSED_PAIR_KEY = 4;
+    public static final int S_IN_PAIR_VALUE = 5;
+    public static final int S_END = 6;
+    public static final int S_IN_ERROR = -1;
     private LinkedList handlerStatusStack;
     private Yylex lexer = new Yylex((Reader)null);
     private Yytoken token = null;
@@ -54,11 +54,11 @@ public class JSONParser {
         return this.lexer.getPosition();
     }
 
-    public Object parse(String string) {
+    public Object parse(String string) throws ParseException {
         return this.parse(string, (ContainerFactory)null);
     }
 
-    public Object parse(String string, ContainerFactory containerFactory) {
+    public Object parse(String string, ContainerFactory containerFactory) throws ParseException {
         StringReader stringReader = new StringReader(string);
         try {
             return this.parse((Reader)stringReader, containerFactory);
@@ -68,11 +68,11 @@ public class JSONParser {
         }
     }
 
-    public Object parse(Reader reader) {
+    public Object parse(Reader reader) throws IOException, ParseException {
         return this.parse(reader, (ContainerFactory)null);
     }
 
-    public Object parse(Reader reader, ContainerFactory containerFactory) {
+    public Object parse(Reader reader, ContainerFactory containerFactory) throws IOException, ParseException {
         this.reset(reader);
         LinkedList linkedList = new LinkedList();
         LinkedList linkedList2 = new LinkedList();
@@ -237,7 +237,7 @@ public class JSONParser {
         throw new ParseException(this.getPosition(), 1, this.token);
     }
 
-    private void nextToken() {
+    private void nextToken() throws ParseException, IOException {
         this.token = this.lexer.yylex();
         if (this.token == null) {
             this.token = new Yytoken(-1, null);
@@ -266,11 +266,11 @@ public class JSONParser {
         return list;
     }
 
-    public void parse(String string, ContentHandler contentHandler) {
+    public void parse(String string, ContentHandler contentHandler) throws ParseException {
         this.parse(string, contentHandler, false);
     }
 
-    public void parse(String string, ContentHandler contentHandler, boolean bl) {
+    public void parse(String string, ContentHandler contentHandler, boolean bl) throws ParseException {
         StringReader stringReader = new StringReader(string);
         try {
             this.parse(stringReader, contentHandler, bl);
@@ -280,11 +280,11 @@ public class JSONParser {
         }
     }
 
-    public void parse(Reader reader, ContentHandler contentHandler) {
+    public void parse(Reader reader, ContentHandler contentHandler) throws IOException, ParseException {
         this.parse(reader, contentHandler, false);
     }
 
-    public void parse(Reader reader, ContentHandler contentHandler, boolean bl) {
+    public void parse(Reader reader, ContentHandler contentHandler, boolean bl) throws IOException, ParseException {
         if (!bl) {
             this.reset(reader);
             this.handlerStatusStack = new LinkedList();

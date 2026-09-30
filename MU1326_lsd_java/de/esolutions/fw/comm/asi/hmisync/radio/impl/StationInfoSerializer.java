@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.radio.impl;
 import de.esolutions.fw.comm.asi.hmisync.radio.StationInfo;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class StationInfoSerializer {
-    public static void putOptionalStationInfo(ISerializer iSerializer, StationInfo stationInfo) {
+    public static void putOptionalStationInfo(ISerializer iSerializer, StationInfo stationInfo) throws SerializerException {
         boolean bl = stationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class StationInfoSerializer {
         }
     }
 
-    public static void putOptionalStationInfoVarArray(ISerializer iSerializer, StationInfo[] stationInfoArray) {
+    public static void putOptionalStationInfoVarArray(ISerializer iSerializer, StationInfo[] stationInfoArray) throws SerializerException {
         boolean bl = stationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class StationInfoSerializer {
         }
     }
 
-    public static StationInfo getOptionalStationInfo(IDeserializer iDeserializer) {
+    public static StationInfo getOptionalStationInfo(IDeserializer iDeserializer) throws SerializerException {
         StationInfo stationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class StationInfoSerializer {
         return stationInfo;
     }
 
-    public static StationInfo[] getOptionalStationInfoVarArray(IDeserializer iDeserializer) {
+    public static StationInfo[] getOptionalStationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         StationInfo[] stationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

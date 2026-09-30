@@ -27,7 +27,6 @@ extends CompositeRendererHigh {
         return (MenuItemController)this.controller;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.clipping = this.needsMenuItemClipping();
         super.render(redrawContext);
@@ -41,32 +40,28 @@ extends CompositeRendererHigh {
         return menuItemController.getClippingHeight() < menuItemController.getHeight();
     }
 
-    @Override
     protected int getClippingHeight() {
         MenuItemController menuItemController = this.getMenuItem();
         return Math.min(menuItemController.getClippingHeight(), menuItemController.getHeight());
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
         ((RedrawContextHigh)redrawContext).parentNodeSecondary = null;
     }
 
-    @Override
     protected IWrappedNode3D getParentNode(RedrawContextHigh redrawContextHigh) {
         if (this.getMenuItem().isMoving()) {
             IWrappedNode3D iWrappedNode3D = redrawContextHigh.parentNodeSecondary;
             if (iWrappedNode3D != null) {
                 return iWrappedNode3D;
             }
-            menuItemLogCh.log(-1601830656, "MenuItemRendererHigh#getParentNode: item is moving, but redrawContext contains no secondary parent layer. Context: %1", (Object)redrawContextHigh);
+            menuItemLogCh.log(100000, "MenuItemRendererHigh#getParentNode: item is moving, but redrawContext contains no secondary parent layer. Context: %1", (Object)redrawContextHigh);
             return super.getParentNode(redrawContextHigh);
         }
         return super.getParentNode(redrawContextHigh);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         if (this.getMenuItem().isMoving()) {
@@ -105,7 +100,6 @@ extends CompositeRendererHigh {
         }
     }
 
-    @Override
     public void disconnect() {
         this.destroyBackground();
         super.disconnect();

@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class StubErrorCommand
 extends AbstractAgentErrorLogCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"stub_errors", "se"};
     }
 
-    @Override
     public String getDescription() {
         return "Show stub errors from error log";
     }
 
-    @Override
     public String getUsage() {
         return "[id][[,id]...]";
     }
 
-    @Override
     protected void handleWithAgentErrorLog(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentErrorLog iAgentErrorLog = this.getErrorLog();
         IInfoBase[] iInfoBaseArray = iAgentErrorLog.getStubErrors();
@@ -38,7 +34,7 @@ extends AbstractAgentErrorLogCommand {
         InfoUtils.printInfos(iInfoBaseArray, new InfoStream(printStream));
         int n = iAgentErrorLog.getNumDroppedStubErrors();
         if (n > 0) {
-            printStream.println(new StringBuffer().append("Dropped stub error entries: ").append(n).toString());
+            printStream.println("Dropped stub error entries: " + n);
         }
     }
 }

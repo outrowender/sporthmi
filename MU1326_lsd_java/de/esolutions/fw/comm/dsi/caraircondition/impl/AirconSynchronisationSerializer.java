@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.caraircondition.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.caraircondition.AirconSynchronisation;
 
 public class AirconSynchronisationSerializer {
-    public static void putOptionalAirconSynchronisation(ISerializer iSerializer, AirconSynchronisation airconSynchronisation) {
+    public static void putOptionalAirconSynchronisation(ISerializer iSerializer, AirconSynchronisation airconSynchronisation) throws SerializerException {
         boolean bl = airconSynchronisation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class AirconSynchronisationSerializer {
         }
     }
 
-    public static void putOptionalAirconSynchronisationVarArray(ISerializer iSerializer, AirconSynchronisation[] airconSynchronisationArray) {
+    public static void putOptionalAirconSynchronisationVarArray(ISerializer iSerializer, AirconSynchronisation[] airconSynchronisationArray) throws SerializerException {
         boolean bl = airconSynchronisationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class AirconSynchronisationSerializer {
         }
     }
 
-    public static AirconSynchronisation getOptionalAirconSynchronisation(IDeserializer iDeserializer) {
+    public static AirconSynchronisation getOptionalAirconSynchronisation(IDeserializer iDeserializer) throws SerializerException {
         AirconSynchronisation airconSynchronisation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class AirconSynchronisationSerializer {
         return airconSynchronisation;
     }
 
-    public static AirconSynchronisation[] getOptionalAirconSynchronisationVarArray(IDeserializer iDeserializer) {
+    public static AirconSynchronisation[] getOptionalAirconSynchronisationVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirconSynchronisation[] airconSynchronisationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

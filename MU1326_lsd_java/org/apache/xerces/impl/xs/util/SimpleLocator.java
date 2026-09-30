@@ -40,37 +40,30 @@ implements XMLLocator {
         this.charOffset = n3;
     }
 
-    @Override
     public int getLineNumber() {
         return this.line;
     }
 
-    @Override
     public int getColumnNumber() {
         return this.column;
     }
 
-    @Override
     public int getCharacterOffset() {
         return this.charOffset;
     }
 
-    @Override
     public String getPublicId() {
         return null;
     }
 
-    @Override
     public String getExpandedSystemId() {
         return this.esid;
     }
 
-    @Override
     public String getLiteralSystemId() {
         return this.lsid;
     }
 
-    @Override
     public String getBaseSystemId() {
         return null;
     }
@@ -101,12 +94,10 @@ implements XMLLocator {
     public void setPublicId(String string) {
     }
 
-    @Override
     public String getEncoding() {
         return null;
     }
 
-    @Override
     public String getXMLVersion() {
         return null;
     }

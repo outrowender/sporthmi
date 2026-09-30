@@ -8,19 +8,14 @@ import edu.emory.mathcs.backport.java.util.concurrent.Future;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 
 public interface CompletionService {
-    default public Future submit(Callable callable) {
-    }
+    public Future submit(Callable var1);
 
-    default public Future submit(Runnable runnable, Object object) {
-    }
+    public Future submit(Runnable var1, Object var2);
 
-    default public Future take() {
-    }
+    public Future take() throws InterruptedException;
 
-    default public Future poll() {
-    }
+    public Future poll();
 
-    default public Future poll(long l, TimeUnit timeUnit) {
-    }
+    public Future poll(long var1, TimeUnit var3) throws InterruptedException;
 }
 

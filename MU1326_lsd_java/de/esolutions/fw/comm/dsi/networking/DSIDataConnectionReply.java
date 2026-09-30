@@ -3,35 +3,29 @@
  */
 package de.esolutions.fw.comm.dsi.networking;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.networking.ApplicationErrorStruct;
 import org.dsi.ifc.networking.ConnectionStateInformationStruct;
 import org.dsi.ifc.networking.DataConnectionStateStruct;
 
 public interface DSIDataConnectionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f6749804-3a69-5465-9822-1d5ccfd38720";
+    public static final String IPL_COMM_INTERFACE_KEY = "ac66c0fa-deb7-50a6-834e-d94bf9a5b7ea";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.14";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.14";
 
-    default public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
-    }
+    public void updateStateDataConnection(DataConnectionStateStruct var1, int var2) throws MethodException;
 
-    default public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) {
-    }
+    public void updateConnectionStateInformation(ConnectionStateInformationStruct var1, int var2) throws MethodException;
 
-    default public void updateRoamingState(int n, int n2) {
-    }
+    public void updateRoamingState(int var1, int var2) throws MethodException;
 
-    default public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) {
-    }
+    public void updateErrorState(ApplicationErrorStruct var1, int var2) throws MethodException;
 
-    default public void forceDisconnectResponse(int n) {
-    }
+    public void forceDisconnectResponse(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

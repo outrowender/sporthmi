@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 import de.esolutions.fw.comm.dsi.kombisync2.impl.MenuContextSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.DisplayRequestResponse;
 import org.dsi.ifc.kombisync2.MenuContext;
 
 public class DisplayRequestResponseSerializer {
-    public static void putOptionalDisplayRequestResponse(ISerializer iSerializer, DisplayRequestResponse displayRequestResponse) {
+    public static void putOptionalDisplayRequestResponse(ISerializer iSerializer, DisplayRequestResponse displayRequestResponse) throws SerializerException {
         boolean bl = displayRequestResponse == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class DisplayRequestResponseSerializer {
         }
     }
 
-    public static void putOptionalDisplayRequestResponseVarArray(ISerializer iSerializer, DisplayRequestResponse[] displayRequestResponseArray) {
+    public static void putOptionalDisplayRequestResponseVarArray(ISerializer iSerializer, DisplayRequestResponse[] displayRequestResponseArray) throws SerializerException {
         boolean bl = displayRequestResponseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class DisplayRequestResponseSerializer {
         }
     }
 
-    public static DisplayRequestResponse getOptionalDisplayRequestResponse(IDeserializer iDeserializer) {
+    public static DisplayRequestResponse getOptionalDisplayRequestResponse(IDeserializer iDeserializer) throws SerializerException {
         DisplayRequestResponse displayRequestResponse = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class DisplayRequestResponseSerializer {
         return displayRequestResponse;
     }
 
-    public static DisplayRequestResponse[] getOptionalDisplayRequestResponseVarArray(IDeserializer iDeserializer) {
+    public static DisplayRequestResponse[] getOptionalDisplayRequestResponseVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayRequestResponse[] displayRequestResponseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

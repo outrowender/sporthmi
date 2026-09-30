@@ -7,14 +7,12 @@ import org.apache.xerces.xs.XSObject;
 
 public interface XSAnnotation
 extends XSObject {
-    public static final short W3C_DOM_ELEMENT;
-    public static final short SAX_CONTENTHANDLER;
-    public static final short W3C_DOM_DOCUMENT;
+    public static final short W3C_DOM_ELEMENT = 1;
+    public static final short SAX_CONTENTHANDLER = 2;
+    public static final short W3C_DOM_DOCUMENT = 3;
 
-    default public boolean writeAnnotation(Object object, short s) {
-    }
+    public boolean writeAnnotation(Object var1, short var2);
 
-    default public String getAnnotationString() {
-    }
+    public String getAnnotationString();
 }
 

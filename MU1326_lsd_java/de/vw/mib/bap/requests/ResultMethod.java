@@ -7,7 +7,6 @@ import de.vw.mib.bap.datatypes.BAPMethod;
 
 public interface ResultMethod
 extends BAPMethod {
-    default public int getResultCode() {
-    }
+    public int getResultCode();
 }
 

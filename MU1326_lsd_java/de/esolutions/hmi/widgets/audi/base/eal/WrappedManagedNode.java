@@ -28,38 +28,31 @@ IWidgetLogChannel {
         this.node = iNode2DManaged;
     }
 
-    @Override
     public INode2DManaged getNode() {
         return this.node;
     }
 
-    @Override
     public ITexture enableOffscreen(int n, int n2, FlagTexture flagTexture) {
         return this.node.enableOffscreen(n, n2, flagTexture);
     }
 
-    @Override
     public boolean addViewport(IWrappedViewport iWrappedViewport) {
         this.viewports.add(iWrappedViewport);
         return this.node.addToScreen(iWrappedViewport.getLink(), iWrappedViewport.getIndex());
     }
 
-    @Override
     public boolean addToScreen(INode2D iNode2D, int n) {
         return this.node.addToScreen(iNode2D, n);
     }
 
-    @Override
     public boolean addAuto(INode2D iNode2D, int n) {
         return this.node.addAuto(iNode2D, n);
     }
 
-    @Override
     public boolean removeFromScreen(INode2D iNode2D) {
         return this.node.removeFromScreen(iNode2D);
     }
 
-    @Override
     public INode2D getChildByIndex(int n) {
         INode2D iNode2D;
         Integer n2 = Util.createInteger(n);
@@ -68,7 +61,7 @@ IWidgetLogChannel {
             if (iNode2D2.isValid()) {
                 return iNode2D2;
             }
-            logChannel3DEngine.log(-1601830656, "WrappedManagedNode#getChildByIndex cached child at index %1 is invalid", (long)n);
+            logChannel3DEngine.log(100000, "WrappedManagedNode#getChildByIndex cached child at index %1 is invalid", (long)n);
             this.childNodes.remove(n2);
             iNode2D2.dispose();
         }
@@ -76,12 +69,11 @@ IWidgetLogChannel {
             this.childNodes.put(n2, iNode2D);
             return iNode2D;
         }
-        logChannel3DEngine.log(1078071040, "WrappedManagedNode#getChildByIndex no valid child found at index %1", (long)n);
+        logChannel3DEngine.log(1000000, "WrappedManagedNode#getChildByIndex no valid child found at index %1", (long)n);
         iNode2D.dispose();
         return null;
     }
 
-    @Override
     public boolean remove(IWrappedViewport iWrappedViewport) {
         boolean bl;
         if (!this.viewports.remove(iWrappedViewport)) {
@@ -93,12 +85,10 @@ IWidgetLogChannel {
         return bl;
     }
 
-    @Override
     public List getViewports() {
         return Collections.unmodifiableList(this.viewports);
     }
 
-    @Override
     public String getName() {
         return this.node.getName();
     }

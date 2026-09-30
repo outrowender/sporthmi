@@ -3,13 +3,14 @@
  */
 package org.apache.commons.jexl.util;
 
+import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.jexl.util.AbstractExecutor;
 import org.apache.commons.jexl.util.introspection.Introspector;
 import org.apache.commons.logging.Log;
 
 public class PropertyExecutor
 extends AbstractExecutor {
-    private static final int PROPERTY_START_INDEX;
+    private static final int PROPERTY_START_INDEX = 3;
     protected Introspector introspector = null;
     protected String methodUsed = null;
 
@@ -44,12 +45,11 @@ extends AbstractExecutor {
             }
         }
         catch (Exception exception) {
-            this.rlog.error(new StringBuffer().append("PROGRAMMER ERROR : PropertyExector() : ").append(exception).toString());
+            this.rlog.error("PROGRAMMER ERROR : PropertyExector() : " + exception);
         }
     }
 
-    @Override
-    public Object execute(Object object) {
+    public Object execute(Object object) throws IllegalAccessException, InvocationTargetException {
         if (this.method == null) {
             return null;
         }

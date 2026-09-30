@@ -16,7 +16,7 @@ extends OutputStream {
     private FileOutputStream stream;
     private int currentSize;
 
-    private void beginNewFile() {
+    private void beginNewFile() throws IOException {
         this.stream.close();
         this.currentSize = 0;
         String string = this.namer.nextFileName();
@@ -24,28 +24,26 @@ extends OutputStream {
             this.stream = new FileOutputStream(string);
         }
         catch (FileNotFoundException fileNotFoundException) {
-            throw new IOException(new StringBuffer().append("Can't open file: ").append(string).toString());
+            throw new IOException("Can't open file: " + string);
         }
     }
 
-    public MultiFileOutputStream(String string, String string2, int n, int n2, int n3) {
+    public MultiFileOutputStream(String string, String string2, int n, int n2, int n3) throws FileNotFoundException {
         this.splitSize = n3;
         this.namer = new MultiFileNamer(string, string2, n, n2);
         this.stream = new FileOutputStream(this.namer.nextFileName());
     }
 
-    public MultiFileOutputStream(String string, String string2, int n) {
+    public MultiFileOutputStream(String string, String string2, int n) throws FileNotFoundException {
         this(string, string2, 4, 0, n);
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         super.close();
         this.stream.close();
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.currentSize + 1 > this.splitSize) {
             this.beginNewFile();
         }
@@ -53,8 +51,7 @@ extends OutputStream {
         ++this.currentSize;
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         int n = byArray.length;
         if (this.currentSize + n > this.splitSize) {
             this.beginNewFile();
@@ -63,8 +60,7 @@ extends OutputStream {
         this.currentSize += n;
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (this.currentSize + n2 > this.splitSize) {
             this.beginNewFile();
         }

@@ -24,12 +24,12 @@ public class CursorController
 extends AbstractWidgetController
 implements DrawerAnimationListener,
 IDrawerListener {
-    public static final int IDX_WAV_X;
-    public static final int IDX_WAV_Y;
-    public static final int IDX_WAIT_ANIM_LOW_BOUND;
-    public static final int IDX_WAIT_ANIM_OFF_NO_OPT_ICON;
-    public static final int IDX_WAIT_ANIM_OFF_WITH_OPT_ICON;
-    public static final int IDX_WAIT_ANIM_HIGH_BOUND;
+    public static final int IDX_WAV_X = 0;
+    public static final int IDX_WAV_Y = 1;
+    public static final int IDX_WAIT_ANIM_LOW_BOUND = -1;
+    public static final int IDX_WAIT_ANIM_OFF_NO_OPT_ICON = 0;
+    public static final int IDX_WAIT_ANIM_OFF_WITH_OPT_ICON = 1;
+    public static final int IDX_WAIT_ANIM_HIGH_BOUND = 2;
     private int[][] layoutWaitAnimationOffsets = new int[][]{{-31, 17}, {-54, 17}};
     private int layoutWaitAnimKZBH = 24;
     private CursorRenderer renderer = null;
@@ -49,7 +49,6 @@ IDrawerListener {
         return this.grayedOut;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         boolean bl = this.isDesaturationAllowed = !this.shouldNotAllowDesaturation();
@@ -76,7 +75,6 @@ IDrawerListener {
         return this.terminal != null && this.terminal.getDrawerFocusManager() != null && this.isLayerFrontOfDrawers;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -103,7 +101,6 @@ IDrawerListener {
         this.renderer = cursorRenderer;
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (this.hasBounds(n, n2, n3, n4)) {
             return;
@@ -112,7 +109,6 @@ IDrawerListener {
         this.setWaitAnimWidgetPos(this.waitAnimOffsetIdx);
     }
 
-    @Override
     public void setX(int n) {
         if (this.x == n) {
             return;
@@ -121,7 +117,6 @@ IDrawerListener {
         this.setWaitAnimWidgetPos(this.waitAnimOffsetIdx);
     }
 
-    @Override
     public void setY(int n) {
         if (this.y == n) {
             return;
@@ -130,7 +125,6 @@ IDrawerListener {
         this.setWaitAnimWidgetPos(this.waitAnimOffsetIdx);
     }
 
-    @Override
     public void setWidth(int n) {
         if (this.width == n) {
             return;
@@ -139,7 +133,6 @@ IDrawerListener {
         this.setWaitAnimWidgetPos(this.waitAnimOffsetIdx);
     }
 
-    @Override
     public void setHeight(int n) {
         if (this.height == n) {
             return;
@@ -203,7 +196,6 @@ IDrawerListener {
         }
     }
 
-    @Override
     public void predisconnecting() {
         if (this.terminal != null && this.terminal.getDrawerFocusManager() != null) {
             this.terminal.getDrawerFocusManager().unregisterDrawerAnimationListener(this);
@@ -212,7 +204,6 @@ IDrawerListener {
         this.releaseWaitAnimCtrl(this.retryWaitAnimationControllerInit);
     }
 
-    @Override
     public void disconnecting() {
         if (this.drawerFocusManager != null && this.isDesaturationAllowed) {
             this.drawerFocusManager.unregisterDrawerAnimationListener(this);
@@ -222,16 +213,13 @@ IDrawerListener {
         super.disconnecting();
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
         this.setDrawerAnimation(fArray, fArray2, this.getDrawerAnimationMask());
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         if (!this.isDesaturationAllowed) {
             this.grayedOut = false;
@@ -250,12 +238,10 @@ IDrawerListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
         this.setDrawerAnimation(fArray, fArray2, n);
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return this.drawerAnimationMask;
     }
@@ -273,11 +259,9 @@ IDrawerListener {
         this.drawerAnimationMask |= 0x800;
     }
 
-    @Override
     public void optionDrawerActivated(IScreenData iScreenData, Screen screen, IDrawerControllerEvo iDrawerControllerEvo) {
     }
 
-    @Override
     public void screenSet(IScreenData iScreenData, Screen screen) {
         if (this.isDesaturationAllowed && this.isConnected()) {
             this.drawerFocusManager.unregisterDrawerAnimationListener(this);
@@ -285,7 +269,6 @@ IDrawerListener {
         }
     }
 
-    @Override
     public void optionDrawerLocked(Boolean bl) {
     }
 }

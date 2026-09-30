@@ -7,219 +7,149 @@ import de.esolutions.graphics.eal.api.INode3D;
 import java.util.List;
 
 public interface IWrappedNode3D {
-    public static final int CLIPPING_TYPE_INHERIT_FROM_ANCESTOR;
-    public static final int CLIPPING_TYPE_OVERRIDE_ANCESTOR;
-    public static final int CLIPPING_TYPE_INHERIT_TO_CHILDREN;
-    public static final int CLIPPING_TYPE_CHILDREN_OVERRIDE;
+    public static final int CLIPPING_TYPE_INHERIT_FROM_ANCESTOR = 1;
+    public static final int CLIPPING_TYPE_OVERRIDE_ANCESTOR = 2;
+    public static final int CLIPPING_TYPE_INHERIT_TO_CHILDREN = 16;
+    public static final int CLIPPING_TYPE_CHILDREN_OVERRIDE = 32;
 
-    default public void setPosition(float f2, float f3, float f4) {
-    }
+    public void setPosition(float var1, float var2, float var3);
 
-    default public void setRotationX(float f2) {
-    }
+    public void setRotationX(float var1);
 
-    default public void setRotationY(float f2) {
-    }
+    public void setRotationY(float var1);
 
-    default public void setRotationZ(float f2) {
-    }
+    public void setRotationZ(float var1);
 
-    default public float getRotationX() {
-    }
+    public float getRotationX();
 
-    default public float getRotationY() {
-    }
+    public float getRotationY();
 
-    default public float getRotationZ() {
-    }
+    public float getRotationZ();
 
-    default public void setScale(float f2, float f3, float f4) {
-    }
+    public void setScale(float var1, float var2, float var3);
 
-    default public void setOpacity(float f2) {
-    }
+    public void setOpacity(float var1);
 
-    default public float getOpacity() {
-    }
+    public float getOpacity();
 
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public boolean isValid() {
-    }
+    public boolean isValid();
 
-    default public INode3D getNode() {
-    }
+    public INode3D getNode();
 
-    default public void add(IWrappedNode3D iWrappedNode3D) {
-    }
+    public void add(IWrappedNode3D var1);
 
-    default public void addByIndex(IWrappedNode3D iWrappedNode3D, int n) {
-    }
+    public void addByIndex(IWrappedNode3D var1, int var2);
 
-    default public boolean remove(IWrappedNode3D iWrappedNode3D) {
-    }
+    public boolean remove(IWrappedNode3D var1);
 
-    default public void setParent(IWrappedNode3D iWrappedNode3D) {
-    }
+    public void setParent(IWrappedNode3D var1);
 
-    default public int getEALChildCount() {
-    }
+    public int getEALChildCount();
 
-    default public List getWrappedChildren() {
-    }
+    public List getWrappedChildren();
 
-    default public float getUnscaledWidth() {
-    }
+    public float getUnscaledWidth();
 
-    default public float getUnscaledHeight() {
-    }
+    public float getUnscaledHeight();
 
-    default public float getWidth() {
-    }
+    public float getWidth();
 
-    default public float getHeight() {
-    }
+    public float getHeight();
 
-    default public void setSize(float f2, float f3) {
-    }
+    public void setSize(float var1, float var2);
 
-    default public void resetTransformation() {
-    }
+    public void resetTransformation();
 
-    default public void updateClipping() {
-    }
+    public void updateClipping();
 
-    default public boolean hasClippingChild() {
-    }
+    public boolean hasClippingChild();
 
-    default public void setHasClippingChild(boolean bl) {
-    }
+    public void setHasClippingChild(boolean var1);
 
-    default public void setClipping(boolean bl) {
-    }
+    public void setClipping(boolean var1);
 
-    default public float getOriginY() {
-    }
+    public float getOriginY();
 
-    default public float getOriginX() {
-    }
+    public float getOriginX();
 
-    default public IWrappedNode3D getParent() {
-    }
+    public IWrappedNode3D getParent();
 
-    default public float getX() {
-    }
+    public float getX();
 
-    default public float getY() {
-    }
+    public float getY();
 
-    default public float getZ() {
-    }
+    public float getZ();
 
-    default public void updateHasClippingChild() {
-    }
+    public void updateHasClippingChild();
 
-    default public boolean isClipping() {
-    }
+    public boolean isClipping();
 
-    default public float getScaleX() {
-    }
+    public float getScaleX();
 
-    default public float getScaleY() {
-    }
+    public float getScaleY();
 
-    default public float getScaleZ() {
-    }
+    public float getScaleZ();
 
-    default public void setClippingRectangle(float f2, float f3, float f4, float f5) {
-    }
+    public void setClippingRectangle(float var1, float var2, float var3, float var4);
 
-    default public void useClippingRectangle(boolean bl) {
-    }
+    public void useClippingRectangle(boolean var1);
 
-    default public void setClippingInheritance(int n) {
-    }
+    public void setClippingInheritance(int var1);
 
-    default public int getClippingInheritance() {
-    }
+    public int getClippingInheritance();
 
-    default public void dispose() {
-    }
+    public void dispose();
 
-    default public float getScreenClippingX() {
-    }
+    public float getScreenClippingX();
 
-    default public float getScreenClippingY() {
-    }
+    public float getScreenClippingY();
 
-    default public float getScreenClippingWidth() {
-    }
+    public float getScreenClippingWidth();
 
-    default public float getScreenClippingHeight() {
-    }
+    public float getScreenClippingHeight();
 
-    default public int getScreenWidth() {
-    }
+    public int getScreenWidth();
 
-    default public int getScreenHeight() {
-    }
+    public int getScreenHeight();
 
-    default public void setScreenSize(int n, int n2) {
-    }
+    public void setScreenSize(int var1, int var2);
 
-    default public void updateScreenSize() {
-    }
+    public void updateScreenSize();
 
-    default public String getNodeName() {
-    }
+    public String getNodeName();
 
-    default public boolean isInstance() {
-    }
+    public boolean isInstance();
 
-    default public boolean setNodeName(String string) {
-    }
+    public boolean setNodeName(String var1);
 
-    default public void setNodeIndex(int n) {
-    }
+    public void setNodeIndex(int var1);
 
-    default public void setShouldFlipBack(boolean bl) {
-    }
+    public void setShouldFlipBack(boolean var1);
 
-    default public int getNodeIndex() {
-    }
+    public int getNodeIndex();
 
-    default public boolean invalidateObject() {
-    }
+    public boolean invalidateObject();
 
-    default public boolean removeWrappedChild(IWrappedNode3D iWrappedNode3D) {
-    }
+    public boolean removeWrappedChild(IWrappedNode3D var1);
 
-    default public void ignoreOpacity(boolean bl) {
-    }
+    public void ignoreOpacity(boolean var1);
 
-    default public float getCurrentNodeScaleX() {
-    }
+    public float getCurrentNodeScaleX();
 
-    default public float getCurrentNodeScaleY() {
-    }
+    public float getCurrentNodeScaleY();
 
-    default public void setHorizontalFlip(boolean bl) {
-    }
+    public void setHorizontalFlip(boolean var1);
 
-    default public boolean isHorizontallyFlipped() {
-    }
+    public boolean isHorizontallyFlipped();
 
-    default public void setLanguageOrientation(boolean bl) {
-    }
+    public void setLanguageOrientation(boolean var1);
 
-    default public void removeAllChildren() {
-    }
+    public void removeAllChildren();
 
-    default public boolean setDestroyedFlag() {
-    }
+    public boolean setDestroyedFlag();
 }
 

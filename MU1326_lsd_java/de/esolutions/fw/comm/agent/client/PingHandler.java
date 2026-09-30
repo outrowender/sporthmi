@@ -109,7 +109,6 @@ implements IMessageListener {
         CommAgentTracing.PINGHANDLER.log((short)2, "$%2(%3) PingHandler started: %1", this, (Object)new Short(s), (Object)new Short(s2));
     }
 
-    @Override
     public void incomingMessage(AbstractMessage abstractMessage) {
         this.lastIncomingPacketTimestamp = this.timeSource.getCurrentTime();
         if (abstractMessage.getMessageType() == MessageType.PING) {
@@ -132,7 +131,6 @@ implements IMessageListener {
         }
     }
 
-    @Override
     public void outgoingMessage(AbstractMessage abstractMessage) {
         this.lastOutgoingPacketTimestamp = this.timeSource.getCurrentTime();
         CommAgentTracing.PINGHANDLER_TX.log((short)0, "$%1(%2) sending packet [msgType=%3]", new Short(this.conId), (Object)new Short(this.peerAgentId), (Object)abstractMessage.getMessageType().toString());

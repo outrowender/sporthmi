@@ -4,15 +4,15 @@
 package org.dsi.ifc.online;
 
 public interface Constants {
-    public static final int RESULTTYPE_OK;
-    public static final int RESULTTYPE_INTERNAL_ERROR;
-    public static final int RESULTTYPE_WRONG_PARAMETER;
-    public static final int RESULTTYPE_WRONG_STATE;
-    public static final int SOURCEIDVOICE_OTHER;
-    public static final int SOURCEIDVOICE_AUDI;
-    public static final int SOURCEIDVOICE_GOOGLE;
-    public static final int SOURCEIDVOICE_NUANCE;
-    public static final int SOURCEIDVOICE_VLINGO;
-    public static final int SOURCEIDVOICE_TELLME;
+    public static final int RESULTTYPE_OK = 0;
+    public static final int RESULTTYPE_INTERNAL_ERROR = 1;
+    public static final int RESULTTYPE_WRONG_PARAMETER = 2;
+    public static final int RESULTTYPE_WRONG_STATE = 3;
+    public static final int SOURCEIDVOICE_OTHER = 0;
+    public static final int SOURCEIDVOICE_AUDI = 1;
+    public static final int SOURCEIDVOICE_GOOGLE = 2;
+    public static final int SOURCEIDVOICE_NUANCE = 3;
+    public static final int SOURCEIDVOICE_VLINGO = 4;
+    public static final int SOURCEIDVOICE_TELLME = 5;
 }
 

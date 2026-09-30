@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sNumberHandsetsHUCs;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNumberHandsetsHUCsSerializer {
-    public static void putOptionalsNumberHandsetsHUCs(ISerializer iSerializer, sNumberHandsetsHUCs sNumberHandsetsHUCs2) {
+    public static void putOptionalsNumberHandsetsHUCs(ISerializer iSerializer, sNumberHandsetsHUCs sNumberHandsetsHUCs2) throws SerializerException {
         boolean bl = sNumberHandsetsHUCs2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sNumberHandsetsHUCsSerializer {
         }
     }
 
-    public static void putOptionalsNumberHandsetsHUCsVarArray(ISerializer iSerializer, sNumberHandsetsHUCs[] sNumberHandsetsHUCsArray) {
+    public static void putOptionalsNumberHandsetsHUCsVarArray(ISerializer iSerializer, sNumberHandsetsHUCs[] sNumberHandsetsHUCsArray) throws SerializerException {
         boolean bl = sNumberHandsetsHUCsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sNumberHandsetsHUCsSerializer {
         }
     }
 
-    public static sNumberHandsetsHUCs getOptionalsNumberHandsetsHUCs(IDeserializer iDeserializer) {
+    public static sNumberHandsetsHUCs getOptionalsNumberHandsetsHUCs(IDeserializer iDeserializer) throws SerializerException {
         sNumberHandsetsHUCs sNumberHandsetsHUCs2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sNumberHandsetsHUCsSerializer {
         return sNumberHandsetsHUCs2;
     }
 
-    public static sNumberHandsetsHUCs[] getOptionalsNumberHandsetsHUCsVarArray(IDeserializer iDeserializer) {
+    public static sNumberHandsetsHUCs[] getOptionalsNumberHandsetsHUCsVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNumberHandsetsHUCs[] sNumberHandsetsHUCsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

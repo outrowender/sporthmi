@@ -7,99 +7,86 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIKOMONavInfo
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RP_SETCURRENTSTREETRESULT;
-    public static final int RP_SETTURNTOSTREETRESULT;
-    public static final int RP_SETCITYNAMERESULT;
-    public static final int RP_SETSEMIDYNROUTERESULT;
-    public static final int RP_SETTRAFFICOFFSETRESULT;
-    public static final int RP_SETRGSELECTRESULT;
-    public static final int RP_SETCAPABILITIESRESULT;
-    public static final int RP_SETMAPSCALERESULT;
-    public static final int RT_SETDISTANCETONEXTMANEUVER;
-    public static final int RT_SETETA;
-    public static final int RT_SETCURRENTSTREET;
-    public static final int RT_SETTURNTOSTREET;
-    public static final int RT_SETCITYNAME;
-    public static final int RT_SETDISTANCETODESTINATION;
-    public static final int RT_SETSEMIDYNROUTE;
-    public static final int RT_SETTRAFFICOFFSET;
-    public static final int RT_SETRTT;
-    public static final int RT_SETRGSELECT;
-    public static final int RT_SETCAPABILITIES;
-    public static final int RT_SETMAPSCALE;
-    public static final int RT_SETMAPSCALERESULT;
-    public static final int IN_SETMAPSCALE;
-    public static final int DISTANCEUNIT_MILES;
-    public static final int DISTANCEUNIT_METERS;
-    public static final int DISTANCEUNIT_KILOMETERS;
-    public static final int DISTANCEUNIT_YARDS;
-    public static final int DISTANCEUNIT_FEEDS;
-    public static final int DISTANCEUNIT_QUARTERMILE;
-    public static final int TIMEFORMAT_24HFORMAT;
-    public static final int TIMEFORMAT_12HFORMAT;
-    public static final int RGMODE_RGI;
-    public static final int RGMODE_KDK;
-    public static final int RGMODE_COMPASS;
-    public static final int RGMODE_MAP;
-    public static final int NAVINFORESULTCODE_OK;
-    public static final int NAVINFORESULTCODE_ERROR;
-    public static final int NAVINFORESULTCODE_UNSUPPORTED;
-    public static final int AUTOZOOM_OFF;
-    public static final int AUTOZOOM_ON;
-    public static final int AUTOZOOM_ONINTERSECTION;
-    public static final int AUTOZOOM_NOTSUPPORTED;
-    public static final int SCALE_INVALID;
-    public static final int SCALE_MINIMUM;
-    public static final int SCALE_MAXIMUM;
-    public static final int SCALE_INNIT_UNKNOWN;
-    public static final int MAPSCALEUNIT_METER;
-    public static final int MAPSCALEUNIT_KILOMETER;
-    public static final int MAPSCALEUNIT_YARD;
-    public static final int MAPSCALEUNIT_FEET;
-    public static final int MAPSCALEUNIT_MILE_UK_US;
-    public static final int MAPSCALEUNIT_QUARTERMILE;
-    public static final int MAPSCALEUNIT_KILOMETER_HUNDREDTHSTEPS;
-    public static final int MAPSCALEUNIT_MILE_HUNDREDTHSTEPS;
-    public static final int MAPSCALEUNIT_NOTSUPPORTED_NOINFO;
+    public static final String VERSION = "2.11.10";
+    public static final int RP_SETCURRENTSTREETRESULT = 2000;
+    public static final int RP_SETTURNTOSTREETRESULT = 2001;
+    public static final int RP_SETCITYNAMERESULT = 2002;
+    public static final int RP_SETSEMIDYNROUTERESULT = 2003;
+    public static final int RP_SETTRAFFICOFFSETRESULT = 2004;
+    public static final int RP_SETRGSELECTRESULT = 2005;
+    public static final int RP_SETCAPABILITIESRESULT = 2006;
+    public static final int RP_SETMAPSCALERESULT = 2007;
+    public static final int RT_SETDISTANCETONEXTMANEUVER = 1000;
+    public static final int RT_SETETA = 1001;
+    public static final int RT_SETCURRENTSTREET = 1002;
+    public static final int RT_SETTURNTOSTREET = 1003;
+    public static final int RT_SETCITYNAME = 1004;
+    public static final int RT_SETDISTANCETODESTINATION = 1005;
+    public static final int RT_SETSEMIDYNROUTE = 1006;
+    public static final int RT_SETTRAFFICOFFSET = 1007;
+    public static final int RT_SETRTT = 1008;
+    public static final int RT_SETRGSELECT = 1009;
+    public static final int RT_SETCAPABILITIES = 1010;
+    public static final int RT_SETMAPSCALE = 1011;
+    public static final int RT_SETMAPSCALERESULT = 1012;
+    public static final int IN_SETMAPSCALE = 3001;
+    public static final int DISTANCEUNIT_MILES = 0;
+    public static final int DISTANCEUNIT_METERS = 1;
+    public static final int DISTANCEUNIT_KILOMETERS = 2;
+    public static final int DISTANCEUNIT_YARDS = 3;
+    public static final int DISTANCEUNIT_FEEDS = 4;
+    public static final int DISTANCEUNIT_QUARTERMILE = 5;
+    public static final int TIMEFORMAT_24HFORMAT = 0;
+    public static final int TIMEFORMAT_12HFORMAT = 1;
+    public static final int RGMODE_RGI = 0;
+    public static final int RGMODE_KDK = 1;
+    public static final int RGMODE_COMPASS = 2;
+    public static final int RGMODE_MAP = 3;
+    public static final int NAVINFORESULTCODE_OK = 0;
+    public static final int NAVINFORESULTCODE_ERROR = 1;
+    public static final int NAVINFORESULTCODE_UNSUPPORTED = 2;
+    public static final int AUTOZOOM_OFF = 0;
+    public static final int AUTOZOOM_ON = 1;
+    public static final int AUTOZOOM_ONINTERSECTION = 2;
+    public static final int AUTOZOOM_NOTSUPPORTED = 15;
+    public static final int SCALE_INVALID = 0;
+    public static final int SCALE_MINIMUM = 65533;
+    public static final int SCALE_MAXIMUM = 65534;
+    public static final int SCALE_INNIT_UNKNOWN = 65535;
+    public static final int MAPSCALEUNIT_METER = 0;
+    public static final int MAPSCALEUNIT_KILOMETER = 1;
+    public static final int MAPSCALEUNIT_YARD = 2;
+    public static final int MAPSCALEUNIT_FEET = 3;
+    public static final int MAPSCALEUNIT_MILE_UK_US = 4;
+    public static final int MAPSCALEUNIT_QUARTERMILE = 5;
+    public static final int MAPSCALEUNIT_KILOMETER_HUNDREDTHSTEPS = 6;
+    public static final int MAPSCALEUNIT_MILE_HUNDREDTHSTEPS = 7;
+    public static final int MAPSCALEUNIT_NOTSUPPORTED_NOINFO = 255;
 
-    default public void setDistanceToNextManeuver(long l, int n, boolean bl) {
-    }
+    public void setDistanceToNextManeuver(long var1, int var3, boolean var4);
 
-    default public void setETA(int n, short s, short s2, short s3, boolean bl, boolean bl2) {
-    }
+    public void setETA(int var1, short var2, short var3, short var4, boolean var5, boolean var6);
 
-    default public void setCurrentStreet(String string) {
-    }
+    public void setCurrentStreet(String var1);
 
-    default public void setTurnToStreet(String string, String string2) {
-    }
+    public void setTurnToStreet(String var1, String var2);
 
-    default public void setCityName(String string) {
-    }
+    public void setCityName(String var1);
 
-    default public void setDistanceToDestination(long l, int n, boolean bl) {
-    }
+    public void setDistanceToDestination(long var1, int var3, boolean var4);
 
-    default public void setSemiDynRoute(boolean bl) {
-    }
+    public void setSemiDynRoute(boolean var1);
 
-    default public void setTrafficOffset(int n, short s, short s2, short s3, boolean bl) {
-    }
+    public void setTrafficOffset(int var1, short var2, short var3, short var4, boolean var5);
 
-    default public void setRTT(short s, short s2, boolean bl) {
-    }
+    public void setRTT(short var1, short var2, boolean var3);
 
-    default public void setRgSelect(int n) {
-    }
+    public void setRgSelect(int var1);
 
-    default public void setCapabilities(boolean[] blArray) {
-    }
+    public void setCapabilities(boolean[] var1);
 
-    default public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
-    }
+    public void setMapScale(int var1, int var2, boolean[] var3, int var4, int var5, int var6);
 
-    default public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
-    }
+    public void setMapScaleResult(int var1, int var2, boolean[] var3, int var4, int var5, boolean[] var6, boolean var7);
 }
 

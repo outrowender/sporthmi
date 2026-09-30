@@ -7,11 +7,15 @@ import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RdvDataProvider;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RdvDataProviderC;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RdvDataProviderReply;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RouteProviderSetting;
-import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.impl.RdvDataProviderProxy$1;
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.impl.RdvDataProviderReplyService;
+import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.impl.RouteProviderSettingSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RdvDataProviderProxy
 implements RdvDataProvider,
@@ -29,24 +33,25 @@ RdvDataProviderC {
         return this.proxy;
     }
 
-    @Override
-    public void registerForDataUpdate() {
+    public void registerForDataUpdate() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void unregisterForDataUpdate() {
+    public void unregisterForDataUpdate() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void setRouteProviderSetting(RouteProviderSetting routeProviderSetting) {
-        RdvDataProviderProxy$1 rdvDataProviderProxy$1 = new RdvDataProviderProxy$1(this, routeProviderSetting);
-        this.proxy.remoteCallMethod((short)12, rdvDataProviderProxy$1);
+    public void setRouteProviderSetting(final RouteProviderSetting routeProviderSetting) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                RouteProviderSettingSerializer.putOptionalRouteProviderSetting(iSerializer, routeProviderSetting);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void getCurrentPosition() {
+    public void getCurrentPosition() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 }

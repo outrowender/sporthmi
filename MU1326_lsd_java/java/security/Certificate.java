@@ -3,31 +3,26 @@
  */
 package java.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.KeyException;
 import java.security.Principal;
 import java.security.PublicKey;
 
 public interface Certificate {
-    default public void decode(InputStream inputStream) {
-    }
+    public void decode(InputStream var1) throws KeyException, IOException;
 
-    default public void encode(OutputStream outputStream) {
-    }
+    public void encode(OutputStream var1) throws KeyException, IOException;
 
-    default public String getFormat() {
-    }
+    public String getFormat();
 
-    default public Principal getGuarantor() {
-    }
+    public Principal getGuarantor();
 
-    default public Principal getPrincipal() {
-    }
+    public Principal getPrincipal();
 
-    default public PublicKey getPublicKey() {
-    }
+    public PublicKey getPublicKey();
 
-    default public String toString(boolean bl) {
-    }
+    public String toString(boolean var1);
 }
 

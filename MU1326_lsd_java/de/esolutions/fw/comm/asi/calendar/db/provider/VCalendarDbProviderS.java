@@ -4,55 +4,41 @@
 package de.esolutions.fw.comm.asi.calendar.db.provider;
 
 import de.esolutions.fw.comm.asi.calendar.db.provider.VCalendarDbProviderReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.calendar.ProfileInfo;
 import org.dsi.ifc.calendar.VCalendar;
 import org.dsi.ifc.global.DateTime;
 
 public interface VCalendarDbProviderS {
-    default public void beginTransaction(VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void beginTransaction(VCalendarDbProviderReply var1) throws MethodException;
 
-    default public void commitTransaction(VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void commitTransaction(VCalendarDbProviderReply var1) throws MethodException;
 
-    default public void addEntries(int n, int n2, VCalendar[] vCalendarArray, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void addEntries(int var1, int var2, VCalendar[] var3, VCalendarDbProviderReply var4) throws MethodException;
 
-    default public void removeEntries(int n, int n2, long[] lArray, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void removeEntries(int var1, int var2, long[] var3, VCalendarDbProviderReply var4) throws MethodException;
 
-    default public void removeProfile(int n, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void removeProfile(int var1, VCalendarDbProviderReply var2) throws MethodException;
 
-    default public void removeAll(VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void removeAll(VCalendarDbProviderReply var1) throws MethodException;
 
-    default public void getVersion(VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void getVersion(VCalendarDbProviderReply var1) throws MethodException;
 
-    default public void setActiveProfiles(int[] nArray, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void setActiveProfiles(int[] var1, VCalendarDbProviderReply var2) throws MethodException;
 
-    default public void forceGetDataResult(int n, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void forceGetDataResult(int var1, VCalendarDbProviderReply var2) throws MethodException;
 
-    default public void setCalendarConfig(CalendarConfig calendarConfig, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void setCalendarConfig(CalendarConfig var1, VCalendarDbProviderReply var2) throws MethodException;
 
-    default public void getCalendarConfig(long l, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void getCalendarConfig(long var1, VCalendarDbProviderReply var3) throws MethodException;
 
-    default public void insertProfile(ProfileInfo profileInfo, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void insertProfile(ProfileInfo var1, VCalendarDbProviderReply var2) throws MethodException;
 
-    default public void getCalendarEntry(long l, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void getCalendarEntry(long var1, VCalendarDbProviderReply var3) throws MethodException;
 
-    default public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void getCalendarSummaries(DateTime var1, DateTime var2, VCalendarDbProviderReply var3) throws MethodException;
 
-    default public void deleteProfile(long l, VCalendarDbProviderReply vCalendarDbProviderReply) {
-    }
+    public void deleteProfile(long var1, VCalendarDbProviderReply var3) throws MethodException;
 }
 

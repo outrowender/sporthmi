@@ -7,44 +7,34 @@ import de.esolutions.fw.comm.asi.hmisync.audio.A2LSState;
 import de.esolutions.fw.comm.asi.hmisync.audio.AudioState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeRange;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncAudioReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "cd52f5cc-371d-43de-8bc4-c3df1c55f44a";
+    public static final String IPL_COMM_INTERFACE_KEY = "0c5e00e4-2cbf-5dfc-acd3-5499fe013c7f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.3.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void responseEnableA2LS(int n) {
-    }
+    public void responseEnableA2LS(int var1) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateAudioContext(AudioState audioState, boolean bl) {
-    }
+    public void updateAudioContext(AudioState var1, boolean var2) throws MethodException;
 
-    default public void updateFrontAudioContext(AudioState audioState, boolean bl) {
-    }
+    public void updateFrontAudioContext(AudioState var1, boolean var2) throws MethodException;
 
-    default public void updateVolumeLockState(VolumeLockState volumeLockState, boolean bl) {
-    }
+    public void updateVolumeLockState(VolumeLockState var1, boolean var2) throws MethodException;
 
-    default public void updateA2LSState(A2LSState a2LSState, boolean bl) {
-    }
+    public void updateA2LSState(A2LSState var1, boolean var2) throws MethodException;
 
-    default public void updateVolumeRange(VolumeRange volumeRange, boolean bl) {
-    }
+    public void updateVolumeRange(VolumeRange var1, boolean var2) throws MethodException;
 
-    default public void updateVolume(int n, boolean bl) {
-    }
+    public void updateVolume(int var1, boolean var2) throws MethodException;
 
-    default public void updateAudibleState(int n, boolean bl) {
-    }
+    public void updateAudibleState(int var1, boolean var2) throws MethodException;
 }
 

@@ -55,7 +55,7 @@ public class sTileInfo {
     }
 
     public String toString() {
-        return new StringBuffer("sTileInfo{").append("id=").append(this.id).append(", version=").append(this.version).append(", expiration=").append(this.expiration).append(", boundingBox=").append(this.boundingBox).append("}").toString();
+        return "sTileInfo{" + "id=" + this.id + ", version=" + this.version + ", expiration=" + this.expiration + ", boundingBox=" + this.boundingBox + "}";
     }
 }
 

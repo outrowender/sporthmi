@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.swap.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.swap.SFscStatus;
 
 public class SFscStatusSerializer {
-    public static void putOptionalSFscStatus(ISerializer iSerializer, SFscStatus sFscStatus) {
+    public static void putOptionalSFscStatus(ISerializer iSerializer, SFscStatus sFscStatus) throws SerializerException {
         boolean bl = sFscStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SFscStatusSerializer {
         }
     }
 
-    public static void putOptionalSFscStatusVarArray(ISerializer iSerializer, SFscStatus[] sFscStatusArray) {
+    public static void putOptionalSFscStatusVarArray(ISerializer iSerializer, SFscStatus[] sFscStatusArray) throws SerializerException {
         boolean bl = sFscStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SFscStatusSerializer {
         }
     }
 
-    public static SFscStatus getOptionalSFscStatus(IDeserializer iDeserializer) {
+    public static SFscStatus getOptionalSFscStatus(IDeserializer iDeserializer) throws SerializerException {
         SFscStatus sFscStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SFscStatusSerializer {
         return sFscStatus;
     }
 
-    public static SFscStatus[] getOptionalSFscStatusVarArray(IDeserializer iDeserializer) {
+    public static SFscStatus[] getOptionalSFscStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         SFscStatus[] sFscStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

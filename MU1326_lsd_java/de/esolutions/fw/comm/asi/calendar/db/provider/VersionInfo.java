@@ -32,7 +32,7 @@ public class VersionInfo {
     }
 
     public String toString() {
-        return new StringBuffer("VersionInfo{").append("version=").append(this.version).append(", profileId=").append(this.profileId).append("}").toString();
+        return "VersionInfo{" + "version=" + this.version + ", profileId=" + this.profileId + "}";
     }
 }
 

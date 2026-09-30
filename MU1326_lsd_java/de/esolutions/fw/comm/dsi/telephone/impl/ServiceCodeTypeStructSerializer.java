@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephone.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephone.ServiceCodeTypeStruct;
 
 public class ServiceCodeTypeStructSerializer {
-    public static void putOptionalServiceCodeTypeStruct(ISerializer iSerializer, ServiceCodeTypeStruct serviceCodeTypeStruct) {
+    public static void putOptionalServiceCodeTypeStruct(ISerializer iSerializer, ServiceCodeTypeStruct serviceCodeTypeStruct) throws SerializerException {
         boolean bl = serviceCodeTypeStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ServiceCodeTypeStructSerializer {
         }
     }
 
-    public static void putOptionalServiceCodeTypeStructVarArray(ISerializer iSerializer, ServiceCodeTypeStruct[] serviceCodeTypeStructArray) {
+    public static void putOptionalServiceCodeTypeStructVarArray(ISerializer iSerializer, ServiceCodeTypeStruct[] serviceCodeTypeStructArray) throws SerializerException {
         boolean bl = serviceCodeTypeStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ServiceCodeTypeStructSerializer {
         }
     }
 
-    public static ServiceCodeTypeStruct getOptionalServiceCodeTypeStruct(IDeserializer iDeserializer) {
+    public static ServiceCodeTypeStruct getOptionalServiceCodeTypeStruct(IDeserializer iDeserializer) throws SerializerException {
         ServiceCodeTypeStruct serviceCodeTypeStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ServiceCodeTypeStructSerializer {
         return serviceCodeTypeStruct;
     }
 
-    public static ServiceCodeTypeStruct[] getOptionalServiceCodeTypeStructVarArray(IDeserializer iDeserializer) {
+    public static ServiceCodeTypeStruct[] getOptionalServiceCodeTypeStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceCodeTypeStruct[] serviceCodeTypeStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

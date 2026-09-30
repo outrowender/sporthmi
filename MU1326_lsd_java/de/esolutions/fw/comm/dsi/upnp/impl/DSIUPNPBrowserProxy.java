@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPBrowser;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPBrowserC;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPBrowserReply;
-import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPBrowserProxy$1;
 import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPBrowserReplyService;
+import de.esolutions.fw.comm.dsi.upnp.impl.ListEntrySerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.upnp.ListEntry;
@@ -32,14 +34,17 @@ DSIUPNPBrowserC {
         return this.proxy;
     }
 
-    @Override
-    public void changeFolder(ListEntry[] listEntryArray) {
-        DSIUPNPBrowserProxy$1 dSIUPNPBrowserProxy$1 = new DSIUPNPBrowserProxy$1(this, listEntryArray);
-        this.proxy.remoteCallMethod((short)1, dSIUPNPBrowserProxy$1);
+    public void changeFolder(final ListEntry[] listEntryArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                ListEntrySerializer.putOptionalListEntryVarArray(iSerializer, listEntryArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void requestList(String string, int n, int n2, int n3) {
+    public void requestList(String string, int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -53,8 +58,7 @@ DSIUPNPBrowserC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -65,8 +69,7 @@ DSIUPNPBrowserC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -77,13 +80,11 @@ DSIUPNPBrowserC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -94,8 +95,7 @@ DSIUPNPBrowserC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -106,13 +106,11 @@ DSIUPNPBrowserC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

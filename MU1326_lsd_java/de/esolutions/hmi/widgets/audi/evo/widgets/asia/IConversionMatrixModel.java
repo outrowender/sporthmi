@@ -14,40 +14,28 @@ import java.util.List;
 public interface IConversionMatrixModel {
     public static final IConversionMatrixModel NULL = new NullConversionMatrixModel();
 
-    default public void setUnconvertedCharacters(String string, IConversionMatrixPreparationFinishedListener iConversionMatrixPreparationFinishedListener) {
-    }
+    public void setUnconvertedCharacters(String var1, IConversionMatrixPreparationFinishedListener var2);
 
-    default public void setSelected(String string, int n) {
-    }
+    public void setSelected(String var1, int var2);
 
-    default public String getUnconvertedCharacters() {
-    }
+    public String getUnconvertedCharacters();
 
-    default public void registerConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler iConversionCandidateSelectionHandler) {
-    }
+    public void registerConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler var1);
 
-    default public void unRegisterConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler iConversionCandidateSelectionHandler) {
-    }
+    public void unRegisterConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler var1);
 
-    default public void setUpdateHandler(IConversionMatrixModelUpdateHandler iConversionMatrixModelUpdateHandler) {
-    }
+    public void setUpdateHandler(IConversionMatrixModelUpdateHandler var1);
 
-    default public void setConversionDataFetcher(IConversionDataFetcher iConversionDataFetcher) {
-    }
+    public void setConversionDataFetcher(IConversionDataFetcher var1);
 
-    default public void handleMatrixKeyEvent(KeyEvent keyEvent) {
-    }
+    public void handleMatrixKeyEvent(KeyEvent var1);
 
-    default public List getConversionData() {
-    }
+    public List getConversionData();
 
-    default public void removeConversionFetcher(IConversionDataFetcher iConversionDataFetcher) {
-    }
+    public void removeConversionFetcher(IConversionDataFetcher var1);
 
-    default public void setIsActivated(boolean bl) {
-    }
+    public void setIsActivated(boolean var1);
 
-    default public boolean isActivated() {
-    }
+    public boolean isActivated();
 }
 

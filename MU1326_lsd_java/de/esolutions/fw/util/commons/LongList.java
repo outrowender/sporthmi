@@ -5,8 +5,8 @@ package de.esolutions.fw.util.commons;
 
 public class LongList
 implements Cloneable {
-    private static final int DEFAULT_CAPACITY;
-    private static final int DEFAULT_CHUNK_SIZE;
+    private static final int DEFAULT_CAPACITY = 16;
+    private static final int DEFAULT_CHUNK_SIZE = 16;
     private int chunkSize;
     private long[] elementData;
     private int elementCount = 0;
@@ -33,7 +33,7 @@ implements Cloneable {
 
     public void add(int n, long l) {
         if (n < 0 || n > this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("invalid index ").append(n).append(" of ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("invalid index " + n + " of " + this.elementCount);
         }
         if (n == this.elementCount) {
             this.add(l);
@@ -145,7 +145,7 @@ implements Cloneable {
         return lArray2;
     }
 
-    protected Object clone() {
+    protected Object clone() throws CloneNotSupportedException {
         LongList longList = (LongList)super.clone();
         longList.elementData = new long[this.elementData.length];
         longList.chunkSize = this.chunkSize;
@@ -156,7 +156,7 @@ implements Cloneable {
 
     private void validateIndex(int n) {
         if (n < 0 || n >= this.elementCount) {
-            throw new IndexOutOfBoundsException(new StringBuffer().append("Index: ").append(n).append(", Size: ").append(this.elementCount).toString());
+            throw new IndexOutOfBoundsException("Index: " + n + ", Size: " + this.elementCount);
         }
     }
 }

@@ -9,9 +9,9 @@ import org.apache.commons.id.uuid.clock.OverClockedException;
 public final class ThreadClockImpl
 extends Thread
 implements Clock {
-    public static final long DEFAULT_THREAD_LIFE;
-    private static long threadLife;
-    private static ThreadClockImpl worker;
+    public static final long DEFAULT_THREAD_LIFE = 200L;
+    private static long threadLife = 200L;
+    private static ThreadClockImpl worker = null;
     private static long currentTimeMillis;
     private static long expires;
     private long lastTimeMs = 0L;
@@ -54,7 +54,6 @@ implements Clock {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    @Override
     public void run() {
         try {
             while (--expires >= 0L) {
@@ -74,7 +73,7 @@ implements Clock {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private synchronized long getTimeSynchronized() {
+    private synchronized long getTimeSynchronized() throws OverClockedException {
         long l = 0L;
         Class clazz = class$org$apache$commons$id$uuid$clock$ThreadClockImpl == null ? (class$org$apache$commons$id$uuid$clock$ThreadClockImpl = ThreadClockImpl.class$("org.apache.commons.id.uuid.clock.ThreadClockImpl")) : class$org$apache$commons$id$uuid$clock$ThreadClockImpl;
         synchronized (clazz) {
@@ -84,17 +83,16 @@ implements Clock {
             this.generatedThisInterval = 0;
             this.lastTimeMs = l;
         }
-        if ((long)(this.generatedThisInterval + 1) >= 0 * (long)sysInterval) {
+        if ((long)(this.generatedThisInterval + 1) >= 10000L * (long)sysInterval) {
             throw new OverClockedException();
         }
-        long l2 = (l + 12219292800000L) * 0 + (long)this.generatedThisInterval++;
+        return (l + 12219292800000L) * 10000L + (long)this.generatedThisInterval++;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public long getUUIDTime() {
+    public long getUUIDTime() throws OverClockedException {
         if (!worker.isAlive()) {
             Class clazz = class$org$apache$commons$id$uuid$clock$SystemClockImpl == null ? (class$org$apache$commons$id$uuid$clock$SystemClockImpl = ThreadClockImpl.class$("org.apache.commons.id.uuid.clock.SystemClockImpl")) : class$org$apache$commons$id$uuid$clock$SystemClockImpl;
             synchronized (clazz) {
@@ -116,8 +114,6 @@ implements Clock {
     }
 
     static {
-        threadLife = 0;
-        worker = null;
         expires = threadLife;
         sysInterval = 1;
         if (System.getProperty("os.name").indexOf("Windows") != -1) {

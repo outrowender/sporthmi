@@ -4,12 +4,11 @@
 package de.esolutions.fw.comm.asi.connectivity.networking;
 
 import de.esolutions.fw.comm.asi.connectivity.networking.NetworkingBluetoothBridgeReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface NetworkingBluetoothBridgeS {
-    default public void updateConnectionState(long l, int n, int n2, NetworkingBluetoothBridgeReply networkingBluetoothBridgeReply) {
-    }
+    public void updateConnectionState(long var1, int var3, int var4, NetworkingBluetoothBridgeReply var5) throws MethodException;
 
-    default public void updateBluetoothAddress(long l, NetworkingBluetoothBridgeReply networkingBluetoothBridgeReply) {
-    }
+    public void updateBluetoothAddress(long var1, NetworkingBluetoothBridgeReply var3) throws MethodException;
 }
 

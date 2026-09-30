@@ -39,10 +39,10 @@ implements IStub {
     private final ArrayList postponedCalls = new ArrayList(16);
     private boolean doPostpone = true;
     private final ITimeSource monoTime;
-    private int ilMin = -129;
+    private int ilMin = Integer.MAX_VALUE;
     private int ilMax;
     private long ilAvg;
-    private int itMin = -129;
+    private int itMin = Integer.MAX_VALUE;
     private int itMax;
     private long itAvg;
 
@@ -67,12 +67,10 @@ implements IStub {
         return this.serviceHandler;
     }
 
-    @Override
     public IService getService() {
         return this.serviceHandler.getService();
     }
 
-    @Override
     public short getStubID() {
         return this.stubID;
     }
@@ -89,12 +87,10 @@ implements IStub {
         this.remoteProxyID = s;
     }
 
-    @Override
     public short getRemoteProxyID() {
         return this.remoteProxyID;
     }
 
-    @Override
     public short getRemoteAgentID() {
         return this.remoteAgentID;
     }
@@ -103,12 +99,10 @@ implements IStub {
         this.reply = iProxyFrontend;
     }
 
-    @Override
     public IProxyFrontend getReplyProxyFrontend() {
         return this.reply;
     }
 
-    @Override
     public Proxy getReplyProxy() {
         if (this.reply != null) {
             return this.reply.getProxy();
@@ -120,13 +114,12 @@ implements IStub {
         this.requestProxy = proxy;
     }
 
-    @Override
     public Proxy getRequestProxy() {
         return this.requestProxy;
     }
 
     public String toString() {
-        return new StringBuffer().append("[stub=").append(this.stubID).append(" proxy=").append(this.remoteProxyID).append(" agent=").append(this.remoteAgentID).append("]").toString();
+        return "[stub=" + this.stubID + " proxy=" + this.remoteProxyID + " agent=" + this.remoteAgentID + "]";
     }
 
     /*

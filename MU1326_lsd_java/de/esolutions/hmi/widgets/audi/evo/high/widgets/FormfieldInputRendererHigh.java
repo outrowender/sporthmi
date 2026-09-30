@@ -23,7 +23,7 @@ implements FormfieldInputRenderer {
     private int vAlign = 4;
     private FormfieldInputController controller;
     private IWrappedNode3DText textNode;
-    private static final int TEXT_INSETS_LEFT_RIGHT;
+    private static final int TEXT_INSETS_LEFT_RIGHT = 5;
     private static int dropShadowWidth;
     private boolean enableYTranslation = true;
     private boolean enableDropShadowWidth;
@@ -31,7 +31,6 @@ implements FormfieldInputRenderer {
     private IWrappedNode3D formfieldRoot;
     private static int vertInset;
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         dropShadowWidth = this.getTerminal().getLayout().getIntegerConstant(130);
         vertInset = initializationContext.getTerminal().getLayout().getIntegerConstant(27);
@@ -42,7 +41,6 @@ implements FormfieldInputRenderer {
         return this.enableYTranslation;
     }
 
-    @Override
     public void setEnableYTranslation(boolean bl) {
         this.enableYTranslation = bl;
     }
@@ -55,7 +53,6 @@ implements FormfieldInputRenderer {
         this.enableDropShadowWidth = bl;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         int n;
         int n2 = this.useControllerHeight() ? this.controller.getHeight() : this.getPreferredHeight() + 2 * vertInset;
@@ -70,7 +67,7 @@ implements FormfieldInputRenderer {
         }
         int n4 = redrawContextHigh.getColor(0);
         int n5 = this.getFormfieldWidth();
-        menuItemLogCh.log(-2137614336, "FormfieldInputRenderer#applyProperties width = %1, height = %2", (long)n5, (long)n2);
+        menuItemLogCh.log(10000000, "FormfieldInputRenderer#applyProperties width = %1, height = %2", (long)n5, (long)n2);
         this.setProperty("if_inputWidth", n5);
         this.setProperty("if_inputHeight", n2);
         this.node.setPosition(n3 + 1, n, 0.0f);
@@ -86,13 +83,11 @@ implements FormfieldInputRenderer {
         this.textNode.setVisible(this.controller.shouldRender());
     }
 
-    @Override
     protected void applyVisibility(boolean bl) {
         super.applyVisibility(bl);
         this.textNode.setVisible(bl);
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         if (this.getEALManager() != null) {
@@ -126,32 +121,26 @@ implements FormfieldInputRenderer {
         return 5 + this.controller.getX() + dropShadowWidth;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/generic_inputField";
     }
 
-    @Override
     protected String getEALNodeName() {
         return "inputField";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public int getPreferredHeight() {
         return EALManager.getFontHeightUppercase(this.getInheritedFont());
     }
 
-    @Override
     public int getPreferredWidth() {
         return 0;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         int n;
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
@@ -183,12 +172,10 @@ implements FormfieldInputRenderer {
         return this.enableUseControllerHeight;
     }
 
-    @Override
     public void setUseControllerHeight(boolean bl) {
         this.enableUseControllerHeight = bl;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 7;
     }

@@ -3,11 +3,11 @@
  */
 package org.elektrobit.json.simple;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.elektrobit.json.simple.JSONAware;
 import org.elektrobit.json.simple.JSONStreamAware;
 import org.elektrobit.json.simple.JSONValue;
@@ -17,9 +17,9 @@ extends HashMap
 implements Map,
 JSONAware,
 JSONStreamAware {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -503443796854799292L;
 
-    public static void writeJSONString(Map map, Writer writer) {
+    public static void writeJSONString(Map map, Writer writer) throws IOException {
         if (map == null) {
             writer.write("null");
             return;
@@ -33,18 +33,17 @@ JSONStreamAware {
             } else {
                 writer.write(44);
             }
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
+            Map.Entry entry = (Map.Entry)iterator.next();
             writer.write(34);
-            writer.write(JSONObject.escape(String.valueOf(map$Entry.getKey())));
+            writer.write(JSONObject.escape(String.valueOf(entry.getKey())));
             writer.write(34);
             writer.write(58);
-            JSONValue.writeJSONString(map$Entry.getValue(), writer);
+            JSONValue.writeJSONString(entry.getValue(), writer);
         }
         writer.write(125);
     }
 
-    @Override
-    public void writeJSONString(Writer writer) {
+    public void writeJSONString(Writer writer) throws IOException {
         JSONObject.writeJSONString(this, writer);
     }
 
@@ -62,14 +61,13 @@ JSONStreamAware {
             } else {
                 stringBuffer.append(',');
             }
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            JSONObject.toJSONString(String.valueOf(map$Entry.getKey()), map$Entry.getValue(), stringBuffer);
+            Map.Entry entry = (Map.Entry)iterator.next();
+            JSONObject.toJSONString(String.valueOf(entry.getKey()), entry.getValue(), stringBuffer);
         }
         stringBuffer.append('}');
         return stringBuffer.toString();
     }
 
-    @Override
     public String toJSONString() {
         return JSONObject.toJSONString(this);
     }
@@ -86,7 +84,6 @@ JSONStreamAware {
         return stringBuffer.toString();
     }
 
-    @Override
     public String toString() {
         return this.toJSONString();
     }

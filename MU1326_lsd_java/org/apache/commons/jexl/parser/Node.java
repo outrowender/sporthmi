@@ -6,28 +6,20 @@ package org.apache.commons.jexl.parser;
 import org.apache.commons.jexl.parser.ParserVisitor;
 
 public interface Node {
-    default public void jjtOpen() {
-    }
+    public void jjtOpen();
 
-    default public void jjtClose() {
-    }
+    public void jjtClose();
 
-    default public void jjtSetParent(Node node) {
-    }
+    public void jjtSetParent(Node var1);
 
-    default public Node jjtGetParent() {
-    }
+    public Node jjtGetParent();
 
-    default public void jjtAddChild(Node node, int n) {
-    }
+    public void jjtAddChild(Node var1, int var2);
 
-    default public Node jjtGetChild(int n) {
-    }
+    public Node jjtGetChild(int var1);
 
-    default public int jjtGetNumChildren() {
-    }
+    public int jjtGetNumChildren();
 
-    default public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
-    }
+    public Object jjtAccept(ParserVisitor var1, Object var2);
 }
 

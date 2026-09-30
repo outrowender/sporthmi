@@ -9,82 +9,63 @@ import org.apache.xerces.xs.XSTypeDefinition;
 
 public interface XSSimpleTypeDefinition
 extends XSTypeDefinition {
-    public static final short VARIETY_ABSENT;
-    public static final short VARIETY_ATOMIC;
-    public static final short VARIETY_LIST;
-    public static final short VARIETY_UNION;
-    public static final short FACET_NONE;
-    public static final short FACET_LENGTH;
-    public static final short FACET_MINLENGTH;
-    public static final short FACET_MAXLENGTH;
-    public static final short FACET_PATTERN;
-    public static final short FACET_WHITESPACE;
-    public static final short FACET_MAXINCLUSIVE;
-    public static final short FACET_MAXEXCLUSIVE;
-    public static final short FACET_MINEXCLUSIVE;
-    public static final short FACET_MININCLUSIVE;
-    public static final short FACET_TOTALDIGITS;
-    public static final short FACET_FRACTIONDIGITS;
-    public static final short FACET_ENUMERATION;
-    public static final short ORDERED_FALSE;
-    public static final short ORDERED_PARTIAL;
-    public static final short ORDERED_TOTAL;
+    public static final short VARIETY_ABSENT = 0;
+    public static final short VARIETY_ATOMIC = 1;
+    public static final short VARIETY_LIST = 2;
+    public static final short VARIETY_UNION = 3;
+    public static final short FACET_NONE = 0;
+    public static final short FACET_LENGTH = 1;
+    public static final short FACET_MINLENGTH = 2;
+    public static final short FACET_MAXLENGTH = 4;
+    public static final short FACET_PATTERN = 8;
+    public static final short FACET_WHITESPACE = 16;
+    public static final short FACET_MAXINCLUSIVE = 32;
+    public static final short FACET_MAXEXCLUSIVE = 64;
+    public static final short FACET_MINEXCLUSIVE = 128;
+    public static final short FACET_MININCLUSIVE = 256;
+    public static final short FACET_TOTALDIGITS = 512;
+    public static final short FACET_FRACTIONDIGITS = 1024;
+    public static final short FACET_ENUMERATION = 2048;
+    public static final short ORDERED_FALSE = 0;
+    public static final short ORDERED_PARTIAL = 1;
+    public static final short ORDERED_TOTAL = 2;
 
-    default public short getVariety() {
-    }
+    public short getVariety();
 
-    default public XSSimpleTypeDefinition getPrimitiveType() {
-    }
+    public XSSimpleTypeDefinition getPrimitiveType();
 
-    default public short getBuiltInKind() {
-    }
+    public short getBuiltInKind();
 
-    default public XSSimpleTypeDefinition getItemType() {
-    }
+    public XSSimpleTypeDefinition getItemType();
 
-    default public XSObjectList getMemberTypes() {
-    }
+    public XSObjectList getMemberTypes();
 
-    default public short getDefinedFacets() {
-    }
+    public short getDefinedFacets();
 
-    default public boolean isDefinedFacet(short s) {
-    }
+    public boolean isDefinedFacet(short var1);
 
-    default public short getFixedFacets() {
-    }
+    public short getFixedFacets();
 
-    default public boolean isFixedFacet(short s) {
-    }
+    public boolean isFixedFacet(short var1);
 
-    default public String getLexicalFacetValue(short s) {
-    }
+    public String getLexicalFacetValue(short var1);
 
-    default public StringList getLexicalEnumeration() {
-    }
+    public StringList getLexicalEnumeration();
 
-    default public StringList getLexicalPattern() {
-    }
+    public StringList getLexicalPattern();
 
-    default public short getOrdered() {
-    }
+    public short getOrdered();
 
-    default public boolean getFinite() {
-    }
+    public boolean getFinite();
 
-    default public boolean getBounded() {
-    }
+    public boolean getBounded();
 
-    default public boolean getNumeric() {
-    }
+    public boolean getNumeric();
 
-    default public XSObjectList getFacets() {
-    }
+    public XSObjectList getFacets();
 
-    default public XSObjectList getMultiValueFacets() {
-    }
+    public XSObjectList getMultiValueFacets();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

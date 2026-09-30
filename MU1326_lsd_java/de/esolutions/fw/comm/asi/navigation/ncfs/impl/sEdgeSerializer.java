@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sEdge;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sLineLocationReferenceContainer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sEdgeSerializer {
-    public static void putOptionalsEdge(ISerializer iSerializer, sEdge sEdge2) {
+    public static void putOptionalsEdge(ISerializer iSerializer, sEdge sEdge2) throws SerializerException {
         boolean bl = sEdge2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class sEdgeSerializer {
         }
     }
 
-    public static void putOptionalsEdgeVarArray(ISerializer iSerializer, sEdge[] sEdgeArray) {
+    public static void putOptionalsEdgeVarArray(ISerializer iSerializer, sEdge[] sEdgeArray) throws SerializerException {
         boolean bl = sEdgeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class sEdgeSerializer {
         }
     }
 
-    public static sEdge getOptionalsEdge(IDeserializer iDeserializer) {
+    public static sEdge getOptionalsEdge(IDeserializer iDeserializer) throws SerializerException {
         sEdge sEdge2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class sEdgeSerializer {
         return sEdge2;
     }
 
-    public static sEdge[] getOptionalsEdgeVarArray(IDeserializer iDeserializer) {
+    public static sEdge[] getOptionalsEdgeVarArray(IDeserializer iDeserializer) throws SerializerException {
         sEdge[] sEdgeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

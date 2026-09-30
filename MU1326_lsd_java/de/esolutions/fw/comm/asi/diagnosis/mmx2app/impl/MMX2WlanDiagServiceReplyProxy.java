@@ -4,20 +4,20 @@
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2WlanDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2WlanDiagServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2WlanDiagServiceReplyProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2WlanDiagServiceReplyProxy$3;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2WlanDiagServiceReplyProxy$4;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MMX2WlanDiagServiceReplyProxy
 implements MMX2WlanDiagServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.diagnosis.mmx2app.MMX2WlanDiagService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public MMX2WlanDiagServiceReplyProxy() {
@@ -25,33 +25,53 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void requestWlanProperties(long l) {
-        MMX2WlanDiagServiceReplyProxy$1 mMX2WlanDiagServiceReplyProxy$1 = new MMX2WlanDiagServiceReplyProxy$1(this, l);
-        this.proxy.remoteCallMethod((short)1, mMX2WlanDiagServiceReplyProxy$1);
+    public void requestWlanProperties(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void requestSetWlanHotSpotActive(long l, boolean bl) {
-        MMX2WlanDiagServiceReplyProxy$2 mMX2WlanDiagServiceReplyProxy$2 = new MMX2WlanDiagServiceReplyProxy$2(this, l, bl);
-        this.proxy.remoteCallMethod((short)14, mMX2WlanDiagServiceReplyProxy$2);
+    public void requestSetWlanHotSpotActive(final long l, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void requestWlanHotSpotActive(long l) {
-        MMX2WlanDiagServiceReplyProxy$3 mMX2WlanDiagServiceReplyProxy$3 = new MMX2WlanDiagServiceReplyProxy$3(this, l);
-        this.proxy.remoteCallMethod((short)16, mMX2WlanDiagServiceReplyProxy$3);
+    public void requestWlanHotSpotActive(final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)16, iSerializable);
     }
 
-    @Override
-    public void requestWlanConnectToAP(long l, boolean bl, String string, String string2, int n) {
-        MMX2WlanDiagServiceReplyProxy$4 mMX2WlanDiagServiceReplyProxy$4 = new MMX2WlanDiagServiceReplyProxy$4(this, l, bl, string, string2, n);
-        this.proxy.remoteCallMethod((short)21, mMX2WlanDiagServiceReplyProxy$4);
+    public void requestWlanConnectToAP(final long l, final boolean bl, final String string, final String string2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt32(l);
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+                iSerializer.putOptionalString(string2);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 }
 

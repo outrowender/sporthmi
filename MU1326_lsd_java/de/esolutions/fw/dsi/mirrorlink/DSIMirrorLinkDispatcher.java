@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.mirrorlink;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.mirrorlink.DSIMirrorLinkReply;
 import de.esolutions.fw.comm.dsi.mirrorlink.impl.DSIMirrorLinkReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIMirrorLinkReply {
         super(n, (class$org$dsi$ifc$mirrorlink$DSIMirrorLinkListener == null ? (class$org$dsi$ifc$mirrorlink$DSIMirrorLinkListener = DSIMirrorLinkDispatcher.class$("org.dsi.ifc.mirrorlink.DSIMirrorLinkListener")) : class$org$dsi$ifc$mirrorlink$DSIMirrorLinkListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseClientCapabilities(int n) {
+    public void responseClientCapabilities(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -47,8 +46,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseAccessMode(int n, int n2) {
+    public void responseAccessMode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -64,8 +62,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseDayNightMode(int n, int n2) {
+    public void responseDayNightMode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -81,8 +78,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseUsableViewPort(int n, int n2, int n3, int n4, int n5) {
+    public void responseUsableViewPort(int n, int n2, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -98,8 +94,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseContextVisible(boolean bl, int n) {
+    public void responseContextVisible(boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -115,8 +110,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseConnectDevice(int n, int n2) {
+    public void responseConnectDevice(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -132,8 +126,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseDisconnectDevice(int n, int n2) {
+    public void responseDisconnectDevice(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,8 +142,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseRotateScreen(int n, int n2) {
+    public void responseRotateScreen(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -166,8 +158,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseSoftKeyEvent(int n, int n2, int n3) {
+    public void responseSoftKeyEvent(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -183,8 +174,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseLaunchApp(int n, int n2) {
+    public void responseLaunchApp(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -200,8 +190,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseTerminateApp(int n, int n2) {
+    public void responseTerminateApp(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -217,8 +206,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseSpellerResult(String string, String string2, boolean bl, int n) {
+    public void responseSpellerResult(String string, String string2, boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -234,8 +222,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseSendString(int n) {
+    public void responseSendString(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -251,8 +238,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseAudioOption(int n, int n2) {
+    public void responseAudioOption(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -268,8 +254,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseAudioConnectionAudible(int n, boolean bl, int n2) {
+    public void responseAudioConnectionAudible(int n, boolean bl, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -285,8 +270,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseSendTouchEvents(int n) {
+    public void responseSendTouchEvents(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -302,8 +286,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateDiscoveredDevices(Device[] deviceArray, int n) {
+    public void updateDiscoveredDevices(Device[] deviceArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -331,8 +314,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateDeviceConnectionStatus(int n, int n2, int n3) {
+    public void updateDeviceConnectionStatus(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -360,8 +342,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateDeviceSoftKeys(int[] nArray, int n) {
+    public void updateDeviceSoftKeys(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -389,8 +370,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateApplicationStatus(int n, int n2, int n3, int n4) {
+    public void updateApplicationStatus(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -418,8 +398,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateScreenOrientation(int n, int n2) {
+    public void updateScreenOrientation(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -447,8 +426,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateShowKeyboard(int n, String string, int n2) {
+    public void updateShowKeyboard(int n, String string, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -476,8 +454,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateScreenOrientationAvailable(boolean bl, int n) {
+    public void updateScreenOrientationAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -505,8 +482,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateScreenRotationAvailable(boolean bl, int n) {
+    public void updateScreenRotationAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -534,8 +510,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateAudioConnectionRequested(int n, boolean bl, int n2) {
+    public void updateAudioConnectionRequested(int n, boolean bl, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -563,8 +538,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseKeyboardMode(int n, int n2) {
+    public void responseKeyboardMode(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -580,8 +554,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateAvailableApplicationsList(int n, int n2) {
+    public void updateAvailableApplicationsList(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -609,8 +582,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseAvailableApplicationsWindow(int n, Application[] applicationArray, int n2) {
+    public void responseAvailableApplicationsWindow(int n, Application[] applicationArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -626,8 +598,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateSingleApplicationMode(boolean bl, int n) {
+    public void updateSingleApplicationMode(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -655,8 +626,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseDisplayKeyboard(int n, int n2) {
+    public void responseDisplayKeyboard(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -672,8 +642,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseDismissHMIKeyboard(int n) {
+    public void responseDismissHMIKeyboard(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -689,8 +658,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseFactorySettings(int n) {
+    public void responseFactorySettings(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -706,8 +674,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updatePhoneViewAvailable(boolean bl, int n) {
+    public void updatePhoneViewAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -735,8 +702,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responsePhoneView(int n) {
+    public void responsePhoneView(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -752,8 +718,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateUncertifiedContent(boolean bl, int n) {
+    public void updateUncertifiedContent(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -781,8 +746,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateDeviceStatus(int n, int n2) {
+    public void updateDeviceStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -810,8 +774,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateSWaPStatus(int n, int n2) {
+    public void updateSWaPStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -839,8 +802,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void responseContextSwitched() {
+    public void responseContextSwitched() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -856,8 +818,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateShowNotification(Notification notification, int n) {
+    public void updateShowNotification(Notification notification, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -885,8 +846,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateNotificationServiceEnabled(boolean bl, int n) {
+    public void updateNotificationServiceEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -914,8 +874,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateLocationDataServicesEnabled(boolean bl, int n) {
+    public void updateLocationDataServicesEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -943,8 +902,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void updateSwitchToClientNativeUI(int n) {
+    public void updateSwitchToClientNativeUI(int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -972,8 +930,7 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -989,14 +946,13 @@ implements DSIMirrorLinkReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMirrorLinkListener dSIMirrorLinkListener = (DSIMirrorLinkListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMirrorLinkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMirrorLinkDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMirrorLinkListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMirrorLinkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMirrorLinkDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMirrorLinkListener, new Object[]{string, string2});
                     continue;
                 }

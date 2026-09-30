@@ -27,28 +27,23 @@ implements DSIMobilityHorizon {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizon == null ? (class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizon = DSIMobilityHorizonProvider.class$("org.dsi.ifc.mobilityhorizon.DSIMobilityHorizon")) : class$org$dsi$ifc$mobilityhorizon$DSIMobilityHorizon).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMobilityHorizonProxy(this.instance, (DSIMobilityHorizonReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setConsumptionInfo(ConsumptionInfo[] consumptionInfoArray) {
         try {
             this.proxy.setConsumptionInfo(consumptionInfoArray);
@@ -58,7 +53,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setLocations(MobilityHorizonLocation[] mobilityHorizonLocationArray) {
         try {
             this.proxy.setLocations(mobilityHorizonLocationArray);
@@ -68,7 +62,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setConsideredLocationTypes(int[] nArray) {
         try {
             this.proxy.setConsideredLocationTypes(nArray);
@@ -78,7 +71,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setDriveTrainMode(int n) {
         try {
             this.proxy.setDriveTrainMode(n);
@@ -88,7 +80,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void requestLocationRangeLevel(int n) {
         try {
             this.proxy.requestLocationRangeLevel(n);
@@ -98,7 +89,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -108,7 +98,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -118,7 +107,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -128,7 +116,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -138,7 +125,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -148,7 +134,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -158,7 +143,6 @@ implements DSIMobilityHorizon {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

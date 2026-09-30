@@ -8,7 +8,6 @@ import de.esolutions.fw.util.tracing.ITraceCallback;
 import de.esolutions.fw.util.tracing.ITraceClient;
 import de.esolutions.fw.util.tracing.TraceChannel;
 import de.esolutions.fw.util.tracing.TraceChannelList;
-import de.esolutions.fw.util.tracing.TraceClient$ChannelCompare;
 import de.esolutions.fw.util.tracing.TraceLevels;
 import de.esolutions.fw.util.tracing.config.TraceConfig;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
@@ -20,9 +19,10 @@ import de.esolutions.fw.util.tracing.message.ITraceMessage;
 import de.esolutions.fw.util.tracing.message.ParameterTraceMessage;
 import de.esolutions.fw.util.tracing.message.TraceMessage;
 import de.esolutions.fw.util.tracing.util.ThreadCache;
-import de.esolutions.fw.util.tracing.util.ThreadCache$Info;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -33,7 +33,7 @@ ITraceClient {
     private static TraceClient theTraceClient;
     private static int startCount;
     private static Object globalLock;
-    private static final String chn;
+    private static final String chn = "Client";
     private final TraceFrontend frontend;
     private final boolean keepMessagePrefix;
     private TraceChannel rootChannel = new TraceChannel("", 7, null);
@@ -54,7 +54,7 @@ ITraceClient {
      */
     public static void init(TraceConfig traceConfig) {
         TraceMe.init();
-        TraceMe.msg(TraceMe.INFO, "Client", "+ TraceClient init");
+        TraceMe.msg(TraceMe.INFO, chn, "+ TraceClient init");
         Object object = globalLock;
         synchronized (object) {
             if (startCount == 0) {
@@ -68,19 +68,19 @@ ITraceClient {
                     traceChannelList.setClient(theTraceClient);
                     theTraceClient.start();
                 } else {
-                    TraceMe.msg(TraceMe.INFO, "Client", "TraceClient disabled");
+                    TraceMe.msg(TraceMe.INFO, chn, "TraceClient disabled");
                 }
             }
             ++startCount;
         }
-        TraceMe.msg(TraceMe.INFO, "Client", "- TraceClient init");
+        TraceMe.msg(TraceMe.INFO, chn, "- TraceClient init");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public static void exit() {
-        TraceMe.msg(TraceMe.INFO, "Client", "+ TraceClient exit");
+        TraceMe.msg(TraceMe.INFO, chn, "+ TraceClient exit");
         Object object = globalLock;
         synchronized (object) {
             if (--startCount == 0) {
@@ -92,7 +92,7 @@ ITraceClient {
                 TraceFrontend.exit();
             }
         }
-        TraceMe.msg(TraceMe.INFO, "Client", "- TraceClient exit");
+        TraceMe.msg(TraceMe.INFO, chn, "- TraceClient exit");
     }
 
     /*
@@ -186,24 +186,23 @@ ITraceClient {
     }
 
     public void setupChannels(TraceChannel[] traceChannelArray) {
-        TraceMe.msg(TraceMe.TRACE, "Client", "  + setupChannels");
-        Arrays.sort(traceChannelArray, new TraceClient$ChannelCompare(null));
+        TraceMe.msg(TraceMe.TRACE, chn, "  + setupChannels");
+        Arrays.sort(traceChannelArray, new ChannelCompare());
         for (int i2 = 0; i2 < traceChannelArray.length; ++i2) {
             TraceChannel traceChannel = traceChannelArray[i2];
-            TraceMe.msg(TraceMe.DEBUG, "Client", "  path=%1", traceChannel.getPath());
+            TraceMe.msg(TraceMe.DEBUG, chn, "  path=%1", traceChannel.getPath());
             String[] stringArray = this.splitPathName(traceChannel.getPath());
             if (stringArray == null) continue;
-            TraceMe.msg(TraceMe.DEBUG, "Client", "    create missing nodes for '%1'", traceChannel.getPath());
+            TraceMe.msg(TraceMe.DEBUG, chn, "    create missing nodes for '%1'", traceChannel.getPath());
             this.createMissingChannelNodes(this.rootChannel, stringArray, 0, traceChannel);
         }
         this.attachEntityToChannel(this.rootChannel, true);
-        TraceMe.msg(TraceMe.TRACE, "Client", "  - setupChannels");
+        TraceMe.msg(TraceMe.TRACE, chn, "  - setupChannels");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean registerChannel(TraceChannel traceChannel) {
         TraceChannel traceChannel2 = traceChannel;
         synchronized (traceChannel2) {
@@ -225,7 +224,6 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean unregisterChannel(TraceChannel traceChannel) {
         TraceChannel traceChannel2 = traceChannel;
         synchronized (traceChannel2) {
@@ -263,7 +261,7 @@ ITraceClient {
         }
         n = traceEntityURIWithLevel.getId();
         short s2 = traceEntityURIWithLevel.getLevel();
-        TraceMe.msg(TraceMe.DEBUG, "Client", "    attach channel to entity '%1' -> id=%2 level=%3 was initial level=%4", traceChannel.getPath(), new Integer(n), TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
+        TraceMe.msg(TraceMe.DEBUG, chn, "    attach channel to entity '%1' -> id=%2 level=%3 was initial level=%4", traceChannel.getPath(), new Integer(n), TraceLevels.levelNames[s2], TraceLevels.levelNames[s]);
         if (n == -1) {
             s2 = 6;
         }
@@ -288,7 +286,7 @@ ITraceClient {
             }
         }
         if ((n = traceChannel.getChannelId()) != -1) {
-            TraceMe.msg(TraceMe.DEBUG, "Client", "    detach channel from entity '%1', id=%2 level=%3", traceChannel.getPath(), new Integer(n), TraceLevels.levelNames[traceChannel.getFilterLevel()]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "    detach channel from entity '%1', id=%2 level=%3", traceChannel.getPath(), new Integer(n), TraceLevels.levelNames[traceChannel.getFilterLevel()]);
             this.frontend.disableChannel(n);
             traceChannel.detachParentAndChildren();
         }
@@ -302,7 +300,7 @@ ITraceClient {
             ArrayList arrayList = null;
             if (traceChannel3 != null) {
                 if (!traceChannel3.hasFlags(1) && traceChannel3 != traceChannel2) {
-                    TraceMe.msg(TraceMe.WARN, "Client", "IGNORING DUPLICATE CHANNEL: %1", traceChannel3.getPath());
+                    TraceMe.msg(TraceMe.WARN, chn, "IGNORING DUPLICATE CHANNEL: %1", traceChannel3.getPath());
                     return false;
                 }
                 traceChannel.removeChild(traceChannel3);
@@ -325,7 +323,7 @@ ITraceClient {
             traceChannel3.addFlags(1);
             traceChannel.addChild(traceChannel3);
             traceChannel3.determinePathString();
-            TraceMe.msg(TraceMe.DEBUG, "Client", "      created missing channel '%1'", traceChannel3.getPath());
+            TraceMe.msg(TraceMe.DEBUG, chn, "      created missing channel '%1'", traceChannel3.getPath());
         }
         return this.createMissingChannelNodes(traceChannel3, stringArray, n + 1, traceChannel2);
     }
@@ -345,7 +343,6 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean disableChannel(TraceChannel traceChannel) {
         if (traceChannel == null) {
             return false;
@@ -364,7 +361,6 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean enableChannel(TraceChannel traceChannel) {
         if (traceChannel == null) {
             return false;
@@ -383,7 +379,6 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean changeChannelFilterLevel(TraceChannel traceChannel, short s) {
         if (traceChannel == null) {
             return false;
@@ -433,17 +428,16 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean logMessage(TraceChannel traceChannel, short s, short s2, String string, Object[] objectArray) {
         long l = System.currentTimeMillis();
         Thread thread = Thread.currentThread();
-        ThreadCache$Info threadCache$Info = this.threadCache.getThreadInfo(thread);
-        if (threadCache$Info == null) {
+        ThreadCache.Info info = this.threadCache.getThreadInfo(thread);
+        if (info == null) {
             return false;
         }
-        int n = threadCache$Info.id;
-        if (this.keepMessagePrefix && threadCache$Info.msgPrefix != null) {
-            string = new StringBuffer().append(string).append(threadCache$Info.msgPrefix).toString();
+        int n = info.id;
+        if (this.keepMessagePrefix && info.msgPrefix != null) {
+            string = string + info.msgPrefix;
         }
         int n2 = -1;
         Object object = traceChannel;
@@ -460,15 +454,14 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean logMessage(TraceChannel traceChannel, short s, short s2, short s3, byte[] byArray) {
         long l = System.currentTimeMillis();
         Thread thread = Thread.currentThread();
-        ThreadCache$Info threadCache$Info = this.threadCache.getThreadInfo(thread);
-        if (threadCache$Info == null) {
+        ThreadCache.Info info = this.threadCache.getThreadInfo(thread);
+        if (info == null) {
             return false;
         }
-        int n = threadCache$Info.id;
+        int n = info.id;
         int n2 = -1;
         Object object = traceChannel;
         synchronized (object) {
@@ -488,7 +481,6 @@ ITraceClient {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void executeCallback(int n, byte[] byArray) {
         ITraceCallback iTraceCallback;
         Map map = this.callbacks;
@@ -496,29 +488,42 @@ ITraceClient {
             iTraceCallback = (ITraceCallback)this.callbacks.get(new Integer(n));
         }
         if (iTraceCallback != null) {
-            TraceMe.msg(TraceMe.DEBUG, "Client", "  client: executing callback");
+            TraceMe.msg(TraceMe.DEBUG, chn, "  client: executing callback");
             iTraceCallback.executeTraceCallback(n, byArray);
         } else {
-            TraceMe.msg(TraceMe.WARN, "Client", "  client: callback NOT FOUND: %1", new Integer(n));
+            TraceMe.msg(TraceMe.WARN, chn, "  client: callback NOT FOUND: %1", new Integer(n));
         }
     }
 
-    @Override
     public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
         TraceChannel traceChannel;
         if (traceEntityURI.getType() == 3 && (traceChannel = this.rootChannel.findByChannelId(traceEntityURI.getId())) != null) {
-            TraceMe.msg(TraceMe.DEBUG, "Client", "  client: realize filter level request of %1 to level %2", traceChannel.getPath(), TraceLevels.levelNames[s]);
+            TraceMe.msg(TraceMe.DEBUG, chn, "  client: realize filter level request of %1 to level %2", traceChannel.getPath(), TraceLevels.levelNames[s]);
             this.changeChannelFilterLevel(traceChannel, s);
         }
     }
 
-    @Override
     public void requestQuit() {
     }
 
     static {
         startCount = 0;
         globalLock = new Object();
+    }
+
+    private static class ChannelCompare
+    implements Comparator,
+    Serializable {
+        private static final long serialVersionUID = 31219998638737210L;
+
+        private ChannelCompare() {
+        }
+
+        public int compare(Object object, Object object2) {
+            TraceChannel traceChannel = (TraceChannel)object;
+            TraceChannel traceChannel2 = (TraceChannel)object2;
+            return traceChannel.getPath().compareTo(traceChannel2.getPath());
+        }
     }
 }
 

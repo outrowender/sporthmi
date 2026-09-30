@@ -6,10 +6,8 @@ package org.apache.xerces.xs;
 import org.w3c.dom.ls.LSInput;
 
 public interface LSInputList {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public LSInput item(int n) {
-    }
+    public LSInput item(int var1);
 }
 

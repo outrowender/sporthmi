@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class AtomicLong
 extends Number
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1927816293512124184L;
     private volatile long value;
 
     public AtomicLong(long l) {
@@ -33,7 +33,7 @@ implements Serializable {
     public final synchronized long getAndSet(long l) {
         long l2 = this.value;
         this.value = l;
-        long l3 = l2;
+        return l2;
     }
 
     public final synchronized boolean compareAndSet(long l, long l2) {
@@ -53,55 +53,47 @@ implements Serializable {
     }
 
     public final synchronized long getAndIncrement() {
-        long l = this.value;
-        long l2 = l;
-        this.value = l + 1L;
+        return this.value++;
     }
 
     public final synchronized long getAndDecrement() {
-        long l = this.value;
-        long l2 = l;
-        this.value = l - 1L;
+        return this.value--;
     }
 
     public final synchronized long getAndAdd(long l) {
         long l2 = this.value;
         this.value += l;
-        long l3 = l2;
+        return l2;
     }
 
     public final synchronized long incrementAndGet() {
-        long l = this.value = this.value + 1L;
+        return ++this.value;
     }
 
     public final synchronized long decrementAndGet() {
-        long l = this.value = this.value - 1L;
+        return --this.value;
     }
 
     public final synchronized long addAndGet(long l) {
-        long l2 = this.value = this.value + l;
+        return this.value += l;
     }
 
     public String toString() {
         return Long.toString(this.get());
     }
 
-    @Override
     public int intValue() {
         return (int)this.get();
     }
 
-    @Override
     public long longValue() {
         return this.get();
     }
 
-    @Override
     public float floatValue() {
         return this.get();
     }
 
-    @Override
     public double doubleValue() {
         return this.get();
     }

@@ -9,10 +9,8 @@ import de.vw.mib.bap.functions.Property;
 
 public interface PropertyListener
 extends BAPFunctionListener {
-    default public boolean statusProperty(BAPEntity bAPEntity, Property property) {
-    }
+    public boolean statusProperty(BAPEntity var1, Property var2);
 
-    default public boolean statusAckProperty(BAPEntity bAPEntity, Property property) {
-    }
+    public boolean statusAckProperty(BAPEntity var1, Property var2);
 }
 

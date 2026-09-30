@@ -11,7 +11,7 @@ public class WCPinPukState {
     public WCPinPukState() {
         this.serialNumber = null;
         this.state = 255;
-        this.lockTime = -16842752;
+        this.lockTime = 65534;
     }
 
     public WCPinPukState(String string, int n, int n2) {

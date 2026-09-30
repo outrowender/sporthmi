@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public class ArrayHeaderSerializer {
-    public static void putOptionalArrayHeader(ISerializer iSerializer, ArrayHeader arrayHeader) {
+    public static void putOptionalArrayHeader(ISerializer iSerializer, ArrayHeader arrayHeader) throws SerializerException {
         boolean bl = arrayHeader == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class ArrayHeaderSerializer {
         }
     }
 
-    public static void putOptionalArrayHeaderVarArray(ISerializer iSerializer, ArrayHeader[] arrayHeaderArray) {
+    public static void putOptionalArrayHeaderVarArray(ISerializer iSerializer, ArrayHeader[] arrayHeaderArray) throws SerializerException {
         boolean bl = arrayHeaderArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class ArrayHeaderSerializer {
         }
     }
 
-    public static ArrayHeader getOptionalArrayHeader(IDeserializer iDeserializer) {
+    public static ArrayHeader getOptionalArrayHeader(IDeserializer iDeserializer) throws SerializerException {
         ArrayHeader arrayHeader = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class ArrayHeaderSerializer {
         return arrayHeader;
     }
 
-    public static ArrayHeader[] getOptionalArrayHeaderVarArray(IDeserializer iDeserializer) {
+    public static ArrayHeader[] getOptionalArrayHeaderVarArray(IDeserializer iDeserializer) throws SerializerException {
         ArrayHeader[] arrayHeaderArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

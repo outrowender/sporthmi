@@ -35,7 +35,7 @@ public class MediaActiveSourceState {
     }
 
     public String toString() {
-        return new StringBuffer("MediaActiveSourceState{").append("slot=").append(this.slot).append(", state=").append(this.state).append("}").toString();
+        return "MediaActiveSourceState{" + "slot=" + this.slot + ", state=" + this.state + "}";
     }
 }
 

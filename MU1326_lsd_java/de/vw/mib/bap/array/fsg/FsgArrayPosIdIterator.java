@@ -4,10 +4,8 @@
 package de.vw.mib.bap.array.fsg;
 
 public interface FsgArrayPosIdIterator {
-    default public boolean hasNext() {
-    }
+    public boolean hasNext();
 
-    default public int next() {
-    }
+    public int next();
 }
 

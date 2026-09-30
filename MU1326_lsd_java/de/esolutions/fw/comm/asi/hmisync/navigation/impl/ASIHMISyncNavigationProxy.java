@@ -7,12 +7,14 @@ import de.esolutions.fw.comm.asi.hmisync.navigation.ASIHMISyncNavigation;
 import de.esolutions.fw.comm.asi.hmisync.navigation.ASIHMISyncNavigationC;
 import de.esolutions.fw.comm.asi.hmisync.navigation.ASIHMISyncNavigationReply;
 import de.esolutions.fw.comm.asi.hmisync.navigation.DestinationInfo;
-import de.esolutions.fw.comm.asi.hmisync.navigation.impl.ASIHMISyncNavigationProxy$1;
 import de.esolutions.fw.comm.asi.hmisync.navigation.impl.ASIHMISyncNavigationReplyService;
+import de.esolutions.fw.comm.asi.hmisync.navigation.impl.DestinationInfoSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,19 +34,21 @@ ASIHMISyncNavigationC {
         return this.proxy;
     }
 
-    @Override
-    public void startGuidanceToDestinations(DestinationInfo[] destinationInfoArray) {
-        ASIHMISyncNavigationProxy$1 aSIHMISyncNavigationProxy$1 = new ASIHMISyncNavigationProxy$1(this, destinationInfoArray);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncNavigationProxy$1);
+    public void startGuidanceToDestinations(final DestinationInfo[] destinationInfoArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                DestinationInfoSerializer.putOptionalDestinationInfoVarArray(iSerializer, destinationInfoArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void setNotification(long l) {
+    public void setNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -55,8 +59,7 @@ ASIHMISyncNavigationC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setNotification(long[] lArray) {
+    public void setNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -67,13 +70,11 @@ ASIHMISyncNavigationC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void clearNotification(long l) {
+    public void clearNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -84,8 +85,7 @@ ASIHMISyncNavigationC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(long[] lArray) {
+    public void clearNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);

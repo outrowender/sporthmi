@@ -38,28 +38,25 @@ implements ITraceFrontendListener {
         }
     }
 
-    @Override
     public void executeCallback(int n, byte[] byArray) {
         if (n == this.callback) {
             try {
                 String string = new String(byArray, "UTF-8");
                 int n2 = Integer.parseInt(string);
                 if (n2 >= 0 && n2 != this.config.getCoreStatisticsInterval()) {
-                    this.frontend.log(this.channel, this.thread, (short)2, (short)0, new StringBuffer().append("new coreStatisticsInterval=").append(n2).toString());
+                    this.frontend.log(this.channel, this.thread, (short)2, (short)0, "new coreStatisticsInterval=" + n2);
                     this.config.setCoreStatisticsInterval(n2);
                 }
             }
             catch (Exception exception) {
-                this.frontend.log(this.channel, this.thread, (short)4, (short)0, new StringBuffer().append("callback failed: ").append(exception.getMessage()).toString());
+                this.frontend.log(this.channel, this.thread, (short)4, (short)0, "callback failed: " + exception.getMessage());
             }
         }
     }
 
-    @Override
     public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
     }
 
-    @Override
     public void requestQuit() {
     }
 }

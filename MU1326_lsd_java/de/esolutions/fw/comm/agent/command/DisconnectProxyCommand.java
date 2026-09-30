@@ -16,14 +16,12 @@ extends Command {
         this.proxy = proxy;
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doDisconnectProxy(this.proxy);
     }
 
-    @Override
     public String getArgsString() {
-        return new StringBuffer().append("instance=").append(this.proxy.getInstanceID()).toString();
+        return "instance=" + this.proxy.getInstanceID();
     }
 }
 

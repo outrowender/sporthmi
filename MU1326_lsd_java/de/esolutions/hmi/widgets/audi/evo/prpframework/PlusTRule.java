@@ -10,7 +10,6 @@ import java.util.List;
 
 public class PlusTRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         RecognizerResult recognizerResult = null;
         RecognizerResult recognizerResult2 = null;
@@ -31,7 +30,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "+t-Rule";
     }

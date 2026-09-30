@@ -3,6 +3,7 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public class ByteArrayInputStream
@@ -24,31 +25,25 @@ extends InputStream {
         this.count = n2 + this.pos > byArray.length ? byArray.length : n2 + this.pos;
     }
 
-    @Override
     public synchronized int available() {
         return this.count - this.pos;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
     }
 
-    @Override
     public synchronized void mark(int n) {
         this.mark = this.pos;
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
 
-    @Override
     public synchronized int read() {
         return this.pos < this.count ? this.buf[this.pos++] & 0xFF : -1;
     }
 
-    @Override
     public synchronized int read(byte[] byArray, int n, int n2) {
         if (this.pos >= this.count) {
             return -1;
@@ -68,20 +63,17 @@ extends InputStream {
         throw new NullPointerException();
     }
 
-    @Override
     public synchronized void reset() {
         this.pos = this.mark;
     }
 
-    @Override
     public synchronized long skip(long l) {
         if (l <= 0L) {
-            long l2 = 0L;
-            return;
+            return 0L;
         }
         int n = this.pos;
         this.pos = (long)(this.count - this.pos) < l ? this.count : (int)((long)this.pos + l);
-        long l3 = this.pos - n;
+        return this.pos - n;
     }
 }
 

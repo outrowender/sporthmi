@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.fec.impl;
 import de.esolutions.fw.comm.asi.fec.SFecHistory;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SFecHistorySerializer {
-    public static void putOptionalSFecHistory(ISerializer iSerializer, SFecHistory sFecHistory) {
+    public static void putOptionalSFecHistory(ISerializer iSerializer, SFecHistory sFecHistory) throws SerializerException {
         boolean bl = sFecHistory == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SFecHistorySerializer {
         }
     }
 
-    public static void putOptionalSFecHistoryVarArray(ISerializer iSerializer, SFecHistory[] sFecHistoryArray) {
+    public static void putOptionalSFecHistoryVarArray(ISerializer iSerializer, SFecHistory[] sFecHistoryArray) throws SerializerException {
         boolean bl = sFecHistoryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SFecHistorySerializer {
         }
     }
 
-    public static SFecHistory getOptionalSFecHistory(IDeserializer iDeserializer) {
+    public static SFecHistory getOptionalSFecHistory(IDeserializer iDeserializer) throws SerializerException {
         SFecHistory sFecHistory = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SFecHistorySerializer {
         return sFecHistory;
     }
 
-    public static SFecHistory[] getOptionalSFecHistoryVarArray(IDeserializer iDeserializer) {
+    public static SFecHistory[] getOptionalSFecHistoryVarArray(IDeserializer iDeserializer) throws SerializerException {
         SFecHistory[] sFecHistoryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.tracing;
 
 public interface ITraceCallback {
-    default public void executeTraceCallback(int n, byte[] byArray) {
-    }
+    public void executeTraceCallback(int var1, byte[] var2);
 }
 

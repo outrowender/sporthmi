@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tts.impl;
 import de.esolutions.fw.comm.dsi.tts.impl.DynamicTTSPromptPartSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tts.DynamicTTSPromptPart;
 import org.dsi.ifc.tts.TTSPrompt;
 
 public class TTSPromptSerializer {
-    public static void putOptionalTTSPrompt(ISerializer iSerializer, TTSPrompt tTSPrompt) {
+    public static void putOptionalTTSPrompt(ISerializer iSerializer, TTSPrompt tTSPrompt) throws SerializerException {
         boolean bl = tTSPrompt == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class TTSPromptSerializer {
         }
     }
 
-    public static void putOptionalTTSPromptVarArray(ISerializer iSerializer, TTSPrompt[] tTSPromptArray) {
+    public static void putOptionalTTSPromptVarArray(ISerializer iSerializer, TTSPrompt[] tTSPromptArray) throws SerializerException {
         boolean bl = tTSPromptArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class TTSPromptSerializer {
         }
     }
 
-    public static TTSPrompt getOptionalTTSPrompt(IDeserializer iDeserializer) {
+    public static TTSPrompt getOptionalTTSPrompt(IDeserializer iDeserializer) throws SerializerException {
         TTSPrompt tTSPrompt = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class TTSPromptSerializer {
         return tTSPrompt;
     }
 
-    public static TTSPrompt[] getOptionalTTSPromptVarArray(IDeserializer iDeserializer) {
+    public static TTSPrompt[] getOptionalTTSPromptVarArray(IDeserializer iDeserializer) throws SerializerException {
         TTSPrompt[] tTSPromptArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

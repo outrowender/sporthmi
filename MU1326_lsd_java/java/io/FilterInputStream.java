@@ -3,6 +3,7 @@
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public class FilterInputStream
@@ -13,48 +14,39 @@ extends InputStream {
         this.in = inputStream;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         return this.in.available();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.in.close();
     }
 
-    @Override
     public synchronized void mark(int n) {
         this.in.mark(n);
     }
 
-    @Override
     public boolean markSupported() {
         return this.in.markSupported();
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         return this.in.read();
     }
 
-    @Override
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         return this.read(byArray, 0, byArray.length);
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         return this.in.read(byArray, n, n2);
     }
 
-    @Override
-    public synchronized void reset() {
+    public synchronized void reset() throws IOException {
         this.in.reset();
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         return this.in.skip(l);
     }
 }

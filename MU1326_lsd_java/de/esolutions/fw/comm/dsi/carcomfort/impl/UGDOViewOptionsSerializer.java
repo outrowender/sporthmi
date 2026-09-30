@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carcomfort.impl.UGDOConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOConfiguration;
 import org.dsi.ifc.carcomfort.UGDOViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class UGDOViewOptionsSerializer {
-    public static void putOptionalUGDOViewOptions(ISerializer iSerializer, UGDOViewOptions uGDOViewOptions) {
+    public static void putOptionalUGDOViewOptions(ISerializer iSerializer, UGDOViewOptions uGDOViewOptions) throws SerializerException {
         boolean bl = uGDOViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class UGDOViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalUGDOViewOptionsVarArray(ISerializer iSerializer, UGDOViewOptions[] uGDOViewOptionsArray) {
+    public static void putOptionalUGDOViewOptionsVarArray(ISerializer iSerializer, UGDOViewOptions[] uGDOViewOptionsArray) throws SerializerException {
         boolean bl = uGDOViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class UGDOViewOptionsSerializer {
         }
     }
 
-    public static UGDOViewOptions getOptionalUGDOViewOptions(IDeserializer iDeserializer) {
+    public static UGDOViewOptions getOptionalUGDOViewOptions(IDeserializer iDeserializer) throws SerializerException {
         UGDOViewOptions uGDOViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class UGDOViewOptionsSerializer {
         return uGDOViewOptions;
     }
 
-    public static UGDOViewOptions[] getOptionalUGDOViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static UGDOViewOptions[] getOptionalUGDOViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOViewOptions[] uGDOViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

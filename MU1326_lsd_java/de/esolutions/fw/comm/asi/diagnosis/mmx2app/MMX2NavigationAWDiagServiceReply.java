@@ -3,76 +3,56 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface MMX2NavigationAWDiagServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "55213c43-0995-4f3c-9f56-08df21a1a0f5";
+    public static final String IPL_COMM_INTERFACE_KEY = "aceab9d2-746a-59f3-836b-7e4e2d8af5ed";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.8.0";
 
-    default public void requestSubsystemStates(long l) {
-    }
+    public void requestSubsystemStates(long var1) throws MethodException;
 
-    default public void requestVersionsNavDB(long l) {
-    }
+    public void requestVersionsNavDB(long var1) throws MethodException;
 
-    default public void requestActiveNavDB(long l) {
-    }
+    public void requestActiveNavDB(long var1) throws MethodException;
 
-    default public void requestGPSNoSatellite(long l) {
-    }
+    public void requestGPSNoSatellite(long var1) throws MethodException;
 
-    default public void requestGPSOffroad(long l) {
-    }
+    public void requestGPSOffroad(long var1) throws MethodException;
 
-    default public void requestNavCalibrationState(long l) {
-    }
+    public void requestNavCalibrationState(long var1) throws MethodException;
 
-    default public void requestNavCorrectedPosition(long l) {
-    }
+    public void requestNavCorrectedPosition(long var1) throws MethodException;
 
-    default public void requestNavCorrectedDirection(long l) {
-    }
+    public void requestNavCorrectedDirection(long var1) throws MethodException;
 
-    default public void requestUnitStateDSRC(long l) {
-    }
+    public void requestUnitStateDSRC(long var1) throws MethodException;
 
-    default public void requestAntennaStateDSRC(long l) {
-    }
+    public void requestAntennaStateDSRC(long var1) throws MethodException;
 
-    default public void requestAntennaStateVICS(long l) {
-    }
+    public void requestAntennaStateVICS(long var1) throws MethodException;
 
-    default public void requestRadioBeaconStateVICS(long l) {
-    }
+    public void requestRadioBeaconStateVICS(long var1) throws MethodException;
 
-    default public void requestInfraredBeaconStateVICS(long l) {
-    }
+    public void requestInfraredBeaconStateVICS(long var1) throws MethodException;
 
-    default public void requestResetCalibration(long l, int n) {
-    }
+    public void requestResetCalibration(long var1, int var3) throws MethodException;
 
-    default public void requestSparePartNumber(long l, int n) {
-    }
+    public void requestSparePartNumber(long var1, int var3) throws MethodException;
 
-    default public void requestApplicationSoftwareVersionNumber(long l, int n) {
-    }
+    public void requestApplicationSoftwareVersionNumber(long var1, int var3) throws MethodException;
 
-    default public void requestHardwareNumber(long l, int n) {
-    }
+    public void requestHardwareNumber(long var1, int var3) throws MethodException;
 
-    default public void requestHardwareVersionNumber(long l, int n) {
-    }
+    public void requestHardwareVersionNumber(long var1, int var3) throws MethodException;
 
-    default public void requestSerialNumber(long l, int n) {
-    }
+    public void requestSerialNumber(long var1, int var3) throws MethodException;
 
-    default public void requestSystemName(long l, int n) {
-    }
+    public void requestSystemName(long var1, int var3) throws MethodException;
 
-    default public void requestCountryRegionVersion(long l) {
-    }
+    public void requestCountryRegionVersion(long var1) throws MethodException;
 
-    default public void requestDeleteMemory(long l, int n) {
-    }
+    public void requestDeleteMemory(long var1, int var3) throws MethodException;
 }
 

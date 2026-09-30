@@ -11,10 +11,9 @@ import java.util.Vector;
 
 final class SocketPermissionCollection
 extends PermissionCollection {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2787186408602843674L;
     public Vector permissions = new Vector();
 
-    @Override
     public void add(Permission permission) {
         if (this.isReadOnly()) {
             throw new IllegalStateException();
@@ -25,12 +24,10 @@ extends PermissionCollection {
         this.permissions.addElement(permission);
     }
 
-    @Override
     public Enumeration elements() {
         return this.permissions.elements();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         if (!(permission instanceof SocketPermission)) {
             return false;

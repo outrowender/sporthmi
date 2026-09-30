@@ -31,7 +31,7 @@ implements ATIPEventListener {
     }
 
     public void tryToLock(float f2, float f3) {
-        if (this.isLocked || f3 <= 32959 || this.betweenLocksTimer != null) {
+        if (this.isLocked || f3 <= -1.0f || this.betweenLocksTimer != null) {
             return;
         }
         this.tryToSetLock(f2, f3);
@@ -69,7 +69,6 @@ implements ATIPEventListener {
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.axisLockEvent)) {
             this.isLocked = false;

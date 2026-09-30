@@ -15,7 +15,6 @@ implements ITraceCommand {
         this.backend = iTraceBackend;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.activateBackend(this.backend);
         return false;

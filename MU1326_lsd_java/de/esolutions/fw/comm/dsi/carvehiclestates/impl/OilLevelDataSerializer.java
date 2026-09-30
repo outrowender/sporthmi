@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.carvehiclestates.impl.OilLevelRefillVolumeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.OilLevelData;
 import org.dsi.ifc.carvehiclestates.OilLevelRefillVolume;
 
 public class OilLevelDataSerializer {
-    public static void putOptionalOilLevelData(ISerializer iSerializer, OilLevelData oilLevelData) {
+    public static void putOptionalOilLevelData(ISerializer iSerializer, OilLevelData oilLevelData) throws SerializerException {
         boolean bl = oilLevelData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class OilLevelDataSerializer {
         }
     }
 
-    public static void putOptionalOilLevelDataVarArray(ISerializer iSerializer, OilLevelData[] oilLevelDataArray) {
+    public static void putOptionalOilLevelDataVarArray(ISerializer iSerializer, OilLevelData[] oilLevelDataArray) throws SerializerException {
         boolean bl = oilLevelDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class OilLevelDataSerializer {
         }
     }
 
-    public static OilLevelData getOptionalOilLevelData(IDeserializer iDeserializer) {
+    public static OilLevelData getOptionalOilLevelData(IDeserializer iDeserializer) throws SerializerException {
         OilLevelData oilLevelData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class OilLevelDataSerializer {
         return oilLevelData;
     }
 
-    public static OilLevelData[] getOptionalOilLevelDataVarArray(IDeserializer iDeserializer) {
+    public static OilLevelData[] getOptionalOilLevelDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         OilLevelData[] oilLevelDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

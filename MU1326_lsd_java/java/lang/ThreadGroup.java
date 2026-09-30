@@ -13,8 +13,8 @@ public class ThreadGroup {
     private Thread[] childrenThreads = new Thread[5];
     int numGroups = 0;
     private ThreadGroup[] childrenGroups = new ThreadGroup[3];
-    private Object childrenGroupsLock = new ThreadGroup$ChildrenGroupsLock();
-    private Object childrenThreadsLock = new ThreadGroup$ChildrenThreadsLock();
+    private Object childrenGroupsLock = new ChildrenGroupsLock();
+    private Object childrenThreadsLock = new ChildrenThreadsLock();
     private boolean isDaemon = false;
     private boolean isDestroyed = false;
     private int addedNotStartedThreads = 0;
@@ -91,7 +91,7 @@ public class ThreadGroup {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    final void checkNewThread(Thread thread) {
+    final void checkNewThread(Thread thread) throws IllegalThreadStateException {
         Object object = this.childrenThreadsLock;
         synchronized (object) {
             if (this.isDestroyed) {
@@ -104,7 +104,7 @@ public class ThreadGroup {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    final void add(Thread thread) {
+    final void add(Thread thread) throws IllegalThreadStateException {
         Object object = this.childrenThreadsLock;
         synchronized (object) {
             if (!this.isDestroyed) {
@@ -126,7 +126,7 @@ public class ThreadGroup {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void add(ThreadGroup threadGroup) {
+    private void add(ThreadGroup threadGroup) throws IllegalThreadStateException {
         Object object = this.childrenGroupsLock;
         synchronized (object) {
             if (!this.isDestroyed) {
@@ -362,7 +362,7 @@ public class ThreadGroup {
             if (this.numThreads == 0) {
                 ThreadGroup threadGroup = this;
                 synchronized (threadGroup) {
-                    super.notifyAll();
+                    this.notifyAll();
                 }
             }
         }
@@ -424,7 +424,7 @@ public class ThreadGroup {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append("[name=").append(this.getName()).append(",maxpri=").append(this.getMaxPriority()).append("]").toString();
+        return String.valueOf(this.getClass().getName()) + "[name=" + this.getName() + ",maxpri=" + this.getMaxPriority() + "]";
     }
 
     public void uncaughtException(Thread thread, Throwable throwable) {
@@ -433,6 +433,16 @@ public class ThreadGroup {
         } else if (!(throwable instanceof ThreadDeath)) {
             System.err.print(Msg.getString("K0319", thread.getName()));
             throwable.printStackTrace(System.err);
+        }
+    }
+
+    private static class ChildrenGroupsLock {
+        ChildrenGroupsLock() {
+        }
+    }
+
+    private static class ChildrenThreadsLock {
+        ChildrenThreadsLock() {
         }
     }
 }

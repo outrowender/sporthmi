@@ -29,8 +29,8 @@ WidgetConstants {
     private final float START_ANIMATION;
     private final float END_ANIMATION;
     private AbstractAnimation animation;
-    public static final int ANIMATION_TYPE_DRAWER_GLOBAL;
-    public static final int ANIMATION_TYPE_DRAWER_LOCAL;
+    public static final int ANIMATION_TYPE_DRAWER_GLOBAL = 100;
+    public static final int ANIMATION_TYPE_DRAWER_LOCAL = 200;
     private int animationSource;
     private EntertainmentDrawerOpenCloseController entertainmentDrawer;
     private EntertainmentDrawerState sourceState;
@@ -43,7 +43,7 @@ WidgetConstants {
     public EntertainmentDrawerAnimationManager(EntertainmentDrawerOpenCloseController entertainmentDrawerOpenCloseController) {
         this.ANIMATION_TYPE = 58;
         this.START_ANIMATION = 0.0f;
-        this.END_ANIMATION = 31300;
+        this.END_ANIMATION = 1000.0f;
         this.entertainmentDrawer = entertainmentDrawerOpenCloseController;
         this.terminal = entertainmentDrawerOpenCloseController.getTerminalImpl();
         this.animation = (AbstractAnimation)this.terminal.getIAnimationController().getIAnimation(58);
@@ -52,31 +52,31 @@ WidgetConstants {
 
     public void processAnimation(int n, float f2, int n2) {
         if (this.isDelayForDeblacklistingActive && n2 != 3) {
-            IWidgetLogChannel.logEntertainmentDrawer.log(1078071040, "No animation because of blacklisting timer");
+            IWidgetLogChannel.logEntertainmentDrawer.log(1000000, "No animation because of blacklisting timer");
             return;
         }
         if (this.animation.isAnimating()) {
             if (n == 200) {
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#processAnimation: local animation running, new local animation requested");
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#processAnimation: local animation running, new local animation requested");
                 boolean bl = this.updateAnimationStates();
                 if (bl) {
-                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#processAnimation: stop local animation, start new local animation");
+                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#processAnimation: stop local animation, start new local animation");
                     this.stopAnimation();
                     this.startAnimation();
                 }
             }
         } else if (this.globalAnimationIsAnimating) {
             if (n == 100) {
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#processAnimation: global animation running, global animation processing");
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#processAnimation: global animation running, global animation processing");
                 this.animationSource = 100;
                 this.globalAnimationIsAnimating = true;
                 this.animate(-1, f2, -1);
             }
         } else if (n == 200) {
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#processAnimation: no animation running, start local animation");
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#processAnimation: no animation running, start local animation");
             this.startAnimation();
         } else if (n == 100) {
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#processAnimation: no animation running, global animation processing");
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#processAnimation: no animation running, global animation processing");
             this.animationSource = 100;
             this.globalAnimationIsAnimating = true;
             this.animate(-1, f2, -1);
@@ -86,7 +86,7 @@ WidgetConstants {
 
     public void startAnimation() {
         this.animationSource = 200;
-        this.animation.startDynamicAnimation(0.0f, 31300, 58, true, this.entertainmentDrawer);
+        this.animation.startDynamicAnimation(0.0f, 1000.0f, 58, true, this.entertainmentDrawer);
     }
 
     public void stopAnimation() {
@@ -103,17 +103,16 @@ WidgetConstants {
             if (this.targetState == null || !this.targetState.equals(entertainmentDrawerAnimationState.getTargetState())) {
                 this.targetState = new EntertainmentDrawerState(entertainmentDrawerAnimationState.getTargetState());
                 bl = true;
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateAnimationStates target has changed");
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateAnimationStates target has changed");
             }
         }
         return bl;
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
         this.updateAnimationStates();
         if (this.currentState != null && this.sourceState != null && this.targetState != null) {
-            this.progress = this.animationSource == 200 ? f2 / 31300 : f2;
+            this.progress = this.animationSource == 200 ? f2 / 1000.0f : f2;
             this.updateContent();
             this.updateGapWidth();
             this.updateGapHeight();
@@ -126,11 +125,9 @@ WidgetConstants {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
     }
 
@@ -142,7 +139,7 @@ WidgetConstants {
             float f5 = this.progress;
             float f6 = f2 + f4 * f5;
             this.currentState.setYTranslation((int)f6);
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateYTranslation: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f6, (double)f3);
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateYTranslation: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f6, (double)f3);
         }
     }
 
@@ -154,12 +151,12 @@ WidgetConstants {
             float f5 = this.progress;
             float f6 = f2 + f4 * f5;
             this.currentState.setYScreenOffset((int)f6);
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateYScreenOffset: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f6, (double)f3);
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateYScreenOffset: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f6, (double)f3);
         }
     }
 
     private void updateHeight() {
-        IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateHeight: C=%1 --> T=%2", (long)this.currentState.getHeight(), (long)this.targetState.getHeight());
+        IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateHeight: C=%1 --> T=%2", (long)this.currentState.getHeight(), (long)this.targetState.getHeight());
         this.currentState.setHeight(this.targetState.getHeight());
     }
 
@@ -174,7 +171,7 @@ WidgetConstants {
             if (iStatusbarGapEventHandler != null) {
                 iStatusbarGapEventHandler.setGapWidth((int)f5, true);
             }
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateGapWidth: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f5, (double)f3);
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateGapWidth: S=%1 --> C=%2 --> T=%3", (double)f2, (double)f5, (double)f3);
         }
     }
 
@@ -182,10 +179,10 @@ WidgetConstants {
         if (this.currentState.getGapHeight() != this.targetState.getGapHeight() && this.targetState.getGapHeight() != this.sourceState.getGapHeight()) {
             if (this.targetState.getGapHeight() == 0.0f) {
                 this.currentState.setGapHeight(1.0f - this.progress);
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateGapHeight: S=%1 --> C=%2 --> T=%3", (double)this.sourceState.getGapHeight(), (double)this.currentState.getGapHeight(), (double)this.targetState.getGapHeight());
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateGapHeight: S=%1 --> C=%2 --> T=%3", (double)this.sourceState.getGapHeight(), (double)this.currentState.getGapHeight(), (double)this.targetState.getGapHeight());
             } else if (this.targetState.getGapHeight() == 1.0f) {
                 this.currentState.setGapHeight(this.progress);
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateGapHeight: S=%1 --> C=%2 --> T=%3", (double)this.sourceState.getGapHeight(), (double)this.currentState.getGapHeight(), (double)this.targetState.getGapHeight());
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateGapHeight: S=%1 --> C=%2 --> T=%3", (double)this.sourceState.getGapHeight(), (double)this.currentState.getGapHeight(), (double)this.targetState.getGapHeight());
             }
         }
     }
@@ -194,19 +191,19 @@ WidgetConstants {
         if (this.currentState != null && this.targetState != null) {
             Buffer buffer = new Buffer();
             this.currentState.setContent(this.targetState.getContent());
-            buffer.append(new StringBuffer().append("\naudioSource:\t\t\t\t\t\t").append(this.currentState.getAudioSource()).append(" --> ").append(this.targetState.getAudioSource()).toString());
+            buffer.append("\naudioSource:\t\t\t\t\t\t" + this.currentState.getAudioSource() + " --> " + this.targetState.getAudioSource());
             this.currentState.setAudioSource(this.targetState.getAudioSource());
-            buffer.append(new StringBuffer().append("\nanimationDrawerState:\t\t\t\t").append(this.currentState.isAnimateDrawerStateChange()).append(" --> ").append(this.targetState.isAnimateDrawerStateChange()).toString());
+            buffer.append("\nanimationDrawerState:\t\t\t\t" + this.currentState.isAnimateDrawerStateChange() + " --> " + this.targetState.isAnimateDrawerStateChange());
             this.currentState.setAnimateDrawerStateChange(this.targetState.isAnimateDrawerStateChange());
-            buffer.append(new StringBuffer().append("\ndrawerState:\t\t\t\t\t\t").append(AnimUtils.valueToString(this.currentState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING)).append(" --> ").append(AnimUtils.valueToString(this.targetState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING)).toString());
+            buffer.append("\ndrawerState:\t\t\t\t\t\t" + AnimUtils.valueToString(this.currentState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING) + " --> " + AnimUtils.valueToString(this.targetState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING));
             this.currentState.setDrawerState(this.targetState.getDrawerState());
-            buffer.append(new StringBuffer().append("\nvisible:\t\t\t\t\t\t\t").append(this.currentState.isVisible()).append(" --> ").append(this.targetState.isVisible()).toString());
+            buffer.append("\nvisible:\t\t\t\t\t\t\t" + this.currentState.isVisible() + " --> " + this.targetState.isVisible());
             this.currentState.setVisible(this.targetState.isVisible());
-            buffer.append(new StringBuffer().append("\nopacity:\t\t\t\t\t\t\t").append(this.currentState.getOpacity()).append(" --> ").append(this.targetState.getOpacity()).toString());
+            buffer.append("\nopacity:\t\t\t\t\t\t\t" + this.currentState.getOpacity() + " --> " + this.targetState.getOpacity());
             this.currentState.setOpacity(this.targetState.getOpacity());
-            buffer.append(new StringBuffer().append("\nED onScreen:\t\t\t\t\t\t").append(this.entertainmentDrawer.isOnScreen()).append(" --> ").append(this.targetState.isVisible()).toString());
+            buffer.append("\nED onScreen:\t\t\t\t\t\t" + this.entertainmentDrawer.isOnScreen() + " --> " + this.targetState.isVisible());
             this.entertainmentDrawer.setOnScreen(this.targetState.isVisible());
-            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateContent:%1\n", (Object)buffer.toString());
+            IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateContent:%1\n", (Object)buffer.toString());
             if (this.currentState.getContent() != null && this.currentState.getContent().isConnected() && this.currentState.getContent().getDisplayDrawerState() != this.currentState.getDrawerState()) {
                 this.currentState.getContent().setDisplayDrawerState(this.currentState.getDrawerState(), this.currentState.isAnimateDrawerStateChange(), true);
             }
@@ -224,7 +221,7 @@ WidgetConstants {
             } else {
                 n = this.targetState.getDrawerState();
                 int n3 = this.sourceState.getDrawerState();
-                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateMainArea target ED state: %1, current ED state: %2", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING), (Object)AnimUtils.valueToString(n3, IDrawer.DRAWER_STATE_TO_STRING));
+                IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateMainArea target ED state: %1, current ED state: %2", (Object)AnimUtils.valueToString(n, IDrawer.DRAWER_STATE_TO_STRING), (Object)AnimUtils.valueToString(n3, IDrawer.DRAWER_STATE_TO_STRING));
                 switch (n) {
                     case 0: {
                         if (n3 == 0) break;
@@ -247,17 +244,17 @@ WidgetConstants {
                         break;
                     }
                     default: {
-                        IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-1601830656, "EntertainmentDrawerAnimationManager#updateMainArea untreated targetDrawerState: %1", (long)n);
+                        IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(100000, "EntertainmentDrawerAnimationManager#updateMainArea untreated targetDrawerState: %1", (long)n);
                     }
                 }
             }
             if (n2 != -1) {
                 n = drawerFocusManager.getDrawerState();
                 if (IWidgetLogChannel.logEntertainmentDrawerAnimationManager.isDebug()) {
-                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-2137614336, "EntertainmentDrawerAnimationManager#updateMainArea request drawer state from DrawerFocusManager: %1, currentDrawerState: %2", (Object)DrawerFocusManager.getStateName(n2), (Object)DrawerFocusManager.getStateName(n));
+                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(10000000, "EntertainmentDrawerAnimationManager#updateMainArea request drawer state from DrawerFocusManager: %1, currentDrawerState: %2", (Object)DrawerFocusManager.getStateName(n2), (Object)DrawerFocusManager.getStateName(n));
                 }
                 if (n2 == 16 && n != 32) {
-                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(-1601830656, "EntertainmentDrawerAnimationManager#updateMainArea not requesting STATE_MAIN_AREA, because state is no longer STATE_ENTERTAINMENT_MENU");
+                    IWidgetLogChannel.logEntertainmentDrawerAnimationManager.log(100000, "EntertainmentDrawerAnimationManager#updateMainArea not requesting STATE_MAIN_AREA, because state is no longer STATE_ENTERTAINMENT_MENU");
                 } else {
                     drawerFocusManager.requestDrawerState(n2);
                 }

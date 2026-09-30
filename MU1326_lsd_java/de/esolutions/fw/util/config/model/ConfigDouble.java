@@ -1,13 +1,11 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.model.ConfigScalar;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class ConfigDouble
 extends ConfigScalar {
@@ -21,17 +19,14 @@ extends ConfigScalar {
         this.value = new Double(d2);
     }
 
-    @Override
     public boolean isDouble() {
         return true;
     }
 
-    @Override
     public Double getDouble() {
         return this.value;
     }
 
-    @Override
     public Double getDouble(Double d2) {
         if (this.value == null) {
             return d2;
@@ -39,22 +34,18 @@ extends ConfigScalar {
         return this.value;
     }
 
-    @Override
     public Boolean convertToBoolean() {
         return new Boolean((double)this.value.intValue() != 0.0);
     }
 
-    @Override
     public Integer convertToInteger() {
         return new Integer((int)this.value.doubleValue());
     }
 
-    @Override
     public Double convertToDouble() {
         return this.value;
     }
 
-    @Override
     public String convertToString() {
         return this.value.toString();
     }
@@ -68,7 +59,7 @@ extends ConfigScalar {
             return false;
         }
         ConfigDouble configDouble = (ConfigDouble)object;
-        return this.value.equals((Object)configDouble.value);
+        return this.value.equals(configDouble.value);
     }
 
     public int hashCode() {
@@ -77,8 +68,7 @@ extends ConfigScalar {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         if (this.value == null) {
             iConfigExporter.writeNull();
         } else {

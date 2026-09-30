@@ -21,22 +21,22 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.SeparatingLineController;
 
 public class MenuRendererHigh
 extends CompositeRendererHigh {
-    private static final int CURSOR_LEFT_BREADTH;
-    protected static final int NODE_FOREGROUND;
-    protected static final int NODE_CONTENT;
-    protected static final int NODE_CONTENT_FOREGROUND;
-    protected static final int NODE_CURSOR_SCROLLBAR;
-    protected static final int NODE_FOCUS_CURSOR_SHADOW;
-    protected static final int NODE_SELECTION_CURSOR;
-    protected static final int NODE_UNCLIPPED;
-    protected static final int NODE_GLASSPLATE;
-    protected static final int NODE_BACKGROUND;
-    protected static final int NODE_NOW_PLAYING_WIDGET;
-    protected static final int NODE_NOW_PLAYING_WIDGET_CLIPPED;
-    protected static final int NODE_UNCLIPPED_FOREGROUND;
-    protected static final int NODE_TRANSLATION;
-    protected static final int NODE_OFFSET;
-    protected static final int NODE_UNCLIPPED_TRANSLATION;
+    private static final int CURSOR_LEFT_BREADTH = 60;
+    protected static final int NODE_FOREGROUND = 0;
+    protected static final int NODE_CONTENT = 1;
+    protected static final int NODE_CONTENT_FOREGROUND = 2;
+    protected static final int NODE_CURSOR_SCROLLBAR = 3;
+    protected static final int NODE_FOCUS_CURSOR_SHADOW = 4;
+    protected static final int NODE_SELECTION_CURSOR = 5;
+    protected static final int NODE_UNCLIPPED = 6;
+    protected static final int NODE_GLASSPLATE = 7;
+    protected static final int NODE_BACKGROUND = 8;
+    protected static final int NODE_NOW_PLAYING_WIDGET = 9;
+    protected static final int NODE_NOW_PLAYING_WIDGET_CLIPPED = 10;
+    protected static final int NODE_UNCLIPPED_FOREGROUND = 11;
+    protected static final int NODE_TRANSLATION = 12;
+    protected static final int NODE_OFFSET = 13;
+    protected static final int NODE_UNCLIPPED_TRANSLATION = 15;
     protected final IWrappedNode3D[] nodes = new IWrappedNode3D[16];
     protected IWrappedLayer menuLayer;
     protected IWrappedNode3D parentOfOffsetNode;
@@ -46,7 +46,6 @@ extends CompositeRendererHigh {
         super(menuController);
     }
 
-    @Override
     protected void renderNode(RedrawContextHigh redrawContextHigh) {
         IWrappedNode3D iWrappedNode3D;
         super.renderNode(redrawContextHigh);
@@ -89,11 +88,11 @@ extends CompositeRendererHigh {
         this.nodes[3] = this.getEALManager().createNode3D(iWrappedNode3D, EALManager.createNodeName("MenuFocusCursorNode", this), n, n2);
         this.nodes[0] = this.getEALManager().createNode3D(iWrappedNode3D, EALManager.createNodeName("MenuForegroundNode", this), n, n2);
         if (this.menuLayer == null && !this.getMenu().isComboBoxMenu() || this.getMenu().isClipContent()) {
-            this.nodes[4].setClippingRectangle(28866, n3, n + 60, n4);
+            this.nodes[4].setClippingRectangle(-60.0f, n3, n + 60, n4);
             this.nodes[4].useClippingRectangle(true);
             this.nodes[4].setClippingInheritance(1);
             this.nodes[4].setClipping(true);
-            this.nodes[5].setClippingRectangle(28866, n3, n + 60, n4);
+            this.nodes[5].setClippingRectangle(-60.0f, n3, n + 60, n4);
             this.nodes[5].useClippingRectangle(true);
             this.nodes[5].setClippingInheritance(1);
             this.nodes[5].setClipping(true);
@@ -109,7 +108,7 @@ extends CompositeRendererHigh {
             this.nodes[0].useClippingRectangle(true);
             this.nodes[0].setClippingInheritance(1);
             this.nodes[0].setClipping(true);
-            this.nodes[3].setClippingRectangle(28866, n3, n + 60, n4);
+            this.nodes[3].setClippingRectangle(-60.0f, n3, n + 60, n4);
             this.nodes[3].useClippingRectangle(true);
             this.nodes[3].setClippingInheritance(1);
             this.nodes[3].setClipping(true);
@@ -124,7 +123,6 @@ extends CompositeRendererHigh {
         this.nodes[11] = this.getEALManager().createNode3D(iWrappedNode3D, EALManager.createNodeName("TouchUnclippedForegroundNode", this), n, n2);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float f2;
         super.applyProperties(redrawContextHigh);
@@ -140,9 +138,9 @@ extends CompositeRendererHigh {
         this.nodes[1].setClippingRectangle(0.0f, n, this.controller.getWidth(), n2);
         this.nodes[2].setClippingRectangle(0.0f, n, this.controller.getWidth(), n2);
         this.nodes[0].setClippingRectangle(0.0f, n, this.controller.getWidth(), n2);
-        this.nodes[3].setClippingRectangle(28866, n, this.controller.getWidth() + 60, n2);
-        this.nodes[4].setClippingRectangle(28866, n, this.controller.getWidth() + 60, n2);
-        this.nodes[5].setClippingRectangle(28866, n, this.controller.getWidth() + 60, n2);
+        this.nodes[3].setClippingRectangle(-60.0f, n, this.controller.getWidth() + 60, n2);
+        this.nodes[4].setClippingRectangle(-60.0f, n, this.controller.getWidth() + 60, n2);
+        this.nodes[5].setClippingRectangle(-60.0f, n, this.controller.getWidth() + 60, n2);
         float f3 = this.getMenu().getViewSizeChangeContentOpacity();
         float f4 = this.getNowPlayingDecoratorOpacity();
         this.nodes[1].setOpacity(f3);
@@ -202,7 +200,6 @@ extends CompositeRendererHigh {
         return false;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         MenuController menuController = (MenuController)this.controller;
@@ -266,7 +263,6 @@ extends CompositeRendererHigh {
         return (MenuController)this.controller;
     }
 
-    @Override
     public void disconnect() {
         EALManager eALManager = this.getEALManager();
         for (int i2 = 0; i2 < this.nodes.length; ++i2) {
@@ -285,7 +281,6 @@ extends CompositeRendererHigh {
         super.disconnect();
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 }

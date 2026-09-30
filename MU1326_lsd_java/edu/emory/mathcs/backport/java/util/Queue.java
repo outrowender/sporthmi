@@ -7,23 +7,16 @@ import java.util.Collection;
 
 public interface Queue
 extends Collection {
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    default public boolean offer(Object object) {
-    }
+    public boolean offer(Object var1);
 
-    default public Object remove() {
-    }
+    public Object remove();
 
-    default public Object poll() {
-    }
+    public Object poll();
 
-    default public Object element() {
-    }
+    public Object element();
 
-    default public Object peek() {
-    }
+    public Object peek();
 }
 

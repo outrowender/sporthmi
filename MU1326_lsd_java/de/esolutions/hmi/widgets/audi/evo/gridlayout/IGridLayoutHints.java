@@ -8,71 +8,52 @@ import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
 public interface IGridLayoutHints
 extends WidgetConstants,
 Comparable {
-    public static final int STATE_BIGSTAGE_EXPANDED;
-    public static final int STATE_BIGSTAGE_COLLAPSED;
-    public static final int STATE_SMALLSTAGE_EXPANDED;
-    public static final int STATE_SMALLSTAGE_COLLAPSED;
-    public static final int OVERLAP_NO_GAPS;
-    public static final int OVERLAP_TOP_GAP;
-    public static final int OVERLAP_BOTTOM_GAP;
-    public static final int OVERLAP_LEFT_GAP;
-    public static final int OVERLAP_RIGHT_GAP;
+    public static final int STATE_BIGSTAGE_EXPANDED = 1;
+    public static final int STATE_BIGSTAGE_COLLAPSED = 2;
+    public static final int STATE_SMALLSTAGE_EXPANDED = 4;
+    public static final int STATE_SMALLSTAGE_COLLAPSED = 8;
+    public static final int OVERLAP_NO_GAPS = 0;
+    public static final int OVERLAP_TOP_GAP = 1;
+    public static final int OVERLAP_BOTTOM_GAP = 2;
+    public static final int OVERLAP_LEFT_GAP = 4;
+    public static final int OVERLAP_RIGHT_GAP = 8;
 
-    default public boolean shouldShow(int n) {
-    }
+    public boolean shouldShow(int var1);
 
-    default public int getOverlapGaps() {
-    }
+    public int getOverlapGaps();
 
-    default public boolean isIgnoreForCellSizes() {
-    }
+    public boolean isIgnoreForCellSizes();
 
-    default public int getColumn() {
-    }
+    public int getColumn();
 
-    default public int getRow() {
-    }
+    public int getRow();
 
-    default public int getColumnSpan() {
-    }
+    public int getColumnSpan();
 
-    default public int getRowSpan() {
-    }
+    public int getRowSpan();
 
-    default public int getWidthMin() {
-    }
+    public int getWidthMin();
 
-    default public int getWidthMax() {
-    }
+    public int getWidthMax();
 
-    default public int getHeightMin() {
-    }
+    public int getHeightMin();
 
-    default public int getHeightMax() {
-    }
+    public int getHeightMax();
 
-    default public int getAlignmentHoriz() {
-    }
+    public int getAlignmentHoriz();
 
-    default public int getAlignmentVert() {
-    }
+    public int getAlignmentVert();
 
-    default public int getVisibleConditions() {
-    }
+    public int getVisibleConditions();
 
-    default public int getHidemode() {
-    }
+    public int getHidemode();
 
-    default public int getAdditionalXOffset() {
-    }
+    public int getAdditionalXOffset();
 
-    default public int getAdditionalYOffset() {
-    }
+    public int getAdditionalYOffset();
 
-    default public int getAdditionalWidthOffset() {
-    }
+    public int getAdditionalWidthOffset();
 
-    default public int getAdditionalHeightOffset() {
-    }
+    public int getAdditionalHeightOffset();
 }
 

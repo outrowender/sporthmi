@@ -11,9 +11,9 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 public class Config {
-    public static final int NONE;
-    private static final boolean TRACING_ENABLED;
-    private static final String GLOBAL_SYSPROP_PREFIX;
+    public static final int NONE = -1;
+    private static final boolean TRACING_ENABLED = Boolean.getBoolean("trace.config");
+    private static final String GLOBAL_SYSPROP_PREFIX = "config.";
     private String domain;
     private String fileName;
     private String sysPropPrefix;
@@ -22,7 +22,7 @@ public class Config {
     protected Config(String string, String string2) {
         this.domain = string;
         this.fileName = string2;
-        this.sysPropPrefix = new StringBuffer().append("config.").append(string).append(".").toString();
+        this.sysPropPrefix = GLOBAL_SYSPROP_PREFIX + string + ".";
         this.loadPropertyFile();
     }
 
@@ -40,7 +40,7 @@ public class Config {
             }
             catch (Exception exception) {
                 if (TRACING_ENABLED) {
-                    System.out.println(new StringBuffer().append("[CONFIG] Error happened during property file loading: domain=").append(this.domain).append(", file=").append(this.fileName).append(", message=").append(exception.getMessage()).toString());
+                    System.out.println("[CONFIG] Error happened during property file loading: domain=" + this.domain + ", file=" + this.fileName + ", message=" + exception.getMessage());
                 }
             }
             finally {
@@ -111,26 +111,22 @@ public class Config {
     }
 
     private String readProperty(String string) {
-        String string2 = new StringBuffer().append(this.sysPropPrefix).append(string).toString();
+        String string2 = this.sysPropPrefix + string;
         String string3 = System.getProperty(string2);
         if (string3 != null) {
             if (TRACING_ENABLED) {
-                System.out.println(new StringBuffer().append("[CONFIG] Requested property defined in system environment: domain=").append(this.domain).append(", system=").append(string2).append(", key=").append(string).append(", value=").append(string3).toString());
+                System.out.println("[CONFIG] Requested property defined in system environment: domain=" + this.domain + ", system=" + string2 + ", key=" + string + ", value=" + string3);
             }
         } else if (string3 == null && this.properties != null && this.properties.containsKey(string)) {
             string3 = this.properties.getProperty(string);
             if (TRACING_ENABLED) {
-                System.out.println(new StringBuffer().append("[CONFIG] Requested property defined in property file: domain=").append(this.domain).append(", file=").append(this.fileName).append(", key=").append(string).append(", value=").append(string3).toString());
+                System.out.println("[CONFIG] Requested property defined in property file: domain=" + this.domain + ", file=" + this.fileName + ", key=" + string + ", value=" + string3);
             }
         }
         if (string3 != null && string3.equals("null")) {
             string3 = null;
         }
         return string3;
-    }
-
-    static {
-        TRACING_ENABLED = Boolean.getBoolean("trace.config");
     }
 }
 

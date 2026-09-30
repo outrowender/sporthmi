@@ -18,7 +18,6 @@ implements DOMStringList {
         this.fStrings = vector;
     }
 
-    @Override
     public String item(int n) {
         try {
             return (String)this.fStrings.elementAt(n);
@@ -28,12 +27,10 @@ implements DOMStringList {
         }
     }
 
-    @Override
     public int getLength() {
         return this.fStrings.size();
     }
 
-    @Override
     public boolean contains(String string) {
         return this.fStrings.contains(string);
     }

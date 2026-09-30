@@ -3,18 +3,17 @@
  */
 package de.esolutions.fw.comm.agent.osgi;
 
+import de.esolutions.fw.comm.agent.Agent;
 import de.esolutions.fw.comm.agent.doctor.DoctorShell;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$DiagnosisReport;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$DisconnectPeer;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$DoctorShellCommand;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$FloaterFlushCommand;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$FloaterWasteCommand;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$PingControlCallback;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$SuicideCommand;
-import de.esolutions.fw.comm.agent.osgi.AgentCallbacks$TracePeer;
+import de.esolutions.fw.comm.agent.tracing.CommAgentTracing;
 import de.esolutions.fw.util.commons.error.Floater;
+import de.esolutions.fw.util.commons.os.Slayer;
+import de.esolutions.fw.util.tracing.ITraceCallback;
 import de.esolutions.fw.util.tracing.TraceChannel;
 import de.esolutions.fw.util.tracing.TraceClient;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 public class AgentCallbacks {
     private static TraceChannel channel = new TraceChannel("comm.agent.Callback");
@@ -32,22 +31,22 @@ public class AgentCallbacks {
     public void register() {
         TraceClient traceClient = TraceClient.getTraceClient();
         if (traceClient != null) {
-            AgentCallbacks$DisconnectPeer agentCallbacks$DisconnectPeer = new AgentCallbacks$DisconnectPeer(null);
-            this.disconnectPeerId = traceClient.registerCallback("comm_disconnectPeer", agentCallbacks$DisconnectPeer);
-            AgentCallbacks$TracePeer agentCallbacks$TracePeer = new AgentCallbacks$TracePeer(null);
-            this.tracePeerId = traceClient.registerCallback("comm_tracePeer", agentCallbacks$TracePeer);
-            AgentCallbacks$DiagnosisReport agentCallbacks$DiagnosisReport = new AgentCallbacks$DiagnosisReport(null);
-            this.diagReportId = traceClient.registerCallback("comm_diagnosis", agentCallbacks$DiagnosisReport);
-            AgentCallbacks$DoctorShellCommand agentCallbacks$DoctorShellCommand = new AgentCallbacks$DoctorShellCommand(this, null);
-            this.doctorCallId = traceClient.registerCallback("comm_doctor", agentCallbacks$DoctorShellCommand);
-            AgentCallbacks$SuicideCommand agentCallbacks$SuicideCommand = new AgentCallbacks$SuicideCommand(this, null);
-            this.suicideId = traceClient.registerCallback("vm_suicide", agentCallbacks$SuicideCommand);
-            AgentCallbacks$FloaterWasteCommand agentCallbacks$FloaterWasteCommand = new AgentCallbacks$FloaterWasteCommand(this, null);
-            this.floaterWasteCallId = traceClient.registerCallback("floater_waste", agentCallbacks$FloaterWasteCommand);
-            AgentCallbacks$FloaterFlushCommand agentCallbacks$FloaterFlushCommand = new AgentCallbacks$FloaterFlushCommand(this, null);
-            this.floaterFlushCallId = traceClient.registerCallback("floater_flush", agentCallbacks$FloaterFlushCommand);
-            AgentCallbacks$PingControlCallback agentCallbacks$PingControlCallback = new AgentCallbacks$PingControlCallback(null);
-            this.pingControlCallId = traceClient.registerCallback("ping_control", agentCallbacks$PingControlCallback);
+            DisconnectPeer disconnectPeer = new DisconnectPeer();
+            this.disconnectPeerId = traceClient.registerCallback("comm_disconnectPeer", disconnectPeer);
+            TracePeer tracePeer = new TracePeer();
+            this.tracePeerId = traceClient.registerCallback("comm_tracePeer", tracePeer);
+            DiagnosisReport diagnosisReport = new DiagnosisReport();
+            this.diagReportId = traceClient.registerCallback("comm_diagnosis", diagnosisReport);
+            DoctorShellCommand doctorShellCommand = new DoctorShellCommand();
+            this.doctorCallId = traceClient.registerCallback("comm_doctor", doctorShellCommand);
+            SuicideCommand suicideCommand = new SuicideCommand();
+            this.suicideId = traceClient.registerCallback("vm_suicide", suicideCommand);
+            FloaterWasteCommand floaterWasteCommand = new FloaterWasteCommand();
+            this.floaterWasteCallId = traceClient.registerCallback("floater_waste", floaterWasteCommand);
+            FloaterFlushCommand floaterFlushCommand = new FloaterFlushCommand();
+            this.floaterFlushCallId = traceClient.registerCallback("floater_flush", floaterFlushCommand);
+            PingControlCallback pingControlCallback = new PingControlCallback();
+            this.pingControlCallId = traceClient.registerCallback("ping_control", pingControlCallback);
         }
     }
 
@@ -65,16 +64,156 @@ public class AgentCallbacks {
         }
     }
 
-    static /* synthetic */ TraceChannel access$000() {
-        return channel;
+    private static class TracePeer
+    implements ITraceCallback {
+        private TracePeer() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            try {
+                String string = new String(byArray, "UTF-8");
+                short s = Short.parseShort(string);
+                Agent agent = Agent.getAgent();
+                if (agent != null) {
+                    channel.log((short)2, "Trace Peer: %1", new Short(s));
+                    agent.setTracePeer(s);
+                }
+            }
+            catch (Exception exception) {
+                channel.log((short)4, "Invalid TracePeer call! Reason: %1 ", exception);
+            }
+        }
     }
 
-    static /* synthetic */ DoctorShell access$100(AgentCallbacks agentCallbacks) {
-        return agentCallbacks.shell;
+    private static class DisconnectPeer
+    implements ITraceCallback {
+        private DisconnectPeer() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            try {
+                String string = new String(byArray, "UTF-8");
+                short s = Short.parseShort(string);
+                Agent agent = Agent.getAgent();
+                if (agent != null) {
+                    channel.log((short)2, "Force disconnect to peer: %1", new Short(s));
+                    agent.forceDisconnect(s);
+                }
+            }
+            catch (Exception exception) {
+                channel.log((short)4, new StringBuffer().append("Invalid DisconnectPeer call! Reason: %1 ").append(exception).toString());
+            }
+        }
     }
 
-    static /* synthetic */ Floater access$200(AgentCallbacks agentCallbacks) {
-        return agentCallbacks.floater;
+    private class SuicideCommand
+    implements ITraceCallback {
+        private SuicideCommand() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            Slayer slayer = new Slayer();
+            slayer.suicide();
+        }
+    }
+
+    private static class DiagnosisReport
+    implements ITraceCallback {
+        private DiagnosisReport() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            String string;
+            Agent agent = Agent.getAgent();
+            if (agent != null) {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteArrayOutputStream);
+                agent.writeDiagnosisReport(printStream);
+                try {
+                    string = byteArrayOutputStream.toString("UTF-8");
+                }
+                catch (UnsupportedEncodingException unsupportedEncodingException) {
+                    string = byteArrayOutputStream.toString();
+                    channel.log((short)4, "DiagnosisReport executeTraceCallback found UnsupportedEncodingException");
+                }
+            } else {
+                string = "DiagnosisReport failed: NO AGENT FOUND!";
+            }
+            channel.log((short)2, string);
+        }
+    }
+
+    private class DoctorShellCommand
+    implements ITraceCallback {
+        private DoctorShellCommand() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            String string;
+            String string2 = new String(byArray);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            PrintStream printStream = new PrintStream(byteArrayOutputStream);
+            printStream.println(new StringBuffer().append(AgentCallbacks.this.shell.getPrompt()).append(string2).toString());
+            AgentCallbacks.this.shell.handleCommand(string2, printStream);
+            try {
+                string = byteArrayOutputStream.toString("UTF-8");
+            }
+            catch (UnsupportedEncodingException unsupportedEncodingException) {
+                string = byteArrayOutputStream.toString();
+                channel.log((short)4, "DoctorShellCommand executeTraceCallback found UnsupportedEncodingException");
+            }
+            CommAgentTracing.DOCTOR.log((short)2, string);
+        }
+    }
+
+    private class FloaterFlushCommand
+    implements ITraceCallback {
+        private FloaterFlushCommand() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            AgentCallbacks.this.floater.flush();
+        }
+    }
+
+    private class FloaterWasteCommand
+    implements ITraceCallback {
+        private FloaterWasteCommand() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            int n2 = 256;
+            if (byArray != null) {
+                try {
+                    String string = new String(byArray, "UTF-8");
+                    n2 = Integer.parseInt(string);
+                }
+                catch (Exception exception) {
+                    // empty catch block
+                }
+            }
+            AgentCallbacks.this.floater.waste(n2);
+        }
+    }
+
+    private static class PingControlCallback
+    implements ITraceCallback {
+        private PingControlCallback() {
+        }
+
+        public void executeTraceCallback(int n, byte[] byArray) {
+            try {
+                String string = new String(byArray, "UTF-8");
+                Agent agent = Agent.getAgent();
+                if (agent != null) {
+                    channel.log((short)2, "Ping control command=%1", new Short(string));
+                    agent.pingControl(string);
+                }
+            }
+            catch (Exception exception) {
+                channel.log((short)4, new StringBuffer().append("Invalid Ping control call! Reason: %1 ").append(exception).toString());
+            }
+        }
     }
 }
 

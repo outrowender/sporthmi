@@ -22,17 +22,17 @@ import java.util.Enumeration;
 
 public class MulticastSocket
 extends DatagramSocket {
-    static final int SO_REUSEPORT;
+    static final int SO_REUSEPORT = 512;
     private InetAddress interfaceSet = null;
 
-    public MulticastSocket() {
+    public MulticastSocket() throws IOException {
     }
 
-    public MulticastSocket(int n) {
+    public MulticastSocket(int n) throws IOException {
         super(n);
     }
 
-    public InetAddress getInterface() {
+    public InetAddress getInterface() throws SocketException {
         this.checkClosedAndBind(false);
         if (this.interfaceSet == null) {
             Enumeration enumeration;
@@ -50,7 +50,7 @@ extends DatagramSocket {
         return this.interfaceSet;
     }
 
-    public NetworkInterface getNetworkInterface() {
+    public NetworkInterface getNetworkInterface() throws SocketException {
         InetAddress[] inetAddressArray;
         Object object;
         this.checkClosedAndBind(false);
@@ -77,17 +77,16 @@ extends DatagramSocket {
         return null;
     }
 
-    public int getTimeToLive() {
+    public int getTimeToLive() throws IOException {
         this.checkClosedAndBind(false);
         return this.impl.getTimeToLive();
     }
 
-    @Override
     boolean isMulticastSocket() {
         return true;
     }
 
-    public void joinGroup(InetAddress inetAddress) {
+    public void joinGroup(InetAddress inetAddress) throws IOException {
         this.checkClosedAndBind(false);
         if (!inetAddress.isMulticastAddress()) {
             throw new IOException(Msg.getString("K0039"));
@@ -99,7 +98,7 @@ extends DatagramSocket {
         this.impl.join(inetAddress);
     }
 
-    public void joinGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
+    public void joinGroup(SocketAddress socketAddress, NetworkInterface networkInterface) throws IOException {
         this.checkClosedAndBind(false);
         if (socketAddress == null) {
             throw new IllegalArgumentException(Msg.getString("K0331"));
@@ -120,12 +119,12 @@ extends DatagramSocket {
                 securityManager.checkMulticast(inetAddress);
             }
         } else {
-            throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
         }
         this.impl.joinGroup(socketAddress, networkInterface);
     }
 
-    public void leaveGroup(InetAddress inetAddress) {
+    public void leaveGroup(InetAddress inetAddress) throws IOException {
         this.checkClosedAndBind(false);
         if (!inetAddress.isMulticastAddress()) {
             throw new IOException(Msg.getString("K003a"));
@@ -137,7 +136,7 @@ extends DatagramSocket {
         this.impl.leave(inetAddress);
     }
 
-    public void leaveGroup(SocketAddress socketAddress, NetworkInterface networkInterface) {
+    public void leaveGroup(SocketAddress socketAddress, NetworkInterface networkInterface) throws IOException {
         this.checkClosedAndBind(false);
         if (socketAddress == null) {
             throw new IllegalArgumentException(Msg.getString("K0331"));
@@ -158,12 +157,12 @@ extends DatagramSocket {
                 securityManager.checkMulticast(inetAddress);
             }
         } else {
-            throw new IllegalArgumentException(Msg.getString("K0316", super.getClass()));
+            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress.getClass()));
         }
         this.impl.leaveGroup(socketAddress, networkInterface);
     }
 
-    public void send(DatagramPacket datagramPacket, byte by) {
+    public void send(DatagramPacket datagramPacket, byte by) throws IOException {
         this.checkClosedAndBind(false);
         InetAddress inetAddress = datagramPacket.getAddress();
         SecurityManager securityManager = System.getSecurityManager();
@@ -188,7 +187,7 @@ extends DatagramSocket {
         }
     }
 
-    public void setInterface(InetAddress inetAddress) {
+    public void setInterface(InetAddress inetAddress) throws SocketException {
         this.checkClosedAndBind(false);
         if (inetAddress == null) {
             throw new NullPointerException();
@@ -219,7 +218,7 @@ extends DatagramSocket {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    public void setNetworkInterface(NetworkInterface networkInterface) {
+    public void setNetworkInterface(NetworkInterface networkInterface) throws SocketException {
         this.checkClosedAndBind(false);
         if (networkInterface == null) throw new SocketException(Msg.getString("K0334"));
         InetAddress inetAddress = networkInterface.getFirstAddress();
@@ -255,7 +254,7 @@ extends DatagramSocket {
         this.interfaceSet = null;
     }
 
-    public void setTimeToLive(int n) {
+    public void setTimeToLive(int n) throws IOException {
         this.checkClosedAndBind(false);
         if (n < 0 || n > 255) {
             throw new IllegalArgumentException(Msg.getString("K003c"));
@@ -263,8 +262,7 @@ extends DatagramSocket {
         this.impl.setTimeToLive(n);
     }
 
-    @Override
-    synchronized void createSocket(int n, InetAddress inetAddress) {
+    synchronized void createSocket(int n, InetAddress inetAddress) throws SocketException {
         this.impl = factory != null ? factory.createDatagramSocketImpl() : this.createSocketImpl();
         this.impl.create();
         try {
@@ -277,26 +275,25 @@ extends DatagramSocket {
         }
     }
 
-    public MulticastSocket(SocketAddress socketAddress) {
+    public MulticastSocket(SocketAddress socketAddress) throws IOException {
         super(socketAddress);
     }
 
-    public boolean getLoopbackMode() {
+    public boolean getLoopbackMode() throws SocketException {
         this.checkClosedAndBind(false);
         return (Boolean)this.impl.getOption(18) == false;
     }
 
-    public void setLoopbackMode(boolean bl) {
+    public void setLoopbackMode(boolean bl) throws SocketException {
         this.checkClosedAndBind(false);
         this.impl.setOption(18, bl ? Boolean.FALSE : Boolean.TRUE);
     }
 
-    @Override
-    DatagramSocketImpl createSocketImpl() {
+    DatagramSocketImpl createSocketImpl() throws SocketException {
         Object object = null;
         String string = (String)AccessController.doPrivileged(new PriviAction("impl.prefix", "Plain"));
         try {
-            Class clazz = Class.forName(new StringBuffer("java.net.").append(string).append("MulticastSocketImpl").toString());
+            Class clazz = Class.forName("java.net." + string + "MulticastSocketImpl");
             object = clazz.newInstance();
         }
         catch (Exception exception) {

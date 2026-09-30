@@ -32,7 +32,7 @@ public class VolumeRange {
     }
 
     public String toString() {
-        return new StringBuffer("VolumeRange{").append("min=").append(this.min).append(", max=").append(this.max).append("}").toString();
+        return "VolumeRange{" + "min=" + this.min + ", max=" + this.max + "}";
     }
 }
 

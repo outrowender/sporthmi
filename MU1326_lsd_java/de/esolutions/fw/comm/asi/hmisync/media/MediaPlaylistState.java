@@ -42,7 +42,7 @@ public class MediaPlaylistState {
     }
 
     public String toString() {
-        return new StringBuffer("MediaPlaylistState{").append("flags=").append(this.flags).append(", id=").append(this.id).append(", size=").append(this.size).append("}").toString();
+        return "MediaPlaylistState{" + "flags=" + this.flags + ", id=" + this.id + ", size=" + this.size + "}";
     }
 }
 

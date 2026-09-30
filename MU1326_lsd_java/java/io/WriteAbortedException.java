@@ -7,7 +7,7 @@ import java.io.ObjectStreamException;
 
 public class WriteAbortedException
 extends ObjectStreamException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -3326426625597282442L;
     public Exception detail;
 
     public WriteAbortedException(String string, Exception exception) {
@@ -16,16 +16,14 @@ extends ObjectStreamException {
         this.initCause(exception);
     }
 
-    @Override
     public String getMessage() {
         String string = super.getMessage();
         if (this.detail != null) {
-            string = new StringBuffer(String.valueOf(string)).append("; ").append(this.detail.toString()).toString();
+            string = String.valueOf(string) + "; " + this.detail.toString();
         }
         return string;
     }
 
-    @Override
     public Throwable getCause() {
         return this.detail;
     }

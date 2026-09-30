@@ -5,12 +5,14 @@ package de.esolutions.fw.util.transport.socket;
 
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
 import de.esolutions.fw.util.transport.exception.EndOfTransportException;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import de.esolutions.fw.util.transport.socket.IByteTransport;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class InputStreamTransport
 implements IByteTransport {
-    private static final int BUFFER_SIZE;
+    private static final int BUFFER_SIZE = 8192;
     private ITransportDebug debug;
     private final InputStream in;
 
@@ -18,17 +20,14 @@ implements IByteTransport {
         this.in = inputStream;
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
     }
 
-    @Override
-    public void send(byte[] byArray, int n, Object object) {
+    public void send(byte[] byArray, int n, Object object) throws IOException {
     }
 
-    @Override
-    public int recv(byte[] byArray, Object object) {
+    public int recv(byte[] byArray, Object object) throws IOException, TransportException {
         if (this.debug != null) {
             this.debug.log(System.currentTimeMillis(), 266, byArray.length, object);
         }
@@ -42,40 +41,33 @@ implements IByteTransport {
         return n;
     }
 
-    @Override
-    public void open() {
+    public void open() throws IOException {
     }
 
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         if (this.in != null) {
             this.in.close();
         }
     }
 
-    @Override
     public int getSendBufferSize() {
         return 0;
     }
 
-    @Override
     public int getReceiveBufferSize() {
         return 8192;
     }
 
-    @Override
     public boolean isReliable() {
         return true;
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return true;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[InputStream;").append(this.in).append("]").toString();
+        return "[InputStream;" + this.in + "]";
     }
 }
 

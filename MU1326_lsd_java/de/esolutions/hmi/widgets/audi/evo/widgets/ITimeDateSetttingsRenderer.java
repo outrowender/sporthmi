@@ -8,31 +8,22 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
 
 public interface ITimeDateSetttingsRenderer
 extends CompositeRenderer {
-    default public int getPreferredWidth() {
-    }
+    public int getPreferredWidth();
 
-    default public int getPreferredHeight() {
-    }
+    public int getPreferredHeight();
 
-    default public int getBaseline() {
-    }
+    public int getBaseline();
 
-    default public AbstractWidgetController getFormfieldStub() {
-    }
+    public AbstractWidgetController getFormfieldStub();
 
-    default public int getTextWidth(String string) {
-    }
+    public int getTextWidth(String var1);
 
-    default public void setAutoConfig(boolean bl) {
-    }
+    public void setAutoConfig(boolean var1);
 
-    default public void setBackgroundHeight(int n) {
-    }
+    public void setBackgroundHeight(int var1);
 
-    default public void setBackgroundVerticalOffset(int n) {
-    }
+    public void setBackgroundVerticalOffset(int var1);
 
-    default public void setTextVerticalOffset(int n) {
-    }
+    public void setTextVerticalOffset(int var1);
 }
 

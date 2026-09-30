@@ -10,10 +10,8 @@ import de.vw.mib.bap.functions.BAPFunctionListener;
 
 public interface ArrayListener
 extends BAPFunctionListener {
-    default public void statusArray(BAPStatusArray bAPStatusArray, Array array) {
-    }
+    public void statusArray(BAPStatusArray var1, Array var2);
 
-    default public void changedArray(BAPChangedArray bAPChangedArray, Array array) {
-    }
+    public void changedArray(BAPChangedArray var1, Array var2);
 }
 

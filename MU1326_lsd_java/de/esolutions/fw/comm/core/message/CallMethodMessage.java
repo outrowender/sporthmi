@@ -10,6 +10,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializable;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.transport.IWriteable;
 
 public class CallMethodMessage
@@ -27,7 +28,7 @@ extends AbstractMessage {
         this.payload = iSerializable;
     }
 
-    public CallMethodMessage(IDeserializer iDeserializer, boolean bl) {
+    public CallMethodMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.CALL_METHOD, iDeserializer, bl);
     }
 
@@ -35,8 +36,7 @@ extends AbstractMessage {
         this.serCallback = iCallMethodSerializeCallback;
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.stubID);
         iSerializer.putInt16(this.methodID);
         IWriteable iWriteable = iSerializer.getAttachedBuffer();
@@ -53,8 +53,7 @@ extends AbstractMessage {
         }
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.stubID = iDeserializer.getInt16();
         this.methodID = iDeserializer.getInt16();
         this.deserializer = iDeserializer;
@@ -72,7 +71,6 @@ extends AbstractMessage {
         return this.deserializer;
     }
 
-    @Override
     public void dump(Buffer buffer) {
         buffer.append("CallMethod: stub #");
         buffer.append(this.stubID);

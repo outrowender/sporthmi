@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
 
 public class AttributeMap
 extends NamedNodeMapImpl {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 8872606282138665383L;
 
     protected AttributeMap(ElementImpl elementImpl, NamedNodeMapImpl namedNodeMapImpl) {
         super(elementImpl);
@@ -28,8 +28,7 @@ extends NamedNodeMapImpl {
         }
     }
 
-    @Override
-    public Node setNamedItem(Node node) {
+    public Node setNamedItem(Node node) throws DOMException {
         AttrImpl attrImpl;
         boolean bl = this.ownerNode.ownerDocument().errorChecking;
         if (bl) {
@@ -77,8 +76,7 @@ extends NamedNodeMapImpl {
         return attrImpl2;
     }
 
-    @Override
-    public Node setNamedItemNS(Node node) {
+    public Node setNamedItemNS(Node node) throws DOMException {
         AttrImpl attrImpl;
         boolean bl = this.ownerNode.ownerDocument().errorChecking;
         if (bl) {
@@ -132,8 +130,7 @@ extends NamedNodeMapImpl {
         return attrImpl2;
     }
 
-    @Override
-    public Node removeNamedItem(String string) {
+    public Node removeNamedItem(String string) throws DOMException {
         return this.internalRemoveNamedItem(string, true);
     }
 
@@ -141,7 +138,7 @@ extends NamedNodeMapImpl {
         return this.internalRemoveNamedItem(string, false);
     }
 
-    protected Node removeItem(Node node, boolean bl) {
+    protected Node removeItem(Node node, boolean bl) throws DOMException {
         int n = -1;
         if (this.nodes != null) {
             for (int i2 = 0; i2 < this.nodes.size(); ++i2) {
@@ -208,8 +205,7 @@ extends NamedNodeMapImpl {
         return attrImpl;
     }
 
-    @Override
-    public Node removeNamedItemNS(String string, String string2) {
+    public Node removeNamedItemNS(String string, String string2) throws DOMException {
         return this.internalRemoveNamedItemNS(string, string2, true);
     }
 
@@ -270,7 +266,6 @@ extends NamedNodeMapImpl {
         return attrImpl;
     }
 
-    @Override
     public NamedNodeMapImpl cloneMap(NodeImpl nodeImpl) {
         AttributeMap attributeMap = new AttributeMap((ElementImpl)nodeImpl, null);
         attributeMap.hasDefaults(this.hasDefaults());
@@ -278,7 +273,6 @@ extends NamedNodeMapImpl {
         return attributeMap;
     }
 
-    @Override
     protected void cloneContent(NamedNodeMapImpl namedNodeMapImpl) {
         int n;
         Vector vector = namedNodeMapImpl.nodes;
@@ -341,7 +335,6 @@ extends NamedNodeMapImpl {
         }
     }
 
-    @Override
     protected final int addItem(Node node) {
         AttrImpl attrImpl = (AttrImpl)node;
         attrImpl.ownerNode = this.ownerNode;

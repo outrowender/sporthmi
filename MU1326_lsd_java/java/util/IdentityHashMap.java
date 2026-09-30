@@ -3,18 +3,19 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.Collection;
-import java.util.IdentityHashMap$2;
-import java.util.IdentityHashMap$4;
-import java.util.IdentityHashMap$IdentityHashMapEntry;
-import java.util.IdentityHashMap$IdentityHashMapEntrySet;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.MapEntry;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class IdentityHashMap
@@ -22,18 +23,14 @@ extends AbstractMap
 implements Map,
 Serializable,
 Cloneable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 8188218128353913216L;
     transient Object[] elementData;
     int size;
     transient int threshold;
-    private static final int DEFAULT_MAX_SIZE;
-    private static final int loadFactor;
+    private static final int DEFAULT_MAX_SIZE = 21;
+    private static final int loadFactor = 7500;
     transient int modCount = 0;
-    private static final Object NULL_OBJECT;
-
-    static {
-        NULL_OBJECT = new Object();
-    }
+    private static final Object NULL_OBJECT = new Object();
 
     public IdentityHashMap() {
         this(21);
@@ -53,7 +50,7 @@ Cloneable {
     }
 
     private int computeElementArraySize() {
-        return (int)((long)this.threshold * 0 / 0) * 2;
+        return (int)((long)this.threshold * 10000L / 7500L) * 2;
     }
 
     private Object[] newElementArray(int n) {
@@ -65,7 +62,6 @@ Cloneable {
         this.putAll(map);
     }
 
-    @Override
     public void clear() {
         this.size = 0;
         int n = 0;
@@ -76,7 +72,6 @@ Cloneable {
         ++this.modCount;
     }
 
-    @Override
     public boolean containsKey(Object object) {
         int n;
         if (object == null) {
@@ -85,7 +80,6 @@ Cloneable {
         return this.elementData[n = this.findIndex(object, this.elementData)] == object;
     }
 
-    @Override
     public boolean containsValue(Object object) {
         if (object == null) {
             object = NULL_OBJECT;
@@ -100,7 +94,6 @@ Cloneable {
         return false;
     }
 
-    @Override
     public Object get(Object object) {
         int n;
         if (object == null) {
@@ -113,7 +106,7 @@ Cloneable {
         return null;
     }
 
-    private IdentityHashMap$IdentityHashMapEntry getEntry(Object object) {
+    private IdentityHashMapEntry getEntry(Object object) {
         int n;
         if (object == null) {
             object = NULL_OBJECT;
@@ -124,7 +117,7 @@ Cloneable {
         return null;
     }
 
-    private IdentityHashMap$IdentityHashMapEntry getEntry(int n) {
+    private IdentityHashMapEntry getEntry(int n) {
         Object object = this.elementData[n];
         Object object2 = this.elementData[n + 1];
         if (object == NULL_OBJECT) {
@@ -133,7 +126,7 @@ Cloneable {
         if (object2 == NULL_OBJECT) {
             object2 = null;
         }
-        return new IdentityHashMap$IdentityHashMapEntry(object, object2);
+        return new IdentityHashMapEntry(object, object2);
     }
 
     private int findIndex(Object object, Object[] objectArray) {
@@ -148,10 +141,9 @@ Cloneable {
     }
 
     private int getModuloHash(Object object, int n) {
-        return (System.identityHashCode(object) & 0xFFFFFF7F) % (n / 2) * 2;
+        return (System.identityHashCode(object) & Integer.MAX_VALUE) % (n / 2) * 2;
     }
 
-    @Override
     public Object put(Object object, Object object2) {
         int n;
         if (object == null) {
@@ -195,10 +187,9 @@ Cloneable {
     }
 
     private void computeMaxSize() {
-        this.threshold = (int)((long)(this.elementData.length / 2) * 0 / 0);
+        this.threshold = (int)((long)(this.elementData.length / 2) * 7500L / 10000L);
     }
 
-    @Override
     public Object remove(Object object) {
         Object object2;
         int n;
@@ -232,28 +223,86 @@ Cloneable {
         return object3 == NULL_OBJECT ? null : object3;
     }
 
-    @Override
     public Set entrySet() {
-        return new IdentityHashMap$IdentityHashMapEntrySet(this);
+        return new IdentityHashMapEntrySet(this);
     }
 
-    @Override
     public Set keySet() {
         if (this.keySet == null) {
-            this.keySet = new IdentityHashMap$2(this);
+            this.keySet = new AbstractSet(){
+
+                public boolean contains(Object object) {
+                    return IdentityHashMap.this.containsKey(object);
+                }
+
+                public int size() {
+                    return IdentityHashMap.this.size();
+                }
+
+                public void clear() {
+                    IdentityHashMap.this.clear();
+                }
+
+                public boolean remove(Object object) {
+                    if (IdentityHashMap.this.containsKey(object)) {
+                        IdentityHashMap.this.remove(object);
+                        return true;
+                    }
+                    return false;
+                }
+
+                public Iterator iterator() {
+                    return new IdentityHashMapIterator(new MapEntry.Type(){
+
+                        public Object get(MapEntry mapEntry) {
+                            return mapEntry.key;
+                        }
+                    }, IdentityHashMap.this);
+                }
+            };
         }
         return this.keySet;
     }
 
-    @Override
     public Collection values() {
         if (this.valuesCollection == null) {
-            this.valuesCollection = new IdentityHashMap$4(this);
+            this.valuesCollection = new AbstractCollection(){
+
+                public boolean contains(Object object) {
+                    return IdentityHashMap.this.containsValue(object);
+                }
+
+                public int size() {
+                    return IdentityHashMap.this.size();
+                }
+
+                public void clear() {
+                    IdentityHashMap.this.clear();
+                }
+
+                public Iterator iterator() {
+                    return new IdentityHashMapIterator(new MapEntry.Type(){
+
+                        public Object get(MapEntry mapEntry) {
+                            return mapEntry.value;
+                        }
+                    }, IdentityHashMap.this);
+                }
+
+                public boolean remove(Object object) {
+                    Iterator iterator = this.iterator();
+                    while (iterator.hasNext()) {
+                        if (object != iterator.next()) continue;
+                        iterator.remove();
+                        return true;
+                    }
+                    return false;
+                }
+            };
         }
         return this.valuesCollection;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -269,7 +318,6 @@ Cloneable {
         return false;
     }
 
-    @Override
     public Object clone() {
         try {
             return (IdentityHashMap)super.clone();
@@ -279,17 +327,15 @@ Cloneable {
         }
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeInt(this.size);
         Iterator iterator = this.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -299,7 +345,7 @@ Cloneable {
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         int n = objectInputStream.readInt();
         this.threshold = this.getThreshold(21);
         this.elementData = this.newElementArray(this.computeElementArraySize());
@@ -310,12 +356,136 @@ Cloneable {
         }
     }
 
-    static /* synthetic */ IdentityHashMap$IdentityHashMapEntry access$0(IdentityHashMap identityHashMap, int n) {
-        return identityHashMap.getEntry(n);
+    static class IdentityHashMapEntry
+    extends MapEntry {
+        IdentityHashMapEntry(Object object, Object object2) {
+            super(object, object2);
+        }
+
+        public Object clone() {
+            return (IdentityHashMapEntry)super.clone();
+        }
+
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (object instanceof Map.Entry) {
+                Map.Entry entry = (Map.Entry)object;
+                return this.key == entry.getKey() && this.value == entry.getValue();
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return System.identityHashCode(this.key) ^ System.identityHashCode(this.value);
+        }
+
+        public String toString() {
+            return this.key + "=" + this.value;
+        }
     }
 
-    static /* synthetic */ IdentityHashMap$IdentityHashMapEntry access$1(IdentityHashMap identityHashMap, Object object) {
-        return identityHashMap.getEntry(object);
+    static class IdentityHashMapEntrySet
+    extends AbstractSet {
+        private final IdentityHashMap associatedMap;
+
+        public IdentityHashMapEntrySet(IdentityHashMap identityHashMap) {
+            this.associatedMap = identityHashMap;
+        }
+
+        IdentityHashMap hashMap() {
+            return this.associatedMap;
+        }
+
+        public int size() {
+            return this.associatedMap.size;
+        }
+
+        public void clear() {
+            this.associatedMap.clear();
+        }
+
+        public boolean remove(Object object) {
+            if (this.contains(object)) {
+                this.associatedMap.remove(((Map.Entry)object).getKey());
+                return true;
+            }
+            return false;
+        }
+
+        public boolean contains(Object object) {
+            if (object instanceof Map.Entry) {
+                IdentityHashMapEntry identityHashMapEntry = this.associatedMap.getEntry(((Map.Entry)object).getKey());
+                return identityHashMapEntry != null && identityHashMapEntry.equals(object);
+            }
+            return false;
+        }
+
+        public Iterator iterator() {
+            return new IdentityHashMapIterator(new MapEntry.Type(){
+
+                public Object get(MapEntry mapEntry) {
+                    return mapEntry;
+                }
+            }, this.associatedMap);
+        }
+    }
+
+    static class IdentityHashMapIterator
+    implements Iterator {
+        private int position = 0;
+        private int lastPosition = 0;
+        final IdentityHashMap associatedMap;
+        int expectedModCount;
+        final MapEntry.Type type;
+        boolean canRemove = false;
+
+        IdentityHashMapIterator(MapEntry.Type type, IdentityHashMap identityHashMap) {
+            this.associatedMap = identityHashMap;
+            this.type = type;
+            this.expectedModCount = identityHashMap.modCount;
+        }
+
+        public boolean hasNext() {
+            while (this.position < this.associatedMap.elementData.length) {
+                if (this.associatedMap.elementData[this.position] == null) {
+                    this.position += 2;
+                    continue;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        void checkConcurrentMod() throws ConcurrentModificationException {
+            if (this.expectedModCount != this.associatedMap.modCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public Object next() {
+            this.checkConcurrentMod();
+            if (!this.hasNext()) {
+                throw new NoSuchElementException();
+            }
+            IdentityHashMapEntry identityHashMapEntry = this.associatedMap.getEntry(this.position);
+            this.lastPosition = this.position;
+            this.position += 2;
+            this.canRemove = true;
+            return this.type.get(identityHashMapEntry);
+        }
+
+        public void remove() {
+            this.checkConcurrentMod();
+            if (!this.canRemove) {
+                throw new IllegalStateException();
+            }
+            this.canRemove = false;
+            this.associatedMap.remove(this.associatedMap.elementData[this.lastPosition]);
+            this.position = this.lastPosition;
+            ++this.expectedModCount;
+        }
     }
 }
 

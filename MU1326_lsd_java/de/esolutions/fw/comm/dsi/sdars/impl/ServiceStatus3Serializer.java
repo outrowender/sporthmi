@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.ServiceStatus3;
 
 public class ServiceStatus3Serializer {
-    public static void putOptionalServiceStatus3(ISerializer iSerializer, ServiceStatus3 serviceStatus3) {
+    public static void putOptionalServiceStatus3(ISerializer iSerializer, ServiceStatus3 serviceStatus3) throws SerializerException {
         boolean bl = serviceStatus3 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class ServiceStatus3Serializer {
         }
     }
 
-    public static void putOptionalServiceStatus3VarArray(ISerializer iSerializer, ServiceStatus3[] serviceStatus3Array) {
+    public static void putOptionalServiceStatus3VarArray(ISerializer iSerializer, ServiceStatus3[] serviceStatus3Array) throws SerializerException {
         boolean bl = serviceStatus3Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class ServiceStatus3Serializer {
         }
     }
 
-    public static ServiceStatus3 getOptionalServiceStatus3(IDeserializer iDeserializer) {
+    public static ServiceStatus3 getOptionalServiceStatus3(IDeserializer iDeserializer) throws SerializerException {
         ServiceStatus3 serviceStatus3 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class ServiceStatus3Serializer {
         return serviceStatus3;
     }
 
-    public static ServiceStatus3[] getOptionalServiceStatus3VarArray(IDeserializer iDeserializer) {
+    public static ServiceStatus3[] getOptionalServiceStatus3VarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceStatus3[] serviceStatus3Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

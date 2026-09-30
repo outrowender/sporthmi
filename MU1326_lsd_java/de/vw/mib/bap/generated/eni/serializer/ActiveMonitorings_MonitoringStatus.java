@@ -38,12 +38,10 @@ implements BAPEntity {
         this.geofenceActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveMonitorings_MonitoringStatus activeMonitorings_MonitoringStatus = (ActiveMonitorings_MonitoringStatus)bAPEntity;
         return this.reservedActive == activeMonitorings_MonitoringStatus.reservedActive && this.driverEfficiencyReportActiveDf3_6 == activeMonitorings_MonitoringStatus.driverEfficiencyReportActiveDf3_6 && this.driverSLogbookActiveDf3_6 == activeMonitorings_MonitoringStatus.driverSLogbookActiveDf3_6 && this.timefenceActiveDf3_6 == activeMonitorings_MonitoringStatus.timefenceActiveDf3_6 && this.vehicleLocationAndTrackingActiveDf3_6 == activeMonitorings_MonitoringStatus.vehicleLocationAndTrackingActiveDf3_6 && this.valetAlertActive == activeMonitorings_MonitoringStatus.valetAlertActive && this.speedAlertActive == activeMonitorings_MonitoringStatus.speedAlertActive && this.geofenceActive == activeMonitorings_MonitoringStatus.geofenceActive;
@@ -52,27 +50,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveMonitorings_MonitoringStatus");
-        stringBuffer.append(new StringBuffer().append("\n - reservedActive:").append(this.reservedActive).toString());
-        stringBuffer.append(new StringBuffer().append("\n - driverEfficiencyReportActiveDf3_6:").append(this.driverEfficiencyReportActiveDf3_6).toString());
-        stringBuffer.append(new StringBuffer().append("\n - driverSLogbookActiveDf3_6:").append(this.driverSLogbookActiveDf3_6).toString());
-        stringBuffer.append(new StringBuffer().append("\n - timefenceActiveDf3_6:").append(this.timefenceActiveDf3_6).toString());
-        stringBuffer.append(new StringBuffer().append("\n - vehicleLocationAndTrackingActiveDf3_6:").append(this.vehicleLocationAndTrackingActiveDf3_6).toString());
-        stringBuffer.append(new StringBuffer().append("\n - valetAlertActive:").append(this.valetAlertActive).toString());
-        stringBuffer.append(new StringBuffer().append("\n - speedAlertActive:").append(this.speedAlertActive).toString());
-        stringBuffer.append(new StringBuffer().append("\n - geofenceActive:").append(this.geofenceActive).toString());
+        stringBuffer.append("\n - reservedActive:" + this.reservedActive);
+        stringBuffer.append("\n - driverEfficiencyReportActiveDf3_6:" + this.driverEfficiencyReportActiveDf3_6);
+        stringBuffer.append("\n - driverSLogbookActiveDf3_6:" + this.driverSLogbookActiveDf3_6);
+        stringBuffer.append("\n - timefenceActiveDf3_6:" + this.timefenceActiveDf3_6);
+        stringBuffer.append("\n - vehicleLocationAndTrackingActiveDf3_6:" + this.vehicleLocationAndTrackingActiveDf3_6);
+        stringBuffer.append("\n - valetAlertActive:" + this.valetAlertActive);
+        stringBuffer.append("\n - speedAlertActive:" + this.speedAlertActive);
+        stringBuffer.append("\n - geofenceActive:" + this.geofenceActive);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reservedActive);
         bitStream.pushBoolean(this.driverEfficiencyReportActiveDf3_6);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.geofenceActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reservedActive = bitStream.popFrontBoolean();
         this.driverEfficiencyReportActiveDf3_6 = bitStream.popFrontBoolean();

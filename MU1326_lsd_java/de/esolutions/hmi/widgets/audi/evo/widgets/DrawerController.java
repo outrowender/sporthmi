@@ -46,11 +46,11 @@ import java.util.List;
 public class DrawerController
 extends ContainerController
 implements IDrawerControllerEvo {
-    private static final int MAX_ITERATIONS;
-    protected static final boolean HIDE_CLOSED_ICON;
-    public static final int CONTENT_TYPE_DEFAULT;
-    public static final int CONTENT_TYPE_SPELLER_OPTIONS;
-    public static final int HEADER_OFFSET_ENTERTAINMENTDRAWER;
+    private static final int MAX_ITERATIONS = 10;
+    protected static final boolean HIDE_CLOSED_ICON = false;
+    public static final int CONTENT_TYPE_DEFAULT = 0;
+    public static final int CONTENT_TYPE_SPELLER_OPTIONS = 1;
+    public static final int HEADER_OFFSET_ENTERTAINMENTDRAWER = 48;
     protected DrawerIcon icon;
     protected DrawerMain main;
     protected DrawerTitle title;
@@ -130,28 +130,24 @@ implements IDrawerControllerEvo {
         return this.icon;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (this.main != null) {
             this.main.keyPressed(keyEvent);
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (this.main != null) {
             this.main.keyReleased(keyEvent);
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.main != null) {
             this.main.keyTurned(wheelButtonEvent);
         }
     }
 
-    @Override
     public void triggerRepaint() {
         if (this.terminal != null) {
             if (this.terminal.getRootWindow().getCurrentScreen() != null) {
@@ -164,71 +160,61 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (this.main != null) {
             this.main.keyMoved(joystickEvent);
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadPressed(touchEvent);
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadReleased(touchEvent);
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadPositionMoved(touchEvent);
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadCharactersRecognized(touchEvent);
         }
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadPalmRecognized(touchEvent);
         }
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadApproached(touchEvent);
         }
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
         if (this.main != null) {
             this.main.touchPadAbandoned(touchEvent);
         }
     }
 
-    @Override
     public void screenChangeFinished() {
-        logScreenChange.log(1078071040, "DrawerController#screenChangeFinished this=%1", (Object)this);
+        logScreenChange.log(1000000, "DrawerController#screenChangeFinished this=%1", (Object)this);
         if (this.drawerType == 2 && this.main != null) {
             this.main.screenChangeFinished();
         }
     }
 
-    @Override
     public HMIView[] getViews() {
         LinkedList linkedList = new LinkedList();
         if (this.views != null) {
@@ -243,7 +229,6 @@ implements IDrawerControllerEvo {
         return (HMIView[])linkedList.toArray(new HMIView[linkedList.size()]);
     }
 
-    @Override
     public void setViews(int[] nArray, HMIView[][] hMIViewArray) {
         this.views = hMIViewArray;
         this.viewModelIDs = nArray;
@@ -254,40 +239,34 @@ implements IDrawerControllerEvo {
         this.conditionWidgets = abstractWidgetArray;
     }
 
-    @Override
     public int[] getConditionIDs() {
         return this.conditionIDs;
     }
 
-    @Override
     public int[] getReplacementIDs() {
         return this.replacementIDs;
     }
 
-    @Override
     public void setReplacementWidgets(int[] nArray, HMIView[][] hMIViewArray) {
         this.replacementIDs = nArray;
         this.replacementWidgets = hMIViewArray;
     }
 
-    @Override
     public int getPriority() {
         return 0;
     }
 
-    @Override
     public void disconnecting() {
-        logWidgetPerformance.log(1078071040, "DrawerController#disconnecting id %1 start", (long)this.id);
+        logWidgetPerformance.log(1000000, "DrawerController#disconnecting id %1 start", (long)this.id);
         long l = framework.getMonotonicTime();
         super.disconnecting();
         this.connected = false;
         long l2 = framework.getMonotonicTime();
-        logWidgetPerformance.log(1078071040, "DrawerController#disconnecting id %1 finished, took %2 ms", (long)this.id, l2 - l);
+        logWidgetPerformance.log(1000000, "DrawerController#disconnecting id %1 finished, took %2 ms", (long)this.id, l2 - l);
     }
 
-    @Override
     public void connected(IScreenData iScreenData) {
-        logWidgetPerformance.log(1078071040, "DrawerController#connected id %1 start", (long)this.id);
+        logWidgetPerformance.log(1000000, "DrawerController#connected id %1 start", (long)this.id);
         long l = framework.getMonotonicTime();
         this.initContext = null;
         if (this.initContext == null) {
@@ -300,15 +279,13 @@ implements IDrawerControllerEvo {
         this.initContext.setReinit(iScreenData.isReinit());
         super.connected(this.initContext);
         long l2 = framework.getMonotonicTime();
-        logWidgetPerformance.log(1078071040, "DrawerController#connected id %1 finished, took %2 ms", (long)this.id, l2 - l);
+        logWidgetPerformance.log(1000000, "DrawerController#connected id %1 finished, took %2 ms", (long)this.id, l2 - l);
     }
 
-    @Override
     public void setScreenFactory(AbstractScreenFactory abstractScreenFactory) {
         this.screenFactory = abstractScreenFactory;
     }
 
-    @Override
     protected void initializeWidget() {
         this.executeAllConditions();
     }
@@ -331,12 +308,10 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public int getID() {
         return this.id;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getModelType() == 100) {
             ModelUpdateEvent[] modelUpdateEventArray = modelUpdateEvent.getNestedEvents();
@@ -455,25 +430,20 @@ implements IDrawerControllerEvo {
         return null;
     }
 
-    @Override
     public void processSDSEvent(SDSEvent sDSEvent) {
     }
 
-    @Override
     public void setTerminal(HMITerminal hMITerminal) {
         this.terminal = (HMITerminalImpl)hMITerminal;
     }
 
-    @Override
     public void setState(int[] nArray) {
     }
 
-    @Override
     public HMITerminal getTerminal() {
         return this.terminal;
     }
 
-    @Override
     public int getTerminalID() {
         if (this.terminal != null) {
             return this.terminal.getTerminalID();
@@ -481,32 +451,26 @@ implements IDrawerControllerEvo {
         return 0;
     }
 
-    @Override
     public void setLocked(boolean bl) {
     }
 
-    @Override
     public AbstractScreenFactory getScreenFactory() {
         return this.screenFactory;
     }
 
-    @Override
     public void paint() {
         RedrawContext redrawContext = this.terminal.getRedrawContext();
         this.managePaint(redrawContext);
     }
 
-    @Override
     public int getEventProcessing() {
         return 0;
     }
 
-    @Override
     public int getCacheBehaviour() {
         return 0;
     }
 
-    @Override
     public int getEventID(int n) {
         int n2;
         if (this.modelIDs != null && this.eventIDs != null && this.modelIDs.length > 0 && this.modelIDs.length == this.eventIDs.length && (n2 = Arrays.binarySearch(this.modelIDs, n)) >= 0) {
@@ -515,66 +479,52 @@ implements IDrawerControllerEvo {
         return -1;
     }
 
-    @Override
     public void setModelIDs(int[] nArray) {
         this.modelIDs = nArray;
     }
 
-    @Override
     public void setEventIDs(int[] nArray) {
         this.eventIDs = nArray;
     }
 
-    @Override
     public boolean hasErrorOccured() {
         return false;
     }
 
-    @Override
     public int getScreenType() {
         return 0;
     }
 
-    @Override
     public void setScreenType(int n) {
     }
 
-    @Override
     public int[] getViewIDs() {
         return this.viewModelIDs;
     }
 
-    @Override
     public void showPartialPopups(int[] nArray) {
     }
 
-    @Override
     public void hidePartialPopups(int[] nArray) {
     }
 
-    @Override
     public void hideNotScreenChangeSurvivingPopups() {
     }
 
-    @Override
     public void unitsChanged(UnitChangedEvent unitChangedEvent) {
     }
 
-    @Override
     public void bitmapLoaded(AsyncBitmapEvent asyncBitmapEvent) {
     }
 
-    @Override
     public boolean isPartialPopupBlocked(IPartialPopupController iPartialPopupController) {
         return false;
     }
 
-    @Override
     public boolean areAllPartialPopupsAllowed() {
         return false;
     }
 
-    @Override
     public boolean isConnected() {
         return this.connected;
     }
@@ -583,7 +533,6 @@ implements IDrawerControllerEvo {
         this.connected = bl;
     }
 
-    @Override
     public void setClosedIconVisible(boolean bl) {
         this.alwaysHideClosedIcon = !bl;
     }
@@ -592,17 +541,15 @@ implements IDrawerControllerEvo {
         return !this.alwaysHideClosedIcon;
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
         if (logScreenChange.isDebug2()) {
-            logScreenChange.log(14808325, "DrawerController#setScreenChangeProgress this=%1, progress=%2", (Object)this, (Object)new Float(f2));
+            logScreenChange.log(100000000, "DrawerController#setScreenChangeProgress this=%1, progress=%2", (Object)this, (Object)new Float(f2));
         }
         if (!(this.main instanceof SelectionMenuController) && this.drawerType != 2) {
             super.setScreenChangeProgress(f2);
         }
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
         this.screenChangeTarget = n;
         if (this.drawerType == 2 || this.drawerType == 1) {
@@ -615,12 +562,10 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public HMIView[][] getReplacementWidgets() {
         return this.replacementWidgets;
     }
 
-    @Override
     public void setDrawerType(int n) {
         this.drawerType = n;
         this.adjustMainAnimationType(n);
@@ -712,7 +657,6 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public void setDisplayDrawerState(int n, boolean bl, boolean bl2) {
         bl = bl && this.isConnected();
         switch (n) {
@@ -767,16 +711,13 @@ implements IDrawerControllerEvo {
         this.currentDrawerState = n;
     }
 
-    @Override
     public int getDisplayDrawerState() {
         return this.currentDrawerState;
     }
 
-    @Override
     public void updateContexts(long[] lArray) {
     }
 
-    @Override
     public void setMMICombiSyncMode(int n) {
         if (this.main != null) {
             this.main.setMMICombiSyncMode(n);
@@ -789,27 +730,21 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public void triggerProximityEvent(ProximityEvent proximityEvent) {
     }
 
-    @Override
     public void processKeyEvent(KeyEvent keyEvent) {
     }
 
-    @Override
     public void processTouchPadEvent(TouchEvent touchEvent) {
     }
 
-    @Override
     public void processGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public boolean canOpen() {
         if (this.main != null) {
             return this.remoteHMIDrawerEntries || this.main.canOpen();
@@ -817,7 +752,6 @@ implements IDrawerControllerEvo {
         return true;
     }
 
-    @Override
     public boolean canClose() {
         if (this.main != null) {
             return this.main.canClose();
@@ -825,20 +759,16 @@ implements IDrawerControllerEvo {
         return true;
     }
 
-    @Override
     public boolean isVerticalLineVisible() {
         return false;
     }
 
-    @Override
     public void setVerticalLineVisible(boolean bl) {
     }
 
-    @Override
     public void updatedColorScheme(int n) {
     }
 
-    @Override
     public boolean hasDrawerScreenChangeAnimation() {
         if (this.main instanceof ContainerController) {
             return false;
@@ -857,7 +787,6 @@ implements IDrawerControllerEvo {
         return buffer.toString();
     }
 
-    @Override
     public int[] getCurrentColorPalette() {
         return new int[0];
     }
@@ -866,17 +795,14 @@ implements IDrawerControllerEvo {
         return this.screenChangeTarget;
     }
 
-    @Override
     public int getCurrentAudioSource() {
         return -1;
     }
 
-    @Override
     public int[] getHmiAppsToNotifyForVisibility() {
         return new int[0];
     }
 
-    @Override
     public void setTransitionForward(boolean bl) {
     }
 
@@ -888,7 +814,6 @@ implements IDrawerControllerEvo {
         return this.hkReturnEvent;
     }
 
-    @Override
     public boolean hasIdleTimer() {
         if (this.main instanceof SelectionMenuController) {
             return this.main.hasIdleTimer();
@@ -896,7 +821,6 @@ implements IDrawerControllerEvo {
         return super.hasIdleTimer();
     }
 
-    @Override
     public void restartIdleTimer() {
         if (this.main instanceof SelectionMenuController) {
             this.main.restartIdleTimer();
@@ -905,7 +829,6 @@ implements IDrawerControllerEvo {
         super.restartIdleTimer();
     }
 
-    @Override
     public void cancelIdleTimer() {
         if (this.main instanceof SelectionMenuController) {
             this.main.cancelIdleTimer();
@@ -936,11 +859,9 @@ implements IDrawerControllerEvo {
         }
     }
 
-    @Override
     public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
     }
 
-    @Override
     public boolean isSDSAudioSource(int n) {
         if (this.isEntertainmentDrawerContent() || this instanceof EntertainmentDrawerController) {
             return EntertainmentDrawerContentManager.isSDSAudioSource(n);
@@ -948,7 +869,6 @@ implements IDrawerControllerEvo {
         return false;
     }
 
-    @Override
     public boolean isPhoneAudioSource(int n) {
         if (this.isEntertainmentDrawerContent() || this instanceof EntertainmentDrawerController) {
             return EntertainmentDrawerContentManager.isPhoneAudioSource(n);
@@ -956,7 +876,6 @@ implements IDrawerControllerEvo {
         return false;
     }
 
-    @Override
     public void updateDrawers(IScreenData iScreenData) {
     }
 
@@ -972,12 +891,10 @@ implements IDrawerControllerEvo {
         return false;
     }
 
-    @Override
     public void setIsBlockedWhileLockingIsActive(boolean bl) {
         this.blockedWhileLockingIsActive = bl;
     }
 
-    @Override
     public boolean isBlockedWhileLockingIsActive() {
         return this.blockedWhileLockingIsActive;
     }

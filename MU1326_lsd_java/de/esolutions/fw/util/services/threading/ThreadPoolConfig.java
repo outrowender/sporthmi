@@ -10,12 +10,12 @@ import de.esolutions.fw.util.config.query.ConfigOverlayPathQuery;
 import de.esolutions.fw.util.config.query.IConfigQuery;
 
 public final class ThreadPoolConfig {
-    public static final int minThreadsDefault;
-    public static final int maxThreadsDefault;
-    public static final int jobQueueSizeDefault;
-    public static final int defaultPrioDefault;
-    public static final int latencyDefault;
-    public static final int MaxWaitTimeDefault;
+    public static final int minThreadsDefault = 0;
+    public static final int maxThreadsDefault = 30;
+    public static final int jobQueueSizeDefault = 0;
+    public static final int defaultPrioDefault = 5;
+    public static final int latencyDefault = 1000;
+    public static final int MaxWaitTimeDefault = 10000;
     private int minThreads;
     private int maxThreads;
     private int jobQueueSize;

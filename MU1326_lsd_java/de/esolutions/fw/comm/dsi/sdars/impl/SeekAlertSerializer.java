@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.SeekAlert;
 
 public class SeekAlertSerializer {
-    public static void putOptionalSeekAlert(ISerializer iSerializer, SeekAlert seekAlert) {
+    public static void putOptionalSeekAlert(ISerializer iSerializer, SeekAlert seekAlert) throws SerializerException {
         boolean bl = seekAlert == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SeekAlertSerializer {
         }
     }
 
-    public static void putOptionalSeekAlertVarArray(ISerializer iSerializer, SeekAlert[] seekAlertArray) {
+    public static void putOptionalSeekAlertVarArray(ISerializer iSerializer, SeekAlert[] seekAlertArray) throws SerializerException {
         boolean bl = seekAlertArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SeekAlertSerializer {
         }
     }
 
-    public static SeekAlert getOptionalSeekAlert(IDeserializer iDeserializer) {
+    public static SeekAlert getOptionalSeekAlert(IDeserializer iDeserializer) throws SerializerException {
         SeekAlert seekAlert = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SeekAlertSerializer {
         return seekAlert;
     }
 
-    public static SeekAlert[] getOptionalSeekAlertVarArray(IDeserializer iDeserializer) {
+    public static SeekAlert[] getOptionalSeekAlertVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeekAlert[] seekAlertArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

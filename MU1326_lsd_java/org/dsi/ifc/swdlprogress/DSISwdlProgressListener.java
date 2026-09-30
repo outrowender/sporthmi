@@ -9,34 +9,24 @@ import org.dsi.ifc.swdlprogress.GeneralProgress;
 
 public interface DSISwdlProgressListener
 extends DSIListener {
-    default public void updateGeneralProgress(GeneralProgress generalProgress, int n) {
-    }
+    public void updateGeneralProgress(GeneralProgress var1, int var2);
 
-    default public void updateDevicesOverviewProgress(DeviceOverviewProgress[] deviceOverviewProgressArray, int n) {
-    }
+    public void updateDevicesOverviewProgress(DeviceOverviewProgress[] var1, int var2);
 
-    default public void updateTriggerPanel(int n, int n2) {
-    }
+    public void updateTriggerPanel(int var1, int var2);
 
-    default public void updateLostDevices(String[] stringArray, int n) {
-    }
+    public void updateLostDevices(String[] var1, int var2);
 
-    default public void updateOverviewStatus(int n, int n2) {
-    }
+    public void updateOverviewStatus(int var1, int var2);
 
-    default public void updateActiveDevices(String[] stringArray, int n) {
-    }
+    public void updateActiveDevices(String[] var1, int var2);
 
-    default public void getStaticProgressDetails(int n, int n2, short s, String string) {
-    }
+    public void getStaticProgressDetails(int var1, int var2, short var3, String var4);
 
-    default public void getDynamicProgressDetails(int n, byte by, String string) {
-    }
+    public void getDynamicProgressDetails(int var1, byte var2, String var3);
 
-    default public void indicatePopUp(int n, String string, byte by, int n2, int n3, String string2) {
-    }
+    public void indicatePopUp(int var1, String var2, byte var3, int var4, int var5, String var6);
 
-    default public void indicateDismissPopUp(int n, String string) {
-    }
+    public void indicateDismissPopUp(int var1, String var2);
 }
 

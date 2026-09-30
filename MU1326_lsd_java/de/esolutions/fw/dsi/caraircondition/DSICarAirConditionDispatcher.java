@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.caraircondition;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.caraircondition.DSICarAirConditionReply;
 import de.esolutions.fw.comm.dsi.caraircondition.impl.DSICarAirConditionReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -38,13 +39,11 @@ implements DSICarAirConditionReply {
         super(n, (class$org$dsi$ifc$caraircondition$DSICarAirConditionListener == null ? (class$org$dsi$ifc$caraircondition$DSICarAirConditionListener = DSICarAirConditionDispatcher.class$("org.dsi.ifc.caraircondition.DSICarAirConditionListener")) : class$org$dsi$ifc$caraircondition$DSICarAirConditionListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void requestAirconPopup(AirconContent airconContent) {
+    public void requestAirconPopup(AirconContent airconContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +59,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowlegdeAirconPopup(AirconContent airconContent) {
+    public void acknowlegdeAirconPopup(AirconContent airconContent) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +75,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconContent(AirconContent airconContent, int n) {
+    public void updateAirconContent(AirconContent airconContent, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -106,8 +103,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirCirculationMan(boolean bl, int n) {
+    public void updateAirconAirCirculationMan(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -135,8 +131,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirCirculationAuto(boolean bl, int n) {
+    public void updateAirconAirCirculationAuto(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -164,8 +159,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirCirculationSensitivity(int n, int n2) {
+    public void updateAirconAirCirculationSensitivity(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -193,8 +187,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirCirculationMiddleExhaustion(int n, int n2) {
+    public void updateAirconAirCirculationMiddleExhaustion(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -222,8 +215,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconRearWindowHeater(boolean bl, int n) {
+    public void updateAirconRearWindowHeater(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -251,8 +243,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndirectVentilation(boolean bl, int n) {
+    public void updateAirconIndirectVentilation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -280,8 +271,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconPopupTime(int n, int n2) {
+    public void updateAirconPopupTime(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -309,8 +299,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconHeater(boolean bl, int n) {
+    public void updateAirconHeater(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -338,8 +327,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconRearAuxHeater(boolean bl, int n) {
+    public void updateAirconRearAuxHeater(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -367,8 +355,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFrontWindowHeater(boolean bl, int n) {
+    public void updateAirconFrontWindowHeater(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -396,8 +383,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconDefrost(boolean bl, int n) {
+    public void updateAirconDefrost(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -425,8 +411,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconMaxDefrost(boolean bl, int n) {
+    public void updateAirconMaxDefrost(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(81);
@@ -454,8 +439,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSolar(boolean bl, int n) {
+    public void updateAirconSolar(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -483,8 +467,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAC(boolean bl, int n) {
+    public void updateAirconAC(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -512,8 +495,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconMaxAC(boolean bl, int n) {
+    public void updateAirconMaxAC(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(82);
@@ -541,8 +523,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconEcoAC(boolean bl, int n) {
+    public void updateAirconEcoAC(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(83);
@@ -570,8 +551,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconRearControl(boolean bl, int n) {
+    public void updateAirconRearControl(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -599,8 +579,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconRearControlFondPlus(boolean bl, int n) {
+    public void updateAirconRearControlFondPlus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(91);
@@ -628,8 +607,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater, int n) {
+    public void updateAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -657,8 +635,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFrontWindowHeaterAuto(boolean bl, int n) {
+    public void updateAirconFrontWindowHeaterAuto(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -686,8 +663,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBlowerCompensation(AirconBlowerCompensation airconBlowerCompensation, int n) {
+    public void updateAirconBlowerCompensation(AirconBlowerCompensation airconBlowerCompensation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -715,8 +691,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSynchronisation(AirconSynchronisation airconSynchronisation, int n) {
+    public void updateAirconSynchronisation(AirconSynchronisation airconSynchronisation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -744,8 +719,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSuppressVisualisation(boolean bl, int n) {
+    public void updateAirconSuppressVisualisation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -773,8 +747,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconResidualHeat(boolean bl, int n) {
+    public void updateAirconResidualHeat(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -802,8 +775,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSystemOnOffRow1(boolean bl, int n) {
+    public void updateAirconSystemOnOffRow1(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(152);
@@ -831,8 +803,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSystemOnOffRow2(boolean bl, int n) {
+    public void updateAirconSystemOnOffRow2(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(153);
@@ -860,8 +831,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSystemOnOffRow3(boolean bl, int n) {
+    public void updateAirconSystemOnOffRow3(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(154);
@@ -889,8 +859,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone1(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone1(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -918,8 +887,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone1(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone1(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -947,8 +915,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone1(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone1(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -976,8 +943,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone1(int n, int n2) {
+    public void updateAirconFootwellTempZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -1005,8 +971,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone1(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone1(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(167);
@@ -1034,8 +999,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone1(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone1(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(168);
@@ -1063,8 +1027,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone2(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone2(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1092,8 +1055,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone2(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone2(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1121,8 +1083,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone2(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone2(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -1150,8 +1111,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone2(int n, int n2) {
+    public void updateAirconFootwellTempZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -1179,8 +1139,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone2(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone2(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(169);
@@ -1208,8 +1167,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone2(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone2(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(170);
@@ -1237,8 +1195,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone3(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone3(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1266,8 +1223,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone3(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone3(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1295,8 +1251,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone3(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone3(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1324,8 +1279,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone3(int n, int n2) {
+    public void updateAirconFootwellTempZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1353,8 +1307,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone3(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone3(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(171);
@@ -1382,8 +1335,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone3(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone3(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(172);
@@ -1411,8 +1363,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone4(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone4(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1440,8 +1391,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone4(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone4(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -1469,8 +1419,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone4(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone4(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1498,8 +1447,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone4(int n, int n2) {
+    public void updateAirconFootwellTempZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1527,8 +1475,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone4(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone4(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(173);
@@ -1556,8 +1503,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone4(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone4(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(174);
@@ -1585,8 +1531,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone5(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone5(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1614,8 +1559,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone5(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone5(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -1643,8 +1587,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone5(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone5(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -1672,8 +1615,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone5(int n, int n2) {
+    public void updateAirconFootwellTempZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1701,8 +1643,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone5(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone5(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(175);
@@ -1730,8 +1671,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone5(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone5(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(176);
@@ -1759,8 +1699,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempZone6(AirconTemp airconTemp, int n) {
+    public void updateAirconTempZone6(AirconTemp airconTemp, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1788,8 +1727,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirVolumeZone6(AirconAirVolume airconAirVolume, int n) {
+    public void updateAirconAirVolumeZone6(AirconAirVolume airconAirVolume, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1817,8 +1755,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirDistributionZone6(AirconAirDistribution airconAirDistribution, int n) {
+    public void updateAirconAirDistributionZone6(AirconAirDistribution airconAirDistribution, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1846,8 +1783,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFootwellTempZone6(int n, int n2) {
+    public void updateAirconFootwellTempZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -1875,8 +1811,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterZone6(int n, int n2, int n3) {
+    public void updateAirconSeatHeaterZone6(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(177);
@@ -1904,8 +1839,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationZone6(int n, int n2, int n3) {
+    public void updateAirconSeatVentilationZone6(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(178);
@@ -1933,8 +1867,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone1(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -1962,8 +1895,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone2(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -1991,8 +1923,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone3(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(65);
@@ -2020,8 +1951,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone4(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -2049,8 +1979,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone5(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(67);
@@ -2078,8 +2007,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatHeaterDistributionZone6(int n, int n2) {
+    public void updateAirconSeatHeaterDistributionZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(68);
@@ -2107,8 +2035,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone1(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(69);
@@ -2136,8 +2063,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone2(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(70);
@@ -2165,8 +2091,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone3(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(71);
@@ -2194,8 +2119,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone4(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(72);
@@ -2223,8 +2147,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone5(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(73);
@@ -2252,8 +2175,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatVentilationDistributionZone6(int n, int n2) {
+    public void updateAirconSeatVentilationDistributionZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(74);
@@ -2281,8 +2203,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone1(int n, int n2, int n3) {
+    public void updateAirconTempStepZone1(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(75);
@@ -2310,8 +2231,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone2(int n, int n2, int n3) {
+    public void updateAirconTempStepZone2(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(76);
@@ -2339,8 +2259,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone3(int n, int n2, int n3) {
+    public void updateAirconTempStepZone3(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(77);
@@ -2368,8 +2287,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone4(int n, int n2, int n3) {
+    public void updateAirconTempStepZone4(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(78);
@@ -2397,8 +2315,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone5(int n, int n2, int n3) {
+    public void updateAirconTempStepZone5(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(79);
@@ -2426,8 +2343,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconTempStepZone6(int n, int n2, int n3) {
+    public void updateAirconTempStepZone6(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(80);
@@ -2455,8 +2371,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) {
+    public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(92);
@@ -2484,8 +2399,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) {
+    public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(93);
@@ -2513,8 +2427,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) {
+    public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(94);
@@ -2542,8 +2455,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconViewOptionsRow3(AirconRowViewOptions airconRowViewOptions, int n) {
+    public void updateAirconViewOptionsRow3(AirconRowViewOptions airconRowViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(95);
@@ -2571,8 +2483,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowledgeAirconSetFactoryDefaultMaster(boolean bl) {
+    public void acknowledgeAirconSetFactoryDefaultMaster(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2588,8 +2499,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowledgeAirconSetFactoryDefaultRow(int n, boolean bl) {
+    public void acknowledgeAirconSetFactoryDefaultRow(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2605,8 +2515,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowledgeAirconNozzleControlRow1(boolean bl, boolean bl2) {
+    public void acknowledgeAirconNozzleControlRow1(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2622,8 +2531,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowledgeAirconNozzleControlRow2(boolean bl, boolean bl2) {
+    public void acknowledgeAirconNozzleControlRow2(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2639,8 +2547,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void acknowledgeAirconNozzleControlRow3(boolean bl, boolean bl2) {
+    public void acknowledgeAirconNozzleControlRow3(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2656,8 +2563,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void responseAirconNozzleListRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
+    public void responseAirconNozzleListRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2673,8 +2579,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void responseAirconNozzleListRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
+    public void responseAirconNozzleListRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2690,8 +2595,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void responseAirconNozzleListRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
+    public void responseAirconNozzleListRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2707,8 +2611,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListUpdateInfoRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
+    public void updateAirconNozzleListUpdateInfoRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(96);
@@ -2736,8 +2639,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListUpdateInfoRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
+    public void updateAirconNozzleListUpdateInfoRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(97);
@@ -2765,8 +2667,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListUpdateInfoRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
+    public void updateAirconNozzleListUpdateInfoRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(98);
@@ -2794,8 +2695,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListTotalNumberOfElementsRow1(int n, int n2) {
+    public void updateAirconNozzleListTotalNumberOfElementsRow1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(99);
@@ -2823,8 +2723,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListTotalNumberOfElementsRow2(int n, int n2) {
+    public void updateAirconNozzleListTotalNumberOfElementsRow2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(100);
@@ -2852,8 +2751,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleListTotalNumberOfElementsRow3(int n, int n2) {
+    public void updateAirconNozzleListTotalNumberOfElementsRow3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(101);
@@ -2881,8 +2779,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSideWindowDefrost(boolean bl, int n) {
+    public void updateAirconSideWindowDefrost(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(102);
@@ -2910,8 +2807,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconPureAir(AirconPureAirSetup airconPureAirSetup, int n, int n2) {
+    public void updateAirconPureAir(AirconPureAirSetup airconPureAirSetup, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(103);
@@ -2939,8 +2835,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFreshAirState(AirconFreshAirCartridge airconFreshAirCartridge, AirconFreshAirCartridge airconFreshAirCartridge2, int n) {
+    public void updateAirconFreshAirState(AirconFreshAirCartridge airconFreshAirCartridge, AirconFreshAirCartridge airconFreshAirCartridge2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(104);
@@ -2968,8 +2863,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconFreshAirConfig(AirconFreshAirConfiguration airconFreshAirConfiguration, int n) {
+    public void updateAirconFreshAirConfig(AirconFreshAirConfiguration airconFreshAirConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(105);
@@ -2997,8 +2891,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconAirQuality(AirconAirQuality airconAirQuality, int n) {
+    public void updateAirconAirQuality(AirconAirQuality airconAirQuality, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(106);
@@ -3026,8 +2919,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleStatusRow1(boolean bl, int n) {
+    public void updateAirconNozzleStatusRow1(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(107);
@@ -3055,8 +2947,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleStatusRow2(boolean bl, int n) {
+    public void updateAirconNozzleStatusRow2(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(108);
@@ -3084,8 +2975,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconNozzleStatusRow3(boolean bl, int n) {
+    public void updateAirconNozzleStatusRow3(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(109);
@@ -3113,8 +3003,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone1(int n, int n2) {
+    public void updateAirconClimateStyleZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(110);
@@ -3142,8 +3031,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone2(int n, int n2) {
+    public void updateAirconClimateStyleZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(112);
@@ -3171,8 +3059,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone3(int n, int n2) {
+    public void updateAirconClimateStyleZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(114);
@@ -3200,8 +3087,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone4(int n, int n2) {
+    public void updateAirconClimateStyleZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(116);
@@ -3229,8 +3115,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone5(int n, int n2) {
+    public void updateAirconClimateStyleZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(118);
@@ -3258,8 +3143,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStyleZone6(int n, int n2) {
+    public void updateAirconClimateStyleZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(120);
@@ -3287,8 +3171,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone1(int n, int n2) {
+    public void updateAirconClimateStateZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(111);
@@ -3316,8 +3199,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone2(int n, int n2) {
+    public void updateAirconClimateStateZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(113);
@@ -3345,8 +3227,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone3(int n, int n2) {
+    public void updateAirconClimateStateZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(115);
@@ -3374,8 +3255,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone4(int n, int n2) {
+    public void updateAirconClimateStateZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(117);
@@ -3403,8 +3283,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone5(int n, int n2) {
+    public void updateAirconClimateStateZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(119);
@@ -3432,8 +3311,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconClimateStateZone6(int n, int n2) {
+    public void updateAirconClimateStateZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(121);
@@ -3461,8 +3339,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone1(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone1(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(122);
@@ -3490,8 +3367,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone2(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone2(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(123);
@@ -3519,8 +3395,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone3(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone3(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(124);
@@ -3548,8 +3423,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone4(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone4(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(125);
@@ -3577,8 +3451,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone5(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone5(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(126);
@@ -3606,8 +3479,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatNeckHeaterZone6(boolean bl, int n, int n2) {
+    public void updateAirconSeatNeckHeaterZone6(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(127);
@@ -3635,8 +3507,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone1(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone1(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(128);
@@ -3664,8 +3535,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone2(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone2(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(129);
@@ -3693,8 +3563,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone3(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone3(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(130);
@@ -3722,8 +3591,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone4(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone4(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(131);
@@ -3751,8 +3619,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone5(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone5(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(132);
@@ -3780,8 +3647,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconSeatSurfaceHeaterZone6(boolean bl, boolean bl2, int n, int n2) {
+    public void updateAirconSeatSurfaceHeaterZone6(boolean bl, boolean bl2, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(133);
@@ -3809,8 +3675,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone1(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone1(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(134);
@@ -3838,8 +3703,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone2(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone2(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(135);
@@ -3867,8 +3731,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone3(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone3(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(136);
@@ -3896,8 +3759,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone4(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone4(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(137);
@@ -3925,8 +3787,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone5(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone5(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(138);
@@ -3954,8 +3815,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIndividualClimatisationZone6(boolean bl, int n) {
+    public void updateAirconIndividualClimatisationZone6(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(139);
@@ -3983,8 +3843,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone1(int n, int n2) {
+    public void updateAirconIonisatorZone1(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(140);
@@ -4012,8 +3871,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone2(int n, int n2) {
+    public void updateAirconIonisatorZone2(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(141);
@@ -4041,8 +3899,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone3(int n, int n2) {
+    public void updateAirconIonisatorZone3(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(142);
@@ -4070,8 +3927,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone4(int n, int n2) {
+    public void updateAirconIonisatorZone4(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(143);
@@ -4099,8 +3955,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone5(int n, int n2) {
+    public void updateAirconIonisatorZone5(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(144);
@@ -4128,8 +3983,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconIonisatorZone6(int n, int n2) {
+    public void updateAirconIonisatorZone6(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(145);
@@ -4157,8 +4011,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone1(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone1(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(146);
@@ -4186,8 +4039,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone2(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone2(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(147);
@@ -4215,8 +4067,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone3(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone3(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(148);
@@ -4244,8 +4095,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone4(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone4(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(149);
@@ -4273,8 +4123,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone5(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone5(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(150);
@@ -4302,8 +4151,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void updateAirconBodyCloseMeasuresZone6(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
+    public void updateAirconBodyCloseMeasuresZone6(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(151);
@@ -4331,8 +4179,7 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -4348,14 +4195,13 @@ implements DSICarAirConditionReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarAirConditionListener dSICarAirConditionListener = (DSICarAirConditionListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarAirConditionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarAirConditionDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarAirConditionListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarAirConditionDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarAirConditionDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarAirConditionListener, new Object[]{string, string2});
                     continue;
                 }

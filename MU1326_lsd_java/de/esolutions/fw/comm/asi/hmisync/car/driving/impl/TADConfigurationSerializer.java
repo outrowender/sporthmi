@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.driving.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADConfiguration;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class TADConfigurationSerializer {
-    public static void putOptionalTADConfiguration(ISerializer iSerializer, TADConfiguration tADConfiguration) {
+    public static void putOptionalTADConfiguration(ISerializer iSerializer, TADConfiguration tADConfiguration) throws SerializerException {
         boolean bl = tADConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class TADConfigurationSerializer {
         }
     }
 
-    public static void putOptionalTADConfigurationVarArray(ISerializer iSerializer, TADConfiguration[] tADConfigurationArray) {
+    public static void putOptionalTADConfigurationVarArray(ISerializer iSerializer, TADConfiguration[] tADConfigurationArray) throws SerializerException {
         boolean bl = tADConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class TADConfigurationSerializer {
         }
     }
 
-    public static TADConfiguration getOptionalTADConfiguration(IDeserializer iDeserializer) {
+    public static TADConfiguration getOptionalTADConfiguration(IDeserializer iDeserializer) throws SerializerException {
         TADConfiguration tADConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class TADConfigurationSerializer {
         return tADConfiguration;
     }
 
-    public static TADConfiguration[] getOptionalTADConfigurationVarArray(IDeserializer iDeserializer) {
+    public static TADConfiguration[] getOptionalTADConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         TADConfiguration[] tADConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

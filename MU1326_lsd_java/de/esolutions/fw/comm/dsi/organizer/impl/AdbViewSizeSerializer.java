@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.AdbViewSize;
 
 public class AdbViewSizeSerializer {
-    public static void putOptionalAdbViewSize(ISerializer iSerializer, AdbViewSize adbViewSize) {
+    public static void putOptionalAdbViewSize(ISerializer iSerializer, AdbViewSize adbViewSize) throws SerializerException {
         boolean bl = adbViewSize == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class AdbViewSizeSerializer {
         }
     }
 
-    public static void putOptionalAdbViewSizeVarArray(ISerializer iSerializer, AdbViewSize[] adbViewSizeArray) {
+    public static void putOptionalAdbViewSizeVarArray(ISerializer iSerializer, AdbViewSize[] adbViewSizeArray) throws SerializerException {
         boolean bl = adbViewSizeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class AdbViewSizeSerializer {
         }
     }
 
-    public static AdbViewSize getOptionalAdbViewSize(IDeserializer iDeserializer) {
+    public static AdbViewSize getOptionalAdbViewSize(IDeserializer iDeserializer) throws SerializerException {
         AdbViewSize adbViewSize = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class AdbViewSizeSerializer {
         return adbViewSize;
     }
 
-    public static AdbViewSize[] getOptionalAdbViewSizeVarArray(IDeserializer iDeserializer) {
+    public static AdbViewSize[] getOptionalAdbViewSizeVarArray(IDeserializer iDeserializer) throws SerializerException {
         AdbViewSize[] adbViewSizeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

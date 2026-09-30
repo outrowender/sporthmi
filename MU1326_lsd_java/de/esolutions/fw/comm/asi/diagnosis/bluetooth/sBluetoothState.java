@@ -42,7 +42,7 @@ public class sBluetoothState {
     }
 
     public String toString() {
-        return new StringBuffer("sBluetoothState{").append("msg_id=").append(this.msg_id).append(", btAccessMode=").append(this.btAccessMode).append(", btOnOff=").append(this.btOnOff).append("}").toString();
+        return "sBluetoothState{" + "msg_id=" + this.msg_id + ", btAccessMode=" + this.btAccessMode + ", btOnOff=" + this.btOnOff + "}";
     }
 }
 

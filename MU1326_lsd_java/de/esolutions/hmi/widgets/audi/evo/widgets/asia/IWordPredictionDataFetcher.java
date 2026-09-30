@@ -10,10 +10,8 @@ public interface IWordPredictionDataFetcher
 extends IConversionDataFetcher {
     public static final IWordPredictionDataFetcher NULL = new ConversionDataFetcherNull();
 
-    default public void candidateSelected(int n, int n2, String string, String string2) {
-    }
+    public void candidateSelected(int var1, int var2, String var3, String var4);
 
-    default public void updateWordPredictionContext(String string, String string2, int n) {
-    }
+    public void updateWordPredictionContext(String var1, String var2, int var3);
 }
 

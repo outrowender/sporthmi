@@ -7,16 +7,12 @@ import de.esolutions.fw.comm.core.IServiceWorker;
 
 public interface IDSIServiceWorker
 extends IServiceWorker {
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public int getUseCount() {
-    }
+    public int getUseCount();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

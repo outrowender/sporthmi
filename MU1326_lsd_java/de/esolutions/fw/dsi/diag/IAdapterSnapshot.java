@@ -7,13 +7,10 @@ import de.esolutions.fw.dsi.diag.DispatcherInfo;
 import de.esolutions.fw.dsi.diag.ProviderInfo;
 
 public interface IAdapterSnapshot {
-    default public ProviderInfo[] getAllProviders() {
-    }
+    public ProviderInfo[] getAllProviders();
 
-    default public DispatcherInfo[] getAllDispatchers() {
-    }
+    public DispatcherInfo[] getAllDispatchers();
 
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 }
 

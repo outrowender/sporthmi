@@ -152,7 +152,7 @@ public class sActiveMediaSourceState {
     }
 
     public String toString() {
-        return new StringBuffer("sActiveMediaSourceState{").append("msg_id=").append(this.msg_id).append(", terminalNumber=").append(this.terminalNumber).append(", activeSource=").append(this.activeSource).append(", videoCodec=").append(this.videoCodec).append(", videoResolutionVertical=").append(this.videoResolutionVertical).append(", videoResolutionHorizontal=").append(this.videoResolutionHorizontal).append(", videoBitrate=").append(this.videoBitrate).append(", audioCodec=").append(this.audioCodec).append(", audioBitrate=").append(this.audioBitrate).append(", pictureFormat=").append(this.pictureFormat).append(", pictureResolutionVertical=").append(this.pictureResolutionVertical).append(", pictureResolutionHorizontal=").append(this.pictureResolutionHorizontal).append(", pictureTone=").append(this.pictureTone).append(", drmState=").append(this.drmState).append("}").toString();
+        return "sActiveMediaSourceState{" + "msg_id=" + this.msg_id + ", terminalNumber=" + this.terminalNumber + ", activeSource=" + this.activeSource + ", videoCodec=" + this.videoCodec + ", videoResolutionVertical=" + this.videoResolutionVertical + ", videoResolutionHorizontal=" + this.videoResolutionHorizontal + ", videoBitrate=" + this.videoBitrate + ", audioCodec=" + this.audioCodec + ", audioBitrate=" + this.audioBitrate + ", pictureFormat=" + this.pictureFormat + ", pictureResolutionVertical=" + this.pictureResolutionVertical + ", pictureResolutionHorizontal=" + this.pictureResolutionHorizontal + ", pictureTone=" + this.pictureTone + ", drmState=" + this.drmState + "}";
     }
 }
 

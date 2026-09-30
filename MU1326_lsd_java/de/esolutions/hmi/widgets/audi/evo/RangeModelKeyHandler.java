@@ -23,7 +23,6 @@ extends ButtonModelKeyHandler {
         this.checkRangeLimits = bl2;
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
         int n;
         boolean bl;
@@ -33,7 +32,7 @@ extends ButtonModelKeyHandler {
         if (rangeModelGUI == null) {
             return;
         }
-        menuItemLogCh.log(1078071040, "RangeModelKeyHandler#keyTurned: modelID: %1, clickCount: %2, direction: %3", (long)rangeModelGUI.getID(), (long)n3, (long)n2);
+        menuItemLogCh.log(1000000, "RangeModelKeyHandler#keyTurned: modelID: %1, clickCount: %2, direction: %3", (long)rangeModelGUI.getID(), (long)n3, (long)n2);
         n3 *= rangeModelGUI.getStep();
         int n4 = rangeModelGUI.getValue();
         boolean bl2 = bl = n2 == 0;
@@ -41,7 +40,7 @@ extends ButtonModelKeyHandler {
             n = bl ? rangeModelGUI.getMaximum() : rangeModelGUI.getMinimum();
             int n5 = bl ? n - n4 : n4 - n;
             if ((n5 = Math.max(0, n5)) < n3) {
-                menuItemLogCh.log(-2137614336, "RangeModelKeyHandler#keyTurned range limit %1 reached. Reduce clickCount to: %2", (long)n, (long)n5);
+                menuItemLogCh.log(10000000, "RangeModelKeyHandler#keyTurned range limit %1 reached. Reduce clickCount to: %2", (long)n, (long)n5);
                 n3 = n5;
             }
         }
@@ -51,23 +50,21 @@ extends ButtonModelKeyHandler {
         }
         n = abstractWidgetController.getTerminalImpl().getTerminalID();
         if (bl) {
-            menuItemLogCh.log(-2137614336, "RangeModelKeyHandler#keyTurned calling increment at rangeModel with id: %1 clickCount: %2", (long)rangeModelGUI.getID(), (long)n3);
+            menuItemLogCh.log(10000000, "RangeModelKeyHandler#keyTurned calling increment at rangeModel with id: %1 clickCount: %2", (long)rangeModelGUI.getID(), (long)n3);
             rangeModelGUI.increment(n3, n);
         } else {
-            menuItemLogCh.log(-2137614336, "RangeModelKeyHandler#keyTurned calling decrement at rangeModel with id: %1 clickCount: %2", (long)rangeModelGUI.getID(), (long)n3);
+            menuItemLogCh.log(10000000, "RangeModelKeyHandler#keyTurned calling decrement at rangeModel with id: %1 clickCount: %2", (long)rangeModelGUI.getID(), (long)n3);
             rangeModelGUI.decrement(n3, n);
         }
         wheelButtonEvent.consume(false);
     }
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (this.handlePressReleaseEvents) {
             super.keyPressed(abstractWidgetController, keyEvent);
         }
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (this.handlePressReleaseEvents) {
             super.keyReleased(abstractWidgetController, keyEvent);

@@ -62,7 +62,6 @@ extends XMLInputSource {
         return this.fInputSource;
     }
 
-    @Override
     public void setPublicId(String string) {
         super.setPublicId(string);
         if (this.fInputSource == null) {
@@ -71,7 +70,6 @@ extends XMLInputSource {
         this.fInputSource.setPublicId(string);
     }
 
-    @Override
     public void setSystemId(String string) {
         super.setSystemId(string);
         if (this.fInputSource == null) {
@@ -80,7 +78,6 @@ extends XMLInputSource {
         this.fInputSource.setSystemId(string);
     }
 
-    @Override
     public void setByteStream(InputStream inputStream) {
         super.setByteStream(inputStream);
         if (this.fInputSource == null) {
@@ -89,7 +86,6 @@ extends XMLInputSource {
         this.fInputSource.setByteStream(inputStream);
     }
 
-    @Override
     public void setCharacterStream(Reader reader) {
         super.setCharacterStream(reader);
         if (this.fInputSource == null) {
@@ -98,7 +94,6 @@ extends XMLInputSource {
         this.fInputSource.setCharacterStream(reader);
     }
 
-    @Override
     public void setEncoding(String string) {
         super.setEncoding(string);
         if (this.fInputSource == null) {

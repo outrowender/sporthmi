@@ -6,68 +6,50 @@ package de.esolutions.fw.comm.asi.hmisync.car.bc;
 import de.esolutions.fw.comm.asi.hmisync.car.FloatBaseType;
 import de.esolutions.fw.comm.asi.hmisync.car.IntBaseType;
 import de.esolutions.fw.comm.asi.hmisync.car.bc.BCTermGeneralData;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarBordComputerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "6d65ca53-0148-4329-8b3c-e8cd1fbade7a";
+    public static final String IPL_COMM_INTERFACE_KEY = "d1b91a1b-f081-5c4c-bc68-8c00a93879a4";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermAverageConsumption1Visibility(int n, boolean bl) {
-    }
+    public void updateBCShortTermAverageConsumption1Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermAverageConsumption1(FloatBaseType floatBaseType, boolean bl) {
-    }
+    public void updateBCShortTermAverageConsumption1(FloatBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermAverageConsumption2Visibility(int n, boolean bl) {
-    }
+    public void updateBCShortTermAverageConsumption2Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermAverageConsumption2(FloatBaseType floatBaseType, boolean bl) {
-    }
+    public void updateBCShortTermAverageConsumption2(FloatBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermAverageConsumption1Visibility(int n, boolean bl) {
-    }
+    public void updateBCLongTermAverageConsumption1Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermAverageConsumption1(FloatBaseType floatBaseType, boolean bl) {
-    }
+    public void updateBCLongTermAverageConsumption1(FloatBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermAverageConsumption2Visibility(int n, boolean bl) {
-    }
+    public void updateBCLongTermAverageConsumption2Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermAverageConsumption2(FloatBaseType floatBaseType, boolean bl) {
-    }
+    public void updateBCLongTermAverageConsumption2(FloatBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCCurrentRange1Visibility(int n, boolean bl) {
-    }
+    public void updateBCCurrentRange1Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCCurrentRange1(IntBaseType intBaseType, boolean bl) {
-    }
+    public void updateBCCurrentRange1(IntBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCCurrentRange2Visibility(int n, boolean bl) {
-    }
+    public void updateBCCurrentRange2Visibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCCurrentRange2(IntBaseType intBaseType, boolean bl) {
-    }
+    public void updateBCCurrentRange2(IntBaseType var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermGeneralVisibility(int n, boolean bl) {
-    }
+    public void updateBCShortTermGeneralVisibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCShortTermGeneral(BCTermGeneralData bCTermGeneralData, boolean bl) {
-    }
+    public void updateBCShortTermGeneral(BCTermGeneralData var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermGeneralVisibility(int n, boolean bl) {
-    }
+    public void updateBCLongTermGeneralVisibility(int var1, boolean var2) throws MethodException;
 
-    default public void updateBCLongTermGeneral(BCTermGeneralData bCTermGeneralData, boolean bl) {
-    }
+    public void updateBCLongTermGeneral(BCTermGeneralData var1, boolean var2) throws MethodException;
 }
 

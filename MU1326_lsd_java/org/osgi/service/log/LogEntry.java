@@ -7,22 +7,16 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 
 public interface LogEntry {
-    default public Bundle getBundle() {
-    }
+    public Bundle getBundle();
 
-    default public ServiceReference getServiceReference() {
-    }
+    public ServiceReference getServiceReference();
 
-    default public int getLevel() {
-    }
+    public int getLevel();
 
-    default public String getMessage() {
-    }
+    public String getMessage();
 
-    default public Throwable getException() {
-    }
+    public Throwable getException();
 
-    default public long getTime() {
-    }
+    public long getTime();
 }
 

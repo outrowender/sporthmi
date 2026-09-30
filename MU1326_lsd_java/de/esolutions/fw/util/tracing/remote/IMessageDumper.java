@@ -6,7 +6,6 @@ package de.esolutions.fw.util.tracing.remote;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 
 public interface IMessageDumper {
-    default public void dump(AbstractMessage abstractMessage) {
-    }
+    public void dump(AbstractMessage var1);
 }
 

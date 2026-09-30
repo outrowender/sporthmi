@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.search.impl.CountrySerializer;
 import de.esolutions.fw.comm.dsi.search.impl.TokenSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.ConflictMatch;
 import org.dsi.ifc.search.Country;
 import org.dsi.ifc.search.Token;
 
 public class ConflictMatchSerializer {
-    public static void putOptionalConflictMatch(ISerializer iSerializer, ConflictMatch conflictMatch) {
+    public static void putOptionalConflictMatch(ISerializer iSerializer, ConflictMatch conflictMatch) throws SerializerException {
         boolean bl = conflictMatch == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ConflictMatchSerializer {
         }
     }
 
-    public static void putOptionalConflictMatchVarArray(ISerializer iSerializer, ConflictMatch[] conflictMatchArray) {
+    public static void putOptionalConflictMatchVarArray(ISerializer iSerializer, ConflictMatch[] conflictMatchArray) throws SerializerException {
         boolean bl = conflictMatchArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ConflictMatchSerializer {
         }
     }
 
-    public static ConflictMatch getOptionalConflictMatch(IDeserializer iDeserializer) {
+    public static ConflictMatch getOptionalConflictMatch(IDeserializer iDeserializer) throws SerializerException {
         ConflictMatch conflictMatch = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ConflictMatchSerializer {
         return conflictMatch;
     }
 
-    public static ConflictMatch[] getOptionalConflictMatchVarArray(IDeserializer iDeserializer) {
+    public static ConflictMatch[] getOptionalConflictMatchVarArray(IDeserializer iDeserializer) throws SerializerException {
         ConflictMatch[] conflictMatchArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

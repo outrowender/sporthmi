@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOOpenDoor;
 
 public class UGDOOpenDoorSerializer {
-    public static void putOptionalUGDOOpenDoor(ISerializer iSerializer, UGDOOpenDoor uGDOOpenDoor) {
+    public static void putOptionalUGDOOpenDoor(ISerializer iSerializer, UGDOOpenDoor uGDOOpenDoor) throws SerializerException {
         boolean bl = uGDOOpenDoor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class UGDOOpenDoorSerializer {
         }
     }
 
-    public static void putOptionalUGDOOpenDoorVarArray(ISerializer iSerializer, UGDOOpenDoor[] uGDOOpenDoorArray) {
+    public static void putOptionalUGDOOpenDoorVarArray(ISerializer iSerializer, UGDOOpenDoor[] uGDOOpenDoorArray) throws SerializerException {
         boolean bl = uGDOOpenDoorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class UGDOOpenDoorSerializer {
         }
     }
 
-    public static UGDOOpenDoor getOptionalUGDOOpenDoor(IDeserializer iDeserializer) {
+    public static UGDOOpenDoor getOptionalUGDOOpenDoor(IDeserializer iDeserializer) throws SerializerException {
         UGDOOpenDoor uGDOOpenDoor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class UGDOOpenDoorSerializer {
         return uGDOOpenDoor;
     }
 
-    public static UGDOOpenDoor[] getOptionalUGDOOpenDoorVarArray(IDeserializer iDeserializer) {
+    public static UGDOOpenDoor[] getOptionalUGDOOpenDoorVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOOpenDoor[] uGDOOpenDoorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

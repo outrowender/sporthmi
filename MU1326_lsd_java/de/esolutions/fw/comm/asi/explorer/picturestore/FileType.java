@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface FileType
 extends IEnum {
-    public static final int FILE_TYPE_DEFAULT;
-    public static final int FILE_TYPE_PNG;
-    public static final int FILE_TYPE_JPEG;
+    public static final int FILE_TYPE_DEFAULT = 0;
+    public static final int FILE_TYPE_PNG = 1;
+    public static final int FILE_TYPE_JPEG = 2;
 }
 

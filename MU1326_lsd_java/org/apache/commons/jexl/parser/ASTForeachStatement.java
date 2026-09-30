@@ -15,9 +15,9 @@ import org.apache.commons.jexl.util.introspection.Info;
 public class ASTForeachStatement
 extends SimpleNode {
     private static final Info DUMMY = new Info("", 1, 1);
-    private static final int VAR_INDEX;
-    private static final int ITEMS_INDEX;
-    private static final int STATEMENT_INDEX;
+    private static final int VAR_INDEX = 0;
+    private static final int ITEMS_INDEX = 1;
+    private static final int STATEMENT_INDEX = 2;
 
     public ASTForeachStatement(int n) {
         super(n);
@@ -27,13 +27,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         Object object = null;
         ASTReference aSTReference = (ASTReference)this.jjtGetChild(0);
         SimpleNode simpleNode = (SimpleNode)this.jjtGetChild(1);

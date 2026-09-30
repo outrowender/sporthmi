@@ -26,7 +26,7 @@ public class MultiFileNamer {
         Buffer buffer = new Buffer();
         buffer.append(this.baseName);
         buffer.append('_');
-        String string = new StringBuffer().append("0000000000").append(Integer.toString(this.index)).toString();
+        String string = "0000000000" + Integer.toString(this.index);
         int n = string.length() - this.numDigits;
         buffer.append(string.substring(n));
         buffer.append('.');

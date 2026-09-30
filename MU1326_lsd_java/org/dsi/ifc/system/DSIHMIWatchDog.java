@@ -7,22 +7,19 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIHMIWatchDog
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_ERRORLOGDUMPRESULT;
-    public static final int RT_HEARTBEAT;
-    public static final int RT_HMIREADY;
-    public static final int ATTR_QUERYHEARTBEAT;
-    public static final int IN_TRIGGERERRORLOGDUMP;
-    public static final int RESULTCODE_OK;
-    public static final int RESULTCODE_FAIL;
+    public static final String VERSION = "2.11.0";
+    public static final int RT_ERRORLOGDUMPRESULT = 1000;
+    public static final int RT_HEARTBEAT = 1001;
+    public static final int RT_HMIREADY = 1002;
+    public static final int ATTR_QUERYHEARTBEAT = 1;
+    public static final int IN_TRIGGERERRORLOGDUMP = 3000;
+    public static final int RESULTCODE_OK = 0;
+    public static final int RESULTCODE_FAIL = 1;
 
-    default public void heartbeat(int n) {
-    }
+    public void heartbeat(int var1);
 
-    default public void errorlogDumpResult(int n) {
-    }
+    public void errorlogDumpResult(int var1);
 
-    default public void hmiReady() {
-    }
+    public void hmiReady();
 }
 

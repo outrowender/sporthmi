@@ -8,25 +8,18 @@ import de.esolutions.fw.comm.agent.diag.InfoStream;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IInfoBase {
-    default public int getID() {
-    }
+    public int getID();
 
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 
-    default public String getSimpleClassName() {
-    }
+    public String getSimpleClassName();
 
-    default public InfoEntry[] getEntries() {
-    }
+    public InfoEntry[] getEntries();
 
-    default public InfoEntry[] getSortedEntries() {
-    }
+    public InfoEntry[] getSortedEntries();
 
-    default public ServiceInstanceID getServiceInstanceID() {
-    }
+    public ServiceInstanceID getServiceInstanceID();
 
-    default public void write(InfoStream infoStream) {
-    }
+    public void write(InfoStream var1);
 }
 

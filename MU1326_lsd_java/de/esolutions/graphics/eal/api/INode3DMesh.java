@@ -20,12 +20,10 @@ extends INode3D {
         return iNode3DMesh == null ? 0L : iNode3DMesh.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -37,7 +35,6 @@ extends INode3D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -51,7 +48,6 @@ extends INode3D {
         return ealswigJNI.eal_api_INode3DMesh_setData(this.swigCPtr, this, IMeshData.getCPtr(iMeshData), iMeshData);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode3DMesh_dispose(this.swigCPtr, this);
     }

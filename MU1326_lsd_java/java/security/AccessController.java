@@ -17,16 +17,14 @@ public final class AccessController {
         AccessController.initializeInternal();
     }
 
-    private static native void initializeInternal() {
-    }
+    private static native void initializeInternal();
 
     private AccessController() {
     }
 
-    private static native Object[] getProtectionDomains(int n) {
-    }
+    private static native Object[] getProtectionDomains(int var0);
 
-    public static void checkPermission(Permission permission) {
+    public static void checkPermission(Permission permission) throws AccessControlException {
         if (permission == null) {
             throw new NullPointerException();
         }
@@ -57,11 +55,11 @@ public final class AccessController {
             if (!protectionDomainArray[n].implies(permission)) {
                 if ((AccessControlContext.debugSetting() & 1) != 0) {
                     AccessControlContext.debugPrintAccess();
-                    System.err.println(new StringBuffer("access denied ").append(permission).toString());
+                    System.err.println("access denied " + permission);
                 }
                 if ((AccessControlContext.debugSetting() & 8) != 0) {
                     new Exception("Stack trace").printStackTrace();
-                    System.err.println(new StringBuffer("domain that failed ").append(protectionDomainArray[n]).toString());
+                    System.err.println("domain that failed " + protectionDomainArray[n]);
                 }
                 throw new AccessControlException(Msg.getString("K002c", permission), permission);
             }
@@ -69,7 +67,7 @@ public final class AccessController {
         }
         if ((AccessControlContext.debugSetting() & 1) != 0) {
             AccessControlContext.debugPrintAccess();
-            System.err.println(new StringBuffer("access allowed ").append(permission).toString());
+            System.err.println("access allowed " + permission);
         }
     }
 
@@ -138,7 +136,7 @@ public final class AccessController {
         return object;
     }
 
-    public static Object doPrivileged(PrivilegedExceptionAction privilegedExceptionAction) {
+    public static Object doPrivileged(PrivilegedExceptionAction privilegedExceptionAction) throws PrivilegedActionException {
         try {
             return privilegedExceptionAction.run();
         }
@@ -150,7 +148,7 @@ public final class AccessController {
         }
     }
 
-    public static Object doPrivileged(PrivilegedExceptionAction privilegedExceptionAction, AccessControlContext accessControlContext) {
+    public static Object doPrivileged(PrivilegedExceptionAction privilegedExceptionAction, AccessControlContext accessControlContext) throws PrivilegedActionException {
         try {
             Object object = privilegedExceptionAction.run();
             AccessController.keepalive(accessControlContext);

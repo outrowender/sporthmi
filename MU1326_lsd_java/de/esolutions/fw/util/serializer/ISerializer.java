@@ -6,128 +6,89 @@ package de.esolutions.fw.util.serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializable;
 import de.esolutions.fw.util.serializer.IStreamSerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import java.util.List;
 
 public interface ISerializer
 extends IStreamSerializer {
-    default public void putString(String string) {
-    }
+    public void putString(String var1) throws SerializerException;
 
-    default public void putOptionalString(String string) {
-    }
+    public void putOptionalString(String var1) throws SerializerException;
 
-    default public void putEnum(int n) {
-    }
+    public void putEnum(int var1) throws SerializerException;
 
-    default public void putObject(ISerializable iSerializable) {
-    }
+    public void putObject(ISerializable var1) throws SerializerException;
 
-    default public void putOptionalObject(ISerializable iSerializable) {
-    }
+    public void putOptionalObject(ISerializable var1) throws SerializerException;
 
-    default public void putObjectArray(ISerializable[] iSerializableArray) {
-    }
+    public void putObjectArray(ISerializable[] var1) throws SerializerException;
 
-    default public void putOptionalObjectArray(ISerializable[] iSerializableArray) {
-    }
+    public void putOptionalObjectArray(ISerializable[] var1) throws SerializerException;
 
-    default public void putObjectVarArray(ISerializable[] iSerializableArray) {
-    }
+    public void putObjectVarArray(ISerializable[] var1) throws SerializerException;
 
-    default public void putOptionalObjectVarArray(ISerializable[] iSerializableArray) {
-    }
+    public void putOptionalObjectVarArray(ISerializable[] var1) throws SerializerException;
 
-    default public void putList(List list) {
-    }
+    public void putList(List var1) throws SerializerException;
 
-    default public void putOptionalList(List list) {
-    }
+    public void putOptionalList(List var1) throws SerializerException;
 
-    default public void putStringArray(String[] stringArray) {
-    }
+    public void putStringArray(String[] var1) throws SerializerException;
 
-    default public void putOptionalStringVarArray(String[] stringArray) {
-    }
+    public void putOptionalStringVarArray(String[] var1) throws SerializerException;
 
-    default public void putBoolVarArray(boolean[] blArray) {
-    }
+    public void putBoolVarArray(boolean[] var1) throws SerializerException;
 
-    default public void putUInt8VarArray(short[] sArray) {
-    }
+    public void putUInt8VarArray(short[] var1) throws SerializerException;
 
-    default public void putInt8VarArray(byte[] byArray) {
-    }
+    public void putInt8VarArray(byte[] var1) throws SerializerException;
 
-    default public void putUChar16VarArray(char[] cArray) {
-    }
+    public void putUChar16VarArray(char[] var1) throws SerializerException;
 
-    default public void putUInt16VarArray(int[] nArray) {
-    }
+    public void putUInt16VarArray(int[] var1) throws SerializerException;
 
-    default public void putInt16VarArray(short[] sArray) {
-    }
+    public void putInt16VarArray(short[] var1) throws SerializerException;
 
-    default public void putUInt32VarArray(long[] lArray) {
-    }
+    public void putUInt32VarArray(long[] var1) throws SerializerException;
 
-    default public void putInt32VarArray(int[] nArray) {
-    }
+    public void putInt32VarArray(int[] var1) throws SerializerException;
 
-    default public void putUInt64VarArray(long[] lArray) {
-    }
+    public void putUInt64VarArray(long[] var1) throws SerializerException;
 
-    default public void putInt64VarArray(long[] lArray) {
-    }
+    public void putInt64VarArray(long[] var1) throws SerializerException;
 
-    default public void putFloatVarArray(float[] fArray) {
-    }
+    public void putFloatVarArray(float[] var1) throws SerializerException;
 
-    default public void putDoubleVarArray(double[] dArray) {
-    }
+    public void putDoubleVarArray(double[] var1) throws SerializerException;
 
-    default public void putOptionalBoolVarArray(boolean[] blArray) {
-    }
+    public void putOptionalBoolVarArray(boolean[] var1) throws SerializerException;
 
-    default public void putOptionalUInt8VarArray(short[] sArray) {
-    }
+    public void putOptionalUInt8VarArray(short[] var1) throws SerializerException;
 
-    default public void putOptionalInt8VarArray(byte[] byArray) {
-    }
+    public void putOptionalInt8VarArray(byte[] var1) throws SerializerException;
 
-    default public void putOptionalUChar16VarArray(char[] cArray) {
-    }
+    public void putOptionalUChar16VarArray(char[] var1) throws SerializerException;
 
-    default public void putOptionalUInt16VarArray(int[] nArray) {
-    }
+    public void putOptionalUInt16VarArray(int[] var1) throws SerializerException;
 
-    default public void putOptionalInt16VarArray(short[] sArray) {
-    }
+    public void putOptionalInt16VarArray(short[] var1) throws SerializerException;
 
-    default public void putOptionalUInt32VarArray(long[] lArray) {
-    }
+    public void putOptionalUInt32VarArray(long[] var1) throws SerializerException;
 
-    default public void putOptionalInt32VarArray(int[] nArray) {
-    }
+    public void putOptionalInt32VarArray(int[] var1) throws SerializerException;
 
-    default public void putOptionalUInt64VarArray(long[] lArray) {
-    }
+    public void putOptionalUInt64VarArray(long[] var1) throws SerializerException;
 
-    default public void putOptionalInt64VarArray(long[] lArray) {
-    }
+    public void putOptionalInt64VarArray(long[] var1) throws SerializerException;
 
-    default public void putOptionalFloatVarArray(float[] fArray) {
-    }
+    public void putOptionalFloatVarArray(float[] var1) throws SerializerException;
 
-    default public void putOptionalDoubleVarArray(double[] dArray) {
-    }
+    public void putOptionalDoubleVarArray(double[] var1) throws SerializerException;
 
-    default public void putOptionalEnumVarArray(int[] nArray) {
-    }
+    public void putOptionalEnumVarArray(int[] var1) throws SerializerException;
 
-    default public ISerializer createCompatibleSerializer() {
-    }
+    public ISerializer createCompatibleSerializer();
 
-    default public IDeserializer createCompatibleDeserializer() {
-    }
+    public IDeserializer createCompatibleDeserializer();
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.online;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineTourImportReply;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineTourImportReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -21,13 +22,11 @@ implements DSIOnlineTourImportReply {
         super(n, (class$org$dsi$ifc$online$DSIOnlineTourImportListener == null ? (class$org$dsi$ifc$online$DSIOnlineTourImportListener = DSIOnlineTourImportDispatcher.class$("org.dsi.ifc.online.DSIOnlineTourImportListener")) : class$org$dsi$ifc$online$DSIOnlineTourImportListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicateToursAvailable(int n) {
+    public void indicateToursAvailable(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -43,8 +42,7 @@ implements DSIOnlineTourImportReply {
         }
     }
 
-    @Override
-    public void responseTourDownload(int n) {
+    public void responseTourDownload(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -60,8 +58,7 @@ implements DSIOnlineTourImportReply {
         }
     }
 
-    @Override
-    public void indicateTourDownloadFinished(int n, String string, String string2, int n2) {
+    public void indicateTourDownloadFinished(int n, String string, String string2, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -77,8 +74,7 @@ implements DSIOnlineTourImportReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -94,14 +90,13 @@ implements DSIOnlineTourImportReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlineTourImportListener dSIOnlineTourImportListener = (DSIOnlineTourImportListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineTourImportDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineTourImportDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlineTourImportListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineTourImportDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineTourImportDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlineTourImportListener, new Object[]{string, string2});
                     continue;
                 }

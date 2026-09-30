@@ -28,16 +28,14 @@ extends FilterInputStream {
         this.pos = n;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.buf != null) {
             return this.buf.length - this.pos + this.in.available();
         }
         throw new IOException();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.in != null) {
             this.in.close();
             this.in = null;
@@ -45,13 +43,11 @@ extends FilterInputStream {
         }
     }
 
-    @Override
     public boolean markSupported() {
         return false;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         if (this.buf != null) {
             if (this.pos < this.buf.length) {
                 return this.buf[this.pos++] & 0xFF;
@@ -61,8 +57,7 @@ extends FilterInputStream {
         throw new IOException();
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.buf != null && byArray != null) {
             if (n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
                 int n3 = 0;
@@ -95,8 +90,7 @@ extends FilterInputStream {
         throw new NullPointerException();
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (this.in != null) {
             if (l <= 0L) {
                 return 0L;
@@ -114,11 +108,11 @@ extends FilterInputStream {
         throw new IOException(Msg.getString("K0059"));
     }
 
-    public void unread(byte[] byArray) {
+    public void unread(byte[] byArray) throws IOException {
         this.unread(byArray, 0, byArray.length);
     }
 
-    public void unread(byte[] byArray, int n, int n2) {
+    public void unread(byte[] byArray, int n, int n2) throws IOException {
         if (n2 > this.pos) {
             throw new IOException(Msg.getString("K007e"));
         }
@@ -133,7 +127,7 @@ extends FilterInputStream {
         }
     }
 
-    public void unread(int n) {
+    public void unread(int n) throws IOException {
         if (this.buf != null) {
             if (this.pos == 0) {
                 throw new IOException(Msg.getString("K007e"));

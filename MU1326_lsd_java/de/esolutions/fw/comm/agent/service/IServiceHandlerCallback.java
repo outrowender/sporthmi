@@ -4,7 +4,6 @@
 package de.esolutions.fw.comm.agent.service;
 
 public interface IServiceHandlerCallback {
-    default public void completedCall() {
-    }
+    public void completedCall();
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.WiperViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class WiperViewOptionsSerializer {
-    public static void putOptionalWiperViewOptions(ISerializer iSerializer, WiperViewOptions wiperViewOptions) {
+    public static void putOptionalWiperViewOptions(ISerializer iSerializer, WiperViewOptions wiperViewOptions) throws SerializerException {
         boolean bl = wiperViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class WiperViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalWiperViewOptionsVarArray(ISerializer iSerializer, WiperViewOptions[] wiperViewOptionsArray) {
+    public static void putOptionalWiperViewOptionsVarArray(ISerializer iSerializer, WiperViewOptions[] wiperViewOptionsArray) throws SerializerException {
         boolean bl = wiperViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class WiperViewOptionsSerializer {
         }
     }
 
-    public static WiperViewOptions getOptionalWiperViewOptions(IDeserializer iDeserializer) {
+    public static WiperViewOptions getOptionalWiperViewOptions(IDeserializer iDeserializer) throws SerializerException {
         WiperViewOptions wiperViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -69,7 +70,7 @@ public class WiperViewOptionsSerializer {
         return wiperViewOptions;
     }
 
-    public static WiperViewOptions[] getOptionalWiperViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static WiperViewOptions[] getOptionalWiperViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         WiperViewOptions[] wiperViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

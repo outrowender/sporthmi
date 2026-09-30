@@ -7,12 +7,12 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface ImportSource
 extends IEnum {
-    public static final int IMPORTSOURCE_UNDEFINED;
-    public static final int IMPORTSOURCE_USB;
-    public static final int IMPORTSOURCE_SDCARD;
-    public static final int IMPORTSOURCE_ONLINE;
-    public static final int IMPORTSOURCE_STREETVIEW;
-    public static final int IMPORTSOURCE_CD;
-    public static final int IMPORTSOURCE_DVD;
+    public static final int IMPORTSOURCE_UNDEFINED = 1;
+    public static final int IMPORTSOURCE_USB = 2;
+    public static final int IMPORTSOURCE_SDCARD = 4;
+    public static final int IMPORTSOURCE_ONLINE = 8;
+    public static final int IMPORTSOURCE_STREETVIEW = 16;
+    public static final int IMPORTSOURCE_CD = 32;
+    public static final int IMPORTSOURCE_DVD = 64;
 }
 

@@ -7,7 +7,7 @@ import java.security.BasicPermission;
 
 public final class SerializablePermission
 extends BasicPermission {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 8537212141160296410L;
     private String actions;
 
     public SerializablePermission(String string) {

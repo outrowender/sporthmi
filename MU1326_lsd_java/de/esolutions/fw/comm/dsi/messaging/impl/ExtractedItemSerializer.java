@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.ExtractedItem;
 
 public class ExtractedItemSerializer {
-    public static void putOptionalExtractedItem(ISerializer iSerializer, ExtractedItem extractedItem) {
+    public static void putOptionalExtractedItem(ISerializer iSerializer, ExtractedItem extractedItem) throws SerializerException {
         boolean bl = extractedItem == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ExtractedItemSerializer {
         }
     }
 
-    public static void putOptionalExtractedItemVarArray(ISerializer iSerializer, ExtractedItem[] extractedItemArray) {
+    public static void putOptionalExtractedItemVarArray(ISerializer iSerializer, ExtractedItem[] extractedItemArray) throws SerializerException {
         boolean bl = extractedItemArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ExtractedItemSerializer {
         }
     }
 
-    public static ExtractedItem getOptionalExtractedItem(IDeserializer iDeserializer) {
+    public static ExtractedItem getOptionalExtractedItem(IDeserializer iDeserializer) throws SerializerException {
         ExtractedItem extractedItem = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class ExtractedItemSerializer {
         return extractedItem;
     }
 
-    public static ExtractedItem[] getOptionalExtractedItemVarArray(IDeserializer iDeserializer) {
+    public static ExtractedItem[] getOptionalExtractedItemVarArray(IDeserializer iDeserializer) throws SerializerException {
         ExtractedItem[] extractedItemArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

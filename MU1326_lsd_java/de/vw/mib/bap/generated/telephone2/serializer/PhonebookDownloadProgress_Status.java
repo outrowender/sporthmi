@@ -10,18 +10,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PhonebookDownloadProgress_Status
 implements StatusProperty {
     public int downloadState;
-    private static final int DOWNLOAD_STATE_BITSIZE;
-    public static final int DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE;
-    public static final int DOWNLOAD_STATE_CURRENTLY_BEING_LOADED;
-    public static final int DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_FSG;
-    public static final int DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE;
-    public static final int DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION;
+    private static final int DOWNLOAD_STATE_BITSIZE = 8;
+    public static final int DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE = 0;
+    public static final int DOWNLOAD_STATE_CURRENTLY_BEING_LOADED = 1;
+    public static final int DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_FSG = 2;
+    public static final int DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE = 3;
+    public static final int DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION = 4;
     public int progressPhonebookDownload;
-    private static final int PROGRESS_PHONEBOOK_DOWNLOAD_BITSIZE;
+    private static final int PROGRESS_PHONEBOOK_DOWNLOAD_BITSIZE = 8;
     public int totalPbEntries;
-    private static final int TOTAL_PB_ENTRIES_BITSIZE;
+    private static final int TOTAL_PB_ENTRIES_BITSIZE = 16;
     public int currentlyLoadedPbEntries;
-    private static final int CURRENTLY_LOADED_PB_ENTRIES_BITSIZE;
+    private static final int CURRENTLY_LOADED_PB_ENTRIES_BITSIZE = 16;
 
     public PhonebookDownloadProgress_Status() {
         this.internalReset();
@@ -40,12 +40,10 @@ implements StatusProperty {
         this.currentlyLoadedPbEntries = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PhonebookDownloadProgress_Status phonebookDownloadProgress_Status = (PhonebookDownloadProgress_Status)bAPEntity;
         return this.downloadState == phonebookDownloadProgress_Status.downloadState && this.progressPhonebookDownload == phonebookDownloadProgress_Status.progressPhonebookDownload && this.totalPbEntries == phonebookDownloadProgress_Status.totalPbEntries && this.currentlyLoadedPbEntries == phonebookDownloadProgress_Status.currentlyLoadedPbEntries;
@@ -54,7 +52,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PhonebookDownloadProgress_Status:");
@@ -93,7 +90,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -102,7 +98,6 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.downloadState);
         bitStream.pushByte((byte)this.progressPhonebookDownload);
@@ -110,7 +105,6 @@ implements StatusProperty {
         bitStream.pushShort((short)this.currentlyLoadedPbEntries);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.downloadState = bitStream.popFrontByte();
         this.progressPhonebookDownload = bitStream.popFrontByte();
@@ -122,7 +116,6 @@ implements StatusProperty {
         return 26;
     }
 
-    @Override
     public int getFunctionId() {
         return PhonebookDownloadProgress_Status.functionId();
     }

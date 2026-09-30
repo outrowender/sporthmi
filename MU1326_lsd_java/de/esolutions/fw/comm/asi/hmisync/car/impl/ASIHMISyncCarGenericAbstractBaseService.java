@@ -5,17 +5,18 @@ package de.esolutions.fw.comm.asi.hmisync.car.impl;
 
 import de.esolutions.fw.comm.asi.hmisync.car.ASIHMISyncCarGenericReply;
 import de.esolutions.fw.comm.asi.hmisync.car.ASIHMISyncCarGenericS;
-import de.esolutions.fw.comm.asi.hmisync.car.impl.ASIHMISyncCarGenericAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncCarGenericAbstractBaseService
 implements ASIHMISyncCarGenericS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.car.ASIHMISyncCarGeneric");
-    private static final int attributesCount;
+    private static final int attributesCount = 3;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -32,39 +33,33 @@ implements ASIHMISyncCarGenericS {
     }
 
     public ASIHMISyncCarGenericAbstractBaseService() {
-        ASIHMISyncCarGenericAbstractBaseService$AttributesBitMapProvider aSIHMISyncCarGenericAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncCarGenericAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncCarGeneric", aSIHMISyncCarGenericAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncCarGeneric", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncCarGenericReply);
         this.sendAttributeUpdate(l, aSIHMISyncCarGenericReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.setNotification(aSIHMISyncCarGenericReply);
         this.sendAttributeUpdate(aSIHMISyncCarGenericReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncCarGenericReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncCarGenericReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncCarGenericReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.clearNotification(aSIHMISyncCarGenericReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncCarGenericReply);
     }
@@ -88,11 +83,11 @@ implements ASIHMISyncCarGenericS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncCarGenericReply aSIHMISyncCarGenericReply) {
         try {
-            if (l == 0) {
+            if (l == 6L) {
                 aSIHMISyncCarGenericReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 8L) {
                 aSIHMISyncCarGenericReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 7L) {
                 aSIHMISyncCarGenericReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
             } else {
                 System.out.println("unexpected");
@@ -103,11 +98,11 @@ implements ASIHMISyncCarGenericS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncCarGenericAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(6);
@@ -121,11 +116,11 @@ implements ASIHMISyncCarGenericS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -144,11 +139,11 @@ implements ASIHMISyncCarGenericS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -164,6 +159,26 @@ implements ASIHMISyncCarGenericS {
                 aSIHMISyncCarGenericReply.updateReplyIDs(sArray, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(6L), new Integer(0));
+            this.map.put(new Long(8L), new Integer(1));
+            this.map.put(new Long(7L), new Integer(2));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 3;
         }
     }
 }

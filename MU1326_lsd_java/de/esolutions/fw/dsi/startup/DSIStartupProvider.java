@@ -25,28 +25,23 @@ implements DSIStartup {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$startup$DSIStartup == null ? (class$org$dsi$ifc$startup$DSIStartup = DSIStartupProvider.class$("org.dsi.ifc.startup.DSIStartup")) : class$org$dsi$ifc$startup$DSIStartup).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIStartupProxy(this.instance, (DSIStartupReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void startDomain(int n, int n2) {
         try {
             this.proxy.startDomain(n, n2);
@@ -56,7 +51,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void hmiCompletelyStarted() {
         try {
             this.proxy.hmiCompletelyStarted();
@@ -66,7 +60,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -76,7 +69,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -86,7 +78,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -96,7 +87,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -106,7 +96,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -116,7 +105,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -126,7 +114,6 @@ implements DSIStartup {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

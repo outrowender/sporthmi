@@ -5,27 +5,21 @@ package de.esolutions.fw.comm.asi.hmisync.generic;
 
 import de.esolutions.fw.comm.asi.hmisync.generic.ASIHMISyncGenericReply;
 import de.esolutions.fw.comm.asi.hmisync.generic.GenericPacket;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncGenericS {
-    default public void sendDataToUnit(GenericPacket genericPacket, ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void sendDataToUnit(GenericPacket var1, ASIHMISyncGenericReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void setNotification(ASIHMISyncGenericReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncGenericReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncGenericReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void clearNotification(ASIHMISyncGenericReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncGenericReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncGenericReply aSIHMISyncGenericReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncGenericReply var2) throws MethodException;
 }
 

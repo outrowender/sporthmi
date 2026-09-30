@@ -19,8 +19,7 @@ public abstract class AbstractRenderer
 implements IRenderer,
 WidgetConstants,
 IWidgetLogChannel {
-    public abstract AbstractWidgetController getAbstractController() {
-    }
+    public abstract AbstractWidgetController getAbstractController();
 
     protected HMITerminalImpl getTerminal() {
         return (HMITerminalImpl)this.getAbstractController().getTerminal();

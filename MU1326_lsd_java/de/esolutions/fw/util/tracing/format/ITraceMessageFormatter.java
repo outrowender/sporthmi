@@ -8,10 +8,8 @@ import de.esolutions.fw.util.tracing.format.ITraceEntityResolver;
 import de.esolutions.fw.util.tracing.message.ITraceMessage;
 
 public interface ITraceMessageFormatter {
-    default public void init(TraceConfigFormatter traceConfigFormatter) {
-    }
+    public void init(TraceConfigFormatter var1);
 
-    default public String[] formatMessage(ITraceMessage iTraceMessage, ITraceEntityResolver iTraceEntityResolver) {
-    }
+    public String[] formatMessage(ITraceMessage var1, ITraceEntityResolver var2);
 }
 

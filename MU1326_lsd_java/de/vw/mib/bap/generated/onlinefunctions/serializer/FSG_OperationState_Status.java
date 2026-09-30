@@ -10,14 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class FSG_OperationState_Status
 implements StatusProperty {
     public int op_State;
-    private static final int OP_STATE_BITSIZE;
-    public static final int OP_STATE_NORMAL_OPERATION;
-    public static final int OP_STATE_OFF_STANDBY;
-    public static final int OP_STATE_INITIALISING;
-    public static final int OP_STATE_DEFECTIVE;
-    public static final int EXTENSION1_MIN;
+    private static final int OP_STATE_BITSIZE = 8;
+    public static final int OP_STATE_NORMAL_OPERATION = 0;
+    public static final int OP_STATE_OFF_STANDBY = 1;
+    public static final int OP_STATE_INITIALISING = 3;
+    public static final int OP_STATE_DEFECTIVE = 15;
+    public static final int EXTENSION1_MIN = 0;
     public int extension1;
-    private static final int EXTENSION1_BITSIZE;
+    private static final int EXTENSION1_BITSIZE = 8;
 
     public FSG_OperationState_Status() {
         this.internalReset();
@@ -34,12 +34,10 @@ implements StatusProperty {
         this.extension1 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)bAPEntity;
         return this.op_State == fSG_OperationState_Status.op_State && this.extension1 == fSG_OperationState_Status.extension1;
@@ -48,7 +46,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_OperationState_Status:");
@@ -79,20 +76,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.op_State);
         bitStream.pushByte((byte)this.extension1);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.op_State = bitStream.popFrontByte();
         this.extension1 = bitStream.popFrontByte();
@@ -102,7 +96,6 @@ implements StatusProperty {
         return 15;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_OperationState_Status.functionId();
     }

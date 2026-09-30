@@ -3,74 +3,56 @@
  */
 package org.apache.xerces.xni.parser;
 
+import java.io.IOException;
 import java.util.Locale;
 import org.apache.xerces.xni.XMLDTDContentModelHandler;
 import org.apache.xerces.xni.XMLDTDHandler;
 import org.apache.xerces.xni.XMLDocumentHandler;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLComponentManager;
+import org.apache.xerces.xni.parser.XMLConfigurationException;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.apache.xerces.xni.parser.XMLErrorHandler;
 import org.apache.xerces.xni.parser.XMLInputSource;
 
 public interface XMLParserConfiguration
 extends XMLComponentManager {
-    default public void parse(XMLInputSource xMLInputSource) {
-    }
+    public void parse(XMLInputSource var1) throws XNIException, IOException;
 
-    default public void addRecognizedFeatures(String[] stringArray) {
-    }
+    public void addRecognizedFeatures(String[] var1);
 
-    default public void setFeature(String string, boolean bl) {
-    }
+    public void setFeature(String var1, boolean var2) throws XMLConfigurationException;
 
-    @Override
-    default public boolean getFeature(String string) {
-    }
+    public boolean getFeature(String var1) throws XMLConfigurationException;
 
-    default public void addRecognizedProperties(String[] stringArray) {
-    }
+    public void addRecognizedProperties(String[] var1);
 
-    default public void setProperty(String string, Object object) {
-    }
+    public void setProperty(String var1, Object var2) throws XMLConfigurationException;
 
-    @Override
-    default public Object getProperty(String string) {
-    }
+    public Object getProperty(String var1) throws XMLConfigurationException;
 
-    default public void setErrorHandler(XMLErrorHandler xMLErrorHandler) {
-    }
+    public void setErrorHandler(XMLErrorHandler var1);
 
-    default public XMLErrorHandler getErrorHandler() {
-    }
+    public XMLErrorHandler getErrorHandler();
 
-    default public void setDocumentHandler(XMLDocumentHandler xMLDocumentHandler) {
-    }
+    public void setDocumentHandler(XMLDocumentHandler var1);
 
-    default public XMLDocumentHandler getDocumentHandler() {
-    }
+    public XMLDocumentHandler getDocumentHandler();
 
-    default public void setDTDHandler(XMLDTDHandler xMLDTDHandler) {
-    }
+    public void setDTDHandler(XMLDTDHandler var1);
 
-    default public XMLDTDHandler getDTDHandler() {
-    }
+    public XMLDTDHandler getDTDHandler();
 
-    default public void setDTDContentModelHandler(XMLDTDContentModelHandler xMLDTDContentModelHandler) {
-    }
+    public void setDTDContentModelHandler(XMLDTDContentModelHandler var1);
 
-    default public XMLDTDContentModelHandler getDTDContentModelHandler() {
-    }
+    public XMLDTDContentModelHandler getDTDContentModelHandler();
 
-    default public void setEntityResolver(XMLEntityResolver xMLEntityResolver) {
-    }
+    public void setEntityResolver(XMLEntityResolver var1);
 
-    default public XMLEntityResolver getEntityResolver() {
-    }
+    public XMLEntityResolver getEntityResolver();
 
-    default public void setLocale(Locale locale) {
-    }
+    public void setLocale(Locale var1) throws XNIException;
 
-    default public Locale getLocale() {
-    }
+    public Locale getLocale();
 }
 

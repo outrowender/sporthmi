@@ -7,19 +7,19 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface ServiceReason
 extends IEnum {
-    public static final int NORMAL_OPERATION;
-    public static final int DUPLICATE_INSTANCEID;
-    public static final int INVALID_INSTANCEID;
-    public static final int CONNECTION_LOST;
-    public static final int INTERFACE_KEY_MISMATCH;
-    public static final int OOM;
-    public static final int SERVICE_NOT_AVAILABLE;
-    public static final int FACTORY_NOT_FOUND;
-    public static final int ID_POOL_EXHAUSTED;
-    public static final int OBJECT_IS_DEAD;
-    public static final int PROXY_IS_INVALID;
-    public static final int INVALID_AGENT_ID;
-    public static final int AGENT_IN_SHUTDOWN;
-    public static final int INTERNAL_ERROR;
+    public static final int NORMAL_OPERATION = 0;
+    public static final int DUPLICATE_INSTANCEID = 1;
+    public static final int INVALID_INSTANCEID = 2;
+    public static final int CONNECTION_LOST = 3;
+    public static final int INTERFACE_KEY_MISMATCH = 4;
+    public static final int OOM = 5;
+    public static final int SERVICE_NOT_AVAILABLE = 6;
+    public static final int FACTORY_NOT_FOUND = 7;
+    public static final int ID_POOL_EXHAUSTED = 8;
+    public static final int OBJECT_IS_DEAD = 9;
+    public static final int PROXY_IS_INVALID = 10;
+    public static final int INVALID_AGENT_ID = 11;
+    public static final int AGENT_IN_SHUTDOWN = 12;
+    public static final int INTERNAL_ERROR = 13;
 }
 

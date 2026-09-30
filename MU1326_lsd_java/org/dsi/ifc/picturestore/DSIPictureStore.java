@@ -8,178 +8,146 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIPictureStore
 extends DSIBase {
-    public static final String VERSION;
-    public static final int IN_INVALIDDATA;
-    public static final int RP_IMPORTPICTURERESULT;
-    public static final int RP_PICTUREEXISTS;
-    public static final int RP_FREESLOTS;
-    public static final int RP_GETREFERENCESRESULT;
-    public static final int RP_DELETEDPICTURES;
-    public static final int RP_RESPONSELRUPICTURES;
-    public static final int RP_LISTRESULT;
-    public static final int RP_LISTFORCONTEXTRESULT;
-    public static final int RP_GETPICTUREATTRIBUTESRESULT;
-    public static final int RP_LISTFORCONTEXTWITHFILTERRESULT;
-    public static final int RP_IMPORTPICTUREFROMSOURCERESULT;
-    public static final int RP_GETRECTANGLEPICTURESGRIDRESULT;
-    public static final int RP_GETAVAILABLEYEARSRESULT;
-    public static final int RP_GETAVAILABLEMONTHSRESULT;
-    public static final int RP_CREATEFILTERSETRESULT;
-    public static final int RP_CLONEFILTERSETRESULT;
-    public static final int RP_RESETTOFACTORYSETTINGSRESULT;
-    public static final int RP_GETAVAILABLEFOLDERSRESULT;
-    public static final int RP_COUNTPICTURESINCONTEXTRESULT;
-    public static final int RP_LISTFORCONTEXTWITHFILTERSORTDISTRESULT;
-    public static final int RT_IMPORTPICTURE;
-    public static final int RT_PICTUREEXISTS;
-    public static final int RT_INCREASEREFCOUNTER;
-    public static final int RT_DECREASEREFCOUNTER;
-    public static final int RT_SETCONFIG;
-    public static final int RT_GETFREESLOTS;
-    public static final int RT_GETREFERENCES;
-    public static final int RT_DELETEALLPICTURES;
-    public static final int RT_DELETEPICTURESFROMCONTEXT;
-    public static final int RT_DELETEPICTURES;
-    public static final int RT_GETLRUPICTURES;
-    public static final int RT_LISTINALLCONTEXTS;
-    public static final int RT_LISTINCONTEXT;
-    public static final int RT_GETPICTUREATTRIBUTES;
-    public static final int RT_CLONEFILTERSET;
-    public static final int RT_CREATEFILTERSET;
-    public static final int RT_DELETEFILTERSET;
-    public static final int RT_DELETEPICTURESWITHFILTERSET;
-    public static final int RT_GETAVAILABLEMONTHS;
-    public static final int RT_GETAVAILABLEYEARS;
-    public static final int RT_GETRECTANGLEPICTURESGRID;
-    public static final int RT_IMPORTPICTUREFROMSOURCE;
-    public static final int RT_LISTINCONTEXTWITHFILTER;
-    public static final int RT_SETCONFIGWITHFILETYPE;
-    public static final int RT_SETFILTERGEOAREA;
-    public static final int RT_SETFILTERIMPORTSOURCE;
-    public static final int RT_SETFILTERTIMEINTERVAL;
-    public static final int RT_RESETTOFACTORYSETTINGS;
-    public static final int RT_GETAVAILABLEFOLDERS;
-    public static final int RT_SETFILTERFOLDERNAME;
-    public static final int RT_COUNTPICTURESINCONTEXT;
-    public static final int RT_LISTINCONTEXTWITHFILTERSORTDIST;
-    public static final int IMPORTRESULT_SUCCESS;
-    public static final int IMPORTRESULT_NOSLOTAVAILABLE;
-    public static final int IMPORTRESULT_IOERROR;
-    public static final int IMPORTRESULT_PICTURENOTFOUND;
-    public static final int IMPORTRESULT_INTERNALERROR;
-    public static final int IMPORTRESULT_WRONG_PARAMETER;
-    public static final int IMPORTSOURCE_UNDEFINED;
-    public static final int IMPORTSOURCE_USB;
-    public static final int IMPORTSOURCE_SDCARD;
-    public static final int IMPORTSOURCE_ONLINE;
-    public static final int IMPORTSOURCE_STREETVIEW;
-    public static final int IMPORTSOURCE_CD;
-    public static final int IMPORTSOURCE_DVD;
-    public static final int TIMEINTERVALFILTERTYPE_CREATED_ON;
-    public static final int TIMEINTERVALFILTERTYPE_IMPORTED_ON;
-    public static final int FILETYPE_DEFAULT;
-    public static final int FILETYPE_PNG;
-    public static final int FILETYPE_JPEG;
-    public static final int FILTERSETID_EMPTY;
-    public static final int INVALIDDATATYPE_UNSPECIFIC;
-    public static final int INVALIDDATATYPE_STARTED;
-    public static final int INVALIDDATATYPE_RESET;
-    public static final int INVALIDDATATYPE_PICS_CHANGED;
+    public static final String VERSION = "2.11.11";
+    public static final int IN_INVALIDDATA = 3000;
+    public static final int RP_IMPORTPICTURERESULT = 2000;
+    public static final int RP_PICTUREEXISTS = 2001;
+    public static final int RP_FREESLOTS = 2002;
+    public static final int RP_GETREFERENCESRESULT = 2003;
+    public static final int RP_DELETEDPICTURES = 2004;
+    public static final int RP_RESPONSELRUPICTURES = 2005;
+    public static final int RP_LISTRESULT = 2006;
+    public static final int RP_LISTFORCONTEXTRESULT = 2007;
+    public static final int RP_GETPICTUREATTRIBUTESRESULT = 2008;
+    public static final int RP_LISTFORCONTEXTWITHFILTERRESULT = 2009;
+    public static final int RP_IMPORTPICTUREFROMSOURCERESULT = 2010;
+    public static final int RP_GETRECTANGLEPICTURESGRIDRESULT = 2011;
+    public static final int RP_GETAVAILABLEYEARSRESULT = 2012;
+    public static final int RP_GETAVAILABLEMONTHSRESULT = 2013;
+    public static final int RP_CREATEFILTERSETRESULT = 2014;
+    public static final int RP_CLONEFILTERSETRESULT = 2015;
+    public static final int RP_RESETTOFACTORYSETTINGSRESULT = 2016;
+    public static final int RP_GETAVAILABLEFOLDERSRESULT = 2017;
+    public static final int RP_COUNTPICTURESINCONTEXTRESULT = 2018;
+    public static final int RP_LISTFORCONTEXTWITHFILTERSORTDISTRESULT = 2019;
+    public static final int RT_IMPORTPICTURE = 1000;
+    public static final int RT_PICTUREEXISTS = 1001;
+    public static final int RT_INCREASEREFCOUNTER = 1002;
+    public static final int RT_DECREASEREFCOUNTER = 1003;
+    public static final int RT_SETCONFIG = 1004;
+    public static final int RT_GETFREESLOTS = 1005;
+    public static final int RT_GETREFERENCES = 1006;
+    public static final int RT_DELETEALLPICTURES = 1007;
+    public static final int RT_DELETEPICTURESFROMCONTEXT = 1008;
+    public static final int RT_DELETEPICTURES = 1009;
+    public static final int RT_GETLRUPICTURES = 1010;
+    public static final int RT_LISTINALLCONTEXTS = 1011;
+    public static final int RT_LISTINCONTEXT = 1012;
+    public static final int RT_GETPICTUREATTRIBUTES = 1013;
+    public static final int RT_CLONEFILTERSET = 1014;
+    public static final int RT_CREATEFILTERSET = 1015;
+    public static final int RT_DELETEFILTERSET = 1016;
+    public static final int RT_DELETEPICTURESWITHFILTERSET = 1017;
+    public static final int RT_GETAVAILABLEMONTHS = 1018;
+    public static final int RT_GETAVAILABLEYEARS = 1019;
+    public static final int RT_GETRECTANGLEPICTURESGRID = 1020;
+    public static final int RT_IMPORTPICTUREFROMSOURCE = 1021;
+    public static final int RT_LISTINCONTEXTWITHFILTER = 1022;
+    public static final int RT_SETCONFIGWITHFILETYPE = 1023;
+    public static final int RT_SETFILTERGEOAREA = 1024;
+    public static final int RT_SETFILTERIMPORTSOURCE = 1025;
+    public static final int RT_SETFILTERTIMEINTERVAL = 1026;
+    public static final int RT_RESETTOFACTORYSETTINGS = 1027;
+    public static final int RT_GETAVAILABLEFOLDERS = 1028;
+    public static final int RT_SETFILTERFOLDERNAME = 1029;
+    public static final int RT_COUNTPICTURESINCONTEXT = 1030;
+    public static final int RT_LISTINCONTEXTWITHFILTERSORTDIST = 1031;
+    public static final int IMPORTRESULT_SUCCESS = 0;
+    public static final int IMPORTRESULT_NOSLOTAVAILABLE = 1;
+    public static final int IMPORTRESULT_IOERROR = 2;
+    public static final int IMPORTRESULT_PICTURENOTFOUND = 3;
+    public static final int IMPORTRESULT_INTERNALERROR = 4;
+    public static final int IMPORTRESULT_WRONG_PARAMETER = 5;
+    public static final int IMPORTSOURCE_UNDEFINED = 1;
+    public static final int IMPORTSOURCE_USB = 2;
+    public static final int IMPORTSOURCE_SDCARD = 4;
+    public static final int IMPORTSOURCE_ONLINE = 8;
+    public static final int IMPORTSOURCE_STREETVIEW = 16;
+    public static final int IMPORTSOURCE_CD = 32;
+    public static final int IMPORTSOURCE_DVD = 64;
+    public static final int TIMEINTERVALFILTERTYPE_CREATED_ON = 1;
+    public static final int TIMEINTERVALFILTERTYPE_IMPORTED_ON = 2;
+    public static final int FILETYPE_DEFAULT = 0;
+    public static final int FILETYPE_PNG = 1;
+    public static final int FILETYPE_JPEG = 2;
+    public static final int FILTERSETID_EMPTY = -1;
+    public static final int INVALIDDATATYPE_UNSPECIFIC = 0;
+    public static final int INVALIDDATATYPE_STARTED = 1;
+    public static final int INVALIDDATATYPE_RESET = 2;
+    public static final int INVALIDDATATYPE_PICS_CHANGED = 3;
 
-    default public void setConfig(int n, int n2, int n3, int n4) {
-    }
+    public void setConfig(int var1, int var2, int var3, int var4);
 
-    default public void importPicture(int n, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void importPicture(int var1, ResourceLocator var2, boolean var3);
 
-    default public void pictureExists(ResourceLocator resourceLocator) {
-    }
+    public void pictureExists(ResourceLocator var1);
 
-    default public void increaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void increaseRefCounter(ResourceLocator var1, int var2);
 
-    default public void decreaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void decreaseRefCounter(ResourceLocator var1, int var2);
 
-    default public void getFreeSlots(int n) {
-    }
+    public void getFreeSlots(int var1);
 
-    default public void getReferences(ResourceLocator resourceLocator) {
-    }
+    public void getReferences(ResourceLocator var1);
 
-    default public void deleteAllPictures(int n, boolean bl) {
-    }
+    public void deleteAllPictures(int var1, boolean var2);
 
-    default public void deletePicturesFromContext(int n, ResourceLocator[] resourceLocatorArray, boolean bl) {
-    }
+    public void deletePicturesFromContext(int var1, ResourceLocator[] var2, boolean var3);
 
-    default public void deletePictures(ResourceLocator[] resourceLocatorArray, boolean bl) {
-    }
+    public void deletePictures(ResourceLocator[] var1, boolean var2);
 
-    default public void getLRUPictures(int n, boolean bl, int n2) {
-    }
+    public void getLRUPictures(int var1, boolean var2, int var3);
 
-    default public void listInAllContexts(int n, int n2) {
-    }
+    public void listInAllContexts(int var1, int var2);
 
-    default public void listInContext(int n, int n2, int n3) {
-    }
+    public void listInContext(int var1, int var2, int var3);
 
-    default public void getPictureAttributes(ResourceLocator resourceLocator) {
-    }
+    public void getPictureAttributes(ResourceLocator var1);
 
-    default public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setConfigWithFileType(int var1, int var2, int var3, int var4, int var5);
 
-    default public void importPictureFromSource(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string) {
-    }
+    public void importPictureFromSource(int var1, ResourceLocator var2, boolean var3, int var4, String var5);
 
-    default public void deletePicturesWithFilterSet(int n, int n2, boolean bl) {
-    }
+    public void deletePicturesWithFilterSet(int var1, int var2, boolean var3);
 
-    default public void listInContextWithFilter(int n, int n2, int n3, int n4) {
-    }
+    public void listInContextWithFilter(int var1, int var2, int var3, int var4);
 
-    default public void listInContextWithFilterSortDist(int n, int n2, int n3, int n4, float f2, float f3) {
-    }
+    public void listInContextWithFilterSortDist(int var1, int var2, int var3, int var4, float var5, float var6);
 
-    default public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5) {
-    }
+    public void getRectanglePicturesGrid(int var1, int var2, float var3, float var4, float var5, float var6, int var7, int var8, int var9);
 
-    default public void getAvailableYears(int n, int n2) {
-    }
+    public void getAvailableYears(int var1, int var2);
 
-    default public void getAvailableMonths(int n, int n2, int n3) {
-    }
+    public void getAvailableMonths(int var1, int var2, int var3);
 
-    default public void createFilterSet() {
-    }
+    public void createFilterSet();
 
-    default public void cloneFilterSet(int n) {
-    }
+    public void cloneFilterSet(int var1);
 
-    default public void deleteFilterSet(int n) {
-    }
+    public void deleteFilterSet(int var1);
 
-    default public void setFilterImportSource(int n, int n2) {
-    }
+    public void setFilterImportSource(int var1, int var2);
 
-    default public void setFilterTimeInterval(int n, int n2, long l, long l2) {
-    }
+    public void setFilterTimeInterval(int var1, int var2, long var3, long var5);
 
-    default public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) {
-    }
+    public void setFilterGeoArea(int var1, float var2, float var3, float var4, float var5);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void getAvailableFolders(int n) {
-    }
+    public void getAvailableFolders(int var1);
 
-    default public void setFilterFolderName(int n, String string) {
-    }
+    public void setFilterFolderName(int var1, String var2);
 
-    default public void countPicturesInContext(int n, int n2) {
-    }
+    public void countPicturesInContext(int var1, int var2);
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.FrameRequest;
 
 public class FrameRequestSerializer {
-    public static void putOptionalFrameRequest(ISerializer iSerializer, FrameRequest frameRequest) {
+    public static void putOptionalFrameRequest(ISerializer iSerializer, FrameRequest frameRequest) throws SerializerException {
         boolean bl = frameRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class FrameRequestSerializer {
         }
     }
 
-    public static void putOptionalFrameRequestVarArray(ISerializer iSerializer, FrameRequest[] frameRequestArray) {
+    public static void putOptionalFrameRequestVarArray(ISerializer iSerializer, FrameRequest[] frameRequestArray) throws SerializerException {
         boolean bl = frameRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class FrameRequestSerializer {
         }
     }
 
-    public static FrameRequest getOptionalFrameRequest(IDeserializer iDeserializer) {
+    public static FrameRequest getOptionalFrameRequest(IDeserializer iDeserializer) throws SerializerException {
         FrameRequest frameRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class FrameRequestSerializer {
         return frameRequest;
     }
 
-    public static FrameRequest[] getOptionalFrameRequestVarArray(IDeserializer iDeserializer) {
+    public static FrameRequest[] getOptionalFrameRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         FrameRequest[] frameRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -18,11 +18,11 @@ import org.apache.commons.id.uuid.state.Node;
 public final class VersionOneGenerator
 implements IdentifierGenerator,
 Constants {
-    private static final int NODE_ID_BYTE_LENGTH;
-    private static final int CLOCK_HI_VARIANT_BYTE8;
-    private static final int CLOCK_LOW_BYTE9;
-    private static final int NODE_ID_BYTE10;
-    private static final String DEFAULT_NODEMANAGER_IMPL;
+    private static final int NODE_ID_BYTE_LENGTH = 6;
+    private static final int CLOCK_HI_VARIANT_BYTE8 = 8;
+    private static final int CLOCK_LOW_BYTE9 = 9;
+    private static final int NODE_ID_BYTE10 = 10;
+    private static final String DEFAULT_NODEMANAGER_IMPL = (class$org$apache$commons$id$uuid$NodeManagerImpl == null ? (class$org$apache$commons$id$uuid$NodeManagerImpl = VersionOneGenerator.class$("org.apache.commons.id.uuid.NodeManagerImpl")) : class$org$apache$commons$id$uuid$NodeManagerImpl).getName();
     private NodeManager manager = (NodeManager)DiscoverSingleton.find((Class)(class$org$apache$commons$id$uuid$NodeManager == null ? (class$org$apache$commons$id$uuid$NodeManager = VersionOneGenerator.class$("org.apache.commons.id.uuid.NodeManager")) : class$org$apache$commons$id$uuid$NodeManager), (String)DEFAULT_NODEMANAGER_IMPL);
     private static VersionOneGenerator generator;
     static /* synthetic */ Class class$org$apache$commons$id$uuid$NodeManagerImpl;
@@ -38,7 +38,6 @@ Constants {
         return generator;
     }
 
-    @Override
     public Object nextIdentifier() {
         return this.nextUUID();
     }
@@ -84,10 +83,6 @@ Constants {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError(classNotFoundException.getMessage());
         }
-    }
-
-    static {
-        DEFAULT_NODEMANAGER_IMPL = (class$org$apache$commons$id$uuid$NodeManagerImpl == null ? (class$org$apache$commons$id$uuid$NodeManagerImpl = VersionOneGenerator.class$("org.apache.commons.id.uuid.NodeManagerImpl")) : class$org$apache$commons$id$uuid$NodeManagerImpl).getName();
     }
 }
 

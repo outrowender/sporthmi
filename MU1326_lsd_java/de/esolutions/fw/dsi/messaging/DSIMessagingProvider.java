@@ -27,28 +27,23 @@ implements DSIMessaging {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$messaging$DSIMessaging == null ? (class$org$dsi$ifc$messaging$DSIMessaging = DSIMessagingProvider.class$("org.dsi.ifc.messaging.DSIMessaging")) : class$org$dsi$ifc$messaging$DSIMessaging).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMessagingProxy(this.instance, (DSIMessagingReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void changeFolderRequest(int n, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.changeFolderRequest(n, n2, n3, n4, n5);
@@ -58,7 +53,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void listEntriesRequest(int n, int n2, int n3) {
         try {
             this.proxy.listEntriesRequest(n, n2, n3);
@@ -68,7 +62,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void getPositionOfMessageRequest(String string) {
         try {
             this.proxy.getPositionOfMessageRequest(string);
@@ -78,7 +71,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void getPositionOfFolderRequest(int n) {
         try {
             this.proxy.getPositionOfFolderRequest(n);
@@ -88,7 +80,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void deleteMessageRequest(String[] stringArray, boolean bl) {
         try {
             this.proxy.deleteMessageRequest(stringArray, bl);
@@ -98,7 +89,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void sendMessageRequest(int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
         try {
             this.proxy.sendMessageRequest(n, n2, recipientList, string, string2, attachmentInformationArray, n3);
@@ -108,7 +98,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void getMessageContentsRequest(int n, String string, int n2) {
         try {
             this.proxy.getMessageContentsRequest(n, string, n2);
@@ -118,7 +107,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void setMessageReadStatusRequest(String string, boolean bl) {
         try {
             this.proxy.setMessageReadStatusRequest(string, bl);
@@ -128,7 +116,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void saveAsDraftRequest(String string, int n, RecipientList recipientList, String string2, String string3, int n2, AttachmentInformation[] attachmentInformationArray) {
         try {
             this.proxy.saveAsDraftRequest(string, n, recipientList, string2, string3, n2, attachmentInformationArray);
@@ -138,7 +125,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void extractInformationRequest(String string) {
         try {
             this.proxy.extractInformationRequest(string);
@@ -148,7 +134,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void changeTemplateRequest(int n, String string) {
         try {
             this.proxy.changeTemplateRequest(n, string);
@@ -158,7 +143,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void getTemplateRequest(int n) {
         try {
             this.proxy.getTemplateRequest(n);
@@ -168,7 +152,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void getTemplatesRequest() {
         try {
             this.proxy.getTemplatesRequest();
@@ -178,7 +161,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void deleteTemplateRequest(int[] nArray) {
         try {
             this.proxy.deleteTemplateRequest(nArray);
@@ -188,7 +170,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void deleteSimCardMessagesRequest(int n, int n2) {
         try {
             this.proxy.deleteSimCardMessagesRequest(n, n2);
@@ -198,7 +179,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void decodeAttachmentRequest(AttachmentInformation attachmentInformation) {
         try {
             this.proxy.decodeAttachmentRequest(attachmentInformation);
@@ -208,7 +188,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -218,7 +197,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -228,7 +206,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -238,7 +215,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -248,7 +224,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -258,7 +233,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -268,7 +242,6 @@ implements DSIMessaging {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

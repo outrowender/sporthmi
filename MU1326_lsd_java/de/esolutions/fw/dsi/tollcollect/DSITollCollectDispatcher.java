@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tollcollect;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tollcollect.DSITollCollectReply;
 import de.esolutions.fw.comm.dsi.tollcollect.impl.DSITollCollectReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSITollCollectReply {
         super(n, (class$org$dsi$ifc$tollcollect$DSITollCollectListener == null ? (class$org$dsi$ifc$tollcollect$DSITollCollectListener = DSITollCollectDispatcher.class$("org.dsi.ifc.tollcollect.DSITollCollectListener")) : class$org$dsi$ifc$tollcollect$DSITollCollectListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateCardState(int n, int n2) {
+    public void updateCardState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void updateCardError(TCCardError tCCardError, int n) {
+    public void updateCardError(TCCardError tCCardError, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void updateCardDateInformation(TCCardDateInformation tCCardDateInformation, int n) {
+    public void updateCardDateInformation(TCCardDateInformation tCCardDateInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -120,8 +117,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void updateHardwareInformation(TCHardwareInformation[] tCHardwareInformationArray, int n) {
+    public void updateHardwareInformation(TCHardwareInformation[] tCHardwareInformationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -149,8 +145,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void updateCurrentTollPayment(NavPriceInfo navPriceInfo, int n) {
+    public void updateCurrentTollPayment(NavPriceInfo navPriceInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -178,8 +173,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void requestPaymentHistoryListResult(TCPaymentInfo[] tCPaymentInfoArray) {
+    public void requestPaymentHistoryListResult(TCPaymentInfo[] tCPaymentInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -195,8 +189,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void requestPaymentHistoryDetailsResult(int n, TCPaymentInfoDetails tCPaymentInfoDetails) {
+    public void requestPaymentHistoryDetailsResult(int n, TCPaymentInfoDetails tCPaymentInfoDetails) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -212,8 +205,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void setLanguageResponse(boolean bl) {
+    public void setLanguageResponse(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -229,8 +221,7 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -246,14 +237,13 @@ implements DSITollCollectReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITollCollectListener dSITollCollectListener = (DSITollCollectListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITollCollectDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITollCollectDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITollCollectListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITollCollectDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITollCollectDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITollCollectListener, new Object[]{string, string2});
                     continue;
                 }

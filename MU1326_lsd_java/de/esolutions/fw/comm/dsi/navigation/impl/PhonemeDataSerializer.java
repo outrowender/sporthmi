@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.PhonemeData;
 
 public class PhonemeDataSerializer {
-    public static void putOptionalPhonemeData(ISerializer iSerializer, PhonemeData phonemeData) {
+    public static void putOptionalPhonemeData(ISerializer iSerializer, PhonemeData phonemeData) throws SerializerException {
         boolean bl = phonemeData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PhonemeDataSerializer {
         }
     }
 
-    public static void putOptionalPhonemeDataVarArray(ISerializer iSerializer, PhonemeData[] phonemeDataArray) {
+    public static void putOptionalPhonemeDataVarArray(ISerializer iSerializer, PhonemeData[] phonemeDataArray) throws SerializerException {
         boolean bl = phonemeDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PhonemeDataSerializer {
         }
     }
 
-    public static PhonemeData getOptionalPhonemeData(IDeserializer iDeserializer) {
+    public static PhonemeData getOptionalPhonemeData(IDeserializer iDeserializer) throws SerializerException {
         PhonemeData phonemeData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PhonemeDataSerializer {
         return phonemeData;
     }
 
-    public static PhonemeData[] getOptionalPhonemeDataVarArray(IDeserializer iDeserializer) {
+    public static PhonemeData[] getOptionalPhonemeDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PhonemeData[] phonemeDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

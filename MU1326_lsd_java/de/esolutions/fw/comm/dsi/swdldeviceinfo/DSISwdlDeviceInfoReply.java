@@ -3,61 +3,46 @@
  */
 package de.esolutions.fw.comm.dsi.swdldeviceinfo;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlDeviceInfoReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "36a2e2a5-a8cb-5aa2-88da-885af6a1f6b4";
+    public static final String IPL_COMM_INTERFACE_KEY = "a9fd0f99-b1dc-5a0b-8ea0-ee8ce728ca21";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.6";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.6";
 
-    default public void updateSummaryChanged(String string, int n) {
-    }
+    public void updateSummaryChanged(String var1, int var2) throws MethodException;
 
-    default public void getDevices(String[] stringArray, int[] nArray) {
-    }
+    public void getDevices(String[] var1, int[] var2) throws MethodException;
 
-    default public void getModules(int n, String[] stringArray, int[] nArray, short[] sArray) {
-    }
+    public void getModules(int var1, String[] var2, int[] var3, short[] var4) throws MethodException;
 
-    default public void getLanguages(int n, String[] stringArray, short s, short s2, short s3) {
-    }
+    public void getLanguages(int var1, String[] var2, short var3, short var4, short var5) throws MethodException;
 
-    default public void getErrors(int n, int[] nArray, short[] sArray) {
-    }
+    public void getErrors(int var1, int[] var2, short[] var3) throws MethodException;
 
-    default public void isDataModule(int n, int n2, boolean bl) {
-    }
+    public void isDataModule(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void isNoExclusiveBoloUpdate(int n, int n2, boolean bl) {
-    }
+    public void isNoExclusiveBoloUpdate(int var1, int var2, boolean var3) throws MethodException;
 
-    default public void getVersions(int n, int n2, long[] lArray) {
-    }
+    public void getVersions(int var1, int var2, long[] var3) throws MethodException;
 
-    default public void getTargetVersions(int n, int n2, long[] lArray) {
-    }
+    public void getTargetVersions(int var1, int var2, long[] var3) throws MethodException;
 
-    default public void getAdditionalInfo(int n, int n2, int[] nArray) {
-    }
+    public void getAdditionalInfo(int var1, int var2, int[] var3) throws MethodException;
 
-    default public void getFileNames(int n, int n2, String[] stringArray) {
-    }
+    public void getFileNames(int var1, int var2, String[] var3) throws MethodException;
 
-    default public void getFileDetails(int n, int n2, int n3, long l, long l2, long l3, boolean bl, boolean bl2, String string, String string2) {
-    }
+    public void getFileDetails(int var1, int var2, int var3, long var4, long var6, long var8, boolean var10, boolean var11, String var12, String var13) throws MethodException;
 
-    default public void getInfoFilePath(int n, String string, String string2) {
-    }
+    public void getInfoFilePath(int var1, String var2, String var3) throws MethodException;
 
-    default public void getNumberOfPopups(int n) {
-    }
+    public void getNumberOfPopups(int var1) throws MethodException;
 
-    default public void getPopup(int n, int n2, String string, int n3, int n4, int n5, String string2) {
-    }
+    public void getPopup(int var1, int var2, String var3, int var4, int var5, int var6, String var7) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

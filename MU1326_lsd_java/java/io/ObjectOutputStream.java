@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
@@ -11,7 +8,6 @@ import com.ibm.oti.util.PriviAction;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.EmulatedFields;
-import java.io.EmulatedFields$ObjectSlot;
 import java.io.EmulatedFieldsForDumping;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -19,7 +15,6 @@ import java.io.InvalidClassException;
 import java.io.NotActiveException;
 import java.io.NotSerializableException;
 import java.io.ObjectOutput;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamClass;
 import java.io.ObjectStreamConstants;
 import java.io.ObjectStreamException;
@@ -54,7 +49,7 @@ ObjectStreamConstants {
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
 
-    protected ObjectOutputStream() {
+    protected ObjectOutputStream() throws IOException, SecurityException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
@@ -62,9 +57,9 @@ ObjectStreamConstants {
         this.subclassOverridingImplementation = true;
     }
 
-    public ObjectOutputStream(OutputStream outputStream) {
+    public ObjectOutputStream(OutputStream outputStream) throws IOException {
         Class clazz;
-        Class clazz2 = super.getClass();
+        Class clazz2 = this.getClass();
         Class clazz3 = class$0;
         if (clazz3 == null) {
             try {
@@ -105,21 +100,20 @@ ObjectStreamConstants {
         this.primitiveTypes = null;
     }
 
-    protected void annotateClass(Class clazz) {
+    protected void annotateClass(Class clazz) throws IOException {
     }
 
-    protected void annotateProxyClass(Class clazz) {
+    protected void annotateProxyClass(Class clazz) throws IOException {
     }
 
-    private void checkWritePrimitiveTypes() {
+    private void checkWritePrimitiveTypes() throws IOException {
         if (this.primitiveTypes == null) {
             this.primitiveTypesBuffer = new ByteArrayOutputStream(128);
             this.primitiveTypes = new DataOutputStream(this.primitiveTypesBuffer);
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.flush();
         this.output.close();
     }
@@ -128,14 +122,14 @@ ObjectStreamConstants {
         this.currentPutField = new EmulatedFieldsForDumping(this.currentClass);
     }
 
-    public void defaultWriteObject() {
+    public void defaultWriteObject() throws IOException {
         if (this.currentObject == null) {
             throw new NotActiveException();
         }
         this.writeFieldValues(this.currentObject, this.currentClass);
     }
 
-    protected void drain() {
+    protected void drain() throws IOException {
         if (this.primitiveTypes == null) {
             return;
         }
@@ -158,7 +152,7 @@ ObjectStreamConstants {
         this.primitiveTypesBuffer = null;
     }
 
-    private Integer dumpCycle(Object object) {
+    private Integer dumpCycle(Object object) throws IOException {
         Integer n = this.registeredObjectHandleFor(object);
         if (n != null) {
             this.writeCyclicReference(n);
@@ -167,7 +161,7 @@ ObjectStreamConstants {
         return null;
     }
 
-    protected boolean enableReplaceObject(boolean bl) {
+    protected boolean enableReplaceObject(boolean bl) throws SecurityException {
         SecurityManager securityManager;
         if (bl && (securityManager = System.getSecurityManager()) != null) {
             securityManager.checkPermission(SUBSTITUTION_PERMISSION);
@@ -177,44 +171,34 @@ ObjectStreamConstants {
         return bl2;
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         this.drain();
         this.output.flush();
     }
 
-    private static native boolean getFieldBool(Object object, Class clazz, String string) {
-    }
+    private static native boolean getFieldBool(Object var0, Class var1, String var2);
 
-    private static native byte getFieldByte(Object object, Class clazz, String string) {
-    }
+    private static native byte getFieldByte(Object var0, Class var1, String var2);
 
-    private static native char getFieldChar(Object object, Class clazz, String string) {
-    }
+    private static native char getFieldChar(Object var0, Class var1, String var2);
 
-    private static native double getFieldDouble(Object object, Class clazz, String string) {
-    }
+    private static native double getFieldDouble(Object var0, Class var1, String var2);
 
-    private static native float getFieldFloat(Object object, Class clazz, String string) {
-    }
+    private static native float getFieldFloat(Object var0, Class var1, String var2);
 
-    private static native int getFieldInt(Object object, Class clazz, String string) {
-    }
+    private static native int getFieldInt(Object var0, Class var1, String var2);
 
-    private static native long getFieldLong(Object object, Class clazz, String string) {
-    }
+    private static native long getFieldLong(Object var0, Class var1, String var2);
 
-    private static native Object getFieldObj(Object object, Class clazz, String string, String string2) {
-    }
+    private static native Object getFieldObj(Object var0, Class var1, String var2, String var3);
 
-    private static native short getFieldShort(Object object, Class clazz, String string) {
-    }
+    private static native short getFieldShort(Object var0, Class var1, String var2);
 
     private int nextHandle() {
         return this.currentHandle++;
     }
 
-    public ObjectOutputStream$PutField putFields() {
+    public PutField putFields() throws IOException {
         if (this.currentObject != null) {
             if (this.currentPutField == null) {
                 this.computePutField();
@@ -246,11 +230,11 @@ ObjectStreamConstants {
         this.objectsWritten.put(object, n);
     }
 
-    protected Object replaceObject(Object object) {
+    protected Object replaceObject(Object object) throws IOException {
         return object;
     }
 
-    public void reset() {
+    public void reset() throws IOException {
         this.drain();
         this.output.writeByte(121);
         this.resetState();
@@ -258,7 +242,7 @@ ObjectStreamConstants {
 
     private void resetSeenObjects() {
         this.objectsWritten = new IdentityHashMap();
-        this.currentHandle = 32256;
+        this.currentHandle = 0x7E0000;
     }
 
     private void resetState() {
@@ -266,59 +250,51 @@ ObjectStreamConstants {
         this.nestedLevels = 0;
     }
 
-    public void useProtocolVersion(int n) {
+    public void useProtocolVersion(int n) throws IOException {
         this.protocolVersion = n;
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.write(byArray);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.write(byArray, n, n2);
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.write(n);
     }
 
-    @Override
-    public void writeBoolean(boolean bl) {
+    public void writeBoolean(boolean bl) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeBoolean(bl);
     }
 
-    @Override
-    public void writeByte(int n) {
+    public void writeByte(int n) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeByte(n);
     }
 
-    @Override
-    public void writeBytes(String string) {
+    public void writeBytes(String string) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeBytes(string);
     }
 
-    @Override
-    public void writeChar(int n) {
+    public void writeChar(int n) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeChar(n);
     }
 
-    @Override
-    public void writeChars(String string) {
+    public void writeChars(String string) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeChars(string);
     }
 
-    private Integer writeClassDesc(ObjectStreamClass objectStreamClass, boolean bl) {
+    private Integer writeClassDesc(ObjectStreamClass objectStreamClass, boolean bl) throws IOException {
         if (objectStreamClass == null) {
             this.writeNull();
             return null;
@@ -376,22 +352,21 @@ ObjectStreamConstants {
         return n;
     }
 
-    private Integer writeClassDescForClass(Class clazz) {
+    private Integer writeClassDescForClass(Class clazz) throws IOException {
         return this.writeClassDesc(ObjectStreamClass.lookup(clazz), false);
     }
 
-    private void writeCyclicReference(Integer n) {
+    private void writeCyclicReference(Integer n) throws IOException {
         this.output.writeByte(113);
         this.output.writeInt(n);
     }
 
-    @Override
-    public void writeDouble(double d2) {
+    public void writeDouble(double d2) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeDouble(d2);
     }
 
-    private void writeFieldDescriptors(ObjectStreamClass objectStreamClass, boolean bl) {
+    private void writeFieldDescriptors(ObjectStreamClass objectStreamClass, boolean bl) throws IOException {
         Class clazz = objectStreamClass.forClass();
         ObjectStreamField[] objectStreamFieldArray = null;
         int n = 0;
@@ -412,21 +387,21 @@ ObjectStreamConstants {
         }
     }
 
-    public void writeFields() {
+    public void writeFields() throws IOException {
         if (this.currentPutField == null) {
             throw new NotActiveException();
         }
         this.writeFieldValues(this.currentPutField);
     }
 
-    private void writeFieldValues(EmulatedFieldsForDumping emulatedFieldsForDumping) {
+    private void writeFieldValues(EmulatedFieldsForDumping emulatedFieldsForDumping) throws IOException {
         EmulatedFields emulatedFields = emulatedFieldsForDumping.emulatedFields();
-        EmulatedFields$ObjectSlot[] emulatedFields$ObjectSlotArray = emulatedFields.slots();
+        EmulatedFields.ObjectSlot[] objectSlotArray = emulatedFields.slots();
         int n = 0;
-        while (n < emulatedFields$ObjectSlotArray.length) {
-            EmulatedFields$ObjectSlot emulatedFields$ObjectSlot = emulatedFields$ObjectSlotArray[n];
-            Object object = emulatedFields$ObjectSlot.getFieldValue();
-            Class clazz = emulatedFields$ObjectSlot.getField().getType();
+        while (n < objectSlotArray.length) {
+            EmulatedFields.ObjectSlot objectSlot = objectSlotArray[n];
+            Object object = objectSlot.getFieldValue();
+            Class clazz = objectSlot.getField().getType();
             if (clazz == Integer.TYPE) {
                 this.output.writeInt(object != null ? (Integer)object : 0);
             } else if (clazz == Byte.TYPE) {
@@ -450,7 +425,7 @@ ObjectStreamConstants {
         }
     }
 
-    private void writeFieldValues(Object object, ObjectStreamClass objectStreamClass) {
+    private void writeFieldValues(Object object, ObjectStreamClass objectStreamClass) throws IOException {
         ObjectStreamField[] objectStreamFieldArray = objectStreamClass.fields();
         Class clazz = objectStreamClass.forClass();
         int n = 0;
@@ -512,13 +487,12 @@ ObjectStreamConstants {
         }
     }
 
-    @Override
-    public void writeFloat(float f2) {
+    public void writeFloat(float f2) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeFloat(f2);
     }
 
-    private void writeHierarchy(Object object, ObjectStreamClass objectStreamClass) {
+    private void writeHierarchy(Object object, ObjectStreamClass objectStreamClass) throws IOException, NotActiveException {
         if (object != null) {
             if (objectStreamClass.getSuperclass() != null) {
                 this.writeHierarchy(object, objectStreamClass.getSuperclass());
@@ -565,14 +539,12 @@ ObjectStreamConstants {
         }
     }
 
-    @Override
-    public void writeInt(int n) {
+    public void writeInt(int n) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeInt(n);
     }
 
-    @Override
-    public void writeLong(long l) {
+    public void writeLong(long l) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeLong(l);
     }
@@ -581,7 +553,7 @@ ObjectStreamConstants {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    private Integer writeNewArray(Object object, Class clazz, Class clazz2) {
+    private Integer writeNewArray(Object object, Class clazz, Class clazz2) throws IOException {
         this.output.writeByte(117);
         this.writeClassDescForClass(clazz);
         Integer n = this.registerObjectWritten(object);
@@ -668,13 +640,13 @@ ObjectStreamConstants {
         return n;
     }
 
-    private Integer writeNewClass(Class clazz) {
+    private Integer writeNewClass(Class clazz) throws IOException {
         this.output.writeByte(118);
         this.writeClassDesc(ObjectStreamClass.lookupStreamClass(clazz), false);
         return this.registerObjectWritten(clazz);
     }
 
-    private void writeNewClassDesc(ObjectStreamClass objectStreamClass) {
+    private void writeNewClassDesc(ObjectStreamClass objectStreamClass) throws IOException {
         this.output.writeUTF(objectStreamClass.getName());
         this.output.writeLong(objectStreamClass.getSerialVersionUID());
         byte by = objectStreamClass.getFlags();
@@ -687,25 +659,25 @@ ObjectStreamConstants {
         this.writeFieldDescriptors(objectStreamClass, bl);
     }
 
-    protected void writeClassDescriptor(ObjectStreamClass objectStreamClass) {
+    protected void writeClassDescriptor(ObjectStreamClass objectStreamClass) throws IOException {
         this.writeNewClassDesc(objectStreamClass);
     }
 
-    private void writeNewException(Exception exception) {
+    private void writeNewException(Exception exception) throws IOException {
         this.output.writeByte(123);
         this.resetSeenObjects();
         this.writeObjectInternal(exception, false, false, false);
         this.resetSeenObjects();
     }
 
-    private void checkSerializable(Class clazz, boolean bl) {
+    private void checkSerializable(Class clazz, boolean bl) throws IOException {
         boolean bl2 = ObjectStreamClass.isSerializable(clazz);
         if (!bl && !bl2) {
             throw new NotSerializableException(clazz.getName());
         }
     }
 
-    private Integer writeNewObject(Object object, Class clazz, boolean bl) {
+    private Integer writeNewObject(Object object, Class clazz, boolean bl) throws IOException {
         EmulatedFieldsForDumping emulatedFieldsForDumping = this.currentPutField;
         this.currentPutField = null;
         boolean bl2 = ObjectStreamClass.isExternalizable(clazz);
@@ -745,9 +717,9 @@ ObjectStreamConstants {
         return n2;
     }
 
-    private Integer writeNewString(String string) {
+    private Integer writeNewString(String string) throws IOException {
         long l = this.output.countUTFBytes(string);
-        if (l <= 0) {
+        if (l <= 65535L) {
             this.output.writeByte(116);
             this.output.writeShort((short)l);
         } else {
@@ -758,20 +730,19 @@ ObjectStreamConstants {
         return this.registerObjectWritten(string);
     }
 
-    private void writeNull() {
+    private void writeNull() throws IOException {
         this.output.writeByte(112);
     }
 
-    @Override
-    public final void writeObject(Object object) {
+    public final void writeObject(Object object) throws IOException {
         this.writeObject(object, false);
     }
 
-    public void writeUnshared(Object object) {
+    public void writeUnshared(Object object) throws IOException {
         this.writeObject(object, true);
     }
 
-    private void writeObject(Object object, boolean bl) {
+    private void writeObject(Object object, boolean bl) throws IOException {
         boolean bl2 = this.primitiveTypes == this.output;
         if (bl2) {
             this.primitiveTypes = null;
@@ -801,7 +772,7 @@ ObjectStreamConstants {
         }
     }
 
-    private Integer writeObjectInternal(Object object, boolean bl, boolean bl2, boolean bl3) {
+    private Integer writeObjectInternal(Object object, boolean bl, boolean bl2, boolean bl3) throws IOException {
         if (object == null) {
             this.writeNull();
             return null;
@@ -888,25 +859,45 @@ ObjectStreamConstants {
         }
     }
 
-    protected void writeObjectOverride(Object object) {
+    protected void writeObjectOverride(Object object) throws IOException {
         throw new IOException();
     }
 
-    @Override
-    public void writeShort(int n) {
+    public void writeShort(int n) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeShort(n);
     }
 
-    protected void writeStreamHeader() {
+    protected void writeStreamHeader() throws IOException {
         this.output.writeShort(-21267);
         this.output.writeShort(5);
     }
 
-    @Override
-    public void writeUTF(String string) {
+    public void writeUTF(String string) throws IOException {
         this.checkWritePrimitiveTypes();
         this.primitiveTypes.writeUTF(string);
+    }
+
+    public static abstract class PutField {
+        public abstract void put(String var1, boolean var2);
+
+        public abstract void put(String var1, char var2);
+
+        public abstract void put(String var1, byte var2);
+
+        public abstract void put(String var1, short var2);
+
+        public abstract void put(String var1, int var2);
+
+        public abstract void put(String var1, long var2);
+
+        public abstract void put(String var1, float var2);
+
+        public abstract void put(String var1, double var2);
+
+        public abstract void put(String var1, Object var2);
+
+        public abstract void write(ObjectOutput var1) throws IOException;
     }
 }
 

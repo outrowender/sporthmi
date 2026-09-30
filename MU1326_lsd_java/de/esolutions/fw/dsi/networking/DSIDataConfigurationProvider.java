@@ -26,28 +26,23 @@ implements DSIDataConfiguration {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$networking$DSIDataConfiguration == null ? (class$org$dsi$ifc$networking$DSIDataConfiguration = DSIDataConfigurationProvider.class$("org.dsi.ifc.networking.DSIDataConfiguration")) : class$org$dsi$ifc$networking$DSIDataConfiguration).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIDataConfigurationProxy(this.instance, (DSIDataConfigurationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setDataProfile(CDataProfile cDataProfile) {
         try {
             this.proxy.setDataProfile(cDataProfile);
@@ -57,7 +52,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void automaticProfile(int n) {
         try {
             this.proxy.automaticProfile(n);
@@ -67,7 +61,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setRoamingState(int n) {
         try {
             this.proxy.setRoamingState(n);
@@ -77,7 +70,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setConnectionMode(int n) {
         try {
             this.proxy.setConnectionMode(n);
@@ -87,7 +79,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setRequestSetting(int n, int n2) {
         try {
             this.proxy.setRequestSetting(n, n2);
@@ -97,7 +88,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void acceptDataRequest(int n, boolean bl) {
         try {
             this.proxy.acceptDataRequest(n, bl);
@@ -107,7 +97,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void resetPacketCounter() {
         try {
             this.proxy.resetPacketCounter();
@@ -117,7 +106,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void restoreFactorySettings() {
         try {
             this.proxy.restoreFactorySettings();
@@ -127,7 +115,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -137,7 +124,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -147,7 +133,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -157,7 +142,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -167,7 +151,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -177,7 +160,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -187,7 +169,6 @@ implements DSIDataConfiguration {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

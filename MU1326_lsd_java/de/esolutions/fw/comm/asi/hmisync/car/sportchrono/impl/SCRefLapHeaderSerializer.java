@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono.impl;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCRefLapHeader;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SCRefLapHeaderSerializer {
-    public static void putOptionalSCRefLapHeader(ISerializer iSerializer, SCRefLapHeader sCRefLapHeader) {
+    public static void putOptionalSCRefLapHeader(ISerializer iSerializer, SCRefLapHeader sCRefLapHeader) throws SerializerException {
         boolean bl = sCRefLapHeader == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SCRefLapHeaderSerializer {
         }
     }
 
-    public static void putOptionalSCRefLapHeaderVarArray(ISerializer iSerializer, SCRefLapHeader[] sCRefLapHeaderArray) {
+    public static void putOptionalSCRefLapHeaderVarArray(ISerializer iSerializer, SCRefLapHeader[] sCRefLapHeaderArray) throws SerializerException {
         boolean bl = sCRefLapHeaderArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SCRefLapHeaderSerializer {
         }
     }
 
-    public static SCRefLapHeader getOptionalSCRefLapHeader(IDeserializer iDeserializer) {
+    public static SCRefLapHeader getOptionalSCRefLapHeader(IDeserializer iDeserializer) throws SerializerException {
         SCRefLapHeader sCRefLapHeader = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SCRefLapHeaderSerializer {
         return sCRefLapHeader;
     }
 
-    public static SCRefLapHeader[] getOptionalSCRefLapHeaderVarArray(IDeserializer iDeserializer) {
+    public static SCRefLapHeader[] getOptionalSCRefLapHeaderVarArray(IDeserializer iDeserializer) throws SerializerException {
         SCRefLapHeader[] sCRefLapHeaderArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

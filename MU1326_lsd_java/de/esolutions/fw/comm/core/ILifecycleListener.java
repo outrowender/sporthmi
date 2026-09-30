@@ -6,7 +6,6 @@ package de.esolutions.fw.comm.core;
 import de.esolutions.fw.comm.core.Lifecycle;
 
 public interface ILifecycleListener {
-    default public void lifecycleChanged(Lifecycle lifecycle, Object object) {
-    }
+    public void lifecycleChanged(Lifecycle var1, Object var2);
 }
 

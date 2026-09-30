@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.MediaCapabilities;
 
 public class MediaCapabilitiesSerializer {
-    public static void putOptionalMediaCapabilities(ISerializer iSerializer, MediaCapabilities mediaCapabilities) {
+    public static void putOptionalMediaCapabilities(ISerializer iSerializer, MediaCapabilities mediaCapabilities) throws SerializerException {
         boolean bl = mediaCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class MediaCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalMediaCapabilitiesVarArray(ISerializer iSerializer, MediaCapabilities[] mediaCapabilitiesArray) {
+    public static void putOptionalMediaCapabilitiesVarArray(ISerializer iSerializer, MediaCapabilities[] mediaCapabilitiesArray) throws SerializerException {
         boolean bl = mediaCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class MediaCapabilitiesSerializer {
         }
     }
 
-    public static MediaCapabilities getOptionalMediaCapabilities(IDeserializer iDeserializer) {
+    public static MediaCapabilities getOptionalMediaCapabilities(IDeserializer iDeserializer) throws SerializerException {
         MediaCapabilities mediaCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class MediaCapabilitiesSerializer {
         return mediaCapabilities;
     }
 
-    public static MediaCapabilities[] getOptionalMediaCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static MediaCapabilities[] getOptionalMediaCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         MediaCapabilities[] mediaCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

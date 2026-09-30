@@ -20,12 +20,10 @@ extends ITexture {
         return iTextureShared == null ? 0L : iTextureShared.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -37,7 +35,6 @@ extends ITexture {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -58,12 +55,10 @@ extends ITexture {
         return ealswigJNI.eal_api_ITextureShared_updateFromDisplayable__SWIG_1(this.swigCPtr, this, l, l2, l3, l4, l5);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_ITextureShared_dispose(this.swigCPtr, this);
     }
 
-    @Override
     public boolean destroy() {
         return ealswigJNI.eal_api_ITextureShared_destroy(this.swigCPtr, this);
     }

@@ -11,21 +11,20 @@ implements Clock {
     private long generatedThisMilli = 0L;
     private long currentTimeMillis;
 
-    @Override
-    public long getUUIDTime() {
+    public long getUUIDTime() throws OverClockedException {
         return this.getTimeSynchronized();
     }
 
-    private synchronized long getTimeSynchronized() {
+    private synchronized long getTimeSynchronized() throws OverClockedException {
         if (this.currentTimeMillis != System.currentTimeMillis()) {
             this.currentTimeMillis = System.currentTimeMillis();
             this.generatedThisMilli = 0L;
         }
-        long l = (this.currentTimeMillis + 12219292800000L) * 0;
-        if (this.generatedThisMilli + 1L >= 0) {
+        long l = (this.currentTimeMillis + 12219292800000L) * 10000L;
+        if (this.generatedThisMilli + 1L >= 10000L) {
             throw new OverClockedException();
         }
-        long l2 = l + this.generatedThisMilli++;
+        return l + this.generatedThisMilli++;
     }
 }
 

@@ -4,21 +4,20 @@
 package de.esolutions.fw.comm.asi.persistence.impl;
 
 import de.esolutions.fw.comm.asi.persistence.AttributesReply;
-import de.esolutions.fw.comm.asi.persistence.impl.AttributesReplyProxy$1;
-import de.esolutions.fw.comm.asi.persistence.impl.AttributesReplyProxy$2;
-import de.esolutions.fw.comm.asi.persistence.impl.AttributesReplyProxy$3;
-import de.esolutions.fw.comm.asi.persistence.impl.AttributesReplyProxy$4;
-import de.esolutions.fw.comm.asi.persistence.impl.AttributesReplyProxy$5;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AttributesReplyProxy
 implements AttributesReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.persistence.Attributes");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public AttributesReplyProxy() {
@@ -26,39 +25,78 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void unsubscribeResults(long[] lArray, long[] lArray2, int[] nArray) {
-        AttributesReplyProxy$1 attributesReplyProxy$1 = new AttributesReplyProxy$1(this, lArray, lArray2, nArray);
-        this.proxy.remoteCallMethod((short)10, attributesReplyProxy$1);
+    public void unsubscribeResults(final long[] lArray, final long[] lArray2, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putOptionalUInt32VarArray(lArray2);
+                iSerializer.putOptionalEnumVarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void stringValues(long[] lArray, long[] lArray2, String[] stringArray, int[] nArray) {
-        AttributesReplyProxy$2 attributesReplyProxy$2 = new AttributesReplyProxy$2(this, lArray, lArray2, stringArray, nArray);
-        this.proxy.remoteCallMethod((short)6, attributesReplyProxy$2);
+    public void stringValues(final long[] lArray, final long[] lArray2, final String[] stringArray, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putOptionalUInt32VarArray(lArray2);
+                iSerializer.putOptionalStringVarArray(stringArray);
+                iSerializer.putOptionalEnumVarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void intValues(long[] lArray, long[] lArray2, int[] nArray, int[] nArray2) {
-        AttributesReplyProxy$3 attributesReplyProxy$3 = new AttributesReplyProxy$3(this, lArray, lArray2, nArray, nArray2);
-        this.proxy.remoteCallMethod((short)1, attributesReplyProxy$3);
+    public void intValues(final long[] lArray, final long[] lArray2, final int[] nArray, final int[] nArray2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putOptionalUInt32VarArray(lArray2);
+                iSerializer.putOptionalInt32VarArray(nArray);
+                iSerializer.putOptionalEnumVarArray(nArray2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void blobValues(long[] lArray, long[] lArray2, short[][] sArray, int[] nArray) {
-        AttributesReplyProxy$4 attributesReplyProxy$4 = new AttributesReplyProxy$4(this, lArray, lArray2, sArray, nArray);
-        this.proxy.remoteCallMethod((short)0, attributesReplyProxy$4);
+    public void blobValues(final long[] lArray, final long[] lArray2, final short[][] sArray, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putOptionalUInt32VarArray(lArray2);
+                boolean bl = sArray != null;
+                iSerializer.putBool(!bl);
+                if (bl) {
+                    iSerializer.putUInt32(sArray.length);
+                    for (int i2 = 0; i2 < sArray.length; ++i2) {
+                        iSerializer.putOptionalUInt8VarArray(sArray[i2]);
+                    }
+                }
+                iSerializer.putOptionalEnumVarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void putResults(long[] lArray, long[] lArray2, int[] nArray) {
-        AttributesReplyProxy$5 attributesReplyProxy$5 = new AttributesReplyProxy$5(this, lArray, lArray2, nArray);
-        this.proxy.remoteCallMethod((short)4, attributesReplyProxy$5);
+    public void putResults(final long[] lArray, final long[] lArray2, final int[] nArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalUInt32VarArray(lArray);
+                iSerializer.putOptionalUInt32VarArray(lArray2);
+                iSerializer.putOptionalEnumVarArray(nArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 }
 

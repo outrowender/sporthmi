@@ -54,7 +54,7 @@ public class sConnectedBtDevices {
     }
 
     public String toString() {
-        return new StringBuffer("sConnectedBtDevices{").append("msg_id=").append(this.msg_id).append(", numberConnectedDevices=").append(this.numberConnectedDevices).append(", btProfiles=").append("[").append(this.btProfiles == null ? "null" : new StringBuffer().append("size=").append(this.btProfiles.length).toString()).append("]").append(", deviceName=").append("[").append(this.deviceName == null ? "null" : Arrays.asList(this.deviceName).toString()).append("]").append("}").toString();
+        return "sConnectedBtDevices{" + "msg_id=" + this.msg_id + ", numberConnectedDevices=" + this.numberConnectedDevices + ", btProfiles=" + "[" + (this.btProfiles == null ? "null" : "size=" + this.btProfiles.length) + "]" + ", deviceName=" + "[" + (this.deviceName == null ? "null" : Arrays.asList(this.deviceName).toString()) + "]" + "}";
     }
 }
 

@@ -3,46 +3,35 @@
  */
 package de.esolutions.fw.comm.dsi.kombisync;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombisync.MMIDisplayRequest;
 import org.dsi.ifc.kombisync.MMIDisplayStatus;
 import org.dsi.ifc.kombisync.MMIPopupRequest;
 import org.dsi.ifc.kombisync.MenuState;
 
 public interface DSIKombiSyncC {
-    default public void setMMIDisplayStatus(MMIDisplayStatus mMIDisplayStatus) {
-    }
+    public void setMMIDisplayStatus(MMIDisplayStatus var1) throws MethodException;
 
-    default public void setMMIDisplayRequest(MMIDisplayRequest mMIDisplayRequest) {
-    }
+    public void setMMIDisplayRequest(MMIDisplayRequest var1) throws MethodException;
 
-    default public void setMenuState(MenuState menuState) {
-    }
+    public void setMenuState(MenuState var1) throws MethodException;
 
-    default public void setMMIPopupRequest(MMIPopupRequest mMIPopupRequest) {
-    }
+    public void setMMIPopupRequest(MMIPopupRequest var1) throws MethodException;
 
-    default public void setHMIIsReady(boolean bl) {
-    }
+    public void setHMIIsReady(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

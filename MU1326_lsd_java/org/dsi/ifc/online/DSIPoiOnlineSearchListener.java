@@ -9,16 +9,12 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelist;
 
 public interface DSIPoiOnlineSearchListener
 extends DSIListener {
-    default public void poiResult(int n, int n2, int n3) {
-    }
+    public void poiResult(int var1, int var2, int var3);
 
-    default public void poiSpellingSuggestion(int n, String string, String[] stringArray) {
-    }
+    public void poiSpellingSuggestion(int var1, String var2, String[] var3);
 
-    default public void poiValueList(int n, int n2, PoiOnlineSearchValuelist poiOnlineSearchValuelist, int n3, int n4) {
-    }
+    public void poiValueList(int var1, int var2, PoiOnlineSearchValuelist var3, int var4, int var5);
 
-    default public void precheckDynamicPOICategoryResponse(int n, OSRServiceState oSRServiceState) {
-    }
+    public void precheckDynamicPOICategoryResponse(int var1, OSRServiceState var2);
 }
 

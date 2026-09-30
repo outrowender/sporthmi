@@ -19,7 +19,6 @@ extends HMITerminalImplMIB2High {
         super(n, bundleContext, iFrameworkAccess);
     }
 
-    @Override
     protected Layout generateLayout() {
         WidgetConstants widgetConstants;
         switch (this.framework.getScreenRes()) {
@@ -38,7 +37,6 @@ extends HMITerminalImplMIB2High {
         return widgetConstants;
     }
 
-    @Override
     protected IAnimationController generateAnimationController() {
         return new AnimationControllerMIB2Std(109);
     }

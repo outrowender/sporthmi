@@ -3,6 +3,7 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -10,17 +11,17 @@ import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.MapEntry;
+import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeMap$Entry;
-import java.util.TreeSet$SubSet;
 
 public class TreeSet
 extends AbstractSet
 implements SortedSet,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2479143000061671589L;
     private transient TreeMap backingMap;
 
     public TreeSet() {
@@ -40,33 +41,30 @@ Serializable {
         this(sortedSet.comparator());
         Iterator iterator = sortedSet.iterator();
         if (iterator.hasNext()) {
-            TreeMap$Entry treeMap$Entry;
+            TreeMap.Entry entry;
             Object object = iterator.next();
-            this.backingMap.root = treeMap$Entry = new TreeMap$Entry(object, object);
+            this.backingMap.root = entry = new TreeMap.Entry(object, object);
             this.backingMap.size = 1;
             while (iterator.hasNext()) {
                 object = iterator.next();
-                TreeMap$Entry treeMap$Entry2 = new TreeMap$Entry(object, object);
-                treeMap$Entry2.parent = treeMap$Entry;
-                treeMap$Entry.right = treeMap$Entry2;
+                TreeMap.Entry entry2 = new TreeMap.Entry(object, object);
+                entry2.parent = entry;
+                entry.right = entry2;
                 ++this.backingMap.size;
-                this.backingMap.balance(treeMap$Entry2);
-                treeMap$Entry = treeMap$Entry2;
+                this.backingMap.balance(entry2);
+                entry = entry2;
             }
         }
     }
 
-    @Override
     public boolean add(Object object) {
         return this.backingMap.put(object, object) == null;
     }
 
-    @Override
     public boolean addAll(Collection collection) {
         return super.addAll(collection);
     }
 
-    @Override
     public void clear() {
         this.backingMap.clear();
     }
@@ -82,22 +80,18 @@ Serializable {
         }
     }
 
-    @Override
     public Comparator comparator() {
         return this.backingMap.comparator();
     }
 
-    @Override
     public boolean contains(Object object) {
         return this.backingMap.containsKey(object);
     }
 
-    @Override
     public Object first() {
         return this.backingMap.firstKey();
     }
 
-    @Override
     public SortedSet headSet(Object object) {
         Comparator comparator = this.backingMap.comparator();
         if (comparator == null) {
@@ -105,44 +99,37 @@ Serializable {
         } else {
             comparator.compare(object, object);
         }
-        return new TreeSet$SubSet(this.backingMap, object);
+        return new SubSet(this.backingMap, object);
     }
 
-    @Override
     public boolean isEmpty() {
         return this.backingMap.isEmpty();
     }
 
-    @Override
     public Iterator iterator() {
         return this.backingMap.keySet().iterator();
     }
 
-    @Override
     public Object last() {
         return this.backingMap.lastKey();
     }
 
-    @Override
     public boolean remove(Object object) {
         return this.backingMap.remove(object) != null;
     }
 
-    @Override
     public int size() {
         return this.backingMap.size();
     }
 
-    @Override
     public SortedSet subSet(Object object, Object object2) {
         Comparator comparator = this.backingMap.comparator();
         if (comparator == null ? ((Comparable)object).compareTo(object2) <= 0 : comparator.compare(object, object2) <= 0) {
-            return new TreeSet$SubSet(object, this.backingMap, object2);
+            return new SubSet(object, this.backingMap, object2);
         }
         throw new IllegalArgumentException();
     }
 
-    @Override
     public SortedSet tailSet(Object object) {
         Comparator comparator = this.backingMap.comparator();
         if (comparator == null) {
@@ -150,39 +137,143 @@ Serializable {
         } else {
             comparator.compare(object, object);
         }
-        return new TreeSet$SubSet(object, this.backingMap);
+        return new SubSet(object, this.backingMap);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeObject(this.backingMap.comparator());
         objectOutputStream.writeInt(this.backingMap.size);
         if (this.backingMap.size > 0) {
-            TreeMap$Entry treeMap$Entry = TreeMap.minimum(this.backingMap.root);
-            while (treeMap$Entry != null) {
-                objectOutputStream.writeObject(treeMap$Entry.key);
-                treeMap$Entry = TreeMap.successor(treeMap$Entry);
+            TreeMap.Entry entry = TreeMap.minimum(this.backingMap.root);
+            while (entry != null) {
+                objectOutputStream.writeObject(entry.key);
+                entry = TreeMap.successor(entry);
             }
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.backingMap = new TreeMap((Comparator)objectInputStream.readObject());
         this.backingMap.size = objectInputStream.readInt();
-        TreeMap$Entry treeMap$Entry = null;
+        TreeMap.Entry entry = null;
         int n = this.backingMap.size;
         while (--n >= 0) {
-            TreeMap$Entry treeMap$Entry2 = new TreeMap$Entry(objectInputStream.readObject());
-            treeMap$Entry2.value = this;
-            if (treeMap$Entry == null) {
-                this.backingMap.root = treeMap$Entry2;
+            TreeMap.Entry entry2 = new TreeMap.Entry(objectInputStream.readObject());
+            entry2.value = this;
+            if (entry == null) {
+                this.backingMap.root = entry2;
             } else {
-                treeMap$Entry2.parent = treeMap$Entry;
-                treeMap$Entry.right = treeMap$Entry2;
-                this.backingMap.balance(treeMap$Entry2);
+                entry2.parent = entry;
+                entry.right = entry2;
+                this.backingMap.balance(entry2);
             }
-            treeMap$Entry = treeMap$Entry2;
+            entry = entry2;
+        }
+    }
+
+    private static final class SubSet
+    extends TreeMap.SubMap.SubMapSet
+    implements SortedSet {
+        SubSet(TreeMap treeMap) {
+            super(treeMap, new MapEntry.Type(){
+
+                public Object get(MapEntry mapEntry) {
+                    return mapEntry.key;
+                }
+            });
+        }
+
+        SubSet(Object object, TreeMap treeMap) {
+            this(treeMap);
+            this.hasStart = true;
+            this.startKey = object;
+        }
+
+        SubSet(Object object, TreeMap treeMap, Object object2) {
+            this(treeMap);
+            this.hasEnd = true;
+            this.hasStart = true;
+            this.startKey = object;
+            this.endKey = object2;
+        }
+
+        SubSet(TreeMap treeMap, Object object) {
+            this(treeMap);
+            this.hasEnd = true;
+            this.endKey = object;
+        }
+
+        public boolean add(Object object) {
+            this.checkRange(object);
+            return this.backingMap.put(object, object) != null;
+        }
+
+        public Comparator comparator() {
+            return this.backingMap.comparator();
+        }
+
+        public boolean contains(Object object) {
+            if (this.checkRange(object, this.hasStart, this.hasEnd)) {
+                return this.backingMap.containsKey(object);
+            }
+            return false;
+        }
+
+        public Object first() {
+            if (!this.hasStart) {
+                return this.backingMap.firstKey();
+            }
+            TreeMap.Entry entry = this.backingMap.findAfter(this.startKey);
+            if (entry != null && this.checkRange(entry.key, false, this.hasEnd)) {
+                return entry.key;
+            }
+            throw new NoSuchElementException();
+        }
+
+        public SortedSet headSet(Object object) {
+            this.checkRange(object);
+            if (this.hasStart) {
+                return new SubSet(this.startKey, this.backingMap, object);
+            }
+            return new SubSet(this.backingMap, object);
+        }
+
+        public Object last() {
+            if (!this.hasEnd) {
+                return this.backingMap.lastKey();
+            }
+            TreeMap.Entry entry = this.backingMap.findBefore(this.endKey);
+            if (entry != null && this.checkRange(entry.key, this.hasStart, false)) {
+                return entry.key;
+            }
+            throw new NoSuchElementException();
+        }
+
+        public boolean remove(Object object) {
+            if (this.checkRange(object, this.hasStart, this.hasEnd)) {
+                return this.backingMap.remove(object) != null;
+            }
+            return false;
+        }
+
+        public SortedSet subSet(Object object, Object object2) {
+            this.checkRange(object);
+            this.checkRange(object2);
+            Comparator comparator = this.backingMap.comparator();
+            if (comparator == null ? ((Comparable)this.startKey).compareTo(this.endKey) <= 0 : comparator.compare(this.startKey, this.endKey) <= 0) {
+                return new SubSet(object, this.backingMap, object2);
+            }
+            throw new IllegalArgumentException();
+        }
+
+        public SortedSet tailSet(Object object) {
+            this.checkRange(object);
+            if (this.hasEnd) {
+                return new SubSet(object, this.backingMap, this.endKey);
+            }
+            return new SubSet(object, this.backingMap);
         }
     }
 }

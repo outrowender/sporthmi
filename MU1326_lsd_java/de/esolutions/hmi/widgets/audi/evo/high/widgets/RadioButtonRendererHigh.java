@@ -18,8 +18,8 @@ extends AbstractKanziTemplateRenderer
 implements RadioButtonRenderer {
     private static int PwDiv2M1;
     private static int PhDiv2M1;
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/radioButton";
+    private static final String EAL_NODE_NAME = "radiobutton";
     private final RadioButtonController controller;
     private boolean m_firstFrame = true;
     private IWrappedNode3D m_overlayImage = null;
@@ -29,7 +29,6 @@ implements RadioButtonRenderer {
         this.controller = radioButtonController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         this.m_firstFrame = true;
@@ -59,7 +58,6 @@ implements RadioButtonRenderer {
         }
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         if (this.controller != null && this.node != null) {
             this.initImageNode(redrawContextHigh);
@@ -79,7 +77,7 @@ implements RadioButtonRenderer {
                 float f3 = this.wrapValue(nArray[0] + Math.round(f2 * (float)nArray[2]));
                 float f4 = 0.0f;
                 if (AbstractWidget.framework.getScreenRes() == 0) {
-                    f4 = 49215;
+                    f4 = 1.5f;
                 }
                 this.m_imgParentNode.setPosition((float)(n + PwDiv2M1) + f4, (float)(n2 + PhDiv2M1) + f4, 0.0f);
                 this.m_imgParentNode.setRotationZ(-f3);
@@ -88,7 +86,6 @@ implements RadioButtonRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         if (this.getEALManager() != null) {
             this.getEALManager().destroy(this.m_overlayImage);
@@ -103,32 +100,26 @@ implements RadioButtonRenderer {
         return n % 360;
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/radioButton";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "radiobutton";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public int getPreferredWidth() {
         return this.getTerminal().getLayout().getIntegerConstant(126);
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.getTerminal().getLayout().getIntegerConstant(127);
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }

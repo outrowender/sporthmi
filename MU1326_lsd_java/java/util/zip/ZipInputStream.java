@@ -23,11 +23,11 @@ import java.util.zip.ZipException;
 public class ZipInputStream
 extends InflaterInputStream
 implements ZipConstants {
-    static final int DEFLATED;
-    static final int STORED;
-    static final int ZIPDataDescriptorFlag;
-    static final int ZIPLocalHeaderVersionNeeded;
-    private static final boolean useNative;
+    static final int DEFLATED = 8;
+    static final int STORED = 0;
+    static final int ZIPDataDescriptorFlag = 8;
+    static final int ZIPLocalHeaderVersionNeeded = 20;
+    private static final boolean useNative = VM.useNatives();
     private boolean closed = false;
     private boolean entriesEnd = false;
     private boolean hasDD = false;
@@ -40,10 +40,6 @@ implements ZipConstants {
     private byte[] nameBuf = new byte[256];
     private char[] charBuf;
 
-    static {
-        useNative = VM.useNatives();
-    }
-
     public ZipInputStream(InputStream inputStream) {
         super(new PushbackInputStream(inputStream, 512), new Inflater(true));
         char[] cArray = this.charBuf = useNative ? null : new char[256];
@@ -52,14 +48,13 @@ implements ZipConstants {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.closeEntry();
         this.closed = true;
         super.close();
     }
 
-    public void closeEntry() {
+    public void closeEntry() throws IOException {
         int n;
         int n2;
         Attributes attributes;
@@ -87,7 +82,7 @@ implements ZipConstants {
         }
         if (this.hasDD) {
             this.in.read(this.hdrBuf, 0, 16);
-            if (this.getLong(this.hdrBuf, 0) != 0) {
+            if (this.getLong(this.hdrBuf, 0) != 134695760L) {
                 throw new ZipException(Msg.getString("K0020"));
             }
             this.currentEntry.crc = this.getLong(this.hdrBuf, 4);
@@ -109,7 +104,7 @@ implements ZipConstants {
         this.currentEntry = null;
     }
 
-    public ZipEntry getNextEntry() {
+    public ZipEntry getNextEntry() throws IOException {
         int n;
         int n2;
         if (this.currentEntry != null) {
@@ -125,11 +120,11 @@ implements ZipConstants {
             return null;
         }
         long l = this.getLong(this.hdrBuf, 0);
-        if (l == 0) {
+        if (l == 33639248L) {
             this.entriesEnd = true;
             return null;
         }
-        if (l != 0) {
+        if (l != 67324752L) {
             return null;
         }
         for (n2 = 0; n2 != 26; n2 += n3) {
@@ -192,8 +187,7 @@ implements ZipConstants {
         return this.currentEntry;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -247,8 +241,7 @@ implements ZipConstants {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l >= 0L) {
             long l2 = 0L;
             byte[] byArray = new byte[1024];
@@ -265,8 +258,7 @@ implements ZipConstants {
         throw new IllegalArgumentException();
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K0059"));
         }

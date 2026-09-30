@@ -36,17 +36,14 @@ WidgetConstants {
         return -1;
     }
 
-    @Override
     public int getLayoutType() {
         return this.presetLayoutType;
     }
 
-    @Override
     public void setLayoutType(int n) {
         this.presetLayoutType = n;
     }
 
-    @Override
     public int getCursorColor() {
         return this.cursorColor;
     }
@@ -55,7 +52,6 @@ WidgetConstants {
         return this.textIDs;
     }
 
-    @Override
     public void setTextIDs(int[] nArray) {
         this.textIDs = nArray;
     }
@@ -64,22 +60,18 @@ WidgetConstants {
         return this.bitmapIDs;
     }
 
-    @Override
     public void setBitmapIDs(int[] nArray) {
         this.bitmapIDs = nArray;
     }
 
-    @Override
     public int getRowID() {
         return this.rowID;
     }
 
-    @Override
     public void setPreset(Preset preset) {
         this.preset = preset;
     }
 
-    @Override
     public Preset getPreset() {
         return this.preset;
     }
@@ -88,12 +80,10 @@ WidgetConstants {
         return this.stateStack;
     }
 
-    @Override
     public void setResult(int n) {
         this.result = n;
     }
 
-    @Override
     public int getResult() {
         return this.result;
     }

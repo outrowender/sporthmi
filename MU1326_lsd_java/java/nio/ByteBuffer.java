@@ -53,25 +53,18 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    public abstract FloatBuffer asFloatBuffer() {
-    }
+    public abstract FloatBuffer asFloatBuffer();
 
-    public abstract IntBuffer asIntBuffer() {
-    }
+    public abstract IntBuffer asIntBuffer();
 
-    public abstract LongBuffer asLongBuffer() {
-    }
+    public abstract LongBuffer asLongBuffer();
 
-    public abstract DoubleBuffer asDoubleBuffer() {
-    }
+    public abstract DoubleBuffer asDoubleBuffer();
 
-    public abstract CharBuffer asCharBuffer() {
-    }
+    public abstract CharBuffer asCharBuffer();
 
-    public abstract ShortBuffer asShortBuffer() {
-    }
+    public abstract ShortBuffer asShortBuffer();
 
-    @Override
     public int compareTo(Object object) {
         int n;
         if (object == null) {
@@ -116,8 +109,7 @@ implements Comparable {
         return object instanceof ByteBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract byte get() {
-    }
+    public abstract byte get();
 
     public ByteBuffer get(byte[] byArray) {
         if (byArray == null) {
@@ -152,44 +144,31 @@ implements Comparable {
         return this;
     }
 
-    public abstract byte get(int n) {
-    }
+    public abstract byte get(int var1);
 
-    public abstract float getFloat() {
-    }
+    public abstract float getFloat();
 
-    public abstract float getFloat(int n) {
-    }
+    public abstract float getFloat(int var1);
 
-    public abstract int getInt() {
-    }
+    public abstract int getInt();
 
-    public abstract int getInt(int n) {
-    }
+    public abstract int getInt(int var1);
 
-    public abstract long getLong() {
-    }
+    public abstract long getLong();
 
-    public abstract long getLong(int n) {
-    }
+    public abstract long getLong(int var1);
 
-    public abstract double getDouble() {
-    }
+    public abstract double getDouble();
 
-    public abstract double getDouble(int n) {
-    }
+    public abstract double getDouble(int var1);
 
-    public abstract char getChar() {
-    }
+    public abstract char getChar();
 
-    public abstract char getChar(int n) {
-    }
+    public abstract char getChar(int var1);
 
-    public abstract short getShort() {
-    }
+    public abstract short getShort();
 
-    public abstract short getShort(int n) {
-    }
+    public abstract short getShort(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -210,11 +189,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract ByteBuffer put(byte by) {
-    }
+    public abstract ByteBuffer put(byte var1);
 
     public final ByteBuffer put(byte[] byArray) {
         if (byArray == null) {
@@ -261,50 +238,36 @@ implements Comparable {
         return this.put(byArray);
     }
 
-    public abstract ByteBuffer put(int n, byte by) {
-    }
+    public abstract ByteBuffer put(int var1, byte var2);
 
-    public abstract ByteBuffer putFloat(float f2) {
-    }
+    public abstract ByteBuffer putFloat(float var1);
 
-    public abstract ByteBuffer putFloat(int n, float f2) {
-    }
+    public abstract ByteBuffer putFloat(int var1, float var2);
 
-    public abstract ByteBuffer putInt(int n) {
-    }
+    public abstract ByteBuffer putInt(int var1);
 
-    public abstract ByteBuffer putInt(int n, int n2) {
-    }
+    public abstract ByteBuffer putInt(int var1, int var2);
 
-    public abstract ByteBuffer putLong(long l) {
-    }
+    public abstract ByteBuffer putLong(long var1);
 
-    public abstract ByteBuffer putLong(int n, long l) {
-    }
+    public abstract ByteBuffer putLong(int var1, long var2);
 
-    public abstract ByteBuffer putDouble(double d2) {
-    }
+    public abstract ByteBuffer putDouble(double var1);
 
-    public abstract ByteBuffer putDouble(int n, double d2) {
-    }
+    public abstract ByteBuffer putDouble(int var1, double var2);
 
-    public abstract ByteBuffer putChar(char c2) {
-    }
+    public abstract ByteBuffer putChar(char var1);
 
-    public abstract ByteBuffer putChar(int n, char c2) {
-    }
+    public abstract ByteBuffer putChar(int var1, char var2);
 
-    public abstract ByteBuffer putShort(int n, short s) {
-    }
+    public abstract ByteBuffer putShort(int var1, short var2);
 
-    public abstract ByteBuffer putShort(short s) {
-    }
+    public abstract ByteBuffer putShort(short var1);
 
-    public abstract ByteBuffer slice() {
-    }
+    public abstract ByteBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.ByteBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.ByteBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static ByteBuffer wrap(byte[] byArray) {

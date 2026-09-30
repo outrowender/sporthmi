@@ -14,7 +14,6 @@ implements Set {
     protected AbstractSet() {
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -26,7 +25,6 @@ implements Set {
         return false;
     }
 
-    @Override
     public int hashCode() {
         int n = 0;
         Iterator iterator = this.iterator();
@@ -37,7 +35,6 @@ implements Set {
         return n;
     }
 
-    @Override
     public boolean removeAll(Collection collection) {
         boolean bl = false;
         if (this.size() <= collection.size()) {

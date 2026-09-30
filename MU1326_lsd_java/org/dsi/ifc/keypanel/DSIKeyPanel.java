@@ -7,78 +7,64 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIKeyPanel
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_SETILLUMINATION;
-    public static final int RT_SETTMDISPLAYSTATE;
-    public static final int RT_SETRECOGNIZERLANGUAGE;
-    public static final int RT_SETRECOGNIZERMODE;
-    public static final int RT_SETGENERICSETTING;
-    public static final int RT_RESETDEVICE;
-    public static final int RT_REQUESTGENERICSETTING;
-    public static final int RT_REQUESTLASTKEY;
-    public static final int RT_SETHAPTICFEEDBACK;
-    public static final int RT_SETRECOGNIZERLANGUAGE2;
-    public static final int RT_GETVERSIONINFO;
-    public static final int RT_SETTOUCHSENSITIVEAREA;
-    public static final int RT_CLEARRECOGNIZER;
-    public static final int RT_GETPROPERTY;
-    public static final int ATTR_DISPLAYTURNMECHSTATUS;
-    public static final int ATTR_RECOGNIZERMODE;
-    public static final int ATTR_PROXIMITY;
-    public static final int ATTR_KEYBOARDTYPE;
-    public static final int ATTR_GESTURE2;
-    public static final int ATTR_CHARACTEREVENT2;
-    public static final int ATTR_RECOGNIZERLANGUAGE2;
-    public static final int ATTR_ENCODER2;
-    public static final int ATTR_TOUCHSENSITIVEAREA;
-    public static final int ATTR_KEY2;
-    public static final int ATTR_INPUTPANELREADY;
-    public static final int ATTR_ADVANCEDPROXIMITY;
-    public static final int RP_GENERICSETTINGRESPONSE;
-    public static final int RP_LASTKEY;
-    public static final int RP_GETVERSIONINFO;
-    public static final int RP_GETPROPERTY;
+    public static final String VERSION = "2.11.33";
+    public static final int RT_SETILLUMINATION = 1000;
+    public static final int RT_SETTMDISPLAYSTATE = 1002;
+    public static final int RT_SETRECOGNIZERLANGUAGE = 1003;
+    public static final int RT_SETRECOGNIZERMODE = 1004;
+    public static final int RT_SETGENERICSETTING = 1005;
+    public static final int RT_RESETDEVICE = 1006;
+    public static final int RT_REQUESTGENERICSETTING = 1009;
+    public static final int RT_REQUESTLASTKEY = 1010;
+    public static final int RT_SETHAPTICFEEDBACK = 1011;
+    public static final int RT_SETRECOGNIZERLANGUAGE2 = 1012;
+    public static final int RT_GETVERSIONINFO = 1013;
+    public static final int RT_SETTOUCHSENSITIVEAREA = 1014;
+    public static final int RT_CLEARRECOGNIZER = 1015;
+    public static final int RT_GETPROPERTY = 1016;
+    public static final int ATTR_DISPLAYTURNMECHSTATUS = 7;
+    public static final int ATTR_RECOGNIZERMODE = 9;
+    public static final int ATTR_PROXIMITY = 18;
+    public static final int ATTR_KEYBOARDTYPE = 19;
+    public static final int ATTR_GESTURE2 = 20;
+    public static final int ATTR_CHARACTEREVENT2 = 21;
+    public static final int ATTR_RECOGNIZERLANGUAGE2 = 22;
+    public static final int ATTR_ENCODER2 = 23;
+    public static final int ATTR_TOUCHSENSITIVEAREA = 24;
+    public static final int ATTR_KEY2 = 25;
+    public static final int ATTR_INPUTPANELREADY = 26;
+    public static final int ATTR_ADVANCEDPROXIMITY = 27;
+    public static final int RP_GENERICSETTINGRESPONSE = 2000;
+    public static final int RP_LASTKEY = 2001;
+    public static final int RP_GETVERSIONINFO = 2002;
+    public static final int RP_GETPROPERTY = 2003;
 
-    default public void setIllumination(int n, int n2, int n3) {
-    }
+    public void setIllumination(int var1, int var2, int var3);
 
-    default public void setHapticFeedback(int n, int n2, int n3) {
-    }
+    public void setHapticFeedback(int var1, int var2, int var3);
 
-    default public void setTMDisplayState(boolean bl) {
-    }
+    public void setTMDisplayState(boolean var1);
 
-    default public void setRecognizerLanguage(int n, String string) {
-    }
+    public void setRecognizerLanguage(int var1, String var2);
 
-    default public void setRecognizerLanguage2(int n, String string, int n2) {
-    }
+    public void setRecognizerLanguage2(int var1, String var2, int var3);
 
-    default public void setRecognizerMode(int n, int n2) {
-    }
+    public void setRecognizerMode(int var1, int var2);
 
-    default public void clearRecognizer(int n) {
-    }
+    public void clearRecognizer(int var1);
 
-    default public void setGenericSetting(int n, int n2, int n3) {
-    }
+    public void setGenericSetting(int var1, int var2, int var3);
 
-    default public void resetDevice(int n) {
-    }
+    public void resetDevice(int var1);
 
-    default public void requestGenericSetting(int n, int n2) {
-    }
+    public void requestGenericSetting(int var1, int var2);
 
-    default public void requestLastKey(int n) {
-    }
+    public void requestLastKey(int var1);
 
-    default public void getVersionInfo(int n, int n2) {
-    }
+    public void getVersionInfo(int var1, int var2);
 
-    default public void setTouchSensitiveArea(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setTouchSensitiveArea(int var1, int var2, int var3, int var4, int var5);
 
-    default public void getProperty(int n, int n2, int n3) {
-    }
+    public void getProperty(int var1, int var2, int var3);
 }
 

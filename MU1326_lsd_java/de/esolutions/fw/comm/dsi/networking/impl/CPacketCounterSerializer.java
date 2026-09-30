@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.networking.CPacketCounter;
 
 public class CPacketCounterSerializer {
-    public static void putOptionalCPacketCounter(ISerializer iSerializer, CPacketCounter cPacketCounter) {
+    public static void putOptionalCPacketCounter(ISerializer iSerializer, CPacketCounter cPacketCounter) throws SerializerException {
         boolean bl = cPacketCounter == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class CPacketCounterSerializer {
         }
     }
 
-    public static void putOptionalCPacketCounterVarArray(ISerializer iSerializer, CPacketCounter[] cPacketCounterArray) {
+    public static void putOptionalCPacketCounterVarArray(ISerializer iSerializer, CPacketCounter[] cPacketCounterArray) throws SerializerException {
         boolean bl = cPacketCounterArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class CPacketCounterSerializer {
         }
     }
 
-    public static CPacketCounter getOptionalCPacketCounter(IDeserializer iDeserializer) {
+    public static CPacketCounter getOptionalCPacketCounter(IDeserializer iDeserializer) throws SerializerException {
         CPacketCounter cPacketCounter = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class CPacketCounterSerializer {
         return cPacketCounter;
     }
 
-    public static CPacketCounter[] getOptionalCPacketCounterVarArray(IDeserializer iDeserializer) {
+    public static CPacketCounter[] getOptionalCPacketCounterVarArray(IDeserializer iDeserializer) throws SerializerException {
         CPacketCounter[] cPacketCounterArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

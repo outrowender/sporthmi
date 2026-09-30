@@ -24,7 +24,6 @@ extends AbstractConfigQuery {
         this.resolver = iConfigPathResolver;
     }
 
-    @Override
     public ConfigValue getValue(String string) {
         String[] stringArray = StringUtils.splitString(string, '.');
         if (stringArray == null) {

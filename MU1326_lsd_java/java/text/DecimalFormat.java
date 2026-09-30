@@ -1,33 +1,30 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.text;
 
 import com.ibm.oti.locale.Locale;
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
-import java.text.Format$Field;
+import java.text.Format;
 import java.text.NumberFormat;
-import java.text.NumberFormat$Field;
 import java.text.ParsePosition;
 import java.util.Currency;
 import java.util.Vector;
 
 public class DecimalFormat
 extends NumberFormat {
-    private static final long serialVersionUID;
-    private static final String patternChars;
-    private static final char CURRENCY_SYMBOL;
-    private static final int DOUBLE_INTEGER_DIGITS;
-    private static final int DOUBLE_FRACTION_DIGITS;
+    private static final long serialVersionUID = 864413376551465018L;
+    private static final String patternChars = "0#.,;%\u2030E";
+    private static final char CURRENCY_SYMBOL = '\u00a4';
+    private static final int DOUBLE_INTEGER_DIGITS = 309;
+    private static final int DOUBLE_FRACTION_DIGITS = 340;
     private byte groupingSize = (byte)3;
     private int multiplier = 1;
     private String positivePrefix = "";
@@ -48,11 +45,7 @@ extends NumberFormat {
     private byte minExponentDigits;
     private int serialVersionOnStream = 2;
     private transient char zero;
-    private static final double log10;
-
-    static {
-        log10 = Math.log(10.0);
-    }
+    private static final double log10 = Math.log(10.0);
 
     public DecimalFormat() {
         this(DecimalFormat.getPattern(java.util.Locale.getDefault(), Locale.NUMBER));
@@ -71,7 +64,7 @@ extends NumberFormat {
     }
 
     public void applyLocalizedPattern(String string) {
-        this.applyPattern(this.convertPattern(string, this.symbols.getLocalPatternChars(), "0#.,;%\u2030E", false));
+        this.applyPattern(this.convertPattern(string, this.symbols.getLocalPatternChars(), patternChars, false));
     }
 
     public void applyPattern(String string) {
@@ -259,7 +252,7 @@ extends NumberFormat {
         if (this.useExponentialNotation) {
             this.setMaximumIntegerDigits(n2 + n3);
         } else {
-            this.setMaximumIntegerDigits(-129);
+            this.setMaximumIntegerDigits(Integer.MAX_VALUE);
         }
         this.setMinimumIntegerDigits(n3);
         this.setMaximumFractionDigits(n5);
@@ -274,7 +267,7 @@ extends NumberFormat {
         this.posSuffixPattern = this.expandAffix(this.positiveSuffix);
         byte by = this.minExponentDigits = (byte)(n7 > 127 ? 127 : (byte)n7);
         if (!bl5) {
-            string4 = new StringBuffer(String.valueOf(this.symbols.getMinusSign())).append(string2).toString();
+            string4 = String.valueOf(this.symbols.getMinusSign()) + string2;
             string5 = string3;
         }
         this.setNegativePrefix(string4);
@@ -287,7 +280,6 @@ extends NumberFormat {
         this.setMultiplier(n6);
     }
 
-    @Override
     public Object clone() {
         DecimalFormat decimalFormat = (DecimalFormat)super.clone();
         decimalFormat.symbols = (DecimalFormatSymbols)this.symbols.clone();
@@ -320,7 +312,6 @@ extends NumberFormat {
         return stringBuffer.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -337,7 +328,6 @@ extends NumberFormat {
         return null;
     }
 
-    @Override
     public AttributedCharacterIterator formatToCharacterIterator(Object object) {
         long l;
         if (!(object instanceof Number)) {
@@ -355,14 +345,13 @@ extends NumberFormat {
         int n = 0;
         while (n < vector.size()) {
             FieldPosition fieldPosition = (FieldPosition)vector.elementAt(n);
-            Format$Field format$Field = fieldPosition.getFieldAttribute();
-            attributedString.addAttribute(format$Field, format$Field, fieldPosition.getBeginIndex(), fieldPosition.getEndIndex());
+            Format.Field field = fieldPosition.getFieldAttribute();
+            attributedString.addAttribute(field, field, fieldPosition.getBeginIndex(), fieldPosition.getEndIndex());
             ++n;
         }
         return attributedString.getIterator();
     }
 
-    @Override
     public StringBuffer format(double d2, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         return this.formatImpl(d2, stringBuffer, fieldPosition, null);
     }
@@ -372,16 +361,16 @@ extends NumberFormat {
             d2 *= (double)this.multiplier;
         }
         fieldPosition.clear();
-        if (Double.isNaN((double)d2)) {
+        if (Double.isNaN(d2)) {
             return stringBuffer.append(this.symbols.getNaN());
         }
-        long l = Double.doubleToLongBits((double)d2);
+        long l = Double.doubleToLongBits(d2);
         String string = l < 0L ? this.getNegativePrefix() : this.getPositivePrefix();
         this.formatPrefixSuffix(string, stringBuffer, fieldPosition, vector);
         FieldPosition fieldPosition2 = null;
-        fieldPosition2 = new FieldPosition(NumberFormat$Field.INTEGER);
+        fieldPosition2 = new FieldPosition(NumberFormat.Field.INTEGER);
         this.handleIntegerBegin(stringBuffer.length(), fieldPosition, vector, fieldPosition2);
-        if (Double.isInfinite((double)d2)) {
+        if (Double.isInfinite(d2)) {
             stringBuffer.append(this.symbols.getInfinity());
             this.handleIntegerEnd(stringBuffer.length(), fieldPosition, vector, fieldPosition2);
         } else {
@@ -455,7 +444,7 @@ extends NumberFormat {
                 }
             }
             int n8 = 0;
-            String string2 = Double.toString((double)d3);
+            String string2 = Double.toString(d3);
             int n9 = string2.lastIndexOf(69);
             if (n9 > -1) {
                 n8 = Integer.parseInt(string2.substring(n9 + 1));
@@ -479,7 +468,7 @@ extends NumberFormat {
                         string2 = string3.substring(n11);
                         n9 -= n11 + 2;
                     } else {
-                        string2 = new StringBuffer(String.valueOf(string4)).append(string3).toString();
+                        string2 = String.valueOf(string4) + string3;
                         --n9;
                     }
                 }
@@ -589,7 +578,6 @@ extends NumberFormat {
         return stringBuffer;
     }
 
-    @Override
     public StringBuffer format(long l, StringBuffer stringBuffer, FieldPosition fieldPosition) {
         return this.formatImpl(l, stringBuffer, fieldPosition, (Vector)null);
     }
@@ -619,7 +607,7 @@ extends NumberFormat {
         String string = l < 0L ? this.getNegativePrefix() : this.getPositivePrefix();
         this.formatPrefixSuffix(string, stringBuffer, fieldPosition, vector);
         FieldPosition fieldPosition2 = null;
-        fieldPosition2 = new FieldPosition(NumberFormat$Field.INTEGER);
+        fieldPosition2 = new FieldPosition(NumberFormat.Field.INTEGER);
         this.handleIntegerBegin(stringBuffer.length(), fieldPosition, vector, fieldPosition2);
         int n5 = stringBuffer.length();
         String string2 = Long.toString(l);
@@ -656,9 +644,9 @@ extends NumberFormat {
             if (this.getMaximumIntegerDigits() + this.getMaximumFractionDigits() < n9) {
                 n = n2 = n9 - (this.getMaximumIntegerDigits() + this.getMaximumFractionDigits()) - 1;
                 while (--n >= 0) {
-                    l /= 0;
+                    l /= 10L;
                 }
-                l = l < 0L ? (l -= 0) : (l += 0);
+                l = l < 0L ? (l -= 5L) : (l += 5L);
                 string2 = Long.toString(l);
                 if (l < 0L) {
                     string2 = string2.substring(1, string2.length());
@@ -740,16 +728,16 @@ extends NumberFormat {
             String string2 = decimalFormatSymbols.getCurrencySymbol();
             int n2 = string.indexOf(string2);
             if (n2 > -1) {
-                this.handleField(NumberFormat$Field.CURRENCY, n + n2, n + n2 + string2.length(), fieldPosition, vector);
+                this.handleField(NumberFormat.Field.CURRENCY, n + n2, n + n2 + string2.length(), fieldPosition, vector);
             }
             if ((n2 = string.indexOf(decimalFormatSymbols.getMinusSign())) > -1) {
-                this.handleField(NumberFormat$Field.SIGN, n + n2, n + n2 + 1, fieldPosition, vector);
+                this.handleField(NumberFormat.Field.SIGN, n + n2, n + n2 + 1, fieldPosition, vector);
             }
             if ((n2 = string.indexOf(decimalFormatSymbols.getPercent())) > -1) {
-                this.handleField(NumberFormat$Field.PERCENT, n + n2, n + n2 + 1, fieldPosition, vector);
+                this.handleField(NumberFormat.Field.PERCENT, n + n2, n + n2 + 1, fieldPosition, vector);
             }
             if ((n2 = string.indexOf(decimalFormatSymbols.getPerMill())) > -1) {
-                this.handleField(NumberFormat$Field.PERMILLE, n + n2, n + n2 + 1, fieldPosition, vector);
+                this.handleField(NumberFormat.Field.PERMILLE, n + n2, n + n2 + 1, fieldPosition, vector);
             }
         }
     }
@@ -778,8 +766,8 @@ extends NumberFormat {
                     stringBuffer.append(this.symbols.getGroupingSeparator());
                     int n6 = stringBuffer.length();
                     if (vector != null) {
-                        this.addToFields(vector, NumberFormat$Field.GROUPING_SEPARATOR, n6 - 1, n6);
-                    } else if (!bl && fieldPosition.getFieldAttribute() == NumberFormat$Field.GROUPING_SEPARATOR) {
+                        this.addToFields(vector, NumberFormat.Field.GROUPING_SEPARATOR, n6 - 1, n6);
+                    } else if (!bl && fieldPosition.getFieldAttribute() == NumberFormat.Field.GROUPING_SEPARATOR) {
                         fieldPosition.setBeginIndex(n6 - 1);
                         fieldPosition.setEndIndex(n6);
                         bl = true;
@@ -802,8 +790,8 @@ extends NumberFormat {
                 stringBuffer.append(this.symbols.getGroupingSeparator());
                 n = stringBuffer.length();
                 if (vector != null) {
-                    this.addToFields(vector, NumberFormat$Field.GROUPING_SEPARATOR, n - 1, n);
-                } else if (!bl && fieldPosition.getFieldAttribute() == NumberFormat$Field.GROUPING_SEPARATOR) {
+                    this.addToFields(vector, NumberFormat.Field.GROUPING_SEPARATOR, n - 1, n);
+                } else if (!bl && fieldPosition.getFieldAttribute() == NumberFormat.Field.GROUPING_SEPARATOR) {
                     fieldPosition.setBeginIndex(n - 1);
                     fieldPosition.setEndIndex(n);
                     bl = true;
@@ -819,14 +807,14 @@ extends NumberFormat {
         if (this.isDecimalSeparatorAlwaysShown() || n2 > 0) {
             stringBuffer2.append(this.getDecimalSeparator());
             n = stringBuffer2.length();
-            this.handleField(NumberFormat$Field.DECIMAL_SEPARATOR, n - 1, n, fieldPosition, vector);
+            this.handleField(NumberFormat.Field.DECIMAL_SEPARATOR, n - 1, n, fieldPosition, vector);
         }
         if (n2 > 0) {
             stringBuffer2.append(stringBuffer);
             n = stringBuffer2.length();
             if (vector != null) {
-                this.addToFields(vector, NumberFormat$Field.FRACTION, n - n2, n);
-            } else if (fieldPosition.getFieldAttribute() == NumberFormat$Field.FRACTION || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 1) {
+                this.addToFields(vector, NumberFormat.Field.FRACTION, n - n2, n);
+            } else if (fieldPosition.getFieldAttribute() == NumberFormat.Field.FRACTION || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 1) {
                 fieldPosition.setBeginIndex(n - n2);
                 fieldPosition.setEndIndex(n);
             }
@@ -841,7 +829,7 @@ extends NumberFormat {
         int n5 = string.length();
         stringBuffer.append(this.symbols.getExponential());
         int n6 = stringBuffer.length();
-        this.handleField(NumberFormat$Field.EXPONENT_SYMBOL, n6 - 1, n6, fieldPosition, vector);
+        this.handleField(NumberFormat.Field.EXPONENT_SYMBOL, n6 - 1, n6, fieldPosition, vector);
         if (n < 0) {
             stringBuffer.append(this.getNegativePrefix());
             n4 = 1;
@@ -852,7 +840,7 @@ extends NumberFormat {
         int n7 = n3 = n < 0 ? this.getNegativePrefix().length() : this.getPositivePrefix().length();
         if (n3 > 0) {
             n6 = stringBuffer.length();
-            this.handleField(NumberFormat$Field.EXPONENT_SIGN, n6 - n3, n6, fieldPosition, vector);
+            this.handleField(NumberFormat.Field.EXPONENT_SIGN, n6 - n3, n6, fieldPosition, vector);
         }
         if (this.minExponentDigits > n5) {
             n2 = this.minExponentDigits - n5;
@@ -865,7 +853,7 @@ extends NumberFormat {
             stringBuffer.append((char)(this.zero + (string.charAt(n2) - 48)));
             ++n2;
         }
-        this.handleField(NumberFormat$Field.EXPONENT, n6, stringBuffer.length(), fieldPosition, vector);
+        this.handleField(NumberFormat.Field.EXPONENT, n6, stringBuffer.length(), fieldPosition, vector);
         if (n < 0) {
             stringBuffer.append(this.getNegativeSuffix());
         } else {
@@ -874,21 +862,21 @@ extends NumberFormat {
         int n8 = n2 = n < 0 ? this.getNegativeSuffix().length() : this.getPositiveSuffix().length();
         if (n2 > 0) {
             n6 = stringBuffer.length();
-            this.handleField(NumberFormat$Field.EXPONENT_SIGN, n6 - n2, n6, fieldPosition, vector);
+            this.handleField(NumberFormat.Field.EXPONENT_SIGN, n6 - n2, n6, fieldPosition, vector);
         }
     }
 
-    private void handleField(NumberFormat$Field numberFormat$Field, int n, int n2, FieldPosition fieldPosition, Vector vector) {
+    private void handleField(NumberFormat.Field field, int n, int n2, FieldPosition fieldPosition, Vector vector) {
         if (vector != null) {
-            this.addToFields(vector, numberFormat$Field, n, n2);
-        } else if (fieldPosition.getFieldAttribute() == numberFormat$Field) {
+            this.addToFields(vector, field, n, n2);
+        } else if (fieldPosition.getFieldAttribute() == field) {
             fieldPosition.setBeginIndex(n);
             fieldPosition.setEndIndex(n2);
         }
     }
 
-    private void addToFields(Vector vector, NumberFormat$Field numberFormat$Field, int n, int n2) {
-        FieldPosition fieldPosition = new FieldPosition(numberFormat$Field);
+    private void addToFields(Vector vector, NumberFormat.Field field, int n, int n2) {
+        FieldPosition fieldPosition = new FieldPosition(field);
         fieldPosition.setBeginIndex(n);
         fieldPosition.setEndIndex(n2);
         vector.add(fieldPosition);
@@ -897,7 +885,7 @@ extends NumberFormat {
     private void handleIntegerBegin(int n, FieldPosition fieldPosition, Vector vector, FieldPosition fieldPosition2) {
         if (vector != null) {
             fieldPosition2.setBeginIndex(n);
-        } else if (fieldPosition.getFieldAttribute() == NumberFormat$Field.INTEGER || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 0) {
+        } else if (fieldPosition.getFieldAttribute() == NumberFormat.Field.INTEGER || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 0) {
             fieldPosition.setBeginIndex(n);
         }
     }
@@ -906,7 +894,7 @@ extends NumberFormat {
         if (vector != null) {
             fieldPosition2.setEndIndex(n);
             vector.add(fieldPosition2);
-        } else if (fieldPosition.getFieldAttribute() == NumberFormat$Field.INTEGER || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 0) {
+        } else if (fieldPosition.getFieldAttribute() == NumberFormat.Field.INTEGER || fieldPosition.getFieldAttribute() == null && fieldPosition.getField() == 0) {
             fieldPosition.setEndIndex(n);
         }
     }
@@ -922,7 +910,6 @@ extends NumberFormat {
         return this.symbols.getDecimalSeparator();
     }
 
-    @Override
     public Currency getCurrency() {
         return this.symbols.getCurrency();
     }
@@ -951,7 +938,6 @@ extends NumberFormat {
         return this.posSuffixPattern == null ? this.positiveSuffix : this.posSuffixPattern;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode() + this.symbols.hashCode() + this.groupingSize + this.multiplier + this.positivePrefix.hashCode() + this.positiveSuffix.hashCode() + this.negativePrefix.hashCode() + this.negativeSuffix.hashCode() + (this.decimalSeparatorAlwaysShown ? 1231 : 1237) + (this.isCurrency() ? 1231 : 1237);
     }
@@ -1032,7 +1018,6 @@ extends NumberFormat {
         return n3;
     }
 
-    @Override
     public Number parse(String string, ParsePosition parsePosition) {
         String string2;
         int n = parsePosition.getIndex();
@@ -1115,7 +1100,7 @@ extends NumberFormat {
                                 bl3 = true;
                                 break;
                             }
-                            long l4 = l3 * 0 - (long)n10;
+                            long l4 = l3 * 10L - (long)n10;
                             if (l4 <= l3) {
                                 l3 = l4;
                                 ++n6;
@@ -1141,7 +1126,7 @@ extends NumberFormat {
                         if (bl4) {
                             d2 = d2 * 10.0 - (double)n11;
                         } else if (l <= l2) {
-                            long l5 = l2 * 0 - (long)n11;
+                            long l5 = l2 * 10L - (long)n11;
                             if (l5 > l2) {
                                 d2 = (double)l2 * 10.0 - (double)n11;
                                 bl4 = true;
@@ -1217,7 +1202,7 @@ extends NumberFormat {
                     bl4 = true;
                     break;
                 }
-                l6 *= 0;
+                l6 *= 10L;
             }
             l2 = l6;
         }
@@ -1225,7 +1210,7 @@ extends NumberFormat {
             long l7 = l3;
             int n13 = n7 - n6;
             while (--n13 >= 0) {
-                l7 *= 0;
+                l7 *= 10L;
             }
             long l8 = l2 + l7;
             if (l7 < l2) {
@@ -1279,8 +1264,8 @@ extends NumberFormat {
         int n = 0;
         while (n < string2.length()) {
             char c2 = string2.charAt(n);
-            if (string.indexOf(c2) != -1 && (n < 5 || c2 != "0#.,;%\u2030E".charAt(n))) {
-                return new StringBuffer(String.valueOf('\'')).append(string).append('\'').toString();
+            if (string.indexOf(c2) != -1 && (n < 5 || c2 != patternChars.charAt(n))) {
+                return String.valueOf('\'') + string + '\'';
             }
             ++n;
         }
@@ -1296,7 +1281,7 @@ extends NumberFormat {
     }
 
     private String expandAffix(String string) {
-        String string2 = this.convertPattern(string, "0#.,;%\u2030E", new String(this.symbols.patternChars), false);
+        String string2 = this.convertPattern(string, patternChars, new String(this.symbols.patternChars), false);
         return this.convertCurrencySymbols(string2);
     }
 
@@ -1319,7 +1304,6 @@ extends NumberFormat {
         }
     }
 
-    @Override
     public void setCurrency(Currency currency) {
         this.symbols.setCurrency(currency);
     }
@@ -1332,22 +1316,18 @@ extends NumberFormat {
         this.groupingSize = (byte)n;
     }
 
-    @Override
     public void setMaximumFractionDigits(int n) {
         super.setMaximumFractionDigits(n > 340 ? 340 : n);
     }
 
-    @Override
     public void setMaximumIntegerDigits(int n) {
         super.setMaximumIntegerDigits(n > 309 ? 309 : n);
     }
 
-    @Override
     public void setMinimumFractionDigits(int n) {
         super.setMinimumFractionDigits(n > 340 ? 340 : n);
     }
 
-    @Override
     public void setMinimumIntegerDigits(int n) {
         super.setMinimumIntegerDigits(n > 309 ? 309 : n);
     }
@@ -1385,7 +1365,7 @@ extends NumberFormat {
     }
 
     public String toPattern() {
-        return this.toPatternString("0#.,;%\u2030E");
+        return this.toPatternString(patternChars);
     }
 
     private String toPatternString(String string) {
@@ -1466,17 +1446,17 @@ extends NumberFormat {
             }
         }
         String string2 = stringBuffer.toString();
-        String string3 = new StringBuffer(String.valueOf(this.quote(this.positivePrefix, string))).append(string2).append(this.quote(this.positiveSuffix, string)).toString();
-        if (!this.negativePrefix.equals(new StringBuffer(String.valueOf(this.symbols.getMinusSign())).append(this.positivePrefix).toString()) || !this.negativeSuffix.equals(this.positiveSuffix)) {
-            string3 = new StringBuffer(String.valueOf(string3)).append(';').append(this.quote(this.negativePrefix, string)).append(string2).append(this.quote(this.negativeSuffix, string)).toString();
+        String string3 = String.valueOf(this.quote(this.positivePrefix, string)) + string2 + this.quote(this.positiveSuffix, string);
+        if (!this.negativePrefix.equals(String.valueOf(this.symbols.getMinusSign()) + this.positivePrefix) || !this.negativeSuffix.equals(this.positiveSuffix)) {
+            string3 = String.valueOf(string3) + ';' + this.quote(this.negativePrefix, string) + string2 + this.quote(this.negativeSuffix, string);
         }
-        if (string != "0#.,;%\u2030E") {
-            string3 = this.convertPattern(string3, "0#.,;%\u2030E", string, false);
+        if (string != patternChars) {
+            string3 = this.convertPattern(string3, patternChars, string, false);
         }
         return string3;
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         if (this.serialVersionOnStream == 0) {
             this.useExponentialNotation = false;
@@ -1504,7 +1484,7 @@ extends NumberFormat {
         long l = 1L;
         int n2 = 0;
         while (n2 < n) {
-            l *= 0;
+            l *= 10L;
             ++n2;
         }
         return l;

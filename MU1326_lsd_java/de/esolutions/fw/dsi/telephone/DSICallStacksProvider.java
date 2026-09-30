@@ -25,28 +25,23 @@ implements DSICallStacks {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$telephone$DSICallStacks == null ? (class$org$dsi$ifc$telephone$DSICallStacks = DSICallStacksProvider.class$("org.dsi.ifc.telephone.DSICallStacks")) : class$org$dsi$ifc$telephone$DSICallStacks).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICallStacksProxy(this.instance, (DSICallStacksReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void deleteAll(int n) {
         try {
             this.proxy.deleteAll(n);
@@ -56,7 +51,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void deleteEntry(int n, int n2) {
         try {
             this.proxy.deleteEntry(n, n2);
@@ -66,7 +60,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void resetMissedCallIndicator() {
         try {
             this.proxy.resetMissedCallIndicator();
@@ -76,7 +69,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void revertCallstacks(boolean bl) {
         try {
             this.proxy.revertCallstacks(bl);
@@ -86,7 +78,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -96,7 +87,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -106,7 +96,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -116,7 +105,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -126,7 +114,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -136,7 +123,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -146,7 +132,6 @@ implements DSICallStacks {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

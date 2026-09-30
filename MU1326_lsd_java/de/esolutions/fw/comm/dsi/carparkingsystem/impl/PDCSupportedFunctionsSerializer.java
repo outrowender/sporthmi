@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCSupportedFunctions;
 
 public class PDCSupportedFunctionsSerializer {
-    public static void putOptionalPDCSupportedFunctions(ISerializer iSerializer, PDCSupportedFunctions pDCSupportedFunctions) {
+    public static void putOptionalPDCSupportedFunctions(ISerializer iSerializer, PDCSupportedFunctions pDCSupportedFunctions) throws SerializerException {
         boolean bl = pDCSupportedFunctions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCSupportedFunctionsSerializer {
         }
     }
 
-    public static void putOptionalPDCSupportedFunctionsVarArray(ISerializer iSerializer, PDCSupportedFunctions[] pDCSupportedFunctionsArray) {
+    public static void putOptionalPDCSupportedFunctionsVarArray(ISerializer iSerializer, PDCSupportedFunctions[] pDCSupportedFunctionsArray) throws SerializerException {
         boolean bl = pDCSupportedFunctionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCSupportedFunctionsSerializer {
         }
     }
 
-    public static PDCSupportedFunctions getOptionalPDCSupportedFunctions(IDeserializer iDeserializer) {
+    public static PDCSupportedFunctions getOptionalPDCSupportedFunctions(IDeserializer iDeserializer) throws SerializerException {
         PDCSupportedFunctions pDCSupportedFunctions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCSupportedFunctionsSerializer {
         return pDCSupportedFunctions;
     }
 
-    public static PDCSupportedFunctions[] getOptionalPDCSupportedFunctionsVarArray(IDeserializer iDeserializer) {
+    public static PDCSupportedFunctions[] getOptionalPDCSupportedFunctionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCSupportedFunctions[] pDCSupportedFunctionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

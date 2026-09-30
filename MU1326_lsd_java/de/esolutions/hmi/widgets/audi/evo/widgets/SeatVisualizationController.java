@@ -7,7 +7,7 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.model.list.GuiListRow;
 import de.audi.atip.hmi.model.list.SelectedItem;
 import de.audi.atip.hmi.model.list.TiledListModelGUI;
-import de.audi.atip.hmi.model.update.ModelUpdateData$Key;
+import de.audi.atip.hmi.model.update.ModelUpdateData;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
@@ -16,25 +16,25 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.SeatVisualizationArrowStateMac
 
 public class SeatVisualizationController
 extends AbstractWidgetController {
-    public static final int SEAT_LEFT;
-    public static final int SEAT_RIGHT;
-    public static final int NUMBER_OF_SEAT_SIDES;
-    public static final int SEATFUNCTION_MASSAGE;
-    public static final int SEATFUNCTION_GURTHOEHE;
-    public static final int SEATFUNCTION_LEHNENKOPF;
-    public static final int SEATFUNCTION_LORDOSE;
-    public static final int SEATFUNCTION_SEITENWANGEN;
-    public static final int SEATFUNCTION_SITZTIEFE;
-    public static final int NUMBER_OF_SEAT_FUNCTIONS;
-    public static final int MASSAGE_PROGRAM_NONE;
-    public static final int MASSAGE_PROGRAM_WELLE;
-    public static final int MASSAGE_PROGRAM_KLOPFEN;
-    public static final int MASSAGE_PROGRAM_STRETCH;
-    public static final int MASSAGE_PROGRAM_RUECKEN;
-    public static final int MASSAGE_PROGRAM_SCHULTER;
-    public static final int MASSAGE_PROGRAM_KNETEN;
-    public static final int NUMBER_OF_MASSAGE_PROGRAMS;
-    public static final int ITEM_INDEX_NONE;
+    public static final int SEAT_LEFT = 0;
+    public static final int SEAT_RIGHT = 1;
+    public static final int NUMBER_OF_SEAT_SIDES = 2;
+    public static final int SEATFUNCTION_MASSAGE = 0;
+    public static final int SEATFUNCTION_GURTHOEHE = 1;
+    public static final int SEATFUNCTION_LEHNENKOPF = 2;
+    public static final int SEATFUNCTION_LORDOSE = 3;
+    public static final int SEATFUNCTION_SEITENWANGEN = 4;
+    public static final int SEATFUNCTION_SITZTIEFE = 5;
+    public static final int NUMBER_OF_SEAT_FUNCTIONS = 6;
+    public static final int MASSAGE_PROGRAM_NONE = 0;
+    public static final int MASSAGE_PROGRAM_WELLE = 1;
+    public static final int MASSAGE_PROGRAM_KLOPFEN = 2;
+    public static final int MASSAGE_PROGRAM_STRETCH = 3;
+    public static final int MASSAGE_PROGRAM_RUECKEN = 4;
+    public static final int MASSAGE_PROGRAM_SCHULTER = 5;
+    public static final int MASSAGE_PROGRAM_KNETEN = 6;
+    public static final int NUMBER_OF_MASSAGE_PROGRAMS = 7;
+    public static final int ITEM_INDEX_NONE = -1;
     private ISeatRenderer renderer;
     private int side;
     private int selectedSeatFunction;
@@ -48,7 +48,6 @@ extends AbstractWidgetController {
     private int arrowBackwardState;
     private int[] massageTextIds;
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -57,7 +56,6 @@ extends AbstractWidgetController {
         this.renderer = iSeatRenderer;
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.seatFunctionAvailable = new boolean[6];
@@ -74,24 +72,23 @@ extends AbstractWidgetController {
                 this.updateAvailability(tiledListModelGUI.getGuiRow(i2).getUniqueID(), true);
                 continue;
             }
-            logChannelSeat.log(-1601830656, "SeatVisualizationController#initializeWidget: listmodel row %1 is null", (long)i2);
+            logChannelSeat.log(100000, "SeatVisualizationController#initializeWidget: listmodel row %1 is null", (long)i2);
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (!(this.model instanceof TiledListModelGUI)) {
             logChannelSeat.log(10000, "SeatVisualizationController#processModelUpdateEvent: only models of type TiledListModelGUI are supported");
             return;
         }
         if (modelUpdateEvent.getUpdateType() == 22) {
-            logChannelSeat.log(-2137614336, "SeatVisualizationController#processModelUpdateEvent: Selection changed");
+            logChannelSeat.log(10000000, "SeatVisualizationController#processModelUpdateEvent: Selection changed");
             this.updateSelectedItem();
             this.setCompositesDirty(true);
             modelUpdateEvent.consume();
         }
         if (modelUpdateEvent.getUpdateType() == 8) {
-            logChannelSeat.log(-2137614336, "SeatVisualizationController#processModelUpdateEvent: Row changed");
+            logChannelSeat.log(10000000, "SeatVisualizationController#processModelUpdateEvent: Row changed");
             this.updateItemData(modelUpdateEvent);
             modelUpdateEvent.consume();
             this.setCompositesDirty(true);
@@ -111,16 +108,16 @@ extends AbstractWidgetController {
         if (l == 1L) {
             return 1;
         }
-        if (l == 0) {
+        if (l == 2L) {
             return 2;
         }
-        if (l == 0) {
+        if (l == 3L) {
             return 3;
         }
-        if (l == 0) {
+        if (l == 4L) {
             return 4;
         }
-        if (l == 0) {
+        if (l == 5L) {
             return 5;
         }
         return -1;
@@ -136,25 +133,25 @@ extends AbstractWidgetController {
     }
 
     private int idToProgramInternal(long l) {
-        if (l == 0) {
+        if (l == 101L) {
             return 0;
         }
-        if (l == 0) {
+        if (l == 102L) {
             return 2;
         }
-        if (l == 0) {
+        if (l == 103L) {
             return 4;
         }
-        if (l == 0) {
+        if (l == 104L) {
             return 5;
         }
-        if (l == 0) {
+        if (l == 105L) {
             return 1;
         }
-        if (l == 0) {
+        if (l == 106L) {
             return 3;
         }
-        if (l == 0) {
+        if (l == 107L) {
             return 6;
         }
         return -1;
@@ -164,7 +161,7 @@ extends AbstractWidgetController {
         TiledListModelGUI tiledListModelGUI = (TiledListModelGUI)this.model;
         SelectedItem selectedItem = tiledListModelGUI.getSelected();
         if (selectedItem == null) {
-            logChannelSeat.log(-1601830656, "SeatVisualizationController#updateSelected: selectedItem of list model is null");
+            logChannelSeat.log(100000, "SeatVisualizationController#updateSelected: selectedItem of list model is null");
             return;
         }
         long l = selectedItem.getUniqueID();
@@ -178,7 +175,7 @@ extends AbstractWidgetController {
     }
 
     private void updateItemData(ModelUpdateEvent modelUpdateEvent) {
-        long l = modelUpdateEvent.getClientData3().getLong(ModelUpdateData$Key.UNIQUEID);
+        long l = modelUpdateEvent.getClientData3().getLong(ModelUpdateData.Key.UNIQUEID);
         this.updateAvailability(l, false);
         if (this.rowIDToSeatFunction(l) == this.selectedSeatFunction) {
             if (this.selectedSeatFunction == 0) {
@@ -193,7 +190,7 @@ extends AbstractWidgetController {
         TiledListModelGUI tiledListModelGUI = (TiledListModelGUI)this.model;
         GuiListRow guiListRow = tiledListModelGUI.getGuiRow(tiledListModelGUI.getIndexForUniqueID(l));
         if (guiListRow.getColumnCount() < 7) {
-            logChannelSeat.log(-1601830656, "SeatVisualizationController#updateModelRow: not enough columns available in rowID %1", l);
+            logChannelSeat.log(100000, "SeatVisualizationController#updateModelRow: not enough columns available in rowID %1", l);
             return;
         }
         boolean bl2 = guiListRow.getInteger(0) != 0;
@@ -230,7 +227,7 @@ extends AbstractWidgetController {
             logChannelSeat.log(10000, "SeatVisualizationController#updateArrowStates row %1 not available in model %2", l, (long)tiledListModelGUI.getID());
             return;
         }
-        logChannelSeat.log(-2137614336, "SeatVisualizationController#updateArrowStates row: %1", l);
+        logChannelSeat.log(10000000, "SeatVisualizationController#updateArrowStates row: %1", l);
         if (this.selectedSeatFunction == 0) {
             this.arrowUpState = 1;
             this.arrowDownState = 1;
@@ -257,7 +254,6 @@ extends AbstractWidgetController {
         this.side = n;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         if (this.renderer != null) {
@@ -364,7 +360,6 @@ extends AbstractWidgetController {
         return "";
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.terminal != null && this.terminal.getCarCodingHelper() != null && this.terminal.getCarCodingHelper().isR8()) {
@@ -373,7 +368,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.terminal != null && this.terminal.getCarCodingHelper() != null && this.terminal.getCarCodingHelper().isR8()) {

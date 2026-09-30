@@ -4,44 +4,43 @@
 package de.vw.mib.bap.generated.telephone2.serializer;
 
 import de.vw.mib.bap.datatypes.BAPEntity;
-import de.vw.mib.bap.generated.telephone2.serializer.ConnectionState_Status$BluetoothConnections;
 import de.vw.mib.bap.requests.StatusProperty;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class ConnectionState_Status
 implements StatusProperty {
     public int bluetoothState;
-    private static final int BLUETOOTH_STATE_BITSIZE;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_NOT_INSTALLED;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_OFF;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_ON;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_SWITCHING_OFF;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_SWITCHING_ON;
-    public static final int BLUETOOTH_STATE_BLUETOOTH_NOT_FUNCTIONAL;
+    private static final int BLUETOOTH_STATE_BITSIZE = 4;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_NOT_INSTALLED = 0;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_OFF = 1;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_ON = 2;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_SWITCHING_OFF = 3;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_SWITCHING_ON = 4;
+    public static final int BLUETOOTH_STATE_BLUETOOTH_NOT_FUNCTIONAL = 5;
     public int bluetoothVisibility;
-    private static final int BLUETOOTH_VISIBILITY_BITSIZE;
-    public static final int BLUETOOTH_VISIBILITY_NOT_VISIBLE;
-    public static final int BLUETOOTH_VISIBILITY_VISIBLE;
-    public static final int BLUETOOTH_VISIBILITY_AUTO;
-    public final ConnectionState_Status$BluetoothConnections bluetoothConnections = new ConnectionState_Status$BluetoothConnections();
+    private static final int BLUETOOTH_VISIBILITY_BITSIZE = 4;
+    public static final int BLUETOOTH_VISIBILITY_NOT_VISIBLE = 0;
+    public static final int BLUETOOTH_VISIBILITY_VISIBLE = 1;
+    public static final int BLUETOOTH_VISIBILITY_AUTO = 2;
+    public final BluetoothConnections bluetoothConnections = new BluetoothConnections();
     public int wlanstate;
-    private static final int WLAN_STATE_BITSIZE;
-    public static final int WLAN_STATE_WLAN_NOT_INSTALLED;
-    public static final int WLAN_STATE_OFF;
-    public static final int WLAN_STATE_ON;
+    private static final int WLAN_STATE_BITSIZE = 4;
+    public static final int WLAN_STATE_WLAN_NOT_INSTALLED = 0;
+    public static final int WLAN_STATE_OFF = 1;
+    public static final int WLAN_STATE_ON = 2;
     public int wlanvisibility;
-    private static final int WLAN_VISIBILITY_BITSIZE;
-    public static final int WLAN_VISIBILITY_NOT_VISIBLE;
-    public static final int WLAN_VISIBILITY_VISIBLE;
-    public static final int WLAN_VISIBILITY_AUTO;
+    private static final int WLAN_VISIBILITY_BITSIZE = 4;
+    public static final int WLAN_VISIBILITY_NOT_VISIBLE = 0;
+    public static final int WLAN_VISIBILITY_VISIBLE = 1;
+    public static final int WLAN_VISIBILITY_AUTO = 2;
     public int wlanconnections;
-    private static final int WLAN_CONNECTIONS_BITSIZE;
-    public static final int EXTENSION_1_MIN;
+    private static final int WLAN_CONNECTIONS_BITSIZE = 8;
+    public static final int EXTENSION_1_MIN = 0;
     public int extension_1;
-    private static final int EXTENSION_1_BITSIZE;
-    public static final int EXTENSION_2_MIN;
+    private static final int EXTENSION_1_BITSIZE = 8;
+    public static final int EXTENSION_2_MIN = 0;
     public int extension_2;
-    private static final int EXTENSION_2_BITSIZE;
+    private static final int EXTENSION_2_BITSIZE = 8;
 
     public ConnectionState_Status() {
         this.internalReset();
@@ -63,13 +62,11 @@ implements StatusProperty {
         this.extension_2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.bluetoothConnections.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ConnectionState_Status connectionState_Status = (ConnectionState_Status)bAPEntity;
         return this.bluetoothState == connectionState_Status.bluetoothState && this.bluetoothVisibility == connectionState_Status.bluetoothVisibility && this.bluetoothConnections.equalTo(connectionState_Status.bluetoothConnections) && this.wlanstate == connectionState_Status.wlanstate && this.wlanvisibility == connectionState_Status.wlanvisibility && this.wlanconnections == connectionState_Status.wlanconnections && this.extension_1 == connectionState_Status.extension_1 && this.extension_2 == connectionState_Status.extension_2;
@@ -78,7 +75,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ConnectionState_Status:");
@@ -177,7 +173,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 4;
@@ -190,7 +185,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.bluetoothState);
         bitStream.pushBits(4, this.bluetoothVisibility);
@@ -202,7 +196,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension_2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.bluetoothState = bitStream.popFrontBits(4);
         this.bluetoothVisibility = bitStream.popFrontBits(4);
@@ -218,9 +211,98 @@ implements StatusProperty {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return ConnectionState_Status.functionId();
+    }
+
+    public static final class BluetoothConnections
+    implements BAPEntity {
+        private static final int RESERVED_BIT_4__7_BITSIZE = 4;
+        public boolean simAccessProfileActive;
+        public boolean phonebookAccessProfileActive;
+        public boolean handsFreeProfileActive;
+        public boolean audioplayerActive;
+        private static final int BLUETOOTH_CONNECTIONS_BITSIZE = 8;
+
+        public BluetoothConnections() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public BluetoothConnections(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.simAccessProfileActive = false;
+            this.phonebookAccessProfileActive = false;
+            this.handsFreeProfileActive = false;
+            this.audioplayerActive = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            BluetoothConnections bluetoothConnections = (BluetoothConnections)bAPEntity;
+            return this.simAccessProfileActive == bluetoothConnections.simAccessProfileActive && this.phonebookAccessProfileActive == bluetoothConnections.phonebookAccessProfileActive && this.handsFreeProfileActive == bluetoothConnections.handsFreeProfileActive && this.audioplayerActive == bluetoothConnections.audioplayerActive;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("BluetoothConnections:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.simAccessProfileActive) {
+                stringBuffer.append("true  (SimAccessProfile active");
+            } else {
+                stringBuffer.append("false  (SimAccessProfile not active");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.phonebookAccessProfileActive) {
+                stringBuffer.append("true  (PhonebookAccessProfile active");
+            } else {
+                stringBuffer.append("false  (PhonebookAccessProfile not active");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.handsFreeProfileActive) {
+                stringBuffer.append("true  (HandsFreeProfile active");
+            } else {
+                stringBuffer.append("false  (HandsFreeProfile not active");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.audioplayerActive) {
+                stringBuffer.append("true  (Audioplayer active");
+            } else {
+                stringBuffer.append("false  (Audioplayer not active");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(4);
+            bitStream.pushBoolean(this.simAccessProfileActive);
+            bitStream.pushBoolean(this.phonebookAccessProfileActive);
+            bitStream.pushBoolean(this.handsFreeProfileActive);
+            bitStream.pushBoolean(this.audioplayerActive);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(4);
+            this.simAccessProfileActive = bitStream.popFrontBoolean();
+            this.phonebookAccessProfileActive = bitStream.popFrontBoolean();
+            this.handsFreeProfileActive = bitStream.popFrontBoolean();
+            this.audioplayerActive = bitStream.popFrontBoolean();
+        }
     }
 }
 

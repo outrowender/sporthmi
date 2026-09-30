@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingComfortOpenSettings;
 
 public class DoorLockingComfortOpenSettingsSerializer {
-    public static void putOptionalDoorLockingComfortOpenSettings(ISerializer iSerializer, DoorLockingComfortOpenSettings doorLockingComfortOpenSettings) {
+    public static void putOptionalDoorLockingComfortOpenSettings(ISerializer iSerializer, DoorLockingComfortOpenSettings doorLockingComfortOpenSettings) throws SerializerException {
         boolean bl = doorLockingComfortOpenSettings == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class DoorLockingComfortOpenSettingsSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingComfortOpenSettingsVarArray(ISerializer iSerializer, DoorLockingComfortOpenSettings[] doorLockingComfortOpenSettingsArray) {
+    public static void putOptionalDoorLockingComfortOpenSettingsVarArray(ISerializer iSerializer, DoorLockingComfortOpenSettings[] doorLockingComfortOpenSettingsArray) throws SerializerException {
         boolean bl = doorLockingComfortOpenSettingsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class DoorLockingComfortOpenSettingsSerializer {
         }
     }
 
-    public static DoorLockingComfortOpenSettings getOptionalDoorLockingComfortOpenSettings(IDeserializer iDeserializer) {
+    public static DoorLockingComfortOpenSettings getOptionalDoorLockingComfortOpenSettings(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingComfortOpenSettings doorLockingComfortOpenSettings = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class DoorLockingComfortOpenSettingsSerializer {
         return doorLockingComfortOpenSettings;
     }
 
-    public static DoorLockingComfortOpenSettings[] getOptionalDoorLockingComfortOpenSettingsVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingComfortOpenSettings[] getOptionalDoorLockingComfortOpenSettingsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingComfortOpenSettings[] doorLockingComfortOpenSettingsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

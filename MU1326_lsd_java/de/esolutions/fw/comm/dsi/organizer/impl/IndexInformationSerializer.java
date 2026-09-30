@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CharacterInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CharacterInfo;
 import org.dsi.ifc.organizer.IndexInformation;
 
 public class IndexInformationSerializer {
-    public static void putOptionalIndexInformation(ISerializer iSerializer, IndexInformation indexInformation) {
+    public static void putOptionalIndexInformation(ISerializer iSerializer, IndexInformation indexInformation) throws SerializerException {
         boolean bl = indexInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class IndexInformationSerializer {
         }
     }
 
-    public static void putOptionalIndexInformationVarArray(ISerializer iSerializer, IndexInformation[] indexInformationArray) {
+    public static void putOptionalIndexInformationVarArray(ISerializer iSerializer, IndexInformation[] indexInformationArray) throws SerializerException {
         boolean bl = indexInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class IndexInformationSerializer {
         }
     }
 
-    public static IndexInformation getOptionalIndexInformation(IDeserializer iDeserializer) {
+    public static IndexInformation getOptionalIndexInformation(IDeserializer iDeserializer) throws SerializerException {
         IndexInformation indexInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class IndexInformationSerializer {
         return indexInformation;
     }
 
-    public static IndexInformation[] getOptionalIndexInformationVarArray(IDeserializer iDeserializer) {
+    public static IndexInformation[] getOptionalIndexInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         IndexInformation[] indexInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

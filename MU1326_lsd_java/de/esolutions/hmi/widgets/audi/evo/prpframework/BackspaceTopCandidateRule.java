@@ -9,7 +9,6 @@ import java.util.List;
 
 public class BackspaceTopCandidateRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         RecognizerResult recognizerResult;
         if (!list.isEmpty() && (recognizerResult = (RecognizerResult)list.get(0)).getCharacter() == '\b') {
@@ -19,7 +18,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Backspace-Top-Candidate-Rule";
     }

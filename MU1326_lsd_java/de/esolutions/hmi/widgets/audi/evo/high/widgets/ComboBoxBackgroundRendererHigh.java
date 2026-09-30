@@ -21,11 +21,9 @@ implements ComboBoxBackgroundRenderer {
         this.controller = comboBoxBackgroundController;
     }
 
-    @Override
     public void setClipping(boolean bl) {
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         if (this.controller.getParent() instanceof ComboBoxController && ((ComboBoxController)this.controller.getParent()).getType() == 1) {
             int n = EALManager.createColorCode(0);
@@ -44,31 +42,25 @@ implements ComboBoxBackgroundRenderer {
         this.node.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/dropdownBox";
     }
 
-    @Override
     protected String getEALNodeName() {
         return "dropdownBox";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void setDropDownOpen(boolean bl) {
     }
 
-    @Override
     public void setOpenValue(float f2) {
         this.openValue = f2;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 7;
     }

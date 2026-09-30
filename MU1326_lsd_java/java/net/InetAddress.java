@@ -6,16 +6,14 @@ package java.net;
 import com.ibm.oti.util.Inet6Util;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PriviAction;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
+import java.io.ObjectStreamException;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
-import java.net.InetAddress$Cache;
-import java.net.InetAddress$CacheElement;
 import java.net.NegativeCache;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -29,7 +27,7 @@ implements Serializable {
     static final byte[] localhost_bytes;
     static final InetAddress ANY;
     static final InetAddress LOOPBACK;
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3286316764910316507L;
     String hostName;
     int family = 2;
     byte[] ipaddress;
@@ -60,8 +58,7 @@ implements Serializable {
         serialPersistentFields = objectStreamFieldArray;
     }
 
-    private static native void oneTimeInitialization(boolean bl) {
-    }
+    private static native void oneTimeInitialization(boolean var0);
 
     InetAddress() {
     }
@@ -85,15 +82,15 @@ implements Serializable {
         return byArray;
     }
 
-    InetAddress$CacheElement cacheElement() {
-        return new InetAddress$CacheElement(this);
+    CacheElement cacheElement() {
+        return new CacheElement();
     }
 
     public boolean equals(Object object) {
         if (object == null) {
             return false;
         }
-        if (object.getClass() != super.getClass()) {
+        if (object.getClass() != this.getClass()) {
             return false;
         }
         byte[] byArray = ((InetAddress)object).ipaddress;
@@ -111,7 +108,7 @@ implements Serializable {
         return (byte[])this.ipaddress.clone();
     }
 
-    public static InetAddress[] getAllByName(String string) {
+    public static InetAddress[] getAllByName(String string) throws UnknownHostException {
         if (string == null) {
             return new InetAddress[]{InetAddress.preferIPv6Addresses() ? Inet6Address.LOOPBACK : LOOPBACK};
         }
@@ -173,7 +170,7 @@ implements Serializable {
         return new InetAddress[]{new InetAddress(byArray)};
     }
 
-    public static InetAddress getByName(String string) {
+    public static InetAddress getByName(String string) throws UnknownHostException {
         if (string == null || string.length() == 0) {
             return LOOPBACK;
         }
@@ -245,7 +242,7 @@ implements Serializable {
         return string;
     }
 
-    public static InetAddress getLocalHost() {
+    public static InetAddress getLocalHost() throws UnknownHostException {
         String string = InetAddress.getHostNameImpl();
         SecurityManager securityManager = System.getSecurityManager();
         try {
@@ -267,7 +264,7 @@ implements Serializable {
         return (this.ipaddress[0] & 0xFF) >>> 4 == 14;
     }
 
-    static synchronized InetAddress lookupHostByName(String string) {
+    static synchronized InetAddress lookupHostByName(String string) throws UnknownHostException {
         InetAddress inetAddress;
         int n = -1;
         String string2 = (String)AccessController.doPrivileged(new PriviAction("networkaddress.cache.ttl"));
@@ -277,17 +274,17 @@ implements Serializable {
             }
         }
         catch (NumberFormatException numberFormatException) {}
-        InetAddress$CacheElement inetAddress$CacheElement = null;
+        CacheElement cacheElement = null;
         if (n == 0) {
-            InetAddress$Cache.clear();
+            Cache.clear();
         } else {
-            inetAddress$CacheElement = InetAddress$Cache.get(string);
-            if (inetAddress$CacheElement != null && n > 0 && inetAddress$CacheElement.timeAdded + (long)(n * 1000) < System.currentTimeMillis()) {
-                inetAddress$CacheElement = null;
+            cacheElement = Cache.get(string);
+            if (cacheElement != null && n > 0 && cacheElement.timeAdded + (long)(n * 1000) < System.currentTimeMillis()) {
+                cacheElement = null;
             }
         }
-        if (inetAddress$CacheElement != null) {
-            return inetAddress$CacheElement.inetAddress();
+        if (cacheElement != null) {
+            return cacheElement.inetAddress();
         }
         String string3 = NegativeCache.getFailedMessage(string);
         if (string3 != null) {
@@ -300,33 +297,27 @@ implements Serializable {
             NegativeCache.put(string, unknownHostException.getMessage());
             throw new UnknownHostException(new StringBuffer(String.valueOf(string)).append(" - ").append(unknownHostException.getMessage()).toString());
         }
-        InetAddress$Cache.add(inetAddress);
+        Cache.add(inetAddress);
         return inetAddress;
     }
 
-    static native InetAddress[] getAliasesByNameImpl(String string) {
-    }
+    static native InetAddress[] getAliasesByNameImpl(String var0);
 
-    static native InetAddress getHostByAddrImpl(byte[] byArray) {
-    }
+    static native InetAddress getHostByAddrImpl(byte[] var0);
 
-    static int inetAddr(String string) {
+    static int inetAddr(String string) throws UnknownHostException {
         return string.equals("255.255.255.255") ? -1 : InetAddress.inetAddrImpl(string);
     }
 
-    static native int inetAddrImpl(String string) {
-    }
+    static native int inetAddrImpl(String var0);
 
-    static native String inetNtoaImpl(int n) {
-    }
+    static native String inetNtoaImpl(int var0);
 
-    static native InetAddress getHostByNameImpl(String string, boolean bl) {
-    }
+    static native InetAddress getHostByNameImpl(String var0, boolean var1);
 
-    static native String getHostNameImpl() {
-    }
+    static native String getHostNameImpl();
 
-    static String getHostNameInternal(String string) {
+    static String getHostNameInternal(String string) throws UnknownHostException {
         if (string == null || string.length() == 0) {
             return LOOPBACK.getHostAddress();
         }
@@ -383,11 +374,11 @@ implements Serializable {
         return false;
     }
 
-    public static InetAddress getByAddress(byte[] byArray) {
+    public static InetAddress getByAddress(byte[] byArray) throws UnknownHostException {
         return InetAddress.getByAddress(byArray, 0);
     }
 
-    static InetAddress getByAddress(byte[] byArray, int n) {
+    static InetAddress getByAddress(byte[] byArray, int n) throws UnknownHostException {
         if (byArray != null && byArray.length == 4) {
             byte[] byArray2 = new byte[4];
             int n2 = 0;
@@ -424,11 +415,11 @@ implements Serializable {
         return byArray[10] == -1 && byArray[11] == -1;
     }
 
-    public static InetAddress getByAddress(String string, byte[] byArray) {
+    public static InetAddress getByAddress(String string, byte[] byArray) throws UnknownHostException {
         return InetAddress.getByAddress(string, byArray, 0);
     }
 
-    static InetAddress getByAddress(String string, byte[] byArray, int n) {
+    static InetAddress getByAddress(String string, byte[] byArray, int n) throws UnknownHostException {
         if (byArray != null && byArray.length == 4) {
             byte[] byArray2 = new byte[4];
             int n2 = 0;
@@ -471,7 +462,7 @@ implements Serializable {
         return n2;
     }
 
-    static InetAddress createHostNameFromIPAddress(String string) {
+    static InetAddress createHostNameFromIPAddress(String string) throws UnknownHostException {
         InetAddress inetAddress = null;
         if (Inet6Util.isValidIPV4Address(string)) {
             StringTokenizer stringTokenizer = new StringTokenizer(string, ".");
@@ -600,29 +591,108 @@ implements Serializable {
         return "true".equals(string);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
         if (this.ipaddress == null) {
-            objectOutputStream$PutField.put("address", 0);
+            putField.put("address", 0);
         } else {
-            objectOutputStream$PutField.put("address", InetAddress.bytesToInt(this.ipaddress, 0));
+            putField.put("address", InetAddress.bytesToInt(this.ipaddress, 0));
         }
-        objectOutputStream$PutField.put("family", this.family);
-        objectOutputStream$PutField.put("hostName", this.hostName);
+        putField.put("family", this.family);
+        putField.put("hostName", this.hostName);
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
-        int n = objectInputStream$GetField.get("address", 0);
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
+        int n = getField.get("address", 0);
         this.ipaddress = new byte[4];
         InetAddress.intToBytes(n, this.ipaddress, 0);
-        this.hostName = (String)objectInputStream$GetField.get("hostName", null);
-        this.family = objectInputStream$GetField.get("family", 2);
+        this.hostName = (String)getField.get("hostName", null);
+        this.family = getField.get("family", 2);
     }
 
-    private Object readResolve() {
+    private Object readResolve() throws ObjectStreamException {
         return new Inet4Address(this.ipaddress, this.hostName);
+    }
+
+    static class Cache {
+        static int maxSize = 5;
+        private static int size = 0;
+        private static CacheElement head;
+
+        Cache() {
+        }
+
+        static void clear() {
+            size = 0;
+            head = null;
+        }
+
+        static void add(InetAddress inetAddress) {
+            CacheElement cacheElement = inetAddress.cacheElement();
+            if (size < maxSize) {
+                ++size;
+            } else {
+                Cache.deleteTail();
+            }
+            cacheElement.next = head;
+            head = cacheElement;
+        }
+
+        static CacheElement get(String string) {
+            CacheElement cacheElement = null;
+            CacheElement cacheElement2 = head;
+            boolean bl = true;
+            while (cacheElement2 != null && (bl = !string.equals(cacheElement2.hostName()))) {
+                cacheElement = cacheElement2;
+                cacheElement2 = cacheElement2.next;
+            }
+            if (bl) {
+                return null;
+            }
+            Cache.moveToHead(cacheElement2, cacheElement);
+            return cacheElement2;
+        }
+
+        private static void deleteTail() {
+            if (size == 0) {
+                return;
+            }
+            if (1 == size) {
+                head = null;
+            }
+            CacheElement cacheElement = null;
+            CacheElement cacheElement2 = head;
+            while (cacheElement2.next != null) {
+                cacheElement = cacheElement2;
+                cacheElement2 = cacheElement2.next;
+            }
+            cacheElement.next = null;
+        }
+
+        private static void moveToHead(CacheElement cacheElement, CacheElement cacheElement2) {
+            if (cacheElement2 == null) {
+                head = cacheElement;
+            } else {
+                cacheElement2.next = cacheElement.next;
+                cacheElement.next = head;
+                head = cacheElement;
+            }
+        }
+    }
+
+    class CacheElement {
+        long timeAdded = System.currentTimeMillis();
+        CacheElement next;
+
+        String hostName() {
+            return InetAddress.this.hostName;
+        }
+
+        InetAddress inetAddress() {
+            return InetAddress.this;
+        }
     }
 }
 

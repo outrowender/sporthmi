@@ -7,6 +7,7 @@ import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import de.esolutions.fw.util.commons.timeout.TimeSourceProvider;
 import de.esolutions.fw.util.transport.debug.ITransportDebug;
 import de.esolutions.fw.util.transport.exception.EndOfTransportException;
+import de.esolutions.fw.util.transport.exception.TransportException;
 import de.esolutions.fw.util.transport.socket.IByteTransport;
 import de.esolutions.fw.util.transport.socket.IServerSocket;
 import de.esolutions.fw.util.transport.socket.ISocket;
@@ -62,7 +63,6 @@ implements IByteTransport {
         this.connected = false;
     }
 
-    @Override
     public void setDebug(ITransportDebug iTransportDebug) {
         this.debug = iTransportDebug;
     }
@@ -74,8 +74,7 @@ implements IByteTransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void open() {
+    public void open() throws IOException {
         if (this.socket == null) {
             if (this.addr == null) {
                 this.addr = InetAddress.getByName(this.addrString);
@@ -101,8 +100,7 @@ implements IByteTransport {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close(boolean bl) {
+    public void close(boolean bl) throws IOException {
         block6: {
             if (this.connected) {
                 try {
@@ -117,7 +115,7 @@ implements IByteTransport {
                     while (this.inputStream.read() != -1) {
                         long l2 = iTimeSource.getCurrentTime();
                         long l3 = l2 - l;
-                        if (l3 <= 0) continue;
+                        if (l3 <= 2000L) continue;
                         break;
                     }
                 }
@@ -131,8 +129,7 @@ implements IByteTransport {
         }
     }
 
-    @Override
-    public int recv(byte[] byArray, Object object) {
+    public int recv(byte[] byArray, Object object) throws IOException, TransportException {
         int n = 0;
         if (this.debug != null) {
             try {
@@ -162,8 +159,7 @@ implements IByteTransport {
         return n;
     }
 
-    @Override
-    public void send(byte[] byArray, int n, Object object) {
+    public void send(byte[] byArray, int n, Object object) throws IOException {
         if (this.connected) {
             if (this.debug != null) {
                 try {
@@ -185,7 +181,6 @@ implements IByteTransport {
         return this.connected;
     }
 
-    @Override
     public int getSendBufferSize() {
         try {
             return this.socket.getSocket().getSendBufferSize();
@@ -195,7 +190,6 @@ implements IByteTransport {
         }
     }
 
-    @Override
     public int getReceiveBufferSize() {
         try {
             return this.socket.getSocket().getReceiveBufferSize();
@@ -205,22 +199,19 @@ implements IByteTransport {
         }
     }
 
-    @Override
     public boolean isReliable() {
         return true;
     }
 
-    @Override
     public boolean detectsPeerReset() {
         return true;
     }
 
-    @Override
     public String getDescription() {
         if (this.options != null) {
-            return new StringBuffer().append("[TCP:add=").append(this.addr).append(":").append(this.port).append(",listen=").append(this.listen).append(",options=").append(this.options).append("]").toString();
+            return "[TCP:add=" + this.addr + ":" + this.port + ",listen=" + this.listen + ",options=" + this.options + "]";
         }
-        return new StringBuffer().append("[TCP:add=").append(this.addr).append(":").append(this.port).append(",listen=").append(this.listen).append("]").toString();
+        return "[TCP:add=" + this.addr + ":" + this.port + ",listen=" + this.listen + "]";
     }
 }
 

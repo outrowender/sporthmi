@@ -5,7 +5,7 @@ package de.esolutions.fw.util.commons.queue;
 
 public class QueueShutdownException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public QueueShutdownException() {
     }

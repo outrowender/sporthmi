@@ -5,17 +5,18 @@ package de.esolutions.fw.comm.asi.hmisync.instance.impl;
 
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceReply;
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceS;
-import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncInstanceAbstractBaseService
 implements ASIHMISyncInstanceS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.instance.ASIHMISyncInstance");
-    private static final int attributesCount;
+    private static final int attributesCount = 3;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -32,39 +33,33 @@ implements ASIHMISyncInstanceS {
     }
 
     public ASIHMISyncInstanceAbstractBaseService() {
-        ASIHMISyncInstanceAbstractBaseService$AttributesBitMapProvider aSIHMISyncInstanceAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncInstanceAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncInstance", aSIHMISyncInstanceAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncInstance", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncInstanceReply);
         this.sendAttributeUpdate(l, aSIHMISyncInstanceReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.setNotification(aSIHMISyncInstanceReply);
         this.sendAttributeUpdate(aSIHMISyncInstanceReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncInstanceReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncInstanceReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncInstanceReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.clearNotification(aSIHMISyncInstanceReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncInstanceReply);
     }
@@ -88,11 +83,11 @@ implements ASIHMISyncInstanceS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
         try {
-            if (l == 0) {
+            if (l == 8L) {
                 aSIHMISyncInstanceReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 10L) {
                 aSIHMISyncInstanceReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 9L) {
                 aSIHMISyncInstanceReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
             } else {
                 System.out.println("unexpected");
@@ -103,11 +98,11 @@ implements ASIHMISyncInstanceS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncInstanceAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(8);
@@ -121,11 +116,11 @@ implements ASIHMISyncInstanceS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -144,11 +139,11 @@ implements ASIHMISyncInstanceS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -164,6 +159,26 @@ implements ASIHMISyncInstanceS {
                 aSIHMISyncInstanceReply.updateReplyIDs(sArray, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(8L), new Integer(0));
+            this.map.put(new Long(10L), new Integer(1));
+            this.map.put(new Long(9L), new Integer(2));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 3;
         }
     }
 }

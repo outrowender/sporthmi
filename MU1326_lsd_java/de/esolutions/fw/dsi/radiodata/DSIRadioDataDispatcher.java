@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.radiodata;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.radiodata.DSIRadioDataReply;
 import de.esolutions.fw.comm.dsi.radiodata.impl.DSIRadioDataReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSIRadioDataReply {
         super(n, (class$org$dsi$ifc$radiodata$DSIRadioDataListener == null ? (class$org$dsi$ifc$radiodata$DSIRadioDataListener = DSIRadioDataDispatcher.class$("org.dsi.ifc.radiodata.DSIRadioDataListener")) : class$org$dsi$ifc$radiodata$DSIRadioDataListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseRadioStationData(RadioStationDataResponse[] radioStationDataResponseArray, int n) {
+    public void responseRadioStationData(RadioStationDataResponse[] radioStationDataResponseArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -50,8 +49,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
+    public void responseRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -67,8 +65,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseDynamicDatabaseAlteration(int n, int n2) {
+    public void responseDynamicDatabaseAlteration(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -84,8 +81,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseCountryList(int[] nArray, int n) {
+    public void responseCountryList(int[] nArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -101,8 +97,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseDatabaseVersionInfo(int n, int n2, int n3, String string, int n4, int n5, int n6) {
+    public void responseDatabaseVersionInfo(int n, int n2, int n3, String string, int n4, int n5, int n6) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -118,8 +113,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void updateDatabaseState(int n, int n2) {
+    public void updateDatabaseState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -147,8 +141,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responsePersistStationLogos(int n, int n2) {
+    public void responsePersistStationLogos(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -164,8 +157,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void updateRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
+    public void updateRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -193,8 +185,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseCountryRegionData(CountryRegionData[] countryRegionDataArray, int n) {
+    public void responseCountryRegionData(CountryRegionData[] countryRegionDataArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -210,8 +201,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responseCountryRegionTranslationData(CountryRegionTranslationData[] countryRegionTranslationDataArray, int n) {
+    public void responseCountryRegionTranslationData(CountryRegionTranslationData[] countryRegionTranslationDataArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -227,8 +217,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void responsePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
+    public void responsePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -244,8 +233,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void updatePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
+    public void updatePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -273,8 +261,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -302,8 +289,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -319,8 +305,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -336,8 +321,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -353,8 +337,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -370,8 +353,7 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -387,14 +369,13 @@ implements DSIRadioDataReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIRadioDataListener dSIRadioDataListener = (DSIRadioDataListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIRadioDataDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIRadioDataDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIRadioDataListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIRadioDataDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIRadioDataDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIRadioDataListener, new Object[]{string, string2});
                     continue;
                 }

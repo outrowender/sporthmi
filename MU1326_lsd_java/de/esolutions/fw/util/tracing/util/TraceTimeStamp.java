@@ -10,15 +10,15 @@ import java.util.TimeZone;
 
 public class TraceTimeStamp
 implements Comparable {
-    private static final String fullFormat;
-    private static final SimpleDateFormat ftf;
-    private static final SimpleDateFormat ftfLoc;
-    private static final String timeFormat;
-    private static final SimpleDateFormat stf;
-    private static final SimpleDateFormat stfLoc;
-    private static final String dateFormat;
-    private static final SimpleDateFormat dtf;
-    private static final SimpleDateFormat dtfLoc;
+    private static final String fullFormat = "dd.MM.yyyy HH:mm:ss.SSS";
+    private static final SimpleDateFormat ftf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS");
+    private static final SimpleDateFormat ftfLoc = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS");
+    private static final String timeFormat = "HH:mm:ss.SSS";
+    private static final SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss.SSS");
+    private static final SimpleDateFormat stfLoc = new SimpleDateFormat("HH:mm:ss.SSS");
+    private static final String dateFormat = "dd.MM.yyyy";
+    private static final SimpleDateFormat dtf = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat dtfLoc = new SimpleDateFormat("dd.MM.yyyy");
     private Date date;
 
     public TraceTimeStamp(long l) {
@@ -216,7 +216,6 @@ implements Comparable {
         return n;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             return -1;
@@ -226,15 +225,6 @@ implements Comparable {
         }
         TraceTimeStamp traceTimeStamp = (TraceTimeStamp)object;
         return this.date.compareTo(traceTimeStamp.date);
-    }
-
-    static {
-        ftf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS");
-        ftfLoc = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS");
-        stf = new SimpleDateFormat("HH:mm:ss.SSS");
-        stfLoc = new SimpleDateFormat("HH:mm:ss.SSS");
-        dtf = new SimpleDateFormat("dd.MM.yyyy");
-        dtfLoc = new SimpleDateFormat("dd.MM.yyyy");
     }
 }
 

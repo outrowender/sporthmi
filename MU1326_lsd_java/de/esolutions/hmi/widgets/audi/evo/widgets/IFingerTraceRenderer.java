@@ -7,28 +7,20 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IFingerTraceRenderer
 extends IRenderer {
-    default public void startLine(int n, int n2) {
-    }
+    public void startLine(int var1, int var2);
 
-    default public void addPoint(int n, int n2) {
-    }
+    public void addPoint(int var1, int var2);
 
-    default public void clearLine() {
-    }
+    public void clearLine();
 
-    default public void showFingerTrace(float f2) {
-    }
+    public void showFingerTrace(float var1);
 
-    default public void removeFingerTrace() {
-    }
+    public void removeFingerTrace();
 
-    default public boolean isFingerTraceVisible() {
-    }
+    public boolean isFingerTraceVisible();
 
-    default public void viewSizeChanged() {
-    }
+    public void viewSizeChanged();
 
-    default public void onviewSizeChanging() {
-    }
+    public void onviewSizeChanging();
 }
 

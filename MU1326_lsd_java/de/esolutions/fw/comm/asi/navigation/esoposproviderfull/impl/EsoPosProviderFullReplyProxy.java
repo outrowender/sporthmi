@@ -4,9 +4,9 @@
 package de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl;
 
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.EsoPosProviderFullReply;
-import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.EsoPosProviderFullReplyProxy$1;
-import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.EsoPosProviderFullReplyProxy$2;
-import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.EsoPosProviderFullReplyProxy$3;
+import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.sConfigSerializer;
+import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.sMapPositionSerializer;
+import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.sPositionSerializer;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sConfig;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sMapPosition;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sPosition;
@@ -14,12 +14,16 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class EsoPosProviderFullReplyProxy
 implements EsoPosProviderFullReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.navigation.esoposproviderfull.EsoPosProviderFull");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public EsoPosProviderFullReplyProxy() {
@@ -27,27 +31,43 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateState(boolean bl, sConfig sConfig2, int n) {
-        EsoPosProviderFullReplyProxy$1 esoPosProviderFullReplyProxy$1 = new EsoPosProviderFullReplyProxy$1(this, bl, sConfig2, n);
-        this.proxy.remoteCallMethod((short)21, esoPosProviderFullReplyProxy$1);
+    public void updateState(final boolean bl, final sConfig sConfig2, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                sConfigSerializer.putOptionalsConfig(iSerializer, sConfig2);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)21, iSerializable);
     }
 
-    @Override
-    public void updatePosition(String[] stringArray, sMapPosition sMapPosition2, sPosition[] sPositionArray) {
-        EsoPosProviderFullReplyProxy$2 esoPosProviderFullReplyProxy$2 = new EsoPosProviderFullReplyProxy$2(this, stringArray, sMapPosition2, sPositionArray);
-        this.proxy.remoteCallMethod((short)25, esoPosProviderFullReplyProxy$2);
+    public void updatePosition(final String[] stringArray, final sMapPosition sMapPosition2, final sPosition[] sPositionArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalStringVarArray(stringArray);
+                sMapPositionSerializer.putOptionalsMapPosition(iSerializer, sMapPosition2);
+                sPositionSerializer.putOptionalsPositionVarArray(iSerializer, sPositionArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)25, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        EsoPosProviderFullReplyProxy$3 esoPosProviderFullReplyProxy$3 = new EsoPosProviderFullReplyProxy$3(this, string, bl);
-        this.proxy.remoteCallMethod((short)19, esoPosProviderFullReplyProxy$3);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)19, iSerializable);
     }
 }
 

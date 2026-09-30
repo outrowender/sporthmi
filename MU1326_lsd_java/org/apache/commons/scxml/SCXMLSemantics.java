@@ -10,34 +10,26 @@ import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
 import org.apache.commons.scxml.Step;
 import org.apache.commons.scxml.TriggerEvent;
+import org.apache.commons.scxml.model.ModelException;
 import org.apache.commons.scxml.model.SCXML;
 
 public interface SCXMLSemantics {
-    default public SCXML normalizeStateMachine(SCXML sCXML, ErrorReporter errorReporter) {
-    }
+    public SCXML normalizeStateMachine(SCXML var1, ErrorReporter var2);
 
-    default public void determineInitialStates(SCXML sCXML, Set set, List list, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void determineInitialStates(SCXML var1, Set var2, List var3, ErrorReporter var4, SCInstance var5) throws ModelException;
 
-    default public void executeActions(Step step, SCXML sCXML, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void executeActions(Step var1, SCXML var2, EventDispatcher var3, ErrorReporter var4, SCInstance var5) throws ModelException;
 
-    default public void enumerateReachableTransitions(SCXML sCXML, Step step, ErrorReporter errorReporter) {
-    }
+    public void enumerateReachableTransitions(SCXML var1, Step var2, ErrorReporter var3);
 
-    default public void filterTransitionsSet(Step step, EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void filterTransitionsSet(Step var1, EventDispatcher var2, ErrorReporter var3, SCInstance var4) throws ModelException;
 
-    default public void followTransitions(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void followTransitions(Step var1, ErrorReporter var2, SCInstance var3) throws ModelException;
 
-    default public void updateHistoryStates(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void updateHistoryStates(Step var1, ErrorReporter var2, SCInstance var3);
 
-    default public void processInvokes(TriggerEvent[] triggerEventArray, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void processInvokes(TriggerEvent[] var1, ErrorReporter var2, SCInstance var3) throws ModelException;
 
-    default public void initiateInvokes(Step step, ErrorReporter errorReporter, SCInstance sCInstance) {
-    }
+    public void initiateInvokes(Step var1, ErrorReporter var2, SCInstance var3);
 }
 

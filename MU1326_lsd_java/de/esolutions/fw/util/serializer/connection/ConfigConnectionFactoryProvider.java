@@ -20,42 +20,40 @@ implements IConnectionFactoryProvider {
     private ConfigTransportFactoryProvider transport;
     private ConfigSerializerFactoryProvider serializer;
 
-    public ConfigConnectionFactoryProvider(TransportConfig transportConfig) {
+    public ConfigConnectionFactoryProvider(TransportConfig transportConfig) throws ConnectionFactoryException {
         try {
             this.transport = new ConfigTransportFactoryProvider(transportConfig);
             this.serializer = new ConfigSerializerFactoryProvider(transportConfig);
         }
         catch (TransportFactoryException transportFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Transport Problem: ").append(transportFactoryException.getMessage()).toString());
+            throw new ConnectionFactoryException("Transport Problem: " + transportFactoryException.getMessage());
         }
         catch (SerializerFactoryException serializerFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Serializer Problem: ").append(serializerFactoryException.getMessage()).toString());
+            throw new ConnectionFactoryException("Serializer Problem: " + serializerFactoryException.getMessage());
         }
     }
 
-    @Override
-    public IConnectionFactory createConnectionFactory(String string, String string2) {
+    public IConnectionFactory createConnectionFactory(String string, String string2) throws ConnectionFactoryException {
         try {
             return new GenericConnectionFactory(this.transport.createSingleTransportFactory(string, string2), this.serializer.createSerializerFactory(string, string2));
         }
         catch (TransportFactoryException transportFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Transport failed: ").append(transportFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Transport failed: " + transportFactoryException.toString());
         }
         catch (SerializerFactoryException serializerFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Serializer failed: ").append(serializerFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Serializer failed: " + serializerFactoryException.toString());
         }
     }
 
-    @Override
-    public ISpawnConnectionFactory createSpawnConnectionFactory(String string, String string2) {
+    public ISpawnConnectionFactory createSpawnConnectionFactory(String string, String string2) throws ConnectionFactoryException {
         try {
             return new GenericSpawnConnectionFactory(this.transport.createSpawnTransportFactory(string, string2), this.serializer.createMySerializerFactory(string, string2));
         }
         catch (TransportFactoryException transportFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Transport failed: ").append(transportFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Transport failed: " + transportFactoryException.toString());
         }
         catch (SerializerFactoryException serializerFactoryException) {
-            throw new ConnectionFactoryException(new StringBuffer().append("Serializer failed: ").append(serializerFactoryException.toString()).toString());
+            throw new ConnectionFactoryException("Serializer failed: " + serializerFactoryException.toString());
         }
     }
 }

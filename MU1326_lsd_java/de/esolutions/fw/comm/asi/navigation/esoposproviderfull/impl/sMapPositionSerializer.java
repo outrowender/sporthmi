@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sMapPosition;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sPosition;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sMapPositionSerializer {
-    public static void putOptionalsMapPosition(ISerializer iSerializer, sMapPosition sMapPosition2) {
+    public static void putOptionalsMapPosition(ISerializer iSerializer, sMapPosition sMapPosition2) throws SerializerException {
         boolean bl = sMapPosition2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -43,7 +44,7 @@ public class sMapPositionSerializer {
         }
     }
 
-    public static void putOptionalsMapPositionVarArray(ISerializer iSerializer, sMapPosition[] sMapPositionArray) {
+    public static void putOptionalsMapPositionVarArray(ISerializer iSerializer, sMapPosition[] sMapPositionArray) throws SerializerException {
         boolean bl = sMapPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -54,7 +55,7 @@ public class sMapPositionSerializer {
         }
     }
 
-    public static sMapPosition getOptionalsMapPosition(IDeserializer iDeserializer) {
+    public static sMapPosition getOptionalsMapPosition(IDeserializer iDeserializer) throws SerializerException {
         sMapPosition sMapPosition2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -89,7 +90,7 @@ public class sMapPositionSerializer {
         return sMapPosition2;
     }
 
-    public static sMapPosition[] getOptionalsMapPositionVarArray(IDeserializer iDeserializer) {
+    public static sMapPosition[] getOptionalsMapPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         sMapPosition[] sMapPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

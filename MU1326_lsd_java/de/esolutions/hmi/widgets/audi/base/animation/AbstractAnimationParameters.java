@@ -24,10 +24,10 @@ public abstract class AbstractAnimationParameters {
             string = this.getConfigFileName();
         }
         if (string == null) {
-            this.logAnimation.log(-1601830656, "AnimationParameters#readAnimationParametersFromFile animationParametersFile could not be found!");
+            this.logAnimation.log(100000, "AnimationParameters#readAnimationParametersFromFile animationParametersFile could not be found!");
             return;
         }
-        this.logAnimation.log(-2137614336, "AnimationParameters#readAnimationParametersFromFile animationParametersFile: %1 ", (Object)string);
+        this.logAnimation.log(10000000, "AnimationParameters#readAnimationParametersFromFile animationParametersFile: %1 ", (Object)string);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(string));
             try {
@@ -38,10 +38,10 @@ public abstract class AbstractAnimationParameters {
                     }
                     string2 = bufferedReader.readLine();
                 }
-                this.logAnimation.log(-2137614336, "AnimationParameters#readAnimationParametersFromFile animationParameters read successfully!");
+                this.logAnimation.log(10000000, "AnimationParameters#readAnimationParametersFromFile animationParameters read successfully!");
             }
             catch (IOException iOException) {
-                this.logAnimation.log(-2137614336, "AnimationParameters#readAnimationParametersFromFile couldn't read parameters");
+                this.logAnimation.log(10000000, "AnimationParameters#readAnimationParametersFromFile couldn't read parameters");
             }
             finally {
                 try {
@@ -53,14 +53,12 @@ public abstract class AbstractAnimationParameters {
             }
         }
         catch (FileNotFoundException fileNotFoundException) {
-            this.logAnimation.log(-2137614336, "AnimationParameters#readAnimationParametersFromFile couldn't find parameters file");
+            this.logAnimation.log(10000000, "AnimationParameters#readAnimationParametersFromFile couldn't find parameters file");
         }
     }
 
-    protected abstract String getConfigFileName() {
-    }
+    protected abstract String getConfigFileName();
 
-    protected abstract void readAnimationParameters(String string) {
-    }
+    protected abstract void readAnimationParameters(String var1);
 }
 

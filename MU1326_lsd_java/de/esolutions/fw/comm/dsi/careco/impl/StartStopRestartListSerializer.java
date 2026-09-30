@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.StartStopRestartList;
 
 public class StartStopRestartListSerializer {
-    public static void putOptionalStartStopRestartList(ISerializer iSerializer, StartStopRestartList startStopRestartList) {
+    public static void putOptionalStartStopRestartList(ISerializer iSerializer, StartStopRestartList startStopRestartList) throws SerializerException {
         boolean bl = startStopRestartList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class StartStopRestartListSerializer {
         }
     }
 
-    public static void putOptionalStartStopRestartListVarArray(ISerializer iSerializer, StartStopRestartList[] startStopRestartListArray) {
+    public static void putOptionalStartStopRestartListVarArray(ISerializer iSerializer, StartStopRestartList[] startStopRestartListArray) throws SerializerException {
         boolean bl = startStopRestartListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class StartStopRestartListSerializer {
         }
     }
 
-    public static StartStopRestartList getOptionalStartStopRestartList(IDeserializer iDeserializer) {
+    public static StartStopRestartList getOptionalStartStopRestartList(IDeserializer iDeserializer) throws SerializerException {
         StartStopRestartList startStopRestartList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class StartStopRestartListSerializer {
         return startStopRestartList;
     }
 
-    public static StartStopRestartList[] getOptionalStartStopRestartListVarArray(IDeserializer iDeserializer) {
+    public static StartStopRestartList[] getOptionalStartStopRestartListVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartStopRestartList[] startStopRestartListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

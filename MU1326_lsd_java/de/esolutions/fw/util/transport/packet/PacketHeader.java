@@ -5,11 +5,12 @@ package de.esolutions.fw.util.transport.packet;
 
 import de.esolutions.fw.util.commons.miniser.BEMiniIntDeserializer;
 import de.esolutions.fw.util.commons.miniser.BEMiniIntSerializer;
+import de.esolutions.fw.util.transport.exception.TransportException;
 
 public class PacketHeader {
-    public static final int SIZE;
+    public static final int SIZE = 4;
 
-    public static int decode(byte[] byArray) {
+    public static int decode(byte[] byArray) throws TransportException {
         BEMiniIntDeserializer bEMiniIntDeserializer = new BEMiniIntDeserializer();
         return bEMiniIntDeserializer.retrieveInt(byArray, 0);
     }

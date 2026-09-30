@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LDListElement;
 
 public class LDListElementSerializer {
-    public static void putOptionalLDListElement(ISerializer iSerializer, LDListElement lDListElement) {
+    public static void putOptionalLDListElement(ISerializer iSerializer, LDListElement lDListElement) throws SerializerException {
         boolean bl = lDListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LDListElementSerializer {
         }
     }
 
-    public static void putOptionalLDListElementVarArray(ISerializer iSerializer, LDListElement[] lDListElementArray) {
+    public static void putOptionalLDListElementVarArray(ISerializer iSerializer, LDListElement[] lDListElementArray) throws SerializerException {
         boolean bl = lDListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LDListElementSerializer {
         }
     }
 
-    public static LDListElement getOptionalLDListElement(IDeserializer iDeserializer) {
+    public static LDListElement getOptionalLDListElement(IDeserializer iDeserializer) throws SerializerException {
         LDListElement lDListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class LDListElementSerializer {
         return lDListElement;
     }
 
-    public static LDListElement[] getOptionalLDListElementVarArray(IDeserializer iDeserializer) {
+    public static LDListElement[] getOptionalLDListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         LDListElement[] lDListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

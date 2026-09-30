@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.UTCOffset;
 
 public class UTCOffsetSerializer {
-    public static void putOptionalUTCOffset(ISerializer iSerializer, UTCOffset uTCOffset) {
+    public static void putOptionalUTCOffset(ISerializer iSerializer, UTCOffset uTCOffset) throws SerializerException {
         boolean bl = uTCOffset == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class UTCOffsetSerializer {
         }
     }
 
-    public static void putOptionalUTCOffsetVarArray(ISerializer iSerializer, UTCOffset[] uTCOffsetArray) {
+    public static void putOptionalUTCOffsetVarArray(ISerializer iSerializer, UTCOffset[] uTCOffsetArray) throws SerializerException {
         boolean bl = uTCOffsetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class UTCOffsetSerializer {
         }
     }
 
-    public static UTCOffset getOptionalUTCOffset(IDeserializer iDeserializer) {
+    public static UTCOffset getOptionalUTCOffset(IDeserializer iDeserializer) throws SerializerException {
         UTCOffset uTCOffset = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class UTCOffsetSerializer {
         return uTCOffset;
     }
 
-    public static UTCOffset[] getOptionalUTCOffsetVarArray(IDeserializer iDeserializer) {
+    public static UTCOffset[] getOptionalUTCOffsetVarArray(IDeserializer iDeserializer) throws SerializerException {
         UTCOffset[] uTCOffsetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

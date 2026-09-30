@@ -3,50 +3,37 @@
  */
 package de.esolutions.fw.comm.dsi.media;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMediaRecorderC {
-    default public void setActiveMedia(long l, long l2) {
-    }
+    public void setActiveMedia(long var1, long var3) throws MethodException;
 
-    default public void setSelection(int n) {
-    }
+    public void setSelection(int var1) throws MethodException;
 
-    default public void startImport(boolean bl) {
-    }
+    public void startImport(boolean var1) throws MethodException;
 
-    default public void abortImport() {
-    }
+    public void abortImport() throws MethodException;
 
-    default public void startDelete() {
-    }
+    public void startDelete() throws MethodException;
 
-    default public void abortDelete() {
-    }
+    public void abortDelete() throws MethodException;
 
-    default public void setTargetMedia(long l, long l2) {
-    }
+    public void setTargetMedia(long var1, long var3) throws MethodException;
 
-    default public void setEncodingQuality(int n) {
-    }
+    public void setEncodingQuality(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

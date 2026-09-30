@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.PhoneData;
 
 public class PhoneDataSerializer {
-    public static void putOptionalPhoneData(ISerializer iSerializer, PhoneData phoneData) {
+    public static void putOptionalPhoneData(ISerializer iSerializer, PhoneData phoneData) throws SerializerException {
         boolean bl = phoneData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class PhoneDataSerializer {
         }
     }
 
-    public static void putOptionalPhoneDataVarArray(ISerializer iSerializer, PhoneData[] phoneDataArray) {
+    public static void putOptionalPhoneDataVarArray(ISerializer iSerializer, PhoneData[] phoneDataArray) throws SerializerException {
         boolean bl = phoneDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class PhoneDataSerializer {
         }
     }
 
-    public static PhoneData getOptionalPhoneData(IDeserializer iDeserializer) {
+    public static PhoneData getOptionalPhoneData(IDeserializer iDeserializer) throws SerializerException {
         PhoneData phoneData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class PhoneDataSerializer {
         return phoneData;
     }
 
-    public static PhoneData[] getOptionalPhoneDataVarArray(IDeserializer iDeserializer) {
+    public static PhoneData[] getOptionalPhoneDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PhoneData[] phoneDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

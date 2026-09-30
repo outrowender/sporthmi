@@ -9,30 +9,27 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.GlassplateController;
 
 public class OptionDrawerGlassplateRendererHigh
 extends GlassplateRendererHigh {
-    private static final String EAL_NODE_NAME;
-    private static final float DEFAULT_REFRACT_HOLE_X;
-    private static final float DEFAULT_REFRACT_HOLE_Y;
+    private static final String EAL_NODE_NAME = "optionDrawerGlassPlate";
+    private static final float DEFAULT_REFRACT_HOLE_X = 130.0f;
+    private static final float DEFAULT_REFRACT_HOLE_Y = 180.0f;
 
     public OptionDrawerGlassplateRendererHigh(GlassplateController glassplateController) {
         super(glassplateController);
     }
 
-    @Override
     protected String getTemplateNodePath() {
         return "Prefabs/generic_glassPlate_optionsDrawer";
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "optionDrawerGlassPlate";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         if (this.getEALManager().getBackgroundTexture() != null) {
-            this.setProperty("gp_refractHoleX", 579);
-            this.setProperty("gp_refractHoleY", 13379);
+            this.setProperty("gp_refractHoleX", 130.0f);
+            this.setProperty("gp_refractHoleY", 180.0f);
         } else {
             this.setProperty("gp_refractHoleX", 0.0f);
             this.setProperty("gp_refractHoleY", 0.0f);

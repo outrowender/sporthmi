@@ -11,7 +11,7 @@ import org.w3c.dom.Node;
 
 public class ElementDefinitionImpl
 extends ParentNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -8373890672670022714L;
     protected String name;
     protected NamedNodeMapImpl attributes;
 
@@ -21,12 +21,10 @@ extends ParentNode {
         this.attributes = new NamedNodeMapImpl(coreDocumentImpl);
     }
 
-    @Override
     public short getNodeType() {
         return 21;
     }
 
-    @Override
     public String getNodeName() {
         if (this.needsSyncData()) {
             this.synchronizeData();
@@ -34,14 +32,12 @@ extends ParentNode {
         return this.name;
     }
 
-    @Override
     public Node cloneNode(boolean bl) {
         ElementDefinitionImpl elementDefinitionImpl = (ElementDefinitionImpl)super.cloneNode(bl);
         elementDefinitionImpl.attributes = this.attributes.cloneMap(elementDefinitionImpl);
         return elementDefinitionImpl;
     }
 
-    @Override
     public NamedNodeMap getAttributes() {
         if (this.needsSyncChildren()) {
             this.synchronizeChildren();

@@ -3,11 +3,10 @@
  */
 package de.esolutions.fw.comm.agent.diag;
 
-import de.esolutions.fw.comm.agent.diag.PrintUtils$ValueGetter;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class PrintUtils {
-    public static void printArrayToBuffer(Buffer buffer, Object[] objectArray, PrintUtils$ValueGetter printUtils$ValueGetter) {
+    public static void printArrayToBuffer(Buffer buffer, Object[] objectArray, ValueGetter valueGetter) {
         buffer.append("[ ");
         if (objectArray == null) {
             buffer.append("]");
@@ -19,7 +18,7 @@ public class PrintUtils {
                 } else {
                     buffer.append(", ");
                 }
-                Object object = printUtils$ValueGetter.getValue(objectArray[i2]);
+                Object object = valueGetter.getValue(objectArray[i2]);
                 if (object == null) {
                     buffer.append("<null>");
                     continue;
@@ -28,6 +27,10 @@ public class PrintUtils {
             }
             buffer.append(" ]");
         }
+    }
+
+    public static interface ValueGetter {
+        public Object getValue(Object var1);
     }
 }
 

@@ -10,14 +10,14 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carlight.DSICarLight;
 import de.esolutions.fw.comm.dsi.carlight.DSICarLightC;
 import de.esolutions.fw.comm.dsi.carlight.DSICarLightReply;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$1;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$2;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$3;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$4;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$5;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$6;
-import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightProxy$7;
 import de.esolutions.fw.comm.dsi.carlight.impl.DSICarLightReplyService;
+import de.esolutions.fw.comm.dsi.carlight.impl.IntLightBrightnessSerializer;
+import de.esolutions.fw.comm.dsi.carlight.impl.IntLightRGBColorListUpdateInfoSerializer;
+import de.esolutions.fw.comm.dsi.carlight.impl.IntLightRGBValuesSerializer;
+import de.esolutions.fw.comm.dsi.carlight.impl.MotorwayBlinkingSettingsSerializer;
+import de.esolutions.fw.comm.dsi.carlight.impl.TimeStateSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightBrightness;
@@ -42,20 +42,27 @@ DSICarLightC {
         return this.proxy;
     }
 
-    @Override
-    public void setExtLightComingHome(TimeState timeState) {
-        DSICarLightProxy$1 dSICarLightProxy$1 = new DSICarLightProxy$1(this, timeState);
-        this.proxy.remoteCallMethod((short)8, dSICarLightProxy$1);
+    public void setExtLightComingHome(final TimeState timeState) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TimeStateSerializer.putOptionalTimeState(iSerializer, timeState);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void setExtLightLeavingHome(TimeState timeState) {
-        DSICarLightProxy$2 dSICarLightProxy$2 = new DSICarLightProxy$2(this, timeState);
-        this.proxy.remoteCallMethod((short)12, dSICarLightProxy$2);
+    public void setExtLightLeavingHome(final TimeState timeState) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TimeStateSerializer.putOptionalTimeState(iSerializer, timeState);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void setExtLightSwitchOnSensitivity(int n) {
+    public void setExtLightSwitchOnSensitivity(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -66,8 +73,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setExtLightDayLight(boolean bl) {
+    public void setExtLightDayLight(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -78,8 +84,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setExtLightHeadLightSystem(boolean bl) {
+    public void setExtLightHeadLightSystem(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -90,8 +95,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setExtLightGlidingLightSystem(boolean bl) {
+    public void setExtLightGlidingLightSystem(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -102,8 +106,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setExtLightAdaptive(boolean bl) {
+    public void setExtLightAdaptive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -114,8 +117,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void setExtLightTourist(boolean bl) {
+    public void setExtLightTourist(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -126,14 +128,17 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setExtLightMotorwayBlinking(MotorwayBlinkingSettings motorwayBlinkingSettings) {
-        DSICarLightProxy$3 dSICarLightProxy$3 = new DSICarLightProxy$3(this, motorwayBlinkingSettings);
-        this.proxy.remoteCallMethod((short)14, dSICarLightProxy$3);
+    public void setExtLightMotorwayBlinking(final MotorwayBlinkingSettings motorwayBlinkingSettings) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                MotorwayBlinkingSettingsSerializer.putOptionalMotorwayBlinkingSettings(iSerializer, motorwayBlinkingSettings);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void setExtLightMaskedHighBeam(boolean bl) {
+    public void setExtLightMaskedHighBeam(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -144,8 +149,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setExtLightAutomaticLight(boolean bl, boolean bl2) {
+    public void setExtLightAutomaticLight(boolean bl, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -157,13 +161,11 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setExtLightSetFactoryDefault() {
+    public void setExtLightSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)15, null);
     }
 
-    @Override
-    public void setExtLightLaserLight(boolean bl) {
+    public void setExtLightLaserLight(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -174,8 +176,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)89, genericSerializable);
     }
 
-    @Override
-    public void setExtLightSignatureLight(boolean bl) {
+    public void setExtLightSignatureLight(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -186,8 +187,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)96, genericSerializable);
     }
 
-    @Override
-    public void setExtLightHeadlightRange(int n) {
+    public void setExtLightHeadlightRange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -198,8 +198,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)95, genericSerializable);
     }
 
-    @Override
-    public void setIntLightIlluminationSet(int n, int n2) {
+    public void setIntLightIlluminationSet(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -211,8 +210,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setIntLightColour(int n) {
+    public void setIntLightColour(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -223,8 +221,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void setIntLightState(int n) {
+    public void setIntLightState(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -235,8 +232,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setIntLightEnvironment(boolean bl) {
+    public void setIntLightEnvironment(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -247,8 +243,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setIntLightSpeed(boolean bl) {
+    public void setIntLightSpeed(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -259,8 +254,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setIntLightTemperature(boolean bl) {
+    public void setIntLightTemperature(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -271,19 +265,21 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setIntLightBrightness(IntLightBrightness intLightBrightness) {
-        DSICarLightProxy$4 dSICarLightProxy$4 = new DSICarLightProxy$4(this, intLightBrightness);
-        this.proxy.remoteCallMethod((short)85, dSICarLightProxy$4);
+    public void setIntLightBrightness(final IntLightBrightness intLightBrightness) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                IntLightBrightnessSerializer.putOptionalIntLightBrightness(iSerializer, intLightBrightness);
+            }
+        };
+        this.proxy.remoteCallMethod((short)85, iSerializable);
     }
 
-    @Override
-    public void setIntLightSetFactoryDefault() {
+    public void setIntLightSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void setIntLightIlluminationProfile(int n, int n2) {
+    public void setIntLightIlluminationProfile(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -295,8 +291,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)69, genericSerializable);
     }
 
-    @Override
-    public void setIntLightActiveProfile(int n) {
+    public void setIntLightActiveProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -307,20 +302,27 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)65, genericSerializable);
     }
 
-    @Override
-    public void setIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues) {
-        DSICarLightProxy$5 dSICarLightProxy$5 = new DSICarLightProxy$5(this, intLightRGBValues);
-        this.proxy.remoteCallMethod((short)66, dSICarLightProxy$5);
+    public void setIntLightAmbientLightColor(final IntLightRGBValues intLightRGBValues) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                IntLightRGBValuesSerializer.putOptionalIntLightRGBValues(iSerializer, intLightRGBValues);
+            }
+        };
+        this.proxy.remoteCallMethod((short)66, iSerializable);
     }
 
-    @Override
-    public void setIntLightContourLightColor(IntLightRGBValues intLightRGBValues) {
-        DSICarLightProxy$6 dSICarLightProxy$6 = new DSICarLightProxy$6(this, intLightRGBValues);
-        this.proxy.remoteCallMethod((short)67, dSICarLightProxy$6);
+    public void setIntLightContourLightColor(final IntLightRGBValues intLightRGBValues) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                IntLightRGBValuesSerializer.putOptionalIntLightRGBValues(iSerializer, intLightRGBValues);
+            }
+        };
+        this.proxy.remoteCallMethod((short)67, iSerializable);
     }
 
-    @Override
-    public void setIntLightFollowUpTime(int n) {
+    public void setIntLightFollowUpTime(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -331,8 +333,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)68, genericSerializable);
     }
 
-    @Override
-    public void setIntLightDoorContact(boolean bl) {
+    public void setIntLightDoorContact(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -343,14 +344,17 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)92, genericSerializable);
     }
 
-    @Override
-    public void requestIntLightRGBColorList(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo) {
-        DSICarLightProxy$7 dSICarLightProxy$7 = new DSICarLightProxy$7(this, intLightRGBColorListUpdateInfo);
-        this.proxy.remoteCallMethod((short)62, dSICarLightProxy$7);
+    public void requestIntLightRGBColorList(final IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                IntLightRGBColorListUpdateInfoSerializer.putOptionalIntLightRGBColorListUpdateInfo(iSerializer, intLightRGBColorListUpdateInfo);
+            }
+        };
+        this.proxy.remoteCallMethod((short)62, iSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -361,8 +365,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -373,13 +376,11 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)26, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -390,8 +391,7 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -402,13 +402,11 @@ DSICarLightC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

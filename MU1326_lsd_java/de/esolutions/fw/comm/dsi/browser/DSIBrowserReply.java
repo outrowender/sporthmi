@@ -3,99 +3,72 @@
  */
 package de.esolutions.fw.comm.dsi.browser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.browser.HistoryEntry;
 import org.dsi.ifc.browser.KeyboardInfo;
 import org.dsi.ifc.browser.SelectionEntry;
 import org.dsi.ifc.browser.TimePeriod;
 
 public interface DSIBrowserReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "b9025762-f046-5aaa-bcde-0e6654d49868";
+    public static final String IPL_COMM_INTERFACE_KEY = "a9cab10b-fbea-5364-a0dc-125101f3dcef";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.18";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.18";
 
-    default public void updateBrowserState(int n, int n2) {
-    }
+    public void updateBrowserState(int var1, int var2) throws MethodException;
 
-    default public void updatePageTitle(String string, int n) {
-    }
+    public void updatePageTitle(String var1, int var2) throws MethodException;
 
-    default public void updateActiveUrl(String string, int n) {
-    }
+    public void updateActiveUrl(String var1, int var2) throws MethodException;
 
-    default public void updateZoomFactor(int n, int n2) {
-    }
+    public void updateZoomFactor(int var1, int var2) throws MethodException;
 
-    default public void updateVirtualKeyboardStatus(boolean bl, int n) {
-    }
+    public void updateVirtualKeyboardStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateEncryption(boolean bl, int n) {
-    }
+    public void updateEncryption(boolean var1, int var2) throws MethodException;
 
-    default public void updateHasFocus(boolean bl, int n) {
-    }
+    public void updateHasFocus(boolean var1, int var2) throws MethodException;
 
-    default public void updateButtonState(int n, int n2, int n3) {
-    }
+    public void updateButtonState(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateProgress(int n, int n2) {
-    }
+    public void updateProgress(int var1, int var2) throws MethodException;
 
-    default public void updateScrollbarX(int n, int n2, int n3, int n4) {
-    }
+    public void updateScrollbarX(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void updateScrollbarY(int n, int n2, int n3, int n4) {
-    }
+    public void updateScrollbarY(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void getPreferenceResult(int n, int n2, String string) {
-    }
+    public void getPreferenceResult(int var1, int var2, String var3) throws MethodException;
 
-    default public void resumeBrowserResult(int n) {
-    }
+    public void resumeBrowserResult(int var1) throws MethodException;
 
-    default public void indicateEfiUrl(String string) {
-    }
+    public void indicateEfiUrl(String var1) throws MethodException;
 
-    default public void indicateUnknownMimeType(String string, String string2) {
-    }
+    public void indicateUnknownMimeType(String var1, String var2) throws MethodException;
 
-    default public void indicateDownloadUrl(String string) {
-    }
+    public void indicateDownloadUrl(String var1) throws MethodException;
 
-    default public void indicatePopup(String string) {
-    }
+    public void indicatePopup(String var1) throws MethodException;
 
-    default public void indicateDownloadProgress(String string, String string2, int n) {
-    }
+    public void indicateDownloadProgress(String var1, String var2, int var3) throws MethodException;
 
-    default public void javascriptAlert(String string) {
-    }
+    public void javascriptAlert(String var1) throws MethodException;
 
-    default public void javascriptConfirm(String string) {
-    }
+    public void javascriptConfirm(String var1) throws MethodException;
 
-    default public void javascriptPrompt(String string, String string2) {
-    }
+    public void javascriptPrompt(String var1, String var2) throws MethodException;
 
-    default public void updateSelectionListContent(SelectionEntry[] selectionEntryArray, boolean bl, int n) {
-    }
+    public void updateSelectionListContent(SelectionEntry[] var1, boolean var2, int var3) throws MethodException;
 
-    default public void exportBrowserDataResult(int n) {
-    }
+    public void exportBrowserDataResult(int var1) throws MethodException;
 
-    default public void importBrowserDataResult(int n) {
-    }
+    public void importBrowserDataResult(int var1) throws MethodException;
 
-    default public void getHistoryResult(TimePeriod timePeriod, HistoryEntry[] historyEntryArray, int n) {
-    }
+    public void getHistoryResult(TimePeriod var1, HistoryEntry[] var2, int var3) throws MethodException;
 
-    default public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
-    }
+    public void updateKeyboardDisplay(boolean var1, KeyboardInfo var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

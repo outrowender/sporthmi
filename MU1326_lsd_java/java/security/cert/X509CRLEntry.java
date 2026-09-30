@@ -27,17 +27,13 @@ implements X509Extension {
         }
     }
 
-    public abstract byte[] getEncoded() {
-    }
+    public abstract byte[] getEncoded() throws CRLException;
 
-    public abstract BigInteger getSerialNumber() {
-    }
+    public abstract BigInteger getSerialNumber();
 
-    public abstract Date getRevocationDate() {
-    }
+    public abstract Date getRevocationDate();
 
-    public abstract boolean hasExtensions() {
-    }
+    public abstract boolean hasExtensions();
 
     public int hashCode() {
         try {
@@ -55,7 +51,6 @@ implements X509Extension {
         }
     }
 
-    public abstract String toString() {
-    }
+    public abstract String toString();
 }
 

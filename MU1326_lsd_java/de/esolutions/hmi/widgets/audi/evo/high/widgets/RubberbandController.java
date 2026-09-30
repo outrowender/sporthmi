@@ -28,9 +28,9 @@ import java.util.Date;
 public class RubberbandController
 extends LayoutContainerController
 implements RubberbandConstants {
-    private static final int INDEX_FONT_TEXT;
-    private static final int INDEX_FONT_AM_PM;
-    private static final int BITMAP_INDEX_FLAG;
+    private static final int INDEX_FONT_TEXT = 0;
+    private static final int INDEX_FONT_AM_PM = 2;
+    private static final int BITMAP_INDEX_FLAG = 0;
     private IconController flag;
     private LabelController dta;
     private LabelController eta;
@@ -47,7 +47,6 @@ implements RubberbandConstants {
     private boolean isShorter = false;
     private boolean isZero = false;
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         if (!this.isSetUp) {
             this.initializeMetrics();
@@ -77,7 +76,7 @@ implements RubberbandConstants {
     public static final long getTime() {
         AbstractMetrics abstractMetrics;
         long l = 0L;
-        MetricsModelGUI metricsModelGUI = (MetricsModelGUI)((Object)hmiService.getModel(1724452864));
+        MetricsModelGUI metricsModelGUI = (MetricsModelGUI)((Object)hmiService.getModel(1100134));
         if (metricsModelGUI != null && (abstractMetrics = metricsModelGUI.getMetric()) instanceof DateMetric) {
             DateMetric dateMetric = (DateMetric)abstractMetrics;
             l = dateMetric.getDate().getTime();
@@ -94,19 +93,18 @@ implements RubberbandConstants {
         this.diffDtaMetric = new Distance(0.0f, 1);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (this.isConnected()) {
-            sideBarLogChannel.log(-2137614336, "RubberbandController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+            sideBarLogChannel.log(10000000, "RubberbandController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
             this.readDataFromModel();
             this.updateLabelPrefix();
             this.eta.updateContent();
             this.dta.updateContent();
             this.diffDta.updateContent();
             this.diffEta.updateContent();
-            sideBarLogChannel.log(-2137614336, "RubberbandController#processModelUpdateEvent Label texts: %1, %2, %3, %4", (Object)this.eta.getText(), (Object)this.dta.getText(), (Object)this.diffEta.getText(), (Object)this.diffDta.getText());
+            sideBarLogChannel.log(10000000, "RubberbandController#processModelUpdateEvent Label texts: %1, %2, %3, %4", (Object)this.eta.getText(), (Object)this.dta.getText(), (Object)this.diffEta.getText(), (Object)this.diffDta.getText());
         } else {
-            sideBarLogChannel.log(-2137614336, "RubberbandController#processModelUpdateEvent Discard event because widget is not connected.");
+            sideBarLogChannel.log(10000000, "RubberbandController#processModelUpdateEvent Discard event because widget is not connected.");
         }
     }
 
@@ -124,7 +122,7 @@ implements RubberbandConstants {
             this.dtaAlternativeRoute.setValue(n);
             long l2 = this.etaAlternativeRoute.getDate().getTime() - this.etaOriginalRoute.getDate().getTime();
             float f2 = this.dtaAlternativeRoute.getValue(1) - this.dtaOriginalRoute.getValue(1);
-            if (Math.abs(l2) < 0) {
+            if (Math.abs(l2) < 60000L) {
                 l2 = 0L;
             }
             long l3 = RubberbandController.getTime();
@@ -136,17 +134,17 @@ implements RubberbandConstants {
                 l2 *= -1L;
             }
             if (this.isShorter) {
-                f2 *= 32959;
+                f2 *= -1.0f;
             }
             if (this.isZero) {
                 l2 = -1L;
-                f2 = 32959;
+                f2 = -1.0f;
             }
             this.diffEtaMetric.setDate(l2);
             this.diffDtaMetric.setValue(f2);
             if (sideBarLogChannel.isDebug()) {
                 String string = StringUtilities.formatMessage("RubberbandController#readDataFromModel Original route ETA = %1, DTA = %2. Alternative route ETA = %3, DTA = %4. Diff route ETA = %5, DTA = %6.", new String[]{this.etaOriginalRoute.format(), this.dtaOriginalRoute.format(), this.etaAlternativeRoute.format(), this.dtaAlternativeRoute.format(), this.diffEtaMetric.format(), this.diffDtaMetric.format()});
-                sideBarLogChannel.log(-2137614336, string);
+                sideBarLogChannel.log(10000000, string);
             }
         }
     }

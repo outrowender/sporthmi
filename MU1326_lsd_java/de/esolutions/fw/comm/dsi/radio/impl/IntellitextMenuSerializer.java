@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.radio.impl.IntellitextSubmenuSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.IntellitextMenu;
 import org.dsi.ifc.radio.IntellitextSubmenu;
 
 public class IntellitextMenuSerializer {
-    public static void putOptionalIntellitextMenu(ISerializer iSerializer, IntellitextMenu intellitextMenu) {
+    public static void putOptionalIntellitextMenu(ISerializer iSerializer, IntellitextMenu intellitextMenu) throws SerializerException {
         boolean bl = intellitextMenu == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class IntellitextMenuSerializer {
         }
     }
 
-    public static void putOptionalIntellitextMenuVarArray(ISerializer iSerializer, IntellitextMenu[] intellitextMenuArray) {
+    public static void putOptionalIntellitextMenuVarArray(ISerializer iSerializer, IntellitextMenu[] intellitextMenuArray) throws SerializerException {
         boolean bl = intellitextMenuArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class IntellitextMenuSerializer {
         }
     }
 
-    public static IntellitextMenu getOptionalIntellitextMenu(IDeserializer iDeserializer) {
+    public static IntellitextMenu getOptionalIntellitextMenu(IDeserializer iDeserializer) throws SerializerException {
         IntellitextMenu intellitextMenu = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class IntellitextMenuSerializer {
         return intellitextMenu;
     }
 
-    public static IntellitextMenu[] getOptionalIntellitextMenuVarArray(IDeserializer iDeserializer) {
+    public static IntellitextMenu[] getOptionalIntellitextMenuVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntellitextMenu[] intellitextMenuArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

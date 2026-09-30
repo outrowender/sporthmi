@@ -32,7 +32,7 @@ public class RecordingRange {
     }
 
     public String toString() {
-        return new StringBuffer("RecordingRange{").append("remainingRange=").append(this.remainingRange).append(", remainingLaps=").append(this.remainingLaps).append("}").toString();
+        return "RecordingRange{" + "remainingRange=" + this.remainingRange + ", remainingLaps=" + this.remainingLaps + "}";
     }
 }
 

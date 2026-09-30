@@ -14,7 +14,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 public class Transition
 extends Executable
 implements NamespacePrefixesHolder {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2L;
     private String event;
     private String cond;
     private List targets = new ArrayList();
@@ -38,12 +38,10 @@ implements NamespacePrefixesHolder {
         this.event = string;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }

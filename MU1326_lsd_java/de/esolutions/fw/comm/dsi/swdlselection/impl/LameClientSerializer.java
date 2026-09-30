@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.swdlselection.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.swdlselection.LameClient;
 
 public class LameClientSerializer {
-    public static void putOptionalLameClient(ISerializer iSerializer, LameClient lameClient) {
+    public static void putOptionalLameClient(ISerializer iSerializer, LameClient lameClient) throws SerializerException {
         boolean bl = lameClient == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class LameClientSerializer {
         }
     }
 
-    public static void putOptionalLameClientVarArray(ISerializer iSerializer, LameClient[] lameClientArray) {
+    public static void putOptionalLameClientVarArray(ISerializer iSerializer, LameClient[] lameClientArray) throws SerializerException {
         boolean bl = lameClientArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class LameClientSerializer {
         }
     }
 
-    public static LameClient getOptionalLameClient(IDeserializer iDeserializer) {
+    public static LameClient getOptionalLameClient(IDeserializer iDeserializer) throws SerializerException {
         LameClient lameClient = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class LameClientSerializer {
         return lameClient;
     }
 
-    public static LameClient[] getOptionalLameClientVarArray(IDeserializer iDeserializer) {
+    public static LameClient[] getOptionalLameClientVarArray(IDeserializer iDeserializer) throws SerializerException {
         LameClient[] lameClientArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.audio.impl;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class VolumeLockStateSerializer {
-    public static void putOptionalVolumeLockState(ISerializer iSerializer, VolumeLockState volumeLockState) {
+    public static void putOptionalVolumeLockState(ISerializer iSerializer, VolumeLockState volumeLockState) throws SerializerException {
         boolean bl = volumeLockState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class VolumeLockStateSerializer {
         }
     }
 
-    public static void putOptionalVolumeLockStateVarArray(ISerializer iSerializer, VolumeLockState[] volumeLockStateArray) {
+    public static void putOptionalVolumeLockStateVarArray(ISerializer iSerializer, VolumeLockState[] volumeLockStateArray) throws SerializerException {
         boolean bl = volumeLockStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class VolumeLockStateSerializer {
         }
     }
 
-    public static VolumeLockState getOptionalVolumeLockState(IDeserializer iDeserializer) {
+    public static VolumeLockState getOptionalVolumeLockState(IDeserializer iDeserializer) throws SerializerException {
         VolumeLockState volumeLockState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class VolumeLockStateSerializer {
         return volumeLockState;
     }
 
-    public static VolumeLockState[] getOptionalVolumeLockStateVarArray(IDeserializer iDeserializer) {
+    public static VolumeLockState[] getOptionalVolumeLockStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         VolumeLockState[] volumeLockStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

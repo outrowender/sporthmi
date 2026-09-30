@@ -22,25 +22,23 @@ extends AbstractScreenWidget {
         super(n);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.initConnect(initializationContext);
         this.initializeWidget();
         this.propagateConnected(initializationContext);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         try {
-            logWidgetPerformance.log(1078071040, "CombiMapScreen#processModelUpdateEvent start, event: %1", (Object)modelUpdateEvent);
+            logWidgetPerformance.log(1000000, "CombiMapScreen#processModelUpdateEvent start, event: %1", (Object)modelUpdateEvent);
             if (modelUpdateEvent.getTerminalID() != -1 && modelUpdateEvent.getTerminalID() != this.initContext.getTerminalID()) {
                 if (screenLogChannel.isDebug()) {
-                    screenLogChannel.log(-2137614336, "CombiMapScreen#processModelUpdateEvent is called for other terminal. modelUpdateTerminalID: %1 initContext.terminalID: %2", (long)modelUpdateEvent.getTerminalID(), (long)this.initContext.getTerminalID());
+                    screenLogChannel.log(10000000, "CombiMapScreen#processModelUpdateEvent is called for other terminal. modelUpdateTerminalID: %1 initContext.terminalID: %2", (long)modelUpdateEvent.getTerminalID(), (long)this.initContext.getTerminalID());
                 }
                 return;
             }
             if (new ModelEventPropagator(modelUpdateEvent, this).propagate()) {
-                screenLogChannel.log(-2137614336, "CombiMapScreen#processModelUpdateEvent updateEvent with ID: %1 has been processed", (long)modelUpdateEvent.getModelId());
+                screenLogChannel.log(10000000, "CombiMapScreen#processModelUpdateEvent updateEvent with ID: %1 has been processed", (long)modelUpdateEvent.getModelId());
             }
         }
         catch (Exception exception) {
@@ -49,87 +47,66 @@ extends AbstractScreenWidget {
         }
     }
 
-    @Override
     public void paint() {
     }
 
-    @Override
     public void doCheckedRepaint() {
     }
 
-    @Override
     public void triggerRepaint() {
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
     }
 
-    @Override
     public void processSDSEvent(SDSEvent sDSEvent) {
     }
 
-    @Override
     public void unitsChanged(UnitChangedEvent unitChangedEvent) {
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public void triggerProximityEvent(ProximityEvent proximityEvent) {
     }
 
-    @Override
     public void processKeyEvent(KeyEvent keyEvent) {
     }
 
-    @Override
     public void processTouchPadEvent(TouchEvent touchEvent) {
     }
 
-    @Override
     public void processGestureEvent(GestureEvent gestureEvent) {
     }
 }

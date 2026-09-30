@@ -6,16 +6,12 @@ package org.osgi.framework;
 import org.osgi.framework.Bundle;
 
 public interface ServiceReference {
-    default public Object getProperty(String string) {
-    }
+    public Object getProperty(String var1);
 
-    default public String[] getPropertyKeys() {
-    }
+    public String[] getPropertyKeys();
 
-    default public Bundle getBundle() {
-    }
+    public Bundle getBundle();
 
-    default public Bundle[] getUsingBundles() {
-    }
+    public Bundle[] getUsingBundles();
 }
 

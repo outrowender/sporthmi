@@ -11,24 +11,24 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MobDevKeyAuth_Status
 implements StatusProperty {
     public final BAPString data = new BAPString(46);
-    private static final int MAX_DATA_LENGTH;
+    private static final int MAX_DATA_LENGTH = 46;
     public int status;
-    public static final int STATUS_NOT_SUCCESSFUL_VEHICLE_KEY_IN_USE;
-    public static final int STATUS_NOT_SUCCESSFUL_NO_IMMOBILIZER_CHALLENGE;
-    public static final int STATUS_NOT_SUCCESSFUL_COMMAND_INVALID;
-    public static final int STATUS_NOT_SUCCESSFUL_EXECUTION_OF_COMMAND_TIMED_OUT;
-    public static final int STATUS_NOT_SUCCESSFUL_WAITING_FOR_COMMAND_TIMED_OUT;
-    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_VEHICLE_UNLOCKED;
-    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_VEHICLE_IN_MOTION;
-    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_CLAMP_15_ACTIVE;
-    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED;
-    public static final int STATUS_SUCCESSFUL_EXECUTION_OF_COMMAND_COMPLETED_RESULT_DATA_AVAILABLE;
-    public static final int STATUS_SUCCESSFUL_AUTHENTICATION_DATA_AVAILABLE;
-    public static final int STATUS_ABORT_NOT_SUCCESSFUL;
-    public static final int STATUS_ABORT_SUCCESSFUL;
-    public static final int STATUS_NOT_SUCCESSFUL;
-    public static final int STATUS_SUCCESSFUL;
-    public static final int STATUS_INIT_UNKNOWN;
+    public static final int STATUS_NOT_SUCCESSFUL_VEHICLE_KEY_IN_USE = 15;
+    public static final int STATUS_NOT_SUCCESSFUL_NO_IMMOBILIZER_CHALLENGE = 14;
+    public static final int STATUS_NOT_SUCCESSFUL_COMMAND_INVALID = 13;
+    public static final int STATUS_NOT_SUCCESSFUL_EXECUTION_OF_COMMAND_TIMED_OUT = 12;
+    public static final int STATUS_NOT_SUCCESSFUL_WAITING_FOR_COMMAND_TIMED_OUT = 11;
+    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_VEHICLE_UNLOCKED = 10;
+    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_VEHICLE_IN_MOTION = 9;
+    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED_CLAMP_15_ACTIVE = 8;
+    public static final int STATUS_NOT_SUCCESSFUL_FUNCTIONAL_PRECONDITIONS_VIOLATED = 7;
+    public static final int STATUS_SUCCESSFUL_EXECUTION_OF_COMMAND_COMPLETED_RESULT_DATA_AVAILABLE = 6;
+    public static final int STATUS_SUCCESSFUL_AUTHENTICATION_DATA_AVAILABLE = 5;
+    public static final int STATUS_ABORT_NOT_SUCCESSFUL = 4;
+    public static final int STATUS_ABORT_SUCCESSFUL = 3;
+    public static final int STATUS_NOT_SUCCESSFUL = 2;
+    public static final int STATUS_SUCCESSFUL = 1;
+    public static final int STATUS_INIT_UNKNOWN = 0;
 
     public MobDevKeyAuth_Status() {
         this.internalReset();
@@ -44,13 +44,11 @@ implements StatusProperty {
         this.status = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeyAuth_Status mobDevKeyAuth_Status = (MobDevKeyAuth_Status)bAPEntity;
         return this.data.equalTo(mobDevKeyAuth_Status.data) && this.status == mobDevKeyAuth_Status.status;
@@ -59,7 +57,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeyAuth_Status");
@@ -68,18 +65,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.data.serialize(bitStream);
         bitStream.pushByte((byte)this.status);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.data.deserialize(bitStream);
         this.status = bitStream.popFrontByte();
@@ -89,7 +83,6 @@ implements StatusProperty {
         return 20;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeyAuth_Status.functionId();
     }

@@ -4,9 +4,9 @@
 package de.esolutions.fw.comm.asi.navigation.mapregioninfo;
 
 public class Consts {
-    public static final int RESULT_OK;
-    public static final int RESULT_ERROR_GENERIC;
-    public static final int RESULT_ERROR_LOCATION_NOT_VALID;
-    public static final int RESULT_ERROR_DATABASES_NOT_AVAILABLE;
+    public static final int RESULT_OK = 1;
+    public static final int RESULT_ERROR_GENERIC = 2;
+    public static final int RESULT_ERROR_LOCATION_NOT_VALID = 3;
+    public static final int RESULT_ERROR_DATABASES_NOT_AVAILABLE = 4;
 }
 

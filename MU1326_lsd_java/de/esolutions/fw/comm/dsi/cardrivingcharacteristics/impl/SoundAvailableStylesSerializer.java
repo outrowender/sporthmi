@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SoundAvailableStyles;
 
 public class SoundAvailableStylesSerializer {
-    public static void putOptionalSoundAvailableStyles(ISerializer iSerializer, SoundAvailableStyles soundAvailableStyles) {
+    public static void putOptionalSoundAvailableStyles(ISerializer iSerializer, SoundAvailableStyles soundAvailableStyles) throws SerializerException {
         boolean bl = soundAvailableStyles == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class SoundAvailableStylesSerializer {
         }
     }
 
-    public static void putOptionalSoundAvailableStylesVarArray(ISerializer iSerializer, SoundAvailableStyles[] soundAvailableStylesArray) {
+    public static void putOptionalSoundAvailableStylesVarArray(ISerializer iSerializer, SoundAvailableStyles[] soundAvailableStylesArray) throws SerializerException {
         boolean bl = soundAvailableStylesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class SoundAvailableStylesSerializer {
         }
     }
 
-    public static SoundAvailableStyles getOptionalSoundAvailableStyles(IDeserializer iDeserializer) {
+    public static SoundAvailableStyles getOptionalSoundAvailableStyles(IDeserializer iDeserializer) throws SerializerException {
         SoundAvailableStyles soundAvailableStyles = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class SoundAvailableStylesSerializer {
         return soundAvailableStyles;
     }
 
-    public static SoundAvailableStyles[] getOptionalSoundAvailableStylesVarArray(IDeserializer iDeserializer) {
+    public static SoundAvailableStyles[] getOptionalSoundAvailableStylesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SoundAvailableStyles[] soundAvailableStylesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

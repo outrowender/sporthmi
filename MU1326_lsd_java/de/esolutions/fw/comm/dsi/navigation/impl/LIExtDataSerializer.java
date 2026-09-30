@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LIExtData;
 
 public class LIExtDataSerializer {
-    public static void putOptionalLIExtData(ISerializer iSerializer, LIExtData lIExtData) {
+    public static void putOptionalLIExtData(ISerializer iSerializer, LIExtData lIExtData) throws SerializerException {
         boolean bl = lIExtData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class LIExtDataSerializer {
         }
     }
 
-    public static void putOptionalLIExtDataVarArray(ISerializer iSerializer, LIExtData[] lIExtDataArray) {
+    public static void putOptionalLIExtDataVarArray(ISerializer iSerializer, LIExtData[] lIExtDataArray) throws SerializerException {
         boolean bl = lIExtDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class LIExtDataSerializer {
         }
     }
 
-    public static LIExtData getOptionalLIExtData(IDeserializer iDeserializer) {
+    public static LIExtData getOptionalLIExtData(IDeserializer iDeserializer) throws SerializerException {
         LIExtData lIExtData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class LIExtDataSerializer {
         return lIExtData;
     }
 
-    public static LIExtData[] getOptionalLIExtDataVarArray(IDeserializer iDeserializer) {
+    public static LIExtData[] getOptionalLIExtDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         LIExtData[] lIExtDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

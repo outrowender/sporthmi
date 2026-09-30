@@ -10,23 +10,22 @@ import de.vw.mib.bap.stream.BitStream;
 public final class RG_ActDeact_Result
 implements ResultMethod {
     public int rg_ActDeact_Result;
-    private static final int RG_ACT_DEACT_RESULT_BITSIZE;
-    public static final int RG_ACT_DEACT_RESULT_SUCCESSFUL;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL;
-    public static final int RG_ACT_DEACT_RESULT_ABORT_SUCCESSFUL;
-    public static final int RG_ACT_DEACT_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int RG_ACT_DEACT_RESULT_RG_NOT_ACTIVE;
-    public static final int RG_ACT_DEACT_RESULT_RG_ALREADY_ACTIVE;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_CONTROL_INFORMATION_DOES_NOT_MATCH_TO_FSG_INTERNAL_DESTINATION;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_DESTINATION_ADDRESS_NEEDS_TO_BE_REFINED_DETAILED_AT_HEAD_UNIT;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_HOME_ADDRESS_NOT_SPECIFIED_IN_FSG;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_ROUTE_AT_FSG;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_HOME_ADDRESS_AT_FSG;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_NO_NAVIGATION_DATA_AVAILABLE;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_NO_SEMI_DYNAMIC_ROUTE_AVAILABLE_DF4_1;
-    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_SEMI_DYNAMIC_ROUTE_AT_FSG;
+    private static final int RG_ACT_DEACT_RESULT_BITSIZE = 8;
+    public static final int RG_ACT_DEACT_RESULT_SUCCESSFUL = 0;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int RG_ACT_DEACT_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int RG_ACT_DEACT_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int RG_ACT_DEACT_RESULT_RG_NOT_ACTIVE = 4;
+    public static final int RG_ACT_DEACT_RESULT_RG_ALREADY_ACTIVE = 5;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_CONTROL_INFORMATION_DOES_NOT_MATCH_TO_FSG_INTERNAL_DESTINATION = 6;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_DESTINATION_ADDRESS_NEEDS_TO_BE_REFINED_DETAILED_AT_HEAD_UNIT = 7;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_HOME_ADDRESS_NOT_SPECIFIED_IN_FSG = 8;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_ROUTE_AT_FSG = 9;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_HOME_ADDRESS_AT_FSG = 10;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_NO_NAVIGATION_DATA_AVAILABLE = 11;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_NO_SEMI_DYNAMIC_ROUTE_AVAILABLE_DF4_1 = 12;
+    public static final int RG_ACT_DEACT_RESULT_NOT_SUCCESSFUL_SELECT_SEMI_DYNAMIC_ROUTE_AT_FSG = 13;
 
-    @Override
     public int getResultCode() {
         return this.rg_ActDeact_Result;
     }
@@ -45,12 +44,10 @@ implements ResultMethod {
         this.rg_ActDeact_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         RG_ActDeact_Result rG_ActDeact_Result = (RG_ActDeact_Result)bAPEntity;
         return this.rg_ActDeact_Result == rG_ActDeact_Result.rg_ActDeact_Result;
@@ -59,7 +56,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("RG_ActDeact_Result:");
@@ -128,18 +124,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.rg_ActDeact_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.rg_ActDeact_Result = bitStream.popFrontByte();
     }
@@ -148,7 +141,6 @@ implements ResultMethod {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return RG_ActDeact_Result.functionId();
     }

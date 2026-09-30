@@ -8,13 +8,10 @@ import org.dsi.ifc.online.DictationValueSentence;
 
 public interface DSIOnlineDictationListener
 extends DSIListener {
-    default public void dictationResult(int n) {
-    }
+    public void dictationResult(int var1);
 
-    default public void finishDictationResponse(int n) {
-    }
+    public void finishDictationResponse(int var1);
 
-    default public void dictationValueList(DictationValueSentence dictationValueSentence) {
-    }
+    public void dictationValueList(DictationValueSentence var1);
 }
 

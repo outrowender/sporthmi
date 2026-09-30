@@ -4,11 +4,6 @@
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.hmi.intercommunication.MixedListConstants;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneArrow;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneArrowCombined;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$LaneGuidance;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollGateInfo;
-import de.audi.atip.hmi.intercommunication.MixedListConstants$TollgateType_enum;
 import de.audi.atip.hmi.model.HMIResourceLocator;
 import de.audi.atip.hmi.model.IconCell;
 import de.audi.atip.hmi.model.IntegerListCell;
@@ -32,7 +27,6 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconLabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.LabelRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListController2;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListItemController2$CellInstance;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListLaneGuidanceController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListLaneGuidanceRenderer;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.MixedListLayout;
@@ -66,10 +60,9 @@ implements MixedListConstants {
     private boolean isDoubleSized = false;
     private int currentFormat = -1;
     private boolean isOldData = false;
-    protected MixedListItemController2$CellInstance[] cellInstances;
+    protected CellInstance[] cellInstances;
     private Map iconLabelMapToPlaceHolder = new HashMap();
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.parentController != null && this.parentController.isActive()) {
@@ -77,7 +70,7 @@ implements MixedListConstants {
         }
     }
 
-    private AbstractWidget createContainerCellInstance(MixedListPlaceholderContainer mixedListPlaceholderContainer, ListCell[] listCellArray, MixedListItemController2$CellInstance mixedListItemController2$CellInstance) {
+    private AbstractWidget createContainerCellInstance(MixedListPlaceholderContainer mixedListPlaceholderContainer, ListCell[] listCellArray, CellInstance cellInstance) {
         LayoutContainerController layoutContainerController = new LayoutContainerController();
         CompositeRendererHigh compositeRendererHigh = new CompositeRendererHigh(layoutContainerController);
         layoutContainerController.setRenderer(compositeRendererHigh);
@@ -85,34 +78,34 @@ implements MixedListConstants {
         int n = mixedListPlaceholderContainer.placeholder.length;
         Object[] objectArray = new Object[n];
         IGridLayoutHints[] iGridLayoutHintsArray = new GridLayoutHints[n];
-        mixedListItemController2$CellInstance.grid = new MixedListItemController2$CellInstance[n];
+        cellInstance.grid = new CellInstance[n];
         for (int i2 = 0; i2 < n; ++i2) {
-            MixedListItemController2$CellInstance mixedListItemController2$CellInstance2 = new MixedListItemController2$CellInstance(null);
-            this.createCellInstance(mixedListPlaceholderContainer.placeholder[i2], listCellArray, mixedListItemController2$CellInstance2);
-            objectArray[i2] = mixedListItemController2$CellInstance2.getWidget();
+            CellInstance cellInstance2 = new CellInstance();
+            this.createCellInstance(mixedListPlaceholderContainer.placeholder[i2], listCellArray, cellInstance2);
+            objectArray[i2] = cellInstance2.getWidget();
             iGridLayoutHintsArray[i2] = MixedListItemController2.copyHint(mixedListPlaceholderContainer.hints[i2]);
-            layoutContainerController.add(mixedListItemController2$CellInstance2.getWidget());
-            mixedListItemController2$CellInstance.grid[i2] = mixedListItemController2$CellInstance2;
+            layoutContainerController.add(cellInstance2.getWidget());
+            cellInstance.grid[i2] = cellInstance2;
         }
         gridLayout.setCellConstraints(iGridLayoutHintsArray, objectArray);
         layoutContainerController.setLayoutManager(gridLayout);
-        mixedListItemController2$CellInstance.widget = layoutContainerController;
-        mixedListItemController2$CellInstance.isPrimaryCell = true;
+        cellInstance.widget = layoutContainerController;
+        cellInstance.isPrimaryCell = true;
         return layoutContainerController;
     }
 
-    private void createCellInstance(MixedListPlaceholder mixedListPlaceholder, ListCell[] listCellArray, MixedListItemController2$CellInstance mixedListItemController2$CellInstance) {
+    private void createCellInstance(MixedListPlaceholder mixedListPlaceholder, ListCell[] listCellArray, CellInstance cellInstance) {
         AbstractWidget abstractWidget = this.createCellInstance(mixedListPlaceholder, listCellArray);
         this.iconLabelMapToPlaceHolder.put(abstractWidget, mixedListPlaceholder);
         if (abstractWidget == null) {
             if (mixedListPlaceholder.secondaryEntity != null) {
                 abstractWidget = this.createCellInstance(mixedListPlaceholder.secondaryEntity, listCellArray);
             }
-            mixedListItemController2$CellInstance.isPrimaryCell = false;
+            cellInstance.isPrimaryCell = false;
         } else {
-            mixedListItemController2$CellInstance.isPrimaryCell = true;
+            cellInstance.isPrimaryCell = true;
         }
-        mixedListItemController2$CellInstance.widget = abstractWidget;
+        cellInstance.widget = abstractWidget;
     }
 
     private AbstractWidget createCellInstance(MixedListPlaceholder mixedListPlaceholder, ListCell[] listCellArray) {
@@ -134,10 +127,10 @@ implements MixedListConstants {
             }
             listCell = listCellArray[n];
             if (listCell == null) {
-                mixedListItemLogCh.log(-1601830656, "MixedListItemController#createCell Cell at index %1 is null.", (long)n);
+                mixedListItemLogCh.log(100000, "MixedListItemController#createCell Cell at index %1 is null.", (long)n);
             }
         }
-        mixedListItemLogCh.log(-2137614336, "MixedListItemController#createCell Format = %1", (long)n);
+        mixedListItemLogCh.log(10000000, "MixedListItemController#createCell Format = %1", (long)n);
         AbstractWidgetController abstractWidgetController = null;
         switch (n) {
             case -1: {
@@ -287,15 +280,14 @@ implements MixedListConstants {
     }
 
     protected void destroyRendererNode() {
-        mixedListItemLogCh.log(14808325, "MixedListItemController2#destroyRendererNode");
+        mixedListItemLogCh.log(100000000, "MixedListItemController2#destroyRendererNode");
         CompositeRendererHigh compositeRendererHigh = (CompositeRendererHigh)this.getRenderer();
         compositeRendererHigh.destroyNode();
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void disconnecting() {
-        mixedListItemLogCh.log(14808325, "MixedListItemController2#disconnecting pos = %1, content = %2", (long)this.currentPosition, (long)this.currentContentNode);
+        mixedListItemLogCh.log(100000000, "MixedListItemController2#disconnecting pos = %1, content = %2", (long)this.currentPosition, (long)this.currentContentNode);
         super.disconnecting();
     }
 
@@ -452,44 +444,44 @@ implements MixedListConstants {
         return n2;
     }
 
-    private static MixedListConstants$TollGateInfo getDebugTollGateInfo() {
-        MixedListConstants$TollGateInfo mixedListConstants$TollGateInfo = new MixedListConstants$TollGateInfo();
-        MixedListConstants$TollgateType_enum[] mixedListConstants$TollgateType_enumArray = new MixedListConstants$TollgateType_enum[]{MixedListConstants$TollgateType_enum.ETC_AND_GENERAL_COMBINED, MixedListConstants$TollgateType_enum.ETC_GENERAL_ONLY, MixedListConstants$TollgateType_enum.ETC_DEDICATED, MixedListConstants$TollgateType_enum.ETC_AND_GENERAL_COMBINED, MixedListConstants$TollgateType_enum.ETC_GENERAL_ONLY, MixedListConstants$TollgateType_enum.ETC_DEDICATED};
-        mixedListConstants$TollGateInfo.setTollGateTypes(mixedListConstants$TollgateType_enumArray);
-        return mixedListConstants$TollGateInfo;
+    private static MixedListConstants.TollGateInfo getDebugTollGateInfo() {
+        MixedListConstants.TollGateInfo tollGateInfo = new MixedListConstants.TollGateInfo();
+        MixedListConstants.TollgateType_enum[] tollgateType_enumArray = new MixedListConstants.TollgateType_enum[]{MixedListConstants.TollgateType_enum.ETC_AND_GENERAL_COMBINED, MixedListConstants.TollgateType_enum.ETC_GENERAL_ONLY, MixedListConstants.TollgateType_enum.ETC_DEDICATED, MixedListConstants.TollgateType_enum.ETC_AND_GENERAL_COMBINED, MixedListConstants.TollgateType_enum.ETC_GENERAL_ONLY, MixedListConstants.TollgateType_enum.ETC_DEDICATED};
+        tollGateInfo.setTollGateTypes(tollgateType_enumArray);
+        return tollGateInfo;
     }
 
-    private static MixedListConstants$LaneGuidance getDebugLaneGuidance() {
-        MixedListConstants$LaneArrowCombined[] mixedListConstants$LaneArrowCombinedArray = new MixedListConstants$LaneArrowCombined[3];
-        mixedListConstants$LaneArrowCombinedArray[0] = new MixedListConstants$LaneArrowCombined(1, 2);
-        MixedListConstants$LaneArrow mixedListConstants$LaneArrow = new MixedListConstants$LaneArrow(0, 0, 0);
-        MixedListConstants$LaneArrow mixedListConstants$LaneArrow2 = new MixedListConstants$LaneArrow(2, 0, 1);
-        mixedListConstants$LaneArrowCombinedArray[0].arrows = new MixedListConstants$LaneArrow[]{mixedListConstants$LaneArrow, mixedListConstants$LaneArrow2};
-        mixedListConstants$LaneArrowCombinedArray[1] = new MixedListConstants$LaneArrowCombined(1, 0);
-        MixedListConstants$LaneArrow mixedListConstants$LaneArrow3 = new MixedListConstants$LaneArrow(0, 0, 0);
-        MixedListConstants$LaneArrow mixedListConstants$LaneArrow4 = new MixedListConstants$LaneArrow(2, 0, 1);
-        mixedListConstants$LaneArrowCombinedArray[1].arrows = new MixedListConstants$LaneArrow[]{mixedListConstants$LaneArrow3, mixedListConstants$LaneArrow4};
-        mixedListConstants$LaneArrowCombinedArray[2] = new MixedListConstants$LaneArrowCombined(1, 1);
-        MixedListConstants$LaneArrow mixedListConstants$LaneArrow5 = new MixedListConstants$LaneArrow(4, 3, 1);
-        mixedListConstants$LaneArrowCombinedArray[2].arrows = new MixedListConstants$LaneArrow[]{mixedListConstants$LaneArrow5};
-        MixedListConstants$LaneGuidance mixedListConstants$LaneGuidance = new MixedListConstants$LaneGuidance();
-        mixedListConstants$LaneGuidance.setDirectionArrow(mixedListConstants$LaneArrowCombinedArray);
-        return mixedListConstants$LaneGuidance;
+    private static MixedListConstants.LaneGuidance getDebugLaneGuidance() {
+        MixedListConstants.LaneArrowCombined[] laneArrowCombinedArray = new MixedListConstants.LaneArrowCombined[3];
+        laneArrowCombinedArray[0] = new MixedListConstants.LaneArrowCombined(1, 2);
+        MixedListConstants.LaneArrow laneArrow = new MixedListConstants.LaneArrow(0, 0, 0);
+        MixedListConstants.LaneArrow laneArrow2 = new MixedListConstants.LaneArrow(2, 0, 1);
+        laneArrowCombinedArray[0].arrows = new MixedListConstants.LaneArrow[]{laneArrow, laneArrow2};
+        laneArrowCombinedArray[1] = new MixedListConstants.LaneArrowCombined(1, 0);
+        MixedListConstants.LaneArrow laneArrow3 = new MixedListConstants.LaneArrow(0, 0, 0);
+        MixedListConstants.LaneArrow laneArrow4 = new MixedListConstants.LaneArrow(2, 0, 1);
+        laneArrowCombinedArray[1].arrows = new MixedListConstants.LaneArrow[]{laneArrow3, laneArrow4};
+        laneArrowCombinedArray[2] = new MixedListConstants.LaneArrowCombined(1, 1);
+        MixedListConstants.LaneArrow laneArrow5 = new MixedListConstants.LaneArrow(4, 3, 1);
+        laneArrowCombinedArray[2].arrows = new MixedListConstants.LaneArrow[]{laneArrow5};
+        MixedListConstants.LaneGuidance laneGuidance = new MixedListConstants.LaneGuidance();
+        laneGuidance.setDirectionArrow(laneArrowCombinedArray);
+        return laneGuidance;
     }
 
-    private static boolean refreshLabelTextCell(MixedListPlaceholder mixedListPlaceholder, MixedListItemController2$CellInstance mixedListItemController2$CellInstance, ListCell[] listCellArray, ListCell[] listCellArray2) {
+    private static boolean refreshLabelTextCell(MixedListPlaceholder mixedListPlaceholder, CellInstance cellInstance, ListCell[] listCellArray, ListCell[] listCellArray2) {
         if (mixedListPlaceholder instanceof MixedListPlaceholderContainer) {
             boolean bl = false;
             MixedListPlaceholderContainer mixedListPlaceholderContainer = (MixedListPlaceholderContainer)mixedListPlaceholder;
             for (int i2 = 0; i2 < mixedListPlaceholderContainer.placeholder.length; ++i2) {
-                MixedListItemController2$CellInstance mixedListItemController2$CellInstance2 = mixedListItemController2$CellInstance.grid[i2];
+                CellInstance cellInstance2 = cellInstance.grid[i2];
                 MixedListPlaceholder mixedListPlaceholder2 = mixedListPlaceholderContainer.placeholder[i2];
-                MixedListPlaceholder mixedListPlaceholder3 = mixedListPlaceholder2 = mixedListItemController2$CellInstance2.isPrimaryCell ? mixedListPlaceholder2 : mixedListPlaceholder2.secondaryEntity;
+                MixedListPlaceholder mixedListPlaceholder3 = mixedListPlaceholder2 = cellInstance2.isPrimaryCell ? mixedListPlaceholder2 : mixedListPlaceholder2.secondaryEntity;
                 if (mixedListPlaceholder2 == null) continue;
-                bl |= MixedListItemController2.refreshLabelTextCell(mixedListPlaceholder2, mixedListItemController2$CellInstance2, listCellArray, listCellArray2);
+                bl |= MixedListItemController2.refreshLabelTextCell(mixedListPlaceholder2, cellInstance2, listCellArray, listCellArray2);
             }
-            if (mixedListItemController2$CellInstance.widget instanceof LayoutContainerController) {
-                ((LayoutContainerController)mixedListItemController2$CellInstance.widget).invalidateLayout(null);
+            if (cellInstance.widget instanceof LayoutContainerController) {
+                ((LayoutContainerController)cellInstance.widget).invalidateLayout(null);
             }
             return bl;
         }
@@ -498,7 +490,7 @@ implements MixedListConstants {
             return false;
         }
         if (listCellArray2[n] == null || listCellArray[n] == null) {
-            mixedListItemLogCh.log(-1601830656, "MixedListItemController2#refreshDistanceCell Data cell with index %1 is null.", (long)n);
+            mixedListItemLogCh.log(100000, "MixedListItemController2#refreshDistanceCell Data cell with index %1 is null.", (long)n);
             return false;
         }
         switch (n) {
@@ -509,12 +501,12 @@ implements MixedListConstants {
             case 26: 
             case 51: 
             case 52: {
-                return MixedListItemController2.refreshLabelTextCellForString(listCellArray2[n], listCellArray[n], mixedListItemController2$CellInstance, n, true);
+                return MixedListItemController2.refreshLabelTextCellForString(listCellArray2[n], listCellArray[n], cellInstance, n, true);
             }
             case 62: 
             case 63: 
             case 65: {
-                return MixedListItemController2.refreshLabelTextCellForMetric(listCellArray2[n], listCellArray[n], mixedListItemController2$CellInstance, n);
+                return MixedListItemController2.refreshLabelTextCellForMetric(listCellArray2[n], listCellArray[n], cellInstance, n);
             }
             case 3: 
             case 11: 
@@ -530,20 +522,20 @@ implements MixedListConstants {
             case 58: 
             case 66: 
             case 67: {
-                return MixedListItemController2.refreshLabelTextCellForString(listCellArray2[n], listCellArray[n], mixedListItemController2$CellInstance, n, false);
+                return MixedListItemController2.refreshLabelTextCellForString(listCellArray2[n], listCellArray[n], cellInstance, n, false);
             }
         }
         return false;
     }
 
-    private static boolean refreshLabelTextCellForString(ListCell listCell, ListCell listCell2, MixedListItemController2$CellInstance mixedListItemController2$CellInstance, int n, boolean bl) {
+    private static boolean refreshLabelTextCellForString(ListCell listCell, ListCell listCell2, CellInstance cellInstance, int n, boolean bl) {
         String string;
         String string2 = ((TextListCell)listCell).getText();
         if (StringUtilities.equals(string2, string = ((TextListCell)listCell2).getText())) {
-            mixedListItemLogCh.log(-2137614336, "MixedListItemController2#refreshLabelTextCell LabelText for cell = %1 did not change.", (long)n);
+            mixedListItemLogCh.log(10000000, "MixedListItemController2#refreshLabelTextCell LabelText for cell = %1 did not change.", (long)n);
             return false;
         }
-        LabelController labelController = (LabelController)mixedListItemController2$CellInstance.getWidget();
+        LabelController labelController = (LabelController)cellInstance.getWidget();
         if (bl) {
             StringBuffer stringBuffer = TextDescriptorLabelRenderer.createTextDescriptorFromMetricsData(string);
             labelController.setLineDescription(TextDescriptorLabelRenderer.parseTextDescriptorAsList(stringBuffer));
@@ -552,18 +544,18 @@ implements MixedListConstants {
         }
         labelController.updateContent();
         labelController.setCompositesDirty(true);
-        mixedListItemLogCh.log(-2137614336, "MixedListItemController2#refreshDistanceCell for %2 new value = %1", (Object)string, (long)n);
+        mixedListItemLogCh.log(10000000, "MixedListItemController2#refreshDistanceCell for %2 new value = %1", (Object)string, (long)n);
         return true;
     }
 
-    private static boolean refreshLabelTextCellForMetric(ListCell listCell, ListCell listCell2, MixedListItemController2$CellInstance mixedListItemController2$CellInstance, int n) {
+    private static boolean refreshLabelTextCellForMetric(ListCell listCell, ListCell listCell2, CellInstance cellInstance, int n) {
         long l;
         long l2 = ((LongListCell)listCell).getValue();
         if (l2 == (l = ((LongListCell)listCell2).getValue())) {
-            mixedListItemLogCh.log(-2137614336, "MixedListItemController2#refreshDistanceCell Distance for cell = %1 did not change.", (long)n);
+            mixedListItemLogCh.log(10000000, "MixedListItemController2#refreshDistanceCell Distance for cell = %1 did not change.", (long)n);
             return false;
         }
-        LabelController labelController = (LabelController)mixedListItemController2$CellInstance.getWidget();
+        LabelController labelController = (LabelController)cellInstance.getWidget();
         AbstractMetrics abstractMetrics = (AbstractMetrics)labelController.getModel();
         if (abstractMetrics instanceof DateMetric) {
             ((DateMetric)abstractMetrics).setDate(new Date(l));
@@ -572,22 +564,22 @@ implements MixedListConstants {
         }
         labelController.updateContent();
         labelController.setCompositesDirty(true);
-        mixedListItemLogCh.log(-2137614336, "MixedListItemController2#refreshDistanceCell for %2 new value = %1", l, (long)n);
+        mixedListItemLogCh.log(10000000, "MixedListItemController2#refreshDistanceCell for %2 new value = %1", l, (long)n);
         return true;
     }
 
-    private static void refreshLabelTextsForPixelExactLayout(MixedListLayout mixedListLayout, ListCell[] listCellArray, ListCell[] listCellArray2, MixedListItemController2$CellInstance[] mixedListItemController2$CellInstanceArray) {
-        mixedListLogChannel.log(-2137614336, "MixedListItemController#refreshLabelTextsForPixelExactLayout");
+    private static void refreshLabelTextsForPixelExactLayout(MixedListLayout mixedListLayout, ListCell[] listCellArray, ListCell[] listCellArray2, CellInstance[] cellInstanceArray) {
+        mixedListLogChannel.log(10000000, "MixedListItemController#refreshLabelTextsForPixelExactLayout");
         List list = mixedListLayout.getChildren();
         int n = list.size();
         for (int i2 = 0; i2 < n; ++i2) {
-            MixedListItemController2$CellInstance mixedListItemController2$CellInstance = mixedListItemController2$CellInstanceArray[i2];
+            CellInstance cellInstance = cellInstanceArray[i2];
             MixedListPlaceholder mixedListPlaceholder = (MixedListPlaceholder)list.get(i2);
-            MixedListPlaceholder mixedListPlaceholder2 = mixedListPlaceholder = mixedListItemController2$CellInstance.isPrimaryCell ? mixedListPlaceholder : mixedListPlaceholder.secondaryEntity;
+            MixedListPlaceholder mixedListPlaceholder2 = mixedListPlaceholder = cellInstance.isPrimaryCell ? mixedListPlaceholder : mixedListPlaceholder.secondaryEntity;
             if (mixedListPlaceholder == null) continue;
-            AbstractWidgetController abstractWidgetController = mixedListItemController2$CellInstance.getWidget();
+            AbstractWidgetController abstractWidgetController = cellInstance.getWidget();
             if (abstractWidgetController != null) {
-                if (!MixedListItemController2.refreshLabelTextCell(mixedListPlaceholder, mixedListItemController2$CellInstance, listCellArray, listCellArray2)) continue;
+                if (!MixedListItemController2.refreshLabelTextCell(mixedListPlaceholder, cellInstance, listCellArray, listCellArray2)) continue;
                 MixedListItemController2.positionCell(mixedListPlaceholder, abstractWidgetController);
                 continue;
             }
@@ -605,7 +597,7 @@ implements MixedListConstants {
         if (mixedListItemLogCh.isDebug()) {
             String string = "MixedListItemController#positionCell cell = %3, x = %1, y = %2, w = %6, h = %7, pw = %4, ph = %5";
             string = StringUtilities.formatMessage(string, new int[]{n, n2, mixedListPlaceholder.getModelColumn(), n3, n4, n5, n6});
-            mixedListItemLogCh.log(-2137614336, string);
+            mixedListItemLogCh.log(10000000, string);
         }
         if (mixedListPlaceholder.isCenterAligned()) {
             int n7 = n - n5 / 2;
@@ -642,7 +634,7 @@ implements MixedListConstants {
     }
 
     protected void removeChildren() {
-        mixedListItemLogCh.log(14808325, "MixedListItemController2#removeChildren pos = %1", (long)this.currentPosition);
+        mixedListItemLogCh.log(100000000, "MixedListItemController2#removeChildren pos = %1", (long)this.currentPosition);
         this.setLayoutManager(null);
         List list = this.getChildren();
         while (!list.isEmpty()) {
@@ -675,26 +667,26 @@ implements MixedListConstants {
         this.currentPixelExactLayout = mixedListLayout;
         List list = mixedListLayout.getChildren();
         int n = list.size();
-        this.cellInstances = new MixedListItemController2$CellInstance[n];
+        this.cellInstances = new CellInstance[n];
         for (int i2 = 0; i2 < n; ++i2) {
             Object object = list.get(i2);
             if (!(object instanceof MixedListPlaceholder)) continue;
             MixedListPlaceholder mixedListPlaceholder = (MixedListPlaceholder)object;
-            MixedListItemController2$CellInstance mixedListItemController2$CellInstance = new MixedListItemController2$CellInstance(null);
+            CellInstance cellInstance = new CellInstance();
             if (mixedListPlaceholder instanceof MixedListPlaceholderContainer) {
-                this.createContainerCellInstance((MixedListPlaceholderContainer)mixedListPlaceholder, listCellArray, mixedListItemController2$CellInstance);
+                this.createContainerCellInstance((MixedListPlaceholderContainer)mixedListPlaceholder, listCellArray, cellInstance);
             } else {
-                this.createCellInstance(mixedListPlaceholder, listCellArray, mixedListItemController2$CellInstance);
+                this.createCellInstance(mixedListPlaceholder, listCellArray, cellInstance);
             }
-            this.cellInstances[i2] = mixedListItemController2$CellInstance;
-            AbstractWidgetController abstractWidgetController = mixedListItemController2$CellInstance.getWidget();
+            this.cellInstances[i2] = cellInstance;
+            AbstractWidgetController abstractWidgetController = cellInstance.getWidget();
             if (abstractWidgetController != null) {
                 if (this.getChildren().contains(abstractWidgetController)) continue;
                 this.add(abstractWidgetController);
-                MixedListItemController2.positionCell(mixedListItemController2$CellInstance.isPrimaryCell ? mixedListPlaceholder : mixedListPlaceholder.secondaryEntity, abstractWidgetController);
+                MixedListItemController2.positionCell(cellInstance.isPrimaryCell ? mixedListPlaceholder : mixedListPlaceholder.secondaryEntity, abstractWidgetController);
                 continue;
             }
-            mixedListItemLogCh.log(-1601830656, "MixedListItemController2#setupPixelExactLayout Widget is null.");
+            mixedListItemLogCh.log(100000, "MixedListItemController2#setupPixelExactLayout Widget is null.");
         }
     }
 
@@ -702,7 +694,7 @@ implements MixedListConstants {
         if (!this.isSetUp) {
             MixedListLayout mixedListLayout = this.parentController.getPixelExactLayout(-1);
             if (mixedListLayout != null) {
-                mixedListItemLogCh.log(-2137614336, "MixedListItemController#setupWidget setup layout");
+                mixedListItemLogCh.log(10000000, "MixedListItemController#setupWidget setup layout");
                 this.setupPixelExactLayout(mixedListLayout, null);
             } else {
                 mixedListItemLogCh.log(10000, "MixedListItemController#setupWidget Missing pixel exact Layout no. %1", -1L);
@@ -713,7 +705,7 @@ implements MixedListConstants {
 
     public void setupWidgetAndLayout(ListCell[] listCellArray, int n, boolean bl) {
         MixedListLayout mixedListLayout;
-        mixedListItemLogCh.log(14808325, "MixedListItemController#setupWidgetAndLayout at pos = %1", (long)this.currentPosition);
+        mixedListItemLogCh.log(100000000, "MixedListItemController#setupWidgetAndLayout at pos = %1", (long)this.currentPosition);
         this.iconLabelMapToPlaceHolder.clear();
         this.currentModelRow = n;
         int n2 = -1;
@@ -773,7 +765,7 @@ implements MixedListConstants {
     private static LabelController createDateMetricLabelCellWidget(ListCell listCell, MixedListController2 mixedListController2, int n) {
         long l = 0L;
         if (mixedListController2.isDebugMode()) {
-            l = 0;
+            l = 10000000L;
         } else if (listCell instanceof LongListCell) {
             l = ((LongListCell)listCell).getValue();
         }
@@ -785,18 +777,18 @@ implements MixedListConstants {
         MixedListTollGateInfoController mixedListTollGateInfoController = new MixedListTollGateInfoController();
         MixedListTollGateInfoRenderer mixedListTollGateInfoRenderer = new MixedListTollGateInfoRenderer(mixedListTollGateInfoController);
         mixedListTollGateInfoController.setRenderer(mixedListTollGateInfoRenderer);
-        MixedListConstants$TollGateInfo mixedListConstants$TollGateInfo = null;
+        MixedListConstants.TollGateInfo tollGateInfo = null;
         if (!mixedListController2.isDebugMode()) {
             if (listCell instanceof ObjectListCell) {
                 ObjectListCell objectListCell = (ObjectListCell)listCell;
-                if (objectListCell.value instanceof MixedListConstants$TollGateInfo) {
-                    mixedListConstants$TollGateInfo = (MixedListConstants$TollGateInfo)objectListCell.value;
+                if (objectListCell.value instanceof MixedListConstants.TollGateInfo) {
+                    tollGateInfo = (MixedListConstants.TollGateInfo)objectListCell.value;
                 }
             }
         } else {
-            mixedListConstants$TollGateInfo = MixedListItemController2.getDebugTollGateInfo();
+            tollGateInfo = MixedListItemController2.getDebugTollGateInfo();
         }
-        mixedListTollGateInfoController.setModel(mixedListConstants$TollGateInfo);
+        mixedListTollGateInfoController.setModel(tollGateInfo);
         mixedListTollGateInfoController.updateContent();
         return mixedListTollGateInfoController;
     }
@@ -805,18 +797,18 @@ implements MixedListConstants {
         MixedListLaneGuidanceController mixedListLaneGuidanceController = new MixedListLaneGuidanceController();
         MixedListLaneGuidanceRenderer mixedListLaneGuidanceRenderer = new MixedListLaneGuidanceRenderer(mixedListLaneGuidanceController);
         mixedListLaneGuidanceController.setRenderer(mixedListLaneGuidanceRenderer);
-        MixedListConstants$LaneGuidance mixedListConstants$LaneGuidance = null;
+        MixedListConstants.LaneGuidance laneGuidance = null;
         if (!mixedListController2.isDebugMode()) {
             if (listCell instanceof ObjectListCell) {
                 ObjectListCell objectListCell = (ObjectListCell)listCell;
-                if (objectListCell.value instanceof MixedListConstants$LaneGuidance) {
-                    mixedListConstants$LaneGuidance = (MixedListConstants$LaneGuidance)objectListCell.value;
+                if (objectListCell.value instanceof MixedListConstants.LaneGuidance) {
+                    laneGuidance = (MixedListConstants.LaneGuidance)objectListCell.value;
                 }
             }
         } else {
-            mixedListConstants$LaneGuidance = MixedListItemController2.getDebugLaneGuidance();
+            laneGuidance = MixedListItemController2.getDebugLaneGuidance();
         }
-        mixedListLaneGuidanceController.setModel(mixedListConstants$LaneGuidance);
+        mixedListLaneGuidanceController.setModel(laneGuidance);
         mixedListLaneGuidanceController.updateContent();
         return mixedListLaneGuidanceController;
     }
@@ -842,9 +834,9 @@ implements MixedListConstants {
             if (listCell instanceof IconCell) {
                 IconCell iconCell = (IconCell)listCell;
                 pictureFrameController.setModel(iconCell.getResourceLocator());
-                mixedListItemLogCh.log(-2137614336, "MixedListItemController#createCell Destination image available = %1", (Object)iconCell.getResourceLocator());
+                mixedListItemLogCh.log(10000000, "MixedListItemController#createCell Destination image available = %1", (Object)iconCell.getResourceLocator());
             } else {
-                mixedListItemLogCh.log(-2137614336, "MixedListItemController#createCell Destination image not available");
+                mixedListItemLogCh.log(10000000, "MixedListItemController#createCell Destination image not available");
             }
         }
         return pictureFrameController;
@@ -859,7 +851,7 @@ implements MixedListConstants {
             boolean bl = IconLabelController.isImageAvailable(iconCell);
             if (mixedListItemLogCh.isDebug()) {
                 HMIResourceLocator hMIResourceLocator = iconCell != null ? iconCell.getResourceLocator() : null;
-                mixedListItemLogCh.log(-2137614336, "MixedListItemController#createCell IconCell available = %1, value = %2", bl, (Object)hMIResourceLocator);
+                mixedListItemLogCh.log(10000000, "MixedListItemController#createCell IconCell available = %1, value = %2", bl, (Object)hMIResourceLocator);
             }
             if (mixedListPlaceholder.secondaryEntity == null || bl) {
                 return MixedListItemController2.createIconCellWidget(iconCell);
@@ -880,7 +872,7 @@ implements MixedListConstants {
             n2 = 1;
         }
         int n3 = mixedListController2.getBitmap(n + n2);
-        mixedListItemLogCh.log(-2137614336, "MixedListItemController#createCell Bitmap cell with bitmapIndex = %1, bitmapID = %2", (long)n2, (long)n3);
+        mixedListItemLogCh.log(10000000, "MixedListItemController#createCell Bitmap cell with bitmapIndex = %1, bitmapID = %2", (long)n2, (long)n3);
         return MixedListItemController2.createIcon(n3);
     }
 
@@ -896,21 +888,33 @@ implements MixedListConstants {
             if (string != null) {
                 LabelController labelController2;
                 StringBuffer stringBuffer = TextDescriptorLabelRenderer.createTextDescriptorFromMetricsData(string);
-                mixedListItemLogCh.log(-2137614336, "MixedListItemController#createLabelCellWidget Textdescriptor = %1", (Object)(stringBuffer != null ? stringBuffer.toString() : null));
+                mixedListItemLogCh.log(10000000, "MixedListItemController#createLabelCellWidget Textdescriptor = %1", (Object)(stringBuffer != null ? stringBuffer.toString() : null));
                 labelController = labelController2 = MixedListItemController2.createLabelWithTextDescriptorRenderer(stringBuffer);
             }
         } else {
             labelController = MixedListItemController2.createLabel(string);
         }
-        mixedListItemLogCh.log(-2137614336, "MixedListItemController#createLabelCellWidget Text cell with text = %1", (Object)string);
+        mixedListItemLogCh.log(10000000, "MixedListItemController#createLabelCellWidget Text cell with text = %1", (Object)string);
         return labelController;
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         MixedListPlaceholder mixedListPlaceholder = (MixedListPlaceholder)this.iconLabelMapToPlaceHolder.get(abstractWidget);
         if (this.isSetUp && mixedListPlaceholder != null && abstractWidget != null) {
             MixedListItemController2.positionCell(mixedListPlaceholder, (AbstractWidgetController)abstractWidget);
+        }
+    }
+
+    private static class CellInstance {
+        Object widget;
+        boolean isPrimaryCell;
+        CellInstance[] grid;
+
+        private CellInstance() {
+        }
+
+        public AbstractWidgetController getWidget() {
+            return (AbstractWidgetController)this.widget;
         }
     }
 }

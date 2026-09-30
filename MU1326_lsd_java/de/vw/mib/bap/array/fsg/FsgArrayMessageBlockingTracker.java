@@ -8,22 +8,16 @@ import de.vw.mib.bap.array.requests.BAPGetArray;
 import de.vw.mib.bap.array.requests.BAPStatusArray;
 
 public interface FsgArrayMessageBlockingTracker {
-    default public void reset() {
-    }
+    public void reset();
 
-    default public boolean requestGetArray(BAPGetArray bAPGetArray) {
-    }
+    public boolean requestGetArray(BAPGetArray var1);
 
-    default public void reportChangedArray(BAPChangedArray bAPChangedArray) {
-    }
+    public void reportChangedArray(BAPChangedArray var1);
 
-    default public void reportStatusArray(BAPStatusArray bAPStatusArray) {
-    }
+    public void reportStatusArray(BAPStatusArray var1);
 
-    default public void requestAcknowledge() {
-    }
+    public void requestAcknowledge();
 
-    default public void indicationError(int n) {
-    }
+    public void indicationError(int var1);
 }
 

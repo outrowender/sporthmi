@@ -7,10 +7,8 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
 
 public interface TitleBarRenderer
 extends CompositeRenderer {
-    default public int getSeparatorWidth() {
-    }
+    public int getSeparatorWidth();
 
-    default public int getSeparatorHeight() {
-    }
+    public int getSeparatorHeight();
 }
 

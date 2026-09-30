@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.sdars.ImageInformation;
 
 public class ImageInformationSerializer {
-    public static void putOptionalImageInformation(ISerializer iSerializer, ImageInformation imageInformation) {
+    public static void putOptionalImageInformation(ISerializer iSerializer, ImageInformation imageInformation) throws SerializerException {
         boolean bl = imageInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ImageInformationSerializer {
         }
     }
 
-    public static void putOptionalImageInformationVarArray(ISerializer iSerializer, ImageInformation[] imageInformationArray) {
+    public static void putOptionalImageInformationVarArray(ISerializer iSerializer, ImageInformation[] imageInformationArray) throws SerializerException {
         boolean bl = imageInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ImageInformationSerializer {
         }
     }
 
-    public static ImageInformation getOptionalImageInformation(IDeserializer iDeserializer) {
+    public static ImageInformation getOptionalImageInformation(IDeserializer iDeserializer) throws SerializerException {
         ImageInformation imageInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class ImageInformationSerializer {
         return imageInformation;
     }
 
-    public static ImageInformation[] getOptionalImageInformationVarArray(IDeserializer iDeserializer) {
+    public static ImageInformation[] getOptionalImageInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ImageInformation[] imageInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

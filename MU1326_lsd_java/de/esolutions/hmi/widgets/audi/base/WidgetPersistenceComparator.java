@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 public class WidgetPersistenceComparator
 implements Comparator {
-    @Override
     public int compare(Object object, Object object2) {
         if (object == null && object2 == null) {
             return 0;

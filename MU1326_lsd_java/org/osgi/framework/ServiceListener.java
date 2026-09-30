@@ -8,7 +8,6 @@ import org.osgi.framework.ServiceEvent;
 
 public interface ServiceListener
 extends EventListener {
-    default public void serviceChanged(ServiceEvent serviceEvent) {
-    }
+    public void serviceChanged(ServiceEvent var1);
 }
 

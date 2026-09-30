@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.DCTransmittableElementsSerializer
 import de.esolutions.fw.comm.dsi.global.impl.CarArrayListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCConfiguration;
 import org.dsi.ifc.carkombi.DCTransmittableElements;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class DCConfigurationSerializer {
-    public static void putOptionalDCConfiguration(ISerializer iSerializer, DCConfiguration dCConfiguration) {
+    public static void putOptionalDCConfiguration(ISerializer iSerializer, DCConfiguration dCConfiguration) throws SerializerException {
         boolean bl = dCConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class DCConfigurationSerializer {
         }
     }
 
-    public static void putOptionalDCConfigurationVarArray(ISerializer iSerializer, DCConfiguration[] dCConfigurationArray) {
+    public static void putOptionalDCConfigurationVarArray(ISerializer iSerializer, DCConfiguration[] dCConfigurationArray) throws SerializerException {
         boolean bl = dCConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class DCConfigurationSerializer {
         }
     }
 
-    public static DCConfiguration getOptionalDCConfiguration(IDeserializer iDeserializer) {
+    public static DCConfiguration getOptionalDCConfiguration(IDeserializer iDeserializer) throws SerializerException {
         DCConfiguration dCConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class DCConfigurationSerializer {
         return dCConfiguration;
     }
 
-    public static DCConfiguration[] getOptionalDCConfigurationVarArray(IDeserializer iDeserializer) {
+    public static DCConfiguration[] getOptionalDCConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCConfiguration[] dCConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

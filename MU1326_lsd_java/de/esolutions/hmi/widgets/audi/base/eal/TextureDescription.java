@@ -8,34 +8,24 @@ import de.esolutions.hmi.widgets.audi.base.eal.ITextureCache;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
 
 public interface TextureDescription {
-    default public ITextureCache getCache() {
-    }
+    public ITextureCache getCache();
 
-    default public IWrappedTexture createTexture() {
-    }
+    public IWrappedTexture createTexture();
 
-    default public IWrappedTexture getTexture(Object object) {
-    }
+    public IWrappedTexture getTexture(Object var1);
 
-    default public IWrappedTexture getCachedTexture(Object object) {
-    }
+    public IWrappedTexture getCachedTexture(Object var1);
 
-    default public boolean isTextureCached() {
-    }
+    public boolean isTextureCached();
 
-    default public Object getCacheKey() {
-    }
+    public Object getCacheKey();
 
-    default public FlagImage getImageFlags() {
-    }
+    public FlagImage getImageFlags();
 
-    default public boolean preventRTLFlip() {
-    }
+    public boolean preventRTLFlip();
 
-    default public int getDepthsInByte() {
-    }
+    public int getDepthsInByte();
 
-    default public int[] getUnscaledDimension() {
-    }
+    public int[] getUnscaledDimension();
 }
 

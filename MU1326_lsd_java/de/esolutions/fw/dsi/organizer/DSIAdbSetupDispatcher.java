@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbSetupReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbSetupReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIAdbSetupReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbSetupListener == null ? (class$org$dsi$ifc$organizer$DSIAdbSetupListener = DSIAdbSetupDispatcher.class$("org.dsi.ifc.organizer.DSIAdbSetupListener")) : class$org$dsi$ifc$organizer$DSIAdbSetupListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAdbState(int n, int n2) {
+    public void updateAdbState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void updateSortOrder(int n, int n2) {
+    public void updateSortOrder(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void updatePictureVisibility(boolean bl, int n) {
+    public void updatePictureVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void setLanguageResult(int n) {
+    public void setLanguageResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -131,8 +127,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void setSortOrderResult(int n) {
+    public void setSortOrderResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -148,8 +143,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void setPublicProfileVisibilityResult(int n) {
+    public void setPublicProfileVisibilityResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -165,8 +159,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void resetToFactorySettingsResult(int n) {
+    public void resetToFactorySettingsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -182,8 +175,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void resetTopDestinationResult(int n) {
+    public void resetTopDestinationResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -199,8 +191,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void createBackupFileResult(int n, String string) {
+    public void createBackupFileResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -216,8 +207,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void importBackupFileResult(int n, String string) {
+    public void importBackupFileResult(int n, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -233,8 +223,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void setPictureVisibilityResult(int n) {
+    public void setPictureVisibilityResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -250,8 +239,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void setContextSpecificVisibilityResult(int n) {
+    public void setContextSpecificVisibilityResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -267,8 +255,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void updateContextSpecificVisibility(boolean bl, int n) {
+    public void updateContextSpecificVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -296,8 +283,7 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -313,14 +299,13 @@ implements DSIAdbSetupReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbSetupListener dSIAdbSetupListener = (DSIAdbSetupListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbSetupDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbSetupDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbSetupListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbSetupDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbSetupDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbSetupListener, new Object[]{string, string2});
                     continue;
                 }

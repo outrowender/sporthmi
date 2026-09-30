@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.CurveAssistViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class CurveAssistViewOptionsSerializer {
-    public static void putOptionalCurveAssistViewOptions(ISerializer iSerializer, CurveAssistViewOptions curveAssistViewOptions) {
+    public static void putOptionalCurveAssistViewOptions(ISerializer iSerializer, CurveAssistViewOptions curveAssistViewOptions) throws SerializerException {
         boolean bl = curveAssistViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CurveAssistViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalCurveAssistViewOptionsVarArray(ISerializer iSerializer, CurveAssistViewOptions[] curveAssistViewOptionsArray) {
+    public static void putOptionalCurveAssistViewOptionsVarArray(ISerializer iSerializer, CurveAssistViewOptions[] curveAssistViewOptionsArray) throws SerializerException {
         boolean bl = curveAssistViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CurveAssistViewOptionsSerializer {
         }
     }
 
-    public static CurveAssistViewOptions getOptionalCurveAssistViewOptions(IDeserializer iDeserializer) {
+    public static CurveAssistViewOptions getOptionalCurveAssistViewOptions(IDeserializer iDeserializer) throws SerializerException {
         CurveAssistViewOptions curveAssistViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class CurveAssistViewOptionsSerializer {
         return curveAssistViewOptions;
     }
 
-    public static CurveAssistViewOptions[] getOptionalCurveAssistViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static CurveAssistViewOptions[] getOptionalCurveAssistViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         CurveAssistViewOptions[] curveAssistViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

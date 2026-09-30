@@ -4,29 +4,24 @@
 package de.esolutions.fw.comm.asi.hmisync.car.zeroemission;
 
 import de.esolutions.fw.comm.asi.hmisync.car.zeroemission.ZeroEmissionEntry;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarZeroEmissionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "83464154-9032-473d-b4c8-2dac866dcb2a";
+    public static final String IPL_COMM_INTERFACE_KEY = "49028b78-c4f4-5526-896b-c466f65870bd";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateZEVisibilityState(int n, boolean bl) {
-    }
+    public void updateZEVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateZeroEmissionValues(ZeroEmissionEntry[] zeroEmissionEntryArray, boolean bl) {
-    }
+    public void updateZeroEmissionValues(ZeroEmissionEntry[] var1, boolean var2) throws MethodException;
 
-    default public void updateCurrentZeroEmissionValue(ZeroEmissionEntry zeroEmissionEntry, boolean bl) {
-    }
+    public void updateCurrentZeroEmissionValue(ZeroEmissionEntry var1, boolean var2) throws MethodException;
 }
 

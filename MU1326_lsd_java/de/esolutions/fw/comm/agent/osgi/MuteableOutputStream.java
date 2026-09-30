@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.agent.osgi;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class MuteableOutputStream
@@ -15,8 +16,7 @@ extends OutputStream {
         this.allowWrites = true;
     }
 
-    @Override
-    public synchronized void close() {
+    public synchronized void close() throws IOException {
         if (this.stream != null) {
             this.stream.close();
             this.allowWrites = false;
@@ -28,22 +28,19 @@ extends OutputStream {
         this.allowWrites = false;
     }
 
-    @Override
-    public synchronized void write(byte[] byArray) {
+    public synchronized void write(byte[] byArray) throws IOException {
         if (this.allowWrites && this.stream != null) {
             this.stream.write(byArray);
         }
     }
 
-    @Override
-    public synchronized void write(byte[] byArray, int n, int n2) {
+    public synchronized void write(byte[] byArray, int n, int n2) throws IOException {
         if (this.allowWrites && this.stream != null) {
             this.stream.write(byArray, n, n2);
         }
     }
 
-    @Override
-    public synchronized void write(int n) {
+    public synchronized void write(int n) throws IOException {
         if (this.allowWrites && this.stream != null) {
             this.stream.write(n);
         }

@@ -3,6 +3,7 @@
  */
 package java.lang;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 
 public class Throwable
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -3042686055658047285L;
     private String detailMessage;
     private transient Object walkback;
     private Throwable cause = this;
@@ -37,8 +38,7 @@ implements Serializable {
         this.cause = throwable;
     }
 
-    public native Throwable fillInStackTrace() {
-    }
+    public native Throwable fillInStackTrace();
 
     public String getMessage() {
         return this.detailMessage;
@@ -107,7 +107,7 @@ implements Serializable {
 
     public String toString() {
         String string = this.getLocalizedMessage();
-        String string2 = super.getClass().getName();
+        String string2 = this.getClass().getName();
         if (string == null) {
             return string2;
         }
@@ -132,7 +132,7 @@ implements Serializable {
         return this.cause;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         this.getInternalStackTrace();
         objectOutputStream.defaultWriteObject();
     }
@@ -174,7 +174,7 @@ implements Serializable {
         }
         if (bl) {
             try {
-                Throwable.appendTo(object, super.getClass().getName());
+                Throwable.appendTo(object, this.getClass().getName());
             }
             catch (OutOfMemoryError outOfMemoryError) {
                 bl = true;
@@ -208,7 +208,7 @@ implements Serializable {
         while (n2 < stackTraceElementArray2.length - n) {
             if (!bl) {
                 try {
-                    Throwable.appendTo(object, new StringBuffer("\tat ").append(stackTraceElementArray2[n2]).toString());
+                    Throwable.appendTo(object, "\tat " + stackTraceElementArray2[n2]);
                 }
                 catch (OutOfMemoryError outOfMemoryError) {
                     bl = true;
@@ -224,7 +224,7 @@ implements Serializable {
         if (n > 0) {
             if (!bl) {
                 try {
-                    Throwable.appendTo(object, new StringBuffer("\t... ").append(n).append(" more").toString());
+                    Throwable.appendTo(object, "\t... " + n + " more");
                 }
                 catch (OutOfMemoryError outOfMemoryError) {
                     bl = true;

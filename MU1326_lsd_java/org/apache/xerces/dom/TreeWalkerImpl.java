@@ -29,12 +29,10 @@ implements TreeWalker {
         this.fEntityReferenceExpansion = bl;
     }
 
-    @Override
     public Node getRoot() {
         return this.fRoot;
     }
 
-    @Override
     public int getWhatToShow() {
         return this.fWhatToShow;
     }
@@ -43,22 +41,18 @@ implements TreeWalker {
         this.fWhatToShow = n;
     }
 
-    @Override
     public NodeFilter getFilter() {
         return this.fNodeFilter;
     }
 
-    @Override
     public boolean getExpandEntityReferences() {
         return this.fEntityReferenceExpansion;
     }
 
-    @Override
     public Node getCurrentNode() {
         return this.fCurrentNode;
     }
 
-    @Override
     public void setCurrentNode(Node node) {
         if (node == null) {
             String string = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NOT_SUPPORTED_ERR", null);
@@ -67,7 +61,6 @@ implements TreeWalker {
         this.fCurrentNode = node;
     }
 
-    @Override
     public Node parentNode() {
         if (this.fCurrentNode == null) {
             return null;
@@ -79,7 +72,6 @@ implements TreeWalker {
         return node;
     }
 
-    @Override
     public Node firstChild() {
         if (this.fCurrentNode == null) {
             return null;
@@ -91,7 +83,6 @@ implements TreeWalker {
         return node;
     }
 
-    @Override
     public Node lastChild() {
         if (this.fCurrentNode == null) {
             return null;
@@ -103,7 +94,6 @@ implements TreeWalker {
         return node;
     }
 
-    @Override
     public Node previousSibling() {
         if (this.fCurrentNode == null) {
             return null;
@@ -115,7 +105,6 @@ implements TreeWalker {
         return node;
     }
 
-    @Override
     public Node nextSibling() {
         if (this.fCurrentNode == null) {
             return null;
@@ -127,7 +116,6 @@ implements TreeWalker {
         return node;
     }
 
-    @Override
     public Node previousNode() {
         Node node;
         if (this.fCurrentNode == null) {
@@ -159,7 +147,6 @@ implements TreeWalker {
         return null;
     }
 
-    @Override
     public Node nextNode() {
         if (this.fCurrentNode == null) {
             return null;

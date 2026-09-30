@@ -10,37 +10,37 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaImportState_Status
 implements StatusProperty {
     public int sourceType;
-    private static final int SOURCE_TYPE_BITSIZE;
-    public static final int SOURCE_TYPE_NO_SOURCE_ACTIVE;
-    public static final int SOURCE_TYPE_CD;
-    public static final int SOURCE_TYPE_CD_CHANGER;
-    public static final int SOURCE_TYPE_DVD;
-    public static final int SOURCE_TYPE_HDD;
-    public static final int SOURCE_TYPE_SD;
-    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI;
-    public static final int SOURCE_TYPE_GENERIC_PLAYER;
-    public static final int SOURCE_TYPE_DVD_CHANGER;
-    public static final int SOURCE_TYPE_USB;
-    public static final int SOURCE_TYPE_JUKEBOX;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM;
-    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE;
-    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER;
-    public static final int SOURCE_TYPE_BLUE_RAY;
-    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER;
-    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY;
-    public static final int SOURCE_TYPE_HDMI_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1;
-    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1;
-    public static final int SOURCE_TYPE_UNKNOWN_SOURCE;
+    private static final int SOURCE_TYPE_BITSIZE = 8;
+    public static final int SOURCE_TYPE_NO_SOURCE_ACTIVE = 0;
+    public static final int SOURCE_TYPE_CD = 6;
+    public static final int SOURCE_TYPE_CD_CHANGER = 7;
+    public static final int SOURCE_TYPE_DVD = 8;
+    public static final int SOURCE_TYPE_HDD = 10;
+    public static final int SOURCE_TYPE_SD = 11;
+    public static final int SOURCE_TYPE_PORTABLE_DEVICE_MDI_AMI = 15;
+    public static final int SOURCE_TYPE_GENERIC_PLAYER = 16;
+    public static final int SOURCE_TYPE_DVD_CHANGER = 18;
+    public static final int SOURCE_TYPE_USB = 19;
+    public static final int SOURCE_TYPE_JUKEBOX = 20;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_BT_STREAM = 21;
+    public static final int SOURCE_TYPE_BLUETOOTH_CONNECTION_REMOTE_CONTROL_PROTOCOL = 22;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_MASS_STORAGE = 27;
+    public static final int SOURCE_TYPE_WLAN_CONNECTION_RCP_REMOTE_CONTROL_PLAYER = 28;
+    public static final int SOURCE_TYPE_BLUE_RAY = 29;
+    public static final int SOURCE_TYPE_BLUE_RAY_CHANGER = 30;
+    public static final int SOURCE_TYPE_FLASH_FLASH_MEMORY = 31;
+    public static final int SOURCE_TYPE_HDMI_DF4_1 = 33;
+    public static final int SOURCE_TYPE_ONLINE_MASS_STORAGE_DF4_1 = 34;
+    public static final int SOURCE_TYPE_ONLINE_RADIO_DF4_1 = 35;
+    public static final int SOURCE_TYPE_UNKNOWN_SOURCE = 255;
     public int instance_Id;
-    private static final int INSTANCE_ID_BITSIZE;
+    private static final int INSTANCE_ID_BITSIZE = 8;
     public int state;
-    private static final int STATE_BITSIZE;
-    public static final int STATE_IMPORT_NOT_ACTIVE;
-    public static final int STATE_IMPORT_ACTIVE_ONGOING;
+    private static final int STATE_BITSIZE = 8;
+    public static final int STATE_IMPORT_NOT_ACTIVE = 0;
+    public static final int STATE_IMPORT_ACTIVE_ONGOING = 1;
     public int progress;
-    private static final int PROGRESS_BITSIZE;
+    private static final int PROGRESS_BITSIZE = 8;
 
     public MediaImportState_Status() {
         this.internalReset();
@@ -59,12 +59,10 @@ implements StatusProperty {
         this.progress = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaImportState_Status mediaImportState_Status = (MediaImportState_Status)bAPEntity;
         return this.sourceType == mediaImportState_Status.sourceType && this.instance_Id == mediaImportState_Status.instance_Id && this.state == mediaImportState_Status.state && this.progress == mediaImportState_Status.progress;
@@ -73,7 +71,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaImportState_Status:");
@@ -192,7 +189,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -201,7 +197,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.sourceType);
         bitStream.pushByte((byte)this.instance_Id);
@@ -209,7 +204,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.progress);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.sourceType = bitStream.popFrontByte();
         this.instance_Id = bitStream.popFrontByte();
@@ -221,7 +215,6 @@ implements StatusProperty {
         return 46;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaImportState_Status.functionId();
     }

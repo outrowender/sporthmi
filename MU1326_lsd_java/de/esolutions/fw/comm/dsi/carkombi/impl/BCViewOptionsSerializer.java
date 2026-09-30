@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCConfiguration;
 import org.dsi.ifc.carkombi.BCViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class BCViewOptionsSerializer {
-    public static void putOptionalBCViewOptions(ISerializer iSerializer, BCViewOptions bCViewOptions) {
+    public static void putOptionalBCViewOptions(ISerializer iSerializer, BCViewOptions bCViewOptions) throws SerializerException {
         boolean bl = bCViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -175,7 +176,7 @@ public class BCViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalBCViewOptionsVarArray(ISerializer iSerializer, BCViewOptions[] bCViewOptionsArray) {
+    public static void putOptionalBCViewOptionsVarArray(ISerializer iSerializer, BCViewOptions[] bCViewOptionsArray) throws SerializerException {
         boolean bl = bCViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -186,7 +187,7 @@ public class BCViewOptionsSerializer {
         }
     }
 
-    public static BCViewOptions getOptionalBCViewOptions(IDeserializer iDeserializer) {
+    public static BCViewOptions getOptionalBCViewOptions(IDeserializer iDeserializer) throws SerializerException {
         BCViewOptions bCViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -351,7 +352,7 @@ public class BCViewOptionsSerializer {
         return bCViewOptions;
     }
 
-    public static BCViewOptions[] getOptionalBCViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static BCViewOptions[] getOptionalBCViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCViewOptions[] bCViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,7 +6,7 @@ package de.esolutions.hmi.widgets.audi.evo;
 import de.audi.atip.util.Util;
 
 public class LineElement {
-    public static final int ALIGN_TABULATOR;
+    public static final int ALIGN_TABULATOR = 20;
     public Object node;
     public boolean focusable;
     public final int configuredWidth;

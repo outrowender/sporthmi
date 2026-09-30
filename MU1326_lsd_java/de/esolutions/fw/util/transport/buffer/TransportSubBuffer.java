@@ -19,45 +19,37 @@ implements IReadable {
         this.size = n2;
     }
 
-    @Override
-    public byte[] getData() {
+    public byte[] getData() throws TransportBufferException {
         return this.buffer.getData(this.offset, this.size);
     }
 
-    @Override
-    public byte[] getData(int n, int n2) {
+    public byte[] getData(int n, int n2) throws TransportBufferException {
         return this.buffer.getData(this.offset + n, n2);
     }
 
-    @Override
     public byte[] getDirectData() {
         return this.buffer.getDirectData();
     }
 
-    @Override
     public int getDirectOffset() {
         return this.offset;
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
-    public IReadable createSubBuffer(int n, int n2) {
+    public IReadable createSubBuffer(int n, int n2) throws TransportBufferException {
         if (n + n2 > this.size) {
-            throw new TransportBufferException(new StringBuffer().append("Invalid window (").append(n).append(",").append(this.size).append(") current=(").append(this.offset).append(",").append(this.size()).append(")").toString());
+            throw new TransportBufferException("Invalid window (" + n + "," + this.size + ") current=(" + this.offset + "," + this.size() + ")");
         }
         return new TransportSubBuffer(this.buffer, this.offset + n, n2);
     }
 
-    @Override
     public void setDebugTag(Object object) {
         this.buffer.setDebugTag(object);
     }
 
-    @Override
     public Object getDebugTag() {
         return this.buffer.getDebugTag();
     }

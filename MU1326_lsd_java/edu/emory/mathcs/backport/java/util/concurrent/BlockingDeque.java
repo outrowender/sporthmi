@@ -11,112 +11,62 @@ import java.util.Iterator;
 public interface BlockingDeque
 extends BlockingQueue,
 Deque {
-    @Override
-    default public void addFirst(Object object) {
-    }
+    public void addFirst(Object var1);
 
-    @Override
-    default public void addLast(Object object) {
-    }
+    public void addLast(Object var1);
 
-    @Override
-    default public boolean offerFirst(Object object) {
-    }
+    public boolean offerFirst(Object var1);
 
-    @Override
-    default public boolean offerLast(Object object) {
-    }
+    public boolean offerLast(Object var1);
 
-    default public void putFirst(Object object) {
-    }
+    public void putFirst(Object var1) throws InterruptedException;
 
-    default public void putLast(Object object) {
-    }
+    public void putLast(Object var1) throws InterruptedException;
 
-    default public boolean offerFirst(Object object, long l, TimeUnit timeUnit) {
-    }
+    public boolean offerFirst(Object var1, long var2, TimeUnit var4) throws InterruptedException;
 
-    default public boolean offerLast(Object object, long l, TimeUnit timeUnit) {
-    }
+    public boolean offerLast(Object var1, long var2, TimeUnit var4) throws InterruptedException;
 
-    default public Object takeFirst() {
-    }
+    public Object takeFirst() throws InterruptedException;
 
-    default public Object takeLast() {
-    }
+    public Object takeLast() throws InterruptedException;
 
-    default public Object pollFirst(long l, TimeUnit timeUnit) {
-    }
+    public Object pollFirst(long var1, TimeUnit var3) throws InterruptedException;
 
-    default public Object pollLast(long l, TimeUnit timeUnit) {
-    }
+    public Object pollLast(long var1, TimeUnit var3) throws InterruptedException;
 
-    @Override
-    default public boolean removeFirstOccurrence(Object object) {
-    }
+    public boolean removeFirstOccurrence(Object var1);
 
-    @Override
-    default public boolean removeLastOccurrence(Object object) {
-    }
+    public boolean removeLastOccurrence(Object var1);
 
-    @Override
-    default public boolean add(Object object) {
-    }
+    public boolean add(Object var1);
 
-    @Override
-    default public boolean offer(Object object) {
-    }
+    public boolean offer(Object var1);
 
-    @Override
-    default public void put(Object object) {
-    }
+    public void put(Object var1) throws InterruptedException;
 
-    @Override
-    default public boolean offer(Object object, long l, TimeUnit timeUnit) {
-    }
+    public boolean offer(Object var1, long var2, TimeUnit var4) throws InterruptedException;
 
-    @Override
-    default public Object remove() {
-    }
+    public Object remove();
 
-    @Override
-    default public Object poll() {
-    }
+    public Object poll();
 
-    @Override
-    default public Object take() {
-    }
+    public Object take() throws InterruptedException;
 
-    @Override
-    default public Object poll(long l, TimeUnit timeUnit) {
-    }
+    public Object poll(long var1, TimeUnit var3) throws InterruptedException;
 
-    @Override
-    default public Object element() {
-    }
+    public Object element();
 
-    @Override
-    default public Object peek() {
-    }
+    public Object peek();
 
-    @Override
-    default public boolean remove(Object object) {
-    }
+    public boolean remove(Object var1);
 
-    @Override
-    default public boolean contains(Object object) {
-    }
+    public boolean contains(Object var1);
 
-    @Override
-    default public int size() {
-    }
+    public int size();
 
-    @Override
-    default public Iterator iterator() {
-    }
+    public Iterator iterator();
 
-    @Override
-    default public void push(Object object) {
-    }
+    public void push(Object var1);
 }
 

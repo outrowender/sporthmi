@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.ARATrailerConfiguration;
 
 public class ARATrailerConfigurationSerializer {
-    public static void putOptionalARATrailerConfiguration(ISerializer iSerializer, ARATrailerConfiguration aRATrailerConfiguration) {
+    public static void putOptionalARATrailerConfiguration(ISerializer iSerializer, ARATrailerConfiguration aRATrailerConfiguration) throws SerializerException {
         boolean bl = aRATrailerConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class ARATrailerConfigurationSerializer {
         }
     }
 
-    public static void putOptionalARATrailerConfigurationVarArray(ISerializer iSerializer, ARATrailerConfiguration[] aRATrailerConfigurationArray) {
+    public static void putOptionalARATrailerConfigurationVarArray(ISerializer iSerializer, ARATrailerConfiguration[] aRATrailerConfigurationArray) throws SerializerException {
         boolean bl = aRATrailerConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class ARATrailerConfigurationSerializer {
         }
     }
 
-    public static ARATrailerConfiguration getOptionalARATrailerConfiguration(IDeserializer iDeserializer) {
+    public static ARATrailerConfiguration getOptionalARATrailerConfiguration(IDeserializer iDeserializer) throws SerializerException {
         ARATrailerConfiguration aRATrailerConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class ARATrailerConfigurationSerializer {
         return aRATrailerConfiguration;
     }
 
-    public static ARATrailerConfiguration[] getOptionalARATrailerConfigurationVarArray(IDeserializer iDeserializer) {
+    public static ARATrailerConfiguration[] getOptionalARATrailerConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ARATrailerConfiguration[] aRATrailerConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

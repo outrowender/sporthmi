@@ -46,7 +46,6 @@ Runnable {
         this.options = socketOptions;
     }
 
-    @Override
     public void enableSpawning() {
         if (this.isEnabled) {
             return;
@@ -56,7 +55,6 @@ Runnable {
         this.isEnabled = true;
     }
 
-    @Override
     public void disableSpawning() {
         if (!this.isEnabled) {
             return;
@@ -80,12 +78,10 @@ Runnable {
         }
     }
 
-    @Override
     public void setListener(ISpawnedTransportListener iSpawnedTransportListener) {
         this.listener = iSpawnedTransportListener;
     }
 
-    @Override
     public void run() {
         while (!this.stopNow) {
             Object object;
@@ -167,13 +163,12 @@ Runnable {
         this.isEnabled = false;
     }
 
-    @Override
     public String getDescription() {
         String string = this.addrString != null ? this.addrString : (this.addr != null ? this.addr.toString() : "n/a");
         if (this.options == null) {
-            return new StringBuffer().append("[TCP:listen=").append(string).append(":").append(this.port).append("]").toString();
+            return "[TCP:listen=" + string + ":" + this.port + "]";
         }
-        return new StringBuffer().append("[TCP:listen=").append(string).append(":").append(this.port).append(",opts=").append(this.options).append("]").toString();
+        return "[TCP:listen=" + string + ":" + this.port + ",opts=" + this.options + "]";
     }
 }
 

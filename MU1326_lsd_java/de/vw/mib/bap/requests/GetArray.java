@@ -7,16 +7,12 @@ import de.vw.mib.bap.datatypes.BAPArray;
 
 public interface GetArray
 extends BAPArray {
-    default public int getAsgId() {
-    }
+    public int getAsgId();
 
-    default public void setAsgId(int n) {
-    }
+    public void setAsgId(int var1);
 
-    default public int getTransactionId() {
-    }
+    public int getTransactionId();
 
-    default public void setTransactionId(int n) {
-    }
+    public void setTransactionId(int var1);
 }
 

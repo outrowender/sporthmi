@@ -10,23 +10,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class OnlineMusic_State_Status
 implements StatusProperty {
     public int state;
-    private static final int STATE_BITSIZE;
-    public static final int STATE_ONLINE_RADIO_OFF_DISABLED;
-    public static final int STATE_NORMAL_OPERATION_PLAYBACK_OF_RECEIVED_DATA;
-    public static final int STATE_CONNECTING_TO_NETWORK_CONNECTION_SETUP_IN_PROGRESS;
-    public static final int STATE_DATA_CONNECTION_SETUP_CONFIRMATION_IS_STILL_PENDING;
-    public static final int STATE_NO_DATA_RECEIVED_FROM_ONLINE_RADIO_SERVER_BUT_CONNECTION_IS_ESTABLISHED_SUCCESSFULLY;
-    public static final int STATE_BUFFERING_DATA_NO_PLAYBACK_OF_RECEIVED_DATA_YET;
-    public static final int STATE_NO_NETWORK;
-    public static final int STATE_NO_SIM_AVAILABLE;
-    public static final int STATE_LOW_BANDWIDTH;
-    public static final int STATE_AUTHENTIFICATION_FAILED;
-    public static final int STATE_SUBSCRIPTION_MISSING;
+    private static final int STATE_BITSIZE = 8;
+    public static final int STATE_ONLINE_RADIO_OFF_DISABLED = 0;
+    public static final int STATE_NORMAL_OPERATION_PLAYBACK_OF_RECEIVED_DATA = 1;
+    public static final int STATE_CONNECTING_TO_NETWORK_CONNECTION_SETUP_IN_PROGRESS = 2;
+    public static final int STATE_DATA_CONNECTION_SETUP_CONFIRMATION_IS_STILL_PENDING = 3;
+    public static final int STATE_NO_DATA_RECEIVED_FROM_ONLINE_RADIO_SERVER_BUT_CONNECTION_IS_ESTABLISHED_SUCCESSFULLY = 4;
+    public static final int STATE_BUFFERING_DATA_NO_PLAYBACK_OF_RECEIVED_DATA_YET = 5;
+    public static final int STATE_NO_NETWORK = 6;
+    public static final int STATE_NO_SIM_AVAILABLE = 7;
+    public static final int STATE_LOW_BANDWIDTH = 8;
+    public static final int STATE_AUTHENTIFICATION_FAILED = 9;
+    public static final int STATE_SUBSCRIPTION_MISSING = 10;
     public int bufferLevel;
-    private static final int BUFFER_LEVEL_BITSIZE;
-    public static final int DUMMY_MIN;
+    private static final int BUFFER_LEVEL_BITSIZE = 8;
+    public static final int DUMMY_MIN = 0;
     public int dummy;
-    private static final int DUMMY_BITSIZE;
+    private static final int DUMMY_BITSIZE = 16;
 
     public OnlineMusic_State_Status() {
         this.internalReset();
@@ -44,12 +44,10 @@ implements StatusProperty {
         this.dummy = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OnlineMusic_State_Status onlineMusic_State_Status = (OnlineMusic_State_Status)bAPEntity;
         return this.state == onlineMusic_State_Status.state && this.bufferLevel == onlineMusic_State_Status.bufferLevel && this.dummy == onlineMusic_State_Status.dummy;
@@ -58,7 +56,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OnlineMusic_State_Status:");
@@ -119,7 +116,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
@@ -127,14 +123,12 @@ implements StatusProperty {
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.state);
         bitStream.pushByte((byte)this.bufferLevel);
         bitStream.pushShort((short)this.dummy);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.state = bitStream.popFrontByte();
         this.bufferLevel = bitStream.popFrontByte();
@@ -145,7 +139,6 @@ implements StatusProperty {
         return 49;
     }
 
-    @Override
     public int getFunctionId() {
         return OnlineMusic_State_Status.functionId();
     }

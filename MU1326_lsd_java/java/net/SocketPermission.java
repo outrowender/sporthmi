@@ -5,6 +5,7 @@ package java.net;
 
 import com.ibm.oti.util.Inet6Util;
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -17,27 +18,23 @@ import java.security.PermissionCollection;
 public final class SocketPermission
 extends Permission
 implements Serializable {
-    private static final long serialVersionUID;
-    static final int SP_CONNECT;
-    static final int SP_LISTEN;
-    static final int SP_ACCEPT;
-    static final int SP_RESOLVE;
-    private static final String[] actionNames;
+    private static final long serialVersionUID = -7204263841984476862L;
+    static final int SP_CONNECT = 1;
+    static final int SP_LISTEN = 2;
+    static final int SP_ACCEPT = 4;
+    static final int SP_RESOLVE = 8;
+    private static final String[] actionNames = new String[]{"", "connect", "listen", "", "accept", "", "", "", "resolve"};
     private transient boolean isPartialWild = false;
     private transient boolean isWild = false;
-    private static final int HIGHEST_PORT;
-    private static final int LOWEST_PORT;
+    private static final int HIGHEST_PORT = 65535;
+    private static final int LOWEST_PORT = 0;
     transient String hostName;
     transient String ipString;
     transient boolean resolved = false;
     transient int portMin = 0;
-    transient int portMax = -65536;
+    transient int portMax = 65535;
     private String actions;
     transient int actionsMask = 8;
-
-    static {
-        actionNames = new String[]{"", "connect", "listen", "", "accept", "", "", "", "resolve"};
-    }
 
     public SocketPermission(String string, String string2) {
         super(string.equals("") ? "localhost" : string);
@@ -53,12 +50,11 @@ implements Serializable {
         this.parsePort(string);
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         SocketPermission socketPermission = (SocketPermission)object;
@@ -74,17 +70,15 @@ implements Serializable {
         return this.actionsMask == socketPermission.actionsMask;
     }
 
-    @Override
     public int hashCode() {
         return this.hostName.hashCode() ^ this.actionsMask ^ this.portMin ^ this.portMax;
     }
 
-    @Override
     public String getActions() {
         return this.actions;
     }
 
-    private void setActions(String string) {
+    private void setActions(String string) throws IllegalArgumentException {
         if (string.equals("")) {
             return;
         }
@@ -119,7 +113,6 @@ implements Serializable {
         }
     }
 
-    @Override
     public boolean implies(Permission permission) {
         SocketPermission socketPermission;
         try {
@@ -137,12 +130,11 @@ implements Serializable {
         return this.checkHost(socketPermission);
     }
 
-    @Override
     public PermissionCollection newPermissionCollection() {
         return new SocketPermissionCollection();
     }
 
-    private void parsePort(String string) {
+    private void parsePort(String string) throws IllegalArgumentException {
         int n = -1;
         int n2 = -1;
         int n3 = string.lastIndexOf(58);
@@ -212,7 +204,7 @@ implements Serializable {
         return this.ipString;
     }
 
-    private String getHostString(String string) {
+    private String getHostString(String string) throws IllegalArgumentException {
         int n = -1;
         n = string.indexOf(58);
         this.isPartialWild = string.length() > 0 && string.charAt(0) == '*';
@@ -254,16 +246,16 @@ implements Serializable {
         return this.getIPString() != null && this.ipString.equals(socketPermission.getIPString()) || this.hostName.equals(socketPermission.hostName);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.isPartialWild = false;
         this.isWild = false;
         this.portMin = 0;
-        this.portMax = -65536;
+        this.portMax = 65535;
         this.actionsMask = 8;
         this.hostName = this.getHostString(this.getName());
         this.parsePort(this.getName());

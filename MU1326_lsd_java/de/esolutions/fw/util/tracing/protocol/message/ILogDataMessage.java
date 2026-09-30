@@ -4,25 +4,18 @@
 package de.esolutions.fw.util.tracing.protocol.message;
 
 public interface ILogDataMessage {
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 
-    default public short getLevel() {
-    }
+    public short getLevel();
 
-    default public short getModifiers() {
-    }
+    public short getModifiers();
 
-    default public int getChannelID() {
-    }
+    public int getChannelID();
 
-    default public int getSourceID() {
-    }
+    public int getSourceID();
 
-    default public short getLogType() {
-    }
+    public short getLogType();
 
-    default public byte[] getLogData() {
-    }
+    public byte[] getLogData();
 }
 

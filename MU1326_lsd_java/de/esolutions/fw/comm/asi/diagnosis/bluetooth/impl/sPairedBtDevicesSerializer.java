@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sPairedBtDevices;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sPairedBtDevicesSerializer {
-    public static void putOptionalsPairedBtDevices(ISerializer iSerializer, sPairedBtDevices sPairedBtDevices2) {
+    public static void putOptionalsPairedBtDevices(ISerializer iSerializer, sPairedBtDevices sPairedBtDevices2) throws SerializerException {
         boolean bl = sPairedBtDevices2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sPairedBtDevicesSerializer {
         }
     }
 
-    public static void putOptionalsPairedBtDevicesVarArray(ISerializer iSerializer, sPairedBtDevices[] sPairedBtDevicesArray) {
+    public static void putOptionalsPairedBtDevicesVarArray(ISerializer iSerializer, sPairedBtDevices[] sPairedBtDevicesArray) throws SerializerException {
         boolean bl = sPairedBtDevicesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sPairedBtDevicesSerializer {
         }
     }
 
-    public static sPairedBtDevices getOptionalsPairedBtDevices(IDeserializer iDeserializer) {
+    public static sPairedBtDevices getOptionalsPairedBtDevices(IDeserializer iDeserializer) throws SerializerException {
         sPairedBtDevices sPairedBtDevices2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sPairedBtDevicesSerializer {
         return sPairedBtDevices2;
     }
 
-    public static sPairedBtDevices[] getOptionalsPairedBtDevicesVarArray(IDeserializer iDeserializer) {
+    public static sPairedBtDevices[] getOptionalsPairedBtDevicesVarArray(IDeserializer iDeserializer) throws SerializerException {
         sPairedBtDevices[] sPairedBtDevicesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

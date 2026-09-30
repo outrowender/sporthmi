@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
@@ -31,14 +28,14 @@ extends AbstractPartialPopupController
 implements AnimationListener,
 LayoutContainer,
 IViewSizeAnimatable {
-    protected static final float ANIMATION_OPACITY_NONE;
-    protected static final float ANIMATION_OPACITY_FULL;
-    public static final int LAYER_IN_FRONT_OF_POPINS;
-    public static final int LAYER_BEHIND_POPINS;
-    public static final int DYNAMIC_SIZE_ALIGNMENT_BOTTOM;
-    public static final int DYNAMIC_SIZE_ALIGNMENT_TOP;
-    private static final int MIN_WIDTH;
-    private static final int MIN_HEIGHT;
+    protected static final float ANIMATION_OPACITY_NONE = 0.0f;
+    protected static final float ANIMATION_OPACITY_FULL = 1.0f;
+    public static final int LAYER_IN_FRONT_OF_POPINS = 0;
+    public static final int LAYER_BEHIND_POPINS = 1;
+    public static final int DYNAMIC_SIZE_ALIGNMENT_BOTTOM = 0;
+    public static final int DYNAMIC_SIZE_ALIGNMENT_TOP = 1;
+    private static final int MIN_WIDTH = 50;
+    private static final int MIN_HEIGHT = 50;
     private PartialPopupRenderer renderer;
     private int initialX = -1;
     private int initialY = -1;
@@ -65,7 +62,6 @@ IViewSizeAnimatable {
         super(n);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -74,7 +70,6 @@ IViewSizeAnimatable {
         this.renderer = partialPopupRenderer;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         this.calculateVisibleSize();
         this.updateBounds();
@@ -130,7 +125,6 @@ IViewSizeAnimatable {
         return this.backgroundController;
     }
 
-    @Override
     public void setBounds(int n, int n2, int n3, int n4) {
         if (this.hasBounds(n, n2, n3, n4)) {
             return;
@@ -155,7 +149,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setWidth(int n) {
         super.setWidth(n);
         if (this.backgroundController != null) {
@@ -163,7 +156,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setHeight(int n) {
         super.setHeight(n);
         if (this.backgroundController != null) {
@@ -182,7 +174,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         this.setVisible(false);
@@ -190,7 +181,6 @@ IViewSizeAnimatable {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void disconnecting() {
         if (this.showHideAnimation != null && this.showHideAnimation.isAnimating()) {
             this.showHideAnimation.stopAnimation();
@@ -200,7 +190,6 @@ IViewSizeAnimatable {
         super.disconnecting();
     }
 
-    @Override
     public int hide(int n) {
         int n2;
         this.currentStyle = n;
@@ -243,10 +232,9 @@ IViewSizeAnimatable {
         return 1;
     }
 
-    @Override
     public int show(int n) {
         int n2;
-        logChannelPopups.log(-2137614336, "PartialPopupController#show id: %1, style: %2", (long)this.popupID, (long)n);
+        logChannelPopups.log(10000000, "PartialPopupController#show id: %1, style: %2", (long)this.popupID, (long)n);
         boolean bl = false;
         for (n2 = 0; n2 < this.getChildrenSize(); ++n2) {
             AbstractWidget abstractWidget = this.getChild(n2);
@@ -261,7 +249,7 @@ IViewSizeAnimatable {
             return 2;
         }
         if (bl) {
-            logDrawerFocusMain.log(1078071040, "PartialPopupController#show closing drawers because popup contains drawer");
+            logDrawerFocusMain.log(1000000, "PartialPopupController#show closing drawers because popup contains drawer");
             this.terminal.getDrawerFocusManager().requestDrawerState(16);
         }
         if (!this.isUserHint()) {
@@ -303,7 +291,6 @@ IViewSizeAnimatable {
         return 1;
     }
 
-    @Override
     public void animate(int n, float f2) {
         if (n == 72) {
             if (this.currentStyle == 1) {
@@ -312,7 +299,7 @@ IViewSizeAnimatable {
                     ((DrawerFocusManager)this.terminal.getDrawerFocusManager()).getDrawerAnimationManager().setDesaturationRequest(f2, n2);
                 }
                 this.setVisible(f2 > 0.0f);
-                this.setOpacity(f2 < 63 ? f2 : 1.0f);
+                this.setOpacity(f2 < 0.5f ? f2 : 1.0f);
                 this.animatedValue = f2;
             }
             this.setCompositesDirty(true);
@@ -323,11 +310,9 @@ IViewSizeAnimatable {
         return this.animatedValue;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (n == 72) {
             if (this.currentStyle == 1) {
@@ -368,13 +353,11 @@ IViewSizeAnimatable {
         return this.tempGrayOut && !this.greyOutBackground;
     }
 
-    @Override
     public void shiftHorizontal(int n) {
         this.horizontalShift = n;
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void hideNotScreenChangeSurvivingPopups() {
     }
 
@@ -403,11 +386,9 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void activateBackgroundGrayOut() {
     }
 
-    @Override
     public void deactivateBackgroundGrayOut() {
     }
 
@@ -433,42 +414,34 @@ IViewSizeAnimatable {
         this.contentInsetVertical = n2;
     }
 
-    @Override
     public void invalidateLayout(AbstractWidget abstractWidget) {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public HMIView[][] getReplacementWidgets() {
         return this.replacementWidgets;
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
     }
 
-    @Override
     public void triggerProximityEvent(ProximityEvent proximityEvent) {
     }
 
     public void setColorPalettes(int[][] nArray) {
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 
@@ -489,7 +462,6 @@ IViewSizeAnimatable {
         }
     }
 
-    @Override
     public boolean shouldRender() {
         if (!super.shouldRender()) {
             return false;

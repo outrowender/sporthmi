@@ -18,10 +18,9 @@ extends WidgetFocusAdvice {
         return this.newItemsHeight;
     }
 
-    @Override
     public String toString() {
         String string = this.isTopAligned() ? "top" : "bottom";
-        return new StringBuffer().append("FolderOpenFocusAdvice [Pixel:").append(this.getPixel()).append(", ").append(string).append(", newItemsHeight:").append(this.newItemsHeight).append("]").toString();
+        return "FolderOpenFocusAdvice [Pixel:" + this.getPixel() + ", " + string + ", newItemsHeight:" + this.newItemsHeight + "]";
     }
 }
 

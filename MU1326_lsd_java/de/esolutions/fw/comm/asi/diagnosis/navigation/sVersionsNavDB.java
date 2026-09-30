@@ -62,7 +62,7 @@ public class sVersionsNavDB {
     }
 
     public String toString() {
-        return new StringBuffer("sVersionsNavDB{").append("msg_id=").append(this.msg_id).append(", sd1=").append(this.sd1).append(", sd2=").append(this.sd2).append(", opticalDrive=").append(this.opticalDrive).append(", hdd=").append(this.hdd).append("}").toString();
+        return "sVersionsNavDB{" + "msg_id=" + this.msg_id + ", sd1=" + this.sd1 + ", sd2=" + this.sd2 + ", opticalDrive=" + this.opticalDrive + ", hdd=" + this.hdd + "}";
     }
 }
 

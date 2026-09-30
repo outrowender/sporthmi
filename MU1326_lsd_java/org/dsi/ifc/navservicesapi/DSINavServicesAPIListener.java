@@ -9,67 +9,46 @@ import org.dsi.ifc.navservicesapi.TunerData;
 
 public interface DSINavServicesAPIListener
 extends DSIListener {
-    default public void initiatePhoneCallToADBEntry(String string, String string2) {
-    }
+    public void initiatePhoneCallToADBEntry(String var1, String var2);
 
-    default public void updateLanguage(String string, int n) {
-    }
+    public void updateLanguage(String var1, int var2);
 
-    default public void updateAvailableLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableLanguages(String[] var1, int var2);
 
-    default public void updateIconDirectory(String string, int n) {
-    }
+    public void updateIconDirectory(String var1, int var2);
 
-    default public void updateReceivableStations(TunerData[] tunerDataArray, int n) {
-    }
+    public void updateReceivableStations(TunerData[] var1, int var2);
 
-    default public void updateNavigationState(int n, int n2) {
-    }
+    public void updateNavigationState(int var1, int var2);
 
-    default public void phoneDialNumber(String string, String string2) {
-    }
+    public void phoneDialNumber(String var1, String var2);
 
-    default public void audioRequest(boolean bl) {
-    }
+    public void audioRequest(boolean var1);
 
-    default public void createExportFile(int n, boolean bl) {
-    }
+    public void createExportFile(int var1, boolean var2);
 
-    default public void importFile(int n, boolean bl) {
-    }
+    public void importFile(int var1, boolean var2);
 
-    default public void resetToFactorySettingsResult() {
-    }
+    public void resetToFactorySettingsResult();
 
-    default public void deleteCustomerDataResult() {
-    }
+    public void deleteCustomerDataResult();
 
-    default public void setBrowserURL(String string) {
-    }
+    public void setBrowserURL(String var1);
 
-    default public void prepareAndPlayTTS2Announcement(String string) {
-    }
+    public void prepareAndPlayTTS2Announcement(String var1);
 
-    default public void abortTTS2Announcement() {
-    }
+    public void abortTTS2Announcement();
 
-    default public void updateCurrentPosition(float f2, float f3, int n) {
-    }
+    public void updateCurrentPosition(float var1, float var2, int var3);
 
-    default public void efiLinkSelectedResult(boolean bl) {
-    }
+    public void efiLinkSelectedResult(boolean var1);
 
-    default public void selectRemoteSearchLocationResult(AddressData[] addressDataArray) {
-    }
+    public void selectRemoteSearchLocationResult(AddressData[] var1);
 
-    default public void checkLicense(int n) {
-    }
+    public void checkLicense(int var1);
 
-    default public void checkDataConnection() {
-    }
+    public void checkDataConnection();
 
-    default public void requestRrdForLocationDataResult(int n, String[] stringArray, int[] nArray) {
-    }
+    public void requestRrdForLocationDataResult(int var1, String[] var2, int[] var3);
 }
 

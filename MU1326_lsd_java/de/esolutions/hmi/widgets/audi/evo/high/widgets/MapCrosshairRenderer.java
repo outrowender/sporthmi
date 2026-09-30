@@ -17,20 +17,19 @@ implements CompositeRenderer,
 MapDynamicSidebarConstants {
     MapCrosshairController controller;
     boolean isCrosshairSetUp = false;
-    private static final String EAL_NODE_NAME;
-    private static final String KZB_NODE_PATH;
+    private static final String EAL_NODE_NAME = "MapCrosshairRenderer";
+    private static final String KZB_NODE_PATH = "Prefabs/crosshair";
     private boolean clipping = false;
-    public static final int KZB_CROSSHAIR_PASSIVE;
-    public static final int KZB_CROSSHAIR_ACTIVE;
+    public static final int KZB_CROSSHAIR_PASSIVE = 1;
+    public static final int KZB_CROSSHAIR_ACTIVE = 0;
 
     public MapCrosshairRenderer(MapCrosshairController mapCrosshairController) {
         this.controller = mapCrosshairController;
         this.controller.setRenderer(this);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
-        sideBarLogChannel.log(-2137614336, "MapCrosshairRenderer#applyProperties crosshairChanged = %1", this.controller.hasCrosshairChanged());
+        sideBarLogChannel.log(10000000, "MapCrosshairRenderer#applyProperties crosshairChanged = %1", this.controller.hasCrosshairChanged());
         if (this.controller.hasCrosshairChanged() || !this.isCrosshairSetUp) {
             this.isCrosshairSetUp = true;
             this.updateCrosshairMode();
@@ -43,32 +42,26 @@ MapDynamicSidebarConstants {
         }
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/crosshair";
+        return KZB_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "MapCrosshairRenderer";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 17;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         super.render(redrawContext);
     }
 
-    @Override
     public void setClipping(boolean bl) {
         this.clipping = bl;
     }

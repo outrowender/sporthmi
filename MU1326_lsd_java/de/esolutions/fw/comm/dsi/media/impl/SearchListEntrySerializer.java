@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.SearchListEntry;
 
 public class SearchListEntrySerializer {
-    public static void putOptionalSearchListEntry(ISerializer iSerializer, SearchListEntry searchListEntry) {
+    public static void putOptionalSearchListEntry(ISerializer iSerializer, SearchListEntry searchListEntry) throws SerializerException {
         boolean bl = searchListEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SearchListEntrySerializer {
         }
     }
 
-    public static void putOptionalSearchListEntryVarArray(ISerializer iSerializer, SearchListEntry[] searchListEntryArray) {
+    public static void putOptionalSearchListEntryVarArray(ISerializer iSerializer, SearchListEntry[] searchListEntryArray) throws SerializerException {
         boolean bl = searchListEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SearchListEntrySerializer {
         }
     }
 
-    public static SearchListEntry getOptionalSearchListEntry(IDeserializer iDeserializer) {
+    public static SearchListEntry getOptionalSearchListEntry(IDeserializer iDeserializer) throws SerializerException {
         SearchListEntry searchListEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class SearchListEntrySerializer {
         return searchListEntry;
     }
 
-    public static SearchListEntry[] getOptionalSearchListEntryVarArray(IDeserializer iDeserializer) {
+    public static SearchListEntry[] getOptionalSearchListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         SearchListEntry[] searchListEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

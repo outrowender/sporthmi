@@ -24,7 +24,6 @@ extends AbstractTraceBackend {
         this.formatter = iTraceMessageFormatter;
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         if (this.formatter == null) {
@@ -37,7 +36,6 @@ extends AbstractTraceBackend {
         this.resolver = iTraceBackendListener.getEntityResolver();
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         String[] stringArray = this.formatter.formatMessage(iTraceMessage, this.resolver);
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
@@ -47,18 +45,16 @@ extends AbstractTraceBackend {
         return true;
     }
 
-    @Override
     public boolean droppedMessages(int n) {
-        System.out.println(new StringBuffer().append("DROPPED ").append(n).append(" MESSAGES").toString());
+        System.out.println("DROPPED " + n + " MESSAGES");
         return true;
     }
 
-    @Override
     public boolean updateTimeZone(int n, long l, long l2) {
         String string = this.listener.getTimeZoneName(n);
         TraceTimeStamp traceTimeStamp = new TraceTimeStamp(l);
         TraceTimeStamp traceTimeStamp2 = new TraceTimeStamp(l2);
-        System.out.println(new StringBuffer().append(traceTimeStamp2.toUTCTimeString(false)).append("  time zone  ").append(string).append("  ").append(traceTimeStamp.toUTCTimeString(false)).toString());
+        System.out.println(traceTimeStamp2.toUTCTimeString(false) + "  time zone  " + string + "  " + traceTimeStamp.toUTCTimeString(false));
         return true;
     }
 }

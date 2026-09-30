@@ -20,27 +20,21 @@ IKanziTemplateRenderer {
         this.controller = touchPadController;
     }
 
-    @Override
     public void showFingerTrace(float f2) {
     }
 
-    @Override
     public void startLine(int n, int n2) {
     }
 
-    @Override
     public void addPoint(int n, int n2) {
     }
 
-    @Override
     public void clearLine() {
     }
 
-    @Override
     public void removeFingerTrace() {
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
@@ -48,25 +42,20 @@ IKanziTemplateRenderer {
         return "Prefabs/fingerTrace_plate";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public boolean isFingerTraceVisible() {
         return false;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
     }
 
-    @Override
     public void onviewSizeChanging() {
     }
 
-    @Override
     public void viewSizeChanged() {
     }
 }

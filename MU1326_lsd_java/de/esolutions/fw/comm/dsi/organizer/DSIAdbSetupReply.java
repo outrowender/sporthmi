@@ -3,55 +3,42 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAdbSetupReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "cc1266c2-e252-54fa-8a38-76eb4551247b";
+    public static final String IPL_COMM_INTERFACE_KEY = "3eae9550-165e-55c9-b8bf-5515a3b98ee4";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.31";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.31";
 
-    default public void updateAdbState(int n, int n2) {
-    }
+    public void updateAdbState(int var1, int var2) throws MethodException;
 
-    default public void updateSortOrder(int n, int n2) {
-    }
+    public void updateSortOrder(int var1, int var2) throws MethodException;
 
-    default public void updatePictureVisibility(boolean bl, int n) {
-    }
+    public void updatePictureVisibility(boolean var1, int var2) throws MethodException;
 
-    default public void setLanguageResult(int n) {
-    }
+    public void setLanguageResult(int var1) throws MethodException;
 
-    default public void setSortOrderResult(int n) {
-    }
+    public void setSortOrderResult(int var1) throws MethodException;
 
-    default public void setPublicProfileVisibilityResult(int n) {
-    }
+    public void setPublicProfileVisibilityResult(int var1) throws MethodException;
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1) throws MethodException;
 
-    default public void resetTopDestinationResult(int n) {
-    }
+    public void resetTopDestinationResult(int var1) throws MethodException;
 
-    default public void createBackupFileResult(int n, String string) {
-    }
+    public void createBackupFileResult(int var1, String var2) throws MethodException;
 
-    default public void importBackupFileResult(int n, String string) {
-    }
+    public void importBackupFileResult(int var1, String var2) throws MethodException;
 
-    default public void setPictureVisibilityResult(int n) {
-    }
+    public void setPictureVisibilityResult(int var1) throws MethodException;
 
-    default public void setContextSpecificVisibilityResult(int n) {
-    }
+    public void setContextSpecificVisibilityResult(int var1) throws MethodException;
 
-    default public void updateContextSpecificVisibility(boolean bl, int n) {
-    }
+    public void updateContextSpecificVisibility(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

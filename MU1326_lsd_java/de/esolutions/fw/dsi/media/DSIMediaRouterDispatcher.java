@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.media;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.media.DSIMediaRouterReply;
 import de.esolutions.fw.comm.dsi.media.impl.DSIMediaRouterReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIMediaRouterReply {
         super(n, (class$org$dsi$ifc$media$DSIMediaRouterListener == null ? (class$org$dsi$ifc$media$DSIMediaRouterListener = DSIMediaRouterDispatcher.class$("org.dsi.ifc.media.DSIMediaRouterListener")) : class$org$dsi$ifc$media$DSIMediaRouterListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void responseConfiguration(int n, int n2) {
+    public void responseConfiguration(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIMediaRouterReply {
         }
     }
 
-    @Override
-    public void responseClientStatus(int n, int n2) {
+    public void responseClientStatus(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIMediaRouterReply {
         }
     }
 
-    @Override
-    public void updateStreamingStatus(int n, int n2, int n3) {
+    public void updateStreamingStatus(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -91,8 +88,7 @@ implements DSIMediaRouterReply {
         }
     }
 
-    @Override
-    public void updateActiveAudioRoutes(AudioRoute[] audioRouteArray, int n) {
+    public void updateActiveAudioRoutes(AudioRoute[] audioRouteArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -120,8 +116,7 @@ implements DSIMediaRouterReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -137,14 +132,13 @@ implements DSIMediaRouterReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMediaRouterListener dSIMediaRouterListener = (DSIMediaRouterListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaRouterDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaRouterDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMediaRouterListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMediaRouterDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMediaRouterDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMediaRouterListener, new Object[]{string, string2});
                     continue;
                 }

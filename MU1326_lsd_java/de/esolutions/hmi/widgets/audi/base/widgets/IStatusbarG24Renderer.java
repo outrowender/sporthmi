@@ -7,7 +7,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface IStatusbarG24Renderer
 extends IRenderer {
-    default public void removeFromParentNode() {
-    }
+    public void removeFromParentNode();
 }
 

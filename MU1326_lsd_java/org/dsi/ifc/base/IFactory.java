@@ -4,13 +4,10 @@
 package org.dsi.ifc.base;
 
 public interface IFactory {
-    default public Object getFactory(Class clazz) {
-    }
+    public Object getFactory(Class var1);
 
-    default public Class[] getFactoryList() {
-    }
+    public Class[] getFactoryList();
 
-    default public boolean shouldOverride(IFactory iFactory) {
-    }
+    public boolean shouldOverride(IFactory var1);
 }
 

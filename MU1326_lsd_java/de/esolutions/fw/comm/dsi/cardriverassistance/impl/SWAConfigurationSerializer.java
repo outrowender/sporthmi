@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.SWAConfiguration;
 
 public class SWAConfigurationSerializer {
-    public static void putOptionalSWAConfiguration(ISerializer iSerializer, SWAConfiguration sWAConfiguration) {
+    public static void putOptionalSWAConfiguration(ISerializer iSerializer, SWAConfiguration sWAConfiguration) throws SerializerException {
         boolean bl = sWAConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class SWAConfigurationSerializer {
         }
     }
 
-    public static void putOptionalSWAConfigurationVarArray(ISerializer iSerializer, SWAConfiguration[] sWAConfigurationArray) {
+    public static void putOptionalSWAConfigurationVarArray(ISerializer iSerializer, SWAConfiguration[] sWAConfigurationArray) throws SerializerException {
         boolean bl = sWAConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class SWAConfigurationSerializer {
         }
     }
 
-    public static SWAConfiguration getOptionalSWAConfiguration(IDeserializer iDeserializer) {
+    public static SWAConfiguration getOptionalSWAConfiguration(IDeserializer iDeserializer) throws SerializerException {
         SWAConfiguration sWAConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class SWAConfigurationSerializer {
         return sWAConfiguration;
     }
 
-    public static SWAConfiguration[] getOptionalSWAConfigurationVarArray(IDeserializer iDeserializer) {
+    public static SWAConfiguration[] getOptionalSWAConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SWAConfiguration[] sWAConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

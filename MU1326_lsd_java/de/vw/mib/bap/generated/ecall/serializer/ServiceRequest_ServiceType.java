@@ -38,12 +38,10 @@ implements BAPEntity {
         this.reserved_bit_0 = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ServiceRequest_ServiceType serviceRequest_ServiceType = (ServiceRequest_ServiceType)bAPEntity;
         return this.reserved_bit_7 == serviceRequest_ServiceType.reserved_bit_7 && this.testModePendingDf3_4 == serviceRequest_ServiceType.testModePendingDf3_4 && this.mecPending == serviceRequest_ServiceType.mecPending && this.acnPending == serviceRequest_ServiceType.acnPending && this.infoCallPending == serviceRequest_ServiceType.infoCallPending && this.usmPending == serviceRequest_ServiceType.usmPending && this.serviceBreakdownCallPending == serviceRequest_ServiceType.serviceBreakdownCallPending && this.reserved_bit_0 == serviceRequest_ServiceType.reserved_bit_0;
@@ -52,7 +50,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ServiceRequest_ServiceType");
@@ -67,12 +64,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_7);
         bitStream.pushBoolean(this.testModePendingDf3_4);
@@ -84,7 +79,6 @@ implements BAPEntity {
         bitStream.pushBoolean(this.reserved_bit_0);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_7 = bitStream.popFrontBoolean();
         this.testModePendingDf3_4 = bitStream.popFrontBoolean();

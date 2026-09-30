@@ -5,30 +5,27 @@ package java.io;
 
 import com.ibm.oti.util.Msg;
 import java.io.File;
-import java.io.FilePermission$1;
 import java.io.FilePermissionCollection;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.AccessController;
 import java.security.Permission;
 import java.security.PermissionCollection;
+import java.security.PrivilegedAction;
 
 public final class FilePermission
 extends Permission
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7930732926638008763L;
     private transient String canonPath;
-    private static final String[] actionList;
+    private static final String[] actionList = new String[]{"read", "write", "execute", "delete"};
     private String actions;
     transient int mask = -1;
     private transient boolean includeAll = false;
     private transient boolean allDir = false;
     private transient boolean allSubdir = false;
-
-    static {
-        actionList = new String[]{"read", "write", "execute", "delete"};
-    }
 
     public FilePermission(String string, String string2) {
         super(string);
@@ -39,17 +36,27 @@ implements Serializable {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    private void init(String string, String string2) {
+    private void init(final String string, String string2) {
         if (string2 == null || string2 == "") throw new IllegalArgumentException(Msg.getString("K006d"));
         if (string == null) throw new NullPointerException(Msg.getString("K006e"));
         if (string.equals("<<ALL FILES>>")) {
             this.includeAll = true;
         } else {
-            this.canonPath = (String)AccessController.doPrivileged(new FilePermission$1(this, string));
-            if (string.equals("*") || string.endsWith(new StringBuffer(String.valueOf(File.separator)).append("*").toString())) {
+            this.canonPath = (String)AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    try {
+                        return new File(string).getCanonicalPath();
+                    }
+                    catch (IOException iOException) {
+                        return string;
+                    }
+                }
+            });
+            if (string.equals("*") || string.endsWith(String.valueOf(File.separator) + "*")) {
                 this.allDir = true;
             }
-            if (string.equals("-") || string.endsWith(new StringBuffer(String.valueOf(File.separator)).append("-").toString())) {
+            if (string.equals("-") || string.endsWith(String.valueOf(File.separator) + "-")) {
                 this.allSubdir = true;
             }
         }
@@ -101,12 +108,10 @@ implements Serializable {
         return n;
     }
 
-    @Override
     public String getActions() {
         return this.actions;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object instanceof FilePermission) {
             FilePermission filePermission = (FilePermission)object;
@@ -121,7 +126,6 @@ implements Serializable {
         return false;
     }
 
-    @Override
     public boolean implies(Permission permission) {
         int n = this.impliesMask(permission);
         return n != 0 && n == ((FilePermission)permission).mask;
@@ -192,21 +196,19 @@ implements Serializable {
         return bl ? n : 0;
     }
 
-    @Override
     public PermissionCollection newPermissionCollection() {
         return new FilePermissionCollection();
     }
 
-    @Override
     public int hashCode() {
         return (this.canonPath == null ? this.getName().hashCode() : this.canonPath.hashCode()) + this.mask;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.init(this.getName(), this.actions);
     }

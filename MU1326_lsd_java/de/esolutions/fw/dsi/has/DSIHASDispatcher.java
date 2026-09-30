@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.has;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.has.DSIHASReply;
 import de.esolutions.fw.comm.dsi.has.impl.DSIHASReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIHASReply {
         super(n, (class$org$dsi$ifc$has$DSIHASListener == null ? (class$org$dsi$ifc$has$DSIHASListener = DSIHASDispatcher.class$("org.dsi.ifc.has.DSIHASListener")) : class$org$dsi$ifc$has$DSIHASListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void actionRequest(int n, int n2, HASDataContainer[] hASDataContainerArray) {
+    public void actionRequest(int n, int n2, HASDataContainer[] hASDataContainerArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void subscribeRequest(int n, int n2) {
+    public void subscribeRequest(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void unsubscribeRequest(int n) {
+    public void unsubscribeRequest(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void unsubscribeAllRequest() {
+    public void unsubscribeAllRequest() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,8 +91,7 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void getPropertyRequest(int n) {
+    public void getPropertyRequest(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -112,8 +107,7 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -129,14 +123,13 @@ implements DSIHASReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIHASListener dSIHASListener = (DSIHASListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIHASDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIHASDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIHASListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIHASDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIHASDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIHASListener, new Object[]{string, string2});
                     continue;
                 }

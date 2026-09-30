@@ -26,28 +26,23 @@ implements DSIPictureStore {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$picturestore$DSIPictureStore == null ? (class$org$dsi$ifc$picturestore$DSIPictureStore = DSIPictureStoreProvider.class$("org.dsi.ifc.picturestore.DSIPictureStore")) : class$org$dsi$ifc$picturestore$DSIPictureStore).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPictureStoreProxy(this.instance, (DSIPictureStoreReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setConfig(int n, int n2, int n3, int n4) {
         try {
             this.proxy.setConfig(n, n2, n3, n4);
@@ -57,7 +52,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void importPicture(int n, ResourceLocator resourceLocator, boolean bl) {
         try {
             this.proxy.importPicture(n, resourceLocator, bl);
@@ -67,7 +61,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void pictureExists(ResourceLocator resourceLocator) {
         try {
             this.proxy.pictureExists(resourceLocator);
@@ -77,7 +70,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void increaseRefCounter(ResourceLocator resourceLocator, int n) {
         try {
             this.proxy.increaseRefCounter(resourceLocator, n);
@@ -87,7 +79,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void decreaseRefCounter(ResourceLocator resourceLocator, int n) {
         try {
             this.proxy.decreaseRefCounter(resourceLocator, n);
@@ -97,7 +88,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getFreeSlots(int n) {
         try {
             this.proxy.getFreeSlots(n);
@@ -107,7 +97,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getReferences(ResourceLocator resourceLocator) {
         try {
             this.proxy.getReferences(resourceLocator);
@@ -117,7 +106,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void deleteAllPictures(int n, boolean bl) {
         try {
             this.proxy.deleteAllPictures(n, bl);
@@ -127,7 +115,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void deletePicturesFromContext(int n, ResourceLocator[] resourceLocatorArray, boolean bl) {
         try {
             this.proxy.deletePicturesFromContext(n, resourceLocatorArray, bl);
@@ -137,7 +124,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void deletePictures(ResourceLocator[] resourceLocatorArray, boolean bl) {
         try {
             this.proxy.deletePictures(resourceLocatorArray, bl);
@@ -147,7 +133,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getLRUPictures(int n, boolean bl, int n2) {
         try {
             this.proxy.getLRUPictures(n, bl, n2);
@@ -157,7 +142,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void listInAllContexts(int n, int n2) {
         try {
             this.proxy.listInAllContexts(n, n2);
@@ -167,7 +151,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void listInContext(int n, int n2, int n3) {
         try {
             this.proxy.listInContext(n, n2, n3);
@@ -177,7 +160,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getPictureAttributes(ResourceLocator resourceLocator) {
         try {
             this.proxy.getPictureAttributes(resourceLocator);
@@ -187,7 +169,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) {
         try {
             this.proxy.setConfigWithFileType(n, n2, n3, n4, n5);
@@ -197,7 +178,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void importPictureFromSource(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string) {
         try {
             this.proxy.importPictureFromSource(n, resourceLocator, bl, n2, string);
@@ -207,7 +187,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void deletePicturesWithFilterSet(int n, int n2, boolean bl) {
         try {
             this.proxy.deletePicturesWithFilterSet(n, n2, bl);
@@ -217,7 +196,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void listInContextWithFilter(int n, int n2, int n3, int n4) {
         try {
             this.proxy.listInContextWithFilter(n, n2, n3, n4);
@@ -227,7 +205,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void listInContextWithFilterSortDist(int n, int n2, int n3, int n4, float f2, float f3) {
         try {
             this.proxy.listInContextWithFilterSortDist(n, n2, n3, n4, f2, f3);
@@ -237,7 +214,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5) {
         try {
             this.proxy.getRectanglePicturesGrid(n, n2, f2, f3, f4, f5, n3, n4, n5);
@@ -247,7 +223,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getAvailableYears(int n, int n2) {
         try {
             this.proxy.getAvailableYears(n, n2);
@@ -257,7 +232,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getAvailableMonths(int n, int n2, int n3) {
         try {
             this.proxy.getAvailableMonths(n, n2, n3);
@@ -267,7 +241,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void createFilterSet() {
         try {
             this.proxy.createFilterSet();
@@ -277,7 +250,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void cloneFilterSet(int n) {
         try {
             this.proxy.cloneFilterSet(n);
@@ -287,7 +259,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void deleteFilterSet(int n) {
         try {
             this.proxy.deleteFilterSet(n);
@@ -297,7 +268,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setFilterImportSource(int n, int n2) {
         try {
             this.proxy.setFilterImportSource(n, n2);
@@ -307,7 +277,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setFilterTimeInterval(int n, int n2, long l, long l2) {
         try {
             this.proxy.setFilterTimeInterval(n, n2, l, l2);
@@ -317,7 +286,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) {
         try {
             this.proxy.setFilterGeoArea(n, f2, f3, f4, f5);
@@ -327,7 +295,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void resetToFactorySettings() {
         try {
             this.proxy.resetToFactorySettings();
@@ -337,7 +304,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void getAvailableFolders(int n) {
         try {
             this.proxy.getAvailableFolders(n);
@@ -347,7 +313,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setFilterFolderName(int n, String string) {
         try {
             this.proxy.setFilterFolderName(n, string);
@@ -357,7 +322,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void countPicturesInContext(int n, int n2) {
         try {
             this.proxy.countPicturesInContext(n, n2);
@@ -367,7 +331,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -377,7 +340,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -387,7 +349,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -397,7 +358,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -407,7 +367,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -417,7 +376,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -427,7 +385,6 @@ implements DSIPictureStore {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

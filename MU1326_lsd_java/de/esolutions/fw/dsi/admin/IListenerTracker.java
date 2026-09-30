@@ -6,16 +6,12 @@ package de.esolutions.fw.dsi.admin;
 import de.esolutions.fw.dsi.admin.DSIAdmin;
 
 public interface IListenerTracker {
-    default public Object[] getDSIListener(String string, int n) {
-    }
+    public Object[] getDSIListener(String var1, int var2);
 
-    default public void setDSIAdmin(DSIAdmin dSIAdmin) {
-    }
+    public void setDSIAdmin(DSIAdmin var1);
 
-    default public void open() {
-    }
+    public void open();
 
-    default public void close() {
-    }
+    public void close();
 }
 

@@ -6,10 +6,8 @@ package org.apache.commons.jexl;
 import org.apache.commons.jexl.JexlContext;
 
 public interface Script {
-    default public Object execute(JexlContext jexlContext) {
-    }
+    public Object execute(JexlContext var1) throws Exception;
 
-    default public String getText() {
-    }
+    public String getText();
 }
 

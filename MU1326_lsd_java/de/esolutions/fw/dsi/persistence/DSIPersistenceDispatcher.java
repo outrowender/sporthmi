@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.persistence;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.persistence.DSIPersistenceReply;
 import de.esolutions.fw.comm.dsi.persistence.impl.DSIPersistenceReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIPersistenceReply {
         super(n, (class$org$dsi$ifc$persistence$DSIPersistenceListener == null ? (class$org$dsi$ifc$persistence$DSIPersistenceListener = DSIPersistenceDispatcher.class$("org.dsi.ifc.persistence.DSIPersistenceListener")) : class$org$dsi$ifc$persistence$DSIPersistenceListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateActiveSQLDatabaseMedium(int n, int n2) {
+    public void updateActiveSQLDatabaseMedium(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void writeInt(int n, long l, int n2) {
+    public void writeInt(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -73,8 +71,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void readInt(int n, long l, int n2, int n3) {
+    public void readInt(int n, long l, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -90,8 +87,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void writeBuffer(int n, long l, int n2) {
+    public void writeBuffer(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -107,8 +103,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void readBuffer(int n, long l, byte[] byArray, int n2) {
+    public void readBuffer(int n, long l, byte[] byArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -124,8 +119,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void writeString(int n, long l, int n2) {
+    public void writeString(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -141,8 +135,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void readString(int n, long l, String string, int n2) {
+    public void readString(int n, long l, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -158,8 +151,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void writeArray(int n, long l, int n2) {
+    public void writeArray(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -175,8 +167,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void readArray(int n, long l, int[] nArray, int n2) {
+    public void readArray(int n, long l, int[] nArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -192,8 +183,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void writeStringArray(int n, long l, int n2) {
+    public void writeStringArray(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -209,8 +199,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void readStringArray(int n, long l, String[] stringArray, int n2) {
+    public void readStringArray(int n, long l, String[] stringArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -226,8 +215,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void getVisibleSystemLanguages(String string) {
+    public void getVisibleSystemLanguages(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -243,8 +231,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void flushSQLDatabase(int n) {
+    public void flushSQLDatabase(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -260,8 +247,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void beginTransaction(int n, int n2) {
+    public void beginTransaction(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -277,8 +263,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void endTransaction(int n, int n2) {
+    public void endTransaction(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -294,8 +279,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void valueChangedInt(int n, long l, int n2, int n3) {
+    public void valueChangedInt(int n, long l, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -311,8 +295,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void valueChangedString(int n, long l, String string, int n2) {
+    public void valueChangedString(int n, long l, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -328,8 +311,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void valueChangedArray(int n, long l, int[] nArray, int n2) {
+    public void valueChangedArray(int n, long l, int[] nArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -345,8 +327,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void valueChangedStringArray(int n, long l, String[] stringArray, int n2) {
+    public void valueChangedStringArray(int n, long l, String[] stringArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -362,8 +343,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void valueChangedBuffer(int n, long l, byte[] byArray, int n2) {
+    public void valueChangedBuffer(int n, long l, byte[] byArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -379,8 +359,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void unsubscribe(int n, int[] nArray, long[] lArray, int[] nArray2) {
+    public void unsubscribe(int n, int[] nArray, long[] lArray, int[] nArray2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -396,8 +375,7 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -413,14 +391,13 @@ implements DSIPersistenceReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIPersistenceListener dSIPersistenceListener = (DSIPersistenceListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPersistenceDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPersistenceDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIPersistenceListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIPersistenceDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIPersistenceDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIPersistenceListener, new Object[]{string, string2});
                     continue;
                 }

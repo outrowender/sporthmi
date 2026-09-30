@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.organizer.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.organizer.Highlight;
 
 public class HighlightSerializer {
-    public static void putOptionalHighlight(ISerializer iSerializer, Highlight highlight) {
+    public static void putOptionalHighlight(ISerializer iSerializer, Highlight highlight) throws SerializerException {
         boolean bl = highlight == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class HighlightSerializer {
         }
     }
 
-    public static void putOptionalHighlightVarArray(ISerializer iSerializer, Highlight[] highlightArray) {
+    public static void putOptionalHighlightVarArray(ISerializer iSerializer, Highlight[] highlightArray) throws SerializerException {
         boolean bl = highlightArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class HighlightSerializer {
         }
     }
 
-    public static Highlight getOptionalHighlight(IDeserializer iDeserializer) {
+    public static Highlight getOptionalHighlight(IDeserializer iDeserializer) throws SerializerException {
         Highlight highlight = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class HighlightSerializer {
         return highlight;
     }
 
-    public static Highlight[] getOptionalHighlightVarArray(IDeserializer iDeserializer) {
+    public static Highlight[] getOptionalHighlightVarArray(IDeserializer iDeserializer) throws SerializerException {
         Highlight[] highlightArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

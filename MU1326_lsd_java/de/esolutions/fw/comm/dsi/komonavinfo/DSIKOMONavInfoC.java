@@ -3,65 +3,47 @@
  */
 package de.esolutions.fw.comm.dsi.komonavinfo;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKOMONavInfoC {
-    default public void setDistanceToNextManeuver(long l, int n, boolean bl) {
-    }
+    public void setDistanceToNextManeuver(long var1, int var3, boolean var4) throws MethodException;
 
-    default public void setETA(int n, short s, short s2, short s3, boolean bl, boolean bl2) {
-    }
+    public void setETA(int var1, short var2, short var3, short var4, boolean var5, boolean var6) throws MethodException;
 
-    default public void setCurrentStreet(String string) {
-    }
+    public void setCurrentStreet(String var1) throws MethodException;
 
-    default public void setTurnToStreet(String string, String string2) {
-    }
+    public void setTurnToStreet(String var1, String var2) throws MethodException;
 
-    default public void setCityName(String string) {
-    }
+    public void setCityName(String var1) throws MethodException;
 
-    default public void setDistanceToDestination(long l, int n, boolean bl) {
-    }
+    public void setDistanceToDestination(long var1, int var3, boolean var4) throws MethodException;
 
-    default public void setSemiDynRoute(boolean bl) {
-    }
+    public void setSemiDynRoute(boolean var1) throws MethodException;
 
-    default public void setTrafficOffset(int n, short s, short s2, short s3, boolean bl) {
-    }
+    public void setTrafficOffset(int var1, short var2, short var3, short var4, boolean var5) throws MethodException;
 
-    default public void setRTT(short s, short s2, boolean bl) {
-    }
+    public void setRTT(short var1, short var2, boolean var3) throws MethodException;
 
-    default public void setRgSelect(int n) {
-    }
+    public void setRgSelect(int var1) throws MethodException;
 
-    default public void setCapabilities(boolean[] blArray) {
-    }
+    public void setCapabilities(boolean[] var1) throws MethodException;
 
-    default public void setMapScale(int n, int n2, boolean[] blArray, int n3, int n4, int n5) {
-    }
+    public void setMapScale(int var1, int var2, boolean[] var3, int var4, int var5, int var6) throws MethodException;
 
-    default public void setMapScaleResult(int n, int n2, boolean[] blArray, int n3, int n4, boolean[] blArray2, boolean bl) {
-    }
+    public void setMapScaleResult(int var1, int var2, boolean[] var3, int var4, int var5, boolean[] var6, boolean var7) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

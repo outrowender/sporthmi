@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.map;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerControlReply;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerControlReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -29,13 +30,11 @@ implements DSIMapViewerControlReply {
         super(n, (class$org$dsi$ifc$map$DSIMapViewerControlListener == null ? (class$org$dsi$ifc$map$DSIMapViewerControlListener = DSIMapViewerControlDispatcher.class$("org.dsi.ifc.map.DSIMapViewerControlListener")) : class$org$dsi$ifc$map$DSIMapViewerControlListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateReady(boolean bl, int n) {
+    public void updateReady(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -63,8 +62,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateCurrentViewType(int n, int n2) {
+    public void updateCurrentViewType(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -92,8 +90,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateDayNightView(boolean bl, int n) {
+    public void updateDayNightView(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -121,8 +118,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateViewScreenViewPort(Rect rect, int n) {
+    public void updateViewScreenViewPort(Rect rect, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -150,8 +146,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateViewScreenViewPortMaximum(Rect rect, int n) {
+    public void updateViewScreenViewPortMaximum(Rect rect, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -179,8 +174,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateViewVisible(boolean bl, int n) {
+    public void updateViewVisible(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -208,8 +202,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateViewFreeze(boolean bl, int n) {
+    public void updateViewFreeze(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -237,8 +230,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateZoomLevel(float f2, int n) {
+    public void updateZoomLevel(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -266,8 +258,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateZoomList(float[] fArray, int n) {
+    public void updateZoomList(float[] fArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -295,8 +286,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateZoomListIndex(int n, int n2) {
+    public void updateZoomListIndex(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -324,8 +314,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapRotation(short s, int n) {
+    public void updateMapRotation(short s, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -353,8 +342,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapPosition(NavLocationWgs84 navLocationWgs84, int n) {
+    public void updateMapPosition(NavLocationWgs84 navLocationWgs84, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -382,8 +370,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapOrientation(int n, int n2) {
+    public void updateMapOrientation(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -411,8 +398,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateCarPosition(Point point, int n) {
+    public void updateCarPosition(Point point, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -440,8 +426,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateTmcVisible(boolean bl, int n) {
+    public void updateTmcVisible(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -469,8 +454,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapMode(int n, int n2) {
+    public void updateMapMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -498,8 +482,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSelectedPoi(PosInfo posInfo, int n) {
+    public void updateSelectedPoi(PosInfo posInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -527,8 +510,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSpeedAndFlowVisible(boolean bl, int n) {
+    public void updateSpeedAndFlowVisible(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -556,8 +538,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateAvailableRoutes(AvailableRoute[] availableRouteArray, int n) {
+    public void updateAvailableRoutes(AvailableRoute[] availableRouteArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -585,8 +566,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateViewPort(ViewPort viewPort, int n) {
+    public void updateViewPort(ViewPort viewPort, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -614,8 +594,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftJumpEnabled(boolean bl, int n) {
+    public void updateSoftJumpEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -643,8 +622,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftRotationEnabled(boolean bl, int n) {
+    public void updateSoftRotationEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -672,8 +650,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftTiltEnabled(boolean bl, int n) {
+    public void updateSoftTiltEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -701,8 +678,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftZoomEnabled(boolean bl, int n) {
+    public void updateSoftZoomEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -730,8 +706,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftJumpRunning(boolean bl, int n) {
+    public void updateSoftJumpRunning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -759,8 +734,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftRotationRunning(boolean bl, int n) {
+    public void updateSoftRotationRunning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -788,8 +762,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftTiltRunning(boolean bl, int n) {
+    public void updateSoftTiltRunning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -817,8 +790,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftZoomRunning(boolean bl, int n) {
+    public void updateSoftZoomRunning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -846,8 +818,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateRouteCalcModeEnabled(boolean bl, int n) {
+    public void updateRouteCalcModeEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -875,8 +846,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateRBInfoOfSelectedSegments(RouteBrowserInfo routeBrowserInfo, int n) {
+    public void updateRBInfoOfSelectedSegments(RouteBrowserInfo routeBrowserInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -904,8 +874,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void configureFlags(long[] lArray) {
+    public void configureFlags(long[] lArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -921,8 +890,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void getInfoForPosition(PosInfo[] posInfoArray) {
+    public void getInfoForPosition(PosInfo[] posInfoArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -938,8 +906,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void getNumberOfPOIs(long l) {
+    public void getNumberOfPOIs(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -955,8 +922,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void unpackPOIContainerResult(boolean bl) {
+    public void unpackPOIContainerResult(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -972,8 +938,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateCurrentLanduseStyle(int n, int n2) {
+    public void updateCurrentLanduseStyle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -1001,8 +966,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateCurrentMetricSystem(int n, int n2) {
+    public void updateCurrentMetricSystem(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -1030,8 +994,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setViewFocusOnBlockResult(int n) {
+    public void setViewFocusOnBlockResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1047,8 +1010,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void startToDrawNewRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
+    public void startToDrawNewRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1064,8 +1026,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setSouthWestCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) {
+    public void setSouthWestCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1081,8 +1042,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setNorthEastCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) {
+    public void setNorthEastCornerOfRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1098,8 +1058,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void finishDrawRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) {
+    public void finishDrawRectangleInMapResult(int n, NavLocationWgs84 navLocationWgs84, NavLocationWgs84 navLocationWgs842) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1115,8 +1074,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateCityModelMode(int n, int n2) {
+    public void updateCityModelMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1144,8 +1102,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void displayRemainingRangeOfVehicleResult(boolean bl) {
+    public void displayRemainingRangeOfVehicleResult(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1161,8 +1118,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void touchApproachResult(boolean bl) {
+    public void touchApproachResult(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1178,8 +1134,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setBrandIconStyleResult(int n) {
+    public void setBrandIconStyleResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1195,8 +1150,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setGuidanceSymbolResult(int n) {
+    public void setGuidanceSymbolResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1212,8 +1166,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setHOVLaneVisibilityResult(int n) {
+    public void setHOVLaneVisibilityResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1229,8 +1182,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void rbGetIDOfSelectedSegmentResult(long l, int n) {
+    public void rbGetIDOfSelectedSegmentResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1246,8 +1198,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void rbGetRRDToSelectedSegmentResult(long l, int n, int n2) {
+    public void rbGetRRDToSelectedSegmentResult(long l, int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1263,8 +1214,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setTollRoadHighLightingResult(boolean bl, int n) {
+    public void setTollRoadHighLightingResult(boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1280,8 +1230,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setMountainPeakMarkerResult(boolean bl, int n) {
+    public void setMountainPeakMarkerResult(boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1297,8 +1246,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void suspendMapViewerResult(int n) {
+    public void suspendMapViewerResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1314,8 +1262,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void wakeupMapViewerResult(int n) {
+    public void wakeupMapViewerResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1331,8 +1278,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84, boolean bl) {
+    public void isDetailedMapMaterialAvailable(NavLocationWgs84 navLocationWgs84, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1348,8 +1294,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapViewerRunLevel(int n, int n2) {
+    public void updateMapViewerRunLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1377,8 +1322,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapViewerSuspensionSupported(int n, int n2) {
+    public void updateMapViewerSuspensionSupported(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1406,8 +1350,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapViewerSuspensionAndWakeUpProgress(int n, int n2) {
+    public void updateMapViewerSuspensionAndWakeUpProgress(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1435,8 +1378,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateAvailableCountryOverviews(String[] stringArray, int n) {
+    public void updateAvailableCountryOverviews(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -1464,8 +1406,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateGeneralPoiVisibility(boolean bl, int n) {
+    public void updateGeneralPoiVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -1493,8 +1434,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateHorizonMarkerVisibility(boolean bl, int n) {
+    public void updateHorizonMarkerVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1522,8 +1462,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateDragRoutePosition(NavLocationWgs84 navLocationWgs84, int n) {
+    public void updateDragRoutePosition(NavLocationWgs84 navLocationWgs84, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1551,8 +1490,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateEhCategoryVisibility(int[] nArray, int n) {
+    public void updateEhCategoryVisibility(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1580,8 +1518,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void setMapOverlaysResult(int n, int n2) {
+    public void setMapOverlaysResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1597,8 +1534,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapLayerAvailable(int[] nArray, int n) {
+    public void updateMapLayerAvailable(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -1626,8 +1562,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapLayerVisible(int[] nArray, int n) {
+    public void updateMapLayerVisible(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -1655,8 +1590,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateTemperatureScale(int n, int n2) {
+    public void updateTemperatureScale(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1684,8 +1618,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSpeedAndFlowRoadClass(int n, int n2) {
+    public void updateSpeedAndFlowRoadClass(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -1713,8 +1646,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateRouteVisibility(boolean bl, int n) {
+    public void updateRouteVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -1742,8 +1674,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateSoftAnimationSpeed(int n, int n2) {
+    public void updateSoftAnimationSpeed(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1771,8 +1702,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void updateMapStyle(int n, int n2) {
+    public void updateMapStyle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -1800,8 +1730,7 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1817,14 +1746,13 @@ implements DSIMapViewerControlReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMapViewerControlListener dSIMapViewerControlListener = (DSIMapViewerControlListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerControlDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerControlDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMapViewerControlListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerControlDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerControlDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMapViewerControlListener, new Object[]{string, string2});
                     continue;
                 }

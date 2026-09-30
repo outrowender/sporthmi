@@ -8,7 +8,7 @@ import org.apache.xerces.xni.XNIException;
 
 public class XMLParseException
 extends XNIException {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 1732959359448549967L;
     protected String fPublicId;
     protected String fLiteralSystemId;
     protected String fExpandedSystemId;
@@ -71,7 +71,6 @@ extends XNIException {
         return this.fCharacterOffset;
     }
 
-    @Override
     public String toString() {
         Exception exception;
         StringBuffer stringBuffer = new StringBuffer();

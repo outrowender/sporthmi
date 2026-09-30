@@ -39,8 +39,7 @@ implements BundleActivator {
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$job$IDispatcherManager;
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$error$IFatalErrorHandler;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         TraceClient.init("hmi");
         try {
             this.srefTimeSource = bundleContext.getServiceReference((class$de$esolutions$fw$util$commons$timeout$ITimeSource == null ? (class$de$esolutions$fw$util$commons$timeout$ITimeSource = FWUtilServicesActivator.class$("de.esolutions.fw.util.commons.timeout.ITimeSource")) : class$de$esolutions$fw$util$commons$timeout$ITimeSource).getName());
@@ -78,8 +77,7 @@ implements BundleActivator {
         }
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         this.unregisterFatalErrorHandler();
         if (this.dispatcherManagerService != null) {
             this.dispatcherManagerService.unregister();

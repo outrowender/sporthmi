@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOSoftkeys;
 
 public class UGDOSoftkeysSerializer {
-    public static void putOptionalUGDOSoftkeys(ISerializer iSerializer, UGDOSoftkeys uGDOSoftkeys) {
+    public static void putOptionalUGDOSoftkeys(ISerializer iSerializer, UGDOSoftkeys uGDOSoftkeys) throws SerializerException {
         boolean bl = uGDOSoftkeys == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class UGDOSoftkeysSerializer {
         }
     }
 
-    public static void putOptionalUGDOSoftkeysVarArray(ISerializer iSerializer, UGDOSoftkeys[] uGDOSoftkeysArray) {
+    public static void putOptionalUGDOSoftkeysVarArray(ISerializer iSerializer, UGDOSoftkeys[] uGDOSoftkeysArray) throws SerializerException {
         boolean bl = uGDOSoftkeysArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class UGDOSoftkeysSerializer {
         }
     }
 
-    public static UGDOSoftkeys getOptionalUGDOSoftkeys(IDeserializer iDeserializer) {
+    public static UGDOSoftkeys getOptionalUGDOSoftkeys(IDeserializer iDeserializer) throws SerializerException {
         UGDOSoftkeys uGDOSoftkeys = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -95,7 +96,7 @@ public class UGDOSoftkeysSerializer {
         return uGDOSoftkeys;
     }
 
-    public static UGDOSoftkeys[] getOptionalUGDOSoftkeysVarArray(IDeserializer iDeserializer) {
+    public static UGDOSoftkeys[] getOptionalUGDOSoftkeysVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOSoftkeys[] uGDOSoftkeysArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

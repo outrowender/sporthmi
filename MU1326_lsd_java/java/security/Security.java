@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
 import java.security.InvalidParameterException;
+import java.security.PrivilegedAction;
 import java.security.Provider;
-import java.security.Security$1;
 import java.security.SecurityPermission;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -31,10 +31,10 @@ public final class Security {
     private static final Vector providersByPriority = new Vector();
     private static final Hashtable providersByName = new Hashtable(20);
     private static boolean providersLoaded = false;
-    private static final int CRYPTO_SERVICE;
-    private static final int ALGORITHM_OR_TYPE;
-    private static final int ATTRIBUTE_NAME;
-    private static final int ATTRIBUTE_VALUE;
+    private static final int CRYPTO_SERVICE = 0;
+    private static final int ALGORITHM_OR_TYPE = 1;
+    private static final int ATTRIBUTE_NAME = 2;
+    private static final int ATTRIBUTE_VALUE = 3;
 
     private Security() {
     }
@@ -412,16 +412,27 @@ public final class Security {
                 return;
             }
             providersLoaded = true;
-            AccessController.doPrivileged(new Security$1());
+            AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    String string;
+                    int n = 1;
+                    while ((string = Security.getProperty("security.provider." + n++)) != null) {
+                        try {
+                            Class clazz = Class.forName(string, true, ClassLoader.getSystemClassLoader());
+                            Provider provider = (Provider)clazz.newInstance();
+                            Security.insertAt(provider, providersByPriority.size() + 1);
+                        }
+                        catch (ClassNotFoundException classNotFoundException) {
+                        }
+                        catch (IllegalAccessException illegalAccessException) {
+                        }
+                        catch (InstantiationException instantiationException) {}
+                    }
+                    return null;
+                }
+            });
         }
-    }
-
-    static /* synthetic */ Vector access$0() {
-        return providersByPriority;
-    }
-
-    static /* synthetic */ int access$1(Provider provider, int n) {
-        return Security.insertAt(provider, n);
     }
 }
 

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.cardriverassistance;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.cardriverassistance.DSICarDriverAssistanceReply;
 import de.esolutions.fw.comm.dsi.cardriverassistance.impl.DSICarDriverAssistanceReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -41,13 +42,11 @@ implements DSICarDriverAssistanceReply {
         super(n, (class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistanceListener == null ? (class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistanceListener = DSICarDriverAssistanceDispatcher.class$("org.dsi.ifc.cardriverassistance.DSICarDriverAssistanceListener")) : class$org$dsi$ifc$cardriverassistance$DSICarDriverAssistanceListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateACCViewOptions(ACCViewOptions aCCViewOptions, int n) {
+    public void updateACCViewOptions(ACCViewOptions aCCViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -75,8 +74,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCGongState(boolean bl, int n) {
+    public void updateACCGongState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -104,8 +102,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCGongVolume(int n, int n2) {
+    public void updateACCGongVolume(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -133,8 +130,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCDrivingProgram(int n, int n2) {
+    public void updateACCDrivingProgram(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -162,8 +158,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCTimeGap(int n, int n2) {
+    public void updateACCTimeGap(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -191,8 +186,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCDefaultMode(int n, int n2) {
+    public void updateACCDefaultMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -220,8 +214,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCCurveAssist(boolean bl, int n) {
+    public void updateACCCurveAssist(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -249,8 +242,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCSpeedLimitAdoption(boolean bl, int n) {
+    public void updateACCSpeedLimitAdoption(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -278,8 +270,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCTrafficJamAssist(boolean bl, int n) {
+    public void updateACCTrafficJamAssist(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -307,8 +298,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCSpeedLimitOffset(int n, int n2) {
+    public void updateACCSpeedLimitOffset(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -336,8 +326,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning, int n) {
+    public void updateACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -365,8 +354,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCSensibility(boolean bl, int n) {
+    public void updatePACCSensibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -394,8 +382,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCMaxSpeed(CarBCSpeed carBCSpeed, int n) {
+    public void updatePACCMaxSpeed(CarBCSpeed carBCSpeed, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(67);
@@ -423,8 +410,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCMeanVelocity(CarBCSpeed carBCSpeed, int n) {
+    public void updatePACCMeanVelocity(CarBCSpeed carBCSpeed, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(68);
@@ -452,8 +438,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCMeanConsumption(CarBCConsumption carBCConsumption, int n) {
+    public void updatePACCMeanConsumption(CarBCConsumption carBCConsumption, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(69);
@@ -481,8 +466,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCCoastingPercentage(int n, int n2) {
+    public void updatePACCCoastingPercentage(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(70);
@@ -510,8 +494,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCDrivingProgram(int n, int n2) {
+    public void updatePACCDrivingProgram(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(71);
@@ -539,8 +522,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePACCSystemState(int n, int n2) {
+    public void updatePACCSystemState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(72);
@@ -568,8 +550,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeACCSetFactoryDefault(boolean bl) {
+    public void acknowledgeACCSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -585,8 +566,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVDistanceWarning(boolean bl, int n) {
+    public void updateAWVDistanceWarning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -614,8 +594,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVViewOptions(AWVViewOptions aWVViewOptions, int n) {
+    public void updateAWVViewOptions(AWVViewOptions aWVViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(30);
@@ -643,8 +622,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVSystem(int n, int n2) {
+    public void updateAWVSystem(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -672,8 +650,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVWarning(boolean bl, int n) {
+    public void updateAWVWarning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -701,8 +678,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVGong(boolean bl, int n) {
+    public void updateAWVGong(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -730,8 +706,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVGongVolume(int n, int n2) {
+    public void updateAWVGongVolume(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -759,8 +734,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVBrakeJerk(boolean bl, int n) {
+    public void updateAWVBrakeJerk(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(41);
@@ -788,8 +762,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake, int n) {
+    public void updateAWVEmergencyBrake(AWVEmergencyBrake aWVEmergencyBrake, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -817,8 +790,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateAWVWarningTimegap(int n, int n2) {
+    public void updateAWVWarningTimegap(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -846,8 +818,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeAWVSetFactoryDefault(boolean bl) {
+    public void acknowledgeAWVSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -863,8 +834,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAViewOptions(SWAViewOptions sWAViewOptions, int n) {
+    public void updateSWAViewOptions(SWAViewOptions sWAViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -892,8 +862,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWABrightness(int n, int n2) {
+    public void updateSWABrightness(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -921,8 +890,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAWarningTime(int n, int n2) {
+    public void updateSWAWarningTime(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -950,8 +918,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAFrequency(int n, int n2) {
+    public void updateSWAFrequency(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -979,8 +946,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWASystem(int n, int n2) {
+    public void updateSWASystem(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -1008,8 +974,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAGongState(boolean bl, int n) {
+    public void updateSWAGongState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -1037,8 +1002,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAGongVolume(int n, int n2) {
+    public void updateSWAGongVolume(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -1066,8 +1030,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWARCTASensorData(SWARCTASensorData sWARCTASensorData, int n) {
+    public void updateSWARCTASensorData(SWARCTASensorData sWARCTASensorData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1095,8 +1058,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWARCTA(boolean bl, int n) {
+    public void updateSWARCTA(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1124,8 +1086,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateSWAExitAssist(boolean bl, int n) {
+    public void updateSWAExitAssist(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1153,8 +1114,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVViewOptions(NVViewOptions nVViewOptions, int n) {
+    public void updateNVViewOptions(NVViewOptions nVViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -1182,8 +1142,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVActivation(boolean bl, int n) {
+    public void updateNVActivation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -1211,8 +1170,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVContrast(int n, int n2) {
+    public void updateNVContrast(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -1240,8 +1198,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVBrightness(int n, int n2) {
+    public void updateNVBrightness(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -1269,8 +1226,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVObjectDetection(NVObjectDetection nVObjectDetection, int n) {
+    public void updateNVObjectDetection(NVObjectDetection nVObjectDetection, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -1298,8 +1254,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVColorPA(int n, int n2) {
+    public void updateNVColorPA(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -1327,8 +1282,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVDesignPA(int n, int n2) {
+    public void updateNVDesignPA(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -1356,8 +1310,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVDisplay(int n, int n2) {
+    public void updateNVDisplay(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(15);
@@ -1385,8 +1338,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVZoomPanning(int n, int n2) {
+    public void updateNVZoomPanning(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(16);
@@ -1414,8 +1366,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVSound(int n, int n2) {
+    public void updateNVSound(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -1443,8 +1394,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVSymbol(boolean bl, int n) {
+    public void updateNVSymbol(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -1472,8 +1422,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeNVSetFactoryDefault(boolean bl) {
+    public void acknowledgeNVSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1489,8 +1438,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVSystem(boolean bl, int n) {
+    public void updateNVSystem(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(74);
@@ -1518,8 +1466,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateNVWarningTimegap(int n, int n2) {
+    public void updateNVWarningTimegap(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(75);
@@ -1547,8 +1494,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateLDWHCAViewOptions(LDWHCAViewOptions lDWHCAViewOptions, int n) {
+    public void updateLDWHCAViewOptions(LDWHCAViewOptions lDWHCAViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -1576,8 +1522,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateLDWWarningTime(int n, int n2) {
+    public void updateLDWWarningTime(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -1605,8 +1550,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateLDWSteeringWheelVibration(int n, int n2) {
+    public void updateLDWSteeringWheelVibration(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -1634,8 +1578,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateHCAInterventionStyle(int n, int n2) {
+    public void updateHCAInterventionStyle(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -1663,8 +1606,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateHCAToleranceLevel(int n, int n2) {
+    public void updateHCAToleranceLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -1692,8 +1634,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeLdwhcaSetFactoryDefault(boolean bl) {
+    public void acknowledgeLdwhcaSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1709,8 +1650,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateLDWHCASystemOnOff(boolean bl, int n) {
+    public void updateLDWHCASystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -1738,8 +1678,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateLDWHCAWarningSound(boolean bl, int n, int n2) {
+    public void updateLDWHCAWarningSound(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(82);
@@ -1767,8 +1706,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDViewOptions(TSDViewOptions tSDViewOptions, int n) {
+    public void updateTSDViewOptions(TSDViewOptions tSDViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -1796,8 +1734,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSystemOnOff(boolean bl, int n) {
+    public void updateTSDSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -1825,8 +1762,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDTrailerDetection(boolean bl, int n) {
+    public void updateTSDTrailerDetection(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -1854,8 +1790,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSign1(TSDSignFct tSDSignFct, int n) {
+    public void updateTSDSign1(TSDSignFct tSDSignFct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1883,8 +1818,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSign2(TSDSignFct tSDSignFct, int n) {
+    public void updateTSDSign2(TSDSignFct tSDSignFct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1912,8 +1846,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSign3(TSDSignFct tSDSignFct, int n) {
+    public void updateTSDSign3(TSDSignFct tSDSignFct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(40);
@@ -1941,8 +1874,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSign4(TSDSignFct tSDSignFct, int n) {
+    public void updateTSDSign4(TSDSignFct tSDSignFct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(77);
@@ -1970,8 +1902,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSign5(TSDSignFct tSDSignFct, int n) {
+    public void updateTSDSign5(TSDSignFct tSDSignFct, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(78);
@@ -1999,8 +1930,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter, int n) {
+    public void updateTSDRoadSignFilter(TSDRoadSignFilter tSDRoadSignFilter, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -2028,8 +1958,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeTsdSetFactoryDefault(boolean bl) {
+    public void acknowledgeTsdSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2045,8 +1974,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed, int n) {
+    public void updateTSDSpeedWarningThreshold(boolean bl, CarBCSpeed carBCSpeed, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -2074,8 +2002,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed, int n) {
+    public void updateTSDTrailerSpeedLimit(CarBCSpeed carBCSpeed, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -2103,8 +2030,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSystemMessages(TSDSystemMessages tSDSystemMessages, int n) {
+    public void updateTSDSystemMessages(TSDSystemMessages tSDSystemMessages, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -2132,8 +2058,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateTSDSpeedWarningAcoustics(boolean bl, int n) {
+    public void updateTSDSpeedWarningAcoustics(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(76);
@@ -2161,8 +2086,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateMKEViewOptions(MKEViewOptions mKEViewOptions, int n) {
+    public void updateMKEViewOptions(MKEViewOptions mKEViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -2190,8 +2114,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateMKESystemOnOff(boolean bl, int n) {
+    public void updateMKESystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -2219,8 +2142,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeMKESetFactoryDefault(boolean bl) {
+    public void acknowledgeMKESetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2236,8 +2158,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePAViewOptions(PAViewOptions pAViewOptions, int n) {
+    public void updatePAViewOptions(PAViewOptions pAViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(58);
@@ -2265,8 +2186,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePASystemOnOff(boolean bl, int n) {
+    public void updatePASystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(59);
@@ -2294,8 +2214,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgePASetFactoryDefault(boolean bl) {
+    public void acknowledgePASetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2311,8 +2230,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePAConfigInformation(boolean bl, int n) {
+    public void updatePAConfigInformation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(60);
@@ -2340,8 +2258,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePAConfigWarning(boolean bl, int n) {
+    public void updatePAConfigWarning(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(61);
@@ -2369,8 +2286,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updatePAWarningTimegap(int n, int n2) {
+    public void updatePAWarningTimegap(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(73);
@@ -2398,8 +2314,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateCurveAssistSystemOnOff(boolean bl, int n) {
+    public void updateCurveAssistSystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -2427,8 +2342,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void acknowledgeCurveAssistSetFactoryDefault(boolean bl) {
+    public void acknowledgeCurveAssistSetFactoryDefault(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2444,8 +2358,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateFTAViewOptions(FTAViewOptions fTAViewOptions, int n) {
+    public void updateFTAViewOptions(FTAViewOptions fTAViewOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(79);
@@ -2473,8 +2386,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateFTASystemOnOff(boolean bl, int n) {
+    public void updateFTASystemOnOff(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(80);
@@ -2502,8 +2414,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void updateFTASensorData(FTASensorData fTASensorData, int n) {
+    public void updateFTASensorData(FTASensorData fTASensorData, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(81);
@@ -2531,8 +2442,7 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2548,14 +2458,13 @@ implements DSICarDriverAssistanceReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICarDriverAssistanceListener dSICarDriverAssistanceListener = (DSICarDriverAssistanceListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarDriverAssistanceDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarDriverAssistanceDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICarDriverAssistanceListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICarDriverAssistanceDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICarDriverAssistanceDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICarDriverAssistanceListener, new Object[]{string, string2});
                     continue;
                 }

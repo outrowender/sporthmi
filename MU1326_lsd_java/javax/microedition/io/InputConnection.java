@@ -4,15 +4,14 @@
 package javax.microedition.io;
 
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.io.Connection;
 
 public interface InputConnection
 extends Connection {
-    default public DataInputStream openDataInputStream() {
-    }
+    public DataInputStream openDataInputStream() throws IOException;
 
-    default public InputStream openInputStream() {
-    }
+    public InputStream openInputStream() throws IOException;
 }
 

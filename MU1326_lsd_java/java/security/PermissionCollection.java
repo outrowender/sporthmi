@@ -13,14 +13,11 @@ public abstract class PermissionCollection
 implements Serializable {
     private boolean readOnly = false;
 
-    public abstract void add(Permission permission) {
-    }
+    public abstract void add(Permission var1);
 
-    public abstract Enumeration elements() {
-    }
+    public abstract Enumeration elements();
 
-    public abstract boolean implies(Permission permission) {
-    }
+    public abstract boolean implies(Permission var1);
 
     public boolean isReadOnly() {
         return this.readOnly;

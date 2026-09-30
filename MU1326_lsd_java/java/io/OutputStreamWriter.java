@@ -27,7 +27,7 @@ extends Writer {
         this.converter = CharacterConverter.getDefaultConverter(string);
     }
 
-    public OutputStreamWriter(OutputStream outputStream, String string) {
+    public OutputStreamWriter(OutputStream outputStream, String string) throws UnsupportedEncodingException {
         super(outputStream);
         this.out = outputStream;
         this.converter = CharacterConverter.getConverter(string);
@@ -39,8 +39,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -60,8 +59,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -83,7 +81,7 @@ extends Writer {
         if (this.converter instanceof NativeCharacterConverter) {
             return ((NativeCharacterConverter)this.converter).getJavaEncoding();
         }
-        String string = super.getClass().getName();
+        String string = this.converter.getClass().getName();
         int n = string.indexOf(95);
         if (n < 0) {
             return "ISO8859_1";
@@ -98,8 +96,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(char[] cArray, int n, int n2) {
+    public void write(char[] cArray, int n, int n2) throws IOException {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -114,7 +111,7 @@ extends Writer {
         }
     }
 
-    private void writeBytes(byte[] byArray) {
+    private void writeBytes(byte[] byArray) throws IOException {
         if (this.pos + byArray.length > this.buf.length) {
             this.out.write(this.buf, 0, this.pos);
             this.out.write(byArray, 0, byArray.length);
@@ -129,8 +126,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             if (this.isOpen()) {
@@ -154,8 +150,7 @@ extends Writer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(String string, int n, int n2) {
+    public void write(String string, int n, int n2) throws IOException {
         if (n >= 0 && n <= string.length() && n2 >= 0 && n2 <= string.length() - n) {
             Object object = this.lock;
             synchronized (object) {

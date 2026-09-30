@@ -3,9 +3,11 @@
  */
 package de.esolutions.fw.comm.agent;
 
+import de.esolutions.fw.comm.agent.AgentException;
 import de.esolutions.fw.comm.agent.AgentWorker;
 import de.esolutions.fw.comm.agent.IAgentDiagnosis;
 import de.esolutions.fw.comm.agent.IAgentStateListener;
+import de.esolutions.fw.comm.agent.client.ClientException;
 import de.esolutions.fw.comm.agent.client.ClientPool;
 import de.esolutions.fw.comm.agent.client.ConnectionClientHandler;
 import de.esolutions.fw.comm.agent.client.IClientHandler;
@@ -37,20 +39,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Agent {
-    public static final int NORMAL_OPERATION;
-    public static final int NO_SPAWN_FACTORY;
-    public static final int BROKER_ERROR;
-    private static final short DYNAMIC_AGENT_ID;
-    private static Agent theAgent;
-    private static boolean started;
-    private static String errorString;
-    private static INameService defaultNameService;
-    private static IConnectionFactoryProvider defaultConnectionFactoryProvider;
-    private static Boolean defaultUseBroker;
-    private static CommConfig defaultCommConfig;
-    private static Boolean defaultDynamicAgentId;
-    private static IFatalErrorHandler defaultFatalErrorHandler;
-    private static ArrayList stateListeners;
+    public static final int NORMAL_OPERATION = 0;
+    public static final int NO_SPAWN_FACTORY = 1;
+    public static final int BROKER_ERROR = 2;
+    private static final short DYNAMIC_AGENT_ID = 0;
+    private static Agent theAgent = null;
+    private static boolean started = false;
+    private static String errorString = null;
+    private static INameService defaultNameService = null;
+    private static IConnectionFactoryProvider defaultConnectionFactoryProvider = null;
+    private static Boolean defaultUseBroker = null;
+    private static CommConfig defaultCommConfig = null;
+    private static Boolean defaultDynamicAgentId = null;
+    private static IFatalErrorHandler defaultFatalErrorHandler = null;
+    private static ArrayList stateListeners = new ArrayList();
     private final Thread thread;
     private final AgentWorker worker;
     private final boolean withBroker;
@@ -153,11 +155,11 @@ public class Agent {
         return errorString;
     }
 
-    public static synchronized Agent start() {
+    public static synchronized Agent start() throws AgentException, InterruptedException {
         return Agent.start(null);
     }
 
-    public static synchronized Agent start(ILifecycleListener iLifecycleListener) {
+    public static synchronized Agent start(ILifecycleListener iLifecycleListener) throws AgentException, InterruptedException {
         if (theAgent == null) {
             Agent.init();
         }
@@ -199,7 +201,7 @@ public class Agent {
         return theAgent;
     }
 
-    public static synchronized void stop() {
+    public static synchronized void stop() throws InterruptedException, AgentException {
         if (theAgent != null) {
             theAgent.shutdown();
             theAgent = null;
@@ -230,7 +232,7 @@ public class Agent {
         this.thread.start();
     }
 
-    protected void shutdown() {
+    protected void shutdown() throws InterruptedException, AgentException {
         if (this.worker.isDead()) {
             return;
         }
@@ -238,85 +240,85 @@ public class Agent {
         this.worker.waitUntilDead();
     }
 
-    public boolean waitUntilAlive() {
+    public boolean waitUntilAlive() throws InterruptedException, AgentException {
         return this.worker.waitUntilAlive();
     }
 
-    public boolean waitUntilDead() {
+    public boolean waitUntilDead() throws InterruptedException, AgentException {
         return this.worker.waitUntilDead();
     }
 
-    public void registerService(IService iService) {
+    public void registerService(IService iService) throws InterruptedException, AgentException {
         if (iService == null) {
             return;
         }
         this.worker.registerService(iService, null, true);
     }
 
-    public void registerService(IService iService, IServiceWorker iServiceWorker) {
+    public void registerService(IService iService, IServiceWorker iServiceWorker) throws InterruptedException, AgentException {
         if (iService == null) {
             return;
         }
         this.worker.registerService(iService, iServiceWorker, true);
     }
 
-    public void unregisterService(IService iService) {
+    public void unregisterService(IService iService) throws InterruptedException, AgentException {
         if (iService == null) {
             return;
         }
         this.worker.registerService(iService, null, false);
     }
 
-    public void registerRemoteService(ServiceInstanceID serviceInstanceID, short s) {
+    public void registerRemoteService(ServiceInstanceID serviceInstanceID, short s) throws InterruptedException, AgentException {
         if (serviceInstanceID == null || s <= 0) {
             return;
         }
         this.worker.registerRemoteService(serviceInstanceID, s, true);
     }
 
-    public void unregisterRemoteService(ServiceInstanceID serviceInstanceID, short s) {
+    public void unregisterRemoteService(ServiceInstanceID serviceInstanceID, short s) throws InterruptedException, AgentException {
         if (serviceInstanceID == null || s <= 0) {
             return;
         }
         this.worker.registerRemoteService(serviceInstanceID, s, false);
     }
 
-    public void registerServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) {
+    public void registerServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) throws InterruptedException, AgentException {
         if (serviceInstanceID == null || iServiceInstanceListener == null) {
             return;
         }
         this.worker.registerServiceInstanceListener(serviceInstanceID, iServiceInstanceListener, true);
     }
 
-    public void unregisterServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) {
+    public void unregisterServiceInstanceListener(ServiceInstanceID serviceInstanceID, IServiceInstanceListener iServiceInstanceListener) throws InterruptedException, AgentException {
         if (serviceInstanceID == null || iServiceInstanceListener == null) {
             return;
         }
         this.worker.registerServiceInstanceListener(serviceInstanceID, iServiceInstanceListener, false);
     }
 
-    public void registerServiceListener(IService iService, IServiceListener iServiceListener) {
+    public void registerServiceListener(IService iService, IServiceListener iServiceListener) throws InterruptedException, AgentException {
         if (iService == null || iServiceListener == null) {
             return;
         }
         this.worker.registerServiceListener(iService, iServiceListener, true);
     }
 
-    public void unregisterServiceListener(IService iService, IServiceListener iServiceListener) {
+    public void unregisterServiceListener(IService iService, IServiceListener iServiceListener) throws InterruptedException, AgentException {
         if (iService == null || iServiceListener == null) {
             return;
         }
         this.worker.registerServiceListener(iService, iServiceListener, false);
     }
 
-    public void registerProxyListener(Proxy proxy, IProxyListener iProxyListener) {
+    public void registerProxyListener(Proxy proxy, IProxyListener iProxyListener) throws InterruptedException, AgentException {
         if (proxy == null || iProxyListener == null) {
             return;
         }
         this.worker.registerProxyListener(proxy, iProxyListener, true);
     }
 
-    public void unregisterProxyListener(Proxy proxy, IProxyListener iProxyListener) {
+    public void unregisterProxyListener(Proxy proxy, IProxyListener iProxyListener) throws InterruptedException, AgentException {
         if (proxy == null || iProxyListener == null) {
             return;
         }
@@ -353,7 +355,7 @@ public class Agent {
         this.worker.setTracePeer(s);
     }
 
-    public boolean sendCustomMessage(short s, byte by, byte[] byArray) {
+    public boolean sendCustomMessage(short s, byte by, byte[] byArray) throws ClientException, ConnectionFactoryException {
         ClientPool clientPool = this.worker.getClientPool();
         IClientHandler iClientHandler = clientPool.requestConnection(s, false);
         if (iClientHandler instanceof ConnectionClientHandler) {
@@ -434,19 +436,6 @@ public class Agent {
             IAgentStateListener iAgentStateListener = (IAgentStateListener)iterator.next();
             iAgentStateListener.agentAboutToStop(theAgent);
         }
-    }
-
-    static {
-        theAgent = null;
-        started = false;
-        errorString = null;
-        defaultNameService = null;
-        defaultConnectionFactoryProvider = null;
-        defaultUseBroker = null;
-        defaultCommConfig = null;
-        defaultDynamicAgentId = null;
-        defaultFatalErrorHandler = null;
-        stateListeners = new ArrayList();
     }
 }
 

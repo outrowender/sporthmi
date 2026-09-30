@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.KeyData;
 
 public class KeyDataSerializer {
-    public static void putOptionalKeyData(ISerializer iSerializer, KeyData keyData) {
+    public static void putOptionalKeyData(ISerializer iSerializer, KeyData keyData) throws SerializerException {
         boolean bl = keyData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class KeyDataSerializer {
         }
     }
 
-    public static void putOptionalKeyDataVarArray(ISerializer iSerializer, KeyData[] keyDataArray) {
+    public static void putOptionalKeyDataVarArray(ISerializer iSerializer, KeyData[] keyDataArray) throws SerializerException {
         boolean bl = keyDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class KeyDataSerializer {
         }
     }
 
-    public static KeyData getOptionalKeyData(IDeserializer iDeserializer) {
+    public static KeyData getOptionalKeyData(IDeserializer iDeserializer) throws SerializerException {
         KeyData keyData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class KeyDataSerializer {
         return keyData;
     }
 
-    public static KeyData[] getOptionalKeyDataVarArray(IDeserializer iDeserializer) {
+    public static KeyData[] getOptionalKeyDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         KeyData[] keyDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

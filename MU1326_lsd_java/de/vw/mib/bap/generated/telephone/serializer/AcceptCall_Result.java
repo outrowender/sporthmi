@@ -10,13 +10,12 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AcceptCall_Result
 implements ResultMethod {
     public int acceptCall_Result;
-    private static final int ACCEPT_CALL_RESULT_BITSIZE;
-    public static final int ACCEPT_CALL_RESULT_SUCCESSFUL;
-    public static final int ACCEPT_CALL_RESULT_NOT_SUCCESSFUL;
-    public static final int ACCEPT_CALL_RESULT_ABORT_SUCCESSFUL;
-    public static final int ACCEPT_CALL_RESULT_ABORT_NOT_SUCCESSFUL;
+    private static final int ACCEPT_CALL_RESULT_BITSIZE = 8;
+    public static final int ACCEPT_CALL_RESULT_SUCCESSFUL = 0;
+    public static final int ACCEPT_CALL_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int ACCEPT_CALL_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int ACCEPT_CALL_RESULT_ABORT_NOT_SUCCESSFUL = 3;
 
-    @Override
     public int getResultCode() {
         return this.acceptCall_Result;
     }
@@ -35,12 +34,10 @@ implements ResultMethod {
         this.acceptCall_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AcceptCall_Result acceptCall_Result = (AcceptCall_Result)bAPEntity;
         return this.acceptCall_Result == acceptCall_Result.acceptCall_Result;
@@ -49,7 +46,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AcceptCall_Result:");
@@ -78,18 +74,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.acceptCall_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.acceptCall_Result = bitStream.popFrontByte();
     }
@@ -98,7 +91,6 @@ implements ResultMethod {
         return 30;
     }
 
-    @Override
     public int getFunctionId() {
         return AcceptCall_Result.functionId();
     }

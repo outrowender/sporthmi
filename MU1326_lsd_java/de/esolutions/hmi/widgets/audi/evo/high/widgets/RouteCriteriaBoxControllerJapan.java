@@ -20,27 +20,27 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 public class RouteCriteriaBoxControllerJapan
 extends AbstractRouteCriteriaBoxController
 implements RouteOptionTollConstantsJp {
-    private static final int MODEL_TOLL_LIST;
-    private static final int NUM_ROUTE_CRITERIA;
-    private static final int ICON_REROUTING;
-    private static final int ICON_SEASONALLY_RESTRICTED;
-    private static final int ICON_FERRY;
-    private static final int ICON_MOTORWAY_ENTRANCE;
-    private static final int ICON_MOTORWAY_EXIT;
-    private static final int ICON_TOLL_SEGMENT;
-    private static final int ICON_TOLL_AMOUNT;
-    private static final int NUM_ICONS;
-    private static final int LABEL_MOTORWAY_ENTRANCE;
-    private static final int LABEL_MOTORWAY_EXIT;
-    private static final int LABEL_TOLL_SEGMENT;
-    private static final int LABEL_TOLL_AMOUNT;
-    private static final int NUM_TEXTS;
-    private static final int NUM_ROWS;
-    private static final int MAX_WIDTH_TEXT;
-    private static final int X_OFFSET;
-    private static final int[] Y_OFFSETS_TOLL_VISIBLE;
-    private static final int Y_OFFSET_SEP1;
-    private static final int Y_OFFSET_SEP2;
+    private static final int MODEL_TOLL_LIST = 401968;
+    private static final int NUM_ROUTE_CRITERIA = 3;
+    private static final int ICON_REROUTING = 0;
+    private static final int ICON_SEASONALLY_RESTRICTED = 1;
+    private static final int ICON_FERRY = 2;
+    private static final int ICON_MOTORWAY_ENTRANCE = 3;
+    private static final int ICON_MOTORWAY_EXIT = 4;
+    private static final int ICON_TOLL_SEGMENT = 5;
+    private static final int ICON_TOLL_AMOUNT = 6;
+    private static final int NUM_ICONS = 7;
+    private static final int LABEL_MOTORWAY_ENTRANCE = 0;
+    private static final int LABEL_MOTORWAY_EXIT = 1;
+    private static final int LABEL_TOLL_SEGMENT = 2;
+    private static final int LABEL_TOLL_AMOUNT = 3;
+    private static final int NUM_TEXTS = 4;
+    private static final int NUM_ROWS = 5;
+    private static final int MAX_WIDTH_TEXT = 115;
+    private static final int X_OFFSET = 9;
+    private static final int[] Y_OFFSETS_TOLL_VISIBLE = new int[]{9, 66, 114, 180, 219};
+    private static final int Y_OFFSET_SEP1 = 49;
+    private static final int Y_OFFSET_SEP2 = 163;
     private LayoutContainerController[] rows;
     private LabelController[] labels;
     private IconController separatingLineTop;
@@ -48,7 +48,6 @@ implements RouteOptionTollConstantsJp {
     private boolean isTollInfoVisible;
     private String[] cachedTexts;
 
-    @Override
     protected boolean isRegion(int n) {
         return n == 3;
     }
@@ -72,30 +71,27 @@ implements RouteOptionTollConstantsJp {
         layoutContainerController.setLayoutManager(gridLayout);
     }
 
-    @Override
     protected void printBoxInfo(LogChannel logChannel) {
         if (logChannel.isDebug()) {
             int n;
             for (n = 0; n < this.itemState.length; ++n) {
-                logChannel.log(-2137614336, "RouteCriteriaBoxController#printBoxInfo %1-th itemState: %2", (long)n, (long)this.itemState[n]);
+                logChannel.log(10000000, "RouteCriteriaBoxController#printBoxInfo %1-th itemState: %2", (long)n, (long)this.itemState[n]);
             }
             for (n = 0; n < 3; ++n) {
-                logChannel.log(-2137614336, "RouteCriteriaBoxController#printBoxInfo %2-th icon visible: %1", this.icons[n].isVisible(), (long)n);
+                logChannel.log(10000000, "RouteCriteriaBoxController#printBoxInfo %2-th icon visible: %1", this.icons[n].isVisible(), (long)n);
             }
             for (n = 0; n < this.labels.length; ++n) {
-                logChannel.log(-2137614336, "RouteCriteriaBoxController#printBoxInfo %2-th text: %1", (Object)this.labels[n].getText(), (long)n);
+                logChannel.log(10000000, "RouteCriteriaBoxController#printBoxInfo %2-th text: %1", (Object)this.labels[n].getText(), (long)n);
             }
         }
     }
 
-    @Override
     protected void setUpIndividualProperties() {
         this.itemState = new int[3];
         this.cachedTexts = new String[4];
-        this.modelStubs = new int[]{807536128};
+        this.modelStubs = new int[]{401968};
     }
 
-    @Override
     protected void setUpWidgets() {
         int n;
         int[] nArray = this.getBitmapIndices();
@@ -133,7 +129,6 @@ implements RouteOptionTollConstantsJp {
         this.add(this.separatingLineBottom);
     }
 
-    @Override
     protected void setUpLayout() {
         GridLayout gridLayout = new GridLayout();
         AxisConstraints axisConstraints = new AxisConstraints(1);
@@ -161,7 +156,6 @@ implements RouteOptionTollConstantsJp {
         this.setPreferredWidth(178);
     }
 
-    @Override
     protected void updateContent(Object object, int n) {
         Object[] objectArray;
         Object object2;
@@ -173,7 +167,7 @@ implements RouteOptionTollConstantsJp {
             objectArray = new int[this.itemState.length];
             RouteCriteriaBoxControllerJapan.getRow((ListCell[][])object2, 0, new int[]{1, 7, 3}, objectArray);
             if (this.isInitialized() && !RouteCriteriaBoxControllerJapan.arrayChanged(this.itemState, objectArray)) {
-                mapOverlayLogCh.log(-2137614336, "RouteCriteriaBoxControllerJapan#updateContent Content not changed for model %1.", (long)n);
+                mapOverlayLogCh.log(10000000, "RouteCriteriaBoxControllerJapan#updateContent Content not changed for model %1.", (long)n);
                 return;
             }
             this.itemState = objectArray;
@@ -181,7 +175,7 @@ implements RouteOptionTollConstantsJp {
             this.icons[0].setValue(this.itemState[0]);
             this.icons[1].setVisible(this.itemState[1] == 1);
             this.icons[2].setVisible(this.itemState[2] == 1);
-        } else if (n == 807536128) {
+        } else if (n == 401968) {
             boolean bl;
             if (!(object instanceof TiledListModelGUI)) {
                 mapOverlayLogCh.log(10000, "RouteCriteriaBoxControllerJapan#updateContent data is null.");
@@ -192,7 +186,7 @@ implements RouteOptionTollConstantsJp {
             RouteCriteriaBoxControllerJapan.getRow((TiledListModelGUI)object2, 0, (String[])objectArray);
             boolean bl2 = bl = object2.getStatus() == 1;
             if (this.isInitialized() && !RouteCriteriaBoxControllerJapan.arrayChanged(this.cachedTexts, (String[])objectArray) && this.isTollInfoVisible == bl) {
-                mapOverlayLogCh.log(-2137614336, "RouteCriteriaBoxControllerJapan#updateContent Content not changed for model %1.", (long)n);
+                mapOverlayLogCh.log(10000000, "RouteCriteriaBoxControllerJapan#updateContent Content not changed for model %1.", (long)n);
                 return;
             }
             this.cachedTexts = (String[])objectArray;
@@ -205,7 +199,7 @@ implements RouteOptionTollConstantsJp {
             mapOverlayLogCh.log(10000, "RouteCriteriaBoxControllerJapan#updateContent Received update event from unknown model with ID = %1", (long)n);
             return;
         }
-        mapOverlayLogCh.log(-2137614336, "RouteCriteriaBoxControllerJapan#updateContent tollVisible = %1", this.isTollInfoVisible);
+        mapOverlayLogCh.log(10000000, "RouteCriteriaBoxControllerJapan#updateContent tollVisible = %1", this.isTollInfoVisible);
         int n2 = this.isTollInfoVisible ? 260 : 50;
         this.setPreferredHeight(n2);
         this.rows[0].setVisible(true);
@@ -216,10 +210,6 @@ implements RouteOptionTollConstantsJp {
         this.separatingLineBottom.setVisible(this.isTollInfoVisible);
         this.setCompositesDirty(true);
         this.printBoxInfo(mapOverlayLogCh);
-    }
-
-    static {
-        Y_OFFSETS_TOLL_VISIBLE = new int[]{9, 66, 114, 180, 219};
     }
 }
 

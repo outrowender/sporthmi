@@ -8,56 +8,47 @@ import org.dsi.ifc.organizer.AdbEntry;
 
 public interface DSIAdbEdit
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_INSERTENTRY;
-    public static final int RT_GETENTRIES;
-    public static final int RT_CHANGEENTRY;
-    public static final int RT_COPYENTRY;
-    public static final int RT_DELETEENTRIES;
-    public static final int RT_GETENTRYDATASETS;
-    public static final int RT_SETSPEEDDIAL;
-    public static final int RT_DELETESPEEDDIAL;
-    public static final int RT_GETENTRYBYREFERENCEID;
-    public static final int ATTR_NEWENTRYAVAILABLE;
-    public static final int ATTR_NEWPUBLICPROFILEENTRYAVAILABLE;
-    public static final int ATTR_NEWTOPDESTINATIONENTRYAVAILABLE;
-    public static final int ATTR_NEWPUBLICPROFILETOPDESTENTRYAVAILABLE;
-    public static final int ATTR_NEWONLINEDESTINATIONENTRYAVAILABLE;
-    public static final int RP_INSERTENTRYRESULT;
-    public static final int RP_GETENTRIESRESULT;
-    public static final int RP_COPYENTRYRESULT;
-    public static final int RP_DELETEENTRIESRESULT;
-    public static final int RP_CHANGEENTRYRESULT;
-    public static final int RP_GETENTRYDATASETSRESULT;
-    public static final int RP_SETSPEEDDIALRESULT;
-    public static final int RP_DELETESPEEDDIALRESULT;
-    public static final int RP_GETENTRYBYREFERENCEIDRESULT;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_INSERTENTRY = 1000;
+    public static final int RT_GETENTRIES = 1001;
+    public static final int RT_CHANGEENTRY = 1002;
+    public static final int RT_COPYENTRY = 1003;
+    public static final int RT_DELETEENTRIES = 1004;
+    public static final int RT_GETENTRYDATASETS = 1007;
+    public static final int RT_SETSPEEDDIAL = 1008;
+    public static final int RT_DELETESPEEDDIAL = 1009;
+    public static final int RT_GETENTRYBYREFERENCEID = 1010;
+    public static final int ATTR_NEWENTRYAVAILABLE = 1;
+    public static final int ATTR_NEWPUBLICPROFILEENTRYAVAILABLE = 2;
+    public static final int ATTR_NEWTOPDESTINATIONENTRYAVAILABLE = 3;
+    public static final int ATTR_NEWPUBLICPROFILETOPDESTENTRYAVAILABLE = 4;
+    public static final int ATTR_NEWONLINEDESTINATIONENTRYAVAILABLE = 5;
+    public static final int RP_INSERTENTRYRESULT = 2000;
+    public static final int RP_GETENTRIESRESULT = 2001;
+    public static final int RP_COPYENTRYRESULT = 2002;
+    public static final int RP_DELETEENTRIESRESULT = 2003;
+    public static final int RP_CHANGEENTRYRESULT = 2006;
+    public static final int RP_GETENTRYDATASETSRESULT = 2007;
+    public static final int RP_SETSPEEDDIALRESULT = 2008;
+    public static final int RP_DELETESPEEDDIALRESULT = 2009;
+    public static final int RP_GETENTRYBYREFERENCEIDRESULT = 2010;
 
-    default public void insertEntry(AdbEntry adbEntry, int n) {
-    }
+    public void insertEntry(AdbEntry var1, int var2);
 
-    default public void getEntries(long[] lArray, int n, int n2) {
-    }
+    public void getEntries(long[] var1, int var2, int var3);
 
-    default public void getEntryDataSets(long[] lArray, int n, int n2) {
-    }
+    public void getEntryDataSets(long[] var1, int var2, int var3);
 
-    default public void changeEntry(AdbEntry adbEntry, int n) {
-    }
+    public void changeEntry(AdbEntry var1, int var2);
 
-    default public void copyEntry(long l) {
-    }
+    public void copyEntry(long var1);
 
-    default public void deleteEntries(long[] lArray, int n, int n2) {
-    }
+    public void deleteEntries(long[] var1, int var2, int var3);
 
-    default public void setSpeedDial(AdbEntry adbEntry) {
-    }
+    public void setSpeedDial(AdbEntry var1);
 
-    default public void deleteSpeedDial(int n) {
-    }
+    public void deleteSpeedDial(int var1);
 
-    default public void getEntryByReferenceId(String string) {
-    }
+    public void getEntryByReferenceId(String var1);
 }
 

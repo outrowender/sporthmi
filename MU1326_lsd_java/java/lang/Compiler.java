@@ -14,8 +14,7 @@ public final class Compiler {
         return Compiler.commandImpl(object);
     }
 
-    private static native Object commandImpl(Object object) {
-    }
+    private static native Object commandImpl(Object var0);
 
     public static boolean compileClass(Class clazz) {
         if (clazz == null) {
@@ -24,8 +23,7 @@ public final class Compiler {
         return Compiler.compileClassImpl(clazz);
     }
 
-    private static native boolean compileClassImpl(Class clazz) {
-    }
+    private static native boolean compileClassImpl(Class var0);
 
     public static boolean compileClasses(String string) {
         if (string == null) {
@@ -34,13 +32,10 @@ public final class Compiler {
         return Compiler.compileClassesImpl(string);
     }
 
-    private static native boolean compileClassesImpl(String string) {
-    }
+    private static native boolean compileClassesImpl(String var0);
 
-    public static native void disable() {
-    }
+    public static native void disable();
 
-    public static native void enable() {
-    }
+    public static native void enable();
 }
 

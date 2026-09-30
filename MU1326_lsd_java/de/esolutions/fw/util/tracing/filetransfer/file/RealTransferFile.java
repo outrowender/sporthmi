@@ -29,7 +29,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean open(boolean bl) {
         RealTransferFile realTransferFile = this;
         synchronized (realTransferFile) {
@@ -68,7 +67,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean write(byte[] byArray) {
         RealTransferFile realTransferFile = this;
         synchronized (realTransferFile) {
@@ -91,7 +89,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public byte[] read(int n) {
         RealTransferFile realTransferFile = this;
         synchronized (realTransferFile) {
@@ -144,7 +141,6 @@ extends AbstractTransferFile {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean close() {
         RealTransferFile realTransferFile = this;
         synchronized (realTransferFile) {
@@ -154,7 +150,7 @@ extends AbstractTransferFile {
                     this.offset = 0L;
                     this.randomAccessFile.close();
                     if (this.writable && this.fileHandler != null && (this.filename == null || this.filename != null && this.filename.length() > 0)) {
-                        String string = new StringBuffer().append(FileTransferUtils.getPath(this.localPath, FileTransferUtils.getSeperator(this.localPath))).append(this.filename).toString();
+                        String string = FileTransferUtils.getPath(this.localPath, FileTransferUtils.getSeperator(this.localPath)) + this.filename;
                         File file = new File(string = FileTransferUtils.findAvailableFileName(string));
                         if (file.exists() && !file.delete()) {
                             return false;
@@ -178,7 +174,6 @@ extends AbstractTransferFile {
         return false;
     }
 
-    @Override
     public void setError(FileTransferError fileTransferError) {
         super.setError(fileTransferError);
         this.closeOnError();

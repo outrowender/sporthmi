@@ -27,13 +27,11 @@ implements IAdapterDiagnosis {
         this.errorLog = iAdapterErrorLog;
     }
 
-    @Override
     public IAdapterSnapshot createSnapshot() {
         AdapterSnapshot adapterSnapshot = new AdapterSnapshot(this.admin);
         return adapterSnapshot;
     }
 
-    @Override
     public IAdapterErrorLog getErrorLog() {
         return this.errorLog;
     }

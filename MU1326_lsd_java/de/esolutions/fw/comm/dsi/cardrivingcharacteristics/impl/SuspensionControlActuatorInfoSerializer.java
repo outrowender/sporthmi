@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlActuatorInfo;
 
 public class SuspensionControlActuatorInfoSerializer {
-    public static void putOptionalSuspensionControlActuatorInfo(ISerializer iSerializer, SuspensionControlActuatorInfo suspensionControlActuatorInfo) {
+    public static void putOptionalSuspensionControlActuatorInfo(ISerializer iSerializer, SuspensionControlActuatorInfo suspensionControlActuatorInfo) throws SerializerException {
         boolean bl = suspensionControlActuatorInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SuspensionControlActuatorInfoSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlActuatorInfoVarArray(ISerializer iSerializer, SuspensionControlActuatorInfo[] suspensionControlActuatorInfoArray) {
+    public static void putOptionalSuspensionControlActuatorInfoVarArray(ISerializer iSerializer, SuspensionControlActuatorInfo[] suspensionControlActuatorInfoArray) throws SerializerException {
         boolean bl = suspensionControlActuatorInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SuspensionControlActuatorInfoSerializer {
         }
     }
 
-    public static SuspensionControlActuatorInfo getOptionalSuspensionControlActuatorInfo(IDeserializer iDeserializer) {
+    public static SuspensionControlActuatorInfo getOptionalSuspensionControlActuatorInfo(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlActuatorInfo suspensionControlActuatorInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SuspensionControlActuatorInfoSerializer {
         return suspensionControlActuatorInfo;
     }
 
-    public static SuspensionControlActuatorInfo[] getOptionalSuspensionControlActuatorInfoVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlActuatorInfo[] getOptionalSuspensionControlActuatorInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlActuatorInfo[] suspensionControlActuatorInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

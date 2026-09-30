@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavNextWayPointInfo;
 
 public class NavNextWayPointInfoSerializer {
-    public static void putOptionalNavNextWayPointInfo(ISerializer iSerializer, NavNextWayPointInfo navNextWayPointInfo) {
+    public static void putOptionalNavNextWayPointInfo(ISerializer iSerializer, NavNextWayPointInfo navNextWayPointInfo) throws SerializerException {
         boolean bl = navNextWayPointInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class NavNextWayPointInfoSerializer {
         }
     }
 
-    public static void putOptionalNavNextWayPointInfoVarArray(ISerializer iSerializer, NavNextWayPointInfo[] navNextWayPointInfoArray) {
+    public static void putOptionalNavNextWayPointInfoVarArray(ISerializer iSerializer, NavNextWayPointInfo[] navNextWayPointInfoArray) throws SerializerException {
         boolean bl = navNextWayPointInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class NavNextWayPointInfoSerializer {
         }
     }
 
-    public static NavNextWayPointInfo getOptionalNavNextWayPointInfo(IDeserializer iDeserializer) {
+    public static NavNextWayPointInfo getOptionalNavNextWayPointInfo(IDeserializer iDeserializer) throws SerializerException {
         NavNextWayPointInfo navNextWayPointInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class NavNextWayPointInfoSerializer {
         return navNextWayPointInfo;
     }
 
-    public static NavNextWayPointInfo[] getOptionalNavNextWayPointInfoVarArray(IDeserializer iDeserializer) {
+    public static NavNextWayPointInfo[] getOptionalNavNextWayPointInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavNextWayPointInfo[] navNextWayPointInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sVersionsNavDB;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sVersionsNavDBSerializer {
-    public static void putOptionalsVersionsNavDB(ISerializer iSerializer, sVersionsNavDB sVersionsNavDB2) {
+    public static void putOptionalsVersionsNavDB(ISerializer iSerializer, sVersionsNavDB sVersionsNavDB2) throws SerializerException {
         boolean bl = sVersionsNavDB2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sVersionsNavDBSerializer {
         }
     }
 
-    public static void putOptionalsVersionsNavDBVarArray(ISerializer iSerializer, sVersionsNavDB[] sVersionsNavDBArray) {
+    public static void putOptionalsVersionsNavDBVarArray(ISerializer iSerializer, sVersionsNavDB[] sVersionsNavDBArray) throws SerializerException {
         boolean bl = sVersionsNavDBArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sVersionsNavDBSerializer {
         }
     }
 
-    public static sVersionsNavDB getOptionalsVersionsNavDB(IDeserializer iDeserializer) {
+    public static sVersionsNavDB getOptionalsVersionsNavDB(IDeserializer iDeserializer) throws SerializerException {
         sVersionsNavDB sVersionsNavDB2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class sVersionsNavDBSerializer {
         return sVersionsNavDB2;
     }
 
-    public static sVersionsNavDB[] getOptionalsVersionsNavDBVarArray(IDeserializer iDeserializer) {
+    public static sVersionsNavDB[] getOptionalsVersionsNavDBVarArray(IDeserializer iDeserializer) throws SerializerException {
         sVersionsNavDB[] sVersionsNavDBArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

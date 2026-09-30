@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.audio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.audio.AmplifierCapabilities;
 
 public class AmplifierCapabilitiesSerializer {
-    public static void putOptionalAmplifierCapabilities(ISerializer iSerializer, AmplifierCapabilities amplifierCapabilities) {
+    public static void putOptionalAmplifierCapabilities(ISerializer iSerializer, AmplifierCapabilities amplifierCapabilities) throws SerializerException {
         boolean bl = amplifierCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class AmplifierCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalAmplifierCapabilitiesVarArray(ISerializer iSerializer, AmplifierCapabilities[] amplifierCapabilitiesArray) {
+    public static void putOptionalAmplifierCapabilitiesVarArray(ISerializer iSerializer, AmplifierCapabilities[] amplifierCapabilitiesArray) throws SerializerException {
         boolean bl = amplifierCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class AmplifierCapabilitiesSerializer {
         }
     }
 
-    public static AmplifierCapabilities getOptionalAmplifierCapabilities(IDeserializer iDeserializer) {
+    public static AmplifierCapabilities getOptionalAmplifierCapabilities(IDeserializer iDeserializer) throws SerializerException {
         AmplifierCapabilities amplifierCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class AmplifierCapabilitiesSerializer {
         return amplifierCapabilities;
     }
 
-    public static AmplifierCapabilities[] getOptionalAmplifierCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static AmplifierCapabilities[] getOptionalAmplifierCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         AmplifierCapabilities[] amplifierCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

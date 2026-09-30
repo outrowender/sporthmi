@@ -20,7 +20,6 @@ import de.esolutions.hmi.widgets.audi.base.ScreenMainArea;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimationController;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.ContainerController$MutableAnimationTransformation;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PartialPopupActivatorController;
 import java.util.List;
 import org.osgi.framework.BundleContext;
@@ -28,11 +27,11 @@ import org.osgi.framework.BundleContext;
 public class PartialPopupManagerEvoHigh
 extends AbstractPartialPopupManager
 implements DrawerAnimationListener {
-    private static final float FIXED_PP_DRAWER_OPACITY;
-    private static final int PP_SKIN_CHANGE;
+    private static final float FIXED_PP_DRAWER_OPACITY = 0.75f;
+    private static final int PP_SKIN_CHANGE = 95;
     protected IPopupManagerEvo popupManagerEvo;
     private boolean registeredAtDrawerFocusManager;
-    private final ContainerController$MutableAnimationTransformation mainAreaTransform = new ContainerController$MutableAnimationTransformation();
+    private final ContainerController.MutableAnimationTransformation mainAreaTransform = new ContainerController.MutableAnimationTransformation();
 
     public PartialPopupManagerEvoHigh(HMITerminalImpl hMITerminalImpl, BundleContext bundleContext, IFrameworkAccess iFrameworkAccess, boolean bl) {
         super(hMITerminalImpl, bundleContext, iFrameworkAccess);
@@ -42,7 +41,6 @@ implements DrawerAnimationListener {
         this(hMITerminalImpl, bundleContext, iFrameworkAccess, true);
     }
 
-    @Override
     public String getPopupName(int n) {
         Buffer buffer = new Buffer();
         buffer.append(n);
@@ -52,7 +50,7 @@ implements DrawerAnimationListener {
             buffer.append(" (StatusBarG22)");
         } else if (n == 101) {
             buffer.append(" (StatusBarG24)");
-        } else if (n == 671817728) {
+        } else if (n == 2100008) {
             buffer.append(" (Car OPS)");
         } else if (n == 65) {
             buffer.append(" (DebugInfos)");
@@ -62,9 +60,9 @@ implements DrawerAnimationListener {
             buffer.append(" (Presets)");
         } else if (n == 61) {
             buffer.append(" (TrafficAnnouncement)");
-        } else if (n == 822812672) {
+        } else if (n == 2100017) {
             buffer.append(" (SeatLeft)");
-        } else if (n == 806035456) {
+        } else if (n == 2100016) {
             buffer.append(" (SeatRight)");
         } else if (n == 75 || n == 76 || n == 78 || n == 80 || n == 96 || n == 97 || n == 98 || n == 103 || n == 105 || n == 81) {
             buffer.append(" (UserHint)");
@@ -74,7 +72,6 @@ implements DrawerAnimationListener {
         return buffer.toString();
     }
 
-    @Override
     protected boolean isSDSPartialPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
         return false;
     }
@@ -83,22 +80,18 @@ implements DrawerAnimationListener {
         return false;
     }
 
-    @Override
     protected int getPopupIdStatusLine() {
         return 62;
     }
 
-    @Override
     protected int getPopupIdVolume() {
         return 52;
     }
 
-    @Override
     protected int getPopupIdInvalid() {
         return -1;
     }
 
-    @Override
     protected IPartialPopupListener getActivatorListener(List list) {
         PartialPopupActivatorController partialPopupActivatorController = null;
         for (int i2 = 0; i2 < list.size(); ++i2) {
@@ -109,23 +102,20 @@ implements DrawerAnimationListener {
         return partialPopupActivatorController;
     }
 
-    @Override
     protected void repaintScreen() {
         if (this.currentConnectedScreen != null) {
             ((AbstractScreenWidget)this.currentConnectedScreen).doCheckedRepaint();
         } else if (((AbstractAnimationController)this.terminal.getIAnimationController()).isFirstScreenShown()) {
             LOGPOPUPS.log(10000, "PartialPopupManager#repaintScreen currentConnectedScreen is null (has not been set correctly)");
         } else {
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#repaintScreen first screen was not shown, repaint will be triggered by first screen");
+            LOGPOPUPS.log(10000000, "PartialPopupManager#repaintScreen first screen was not shown, repaint will be triggered by first screen");
         }
     }
 
-    @Override
     protected boolean shouldCheckModelStatusOnExecutePopupAllowance(int n) {
         return true;
     }
 
-    @Override
     public int getHMIPrio(int n, int n2) {
         if (this.popupManagerEvo == null) {
             this.popupManagerEvo = (IPopupManagerEvo)((Object)this.framework.getHMIService().getPopupManager(this.terminal.getTerminalID()));
@@ -147,7 +137,7 @@ implements DrawerAnimationListener {
         this.mainAreaTransform.resetToIdentityTransformation();
         boolean bl = false;
         if (screenMainArea == null || !(screenMainArea instanceof ContainerController)) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#updateDrawerTransforma current connected screen has no MainArea");
+            LOGPOPUPS.log(1000000, "PartialPopupManager#updateDrawerTransforma current connected screen has no MainArea");
             f3 = 1.0f;
         } else {
             iWidgetLogChannel = (ContainerController)screenMainArea;
@@ -163,12 +153,11 @@ implements DrawerAnimationListener {
         } else {
             float f4 = Math.max(fArray[2], fArray[0]);
             f4 = Math.max(fArray[4], f4);
-            f2 = 1.0f - 32830 * f4;
+            f2 = 1.0f - 0.25f * f4;
         }
         ((EALManager)iWidgetLogChannel).getPartialPopupsBackNode().setOpacity(f2 * f3);
     }
 
-    @Override
     public int showPopup(int n) {
         int n2 = 3;
         if (n == 95) {
@@ -185,7 +174,6 @@ implements DrawerAnimationListener {
         return n2;
     }
 
-    @Override
     public int hidePopup(int n) {
         if (n == 95) {
             ((HMITerminalEvo)((Object)this.terminal)).setSkin(0);
@@ -194,26 +182,21 @@ implements DrawerAnimationListener {
         return super.hidePopup(n);
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
         this.updateDrawerTransformation(fArray);
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         this.updateDrawerTransformation(fArray);
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
         this.updateDrawerTransformation(fArray);
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 4117;
     }

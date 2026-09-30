@@ -3,38 +3,29 @@
  */
 package de.esolutions.fw.comm.dsi.trafficregulation;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSITrafficRegulationC {
-    default public void setSpeedLimitWarning(boolean bl, boolean bl2, int n) {
-    }
+    public void setSpeedLimitWarning(boolean var1, boolean var2, int var3) throws MethodException;
 
-    default public void requestRoadClassSpeedInfoForCountry(String string) {
-    }
+    public void requestRoadClassSpeedInfoForCountry(String var1) throws MethodException;
 
-    default public void setTrailerStatus(boolean bl) {
-    }
+    public void setTrailerStatus(boolean var1) throws MethodException;
 
-    default public void setWarningStatus(int n, boolean bl, boolean bl2, int n2) {
-    }
+    public void setWarningStatus(int var1, boolean var2, boolean var3, int var4) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

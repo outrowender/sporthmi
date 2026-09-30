@@ -9,31 +9,25 @@ import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 
 public interface XMLSchemaDescription
 extends XMLGrammarDescription {
-    public static final short CONTEXT_INCLUDE;
-    public static final short CONTEXT_REDEFINE;
-    public static final short CONTEXT_IMPORT;
-    public static final short CONTEXT_PREPARSE;
-    public static final short CONTEXT_INSTANCE;
-    public static final short CONTEXT_ELEMENT;
-    public static final short CONTEXT_ATTRIBUTE;
-    public static final short CONTEXT_XSITYPE;
+    public static final short CONTEXT_INCLUDE = 0;
+    public static final short CONTEXT_REDEFINE = 1;
+    public static final short CONTEXT_IMPORT = 2;
+    public static final short CONTEXT_PREPARSE = 3;
+    public static final short CONTEXT_INSTANCE = 4;
+    public static final short CONTEXT_ELEMENT = 5;
+    public static final short CONTEXT_ATTRIBUTE = 6;
+    public static final short CONTEXT_XSITYPE = 7;
 
-    default public short getContextType() {
-    }
+    public short getContextType();
 
-    default public String getTargetNamespace() {
-    }
+    public String getTargetNamespace();
 
-    default public String[] getLocationHints() {
-    }
+    public String[] getLocationHints();
 
-    default public QName getTriggeringComponent() {
-    }
+    public QName getTriggeringComponent();
 
-    default public QName getEnclosingElementName() {
-    }
+    public QName getEnclosingElementName();
 
-    default public XMLAttributes getAttributes() {
-    }
+    public XMLAttributes getAttributes();
 }
 

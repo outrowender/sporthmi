@@ -7,22 +7,16 @@ import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import java.util.Date;
 
 public interface Condition {
-    default public void await() {
-    }
+    public void await() throws InterruptedException;
 
-    default public void awaitUninterruptibly() {
-    }
+    public void awaitUninterruptibly();
 
-    default public boolean await(long l, TimeUnit timeUnit) {
-    }
+    public boolean await(long var1, TimeUnit var3) throws InterruptedException;
 
-    default public boolean awaitUntil(Date date) {
-    }
+    public boolean awaitUntil(Date var1) throws InterruptedException;
 
-    default public void signal() {
-    }
+    public void signal();
 
-    default public void signalAll() {
-    }
+    public void signalAll();
 }
 

@@ -23,7 +23,6 @@ import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.model.menu.focus.WidgetFocusAdvice;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.hmi.model.update.ModelUpdateData;
-import de.audi.atip.hmi.model.update.ModelUpdateData$Key;
 import de.audi.atip.hmi.view.AbstractScreenFactory;
 import de.audi.atip.mmicombi.IViewSizeManager;
 import de.audi.atip.util.StringUtilities;
@@ -34,7 +33,7 @@ import de.audi.remotehmi.ui.mib2.grid.IGridCell;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
 import de.audi.remotehmi.ui.mib2.grid.IRangeCounter;
 import de.audi.remotehmi.ui.mib2.grid.ISpeller;
-import de.audi.remotehmi.util.DurationUtil$Timer;
+import de.audi.remotehmi.util.DurationUtil;
 import de.audi.remotehmi.util.Util;
 import de.esolutions.hmi.widgets.audi.base.AbstractScreenWidget;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
@@ -45,9 +44,7 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.GridLayout;
 import de.esolutions.hmi.widgets.audi.evo.online.Dimensions;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListModel;
-import de.esolutions.hmi.widgets.audi.evo.online.GridListModel$RowSubrowIterator;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListRow;
-import de.esolutions.hmi.widgets.audi.evo.online.GridMenuChanger$MenuChildrenData;
 import de.esolutions.hmi.widgets.audi.evo.online.GridWidgetFactory;
 import de.esolutions.hmi.widgets.audi.evo.online.IGridImageLocker;
 import de.esolutions.hmi.widgets.audi.evo.online.IInfiniteListModelAccess;
@@ -95,11 +92,11 @@ import java.util.Map;
 public class GridMenuChanger
 extends GridWidgetFactory
 implements MenuChangeFactory {
-    private static final int APPROXIMATE_AVERAGE_LINE_HEIGHT;
-    private static final int APPROXIMATE_VERTICAL_SPACE;
-    private static final int MENU_BORDER_THICKNESS;
+    private static final int APPROXIMATE_AVERAGE_LINE_HEIGHT = 40;
+    private static final int APPROXIMATE_VERTICAL_SPACE = 10;
+    private static final int MENU_BORDER_THICKNESS = 10;
     private final MenuChangeController menuChangeController;
-    private DurationUtil$Timer timer;
+    private DurationUtil.Timer timer;
 
     public GridMenuChanger(MenuChangeController menuChangeController, int n, AbstractScreenFactory abstractScreenFactory) {
         super(n, abstractScreenFactory);
@@ -112,16 +109,15 @@ implements MenuChangeFactory {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void changeMenu(Object object) {
-        log.log(-2137614336, "GridMenuChanger#changeMenu: starting menu-change (and debug time) ...");
+        log.log(10000000, "GridMenuChanger#changeMenu: starting menu-change (and debug time) ...");
         if (!(object instanceof IGridList)) {
-            throw new IllegalArgumentException(new StringBuffer().append("GridMenuChanger#changeMenu: Cannot draw new screen. layout data is not of type IGridList! layoutInfo=").append(object).toString());
+            throw new IllegalArgumentException("GridMenuChanger#changeMenu: Cannot draw new screen. layout data is not of type IGridList! layoutInfo=" + object);
         }
         IGridList iGridList = (IGridList)object;
         Object object2 = iGridList.getListener();
         if (!(object2 instanceof MenuModelListener)) {
-            throw new IllegalArgumentException(new StringBuffer().append("GridMenuChanger#changeMenu: Cannot draw new screen. Listener data is not of type MenuModelListener! viewGridListener=").append(object2).toString());
+            throw new IllegalArgumentException("GridMenuChanger#changeMenu: Cannot draw new screen. Listener data is not of type MenuModelListener! viewGridListener=" + object2);
         }
         IGridList iGridList2 = iGridList;
         synchronized (iGridList2) {
@@ -137,10 +133,10 @@ implements MenuChangeFactory {
 
     private void changeMenuWork(IGridList iGridList, Object object) {
         int n;
-        this.timer = new DurationUtil$Timer();
-        log.log(-2137614336, "GridMenuChanger#changeMenu: new grid list = %1", iGridList.getLogObject(0));
+        this.timer = new DurationUtil.Timer();
+        log.log(10000000, "GridMenuChanger#changeMenu: new grid list = %1", iGridList.getLogObject(0));
         int n2 = iGridList.getUpdateSource();
-        String string = new StringBuffer(IGridList.sourceDescription[n2]).append(" (idRangeStart: ").append(iGridList.getIdRangeStart()).append(")").toString();
+        String string = IGridList.sourceDescription[n2] + " (idRangeStart: " + iGridList.getIdRangeStart() + ")";
         MenuController menuController = this.menuChangeController.getMainMenu();
         int n3 = n = iGridList.getAndClearUpdateMode();
         if (n < 0 || n >= IGridList.updateDescription.length) {
@@ -148,19 +144,19 @@ implements MenuChangeFactory {
             return;
         }
         String string2 = IGridList.updateDescription[n];
-        log.log(1078071040, "GridMenuChanger#changeMenu: updateSource=%1 updateMode=%2 begin", (Object)string, (Object)string2);
+        log.log(1000000, "GridMenuChanger#changeMenu: updateSource=%1 updateMode=%2 begin", (Object)string, (Object)string2);
         if (n != 5 && this.isMenuEmpty(menuController, iGridList)) {
             n = 5;
-            log.log(1078071040, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because menu is empty.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
+            log.log(1000000, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because menu is empty.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
         } else if (!iGridList.isRendered() && n != 5) {
             n = 5;
-            log.log(1078071040, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because grid list rendered flag is false.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
+            log.log(1000000, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because grid list rendered flag is false.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
         } else if (iGridList.isDirty() && n != 5 && n != 4) {
             n = 4;
-            log.log(1078071040, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because grid list dirty flag is true.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
+            log.log(1000000, "GridMenuChanger#changeMenu: updateSource=%1 escalated from %2 to %3 because grid list dirty flag is true.", (Object)string, (Object)IGridList.updateDescription[n3], (Object)IGridList.updateDescription[n]);
         }
         if (n == 0) {
-            log.log(1078071040, "GridMenuChanger#changeMenu: updateSource=%1 ... no menu-change needed!", (Object)string);
+            log.log(1000000, "GridMenuChanger#changeMenu: updateSource=%1 ... no menu-change needed!", (Object)string);
             return;
         }
         this.timer.takeMeasurement("prelim");
@@ -199,7 +195,7 @@ implements MenuChangeFactory {
                 iGridList.setDirty(false);
             }
         } else if (n == 1) {
-            log.log(1078071040, "GridMenuChanger#changeMenu: Doing nothing, option icon already updated. updateSource=%1, updateMode=%2", (Object)string, (Object)string2);
+            log.log(1000000, "GridMenuChanger#changeMenu: Doing nothing, option icon already updated. updateSource=%1, updateMode=%2", (Object)string, (Object)string2);
         } else {
             log.log(10000, "GridMenuChanger#changeMenu: unknown update mode encountered. Please correct code. updateSource=%1, updateMode=%2", (Object)string, (long)n);
             return;
@@ -210,7 +206,7 @@ implements MenuChangeFactory {
         if (iGridList.isDirty()) {
             log.log(10000, "GridMenuChanger#changeMenu: gridList remains dirty! updateSource=%1, updateMode=%2", (Object)string, (Object)string2);
         }
-        log.log(1078071040, "GridMenuChanger#changeMenu: rendering completed! updateSource=%1 updateMode=%2, timing: %3", (Object)string, (Object)string2, (Object)this.timer);
+        log.log(1000000, "GridMenuChanger#changeMenu: rendering completed! updateSource=%1 updateMode=%2, timing: %3", (Object)string, (Object)string2, (Object)this.timer);
     }
 
     private boolean isMenuEmpty(MenuController menuController, IGridList iGridList) {
@@ -240,12 +236,12 @@ implements MenuChangeFactory {
         Object object4;
         Object object5;
         Object object6;
-        log.log(1078071040, "GridMenuChanger#updateMenuStructureAndValues: new grid list = %1", iGridList.getLogObject(0));
+        log.log(1000000, "GridMenuChanger#updateMenuStructureAndValues: new grid list = %1", iGridList.getLogObject(0));
         if (this.lockController != null) {
             this.lockController.clearMenuImages();
         }
         int n = iGridList.getContentRightOffset();
-        log.log(1078071040, "GridMenuChanger#updateMenuStructureAndValues: rightOffset=%1", (long)n);
+        log.log(1000000, "GridMenuChanger#updateMenuStructureAndValues: rightOffset=%1", (long)n);
         MenuLayout menuLayout = menuController.getLayout();
         if (n != -1) {
             menuLayout.setContentRightOffset(n);
@@ -298,7 +294,7 @@ implements MenuChangeFactory {
         }
         object5 = (MenuModel)menuController.getModel();
         object4 = bl2 ? null : ((MenuModel)object5).getAdvice();
-        log.log(1078071040, "GridMenuChanger#updateMenuStructureAndValues: oldAdvice=%1", object4);
+        log.log(1000000, "GridMenuChanger#updateMenuStructureAndValues: oldAdvice=%1", object4);
         if (listController != null && !bl) {
             object3 = (GridListModel)listController.getModel();
             ((BaseListModel)object3).setListener(null);
@@ -481,7 +477,7 @@ implements MenuChangeFactory {
         ICursorComponent iCursorComponent = iGridList.getCurrentCursor().getFocus();
         int n = iCursorComponent.getIndex();
         int n2 = iCursorComponent.getSubindex();
-        log.log(1078071040, "GridMenuChanger#updateFocus: new focus = %1 (list idRangeStart=%2)", (Object)iCursorComponent, (long)iGridList.getIdRangeStart());
+        log.log(1000000, "GridMenuChanger#updateFocus: new focus = %1 (list idRangeStart=%2)", (Object)iCursorComponent, (long)iGridList.getIdRangeStart());
         int n3 = iGridList.getIndexBeforeLastPageOfInfiniteList();
         int[] nArray = this.getFocusedWidgetIds(iGridList, list, n, n2);
         FocusAdvice focusAdvice = this.getFocusAdvice(n, n3, widgetFocusAdvice);
@@ -529,7 +525,7 @@ implements MenuChangeFactory {
             int n10 = iMenuItem.getWidgetID();
             if (bl) {
                 if (n10 != n7) {
-                    log.log(1078071040, "GridMenuChanger#updateCursorOnly: menu child with id=%1 is not an infinite list controller", (long)n10);
+                    log.log(1000000, "GridMenuChanger#updateCursorOnly: menu child with id=%1 is not an infinite list controller", (long)n10);
                     continue;
                 }
                 n9 = -1;
@@ -537,7 +533,7 @@ implements MenuChangeFactory {
             } else {
                 n9 = iGridList.getIndexFromId(n10);
                 if (n9 == -1) {
-                    log.log(1078071040, "GridMenuChanger#updateCursorOnly: menu child with id=%1 is not a grid list element", (long)n10);
+                    log.log(1000000, "GridMenuChanger#updateCursorOnly: menu child with id=%1 is not a grid list element", (long)n10);
                     continue;
                 }
                 iGrid = (IGrid)iGridList.get(n9);
@@ -590,7 +586,7 @@ implements MenuChangeFactory {
     }
 
     private void updateOptionsIcon(boolean bl, FocusCursorController focusCursorController) {
-        log.log(1078071040, "GridMenuChanger#updateOptionsIcon: focusCursorController '%1' and isRightDrawerAvailable '%2'", (Object)focusCursorController, (Object)bl);
+        log.log(1000000, "GridMenuChanger#updateOptionsIcon: focusCursorController '%1' and isRightDrawerAvailable '%2'", (Object)focusCursorController, (Object)bl);
         if (focusCursorController != null) {
             focusCursorController.setOptionsIconVisibleForOnline(bl);
         }
@@ -669,21 +665,21 @@ implements MenuChangeFactory {
             modelTrigger = ModelTrigger.CLOSE_FOLDER;
         }
         gridListRow.getGrid().setExpanded(bl);
-        object = ModelUpdateData.obtain(n).put(ModelUpdateData$Key.INDEX, 1).put(ModelUpdateData$Key.UNIQUEID, l).put(ModelUpdateData$Key.COUNT, n2).put(ModelUpdateData$Key.PARENT_UNIQUEID, l2).put(ModelUpdateData$Key.TRIGGER, modelTrigger);
+        object = ModelUpdateData.obtain(n).put(ModelUpdateData.Key.INDEX, 1).put(ModelUpdateData.Key.UNIQUEID, l).put(ModelUpdateData.Key.COUNT, n2).put(ModelUpdateData.Key.PARENT_UNIQUEID, l2).put(ModelUpdateData.Key.TRIGGER, modelTrigger);
         WidgetUtilities.updateListControllerDirectly(listController, n, (ModelUpdateData)object, this.terminalId);
     }
 
     private int[] getFocusedWidgetIds(IGridList iGridList, List list, int n, int n2) {
         int[] nArray;
         if (n == -1) {
-            log.log(-2137614336, "GridMenuChanger#getFocusedWidgetIds: no item is focused.");
+            log.log(10000000, "GridMenuChanger#getFocusedWidgetIds: no item is focused.");
             return null;
         }
         if (iGridList.getViewType() == 2) {
             int n3 = iGridList.calculateUniqueId(n, 0);
             int n4 = iGridList.getIdRangeStart();
             int[] nArray2 = new int[]{n4, n3};
-            log.log(-2137614336, "GridMenuChanger#getFocusedWidgetIds: infinite list focused widget id=%1, subid=%2", (long)n4, (long)n3);
+            log.log(10000000, "GridMenuChanger#getFocusedWidgetIds: infinite list focused widget id=%1, subid=%2", (long)n4, (long)n3);
             return nArray2;
         }
         IGrid iGrid = (IGrid)iGridList.get(n);
@@ -698,14 +694,14 @@ implements MenuChangeFactory {
             MenuItemController menuItemController = (MenuItemController)abstractWidgetController;
             int n7 = menuItemController.getWidgetID();
             nArray = new int[]{n7};
-            log.log(-2137614336, "GridMenuChanger#getFocusedWidgetIds: menu item focused widget id=%1", (long)n7);
+            log.log(10000000, "GridMenuChanger#getFocusedWidgetIds: menu item focused widget id=%1", (long)n7);
         } else if (abstractWidgetController instanceof ListController) {
             ListController listController = (ListController)abstractWidgetController;
             int n8 = listController.getWidgetID();
             nArray = new int[]{n8, n2};
-            log.log(-2137614336, "GridMenuChanger#getFocusedWidgetIds: list item focused widget id=%1, subid=%2", (long)n8, (long)n2);
+            log.log(10000000, "GridMenuChanger#getFocusedWidgetIds: list item focused widget id=%1, subid=%2", (long)n8, (long)n2);
         } else {
-            log.log(10000, new StringBuffer().append("GridMenuChanger#getFocusedWidgetIds: Menu contains an unsupported item type. item=%1, displayedRow=%2").append(abstractWidgetController).toString(), (long)n5);
+            log.log(10000, "GridMenuChanger#getFocusedWidgetIds: Menu contains an unsupported item type. item=%1, displayedRow=%2" + abstractWidgetController, (long)n5);
             return null;
         }
         return nArray;
@@ -726,35 +722,35 @@ implements MenuChangeFactory {
                 if (abstractWidget instanceof MenuItemController) {
                     abstractWidgetController = (MenuItemController)abstractWidget;
                     n4 = ((MenuItemController)abstractWidgetController).getWidgetID();
-                    log.log(-2137614336, "GridMenuChanger#setCurrentMenuFocus: loop step %1: menuItemController id=%2", (long)n5, (long)n4);
+                    log.log(10000000, "GridMenuChanger#setCurrentMenuFocus: loop step %1: menuItemController id=%2", (long)n5, (long)n4);
                     if (n3 != n4) continue;
                     menuItemIndex = new MenuItemIndex(n5, 0);
-                    log.log(1078071040, "GridMenuChanger#setCurrentMenuFocus: loop step %1: found MenuItemController focusedMenuItemIndex=%2", (Object)Util.createInteger(n5), (Object)menuItemIndex);
+                    log.log(1000000, "GridMenuChanger#setCurrentMenuFocus: loop step %1: found MenuItemController focusedMenuItemIndex=%2", (Object)Util.createInteger(n5), (Object)menuItemIndex);
                     break;
                 }
                 if (abstractWidget instanceof ListController && n == 2) {
                     abstractWidgetController = (ListController)abstractWidget;
                     n4 = ((ListController)abstractWidgetController).getWidgetID();
-                    log.log(-2137614336, "GridMenuChanger#setCurrentMenuFocus: loop step %1: ListController id=%2", (long)n5, (long)n4);
+                    log.log(10000000, "GridMenuChanger#setCurrentMenuFocus: loop step %1: ListController id=%2", (long)n5, (long)n4);
                     if (n3 != n4) continue;
                     int n6 = nArray[1];
                     menuItemIndex = new MenuItemIndex(n5, ((ListController)abstractWidgetController).getItemIndexForUniqueID(n6));
-                    log.log(1078071040, "GridMenuChanger#setCurrentMenuFocus: loop step %1: found ListController focusedMenuItemIndex=%2", (Object)Util.createInteger(n5), (Object)menuItemIndex);
+                    log.log(1000000, "GridMenuChanger#setCurrentMenuFocus: loop step %1: found ListController focusedMenuItemIndex=%2", (Object)Util.createInteger(n5), (Object)menuItemIndex);
                     break;
                 }
-                log.log(-2137614336, "GridMenuChanger#setCurrentMenuFocus: loop step %1: class=%2", (Object)Util.createInteger(n5), (Object)abstractWidget.getClassName());
+                log.log(10000000, "GridMenuChanger#setCurrentMenuFocus: loop step %1: class=%2", (Object)Util.createInteger(n5), (Object)abstractWidget.getClassName());
             }
         }
         if (menuItemIndex == null) {
             menuItemIndex = menuController.getFirstMenuItem();
-            log.log(1078071040, "GridMenuChanger#setCurrentMenuFocus: Speller focusedMenuItemIndex=%2", (Object)menuItemIndex);
+            log.log(1000000, "GridMenuChanger#setCurrentMenuFocus: Speller focusedMenuItemIndex=%2", (Object)menuItemIndex);
         }
-        log.log(-2137614336, "GridMenuChanger#setCurrentMenuFocus: focussing advice=%1, MenuItemIndex=%2", (Object)focusAdvice, (Object)menuItemIndex);
+        log.log(10000000, "GridMenuChanger#setCurrentMenuFocus: focussing advice=%1, MenuItemIndex=%2", (Object)focusAdvice, (Object)menuItemIndex);
         menuController.focusItemImmediately(menuItemIndex, focusAdvice);
     }
 
     private List updateMenu(IGridList iGridList, MenuController menuController, Object object, ListController listController) {
-        GridMenuChanger$MenuChildrenData gridMenuChanger$MenuChildrenData;
+        MenuChildrenData menuChildrenData;
         GridListRow[] gridListRowArray;
         SeparatingLines separatingLines = (SeparatingLines)menuController.getChildOfRole(8);
         if (separatingLines != null && separatingLines.isAuto()) {
@@ -773,20 +769,20 @@ implements MenuChangeFactory {
                 n2 = gridListModel.nextUpdate();
             }
             gridListRowArray = this.createGridListRows(iGridList, n2, n);
-            gridMenuChanger$MenuChildrenData = new GridMenuChanger$MenuChildrenData(new ArrayList(0), new ArrayList(0));
+            menuChildrenData = new MenuChildrenData(new ArrayList(0), new ArrayList(0));
         } else {
             ICursorComponent iCursorComponent2 = iCursor.getSelection();
             int n3 = iGridList.isSelectionEnabled() ? iCursorComponent2.getIndex() : -1;
             gridListRowArray = null;
             int n4 = menuController.getWidth() - iGridList.getContentRightOffset();
-            gridMenuChanger$MenuChildrenData = this.createMenuChildrenList(iGridList, object, menuModel, n4, separatingLines, n3, iCursorComponent2.getSubindex(), n, iCursorComponent.getSubindex());
+            menuChildrenData = this.createMenuChildrenList(iGridList, object, menuModel, n4, separatingLines, n3, iCursorComponent2.getSubindex(), n, iCursorComponent.getSubindex());
         }
         this.timer.takeMeasurement("created-widgets");
-        this.redrawScreen(menuController, iGridList, gridMenuChanger$MenuChildrenData, listController, gridListRowArray, object);
-        return gridMenuChanger$MenuChildrenData.menuItemList;
+        this.redrawScreen(menuController, iGridList, menuChildrenData, listController, gridListRowArray, object);
+        return menuChildrenData.menuItemList;
     }
 
-    private GridMenuChanger$MenuChildrenData createMenuChildrenList(IGridList iGridList, Object object, MenuModel menuModel, int n, SeparatingLines separatingLines, int n2, int n3, int n4, int n5) {
+    private MenuChildrenData createMenuChildrenList(IGridList iGridList, Object object, MenuModel menuModel, int n, SeparatingLines separatingLines, int n2, int n3, int n4, int n5) {
         ISpeller iSpeller = iGridList.getSpeller();
         SpellerListener spellerListener = iSpeller == null ? null : (SpellerListener)iSpeller.getSpellerListener();
         int n6 = iGridList.getIdRangeStart();
@@ -818,10 +814,10 @@ implements MenuChangeFactory {
             abstractWidgetController = abstractWidgetController2;
             iGrid = iGrid2;
         }
-        return new GridMenuChanger$MenuChildrenData(arrayList, arrayList2);
+        return new MenuChildrenData(arrayList, arrayList2);
     }
 
-    private void redrawScreen(MenuController menuController, IGridList iGridList, GridMenuChanger$MenuChildrenData gridMenuChanger$MenuChildrenData, ListController listController, GridListRow[] gridListRowArray, Object object) {
+    private void redrawScreen(MenuController menuController, IGridList iGridList, MenuChildrenData menuChildrenData, ListController listController, GridListRow[] gridListRowArray, Object object) {
         int n;
         Object object2;
         Object object3;
@@ -836,7 +832,7 @@ implements MenuChangeFactory {
         MenuModel menuModel = (MenuModel)menuController.getModel();
         if (listController == null) {
             IRangeCounter iRangeCounter = iGridList.getRangeCounter();
-            object4 = gridMenuChanger$MenuChildrenData.separatingLinesAdded;
+            object4 = menuChildrenData.separatingLinesAdded;
             object3 = menuController.getChildren();
             for (int i2 = object3.size() - 1; i2 >= 0; --i2) {
                 boolean bl;
@@ -879,7 +875,7 @@ implements MenuChangeFactory {
             object4.updateInfiniteListData(iGridList.getInfiniteListData(), gridListRowArray);
         } else {
             int n5 = menuController.getChildrenSize();
-            object3 = gridMenuChanger$MenuChildrenData.menuItemList.listIterator();
+            object3 = menuChildrenData.menuItemList.listIterator();
             while (object3.hasNext()) {
                 AbstractWidget abstractWidget = (AbstractWidget)object3.next();
                 menuController.addWithPosition(abstractWidget, n5 + object3.previousIndex());
@@ -906,10 +902,10 @@ implements MenuChangeFactory {
         }
         Map map = GridMenuChanger.analyseIds(gridListModel, gridListRowArray);
         if (map.isEmpty()) {
-            log.log(1078071040, "GridMenuChanger#mergeOldAndNewListRows: Matching by index");
+            log.log(1000000, "GridMenuChanger#mergeOldAndNewListRows: Matching by index");
             list = GridMenuChanger.matchByIndex(listController, gridListRowArray);
         } else {
-            log.log(1078071040, "GridMenuChanger#mergeOldAndNewListRows: Matching by ID");
+            log.log(1000000, "GridMenuChanger#mergeOldAndNewListRows: Matching by ID");
             list = GridMenuChanger.matchById(listController, gridListRowArray, map);
         }
         GridMenuChanger.flattenInfiniteList(gridListModel);
@@ -994,7 +990,7 @@ implements MenuChangeFactory {
         menuItemController.setInfolineTextDisabled(string);
         menuItemController.setInfolineTextEnabled(string);
         menuItemController.setEnabled(iGrid.isEnabled());
-        log.log(-2137614336, "GridListItemFactory#createMenuItemWithLayouts: menuitem: %1, enabled: %2, grid enalbed: %3", (Object)iGrid.getId(), (Object)Boolean.toString(menuItemController.isEnabled()), (Object)Boolean.toString(iGrid.isEnabled()));
+        log.log(10000000, "GridListItemFactory#createMenuItemWithLayouts: menuitem: %1, enabled: %2, grid enalbed: %3", (Object)iGrid.getId(), (Object)Boolean.toString(menuItemController.isEnabled()), (Object)Boolean.toString(iGrid.isEnabled()));
         return menuItemController;
     }
 
@@ -1022,7 +1018,7 @@ implements MenuChangeFactory {
         int n2 = gridListRowArray.length;
         if (n2 > 0) {
             gridListModel.setLength(n2);
-            gridListModel.setRows(128, 0, gridListRowArray);
+            gridListModel.setRows(Integer.MIN_VALUE, 0, gridListRowArray);
         }
         return gridListModel;
     }
@@ -1058,7 +1054,7 @@ implements MenuChangeFactory {
             int n8 = iMenuItem.getWidgetID();
             if (bl2) {
                 if (n8 != n5) {
-                    log.log(1078071040, "GridMenuChanger#updateValuesOnly: menu child with id=%1 is not an infinite list controller", (long)n8);
+                    log.log(1000000, "GridMenuChanger#updateValuesOnly: menu child with id=%1 is not an infinite list controller", (long)n8);
                     continue;
                 }
                 n7 = -1;
@@ -1066,7 +1062,7 @@ implements MenuChangeFactory {
             } else {
                 n7 = iGridList.getIndexFromId(n8);
                 if (n7 == -1) {
-                    log.log(1078071040, "GridMenuChanger#updateValuesOnly: menu child with id=%1 is not a grid list element", (long)n8);
+                    log.log(1000000, "GridMenuChanger#updateValuesOnly: menu child with id=%1 is not a grid list element", (long)n8);
                     continue;
                 }
                 iGrid = (IGrid)iGridList.get(n7);
@@ -1383,7 +1379,7 @@ implements MenuChangeFactory {
         boolean bl2 = n3 == 2;
         int n4 = bl2 ? iGridList.getInfiniteListData().getStartIndex() : -1;
         int n5 = iGridList.getIdRangeStart();
-        log.log(1078071040, "GridMenuChanger#updateGridStructureAndValues: starting to update elements. isMediaType=%1, isInfiniteList=%2, idRangeStart=%3", (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Integer.toString(n5));
+        log.log(1000000, "GridMenuChanger#updateGridStructureAndValues: starting to update elements. isMediaType=%1, isInfiniteList=%2, idRangeStart=%3", (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Integer.toString(n5));
         int n6 = list.size();
         for (int i2 = 0; i2 < n6; ++i2) {
             AbstractWidgetController abstractWidgetController;
@@ -1395,13 +1391,13 @@ implements MenuChangeFactory {
             boolean bl3 = iMenuItem instanceof MenuItemController;
             boolean bl4 = iMenuItem instanceof ListController;
             if (!bl3 && !bl4) {
-                log.log(-2137614336, "GridMenuChanger#updateGridStructureAndValues: menu child=%1 is not an updatable element", (Object)super.getClass());
+                log.log(10000000, "GridMenuChanger#updateGridStructureAndValues: menu child=%1 is not an updatable element", (Object)iMenuItem.getClass());
                 continue;
             }
             int n8 = iMenuItem.getWidgetID();
             if (bl2) {
                 if (n8 != n5) {
-                    log.log(1078071040, "GridMenuChanger#updateGridStructureAndValues: menu child with id=%1 is not an infinite list controller", (long)n8);
+                    log.log(1000000, "GridMenuChanger#updateGridStructureAndValues: menu child with id=%1 is not an infinite list controller", (long)n8);
                     continue;
                 }
                 n7 = -1;
@@ -1409,13 +1405,13 @@ implements MenuChangeFactory {
             } else {
                 n7 = iGridList.getIndexFromId(n8);
                 if (n7 == -1) {
-                    log.log(1078071040, "GridMenuChanger#updateGridStructureAndValues: menu child with id=%1 is not a grid list element", (long)n8);
+                    log.log(1000000, "GridMenuChanger#updateGridStructureAndValues: menu child with id=%1 is not a grid list element", (long)n8);
                     continue;
                 }
                 iGrid = (IGrid)iGridList.get(n7);
             }
             boolean bl5 = n == n7;
-            log.log(-2137614336, "GridMenuChanger#updateGridStructureAndValues: updating menu child with id=%1. isMenuItemController=%2", (Object)Integer.toString(n8), (Object)Boolean.toString(bl3));
+            log.log(10000000, "GridMenuChanger#updateGridStructureAndValues: updating menu child with id=%1. isMenuItemController=%2", (Object)Integer.toString(n8), (Object)Boolean.toString(bl3));
             if (bl3) {
                 abstractWidgetController = (MenuItemController)iMenuItem;
                 this.deleteAllWidgets((MenuItemController)abstractWidgetController);
@@ -1432,7 +1428,7 @@ implements MenuChangeFactory {
             }
             this.updateGridForList((ListController)abstractWidgetController, iGrid, iGrid.getExpandedList(), bl2, bl5, n2);
         }
-        log.log(1078071040, "GridMenuChanger#updateGridStructureAndValues: updating elements finished.");
+        log.log(1000000, "GridMenuChanger#updateGridStructureAndValues: updating elements finished.");
     }
 
     private void updateModelValuesForList(ListController listController, IGrid iGrid, IGridList iGridList, boolean bl, boolean bl2, int n) {
@@ -1451,7 +1447,7 @@ implements MenuChangeFactory {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void updateGridForExpandedList(ListController listController, IGrid iGrid, IGridList iGridList, boolean bl, int n) {
-        log.log(-2137614336, "GridMenuChanger#updateGridForExpandedList: called");
+        log.log(10000000, "GridMenuChanger#updateGridForExpandedList: called");
         boolean bl2 = false;
         int n2 = 0;
         int n3 = iGridList.size();
@@ -1472,7 +1468,7 @@ implements MenuChangeFactory {
                     ++n2;
                 } while (iGrid2 != null && !iGrid2.isVisible());
             }
-            log.log(1078071040, "GridMenuChanger#updateGridForExpandedList: rendering grid %1", iGrid2.getLogObject(1));
+            log.log(1000000, "GridMenuChanger#updateGridForExpandedList: rendering grid %1", iGrid2.getLogObject(1));
             long l = gridListRow.getUniqueID();
             int n5 = this.calculateLayout(iGrid2, bl && (long)n == l);
             gridListRow.setGridAndLayout(iGrid2, n5);
@@ -1492,11 +1488,11 @@ implements MenuChangeFactory {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void updateGridForInfiniteList(ListController listController, IGridList iGridList, int n) {
-        log.log(-2137614336, "GridMenuChanger#updateGridForInfiniteList: called");
+        log.log(10000000, "GridMenuChanger#updateGridForInfiniteList: called");
         GridListModel gridListModel = (GridListModel)listController.getModel();
         int n2 = gridListModel.getLength();
         if (n2 == 0) {
-            log.log(-1601830656, "GridMenuChanger#updateGridForInfiniteList: current list contains no elements!");
+            log.log(100000, "GridMenuChanger#updateGridForInfiniteList: current list contains no elements!");
             return;
         }
         int n3 = listController.getWidgetID();
@@ -1506,27 +1502,27 @@ implements MenuChangeFactory {
         boolean bl = iInfiniteListModelAccess.isVisibleAreaOverlappingForbiddenArea();
         int n4 = iGridList.getInfiniteListData().getStartIndex();
         int n5 = iGridList.size();
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator();
-        while (gridListModel$RowSubrowIterator.hasNext()) {
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator();
+        while (rowSubrowIterator.hasNext()) {
             boolean bl2;
-            GridListRow gridListRow = (GridListRow)gridListModel$RowSubrowIterator.next();
-            RowInfo rowInfo = gridListModel$RowSubrowIterator.previousRowInfo();
+            GridListRow gridListRow = (GridListRow)rowSubrowIterator.next();
+            RowInfo rowInfo = rowSubrowIterator.previousRowInfo();
             int n6 = gridListModel.getAbsoluteIndexOfRow(gridListRow);
             int n7 = n6 - n4;
             if (n7 < 0 || n7 > n5) continue;
             IGrid iGrid = (IGrid)iGridList.get(n7);
             Object object = iGrid.getLogObject(1);
             if (rowInfo.getSubindex() != -1) {
-                log.log(1078071040, "GridMenuChanger#updateGridForInfiniteList: updating subgrid %1", object);
+                log.log(1000000, "GridMenuChanger#updateGridForInfiniteList: updating subgrid %1", object);
                 gridListRow.setGridAndLayout(iGrid, 0);
                 continue;
             }
             boolean bl3 = bl2 = (long)n6 >= l && (long)n6 <= l2;
             if (bl && bl2 && !iGrid.isUpdatePreservesHeight()) {
-                log.log(1078071040, "GridMenuChanger#updateGridForInfiniteList: skipping grid %1", object);
+                log.log(1000000, "GridMenuChanger#updateGridForInfiniteList: skipping grid %1", object);
                 continue;
             }
-            log.log(1078071040, "GridMenuChanger#updateGridForInfiniteList: rendering grid %1", object);
+            log.log(1000000, "GridMenuChanger#updateGridForInfiniteList: rendering grid %1", object);
             int n8 = this.calculateLayout(iGrid, n == n6);
             gridListRow.setGridAndLayout(iGrid, n8);
             int n9 = rowInfo.getIndex();
@@ -1553,9 +1549,9 @@ implements MenuChangeFactory {
             return arrayList;
         }
         ArrayList arrayList2 = new ArrayList(n);
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator();
-        while (gridListModel$RowSubrowIterator.hasNext()) {
-            GridListRow gridListRow = (GridListRow)gridListModel$RowSubrowIterator.next();
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator();
+        while (rowSubrowIterator.hasNext()) {
+            GridListRow gridListRow = (GridListRow)rowSubrowIterator.next();
             if (gridListRow.isDeletableIfOffscreen()) continue;
             arrayList2.add(gridListRow);
             gridListRow.setDeletableIfOffscreen(true);
@@ -1605,28 +1601,28 @@ implements MenuChangeFactory {
         int n2;
         int n3 = n2 = gridListModel == null ? 0 : gridListModel.getLength();
         if (n2 == 0) {
-            log.log(-1601830656, "GridMenuChanger#analyseIds: current list has no entries which is not allowed. Matching by ID cancelled!");
+            log.log(100000, "GridMenuChanger#analyseIds: current list has no entries which is not allowed. Matching by ID cancelled!");
             return Collections.EMPTY_MAP;
         }
         int n4 = n = gridListRowArray == null ? 0 : gridListRowArray.length;
         if (n == 0) {
-            log.log(-1601830656, "GridMenuChanger#analyseIds: new list has no entries which is not allowed. Matching by ID cancelled!");
+            log.log(100000, "GridMenuChanger#analyseIds: new list has no entries which is not allowed. Matching by ID cancelled!");
             return Collections.EMPTY_MAP;
         }
         HashMap hashMap = new HashMap(n2);
         Object object2 = gridListModel.rowSubrowIterator();
-        while (((GridListModel$RowSubrowIterator)object2).hasNext()) {
-            object = (GridListRow)((GridListModel$RowSubrowIterator)object2).next();
+        while (((GridListModel.RowSubrowIterator)object2).hasNext()) {
+            object = (GridListRow)((GridListModel.RowSubrowIterator)object2).next();
             if (((GridListRow)object).isDeletableIfOffscreen()) continue;
             String string = ((GridListRow)object).getGridId();
             if (string.length() == 0) {
                 return Collections.EMPTY_MAP;
             }
             if (hashMap.containsKey(string)) {
-                log.log(-1601830656, "GridMenuChanger#analyseIds: current list has duplicated IDs. id='%1', row=%2. Matching by ID cancelled!", (Object)string, object);
+                log.log(100000, "GridMenuChanger#analyseIds: current list has duplicated IDs. id='%1', row=%2. Matching by ID cancelled!", (Object)string, object);
                 return Collections.EMPTY_MAP;
             }
-            hashMap.put(string, ((GridListModel$RowSubrowIterator)object2).previousRowInfo());
+            hashMap.put(string, ((GridListModel.RowSubrowIterator)object2).previousRowInfo());
         }
         object2 = new HashSet(n);
         object = null;
@@ -1638,19 +1634,19 @@ implements MenuChangeFactory {
             }
             boolean bl = ((HashSet)object2).add(string);
             if (!bl) {
-                log.log(-1601830656, "GridMenuChanger#analyseIds: new list has duplicated IDs. id='%1', index=%2. Matching by ID cancelled!", (Object)string, (long)i2);
+                log.log(100000, "GridMenuChanger#analyseIds: new list has duplicated IDs. id='%1', index=%2. Matching by ID cancelled!", (Object)string, (long)i2);
                 return Collections.EMPTY_MAP;
             }
             RowInfo rowInfo = (RowInfo)hashMap.get(string);
             if (rowInfo == null) continue;
             if (object != null && rowInfo.isBefore((RowInfo)object)) {
-                log.log(-1601830656, "GridMenuChanger#analyseIds: current list has switched ID positions. id='%1', index=%2. Matching by ID cancelled!", (Object)string, (long)i2);
+                log.log(100000, "GridMenuChanger#analyseIds: current list has switched ID positions. id='%1', index=%2. Matching by ID cancelled!", (Object)string, (long)i2);
                 return Collections.EMPTY_MAP;
             }
             object = rowInfo;
         }
         if (object == null) {
-            log.log(-1601830656, "GridMenuChanger#analyseIds: no reference point found. Matching by ID cancelled!");
+            log.log(100000, "GridMenuChanger#analyseIds: no reference point found. Matching by ID cancelled!");
             return Collections.EMPTY_MAP;
         }
         return hashMap;
@@ -1659,9 +1655,9 @@ implements MenuChangeFactory {
     private static List matchById(ListController listController, GridListRow[] gridListRowArray, Map map) {
         Object object;
         GridListModel gridListModel = (GridListModel)listController.getModel();
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator();
-        while (gridListModel$RowSubrowIterator.hasNext()) {
-            object = (GridListRow)gridListModel$RowSubrowIterator.next();
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator();
+        while (rowSubrowIterator.hasNext()) {
+            object = (GridListRow)rowSubrowIterator.next();
             ((GridListRow)object).setDeletableIfOffscreen(true);
         }
         int n = gridListRowArray.length;
@@ -1687,13 +1683,13 @@ implements MenuChangeFactory {
     }
 
     private static void flattenInfiniteList(GridListModel gridListModel) {
-        GridListModel$RowSubrowIterator gridListModel$RowSubrowIterator = gridListModel.rowSubrowIterator(gridListModel.getLastRowInfo());
-        while (gridListModel$RowSubrowIterator.hasPrevious()) {
+        GridListModel.RowSubrowIterator rowSubrowIterator = gridListModel.rowSubrowIterator(gridListModel.getLastRowInfo());
+        while (rowSubrowIterator.hasPrevious()) {
             Object object;
             int n;
             Object object2;
-            GridListRow gridListRow = (GridListRow)gridListModel$RowSubrowIterator.previous();
-            RowInfo rowInfo = gridListModel$RowSubrowIterator.nextRowInfo();
+            GridListRow gridListRow = (GridListRow)rowSubrowIterator.previous();
+            RowInfo rowInfo = rowSubrowIterator.nextRowInfo();
             int n2 = rowInfo.getSubindex();
             if (n2 == -1) continue;
             if (n2 < 0) {
@@ -1718,10 +1714,19 @@ implements MenuChangeFactory {
         }
     }
 
-    @Override
     public void setImageLockController(IGridImageLocker iGridImageLocker) {
-        log.log(1078071040, "GridMenuChanger#setImageLockController locker is inited and set %1", (Object)iGridImageLocker);
+        log.log(1000000, "GridMenuChanger#setImageLockController locker is inited and set %1", (Object)iGridImageLocker);
         this.lockController = iGridImageLocker;
+    }
+
+    private static class MenuChildrenData {
+        public final List menuItemList;
+        public final List separatingLinesAdded;
+
+        public MenuChildrenData(List list, List list2) {
+            this.menuItemList = list;
+            this.separatingLinesAdded = list2;
+        }
     }
 }
 

@@ -3,15 +3,15 @@
  */
 package org.apache.xerces.xni.parser;
 
+import java.io.IOException;
+import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDocumentSource;
 import org.apache.xerces.xni.parser.XMLInputSource;
 
 public interface XMLDocumentScanner
 extends XMLDocumentSource {
-    default public void setInputSource(XMLInputSource xMLInputSource) {
-    }
+    public void setInputSource(XMLInputSource var1) throws IOException;
 
-    default public boolean scanDocument(boolean bl) {
-    }
+    public boolean scanDocument(boolean var1) throws IOException, XNIException;
 }
 

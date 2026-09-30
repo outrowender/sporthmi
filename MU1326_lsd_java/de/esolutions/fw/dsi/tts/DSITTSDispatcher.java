@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tts;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tts.DSITTSReply;
 import de.esolutions.fw.comm.dsi.tts.impl.DSITTSReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSITTSReply {
         super(n, (class$org$dsi$ifc$tts$DSITTSListener == null ? (class$org$dsi$ifc$tts$DSITTSListener = DSITTSDispatcher.class$("org.dsi.ifc.tts.DSITTSListener")) : class$org$dsi$ifc$tts$DSITTSListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateLanguage(String string, int n, int n2, int n3) {
+    public void updateLanguage(String string, int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -57,8 +56,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void updateAvailableLanguages(LanguageVoiceInfo[] languageVoiceInfoArray, int n) {
+    public void updateAvailableLanguages(LanguageVoiceInfo[] languageVoiceInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -86,8 +84,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void updateMarkerPassed(int n, int n2) {
+    public void updateMarkerPassed(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -115,8 +112,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responseSetLanguage(short s, int n) {
+    public void responseSetLanguage(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -132,8 +128,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responseInit(short s, int n) {
+    public void responseInit(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,8 +144,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responseAudioTrigger(short s, int n) {
+    public void responseAudioTrigger(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -166,8 +160,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void updateAudioRequest(int n, int n2) {
+    public void updateAudioRequest(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -195,8 +188,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responsePlayTone(short s, int n) {
+    public void responsePlayTone(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -212,8 +204,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responseSpeakPrompt(short s, int n) {
+    public void responseSpeakPrompt(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -229,8 +220,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void responseSkipSpeaking(short s, int n) {
+    public void responseSkipSpeaking(short s, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -246,8 +236,7 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -263,14 +252,13 @@ implements DSITTSReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITTSListener dSITTSListener = (DSITTSListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITTSDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITTSDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITTSListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITTSDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITTSDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITTSListener, new Object[]{string, string2});
                     continue;
                 }

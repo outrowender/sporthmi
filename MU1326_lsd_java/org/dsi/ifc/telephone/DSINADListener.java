@@ -15,70 +15,48 @@ import org.dsi.ifc.telephone.ServiceProvider;
 
 public interface DSINADListener
 extends DSIListener {
-    default public void responseAbortNetworkRegistration(int n) {
-    }
+    public void responseAbortNetworkRegistration(int var1);
 
-    default public void responseAbortNetworkSearch(int n) {
-    }
+    public void responseAbortNetworkSearch(int var1);
 
-    default public void responseChangeSIMCode(int n, int n2) {
-    }
+    public void responseChangeSIMCode(int var1, int var2);
 
-    default public void responseSIMPINRequired(int n) {
-    }
+    public void responseSIMPINRequired(int var1);
 
-    default public void updateSIMPINRequired(boolean bl, int n) {
-    }
+    public void updateSIMPINRequired(boolean var1, int var2);
 
-    default public void responseNetworkRegistration(int n) {
-    }
+    public void responseNetworkRegistration(int var1);
 
-    default public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
-    }
+    public void responseNetworkSearch(NetworkProvider[] var1, int var2);
 
-    default public void responseUnlockSIM(int n) {
-    }
+    public void responseUnlockSIM(int var1);
 
-    default public void responseCheckSIMPINCode(int n) {
-    }
+    public void responseCheckSIMPINCode(int var1);
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1);
 
-    default public void responseTelPower(int n) {
-    }
+    public void responseTelPower(int var1);
 
-    default public void responseSetAutomaticPinEntryActive(int n) {
-    }
+    public void responseSetAutomaticPinEntryActive(int var1);
 
-    default public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
-    }
+    public void updateActivationState(ActivationStateStruct var1, int var2);
 
-    default public void updateAutomaticPinEntryActive(boolean bl, int n) {
-    }
+    public void updateAutomaticPinEntryActive(boolean var1, int var2);
 
-    default public void updateLockState(LockStateStruct lockStateStruct, int n) {
-    }
+    public void updateLockState(LockStateStruct var1, int var2);
 
-    default public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
-    }
+    public void updateNADTemperature(NADTemperatureStruct var1, int var2);
 
-    default public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
-    }
+    public void updatePhoneInformation(PhoneInformation var1, int var2);
 
-    default public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
-    }
+    public void updateNetworkProvider(NetworkProviderName var1, int var2);
 
-    default public void updateNetworkType(int n, int n2) {
-    }
+    public void updateNetworkType(int var1, int var2);
 
-    default public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
-    }
+    public void updateRegisterState(RegisterStateStruct var1, int var2);
 
-    default public void updateSignalQuality(int n, int n2) {
-    }
+    public void updateSignalQuality(int var1, int var2);
 
-    default public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
-    }
+    public void updateServiceProvider(ServiceProvider var1, int var2);
 }
 

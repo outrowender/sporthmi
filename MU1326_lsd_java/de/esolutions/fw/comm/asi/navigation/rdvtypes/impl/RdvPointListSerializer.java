@@ -7,10 +7,11 @@ import de.esolutions.fw.comm.asi.navigation.rdvtypes.RdvPointList;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationWgs84Serializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocationWgs84;
 
 public class RdvPointListSerializer {
-    public static void putOptionalRdvPointList(ISerializer iSerializer, RdvPointList rdvPointList) {
+    public static void putOptionalRdvPointList(ISerializer iSerializer, RdvPointList rdvPointList) throws SerializerException {
         boolean bl = rdvPointList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RdvPointListSerializer {
         }
     }
 
-    public static void putOptionalRdvPointListVarArray(ISerializer iSerializer, RdvPointList[] rdvPointListArray) {
+    public static void putOptionalRdvPointListVarArray(ISerializer iSerializer, RdvPointList[] rdvPointListArray) throws SerializerException {
         boolean bl = rdvPointListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RdvPointListSerializer {
         }
     }
 
-    public static RdvPointList getOptionalRdvPointList(IDeserializer iDeserializer) {
+    public static RdvPointList getOptionalRdvPointList(IDeserializer iDeserializer) throws SerializerException {
         RdvPointList rdvPointList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -41,7 +42,7 @@ public class RdvPointListSerializer {
         return rdvPointList;
     }
 
-    public static RdvPointList[] getOptionalRdvPointListVarArray(IDeserializer iDeserializer) {
+    public static RdvPointList[] getOptionalRdvPointListVarArray(IDeserializer iDeserializer) throws SerializerException {
         RdvPointList[] rdvPointListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

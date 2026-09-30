@@ -10,7 +10,7 @@ import de.vw.mib.bap.stream.BitStream;
 public final class DestinationList_ASGcapacity_Status
 implements StatusProperty {
     public int asgcapacity;
-    public static final int ASGCAPACITY_MIN;
+    public static final int ASGCAPACITY_MIN = 0;
 
     public DestinationList_ASGcapacity_Status() {
         this.internalReset();
@@ -26,12 +26,10 @@ implements StatusProperty {
         this.asgcapacity = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         DestinationList_ASGcapacity_Status destinationList_ASGcapacity_Status = (DestinationList_ASGcapacity_Status)bAPEntity;
         return this.asgcapacity == destinationList_ASGcapacity_Status.asgcapacity;
@@ -40,25 +38,21 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("DestinationList_ASGcapacity_Status");
-        stringBuffer.append(new StringBuffer().append("\n - asgcapacity:").append(this.asgcapacity).toString());
+        stringBuffer.append("\n - asgcapacity:" + this.asgcapacity);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.asgcapacity);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asgcapacity = bitStream.popFrontShort();
     }
@@ -67,7 +61,6 @@ implements StatusProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return DestinationList_ASGcapacity_Status.functionId();
     }

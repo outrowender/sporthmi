@@ -8,10 +8,8 @@ import org.dsi.ifc.organizer.DataSet;
 
 public interface DSIAdbDataResolutionListener
 extends DSIListener {
-    default public void resolveMailAddressResult(int n, DataSet[] dataSetArray) {
-    }
+    public void resolveMailAddressResult(int var1, DataSet[] var2);
 
-    default public void resolvePhoneNumbersResult(int n, DataSet[] dataSetArray) {
-    }
+    public void resolvePhoneNumbersResult(int var1, DataSet[] var2);
 }
 

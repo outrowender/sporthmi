@@ -5,12 +5,11 @@ package de.esolutions.fw.comm.asi.navigation.ncfs;
 
 import de.esolutions.fw.comm.asi.navigation.ncfs.NCFSProviderReply;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sBoundingBox;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface NCFSProviderS {
-    default public void requestVZORestrictions(sBoundingBox sBoundingBox2, NCFSProviderReply nCFSProviderReply) {
-    }
+    public void requestVZORestrictions(sBoundingBox var1, NCFSProviderReply var2) throws MethodException;
 
-    default public void requestLGI(sBoundingBox sBoundingBox2, NCFSProviderReply nCFSProviderReply) {
-    }
+    public void requestLGI(sBoundingBox var1, NCFSProviderReply var2) throws MethodException;
 }
 

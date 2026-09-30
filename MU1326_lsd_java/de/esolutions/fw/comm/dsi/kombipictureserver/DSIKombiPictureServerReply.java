@@ -3,43 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.kombipictureserver;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIKombiPictureServerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "ea6b5949-422e-560a-a7d3-c20920d9da4d";
+    public static final String IPL_COMM_INTERFACE_KEY = "ce643631-ba2b-51a2-9c51-5163c3e28c2a";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.4";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.4";
 
-    default public void indicationCoverArt(long l, int n, int n2) {
-    }
+    public void indicationCoverArt(long var1, int var3, int var4) throws MethodException;
 
-    default public void indicationStationArt(long l, int n, int n2) {
-    }
+    public void indicationStationArt(long var1, int var3, int var4) throws MethodException;
 
-    default public void indicationActiveCallPicture(int n) {
-    }
+    public void indicationActiveCallPicture(int var1) throws MethodException;
 
-    default public void indicationActiveCallPictureInstance(int n, int n2) {
-    }
+    public void indicationActiveCallPictureInstance(int var1, int var2) throws MethodException;
 
-    default public void indicationDynamicIcon(int n, int n2) {
-    }
+    public void indicationDynamicIcon(int var1, int var2) throws MethodException;
 
-    default public void indicationInternalAddressID(long l, int n) {
-    }
+    public void indicationInternalAddressID(long var1, int var3) throws MethodException;
 
-    default public void indicationAdbContactPicture(long l, int n) {
-    }
+    public void indicationAdbContactPicture(long var1, int var3) throws MethodException;
 
-    default public void indicationPictureStreamAbilities() {
-    }
+    public void indicationPictureStreamAbilities() throws MethodException;
 
-    default public void indicationPictureStream(int n, short s, short s2, int n2, int n3, int n4, int n5, byte[] byArray) {
-    }
+    public void indicationPictureStream(int var1, short var2, short var3, int var4, int var5, int var6, int var7, byte[] var8) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

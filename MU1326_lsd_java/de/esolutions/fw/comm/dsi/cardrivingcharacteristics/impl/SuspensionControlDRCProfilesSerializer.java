@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlDRCProfiles;
 
 public class SuspensionControlDRCProfilesSerializer {
-    public static void putOptionalSuspensionControlDRCProfiles(ISerializer iSerializer, SuspensionControlDRCProfiles suspensionControlDRCProfiles) {
+    public static void putOptionalSuspensionControlDRCProfiles(ISerializer iSerializer, SuspensionControlDRCProfiles suspensionControlDRCProfiles) throws SerializerException {
         boolean bl = suspensionControlDRCProfiles == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SuspensionControlDRCProfilesSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlDRCProfilesVarArray(ISerializer iSerializer, SuspensionControlDRCProfiles[] suspensionControlDRCProfilesArray) {
+    public static void putOptionalSuspensionControlDRCProfilesVarArray(ISerializer iSerializer, SuspensionControlDRCProfiles[] suspensionControlDRCProfilesArray) throws SerializerException {
         boolean bl = suspensionControlDRCProfilesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SuspensionControlDRCProfilesSerializer {
         }
     }
 
-    public static SuspensionControlDRCProfiles getOptionalSuspensionControlDRCProfiles(IDeserializer iDeserializer) {
+    public static SuspensionControlDRCProfiles getOptionalSuspensionControlDRCProfiles(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlDRCProfiles suspensionControlDRCProfiles = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SuspensionControlDRCProfilesSerializer {
         return suspensionControlDRCProfiles;
     }
 
-    public static SuspensionControlDRCProfiles[] getOptionalSuspensionControlDRCProfilesVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlDRCProfiles[] getOptionalSuspensionControlDRCProfilesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlDRCProfiles[] suspensionControlDRCProfilesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,19 +4,14 @@
 package de.esolutions.hmi.widgets.audi.base;
 
 public interface IStatusbarGapEventHandler {
-    default public int getCurrentGapWidth() {
-    }
+    public int getCurrentGapWidth();
 
-    default public boolean setGapWidth(int n, boolean bl) {
-    }
+    public boolean setGapWidth(int var1, boolean var2);
 
-    default public int getMaxGapWidth() {
-    }
+    public int getMaxGapWidth();
 
-    default public float getGapHeight() {
-    }
+    public float getGapHeight();
 
-    default public void setGapHeight(float f2) {
-    }
+    public void setGapHeight(float var1);
 }
 

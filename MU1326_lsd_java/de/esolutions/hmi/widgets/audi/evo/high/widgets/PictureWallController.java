@@ -37,8 +37,6 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.IconRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ListScrollingController;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureViewer;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallCache;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallCache$CachedTexture;
-import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallController$1;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallIconRenderer;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.PictureWallLineController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.CompositeRenderer;
@@ -52,45 +50,45 @@ extends AbstractWidgetController
 implements AnimationListener,
 IFocusedPropertyProvider {
     public static PictureWallController singleton;
-    public static final int BLOCK_SIZE;
-    private static final int PIC_BOX_COLUMN_PROPERTY;
-    protected static final int PICTURE_WIDTH;
-    protected static final int PICTURE_HEIGHT;
-    protected static final int PICTURE_GAP_VERTICAL;
-    protected static final int PICTURE_WIDTH_LARGE;
-    protected static final int PICTURE_HEIGHT_LARGE;
-    private static final int INNER_CURSOR_HEIGHT;
-    private static final int INNER_CURSOR_WIDTH;
-    private static final int BORDER_LEFT;
-    private static final int BORDER_RIGHT;
-    private static final int BORDER_BOTTOM;
-    private static final int BORDER_TOP;
-    private static final int CURSOR_OFFSET_LEFT;
-    private static final int CURSOR_OFFSET_TOP;
-    protected static final int SMALL_OVERLAY_WIDTH;
-    protected static final int LARGE_OVERLAY_LEFT_OFFSET;
-    protected static final int LARGE_OVERLAY_TOP_OFFSET;
-    protected static final int BORDER_WIDTH;
-    protected static final int BORDER_HEIGHT;
+    public static final int BLOCK_SIZE = 12;
+    private static final int PIC_BOX_COLUMN_PROPERTY = 3;
+    protected static final int PICTURE_WIDTH = 105;
+    protected static final int PICTURE_HEIGHT = 74;
+    protected static final int PICTURE_GAP_VERTICAL = 28;
+    protected static final int PICTURE_WIDTH_LARGE = 310;
+    protected static final int PICTURE_HEIGHT_LARGE = 208;
+    private static final int INNER_CURSOR_HEIGHT = 93;
+    private static final int INNER_CURSOR_WIDTH = 644;
+    private static final int BORDER_LEFT = 24;
+    private static final int BORDER_RIGHT = 75;
+    private static final int BORDER_BOTTOM = 24;
+    private static final int BORDER_TOP = 24;
+    private static final int CURSOR_OFFSET_LEFT = 12;
+    private static final int CURSOR_OFFSET_TOP = 16;
+    protected static final int SMALL_OVERLAY_WIDTH = 85;
+    protected static final int LARGE_OVERLAY_LEFT_OFFSET = 20;
+    protected static final int LARGE_OVERLAY_TOP_OFFSET = -58;
+    protected static final int BORDER_WIDTH = 107;
+    protected static final int BORDER_HEIGHT = 76;
     public static final int[] X_POS_LARGE_IMAGES;
-    public static final int Y_POS_LARGE_IMAGES;
-    private static final int CURSOR_ICON_WIDTH;
-    private static final int CURSOR_ICON_HEIGHT;
-    private static final int CURSOR_ICON_X;
-    private static final int CURSOR_ICON_Y;
-    public static final int ANIMATION_TYPE;
-    public static final int ANIMATION_TYPE_FAST;
-    protected static final int BITMAP_EMPTY;
-    protected static final int BITMAP_GLASS;
-    protected static final int BITMAP_GLASS2;
-    protected static final int BITMAP_BLACK;
-    protected static final int BITMAP_CURSOR_ICON;
-    protected static final int BITMAP_CURSOR_ICON_HIGHLIGHTED;
-    protected static final int BITMAP_FRAME;
-    private static final int SCROLL;
-    private static final int CURSOR;
-    private static final int NUMBER_OF_LINES_IN_VIEWPORT;
-    private static final int NUMBER_OF_VISIBLE_LINES;
+    public static final int Y_POS_LARGE_IMAGES = 56;
+    private static final int CURSOR_ICON_WIDTH = 26;
+    private static final int CURSOR_ICON_HEIGHT = 87;
+    private static final int CURSOR_ICON_X = 612;
+    private static final int CURSOR_ICON_Y = 3;
+    public static final int ANIMATION_TYPE = 92;
+    public static final int ANIMATION_TYPE_FAST = 93;
+    protected static final int BITMAP_EMPTY = 0;
+    protected static final int BITMAP_GLASS = 1;
+    protected static final int BITMAP_GLASS2 = 3;
+    protected static final int BITMAP_BLACK = 4;
+    protected static final int BITMAP_CURSOR_ICON = 5;
+    protected static final int BITMAP_CURSOR_ICON_HIGHLIGHTED = 6;
+    protected static final int BITMAP_FRAME = 7;
+    private static final int SCROLL = 0;
+    private static final int CURSOR = 1;
+    private static final int NUMBER_OF_LINES_IN_VIEWPORT = 5;
+    private static final int NUMBER_OF_VISIBLE_LINES = 3;
     private PictureViewer parentController;
     private boolean isSetUp = false;
     private boolean singleMode = false;
@@ -111,7 +109,6 @@ IFocusedPropertyProvider {
     private IconController cursorIcon;
     private CompositeRendererHigh renderer;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof FocusCursorController) {
             this.cursor = (FocusCursorController)abstractWidget;
@@ -122,9 +119,8 @@ IFocusedPropertyProvider {
         super.add(abstractWidget);
     }
 
-    @Override
     public void bitmapLoaded(AsyncBitmapEvent asyncBitmapEvent) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#bitmapLoaded");
+        pictureWallLogCh.log(10000000, "PictureWallController#bitmapLoaded");
         String string = asyncBitmapEvent.getResourceLocator().getResourceURI();
         EALManager eALManager = this.renderer.getEALManager();
         IWrappedTexture iWrappedTexture = null;
@@ -143,13 +139,13 @@ IFocusedPropertyProvider {
             pictureWallLogCh.log(10000, "PictureWallController#bitmapLoaded Texture %1 is not contained in the cache.", (Object)string);
             eALManager.destroy(iWrappedTexture);
         } else {
-            PictureWallCache$CachedTexture pictureWallCache$CachedTexture = this.cache.retrieveCachedTexture(string);
-            pictureWallCache$CachedTexture.data = iWrappedTexture;
-            pictureWallCache$CachedTexture.loadingError = bl;
-            pictureWallLogCh.log(-2137614336, "PictureWallController#bitmapLoaded Texture %1 loaded.", (Object)string);
-            if (pictureWallCache$CachedTexture.listener != null) {
-                pictureWallLogCh.log(-2137614336, "PictureWallController#bitmapLoaded Notify listener.");
-                pictureWallCache$CachedTexture.listener.imageLoaded(pictureWallCache$CachedTexture.path);
+            PictureWallCache.CachedTexture cachedTexture = this.cache.retrieveCachedTexture(string);
+            cachedTexture.data = iWrappedTexture;
+            cachedTexture.loadingError = bl;
+            pictureWallLogCh.log(10000000, "PictureWallController#bitmapLoaded Texture %1 loaded.", (Object)string);
+            if (cachedTexture.listener != null) {
+                pictureWallLogCh.log(10000000, "PictureWallController#bitmapLoaded Notify listener.");
+                cachedTexture.listener.imageLoaded(cachedTexture.path);
             }
             this.cache.sendDbgCacheControllerCallback(5, null);
         }
@@ -161,7 +157,6 @@ IFocusedPropertyProvider {
         this.cursor.setY(this.cursorOffset);
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.setUpWidget();
         super.connected(initializationContext);
@@ -175,7 +170,7 @@ IFocusedPropertyProvider {
         this.add(this.scrollbar);
         this.updateScrollbar(0.0f);
         this.listScroll.connected(initializationContext);
-        pictureWallLogCh.log(-2137614336, "PictureWallController#connected The widget is now connected.");
+        pictureWallLogCh.log(10000000, "PictureWallController#connected The widget is now connected.");
     }
 
     private void decreaseLinePosition() {
@@ -183,12 +178,11 @@ IFocusedPropertyProvider {
         this.cache.updateTextureCache(this.getLineIndex());
     }
 
-    @Override
     protected void destroyWidget() {
     }
 
     private void hideLargePreview(int n, boolean bl) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#hideLargePreview");
+        pictureWallLogCh.log(10000000, "PictureWallController#hideLargePreview");
         this.lines[this.cursorPosition + 1].hideLargePreview(n, bl);
     }
 
@@ -197,9 +191,8 @@ IFocusedPropertyProvider {
         this.cache.updateTextureCache(this.getLineIndex());
     }
 
-    @Override
     protected void initializeWidget() {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#initializeWidget");
+        pictureWallLogCh.log(10000000, "PictureWallController#initializeWidget");
         this.terminal.getDrawerFocusManager().registerFocusPropertyProvider(this);
     }
 
@@ -212,10 +205,9 @@ IFocusedPropertyProvider {
         return 0 <= n && n < n2;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
-        pictureWallLogCh.log(-2137614336, "PictureWallController#keyPressed key code = %1", (long)n);
+        pictureWallLogCh.log(10000000, "PictureWallController#keyPressed key code = %1", (long)n);
         if (!(this.clicksToDo != 0 || this.animation != null && this.animation.isAnimating())) {
             if (n == 17) {
                 if (!this.isSingleMode()) {
@@ -234,7 +226,6 @@ IFocusedPropertyProvider {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (this.clicksToDo == 0 && (this.animation == null || !this.animation.isAnimating()) && joystickEvent.getDirection() == 8 && this.isSingleMode()) {
             this.exitSingleMode();
@@ -242,16 +233,14 @@ IFocusedPropertyProvider {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         int n = wheelButtonEvent.getClickCount();
         int n2 = wheelButtonEvent.getSubClickCount();
         int n3 = wheelButtonEvent.getDirection();
-        pictureWallLogCh.log(-2137614336, "PictureWallController#keyTurned clickCount = %1, subClickCount = %2, direction = %3", (long)n, (long)n2, (long)n3);
+        pictureWallLogCh.log(10000000, "PictureWallController#keyTurned clickCount = %1, subClickCount = %2, direction = %3", (long)n, (long)n2, (long)n3);
         if (n > 0) {
             if (!this.isSingleMode()) {
                 this.processKeyTurned(wheelButtonEvent);
@@ -262,7 +251,7 @@ IFocusedPropertyProvider {
     }
 
     private void positionElements0(float f2) {
-        pictureWallScrollingLogCh.log(-1601830656, "PictureWallController#positionElements0 pCurrent = %1", (double)f2);
+        pictureWallScrollingLogCh.log(100000, "PictureWallController#positionElements0 pCurrent = %1", (double)f2);
         int n = this.listScroll.getCurrentLine();
         int n2 = this.linePosition - n;
         if (Math.abs(n2) == 1) {
@@ -275,7 +264,7 @@ IFocusedPropertyProvider {
             this.setLinesPictures();
             this.cache.sendDbgCacheControllerCallback(1, new Object[]{new Integer(n)});
         } else if (n2 > 1) {
-            pictureWallScrollingLogCh.log(-1601830656, "PictureWallController#positionElements0 More than 1 line (%1) passed in a single animation step!", (long)n2);
+            pictureWallScrollingLogCh.log(100000, "PictureWallController#positionElements0 More than 1 line (%1) passed in a single animation step!", (long)n2);
         }
         int n3 = this.getScrollStepLength();
         int n4 = n * n3;
@@ -354,7 +343,7 @@ IFocusedPropertyProvider {
     }
 
     private void processKeyTurnedSingleMode(int n, int n2) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#processKeyTurnedSingleMode clicks = %1, direction = %2", (long)n, (long)n2);
+        pictureWallLogCh.log(10000000, "PictureWallController#processKeyTurnedSingleMode clicks = %1, direction = %2", (long)n, (long)n2);
         if (n2 == 0) {
             if (this.cursorPositionInSingleMode < 4) {
                 int n3;
@@ -396,9 +385,8 @@ IFocusedPropertyProvider {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#processModelUpdateEvent");
+        pictureWallLogCh.log(10000000, "PictureWallController#processModelUpdateEvent");
         this.cache.processModelUpdateEvent(modelUpdateEvent);
         this.setLinesPictures();
         if (this.isSingleMode() && 0 <= this.cursorPositionInSingleMode && this.cursorPositionInSingleMode <= 4) {
@@ -468,14 +456,14 @@ IFocusedPropertyProvider {
         GuiListRow guiListRow;
         if (this.model instanceof BaseListModel && (guiListRow = (baseListModel = (BaseListModel)this.model).getGuiRow(n = this.getSelectedModelRow())) != null) {
             long l = guiListRow.getUniqueID();
-            pictureWallLogCh.log(-2137614336, "PictureWallController#sendFocusedPictureCallbackToApplication modelRow = %1, uniqueID = %2", (long)n, l);
+            pictureWallLogCh.log(10000000, "PictureWallController#sendFocusedPictureCallbackToApplication modelRow = %1, uniqueID = %2", (long)n, l);
             baseListModel.itemFocused(l, 0, this.terminal.getTerminalID());
         }
     }
 
     private void sendFocusedPropertyToDrawerConditionEngine() {
         IFocusedPropertyObject iFocusedPropertyObject = this.getCurrentFocusedPropertyObject();
-        pictureWallLogCh.log(-2137614336, "PictureWallController#sendFocusedPropertyToDrawerConditionEngine focusedPropertyObject = %1", (Object)iFocusedPropertyObject);
+        pictureWallLogCh.log(10000000, "PictureWallController#sendFocusedPropertyToDrawerConditionEngine focusedPropertyObject = %1", (Object)iFocusedPropertyObject);
         this.terminal.getDrawerConditionEngine().setFocusedProperty(iFocusedPropertyObject);
     }
 
@@ -486,10 +474,10 @@ IFocusedPropertyProvider {
             GuiListRow guiListRow = tiledListModelGUI.getGuiRow(n);
             if (guiListRow != null) {
                 long l = guiListRow.getUniqueID();
-                pictureWallLogCh.log(-2137614336, "PictureWallController#sendSelectedPictureCallbackToApplication modelRow = %1, uniqueID = %2", (Object)guiListRow, l);
+                pictureWallLogCh.log(10000000, "PictureWallController#sendSelectedPictureCallbackToApplication modelRow = %1, uniqueID = %2", (Object)guiListRow, l);
                 tiledListModelGUI.itemSelected(l, 0, this.terminal.getTerminalID());
             } else {
-                pictureWallLogCh.log(-2137614336, "PictureWallController#sendSelectedPictureCallbackToApplication Can not select row. Row is null.");
+                pictureWallLogCh.log(10000000, "PictureWallController#sendSelectedPictureCallbackToApplication Can not select row. Row is null.");
             }
         }
     }
@@ -585,61 +573,62 @@ IFocusedPropertyProvider {
     private void startAnimation(int n) {
         if (this.isConnected() && (this.animation == null || !this.animation.isAnimating())) {
             this.getAnimation(n);
-            this.animation.startDynamicAnimation(0.0f, 31300, n, false, this);
+            this.animation.startDynamicAnimation(0.0f, 1000.0f, n, false, this);
         }
     }
 
     public PictureWallController() {
         singleton = this;
-        pictureWallScrollingLogCh.log(-2137614336, "PictureWallController#PictureWallController scrollStepLength = %1", (long)this.getScrollStepLength());
-        this.listScroll = new PictureWallController$1(this, this.getScrollStepLength(), this.getNumberOfLines(), 3, 10);
+        pictureWallScrollingLogCh.log(10000000, "PictureWallController#PictureWallController scrollStepLength = %1", (long)this.getScrollStepLength());
+        this.listScroll = new ListScrollingController(this.getScrollStepLength(), this.getNumberOfLines(), 3, 10){
+
+            void positionElements(float f2) {
+                PictureWallController.this.positionElements0(f2);
+            }
+
+            public void scrollingStopped() {
+                PictureWallController.this.cache.sortQueues();
+            }
+        };
         this.listScroll.setLogChannel(IWidgetLogChannel.pictureWallScrollingLogCh);
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         int n = touchEvent.getAngle();
         int n2 = touchEvent.getFingerCount();
         int n3 = touchEvent.getDistance();
         int n4 = touchEvent.getX();
         int n5 = touchEvent.getY();
-        pictureWallLogCh.log(-2137614336, "PictureWallController#touchPadPositionMoved x = %1, y = %2, fingers = %3", (long)n4, (long)n5, (long)n2);
-        pictureWallLogCh.log(-2137614336, "PictureWallController#touchPadPositionMoved angle = %1, distance = %2", (long)n, (long)n3);
+        pictureWallLogCh.log(10000000, "PictureWallController#touchPadPositionMoved x = %1, y = %2, fingers = %3", (long)n4, (long)n5, (long)n2);
+        pictureWallLogCh.log(10000000, "PictureWallController#touchPadPositionMoved angle = %1, distance = %2", (long)n, (long)n3);
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#touchPadPressed");
+        pictureWallLogCh.log(10000000, "PictureWallController#touchPadPressed");
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#touchPadReleased");
+        pictureWallLogCh.log(10000000, "PictureWallController#touchPadReleased");
     }
 
     private AbstractAnimationController getAnimationController() {
         return (AbstractAnimationController)this.getTerminal().getIAnimationController();
     }
 
-    @Override
     public void disconnecting() {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#disconnecting");
+        pictureWallLogCh.log(10000000, "PictureWallController#disconnecting");
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
         }
@@ -660,7 +649,7 @@ IFocusedPropertyProvider {
     }
 
     private void enterSingleMode() {
-        pictureWallLogCh.log(-2137614336, "PictureWallController#enterSingleMode");
+        pictureWallLogCh.log(10000000, "PictureWallController#enterSingleMode");
         this.singleMode = true;
         this.cursorPositionInSingleMode = 0;
         this.cursor.setOptionsIconVisible(false);
@@ -674,7 +663,7 @@ IFocusedPropertyProvider {
 
     private void exitSingleMode() {
         if (this.isSingleMode()) {
-            pictureWallLogCh.log(-2137614336, "PictureWallController#exitSingleMode");
+            pictureWallLogCh.log(10000000, "PictureWallController#exitSingleMode");
             this.singleMode = false;
             this.cursor.setOptionsIconVisible(true);
             this.cursor.setCompositesDirty(true);
@@ -687,7 +676,7 @@ IFocusedPropertyProvider {
             this.setHueAndSaturation(false);
             this.cursor.setEnabled(true);
         } else {
-            pictureWallLogCh.log(-2137614336, "PictureWallController#exitSingleMode Controller is not in single mode.");
+            pictureWallLogCh.log(10000000, "PictureWallController#exitSingleMode Controller is not in single mode.");
         }
     }
 
@@ -723,11 +712,9 @@ IFocusedPropertyProvider {
         return nArray;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         switch (this.currentAnimation) {
             case 1: {
@@ -754,9 +741,8 @@ IFocusedPropertyProvider {
         this.cache.sendDbgCacheControllerCallback(1, new Object[]{new Integer(this.linePosition)});
     }
 
-    @Override
     public void animate(int n, float f2, int n2) {
-        float f3 = f2 / 31300;
+        float f3 = f2 / 1000.0f;
         switch (this.currentAnimation) {
             case 1: {
                 int n3 = this.getCursorStepLength();
@@ -772,7 +758,6 @@ IFocusedPropertyProvider {
         }
     }
 
-    @Override
     public IFocusedPropertyObject getCurrentFocusedPropertyObject() {
         PropertyListCell propertyListCell;
         if (this.isSingleMode() && 0 <= this.cursorPositionInSingleMode && this.cursorPositionInSingleMode < 4 && (propertyListCell = this.getDataProperty(this.getSelectedModelRow())) != null) {
@@ -780,7 +765,7 @@ IFocusedPropertyProvider {
             focusedPropertyObject.setCategory(propertyListCell.getCategory());
             focusedPropertyObject.setProperties(propertyListCell.getProperties());
             if (pictureWallLogCh.isDebug()) {
-                pictureWallLogCh.log(-2137614336, "PictureWallController#getCurrentFocusedPropertyObject category = %2, properties = %1", (Object)PictureWallController.intArrayToString(focusedPropertyObject.getProperties()), (long)focusedPropertyObject.getCategory());
+                pictureWallLogCh.log(10000000, "PictureWallController#getCurrentFocusedPropertyObject category = %2, properties = %1", (Object)PictureWallController.intArrayToString(focusedPropertyObject.getProperties()), (long)focusedPropertyObject.getCategory());
             }
             return focusedPropertyObject;
         }
@@ -807,7 +792,6 @@ IFocusedPropertyProvider {
         return this.parentController;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -824,7 +808,7 @@ IFocusedPropertyProvider {
         return this.getLineIndex() * 4 + n;
     }
 
-    public PictureWallCache$CachedTexture getTexture(String string) {
+    public PictureWallCache.CachedTexture getTexture(String string) {
         return this.cache.getTexture(string);
     }
 
@@ -842,14 +826,6 @@ IFocusedPropertyProvider {
             }
         }
         return buffer.toString();
-    }
-
-    static /* synthetic */ void access$000(PictureWallController pictureWallController, float f2) {
-        pictureWallController.positionElements0(f2);
-    }
-
-    static /* synthetic */ PictureWallCache access$100(PictureWallController pictureWallController) {
-        return pictureWallController.cache;
     }
 
     static {

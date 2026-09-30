@@ -14,45 +14,33 @@ import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sPairedBtDevices;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2BluetoothDiagServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2BluetoothDiagServiceS {
-    default public void responseErrorBluetooth(sClientResponseError sClientResponseError2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseErrorBluetooth(sClientResponseError var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseBluetoothState(sBluetoothState sBluetoothState2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBluetoothState(sBluetoothState var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseBluetoothMAC(sBluetoothMAC sBluetoothMAC2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBluetoothMAC(sBluetoothMAC var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseBluetoothDevices(sBluetoothDevices sBluetoothDevices2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBluetoothDevices(sBluetoothDevices var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseLastPairedBtDevices(sLastPairedBtDevices sLastPairedBtDevices2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseLastPairedBtDevices(sLastPairedBtDevices var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responsePairedBtDevices(sPairedBtDevices sPairedBtDevices2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responsePairedBtDevices(sPairedBtDevices var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseConnectedBtDevices(sConnectedBtDevices sConnectedBtDevices2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseConnectedBtDevices(sConnectedBtDevices var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseConnectedBtDevice(sConnectedBtDevice sConnectedBtDevice2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseConnectedBtDevice(sConnectedBtDevice var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseAutoConnectBtHandset(sRoutineResponse sRoutineResponse2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseAutoConnectBtHandset(sRoutineResponse var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseBtDeleteLinkKeys(sRoutineResponse sRoutineResponse2, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBtDeleteLinkKeys(sRoutineResponse var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseBtDeviceSearch(long l, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBtDeviceSearch(long var1, MMX2BluetoothDiagServiceReply var3) throws MethodException;
 
-    default public void responseBtDeviceSearchItem(sBluetoothDeviceName[] sBluetoothDeviceNameArray, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseBtDeviceSearchItem(sBluetoothDeviceName[] var1, MMX2BluetoothDiagServiceReply var2) throws MethodException;
 
-    default public void responseConnectionToLastBtDevice(long l, MMX2BluetoothDiagServiceReply mMX2BluetoothDiagServiceReply) {
-    }
+    public void responseConnectionToLastBtDevice(long var1, MMX2BluetoothDiagServiceReply var3) throws MethodException;
 }
 

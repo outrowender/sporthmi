@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlChargeState;
 
 public class BatteryControlChargeStateSerializer {
-    public static void putOptionalBatteryControlChargeState(ISerializer iSerializer, BatteryControlChargeState batteryControlChargeState) {
+    public static void putOptionalBatteryControlChargeState(ISerializer iSerializer, BatteryControlChargeState batteryControlChargeState) throws SerializerException {
         boolean bl = batteryControlChargeState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class BatteryControlChargeStateSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlChargeStateVarArray(ISerializer iSerializer, BatteryControlChargeState[] batteryControlChargeStateArray) {
+    public static void putOptionalBatteryControlChargeStateVarArray(ISerializer iSerializer, BatteryControlChargeState[] batteryControlChargeStateArray) throws SerializerException {
         boolean bl = batteryControlChargeStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class BatteryControlChargeStateSerializer {
         }
     }
 
-    public static BatteryControlChargeState getOptionalBatteryControlChargeState(IDeserializer iDeserializer) {
+    public static BatteryControlChargeState getOptionalBatteryControlChargeState(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlChargeState batteryControlChargeState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class BatteryControlChargeStateSerializer {
         return batteryControlChargeState;
     }
 
-    public static BatteryControlChargeState[] getOptionalBatteryControlChargeStateVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlChargeState[] getOptionalBatteryControlChargeStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlChargeState[] batteryControlChargeStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

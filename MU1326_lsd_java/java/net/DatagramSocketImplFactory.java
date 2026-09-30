@@ -6,7 +6,6 @@ package java.net;
 import java.net.DatagramSocketImpl;
 
 public interface DatagramSocketImplFactory {
-    default public DatagramSocketImpl createDatagramSocketImpl() {
-    }
+    public DatagramSocketImpl createDatagramSocketImpl();
 }
 

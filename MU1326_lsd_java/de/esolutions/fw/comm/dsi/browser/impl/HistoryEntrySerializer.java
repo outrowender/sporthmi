@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.browser.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.HistoryEntry;
 import org.dsi.ifc.global.DateTime;
 
 public class HistoryEntrySerializer {
-    public static void putOptionalHistoryEntry(ISerializer iSerializer, HistoryEntry historyEntry) {
+    public static void putOptionalHistoryEntry(ISerializer iSerializer, HistoryEntry historyEntry) throws SerializerException {
         boolean bl = historyEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class HistoryEntrySerializer {
         }
     }
 
-    public static void putOptionalHistoryEntryVarArray(ISerializer iSerializer, HistoryEntry[] historyEntryArray) {
+    public static void putOptionalHistoryEntryVarArray(ISerializer iSerializer, HistoryEntry[] historyEntryArray) throws SerializerException {
         boolean bl = historyEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class HistoryEntrySerializer {
         }
     }
 
-    public static HistoryEntry getOptionalHistoryEntry(IDeserializer iDeserializer) {
+    public static HistoryEntry getOptionalHistoryEntry(IDeserializer iDeserializer) throws SerializerException {
         HistoryEntry historyEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class HistoryEntrySerializer {
         return historyEntry;
     }
 
-    public static HistoryEntry[] getOptionalHistoryEntryVarArray(IDeserializer iDeserializer) {
+    public static HistoryEntry[] getOptionalHistoryEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         HistoryEntry[] historyEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

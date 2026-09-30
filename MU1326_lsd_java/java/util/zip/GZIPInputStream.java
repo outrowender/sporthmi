@@ -15,23 +15,23 @@ public class GZIPInputStream
 extends InflaterInputStream {
     protected CRC32 crc = new CRC32();
     protected boolean eos = false;
-    public static final int GZIP_MAGIC;
-    private static final int FHCRC;
-    private static final int FEXTRA;
-    private static final int FNAME;
-    private static final int FCOMMENT;
+    public static final int GZIP_MAGIC = 35615;
+    private static final int FHCRC = 2;
+    private static final int FEXTRA = 4;
+    private static final int FNAME = 8;
+    private static final int FCOMMENT = 16;
 
-    public GZIPInputStream(InputStream inputStream) {
+    public GZIPInputStream(InputStream inputStream) throws IOException {
         this(inputStream, 512);
     }
 
-    public GZIPInputStream(InputStream inputStream, int n) {
+    public GZIPInputStream(InputStream inputStream, int n) throws IOException {
         super(inputStream, new Inflater(true), n);
         int n2;
         boolean bl;
         byte[] byArray = new byte[10];
         this.readFully(byArray, 0, byArray.length);
-        if (this.getShort(byArray, 0) != 529203200) {
+        if (this.getShort(byArray, 0) != 35615) {
             throw new IOException(Msg.getString("K0412"));
         }
         byte by = byArray[3];
@@ -66,7 +66,7 @@ extends InflaterInputStream {
         if (bl) {
             this.readFully(byArray, 0, 2);
             n2 = this.getShort(byArray, 0);
-            if ((this.crc.getValue() & 0) != (long)n2) {
+            if ((this.crc.getValue() & 0xFFFFL) != (long)n2) {
                 throw new IOException(Msg.getString("K0077"));
             }
             this.crc.reset();
@@ -85,8 +85,7 @@ extends InflaterInputStream {
         return byArray[n] & 0xFF | (byArray[n + 1] & 0xFF) << 8;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (n <= byArray.length && n2 >= 0 && n >= 0 && byArray.length - n >= n2) {
             int n3 = super.read(byArray, n, n2);
             if (n3 != -1) {
@@ -117,13 +116,12 @@ extends InflaterInputStream {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.eos = true;
         super.close();
     }
 
-    private void readFully(byte[] byArray, int n, int n2) {
+    private void readFully(byte[] byArray, int n, int n2) throws IOException {
         while (n2 > 0) {
             int n3 = this.in.read(byArray, n, n2);
             if (n3 == -1) {
@@ -134,7 +132,7 @@ extends InflaterInputStream {
         }
     }
 
-    private void readZeroTerminated(boolean bl) {
+    private void readZeroTerminated(boolean bl) throws IOException {
         int n;
         while ((n = this.in.read()) > 0) {
             if (!bl) continue;

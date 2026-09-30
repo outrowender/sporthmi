@@ -4,6 +4,7 @@
 package java.lang;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,8 +14,8 @@ import java.util.Arrays;
 public final class StringBuffer
 implements Serializable,
 CharSequence {
-    private static final long serialVersionUID;
-    private static final int INITIAL_SIZE;
+    private static final long serialVersionUID = 3388685877147921107L;
+    private static final int INITIAL_SIZE = 16;
     private int count;
     private char[] value;
     private boolean shared;
@@ -108,7 +109,6 @@ CharSequence {
         return this.value.length;
     }
 
-    @Override
     public synchronized char charAt(int n) {
         try {
             if (n < this.count) {
@@ -281,7 +281,6 @@ CharSequence {
         return this.insert(n, String.valueOf(bl));
     }
 
-    @Override
     public int length() {
         return this.count;
     }
@@ -418,7 +417,6 @@ CharSequence {
         throw new StringIndexOutOfBoundsException();
     }
 
-    @Override
     public synchronized String toString() {
         if (this.count >= 256 && this.count <= this.value.length >> 1) {
             return new String(this.value, 0, this.count);
@@ -432,11 +430,11 @@ CharSequence {
         return this.value;
     }
 
-    private synchronized void writeObject(ObjectOutputStream objectOutputStream) {
+    private synchronized void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         if (this.count > this.value.length) {
             throw new InvalidObjectException(Msg.getString("K0199"));
@@ -464,7 +462,6 @@ CharSequence {
         return this;
     }
 
-    @Override
     public CharSequence subSequence(int n, int n2) {
         return this.substring(n, n2);
     }

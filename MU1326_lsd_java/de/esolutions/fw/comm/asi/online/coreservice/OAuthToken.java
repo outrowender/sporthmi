@@ -52,7 +52,7 @@ public class OAuthToken {
     }
 
     public String toString() {
-        return new StringBuffer("OAuthToken{").append("scope=").append(this.scope).append(", expiresIn=").append(this.expiresIn).append(", type=").append(this.type).append(", accessToken=").append(this.accessToken).append("}").toString();
+        return "OAuthToken{" + "scope=" + this.scope + ", expiresIn=" + this.expiresIn + ", type=" + this.type + ", accessToken=" + this.accessToken + "}";
     }
 }
 

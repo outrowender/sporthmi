@@ -21,8 +21,8 @@ import java.util.StringTokenizer;
 
 public final class URL
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final NetPermission specifyStreamHandlerPermission;
+    private static final long serialVersionUID = -7627629688361524110L;
+    private static final NetPermission specifyStreamHandlerPermission = new NetPermission("specifyStreamHandler");
     private int hashCode;
     private String file;
     private String protocol = null;
@@ -33,14 +33,9 @@ implements Serializable {
     private transient String path = null;
     private transient String query = null;
     private String ref = null;
-    private static Hashtable streamHandlers;
+    private static Hashtable streamHandlers = new Hashtable();
     transient URLStreamHandler strmHandler;
     private static URLStreamHandlerFactory streamHandlerFactory;
-
-    static {
-        specifyStreamHandlerPermission = new NetPermission("specifyStreamHandler");
-        streamHandlers = new Hashtable();
-    }
 
     public static synchronized void setURLStreamHandlerFactory(URLStreamHandlerFactory uRLStreamHandlerFactory) {
         if (streamHandlerFactory != null) {
@@ -54,15 +49,15 @@ implements Serializable {
         streamHandlerFactory = uRLStreamHandlerFactory;
     }
 
-    public URL(String string) {
+    public URL(String string) throws MalformedURLException {
         this((URL)null, string, (URLStreamHandler)null);
     }
 
-    public URL(URL uRL, String string) {
+    public URL(URL uRL, String string) throws MalformedURLException {
         this(uRL, string, null);
     }
 
-    public URL(URL uRL, String string, URLStreamHandler uRLStreamHandler) {
+    public URL(URL uRL, String string, URLStreamHandler uRLStreamHandler) throws MalformedURLException {
         int n;
         if (uRLStreamHandler != null) {
             SecurityManager securityManager = System.getSecurityManager();
@@ -127,20 +122,20 @@ implements Serializable {
         }
     }
 
-    public URL(String string, String string2, String string3) {
+    public URL(String string, String string2, String string3) throws MalformedURLException {
         this(string, string2, -1, string3, null);
     }
 
-    public URL(String string, String string2, int n, String string3) {
+    public URL(String string, String string2, int n, String string3) throws MalformedURLException {
         this(string, string2, n, string3, null);
     }
 
-    public URL(String string, String string2, int n, String string3, URLStreamHandler uRLStreamHandler) {
+    public URL(String string, String string2, int n, String string3, URLStreamHandler uRLStreamHandler) throws MalformedURLException {
         if (n < -1) {
             throw new MalformedURLException(Msg.getString("K0325", n));
         }
         if (string2 != null && string2.indexOf(":") != -1 && string2.charAt(0) != '[') {
-            string2 = new StringBuffer("[").append(string2).append("]").toString();
+            string2 = "[" + string2 + "]";
         }
         this.protocol = string;
         this.host = string2;
@@ -173,7 +168,7 @@ implements Serializable {
         if (this.host != null && this.host.length() > 0) {
             this.authority = this.host;
             if (this.port != -1) {
-                this.authority = new StringBuffer(String.valueOf(this.authority)).append(":").append(this.port).toString();
+                this.authority = String.valueOf(this.authority) + ":" + this.port;
             }
         }
         if (bl) {
@@ -212,7 +207,7 @@ implements Serializable {
         if (this == object) {
             return true;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         return this.strmHandler.equals(this, (URL)object);
@@ -246,7 +241,7 @@ implements Serializable {
         if ((string = (String)AccessController.doPrivileged(new PriviAction("java.protocol.handler.pkgs"))) != null) {
             object = new StringTokenizer(string, "|");
             while (((StringTokenizer)object).hasMoreTokens()) {
-                String string2 = new StringBuffer(String.valueOf(((StringTokenizer)object).nextToken())).append(".").append(this.protocol).append(".Handler").toString();
+                String string2 = String.valueOf(((StringTokenizer)object).nextToken()) + "." + this.protocol + ".Handler";
                 try {
                     this.strmHandler = (URLStreamHandler)Class.forName(string2, true, ClassLoader.getSystemClassLoader()).newInstance();
                     streamHandlers.put(this.protocol, this.strmHandler);
@@ -256,26 +251,26 @@ implements Serializable {
             }
         }
         try {
-            object = new StringBuffer("com.ibm.oti.net.www.protocol.").append(this.protocol).append(".Handler").toString();
+            object = "com.ibm.oti.net.www.protocol." + this.protocol + ".Handler";
             this.strmHandler = (URLStreamHandler)Class.forName((String)object).newInstance();
             streamHandlers.put(this.protocol, this.strmHandler);
         }
         catch (Exception exception) {}
     }
 
-    public final Object getContent() {
+    public final Object getContent() throws IOException {
         return this.openConnection().getContent();
     }
 
-    public final Object getContent(Class[] classArray) {
+    public final Object getContent(Class[] classArray) throws IOException {
         return this.openConnection().getContent(classArray);
     }
 
-    public final InputStream openStream() {
+    public final InputStream openStream() throws IOException {
         return this.openConnection().getInputStream();
     }
 
-    public URLConnection openConnection() {
+    public URLConnection openConnection() throws IOException {
         return this.strmHandler.openConnection(this);
     }
 
@@ -285,12 +280,12 @@ implements Serializable {
 
     public String toExternalForm() {
         if (this.strmHandler == null) {
-            return new StringBuffer("unknown protocol(").append(this.protocol).append(")://").append(this.host).append(this.file).toString();
+            return "unknown protocol(" + this.protocol + ")://" + this.host + this.file;
         }
         return this.strmHandler.toExternalForm(this);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException {
         try {
             objectInputStream.defaultReadObject();
             if (this.host != null && this.authority == null) {
@@ -317,7 +312,7 @@ implements Serializable {
         }
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
     }
 
@@ -360,7 +355,7 @@ implements Serializable {
     protected void set(String string, String string2, int n, String string3, String string4, String string5, String string6, String string7) {
         String string8 = string5;
         if (string6 != null && !string6.equals("")) {
-            string8 = string8 != null ? new StringBuffer(String.valueOf(string8)).append("?").append(string6).toString() : new StringBuffer("?").append(string6).toString();
+            string8 = string8 != null ? String.valueOf(string8) + "?" + string6 : "?" + string6;
         }
         this.set(string, string2, n, string8, string7);
         this.authority = string3;

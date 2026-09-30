@@ -3,6 +3,7 @@
  */
 package java.util.jar;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -12,7 +13,7 @@ public class JarOutputStream
 extends ZipOutputStream {
     private Manifest manifest;
 
-    public JarOutputStream(OutputStream outputStream, Manifest manifest) {
+    public JarOutputStream(OutputStream outputStream, Manifest manifest) throws IOException {
         super(outputStream);
         if (manifest == null) {
             throw new NullPointerException();
@@ -24,12 +25,11 @@ extends ZipOutputStream {
         this.closeEntry();
     }
 
-    public JarOutputStream(OutputStream outputStream) {
+    public JarOutputStream(OutputStream outputStream) throws IOException {
         super(outputStream);
     }
 
-    @Override
-    public void putNextEntry(ZipEntry zipEntry) {
+    public void putNextEntry(ZipEntry zipEntry) throws IOException {
         super.putNextEntry(zipEntry);
     }
 }

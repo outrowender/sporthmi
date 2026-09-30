@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCMainItems;
 
 public class DCMainItemsSerializer {
-    public static void putOptionalDCMainItems(ISerializer iSerializer, DCMainItems dCMainItems) {
+    public static void putOptionalDCMainItems(ISerializer iSerializer, DCMainItems dCMainItems) throws SerializerException {
         boolean bl = dCMainItems == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -73,7 +74,7 @@ public class DCMainItemsSerializer {
         }
     }
 
-    public static void putOptionalDCMainItemsVarArray(ISerializer iSerializer, DCMainItems[] dCMainItemsArray) {
+    public static void putOptionalDCMainItemsVarArray(ISerializer iSerializer, DCMainItems[] dCMainItemsArray) throws SerializerException {
         boolean bl = dCMainItemsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -84,7 +85,7 @@ public class DCMainItemsSerializer {
         }
     }
 
-    public static DCMainItems getOptionalDCMainItems(IDeserializer iDeserializer) {
+    public static DCMainItems getOptionalDCMainItems(IDeserializer iDeserializer) throws SerializerException {
         DCMainItems dCMainItems = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -151,7 +152,7 @@ public class DCMainItemsSerializer {
         return dCMainItems;
     }
 
-    public static DCMainItems[] getOptionalDCMainItemsVarArray(IDeserializer iDeserializer) {
+    public static DCMainItems[] getOptionalDCMainItemsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCMainItems[] dCMainItemsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

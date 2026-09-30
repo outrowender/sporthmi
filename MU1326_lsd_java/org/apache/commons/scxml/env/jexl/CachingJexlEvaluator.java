@@ -11,23 +11,22 @@ import java.util.WeakHashMap;
 import org.apache.commons.jexl.Expression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.env.jexl.JexlEvaluator;
-import org.apache.commons.scxml.env.jexl.JexlEvaluator$ExpressionBuilder;
 
 public class CachingJexlEvaluator
 extends JexlEvaluator {
-    private static final long serialVersionUID;
-    private static final Map expressionCache;
-    private static final int LRU_SIZE;
-    private static final LinkedList lru;
+    private static final long serialVersionUID = 1L;
+    private static final Map expressionCache = Collections.synchronizedMap(new WeakHashMap());
+    private static final int LRU_SIZE = 64;
+    private static final LinkedList lru = new LinkedList();
     private final Log log = LogFactory.getLog(class$org$apache$commons$scxml$env$jexl$CachingJexlEvaluator == null ? (class$org$apache$commons$scxml$env$jexl$CachingJexlEvaluator = CachingJexlEvaluator.class$("org.apache.commons.scxml.env.jexl.CachingJexlEvaluator")) : class$org$apache$commons$scxml$env$jexl$CachingJexlEvaluator);
     static /* synthetic */ Class class$org$apache$commons$scxml$env$jexl$CachingJexlEvaluator;
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    protected Expression buildExpression(String string, JexlEvaluator$ExpressionBuilder jexlEvaluator$ExpressionBuilder) {
+    protected Expression buildExpression(String string, JexlEvaluator.ExpressionBuilder expressionBuilder) throws SCXMLExpressionException {
         if (string == null) {
             return null;
         }
@@ -48,7 +47,7 @@ extends JexlEvaluator {
             } else if (this.log.isDebugEnabled()) {
                 this.log.debug(string);
             }
-            expression = jexlEvaluator$ExpressionBuilder.build(string);
+            expression = expressionBuilder.build(string);
             expressionCache.put(string, new SoftReference(expression));
             return expression;
         }
@@ -61,11 +60,6 @@ extends JexlEvaluator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        expressionCache = Collections.synchronizedMap(new WeakHashMap());
-        lru = new LinkedList();
     }
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlHeightInfo;
 
 public class SuspensionControlHeightInfoSerializer {
-    public static void putOptionalSuspensionControlHeightInfo(ISerializer iSerializer, SuspensionControlHeightInfo suspensionControlHeightInfo) {
+    public static void putOptionalSuspensionControlHeightInfo(ISerializer iSerializer, SuspensionControlHeightInfo suspensionControlHeightInfo) throws SerializerException {
         boolean bl = suspensionControlHeightInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SuspensionControlHeightInfoSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlHeightInfoVarArray(ISerializer iSerializer, SuspensionControlHeightInfo[] suspensionControlHeightInfoArray) {
+    public static void putOptionalSuspensionControlHeightInfoVarArray(ISerializer iSerializer, SuspensionControlHeightInfo[] suspensionControlHeightInfoArray) throws SerializerException {
         boolean bl = suspensionControlHeightInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SuspensionControlHeightInfoSerializer {
         }
     }
 
-    public static SuspensionControlHeightInfo getOptionalSuspensionControlHeightInfo(IDeserializer iDeserializer) {
+    public static SuspensionControlHeightInfo getOptionalSuspensionControlHeightInfo(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlHeightInfo suspensionControlHeightInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SuspensionControlHeightInfoSerializer {
         return suspensionControlHeightInfo;
     }
 
-    public static SuspensionControlHeightInfo[] getOptionalSuspensionControlHeightInfoVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlHeightInfo[] getOptionalSuspensionControlHeightInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlHeightInfo[] suspensionControlHeightInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

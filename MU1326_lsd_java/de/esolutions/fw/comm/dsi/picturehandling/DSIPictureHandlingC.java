@@ -3,40 +3,30 @@
  */
 package de.esolutions.fw.comm.dsi.picturehandling;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIPictureHandlingC {
-    default public void setPictureConfig(int n, int n2, int n3) {
-    }
+    public void setPictureConfig(int var1, int var2, int var3) throws MethodException;
 
-    default public void requestPictures(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-    }
+    public void requestPictures(int var1, ResourceLocator[] var2, int var3) throws MethodException;
 
-    default public void cancelPicture(int n) {
-    }
+    public void cancelPicture(int var1) throws MethodException;
 
-    default public void freePicture(ResourceLocator resourceLocator) {
-    }
+    public void freePicture(ResourceLocator var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

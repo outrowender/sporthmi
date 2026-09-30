@@ -12,11 +12,11 @@ public final class PrivacySetup_SetGet
 implements SetGetProperty {
     public PrivacySetup_Setup setup = new PrivacySetup_Setup();
     public int reserve1;
-    public static final int RESERVE1_MIN;
-    private static final int RESERVE1_BITSIZE;
+    public static final int RESERVE1_MIN = 0;
+    private static final int RESERVE1_BITSIZE = 4;
     public int reserve2;
-    public static final int RESERVE2_MIN;
-    private static final int RESERVE2_BITSIZE;
+    public static final int RESERVE2_MIN = 0;
+    private static final int RESERVE2_BITSIZE = 4;
 
     public PrivacySetup_SetGet() {
         this.internalReset();
@@ -33,13 +33,11 @@ implements SetGetProperty {
         this.reserve2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.setup.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PrivacySetup_SetGet privacySetup_SetGet = (PrivacySetup_SetGet)bAPEntity;
         return this.setup.equalTo(privacySetup_SetGet.setup) && this.reserve1 == privacySetup_SetGet.reserve1 && this.reserve2 == privacySetup_SetGet.reserve2;
@@ -48,29 +46,25 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PrivacySetup_SetGet");
-        stringBuffer.append(new StringBuffer().append("\n - setup:").append(this.setup.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve1:").append(this.reserve1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve2:").append(this.reserve2).toString());
+        stringBuffer.append("\n - setup:" + this.setup.toString());
+        stringBuffer.append("\n - reserve1:" + this.reserve1);
+        stringBuffer.append("\n - reserve2:" + this.reserve2);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.setup.serialize(bitStream);
         bitStream.pushBits(4, this.reserve1);
         bitStream.pushBits(4, this.reserve2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.setup.deserialize(bitStream);
         this.reserve1 = bitStream.popFrontBits(4);
@@ -81,7 +75,6 @@ implements SetGetProperty {
         return 24;
     }
 
-    @Override
     public int getFunctionId() {
         return PrivacySetup_SetGet.functionId();
     }

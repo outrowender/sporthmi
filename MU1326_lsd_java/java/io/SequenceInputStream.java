@@ -34,16 +34,14 @@ extends InputStream {
         }
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.e != null && this.in != null) {
             return this.in.available();
         }
         return 0;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.e != null) {
             while (this.in != null) {
                 this.nextStream();
@@ -54,7 +52,7 @@ extends InputStream {
         this.e = null;
     }
 
-    private void nextStream() {
+    private void nextStream() throws IOException {
         if (this.in != null) {
             this.in.close();
         }
@@ -68,8 +66,7 @@ extends InputStream {
         }
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         while (this.in != null) {
             int n = this.in.read();
             if (n >= 0) {
@@ -84,8 +81,7 @@ extends InputStream {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (byArray == null) {
             if (n < 0 || n2 < 0) throw new ArrayIndexOutOfBoundsException();
             while (this.in != null) {

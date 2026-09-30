@@ -7,9 +7,9 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface RESULT_TYPE
 extends IEnum {
-    public static final int RESULT_OK;
-    public static final int RESULT_NOT_READY;
-    public static final int RESULT_TEMPORARY_ERROR;
-    public static final int RESULT_PERMANENT_ERROR;
+    public static final int RESULT_OK = 1;
+    public static final int RESULT_NOT_READY = 2;
+    public static final int RESULT_TEMPORARY_ERROR = 3;
+    public static final int RESULT_PERMANENT_ERROR = 4;
 }
 

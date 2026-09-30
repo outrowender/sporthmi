@@ -13,22 +13,20 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 
 public class VisibilityProxyWidget
 extends AbstractWidgetController {
-    public static final int VP_STATE_VISIBLE_ENABLED;
-    public static final int VP_STATE_INVISIBLE;
-    public static final int VP_STATE_VISIBLE_DISABLED;
-    public static final int VP_STATE_VISIBLE_DISABLED_FUNCTIONAL;
+    public static final int VP_STATE_VISIBLE_ENABLED = 0;
+    public static final int VP_STATE_INVISIBLE = 1;
+    public static final int VP_STATE_VISIBLE_DISABLED = 2;
+    public static final int VP_STATE_VISIBLE_DISABLED_FUNCTIONAL = 3;
     private boolean visibleByCondition = true;
     private boolean enabledByCondition = true;
     private boolean functionalByCondition = true;
     private boolean disableAvailable = true;
 
-    @Override
     public void initializeWidget() {
         super.initializeWidget();
         this.updateValue();
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 14) {
@@ -69,7 +67,7 @@ extends AbstractWidgetController {
                     bl2 = true;
                     bl3 = this.setByDisabledMode();
                     bl4 = this.setFunctionalByModelStatus();
-                    logChannel.log(-1601830656, "VisibilityProxyWidget#refreshVisibilityStatus status: %1 is undefined - set parent DISABLED and FUNCTIONAL", (long)n);
+                    logChannel.log(100000, "VisibilityProxyWidget#refreshVisibilityStatus status: %1 is undefined - set parent DISABLED and FUNCTIONAL", (long)n);
                 }
             }
             boolean bl5 = bl2 && this.visibleByCondition;
@@ -96,25 +94,21 @@ extends AbstractWidgetController {
         return !this.disableAvailable;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         this.enabledByCondition = bl;
         this.updateValue();
     }
 
-    @Override
     public void setVisible(boolean bl) {
         this.visibleByCondition = bl;
         this.updateValue();
     }
 
-    @Override
     public void setFunctional(boolean bl) {
         this.functionalByCondition = bl;
         this.updateValue();
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

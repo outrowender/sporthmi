@@ -3,40 +3,32 @@
  */
 package de.esolutions.fw.comm.dsi.carstopwatch;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carstopwatch.StopWatchTime;
 import org.dsi.ifc.carstopwatch.StopWatchViewOptions;
 
 public interface DSICarStopWatchReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "f4b74ed2-d785-568f-a5bb-7fbdc376e935";
+    public static final String IPL_COMM_INTERFACE_KEY = "e4ecd900-215e-5ff5-8922-d8a027e6819b";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.3";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.3";
 
-    default public void updateStopWatchViewOptions(StopWatchViewOptions stopWatchViewOptions, int n) {
-    }
+    public void updateStopWatchViewOptions(StopWatchViewOptions var1, int var2) throws MethodException;
 
-    default public void updateStopWatchState(int n, int n2) {
-    }
+    public void updateStopWatchState(int var1, int var2) throws MethodException;
 
-    default public void updateStopWatchCurrentLapNumber(int n, int n2) {
-    }
+    public void updateStopWatchCurrentLapNumber(int var1, int var2) throws MethodException;
 
-    default public void updateStopWatchTotalTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchTotalTime(StopWatchTime var1, int var2) throws MethodException;
 
-    default public void updateStopWatchLastSplitTime(int n, StopWatchTime stopWatchTime, int n2) {
-    }
+    public void updateStopWatchLastSplitTime(int var1, StopWatchTime var2, int var3) throws MethodException;
 
-    default public void updateStopWatchCurrentLapTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchCurrentLapTime(StopWatchTime var1, int var2) throws MethodException;
 
-    default public void updateStopWatchLastLapTime(StopWatchTime stopWatchTime, int n) {
-    }
+    public void updateStopWatchLastLapTime(StopWatchTime var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

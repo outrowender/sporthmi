@@ -21,7 +21,7 @@ public class TextureDescriptionManager {
     public static synchronized TextureDescriptionManager getInstance() {
         if (instance == null) {
             instance = new TextureDescriptionManager();
-            AbstractWidget.logImageAsync.setLogThreshold(-2137614336);
+            AbstractWidget.logImageAsync.setLogThreshold(10000000);
         }
         return instance;
     }
@@ -38,7 +38,7 @@ public class TextureDescriptionManager {
         TextureDescription textureDescription = (TextureDescription)this.hashTexDescrMap.get(n);
         if (AbstractWidget.logImageAsync.isDebug() || AbstractWidget.logImage.isDebug()) {
             LogChannel logChannel = textureDescription instanceof ITexDescrAsyncStates ? AbstractWidget.logImageAsync : AbstractWidget.logImage;
-            logChannel.log(-2137614336, "TextureDescriptionManager#getCachedTextureDescription the cached reference is %1", (Object)textureDescription);
+            logChannel.log(10000000, "TextureDescriptionManager#getCachedTextureDescription the cached reference is %1", (Object)textureDescription);
         }
         return textureDescription;
     }
@@ -51,7 +51,7 @@ public class TextureDescriptionManager {
         TextureDescription textureDescription = (TextureDescription)this.hashTexDescrMap.get(string.hashCode());
         if (AbstractWidget.logImageAsync.isDebug() || AbstractWidget.logImage.isDebug()) {
             LogChannel logChannel = textureDescription instanceof ITexDescrAsyncStates ? AbstractWidget.logImageAsync : AbstractWidget.logImage;
-            logChannel.log(-2137614336, "TextureDescriptionManager#getCachedTextureDescription the cached reference is %1", (Object)textureDescription);
+            logChannel.log(10000000, "TextureDescriptionManager#getCachedTextureDescription the cached reference is %1", (Object)textureDescription);
         }
         return textureDescription;
     }
@@ -110,9 +110,9 @@ public class TextureDescriptionManager {
         }
         if (logChannel != null) {
             if (!this.hasTextureDescription(textureDescription)) {
-                logChannel.log(-2137614336, "TextureDescriptionManager#removeTextureDescription description is not cached.");
+                logChannel.log(10000000, "TextureDescriptionManager#removeTextureDescription description is not cached.");
             } else {
-                logChannel.log(-2137614336, "TextureDescriptionManager#removeTextureDescription removing descr: %1", (Object)textureDescription);
+                logChannel.log(10000000, "TextureDescriptionManager#removeTextureDescription removing descr: %1", (Object)textureDescription);
             }
         }
         if (!(object instanceof TextureDescription)) {

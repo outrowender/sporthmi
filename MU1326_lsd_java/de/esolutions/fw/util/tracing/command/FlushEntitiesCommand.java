@@ -8,7 +8,6 @@ import de.esolutions.fw.util.tracing.command.ITraceCommandExecutor;
 
 public class FlushEntitiesCommand
 implements ITraceCommand {
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.flushEntities();
         return false;

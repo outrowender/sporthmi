@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.LIValueListElementSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LIValueList;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class LIValueListSerializer {
-    public static void putOptionalLIValueList(ISerializer iSerializer, LIValueList lIValueList) {
+    public static void putOptionalLIValueList(ISerializer iSerializer, LIValueList lIValueList) throws SerializerException {
         boolean bl = lIValueList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class LIValueListSerializer {
         }
     }
 
-    public static void putOptionalLIValueListVarArray(ISerializer iSerializer, LIValueList[] lIValueListArray) {
+    public static void putOptionalLIValueListVarArray(ISerializer iSerializer, LIValueList[] lIValueListArray) throws SerializerException {
         boolean bl = lIValueListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class LIValueListSerializer {
         }
     }
 
-    public static LIValueList getOptionalLIValueList(IDeserializer iDeserializer) {
+    public static LIValueList getOptionalLIValueList(IDeserializer iDeserializer) throws SerializerException {
         LIValueList lIValueList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class LIValueListSerializer {
         return lIValueList;
     }
 
-    public static LIValueList[] getOptionalLIValueListVarArray(IDeserializer iDeserializer) {
+    public static LIValueList[] getOptionalLIValueListVarArray(IDeserializer iDeserializer) throws SerializerException {
         LIValueList[] lIValueListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

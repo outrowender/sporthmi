@@ -22,15 +22,15 @@ public class TraceConfigLint {
         if (configValue4 != null) {
             object = configValue4.getBoolean();
             if (object == null) {
-                System.out.println(new StringBuffer().append("ERROR: client '").append(string).append("' has invalid 'enabled' value!").toString());
+                System.out.println("ERROR: client '" + string + "' has invalid 'enabled' value!");
                 return false;
             }
             bl2 = (Boolean)object;
             if (!bl2) {
                 if (bl) {
-                    System.out.println(new StringBuffer().append("WARNING: server '").append(string).append("' is not enabled!").toString());
+                    System.out.println("WARNING: server '" + string + "' is not enabled!");
                 } else {
-                    System.out.println(new StringBuffer().append("INFO: client '").append(string).append("' tracing is disabled.").toString());
+                    System.out.println("INFO: client '" + string + "' tracing is disabled.");
                 }
             }
         }
@@ -45,10 +45,10 @@ public class TraceConfigLint {
         if ((configValue3 = configValue.getDictValue("levels")) != null) {
             ConfigValue configValue6 = configValue3.getDictValue("channel");
             if (configValue6 == null && !bl && configValue != configValue2 && configValue5 == null) {
-                System.out.println(new StringBuffer().append("WARNING: client '").append(string).append("' has no channels defined! (No trace output!)").toString());
+                System.out.println("WARNING: client '" + string + "' has no channels defined! (No trace output!)");
             }
         } else if (!bl && configValue != configValue2 && object == null) {
-            System.out.println(new StringBuffer().append("WARNING: client '").append(string).append("' has no levels set! (No tracing output)").toString());
+            System.out.println("WARNING: client '" + string + "' has no levels set! (No tracing output)");
         }
         return true;
     }
@@ -61,7 +61,7 @@ public class TraceConfigLint {
                 System.out.println("ERROR: no 'default' and no instances!");
                 return false;
             }
-            System.out.println(new StringBuffer().append("WARNING: no 'default' in ").append(bl ? "server" : "client").toString());
+            System.out.println("WARNING: no 'default' in " + (bl ? "server" : "client"));
         }
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             ConfigValue configValue3 = configValue.getDictValue(stringArray[i2]);
@@ -99,7 +99,7 @@ public class TraceConfigLint {
     public static void main(String[] stringArray) {
         TraceConfig traceConfig = new TraceConfig("java", "client");
         if (!traceConfig.readConfig()) {
-            System.out.println(new StringBuffer().append("Error reading config: ").append(traceConfig.getFailString()).toString());
+            System.out.println("Error reading config: " + traceConfig.getFailString());
             return;
         }
         TraceConfigLint traceConfigLint = new TraceConfigLint(traceConfig);

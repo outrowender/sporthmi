@@ -3,29 +3,23 @@
  */
 package de.esolutions.fw.comm.asi.ooc.app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface IOocApplicationC {
-    default public void setCarWakeup(boolean bl) {
-    }
+    public void setCarWakeup(boolean var1) throws MethodException;
 
-    default public void setCallActive(boolean bl) {
-    }
+    public void setCallActive(boolean var1) throws MethodException;
 
-    default public void setPhonePowerDelay(boolean bl) {
-    }
+    public void setPhonePowerDelay(boolean var1) throws MethodException;
 
-    default public void setNavigationPowerDelay(boolean bl) {
-    }
+    public void setNavigationPowerDelay(boolean var1) throws MethodException;
 
-    default public void setApplicationState(int n, int n2) {
-    }
+    public void setApplicationState(int var1, int var2) throws MethodException;
 
-    default public void setZrActive(boolean bl) {
-    }
+    public void setZrActive(boolean var1) throws MethodException;
 
-    default public void registerPowerEventListener() {
-    }
+    public void registerPowerEventListener() throws MethodException;
 
-    default public void shutdownResponseFinal(int n) {
-    }
+    public void shutdownResponseFinal(int var1) throws MethodException;
 }
 

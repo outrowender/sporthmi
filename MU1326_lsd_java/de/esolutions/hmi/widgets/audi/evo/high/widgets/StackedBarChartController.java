@@ -16,9 +16,8 @@ extends AbstractWidgetController {
     private int barWidth = 33;
     private int barHeight = 274;
     private int barMargin;
-    private float value = 32959;
+    private float value = -1.0f;
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getUpdateType() == 2) {
             this.updateValues();
@@ -31,18 +30,16 @@ extends AbstractWidgetController {
             int n = ((BaseListModel)this.model).getGuiRow(0).getInteger(0);
             int n2 = ((BaseListModel)this.model).getGuiRow(1).getInteger(0);
             int n3 = ((BaseListModel)this.model).getGuiRow(2).getInteger(0);
-            this.value = n == 0 && n2 == 0 && n3 == 0 ? (float)32959 : (float)(n2 + n3) / 51266;
+            this.value = n == 0 && n2 == 0 && n3 == 0 ? -1.0f : (float)(n2 + n3) / 100.0f;
             this.setCompositesDirty(true);
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         this.updateValues();
         super.connected(initializationContext);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }

@@ -30,8 +30,7 @@ DSISwdlSelectionC {
         return this.proxy;
     }
 
-    @Override
-    public void setUserSwdl(boolean bl) {
+    public void setUserSwdl(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -42,8 +41,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void setGotFocus(boolean bl) {
+    public void setGotFocus(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -54,13 +52,11 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void getMedia() {
+    public void getMedia() throws MethodException {
         this.proxy.remoteCallMethod((short)17, null);
     }
 
-    @Override
-    public void storeNfsIpAddress(String string) {
+    public void storeNfsIpAddress(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -71,8 +67,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void storeNfsPath(String string) {
+    public void storeNfsPath(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -83,8 +78,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void setMedium(int n) {
+    public void setMedium(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -95,8 +89,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setRelease(long l) {
+    public void setRelease(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -107,13 +100,11 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void getUserDefinedAllowed() {
+    public void getUserDefinedAllowed() throws MethodException {
         this.proxy.remoteCallMethod((short)19, null);
     }
 
-    @Override
-    public void setInstallationType(boolean bl) {
+    public void setInstallationType(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -124,8 +115,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setTargetLanguage(short s) {
+    public void setTargetLanguage(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -136,38 +126,31 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void getIncompatibleDevices() {
+    public void getIncompatibleDevices() throws MethodException {
         this.proxy.remoteCallMethod((short)15, null);
     }
 
-    @Override
-    public void startDownload() {
+    public void startDownload() throws MethodException {
         this.proxy.remoteCallMethod((short)35, null);
     }
 
-    @Override
-    public void createCriticalUnlock() {
+    public void createCriticalUnlock() throws MethodException {
         this.proxy.remoteCallMethod((short)11, null);
     }
 
-    @Override
-    public void startVersionUpload() {
+    public void startVersionUpload() throws MethodException {
         this.proxy.remoteCallMethod((short)36, null);
     }
 
-    @Override
-    public void abortVersionUpload() {
+    public void abortVersionUpload() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void endVersionUpload() {
+    public void endVersionUpload() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void storeCifsServer(String string) {
+    public void storeCifsServer(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -178,8 +161,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void storeCifsPath(String string) {
+    public void storeCifsPath(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -190,8 +172,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void storeCifsUser(String string) {
+    public void storeCifsUser(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -202,8 +183,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void storeCifsPassword(String string) {
+    public void storeCifsPassword(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -214,8 +194,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void storeFsPath(String string) {
+    public void storeFsPath(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -226,28 +205,23 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void checkConsistency() {
+    public void checkConsistency() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void abortSetMedium() {
+    public void abortSetMedium() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void abortSetRelease() {
+    public void abortSetRelease() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void getFinalizeTargets() {
+    public void getFinalizeTargets() throws MethodException {
         this.proxy.remoteCallMethod((short)13, null);
     }
 
-    @Override
-    public void setFinalizeTarget(int n) {
+    public void setFinalizeTarget(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -258,8 +232,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void enterComponentUpdateConfirmation(boolean bl) {
+    public void enterComponentUpdateConfirmation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -270,8 +243,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -282,8 +254,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -294,13 +265,11 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)27, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -311,8 +280,7 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -323,13 +291,11 @@ DSISwdlSelectionC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

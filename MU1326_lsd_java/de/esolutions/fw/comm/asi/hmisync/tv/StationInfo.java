@@ -52,7 +52,7 @@ public class StationInfo {
     }
 
     public String toString() {
-        return new StringBuffer("StationInfo{").append("id=").append(this.id).append(", name=").append(this.name).append(", serviceType=").append(this.serviceType).append(", contentGroup=").append(this.contentGroup).append("}").toString();
+        return "StationInfo{" + "id=" + this.id + ", name=" + this.name + ", serviceType=" + this.serviceType + ", contentGroup=" + this.contentGroup + "}";
     }
 }
 

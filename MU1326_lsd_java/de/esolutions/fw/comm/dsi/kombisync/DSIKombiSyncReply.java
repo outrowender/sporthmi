@@ -3,41 +3,33 @@
  */
 package de.esolutions.fw.comm.dsi.kombisync;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombisync.KombiDisplayRequest;
 import org.dsi.ifc.kombisync.KombiDisplayStatus;
 import org.dsi.ifc.kombisync.KombiPopupStatus;
 
 public interface DSIKombiSyncReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "40d02636-2ab7-567a-9154-88be065dffaf";
+    public static final String IPL_COMM_INTERFACE_KEY = "537ae951-1aea-55dd-a1d3-eb95ccc3ecd3";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.9";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.9";
 
-    default public void updateKombiCommunicationState(boolean bl, int n) {
-    }
+    public void updateKombiCommunicationState(boolean var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStateDisplayStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayStatus(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStateDisplayRequest(int n, int n2) {
-    }
+    public void updateKombiMessageStateDisplayRequest(int var1, int var2) throws MethodException;
 
-    default public void updateKombiMessageStatePopupStatus(int n, int n2) {
-    }
+    public void updateKombiMessageStatePopupStatus(int var1, int var2) throws MethodException;
 
-    default public void responseKombiDisplayStatus(KombiDisplayStatus kombiDisplayStatus, int n) {
-    }
+    public void responseKombiDisplayStatus(KombiDisplayStatus var1, int var2) throws MethodException;
 
-    default public void responseKombiDisplayRequest(KombiDisplayRequest kombiDisplayRequest) {
-    }
+    public void responseKombiDisplayRequest(KombiDisplayRequest var1) throws MethodException;
 
-    default public void responseKombiPopupStatus(KombiPopupStatus kombiPopupStatus, int n) {
-    }
+    public void responseKombiPopupStatus(KombiPopupStatus var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

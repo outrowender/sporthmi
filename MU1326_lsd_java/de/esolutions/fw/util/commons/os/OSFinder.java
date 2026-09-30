@@ -6,7 +6,7 @@ package de.esolutions.fw.util.commons.os;
 import java.lang.reflect.Method;
 
 public final class OSFinder {
-    public static final String OSClassName;
+    public static final String OSClassName = "de.esolutions.fw.util.os.OS";
     private Class osClass;
     private Object osInstance;
     private static OSFinder instance;
@@ -20,7 +20,7 @@ public final class OSFinder {
 
     private OSFinder() {
         try {
-            this.osClass = Class.forName("de.esolutions.fw.util.os.OS");
+            this.osClass = Class.forName(OSClassName);
             Class[] classArray = new Class[]{};
             Method method = this.osClass.getDeclaredMethod("getInstance", classArray);
             this.osInstance = method.invoke(null, null);

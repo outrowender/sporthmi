@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCCrashWarningFrontRear;
 
 public class PDCCrashWarningFrontRearSerializer {
-    public static void putOptionalPDCCrashWarningFrontRear(ISerializer iSerializer, PDCCrashWarningFrontRear pDCCrashWarningFrontRear) {
+    public static void putOptionalPDCCrashWarningFrontRear(ISerializer iSerializer, PDCCrashWarningFrontRear pDCCrashWarningFrontRear) throws SerializerException {
         boolean bl = pDCCrashWarningFrontRear == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCCrashWarningFrontRearSerializer {
         }
     }
 
-    public static void putOptionalPDCCrashWarningFrontRearVarArray(ISerializer iSerializer, PDCCrashWarningFrontRear[] pDCCrashWarningFrontRearArray) {
+    public static void putOptionalPDCCrashWarningFrontRearVarArray(ISerializer iSerializer, PDCCrashWarningFrontRear[] pDCCrashWarningFrontRearArray) throws SerializerException {
         boolean bl = pDCCrashWarningFrontRearArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCCrashWarningFrontRearSerializer {
         }
     }
 
-    public static PDCCrashWarningFrontRear getOptionalPDCCrashWarningFrontRear(IDeserializer iDeserializer) {
+    public static PDCCrashWarningFrontRear getOptionalPDCCrashWarningFrontRear(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarningFrontRear pDCCrashWarningFrontRear = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCCrashWarningFrontRearSerializer {
         return pDCCrashWarningFrontRear;
     }
 
-    public static PDCCrashWarningFrontRear[] getOptionalPDCCrashWarningFrontRearVarArray(IDeserializer iDeserializer) {
+    public static PDCCrashWarningFrontRear[] getOptionalPDCCrashWarningFrontRearVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCCrashWarningFrontRear[] pDCCrashWarningFrontRearArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

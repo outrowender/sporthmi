@@ -4,13 +4,10 @@
 package org.dsi.ifc.boot;
 
 public interface DSIBoot {
-    default public boolean startService(String string, int n) {
-    }
+    public boolean startService(String var1, int var2);
 
-    default public boolean stopService(String string, int n) {
-    }
+    public boolean stopService(String var1, int var2);
 
-    default public boolean restartService(String string, int n) {
-    }
+    public boolean restartService(String var1, int var2);
 }
 

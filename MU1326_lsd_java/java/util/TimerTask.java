@@ -36,8 +36,6 @@ implements Runnable {
         return this.scheduledTime;
     }
 
-    @Override
-    public abstract void run() {
-    }
+    public abstract void run();
 }
 

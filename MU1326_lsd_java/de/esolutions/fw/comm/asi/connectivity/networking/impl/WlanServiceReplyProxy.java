@@ -5,18 +5,21 @@ package de.esolutions.fw.comm.asi.connectivity.networking.impl;
 
 import de.esolutions.fw.comm.asi.connectivity.networking.WlanDevice;
 import de.esolutions.fw.comm.asi.connectivity.networking.WlanServiceReply;
-import de.esolutions.fw.comm.asi.connectivity.networking.impl.WlanServiceReplyProxy$1;
-import de.esolutions.fw.comm.asi.connectivity.networking.impl.WlanServiceReplyProxy$2;
+import de.esolutions.fw.comm.asi.connectivity.networking.impl.WlanDeviceSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class WlanServiceReplyProxy
 implements WlanServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.connectivity.networking.WlanService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public WlanServiceReplyProxy() {
@@ -24,21 +27,29 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateWlanReady(boolean bl, String string) {
-        WlanServiceReplyProxy$1 wlanServiceReplyProxy$1 = new WlanServiceReplyProxy$1(this, bl, string);
-        this.proxy.remoteCallMethod((short)2, wlanServiceReplyProxy$1);
+    public void updateWlanReady(final boolean bl, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void updateWLANDevice(WlanDevice wlanDevice) {
-        WlanServiceReplyProxy$2 wlanServiceReplyProxy$2 = new WlanServiceReplyProxy$2(this, wlanDevice);
-        this.proxy.remoteCallMethod((short)3, wlanServiceReplyProxy$2);
+    public void updateWLANDevice(final WlanDevice wlanDevice) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                WlanDeviceSerializer.putOptionalWlanDevice(iSerializer, wlanDevice);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 }
 

@@ -18,7 +18,7 @@ extends FilterInputStream {
     protected int len;
     boolean closed = false;
     boolean eof = false;
-    static final int BUF_SIZE;
+    static final int BUF_SIZE = 512;
 
     public InflaterInputStream(InputStream inputStream) {
         this(inputStream, new Inflater(), 512);
@@ -40,8 +40,7 @@ extends FilterInputStream {
         this.buf = new byte[n];
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         byte[] byArray = new byte[1];
         if (this.read(byArray, 0, 1) == -1) {
             return -1;
@@ -49,8 +48,7 @@ extends FilterInputStream {
         return byArray[0] & 0xFF;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -100,7 +98,7 @@ extends FilterInputStream {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    protected void fill() {
+    protected void fill() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -110,8 +108,7 @@ extends FilterInputStream {
         }
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l >= 0L) {
             long l2 = 0L;
             long l3 = 0L;
@@ -129,8 +126,7 @@ extends FilterInputStream {
         throw new IllegalArgumentException();
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -140,8 +136,7 @@ extends FilterInputStream {
         return 1;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (!this.closed) {
             this.inf.end();
             this.closed = true;

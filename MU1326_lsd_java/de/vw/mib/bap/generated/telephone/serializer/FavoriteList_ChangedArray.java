@@ -15,29 +15,24 @@ public final class FavoriteList_ChangedArray
 implements BAPChangedArray {
     private ArrayHeader arrayHeader = new ArrayHeader();
     private BAPArrayData data = new BAPArrayData(60);
-    private static final int MAX_DATA_ELEMENTS;
+    private static final int MAX_DATA_ELEMENTS = 60;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setArrayData(BAPArrayData bAPArrayData) {
         this.data = bAPArrayData;
     }
 
-    @Override
     public BAPArrayData getArrayData() {
         return this.data;
     }
 
-    @Override
     public BAPArrayElement createArrayElement() {
         return new FavoriteList_Data(this.getArrayHeader());
     }
@@ -55,14 +50,12 @@ implements BAPChangedArray {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.data.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FavoriteList_ChangedArray favoriteList_ChangedArray = (FavoriteList_ChangedArray)bAPEntity;
         return this.arrayHeader.equalTo(favoriteList_ChangedArray.arrayHeader) && this.data.equalTo(favoriteList_ChangedArray.data);
@@ -71,7 +64,6 @@ implements BAPChangedArray {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FavoriteList_ChangedArray:");
@@ -82,20 +74,17 @@ implements BAPChangedArray {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += this.arrayHeader.bitSize();
         return n += this.data.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.arrayHeader.serialize(bitStream);
         this.data.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.arrayHeader.deserialize(bitStream);
         this.data.reset();
@@ -112,7 +101,6 @@ implements BAPChangedArray {
         return 60;
     }
 
-    @Override
     public int getFunctionId() {
         return FavoriteList_ChangedArray.functionId();
     }

@@ -3,41 +3,31 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.tv;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncTVC {
-    default public void setActiveStation(long l) {
-    }
+    public void setActiveStation(long var1) throws MethodException;
 
-    default public void logonToTV() {
-    }
+    public void logonToTV() throws MethodException;
 
-    default public void logoffFromTV() {
-    }
+    public void logoffFromTV() throws MethodException;
 
-    default public void sendPressedPanelKey(byte by) {
-    }
+    public void sendPressedPanelKey(byte var1) throws MethodException;
 
-    default public void searchChannel(byte by) {
-    }
+    public void searchChannel(byte var1) throws MethodException;
 
-    default public void setTerminalMode(byte by) {
-    }
+    public void setTerminalMode(byte var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

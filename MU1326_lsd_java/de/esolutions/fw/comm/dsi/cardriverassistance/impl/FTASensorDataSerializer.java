@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.FTASensorData;
 
 public class FTASensorDataSerializer {
-    public static void putOptionalFTASensorData(ISerializer iSerializer, FTASensorData fTASensorData) {
+    public static void putOptionalFTASensorData(ISerializer iSerializer, FTASensorData fTASensorData) throws SerializerException {
         boolean bl = fTASensorData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class FTASensorDataSerializer {
         }
     }
 
-    public static void putOptionalFTASensorDataVarArray(ISerializer iSerializer, FTASensorData[] fTASensorDataArray) {
+    public static void putOptionalFTASensorDataVarArray(ISerializer iSerializer, FTASensorData[] fTASensorDataArray) throws SerializerException {
         boolean bl = fTASensorDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class FTASensorDataSerializer {
         }
     }
 
-    public static FTASensorData getOptionalFTASensorData(IDeserializer iDeserializer) {
+    public static FTASensorData getOptionalFTASensorData(IDeserializer iDeserializer) throws SerializerException {
         FTASensorData fTASensorData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class FTASensorDataSerializer {
         return fTASensorData;
     }
 
-    public static FTASensorData[] getOptionalFTASensorDataVarArray(IDeserializer iDeserializer) {
+    public static FTASensorData[] getOptionalFTASensorDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         FTASensorData[] fTASensorDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

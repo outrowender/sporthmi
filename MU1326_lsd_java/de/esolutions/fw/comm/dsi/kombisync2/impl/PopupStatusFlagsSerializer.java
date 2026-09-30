@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.PopupStatusFlags;
 
 public class PopupStatusFlagsSerializer {
-    public static void putOptionalPopupStatusFlags(ISerializer iSerializer, PopupStatusFlags popupStatusFlags) {
+    public static void putOptionalPopupStatusFlags(ISerializer iSerializer, PopupStatusFlags popupStatusFlags) throws SerializerException {
         boolean bl = popupStatusFlags == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class PopupStatusFlagsSerializer {
         }
     }
 
-    public static void putOptionalPopupStatusFlagsVarArray(ISerializer iSerializer, PopupStatusFlags[] popupStatusFlagsArray) {
+    public static void putOptionalPopupStatusFlagsVarArray(ISerializer iSerializer, PopupStatusFlags[] popupStatusFlagsArray) throws SerializerException {
         boolean bl = popupStatusFlagsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class PopupStatusFlagsSerializer {
         }
     }
 
-    public static PopupStatusFlags getOptionalPopupStatusFlags(IDeserializer iDeserializer) {
+    public static PopupStatusFlags getOptionalPopupStatusFlags(IDeserializer iDeserializer) throws SerializerException {
         PopupStatusFlags popupStatusFlags = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class PopupStatusFlagsSerializer {
         return popupStatusFlags;
     }
 
-    public static PopupStatusFlags[] getOptionalPopupStatusFlagsVarArray(IDeserializer iDeserializer) {
+    public static PopupStatusFlags[] getOptionalPopupStatusFlagsVarArray(IDeserializer iDeserializer) throws SerializerException {
         PopupStatusFlags[] popupStatusFlagsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

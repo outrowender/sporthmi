@@ -3,55 +3,40 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface DSIAdbEditC {
-    default public void insertEntry(AdbEntry adbEntry, int n) {
-    }
+    public void insertEntry(AdbEntry var1, int var2) throws MethodException;
 
-    default public void getEntries(long[] lArray, int n, int n2) {
-    }
+    public void getEntries(long[] var1, int var2, int var3) throws MethodException;
 
-    default public void getEntryDataSets(long[] lArray, int n, int n2) {
-    }
+    public void getEntryDataSets(long[] var1, int var2, int var3) throws MethodException;
 
-    default public void changeEntry(AdbEntry adbEntry, int n) {
-    }
+    public void changeEntry(AdbEntry var1, int var2) throws MethodException;
 
-    default public void copyEntry(long l) {
-    }
+    public void copyEntry(long var1) throws MethodException;
 
-    default public void deleteEntries(long[] lArray, int n, int n2) {
-    }
+    public void deleteEntries(long[] var1, int var2, int var3) throws MethodException;
 
-    default public void setSpeedDial(AdbEntry adbEntry) {
-    }
+    public void setSpeedDial(AdbEntry var1) throws MethodException;
 
-    default public void deleteSpeedDial(int n) {
-    }
+    public void deleteSpeedDial(int var1) throws MethodException;
 
-    default public void getEntryByReferenceId(String string) {
-    }
+    public void getEntryByReferenceId(String var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

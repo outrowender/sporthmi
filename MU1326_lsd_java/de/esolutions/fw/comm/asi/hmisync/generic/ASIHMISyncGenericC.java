@@ -4,27 +4,21 @@
 package de.esolutions.fw.comm.asi.hmisync.generic;
 
 import de.esolutions.fw.comm.asi.hmisync.generic.GenericPacket;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncGenericC {
-    default public void sendDataToUnit(GenericPacket genericPacket) {
-    }
+    public void sendDataToUnit(GenericPacket var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

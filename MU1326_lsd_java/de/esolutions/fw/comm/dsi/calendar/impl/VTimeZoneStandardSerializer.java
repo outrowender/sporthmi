@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VTimeZoneStandard;
 
 public class VTimeZoneStandardSerializer {
-    public static void putOptionalVTimeZoneStandard(ISerializer iSerializer, VTimeZoneStandard vTimeZoneStandard) {
+    public static void putOptionalVTimeZoneStandard(ISerializer iSerializer, VTimeZoneStandard vTimeZoneStandard) throws SerializerException {
         boolean bl = vTimeZoneStandard == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class VTimeZoneStandardSerializer {
         }
     }
 
-    public static void putOptionalVTimeZoneStandardVarArray(ISerializer iSerializer, VTimeZoneStandard[] vTimeZoneStandardArray) {
+    public static void putOptionalVTimeZoneStandardVarArray(ISerializer iSerializer, VTimeZoneStandard[] vTimeZoneStandardArray) throws SerializerException {
         boolean bl = vTimeZoneStandardArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class VTimeZoneStandardSerializer {
         }
     }
 
-    public static VTimeZoneStandard getOptionalVTimeZoneStandard(IDeserializer iDeserializer) {
+    public static VTimeZoneStandard getOptionalVTimeZoneStandard(IDeserializer iDeserializer) throws SerializerException {
         VTimeZoneStandard vTimeZoneStandard = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class VTimeZoneStandardSerializer {
         return vTimeZoneStandard;
     }
 
-    public static VTimeZoneStandard[] getOptionalVTimeZoneStandardVarArray(IDeserializer iDeserializer) {
+    public static VTimeZoneStandard[] getOptionalVTimeZoneStandardVarArray(IDeserializer iDeserializer) throws SerializerException {
         VTimeZoneStandard[] vTimeZoneStandardArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -4,6 +4,7 @@
 package java.net;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.ProtocolException;
 import java.net.SocketPermission;
@@ -19,48 +20,47 @@ extends URLConnection {
     protected String responseMessage;
     protected boolean instanceFollowRedirects = followRedirects;
     private static boolean followRedirects = true;
-    public static final int HTTP_ACCEPTED;
-    public static final int HTTP_BAD_GATEWAY;
-    public static final int HTTP_BAD_METHOD;
-    public static final int HTTP_BAD_REQUEST;
-    public static final int HTTP_CLIENT_TIMEOUT;
-    public static final int HTTP_CONFLICT;
-    public static final int HTTP_CREATED;
-    public static final int HTTP_ENTITY_TOO_LARGE;
-    public static final int HTTP_FORBIDDEN;
-    public static final int HTTP_GATEWAY_TIMEOUT;
-    public static final int HTTP_GONE;
-    public static final int HTTP_INTERNAL_ERROR;
-    public static final int HTTP_LENGTH_REQUIRED;
-    public static final int HTTP_MOVED_PERM;
-    public static final int HTTP_MOVED_TEMP;
-    public static final int HTTP_MULT_CHOICE;
-    public static final int HTTP_NO_CONTENT;
-    public static final int HTTP_NOT_ACCEPTABLE;
-    public static final int HTTP_NOT_AUTHORITATIVE;
-    public static final int HTTP_NOT_FOUND;
-    public static final int HTTP_NOT_IMPLEMENTED;
-    public static final int HTTP_NOT_MODIFIED;
-    public static final int HTTP_OK;
-    public static final int HTTP_PARTIAL;
-    public static final int HTTP_PAYMENT_REQUIRED;
-    public static final int HTTP_PRECON_FAILED;
-    public static final int HTTP_PROXY_AUTH;
-    public static final int HTTP_REQ_TOO_LONG;
-    public static final int HTTP_RESET;
-    public static final int HTTP_SEE_OTHER;
-    public static final int HTTP_USE_PROXY;
-    public static final int HTTP_UNAUTHORIZED;
-    public static final int HTTP_UNSUPPORTED_TYPE;
-    public static final int HTTP_UNAVAILABLE;
-    public static final int HTTP_VERSION;
+    public static final int HTTP_ACCEPTED = 202;
+    public static final int HTTP_BAD_GATEWAY = 502;
+    public static final int HTTP_BAD_METHOD = 405;
+    public static final int HTTP_BAD_REQUEST = 400;
+    public static final int HTTP_CLIENT_TIMEOUT = 408;
+    public static final int HTTP_CONFLICT = 409;
+    public static final int HTTP_CREATED = 201;
+    public static final int HTTP_ENTITY_TOO_LARGE = 413;
+    public static final int HTTP_FORBIDDEN = 403;
+    public static final int HTTP_GATEWAY_TIMEOUT = 504;
+    public static final int HTTP_GONE = 410;
+    public static final int HTTP_INTERNAL_ERROR = 500;
+    public static final int HTTP_LENGTH_REQUIRED = 411;
+    public static final int HTTP_MOVED_PERM = 301;
+    public static final int HTTP_MOVED_TEMP = 302;
+    public static final int HTTP_MULT_CHOICE = 300;
+    public static final int HTTP_NO_CONTENT = 204;
+    public static final int HTTP_NOT_ACCEPTABLE = 406;
+    public static final int HTTP_NOT_AUTHORITATIVE = 203;
+    public static final int HTTP_NOT_FOUND = 404;
+    public static final int HTTP_NOT_IMPLEMENTED = 501;
+    public static final int HTTP_NOT_MODIFIED = 304;
+    public static final int HTTP_OK = 200;
+    public static final int HTTP_PARTIAL = 206;
+    public static final int HTTP_PAYMENT_REQUIRED = 402;
+    public static final int HTTP_PRECON_FAILED = 412;
+    public static final int HTTP_PROXY_AUTH = 407;
+    public static final int HTTP_REQ_TOO_LONG = 414;
+    public static final int HTTP_RESET = 205;
+    public static final int HTTP_SEE_OTHER = 303;
+    public static final int HTTP_USE_PROXY = 305;
+    public static final int HTTP_UNAUTHORIZED = 401;
+    public static final int HTTP_UNSUPPORTED_TYPE = 415;
+    public static final int HTTP_UNAVAILABLE = 503;
+    public static final int HTTP_VERSION = 505;
 
     protected HttpURLConnection(URL uRL) {
         super(uRL);
     }
 
-    public abstract void disconnect() {
-    }
+    public abstract void disconnect();
 
     public InputStream getErrorStream() {
         return null;
@@ -70,20 +70,19 @@ extends URLConnection {
         return followRedirects;
     }
 
-    @Override
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         int n = this.url.getPort();
         if (n < 0) {
             n = 80;
         }
-        return new SocketPermission(new StringBuffer(String.valueOf(this.url.getHost())).append(":").append(n).toString(), "connect, resolve");
+        return new SocketPermission(String.valueOf(this.url.getHost()) + ":" + n, "connect, resolve");
     }
 
     public String getRequestMethod() {
         return this.method;
     }
 
-    public int getResponseCode() {
+    public int getResponseCode() throws IOException {
         this.getInputStream();
         String string = this.getHeaderField(0);
         if (string == null) {
@@ -105,7 +104,7 @@ extends URLConnection {
         return this.responseCode;
     }
 
-    public String getResponseMessage() {
+    public String getResponseMessage() throws IOException {
         if (this.responseMessage != null) {
             return this.responseMessage;
         }
@@ -121,7 +120,7 @@ extends URLConnection {
         followRedirects = bl;
     }
 
-    public void setRequestMethod(String string) {
+    public void setRequestMethod(String string) throws ProtocolException {
         if (this.connected) {
             throw new ProtocolException(Msg.getString("K0037"));
         }
@@ -136,8 +135,7 @@ extends URLConnection {
         throw new ProtocolException();
     }
 
-    public abstract boolean usingProxy() {
-    }
+    public abstract boolean usingProxy();
 
     public boolean getInstanceFollowRedirects() {
         return this.instanceFollowRedirects;
@@ -147,7 +145,6 @@ extends URLConnection {
         this.instanceFollowRedirects = bl;
     }
 
-    @Override
     public long getHeaderFieldDate(String string, long l) {
         return super.getHeaderFieldDate(string, l);
     }

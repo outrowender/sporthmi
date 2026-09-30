@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.RRListElement;
 
 public class RRListElementSerializer {
-    public static void putOptionalRRListElement(ISerializer iSerializer, RRListElement rRListElement) {
+    public static void putOptionalRRListElement(ISerializer iSerializer, RRListElement rRListElement) throws SerializerException {
         boolean bl = rRListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RRListElementSerializer {
         }
     }
 
-    public static void putOptionalRRListElementVarArray(ISerializer iSerializer, RRListElement[] rRListElementArray) {
+    public static void putOptionalRRListElementVarArray(ISerializer iSerializer, RRListElement[] rRListElementArray) throws SerializerException {
         boolean bl = rRListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RRListElementSerializer {
         }
     }
 
-    public static RRListElement getOptionalRRListElement(IDeserializer iDeserializer) {
+    public static RRListElement getOptionalRRListElement(IDeserializer iDeserializer) throws SerializerException {
         RRListElement rRListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RRListElementSerializer {
         return rRListElement;
     }
 
-    public static RRListElement[] getOptionalRRListElementVarArray(IDeserializer iDeserializer) {
+    public static RRListElement[] getOptionalRRListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         RRListElement[] rRListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

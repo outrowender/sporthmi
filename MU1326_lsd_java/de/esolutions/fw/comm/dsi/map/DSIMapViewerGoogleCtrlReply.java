@@ -3,37 +3,30 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.map.LayerProperty;
 import org.dsi.ifc.map.Rect;
 
 public interface DSIMapViewerGoogleCtrlReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "2256d080-8740-5e79-bcc5-6ddcbbeef30e";
+    public static final String IPL_COMM_INTERFACE_KEY = "00946153-2f48-5ed2-bed1-4552535374eb";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.62";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.62";
 
-    default public void updateAvailableLayers(LayerProperty[] layerPropertyArray, int n) {
-    }
+    public void updateAvailableLayers(LayerProperty[] var1, int var2) throws MethodException;
 
-    default public void updateVisibleLayers(int[] nArray, int n) {
-    }
+    public void updateVisibleLayers(int[] var1, int var2) throws MethodException;
 
-    default public void updateAvailableLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableLanguages(String[] var1, int var2) throws MethodException;
 
-    default public void updateCurrentLanguage(String string, int n) {
-    }
+    public void updateCurrentLanguage(String var1, int var2) throws MethodException;
 
-    default public void updateGoogleDataStatus(int n, int n2) {
-    }
+    public void updateGoogleDataStatus(int var1, int var2) throws MethodException;
 
-    default public void updateCopyrightPosition(Rect rect, int n, int n2, int n3) {
-    }
+    public void updateCopyrightPosition(Rect var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

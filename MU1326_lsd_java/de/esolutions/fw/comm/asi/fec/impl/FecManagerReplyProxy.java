@@ -7,23 +7,23 @@ import de.esolutions.fw.comm.asi.fec.FecManagerReply;
 import de.esolutions.fw.comm.asi.fec.SFecDetails;
 import de.esolutions.fw.comm.asi.fec.SFecHistory;
 import de.esolutions.fw.comm.asi.fec.SFecImportStatus;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$1;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$2;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$3;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$4;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$5;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$6;
-import de.esolutions.fw.comm.asi.fec.impl.FecManagerReplyProxy$7;
+import de.esolutions.fw.comm.asi.fec.impl.SFecDetailsSerializer;
+import de.esolutions.fw.comm.asi.fec.impl.SFecHistorySerializer;
+import de.esolutions.fw.comm.asi.fec.impl.SFecImportStatusSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class FecManagerReplyProxy
 implements FecManagerReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.fec.FecManager");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public FecManagerReplyProxy() {
@@ -31,51 +31,82 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void checkDataSignature(String string, boolean bl) {
-        FecManagerReplyProxy$1 fecManagerReplyProxy$1 = new FecManagerReplyProxy$1(this, string, bl);
-        this.proxy.remoteCallMethod((short)1, fecManagerReplyProxy$1);
+    public void checkDataSignature(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void fecDetails(SFecDetails sFecDetails) {
-        FecManagerReplyProxy$2 fecManagerReplyProxy$2 = new FecManagerReplyProxy$2(this, sFecDetails);
-        this.proxy.remoteCallMethod((short)15, fecManagerReplyProxy$2);
+    public void fecDetails(final SFecDetails sFecDetails) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SFecDetailsSerializer.putOptionalSFecDetails(iSerializer, sFecDetails);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void importFecs(int n, SFecImportStatus[] sFecImportStatusArray) {
-        FecManagerReplyProxy$3 fecManagerReplyProxy$3 = new FecManagerReplyProxy$3(this, n, sFecImportStatusArray);
-        this.proxy.remoteCallMethod((short)13, fecManagerReplyProxy$3);
+    public void importFecs(final int n, final SFecImportStatus[] sFecImportStatusArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SFecImportStatusSerializer.putOptionalSFecImportStatusVarArray(iSerializer, sFecImportStatusArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void exportCCD(int n) {
-        FecManagerReplyProxy$4 fecManagerReplyProxy$4 = new FecManagerReplyProxy$4(this, n);
-        this.proxy.remoteCallMethod((short)6, fecManagerReplyProxy$4);
+    public void exportCCD(final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void getHistory(SFecHistory[] sFecHistoryArray) {
-        FecManagerReplyProxy$5 fecManagerReplyProxy$5 = new FecManagerReplyProxy$5(this, sFecHistoryArray);
-        this.proxy.remoteCallMethod((short)11, fecManagerReplyProxy$5);
+    public void getHistory(final SFecHistory[] sFecHistoryArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SFecHistorySerializer.putOptionalSFecHistoryVarArray(iSerializer, sFecHistoryArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)11, iSerializable);
     }
 
-    @Override
-    public void encryptFile(String string, int n) {
-        FecManagerReplyProxy$6 fecManagerReplyProxy$6 = new FecManagerReplyProxy$6(this, string, n);
-        this.proxy.remoteCallMethod((short)4, fecManagerReplyProxy$6);
+    public void encryptFile(final String string, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)4, iSerializable);
     }
 
-    @Override
-    public void decryptFile(String string, int n) {
-        FecManagerReplyProxy$7 fecManagerReplyProxy$7 = new FecManagerReplyProxy$7(this, string, n);
-        this.proxy.remoteCallMethod((short)2, fecManagerReplyProxy$7);
+    public void decryptFile(final String string, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 }
 

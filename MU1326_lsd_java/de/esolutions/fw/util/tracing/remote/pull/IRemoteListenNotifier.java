@@ -6,10 +6,8 @@ package de.esolutions.fw.util.tracing.remote.pull;
 import de.esolutions.fw.util.serializer.connection.Connection;
 
 public interface IRemoteListenNotifier {
-    default public void connectedLogger(String string, Connection connection) {
-    }
+    public void connectedLogger(String var1, Connection var2);
 
-    default public void disconnectedLogger(String string, Connection connection) {
-    }
+    public void disconnectedLogger(String var1, Connection var2);
 }
 

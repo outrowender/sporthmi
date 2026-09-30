@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.caraircondition;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.caraircondition.AirconAirDistribution;
 import org.dsi.ifc.caraircondition.AirconAirVolume;
 import org.dsi.ifc.caraircondition.AirconBCMeasuresConfiguration;
@@ -17,190 +18,128 @@ import org.dsi.ifc.caraircondition.AirconTemp;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public interface DSICarAirConditionC {
-    default public void setAirconAirCirculationMan(boolean bl) {
-    }
+    public void setAirconAirCirculationMan(boolean var1) throws MethodException;
 
-    default public void setAirconAirCirculationAuto(boolean bl) {
-    }
+    public void setAirconAirCirculationAuto(boolean var1) throws MethodException;
 
-    default public void setAirconMiddleExhaustion(int n) {
-    }
+    public void setAirconMiddleExhaustion(int var1) throws MethodException;
 
-    default public void setAirconRearWindowHeater(boolean bl) {
-    }
+    public void setAirconRearWindowHeater(boolean var1) throws MethodException;
 
-    default public void setAirconIndirectVentilation(boolean bl) {
-    }
+    public void setAirconIndirectVentilation(boolean var1) throws MethodException;
 
-    default public void setAirconPopupTime(int n) {
-    }
+    public void setAirconPopupTime(int var1) throws MethodException;
 
-    default public void setAirconHeater(boolean bl) {
-    }
+    public void setAirconHeater(boolean var1) throws MethodException;
 
-    default public void setAirconRearAuxHeater(boolean bl) {
-    }
+    public void setAirconRearAuxHeater(boolean var1) throws MethodException;
 
-    default public void setAirconFrontWindowHeater(boolean bl) {
-    }
+    public void setAirconFrontWindowHeater(boolean var1) throws MethodException;
 
-    default public void setAirconDefrost(boolean bl) {
-    }
+    public void setAirconDefrost(boolean var1) throws MethodException;
 
-    default public void setAirconMaxDefrost(boolean bl) {
-    }
+    public void setAirconMaxDefrost(boolean var1) throws MethodException;
 
-    default public void setAirconSolar(boolean bl) {
-    }
+    public void setAirconSolar(boolean var1) throws MethodException;
 
-    default public void setAirconAC(boolean bl) {
-    }
+    public void setAirconAC(boolean var1) throws MethodException;
 
-    default public void setAirconMaxAC(boolean bl) {
-    }
+    public void setAirconMaxAC(boolean var1) throws MethodException;
 
-    default public void setAirconEcoAC(boolean bl) {
-    }
+    public void setAirconEcoAC(boolean var1) throws MethodException;
 
-    default public void setAirconRearControl(boolean bl) {
-    }
+    public void setAirconRearControl(boolean var1) throws MethodException;
 
-    default public void setAirconRearControlFondPlus(boolean bl) {
-    }
+    public void setAirconRearControlFondPlus(boolean var1) throws MethodException;
 
-    default public void setAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater) {
-    }
+    public void setAirconSteeringWheelHeater(AirconSteeringWheelHeater var1) throws MethodException;
 
-    default public void setAirconFrontWindowHeaterAuto(boolean bl) {
-    }
+    public void setAirconFrontWindowHeaterAuto(boolean var1) throws MethodException;
 
-    default public void setAirconBlowerCompensation(AirconBlowerCompensation airconBlowerCompensation) {
-    }
+    public void setAirconBlowerCompensation(AirconBlowerCompensation var1) throws MethodException;
 
-    default public void setAirconSynchronisation(AirconSynchronisation airconSynchronisation) {
-    }
+    public void setAirconSynchronisation(AirconSynchronisation var1) throws MethodException;
 
-    default public void setAirconSuppressVisualisation(boolean bl) {
-    }
+    public void setAirconSuppressVisualisation(boolean var1) throws MethodException;
 
-    default public void setAirconSystemOnOffRow(int n, boolean bl) {
-    }
+    public void setAirconSystemOnOffRow(int var1, boolean var2) throws MethodException;
 
-    default public void setAirconAirCirculationSensitivity(int n) {
-    }
+    public void setAirconAirCirculationSensitivity(int var1) throws MethodException;
 
-    default public void setAirconResidualHeat(boolean bl) {
-    }
+    public void setAirconResidualHeat(boolean var1) throws MethodException;
 
-    default public void showAirconPopup(AirconContent airconContent) {
-    }
+    public void showAirconPopup(AirconContent var1) throws MethodException;
 
-    default public void cancelAirconPopup(AirconContent airconContent, int n) {
-    }
+    public void cancelAirconPopup(AirconContent var1, int var2) throws MethodException;
 
-    default public void setAirconContent(AirconContent airconContent) {
-    }
+    public void setAirconContent(AirconContent var1) throws MethodException;
 
-    default public void setAirconTempZone(int n, AirconTemp airconTemp) {
-    }
+    public void setAirconTempZone(int var1, AirconTemp var2) throws MethodException;
 
-    default public void setAirconAirVolume(int n, AirconAirVolume airconAirVolume) {
-    }
+    public void setAirconAirVolume(int var1, AirconAirVolume var2) throws MethodException;
 
-    default public void setAirconAirDistribution(int n, AirconAirDistribution airconAirDistribution) {
-    }
+    public void setAirconAirDistribution(int var1, AirconAirDistribution var2) throws MethodException;
 
-    default public void setAirconFootwellTemp(int n, int n2) {
-    }
+    public void setAirconFootwellTemp(int var1, int var2) throws MethodException;
 
-    default public void setAirconSeatHeater(int n, int n2, int n3) {
-    }
+    public void setAirconSeatHeater(int var1, int var2, int var3) throws MethodException;
 
-    default public void setAirconSeatVentilation(int n, int n2, int n3) {
-    }
+    public void setAirconSeatVentilation(int var1, int var2, int var3) throws MethodException;
 
-    default public void setAirconHMIIsReady(boolean bl) {
-    }
+    public void setAirconHMIIsReady(boolean var1) throws MethodException;
 
-    default public void setAirconSeatHeaterDistribution(int n, int n2) {
-    }
+    public void setAirconSeatHeaterDistribution(int var1, int var2) throws MethodException;
 
-    default public void setAirconSeatVentilationDistribution(int n, int n2) {
-    }
+    public void setAirconSeatVentilationDistribution(int var1, int var2) throws MethodException;
 
-    default public void setAirconTempStep(int n, int n2) {
-    }
+    public void setAirconTempStep(int var1, int var2) throws MethodException;
 
-    default public void setAirconClimateStyle(int n, int n2) {
-    }
+    public void setAirconClimateStyle(int var1, int var2) throws MethodException;
 
-    default public void setAirconSetFactoryDefaultMaster() {
-    }
+    public void setAirconSetFactoryDefaultMaster() throws MethodException;
 
-    default public void setAirconSetFactoryDefaultRow(int n) {
-    }
+    public void setAirconSetFactoryDefaultRow(int var1) throws MethodException;
 
-    default public void setAirconNozzleControlRow1(int n) {
-    }
+    public void setAirconNozzleControlRow1(int var1) throws MethodException;
 
-    default public void setAirconNozzleControlRow2(int n) {
-    }
+    public void setAirconNozzleControlRow2(int var1) throws MethodException;
 
-    default public void setAirconNozzleControlRow3(int n) {
-    }
+    public void setAirconNozzleControlRow3(int var1) throws MethodException;
 
-    default public void requestAirconNozzleListRow(int n, CarArrayListUpdateInfo carArrayListUpdateInfo) {
-    }
+    public void requestAirconNozzleListRow(int var1, CarArrayListUpdateInfo var2) throws MethodException;
 
-    default public void setAirconNozzleListRow(int n, CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
-    }
+    public void setAirconNozzleListRow(int var1, CarArrayListUpdateInfo var2, AirconNozzleListRecord[] var3) throws MethodException;
 
-    default public void setAirconSideWindowDefrost(boolean bl) {
-    }
+    public void setAirconSideWindowDefrost(boolean var1) throws MethodException;
 
-    default public void setAirconPureAir(AirconPureAirSetup airconPureAirSetup) {
-    }
+    public void setAirconPureAir(AirconPureAirSetup var1) throws MethodException;
 
-    default public void setAirconFreshAirConfig(AirconFreshAirConfiguration airconFreshAirConfiguration) {
-    }
+    public void setAirconFreshAirConfig(AirconFreshAirConfiguration var1) throws MethodException;
 
-    default public void setAirconAirQuality(int n, int n2) {
-    }
+    public void setAirconAirQuality(int var1, int var2) throws MethodException;
 
-    default public void setAirconSeatNeckHeater(int n, boolean bl, int n2) {
-    }
+    public void setAirconSeatNeckHeater(int var1, boolean var2, int var3) throws MethodException;
 
-    default public void setAirconSeatSurfaceHeater(int n, boolean bl, boolean bl2, int n2) {
-    }
+    public void setAirconSeatSurfaceHeater(int var1, boolean var2, boolean var3, int var4) throws MethodException;
 
-    default public void setAirconIndividualClimatisation(int n, boolean bl) {
-    }
+    public void setAirconIndividualClimatisation(int var1, boolean var2) throws MethodException;
 
-    default public void setAirconIonisator(int n, int n2) {
-    }
+    public void setAirconIonisator(int var1, int var2) throws MethodException;
 
-    default public void setAirconBodyCloseMeasures(int n, boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration) {
-    }
+    public void setAirconBodyCloseMeasures(int var1, boolean var2, AirconBCMeasuresConfiguration var3) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

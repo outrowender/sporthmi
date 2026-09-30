@@ -27,28 +27,23 @@ implements DSIAndroidAuto2 {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 = DSIAndroidAuto2Provider.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIAndroidAuto2Proxy(this.instance, (DSIAndroidAuto2Reply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void videoFocusNotification(int n, boolean bl) {
         try {
             this.proxy.videoFocusNotification(n, bl);
@@ -58,7 +53,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void audioFocusNotification(int n, boolean bl) {
         try {
             this.proxy.audioFocusNotification(n, bl);
@@ -68,7 +62,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void microphoneNotification(int n, boolean bl) {
         try {
             this.proxy.microphoneNotification(n, bl);
@@ -78,7 +71,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void navFocusNotification(int n, boolean bl) {
         try {
             this.proxy.navFocusNotification(n, bl);
@@ -88,7 +80,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         try {
             this.proxy.startService(serviceConfiguration);
@@ -98,7 +89,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         try {
             this.proxy.postButtonEvent(n, n2);
@@ -108,7 +98,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2, int n3) {
         try {
             this.proxy.postTouchEvent(n, touchEventArray, n2, n3);
@@ -118,7 +107,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         try {
             this.proxy.postRotaryEvent(n);
@@ -128,7 +116,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void setNightMode(boolean bl) {
         try {
             this.proxy.setNightMode(bl);
@@ -138,7 +125,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void bluetoothPairingResponse(boolean bl) {
         try {
             this.proxy.bluetoothPairingResponse(bl);
@@ -148,7 +134,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void bluetoothAuthenticationData(String string) {
         try {
             this.proxy.bluetoothAuthenticationData(string);
@@ -158,7 +143,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -168,7 +152,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -178,7 +161,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -188,7 +170,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -198,7 +179,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -208,7 +188,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -218,7 +197,6 @@ implements DSIAndroidAuto2 {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

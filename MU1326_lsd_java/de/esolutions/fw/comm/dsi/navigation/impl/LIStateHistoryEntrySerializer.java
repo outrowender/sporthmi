@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.LIExtDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.LIExtData;
 import org.dsi.ifc.navigation.LIStateHistoryEntry;
 
 public class LIStateHistoryEntrySerializer {
-    public static void putOptionalLIStateHistoryEntry(ISerializer iSerializer, LIStateHistoryEntry lIStateHistoryEntry) {
+    public static void putOptionalLIStateHistoryEntry(ISerializer iSerializer, LIStateHistoryEntry lIStateHistoryEntry) throws SerializerException {
         boolean bl = lIStateHistoryEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class LIStateHistoryEntrySerializer {
         }
     }
 
-    public static void putOptionalLIStateHistoryEntryVarArray(ISerializer iSerializer, LIStateHistoryEntry[] lIStateHistoryEntryArray) {
+    public static void putOptionalLIStateHistoryEntryVarArray(ISerializer iSerializer, LIStateHistoryEntry[] lIStateHistoryEntryArray) throws SerializerException {
         boolean bl = lIStateHistoryEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class LIStateHistoryEntrySerializer {
         }
     }
 
-    public static LIStateHistoryEntry getOptionalLIStateHistoryEntry(IDeserializer iDeserializer) {
+    public static LIStateHistoryEntry getOptionalLIStateHistoryEntry(IDeserializer iDeserializer) throws SerializerException {
         LIStateHistoryEntry lIStateHistoryEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class LIStateHistoryEntrySerializer {
         return lIStateHistoryEntry;
     }
 
-    public static LIStateHistoryEntry[] getOptionalLIStateHistoryEntryVarArray(IDeserializer iDeserializer) {
+    public static LIStateHistoryEntry[] getOptionalLIStateHistoryEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         LIStateHistoryEntry[] lIStateHistoryEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

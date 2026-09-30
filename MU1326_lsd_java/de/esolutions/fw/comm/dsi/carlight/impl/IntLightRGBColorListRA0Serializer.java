@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 import de.esolutions.fw.comm.dsi.carlight.impl.IntLightRGBValuesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightRGBColorListRA0;
 import org.dsi.ifc.carlight.IntLightRGBValues;
 
 public class IntLightRGBColorListRA0Serializer {
-    public static void putOptionalIntLightRGBColorListRA0(ISerializer iSerializer, IntLightRGBColorListRA0 intLightRGBColorListRA0) {
+    public static void putOptionalIntLightRGBColorListRA0(ISerializer iSerializer, IntLightRGBColorListRA0 intLightRGBColorListRA0) throws SerializerException {
         boolean bl = intLightRGBColorListRA0 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class IntLightRGBColorListRA0Serializer {
         }
     }
 
-    public static void putOptionalIntLightRGBColorListRA0VarArray(ISerializer iSerializer, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) {
+    public static void putOptionalIntLightRGBColorListRA0VarArray(ISerializer iSerializer, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) throws SerializerException {
         boolean bl = intLightRGBColorListRA0Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class IntLightRGBColorListRA0Serializer {
         }
     }
 
-    public static IntLightRGBColorListRA0 getOptionalIntLightRGBColorListRA0(IDeserializer iDeserializer) {
+    public static IntLightRGBColorListRA0 getOptionalIntLightRGBColorListRA0(IDeserializer iDeserializer) throws SerializerException {
         IntLightRGBColorListRA0 intLightRGBColorListRA0 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class IntLightRGBColorListRA0Serializer {
         return intLightRGBColorListRA0;
     }
 
-    public static IntLightRGBColorListRA0[] getOptionalIntLightRGBColorListRA0VarArray(IDeserializer iDeserializer) {
+    public static IntLightRGBColorListRA0[] getOptionalIntLightRGBColorListRA0VarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightRGBColorListRA0[] intLightRGBColorListRA0Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

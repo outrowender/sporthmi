@@ -16,10 +16,9 @@ extends AbstractInfoBase {
     public final String errorMessage;
     public final ServiceInstanceID serviceInstanceId;
     public String errorTimeStamp;
-    private static final int DEFAULT_INSTANCE;
+    private static final int DEFAULT_INSTANCE = 0;
 
-    @Override
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         if (field == null) {
             return null;
         }
@@ -32,7 +31,7 @@ extends AbstractInfoBase {
 
     public DispatcherInfo(int n, IDispatcher iDispatcher, int n2, String string, String string2) {
         super(n);
-        this.dispatcherClassName = iDispatcher != null ? super.getClass().getName() : "unknown";
+        this.dispatcherClassName = iDispatcher != null ? iDispatcher.getClass().getName() : "unknown";
         this.instance = n2;
         this.listenerClassName = string;
         this.serviceInstanceId = iDispatcher != null && iDispatcher.getService() != null ? iDispatcher.getService().getInstanceID() : null;
@@ -42,7 +41,6 @@ extends AbstractInfoBase {
         }
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.serviceInstanceId;
     }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.picturestore.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.picturestore.PictureAttribute;
 
 public class PictureAttributeSerializer {
-    public static void putOptionalPictureAttribute(ISerializer iSerializer, PictureAttribute pictureAttribute) {
+    public static void putOptionalPictureAttribute(ISerializer iSerializer, PictureAttribute pictureAttribute) throws SerializerException {
         boolean bl = pictureAttribute == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PictureAttributeSerializer {
         }
     }
 
-    public static void putOptionalPictureAttributeVarArray(ISerializer iSerializer, PictureAttribute[] pictureAttributeArray) {
+    public static void putOptionalPictureAttributeVarArray(ISerializer iSerializer, PictureAttribute[] pictureAttributeArray) throws SerializerException {
         boolean bl = pictureAttributeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PictureAttributeSerializer {
         }
     }
 
-    public static PictureAttribute getOptionalPictureAttribute(IDeserializer iDeserializer) {
+    public static PictureAttribute getOptionalPictureAttribute(IDeserializer iDeserializer) throws SerializerException {
         PictureAttribute pictureAttribute = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PictureAttributeSerializer {
         return pictureAttribute;
     }
 
-    public static PictureAttribute[] getOptionalPictureAttributeVarArray(IDeserializer iDeserializer) {
+    public static PictureAttribute[] getOptionalPictureAttributeVarArray(IDeserializer iDeserializer) throws SerializerException {
         PictureAttribute[] pictureAttributeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -134,7 +134,7 @@ public class DestinationInfo {
     }
 
     public String toString() {
-        return new StringBuffer("DestinationInfo{").append("longitude=").append(this.longitude).append(", latitude=").append(this.latitude).append(", country=").append(this.country).append(", city=").append(this.city).append(", street=").append(this.street).append(", junction=").append(this.junction).append(", housenumber=").append(this.housenumber).append(", poiName=").append(this.poiName).append(", formattedDestination=").append("[").append(this.formattedDestination == null ? "null" : Arrays.asList(this.formattedDestination).toString()).append("]").append(", distanceFromStartOfDestinationToFinalDestination=").append(this.distanceFromStartOfDestinationToFinalDestination).append(", distanceFromEndOfDestinationToFinalDestination=").append(this.distanceFromEndOfDestinationToFinalDestination).append(", remainingTravelTimeToFinalDestination=").append(this.remainingTravelTimeToFinalDestination).append("}").toString();
+        return "DestinationInfo{" + "longitude=" + this.longitude + ", latitude=" + this.latitude + ", country=" + this.country + ", city=" + this.city + ", street=" + this.street + ", junction=" + this.junction + ", housenumber=" + this.housenumber + ", poiName=" + this.poiName + ", formattedDestination=" + "[" + (this.formattedDestination == null ? "null" : Arrays.asList(this.formattedDestination).toString()) + "]" + ", distanceFromStartOfDestinationToFinalDestination=" + this.distanceFromStartOfDestinationToFinalDestination + ", distanceFromEndOfDestinationToFinalDestination=" + this.distanceFromEndOfDestinationToFinalDestination + ", remainingTravelTimeToFinalDestination=" + this.remainingTravelTimeToFinalDestination + "}";
     }
 }
 

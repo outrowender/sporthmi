@@ -7,10 +7,8 @@ import de.vw.mib.asl.api.bap.observer.BAPValueObserverable;
 import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface BAPValueObserver {
-    default public void bapValueChanged(BAPValueObserverable bAPValueObserverable, BAPEntity bAPEntity, BAPEntity bAPEntity2, Object object) {
-    }
+    public void bapValueChanged(BAPValueObserverable var1, BAPEntity var2, BAPEntity var3, Object var4);
 
-    default public void bapValueError(BAPValueObserverable bAPValueObserverable, int n, Object object) {
-    }
+    public void bapValueError(BAPValueObserverable var1, int var2, Object var3);
 }
 

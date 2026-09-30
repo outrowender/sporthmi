@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.ExtLightLampErrorDetectionStateTrailer;
 
 public class ExtLightLampErrorDetectionStateTrailerSerializer {
-    public static void putOptionalExtLightLampErrorDetectionStateTrailer(ISerializer iSerializer, ExtLightLampErrorDetectionStateTrailer extLightLampErrorDetectionStateTrailer) {
+    public static void putOptionalExtLightLampErrorDetectionStateTrailer(ISerializer iSerializer, ExtLightLampErrorDetectionStateTrailer extLightLampErrorDetectionStateTrailer) throws SerializerException {
         boolean bl = extLightLampErrorDetectionStateTrailer == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ExtLightLampErrorDetectionStateTrailerSerializer {
         }
     }
 
-    public static void putOptionalExtLightLampErrorDetectionStateTrailerVarArray(ISerializer iSerializer, ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray) {
+    public static void putOptionalExtLightLampErrorDetectionStateTrailerVarArray(ISerializer iSerializer, ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray) throws SerializerException {
         boolean bl = extLightLampErrorDetectionStateTrailerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ExtLightLampErrorDetectionStateTrailerSerializer {
         }
     }
 
-    public static ExtLightLampErrorDetectionStateTrailer getOptionalExtLightLampErrorDetectionStateTrailer(IDeserializer iDeserializer) {
+    public static ExtLightLampErrorDetectionStateTrailer getOptionalExtLightLampErrorDetectionStateTrailer(IDeserializer iDeserializer) throws SerializerException {
         ExtLightLampErrorDetectionStateTrailer extLightLampErrorDetectionStateTrailer = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ExtLightLampErrorDetectionStateTrailerSerializer {
         return extLightLampErrorDetectionStateTrailer;
     }
 
-    public static ExtLightLampErrorDetectionStateTrailer[] getOptionalExtLightLampErrorDetectionStateTrailerVarArray(IDeserializer iDeserializer) {
+    public static ExtLightLampErrorDetectionStateTrailer[] getOptionalExtLightLampErrorDetectionStateTrailerVarArray(IDeserializer iDeserializer) throws SerializerException {
         ExtLightLampErrorDetectionStateTrailer[] extLightLampErrorDetectionStateTrailerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

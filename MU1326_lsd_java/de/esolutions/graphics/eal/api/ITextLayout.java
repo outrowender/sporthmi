@@ -5,7 +5,6 @@ package de.esolutions.graphics.eal.api;
 
 import de.esolutions.graphics.eal.api.IFont;
 import de.esolutions.graphics.eal.api.IObject;
-import de.esolutions.graphics.eal.api.ITextLayout$kerning_t;
 import de.esolutions.graphics.eal.api.ITextLayoutSection;
 import de.esolutions.graphics.ealswigJNI;
 
@@ -23,12 +22,10 @@ extends IObject {
         return iTextLayout == null ? 0L : iTextLayout.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -40,7 +37,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -57,7 +53,6 @@ extends IObject {
         this(ealswigJNI.new_eal_api_ITextLayout__SWIG_2(n), true);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_ITextLayout_isValid(this.swigCPtr, this);
     }
@@ -91,7 +86,6 @@ extends IObject {
         return ealswigJNI.eal_api_ITextLayout_destroy(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_ITextLayout_dispose(this.swigCPtr, this);
     }
@@ -100,8 +94,8 @@ extends IObject {
         return ealswigJNI.eal_api_ITextLayout_setPreformattedText(this.swigCPtr, this, bl);
     }
 
-    public boolean setKerning(ITextLayout$kerning_t iTextLayout$kerning_t) {
-        return ealswigJNI.eal_api_ITextLayout_setKerning(this.swigCPtr, this, iTextLayout$kerning_t.swigValue());
+    public boolean setKerning(kerning_t kerning_t2) {
+        return ealswigJNI.eal_api_ITextLayout_setKerning(this.swigCPtr, this, kerning_t2.swigValue());
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -110,6 +104,53 @@ extends IObject {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static final class kerning_t {
+        public static final kerning_t KERNING_OFF = new kerning_t("KERNING_OFF");
+        public static final kerning_t KERNING_AUTO = new kerning_t("KERNING_AUTO");
+        public static final kerning_t KERNING_GPOS = new kerning_t("KERNING_GPOS");
+        public static final kerning_t KERNING_FULL = new kerning_t("KERNING_FULL");
+        private static kerning_t[] swigValues = new kerning_t[]{KERNING_OFF, KERNING_AUTO, KERNING_GPOS, KERNING_FULL};
+        private static int swigNext = 0;
+        private final int swigValue;
+        private final String swigName;
+
+        public final int swigValue() {
+            return this.swigValue;
+        }
+
+        public String toString() {
+            return this.swigName;
+        }
+
+        public static kerning_t swigToEnum(int n) {
+            if (n < swigValues.length && n >= 0 && kerning_t.swigValues[n].swigValue == n) {
+                return swigValues[n];
+            }
+            for (int i2 = 0; i2 < swigValues.length; ++i2) {
+                if (kerning_t.swigValues[i2].swigValue != n) continue;
+                return swigValues[i2];
+            }
+            throw new IllegalArgumentException("No enum " + (class$de$esolutions$graphics$eal$api$ITextLayout$kerning_t == null ? (class$de$esolutions$graphics$eal$api$ITextLayout$kerning_t = ITextLayout.class$("de.esolutions.graphics.eal.api.ITextLayout$kerning_t")) : class$de$esolutions$graphics$eal$api$ITextLayout$kerning_t) + " with value " + n);
+        }
+
+        private kerning_t(String string) {
+            this.swigName = string;
+            this.swigValue = swigNext++;
+        }
+
+        private kerning_t(String string, int n) {
+            this.swigName = string;
+            this.swigValue = n;
+            swigNext = n + 1;
+        }
+
+        private kerning_t(String string, kerning_t kerning_t2) {
+            this.swigName = string;
+            this.swigValue = kerning_t2.swigValue;
+            swigNext = this.swigValue + 1;
         }
     }
 }

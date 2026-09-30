@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class ServiceRegistryCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"service_registry", "sr"};
     }
 
-    @Override
     public String getDescription() {
         return "show service registry with all locally registered services";
     }
 
-    @Override
     public String getUsage() {
         return "[uuid][,uuid...]";
     }
 
-    @Override
     protected void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllServiceHandlers();

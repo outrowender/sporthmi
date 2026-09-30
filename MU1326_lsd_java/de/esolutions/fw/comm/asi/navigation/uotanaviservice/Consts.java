@@ -4,13 +4,13 @@
 package de.esolutions.fw.comm.asi.navigation.uotanaviservice;
 
 public class Consts {
-    public static final int RESULT_OK;
-    public static final int RESULT_NOT_READY;
-    public static final int RESULT_TEMPORARY_ERROR;
-    public static final int RESULT_PERMANENT_ERROR;
-    public static final int COMPONENT_NAVIGATION;
-    public static final int COMPONENT_SPEECH;
-    public static final int COMPONENT_TRUFFLES;
-    public static final int COMPONENT_EGGNOG;
+    public static final int RESULT_OK = 1;
+    public static final int RESULT_NOT_READY = 2;
+    public static final int RESULT_TEMPORARY_ERROR = 3;
+    public static final int RESULT_PERMANENT_ERROR = 4;
+    public static final int COMPONENT_NAVIGATION = 1;
+    public static final int COMPONENT_SPEECH = 2;
+    public static final int COMPONENT_TRUFFLES = 4;
+    public static final int COMPONENT_EGGNOG = 8;
 }
 

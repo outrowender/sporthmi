@@ -22,7 +22,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public class SCInstance
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2L;
     private NotificationRegistry notificationRegistry = new NotificationRegistry();
     private Map contexts = Collections.synchronizedMap(new HashMap());
     private Map histories = Collections.synchronizedMap(new HashMap());
@@ -124,10 +124,10 @@ implements Serializable {
         this.invokerClasses.remove(string);
     }
 
-    public Invoker newInvoker(String string) {
+    public Invoker newInvoker(String string) throws InvokerException {
         Class clazz = (Class)this.invokerClasses.get(string);
         if (clazz == null) {
-            throw new InvokerException(new StringBuffer().append("No Invoker registered for targettype \"").append(string).append("\"").toString());
+            throw new InvokerException("No Invoker registered for targettype \"" + string + "\"");
         }
         Invoker invoker = null;
         try {

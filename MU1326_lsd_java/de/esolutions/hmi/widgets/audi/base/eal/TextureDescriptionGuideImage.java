@@ -29,11 +29,10 @@ extends AbstractTextureDescription {
         this.image = eALManager.getHMIImage(n, n2);
     }
 
-    @Override
     public IWrappedTexture createTexture() {
         IImage iImage;
         if (logChannel3DEngine.isDebug()) {
-            logChannel3DEngine.log(-2137614336, "TextureDescriptionGuideImage#createTexture Attempt to load GuideImage: %1", (Object)this.image);
+            logChannel3DEngine.log(10000000, "TextureDescriptionGuideImage#createTexture Attempt to load GuideImage: %1", (Object)this.image);
         }
         if ((iImage = this.ealManager.createEALImage(this.image)) == null) {
             logChannel3DEngine.log(10000, "TextureDescriptionGuideImage#createTexture could not load image for %1", (Object)this);
@@ -50,7 +49,6 @@ extends AbstractTextureDescription {
         return wrappedTexture;
     }
 
-    @Override
     public Object getCacheKey() {
         return this.key;
     }
@@ -59,12 +57,10 @@ extends AbstractTextureDescription {
         return this.image;
     }
 
-    @Override
     public int[] getUnscaledDimension() {
         return super.getUnscaledDimension(this.image.getPath());
     }
 
-    @Override
     public FlagImage getImageFlags() {
         return EALManager.getImageFlags(this.image.getFormat());
     }
@@ -73,7 +69,6 @@ extends AbstractTextureDescription {
         return this.index;
     }
 
-    @Override
     public boolean preventRTLFlip() {
         return this.image.getPreventRTLFlipFlag();
     }
@@ -86,7 +81,6 @@ extends AbstractTextureDescription {
         return stringBuffer.toString();
     }
 
-    @Override
     public int getDepthsInByte() {
         return HMIImage.getNumBytesPerPixel(this.image.getFormat());
     }

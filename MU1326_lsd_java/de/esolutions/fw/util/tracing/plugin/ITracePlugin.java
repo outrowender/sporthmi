@@ -7,10 +7,8 @@ import de.esolutions.fw.util.tracing.config.TraceConfigPlugin;
 import de.esolutions.fw.util.tracing.frontend.TraceFrontend;
 
 public interface ITracePlugin {
-    default public void start(TraceFrontend traceFrontend, TraceConfigPlugin traceConfigPlugin) {
-    }
+    public void start(TraceFrontend var1, TraceConfigPlugin var2);
 
-    default public void stop() {
-    }
+    public void stop();
 }
 

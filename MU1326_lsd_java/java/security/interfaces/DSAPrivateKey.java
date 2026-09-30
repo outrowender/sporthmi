@@ -10,9 +10,8 @@ import java.security.interfaces.DSAKey;
 public interface DSAPrivateKey
 extends DSAKey,
 PrivateKey {
-    public static final long serialVersionUID;
+    public static final long serialVersionUID = 7776497482533790279L;
 
-    default public BigInteger getX() {
-    }
+    public BigInteger getX();
 }
 

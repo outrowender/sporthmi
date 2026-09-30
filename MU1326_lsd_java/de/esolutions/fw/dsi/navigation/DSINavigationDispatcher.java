@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.navigation;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.navigation.DSINavigationReply;
 import de.esolutions.fw.comm.dsi.navigation.impl.DSINavigationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -67,13 +68,11 @@ implements DSINavigationReply {
         super(n, (class$org$dsi$ifc$navigation$DSINavigationListener == null ? (class$org$dsi$ifc$navigation$DSINavigationListener = DSINavigationDispatcher.class$("org.dsi.ifc.navigation.DSINavigationListener")) : class$org$dsi$ifc$navigation$DSINavigationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAfaMode(int n, int n2) {
+    public void updateAfaMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -101,8 +100,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateAfaSpeaking(boolean bl, int n) {
+    public void updateAfaSpeaking(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -130,8 +128,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcDemoModeState(boolean bl, int n) {
+    public void updateEtcDemoModeState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -159,8 +156,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcLanguageLoadProgress(long l, int n) {
+    public void updateEtcLanguageLoadProgress(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -188,8 +184,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcLanguageLoadStatus(int n, int n2) {
+    public void updateEtcLanguageLoadStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -217,8 +212,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcMetricSystem(int n, int n2) {
+    public void updateEtcMetricSystem(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -246,8 +240,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateDmLastDestinationsList(LDListElement[] lDListElementArray, int n) {
+    public void updateDmLastDestinationsList(LDListElement[] lDListElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -275,8 +268,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateDmRecentRoutesList(RRListElement[] rRListElementArray, int n) {
+    public void updateDmRecentRoutesList(RRListElement[] rRListElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -304,8 +296,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLispIsSpellerActive(boolean bl, int n) {
+    public void updateLispIsSpellerActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -333,8 +324,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgActive(boolean bl, int n) {
+    public void updateRgActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(11);
@@ -362,8 +352,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination, int n) {
+    public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(75);
@@ -391,8 +380,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgCurrentRoute(Route route, int n) {
+    public void updateRgCurrentRoute(Route route, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -420,8 +408,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgCurrentRouteOptions(RouteOptions routeOptions, int n) {
+    public void updateRgCurrentRouteOptions(RouteOptions routeOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -449,8 +436,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgLaneGuidance(NavLaneGuidanceData[] navLaneGuidanceDataArray, boolean bl, int n) {
+    public void updateRgLaneGuidance(NavLaneGuidanceData[] navLaneGuidanceDataArray, boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(64);
@@ -478,8 +464,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgTurnToStreet(String string, boolean bl, int n) {
+    public void updateRgTurnToStreet(String string, boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -507,8 +492,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgUnfulfilledRouteOptions(RouteOptions routeOptions, int n) {
+    public void updateRgUnfulfilledRouteOptions(RouteOptions routeOptions, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -536,8 +520,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray, int n) {
+    public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(23);
@@ -565,8 +548,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgStreetList(NavRouteListData[] navRouteListDataArray, int n) {
+    public void updateRgStreetList(NavRouteListData[] navRouteListDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -594,8 +576,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgPoiInfo(NavPoiInfo[] navPoiInfoArray, int n) {
+    public void updateRgPoiInfo(NavPoiInfo[] navPoiInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(25);
@@ -623,8 +604,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgException(int n) {
+    public void rgException(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -640,8 +620,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgRouteProperties(RouteProperties routeProperties, int n) {
+    public void updateRgRouteProperties(RouteProperties routeProperties, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(77);
@@ -669,8 +648,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateSoPosPosition(PosPosition posPosition, int n) {
+    public void updateSoPosPosition(PosPosition posPosition, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -698,8 +676,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateSoPosPositionDescription(NavLocation navLocation, boolean bl, int n) {
+    public void updateSoPosPositionDescription(NavLocation navLocation, boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(29);
@@ -727,8 +704,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateSoPosTimeInformation(PosTimeInfo posTimeInfo, int n) {
+    public void updateSoPosTimeInformation(PosTimeInfo posTimeInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(97);
@@ -756,8 +732,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRrdActive(boolean bl, int n) {
+    public void updateRrdActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -785,8 +760,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray, int n) {
+    public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -814,8 +788,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcVersionInfo(NavVersionInfo navVersionInfo, int n) {
+    public void updateEtcVersionInfo(NavVersionInfo navVersionInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -843,8 +816,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcAvailableNavDataBases(NavDataBase[] navDataBaseArray, int n) {
+    public void updateEtcAvailableNavDataBases(NavDataBase[] navDataBaseArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(81);
@@ -872,8 +844,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateBapManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n) {
+    public void updateBapManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(76);
@@ -901,8 +872,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateBapTurnToInfo(BapTurnToInfo[] bapTurnToInfoArray, int n) {
+    public void updateBapTurnToInfo(BapTurnToInfo[] bapTurnToInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(85);
@@ -930,8 +900,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgiString(short[] sArray, int n) {
+    public void updateRgiString(short[] sArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(86);
@@ -959,8 +928,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgDetailedStreetList(NavRouteListData[] navRouteListDataArray, int n) {
+    public void updateRgDetailedStreetList(NavRouteListData[] navRouteListDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -988,8 +956,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRmPersistentRoute(Route route, int n) {
+    public void updateRmPersistentRoute(Route route, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -1017,8 +984,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgTimeAfaToDestination(long l, int n) {
+    public void updateRgTimeAfaToDestination(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -1046,8 +1012,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcSensorDataReplayRoute(Route route) {
+    public void etcSensorDataReplayRoute(Route route) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1063,8 +1028,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcSensorDataReplayGuidance(boolean bl) {
+    public void etcSensorDataReplayGuidance(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1080,8 +1044,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray, int n) {
+    public void updateRgCalculatedRoutes(CalculatedRouteListElement[] calculatedRouteListElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1109,8 +1072,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation, int n) {
+    public void updateRgRouteCostChangeInformation(RgRouteCostChangeInformation rgRouteCostChangeInformation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -1138,8 +1100,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrMemoryUtilization(NavTraceMemoryUtilization navTraceMemoryUtilization, int n) {
+    public void updateTrMemoryUtilization(NavTraceMemoryUtilization navTraceMemoryUtilization, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1167,8 +1128,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrOperatingMode(int n, int n2) {
+    public void updateTrOperatingMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(46);
@@ -1196,8 +1156,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrTraceList(NavTraceListData[] navTraceListDataArray, int n) {
+    public void updateTrTraceList(NavTraceListData[] navTraceListDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -1225,8 +1184,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRmRouteList(NavRmRouteListArrayData[] navRmRouteListArrayDataArray, int n) {
+    public void updateRmRouteList(NavRmRouteListArrayData[] navRmRouteListArrayDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1254,8 +1212,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgRouteCalculationState(int n, int n2) {
+    public void updateRgRouteCalculationState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -1283,8 +1240,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateNavstateOfOperation(int n, int n2) {
+    public void updateNavstateOfOperation(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -1312,8 +1268,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateNavMedia(String[] stringArray, int n) {
+    public void updateNavMedia(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -1341,8 +1296,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgTurnList(TurnListElement[] turnListElementArray, int n) {
+    public void updateRgTurnList(TurnListElement[] turnListElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1370,8 +1324,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateAvailableLanguages(String[] stringArray, int n) {
+    public void updateAvailableLanguages(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1399,8 +1352,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLanguage(String string, int n) {
+    public void updateLanguage(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1428,8 +1380,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateDistanceToNextManeuver(DistanceToNextManeuver distanceToNextManeuver, int n) {
+    public void updateDistanceToNextManeuver(DistanceToNextManeuver distanceToNextManeuver, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(57);
@@ -1457,8 +1408,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcCurrentNavDataBase(NavDataBase navDataBase, int n) {
+    public void updateEtcCurrentNavDataBase(NavDataBase navDataBase, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(78);
@@ -1486,8 +1436,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrDirectionToWaypoint(DirectionToWaypoint directionToWaypoint, int n) {
+    public void updateTrDirectionToWaypoint(DirectionToWaypoint directionToWaypoint, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(61);
@@ -1515,8 +1464,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus, int n) {
+    public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(62);
@@ -1544,8 +1492,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrRecordingState(int n, int n2) {
+    public void updateTrRecordingState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(63);
@@ -1573,8 +1520,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgSetRouteGuidanceModeResult() {
+    public void rgSetRouteGuidanceModeResult() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1590,8 +1536,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void dmLastDestinationsGetResult(long l, NavLocation navLocation) {
+    public void dmLastDestinationsGetResult(long l, NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1607,8 +1552,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void dmRecentRoutesGetResult(long l, Route route) {
+    public void dmRecentRoutesGetResult(long l, Route route) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1624,8 +1568,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void dmResult(long l, long l2) {
+    public void dmResult(long l, long l2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1641,8 +1584,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetStateResult(LISpellerData lISpellerData) {
+    public void liGetStateResult(LISpellerData lISpellerData) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1658,8 +1600,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liResult(long l) {
+    public void liResult(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1675,8 +1616,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) {
+    public void lispUpdateSpellerResult(String string, int n, boolean bl, boolean bl2, String string2, int n2, int n3, boolean bl3, boolean bl4, int n4, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1692,8 +1632,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) {
+    public void liCurrentState(NavLocation navLocation, int[] nArray, int[] nArray2, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1709,8 +1648,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liValueList(LIValueList lIValueList, long l) {
+    public void liValueList(LIValueList lIValueList, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1726,8 +1664,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void poiValueList(LIValueList lIValueList, long l) {
+    public void poiValueList(LIValueList lIValueList, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1743,8 +1680,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetLocationDescriptionTransformResult(NavLocation navLocation) {
+    public void liGetLocationDescriptionTransformResult(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1760,8 +1696,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmMakeRoutePersistentResult(long l) {
+    public void rmMakeRoutePersistentResult(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1777,8 +1712,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liTryBestMatchResult(TryBestMatchResultData[] tryBestMatchResultDataArray) {
+    public void liTryBestMatchResult(TryBestMatchResultData[] tryBestMatchResultDataArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1794,8 +1728,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcGetCountryAbbreviationResult(String string, long l) {
+    public void etcGetCountryAbbreviationResult(String string, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1811,8 +1744,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trStartTraceRecordingResult(int n, long l, int n2) {
+    public void trStartTraceRecordingResult(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1828,8 +1760,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trStopTraceRecordingResult(int n, long l, int n2) {
+    public void trStopTraceRecordingResult(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1845,8 +1776,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trStoreTraceResult(int n, NavSegmentID navSegmentID, int n2) {
+    public void trStoreTraceResult(int n, NavSegmentID navSegmentID, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1862,8 +1792,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trRenameTraceResult(int n, int n2) {
+    public void trRenameTraceResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1879,8 +1808,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trDeleteTraceResult(int n, int n2) {
+    public void trDeleteTraceResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1896,8 +1824,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trDeleteAllTracesResult(int n, int n2) {
+    public void trDeleteAllTracesResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1913,8 +1840,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteAddResult(int n, long l) {
+    public void rmRouteAddResult(int n, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1930,8 +1856,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteDeleteResult(int n) {
+    public void rmRouteDeleteResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1947,8 +1872,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteDeleteAllResult(int n) {
+    public void rmRouteDeleteAllResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1964,8 +1888,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteGetResult(int n, Route route) {
+    public void rmRouteGetResult(int n, Route route) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1981,8 +1904,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteRenameResult(int n) {
+    public void rmRouteRenameResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1998,8 +1920,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void createExportFileResult(int n, boolean bl) {
+    public void createExportFileResult(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2015,8 +1936,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void importFileResult(int n, boolean bl) {
+    public void importFileResult(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2032,8 +1952,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void languageSpellableCharactersResult(String string) {
+    public void languageSpellableCharactersResult(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2049,8 +1968,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgNotPossible(int n) {
+    public void rgNotPossible(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2066,8 +1984,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void translateRouteResult(Route route) {
+    public void translateRouteResult(Route route) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2083,8 +2000,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void locationToStreamResult(boolean bl, byte[] byArray) {
+    public void locationToStreamResult(boolean bl, byte[] byArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2100,8 +2016,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void streamToLocationResult(boolean bl, NavLocation navLocation) {
+    public void streamToLocationResult(boolean bl, NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2117,8 +2032,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liValueListFileStatus(int n, int n2, String string) {
+    public void liValueListFileStatus(int n, int n2, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2134,8 +2048,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liValueListOutputMethod(int n) {
+    public void liValueListOutputMethod(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2151,8 +2064,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateDmFlagDestination(NavLocation navLocation, int n) {
+    public void updateDmFlagDestination(NavLocation navLocation, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(65);
@@ -2180,8 +2092,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetLastCityHistoryEntryResult(NavLocation navLocation, boolean bl) {
+    public void liGetLastCityHistoryEntryResult(NavLocation navLocation, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2197,8 +2108,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetLastStreetHistoryEntryResult(NavLocation navLocation, boolean bl) {
+    public void liGetLastStreetHistoryEntryResult(NavLocation navLocation, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2214,8 +2124,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLiCityHistory(LICityHistoryEntry[] lICityHistoryEntryArray, int n) {
+    public void updateLiCityHistory(LICityHistoryEntry[] lICityHistoryEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(66);
@@ -2243,8 +2152,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLiCountryForCityAndStreetHistory(String string, int n) {
+    public void updateLiCountryForCityAndStreetHistory(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(67);
@@ -2272,8 +2180,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liLastCityAndStreetHistoryResult(long l) {
+    public void liLastCityAndStreetHistoryResult(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2289,8 +2196,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLiStreetHistory(LIStreetHistoryEntry[] lIStreetHistoryEntryArray, int n) {
+    public void updateLiStreetHistory(LIStreetHistoryEntry[] lIStreetHistoryEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(68);
@@ -2318,8 +2224,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLiStateHistory(LIStateHistoryEntry[] lIStateHistoryEntryArray, int n) {
+    public void updateLiStateHistory(LIStateHistoryEntry[] lIStateHistoryEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(93);
@@ -2347,8 +2252,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liHistoryResult(int n) {
+    public void liHistoryResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2364,8 +2268,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetLastStateHistoryEntryResult(NavLocation navLocation, boolean bl) {
+    public void liGetLastStateHistoryEntryResult(NavLocation navLocation, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2381,8 +2284,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgTurnListCalculationHorizon(long l, int n) {
+    public void updateRgTurnListCalculationHorizon(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(69);
@@ -2410,8 +2312,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgPoiInfoCalculationHorizon(long l, int n) {
+    public void updateRgPoiInfoCalculationHorizon(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(70);
@@ -2439,8 +2340,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void soPosPositionDescriptionVehicleResult(NavLocation navLocation) {
+    public void soPosPositionDescriptionVehicleResult(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2456,8 +2356,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liStripLocationResult(NavLocation navLocation) {
+    public void liStripLocationResult(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2473,8 +2372,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void responseAudioTrigger(int n) {
+    public void responseAudioTrigger(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2490,8 +2388,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateAudioRequest(int n, int n2) {
+    public void updateAudioRequest(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(82);
@@ -2519,8 +2416,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liSetCountryForCityAndStreetHistoryResult(int n) {
+    public void liSetCountryForCityAndStreetHistoryResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2536,8 +2432,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgStartGuidanceCalculatedRouteResult(int n) {
+    public void rgStartGuidanceCalculatedRouteResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2553,8 +2448,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgSwitchToNextPossibleRoadResult(boolean bl) {
+    public void rgSwitchToNextPossibleRoadResult(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2570,8 +2464,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liThesaurusHistoryAddResult(int n, int n2) {
+    public void liThesaurusHistoryAddResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2587,8 +2480,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liThesaurusHistoryGetEntryResult(ThesaurusHistoryEntry thesaurusHistoryEntry, int n) {
+    public void liThesaurusHistoryGetEntryResult(ThesaurusHistoryEntry thesaurusHistoryEntry, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2604,8 +2496,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liThesaurusHistoryDeleteResult(int n, int n2) {
+    public void liThesaurusHistoryDeleteResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2621,8 +2512,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liThesaurusHistoryDeleteAllResult(int n) {
+    public void liThesaurusHistoryDeleteAllResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2638,8 +2528,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateLIThesaurusHistory(ThesaurusHistoryEntry[] thesaurusHistoryEntryArray, int n) {
+    public void updateLIThesaurusHistory(ThesaurusHistoryEntry[] thesaurusHistoryEntryArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(83);
@@ -2667,8 +2556,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateCountryInfo(CountryInfo[] countryInfoArray, int n) {
+    public void updateCountryInfo(CountryInfo[] countryInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(84);
@@ -2696,8 +2584,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void requestCountryInfoResult(CountryInfo countryInfo, int n) {
+    public void requestCountryInfoResult(CountryInfo countryInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2713,8 +2600,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void ehGetAllCategoriesResult(int n, Category[] categoryArray, int n2) {
+    public void ehGetAllCategoriesResult(int n, Category[] categoryArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2730,8 +2616,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void ehGetAllBrandsOfCategoryResult(int n, int n2, Brand[] brandArray, int n3) {
+    public void ehGetAllBrandsOfCategoryResult(int n, int n2, Brand[] brandArray, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2747,8 +2632,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void ehResult(int n, int n2) {
+    public void ehResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2764,8 +2648,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setRemainingRangeOfVehicleResult(int n) {
+    public void setRemainingRangeOfVehicleResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2781,8 +2664,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setVehicleConsumptionInfoResult(int n) {
+    public void setVehicleConsumptionInfoResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2798,8 +2680,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setUserDefinedPOIsResult(int n) {
+    public void setUserDefinedPOIsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2815,8 +2696,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setTrailerStatusResult(int n) {
+    public void setTrailerStatusResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2832,8 +2712,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetViaPointListResult(int n, ViaPointListElement[] viaPointListElementArray, int n2, int n3) {
+    public void liGetViaPointListResult(int n, ViaPointListElement[] viaPointListElementArray, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2849,8 +2728,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liSelectViaPointResult(NavLocation navLocation, int n) {
+    public void liSelectViaPointResult(NavLocation navLocation, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2866,8 +2744,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateStyleDBPaths(String[] stringArray, int n) {
+    public void updateStyleDBPaths(String[] stringArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(87);
@@ -2895,8 +2772,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRouteResumePossible(boolean bl, int n) {
+    public void updateRouteResumePossible(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(88);
@@ -2924,8 +2800,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) {
+    public void rgStartGuidanceCalculatedRouteByUIDResult(NavSegmentID navSegmentID, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2941,8 +2816,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updatePOIsEnteringProximityRange(NavLocation[] navLocationArray, int n) {
+    public void updatePOIsEnteringProximityRange(NavLocation[] navLocationArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(89);
@@ -2970,8 +2844,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetSpellableCharactersResult(NavLocation navLocation, int n, String string, int n2) {
+    public void liGetSpellableCharactersResult(NavLocation navLocation, int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -2987,8 +2860,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateEtcAvailablePersonalPOIDataBases(NavDataBase[] navDataBaseArray, int n) {
+    public void updateEtcAvailablePersonalPOIDataBases(NavDataBase[] navDataBaseArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(91);
@@ -3016,8 +2888,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updatePersonalPOISearchStatus(int n, int n2) {
+    public void updatePersonalPOISearchStatus(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(92);
@@ -3045,8 +2916,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void deletePersonalPOIDataBasesResult(int n) {
+    public void deletePersonalPOIDataBasesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3062,8 +2932,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setVehicleFuelTypeResult(int n, int n2) {
+    public void setVehicleFuelTypeResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3079,8 +2948,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void createNavLocationOfPOIUIDResult(long l, NavLocation navLocation, int n) {
+    public void createNavLocationOfPOIUIDResult(long l, NavLocation navLocation, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3096,8 +2964,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmRouteReplaceResult(int n, long l, int n2) {
+    public void rmRouteReplaceResult(int n, long l, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3113,8 +2980,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void setNavInternalDataToFactorySettingsResult(int n) {
+    public void setNavInternalDataToFactorySettingsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3130,8 +2996,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liTryMatchLocationResult(TryMatchLocationResultData[] tryMatchLocationResultDataArray) {
+    public void liTryMatchLocationResult(TryMatchLocationResultData[] tryMatchLocationResultDataArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3147,8 +3012,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateNavDbRegionsState(int n, String[] stringArray, int n2) {
+    public void updateNavDbRegionsState(int n, String[] stringArray, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(94);
@@ -3176,8 +3040,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trImportTrailsResult(NavSegmentID[] navSegmentIDArray, int n) {
+    public void trImportTrailsResult(NavSegmentID[] navSegmentIDArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3193,8 +3056,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trExportTrailsResult(int n) {
+    public void trExportTrailsResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3210,8 +3072,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateTrInfoForNextWaypoint(NavNextWayPointInfo navNextWayPointInfo, int n) {
+    public void updateTrInfoForNextWaypoint(NavNextWayPointInfo navNextWayPointInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(95);
@@ -3239,8 +3100,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgStartRubberbandManipulationResult(int n) {
+    public void rgStartRubberbandManipulationResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3256,8 +3116,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgGetRouteBoundingRectangleResult(NavRectangle navRectangle, int n) {
+    public void rgGetRouteBoundingRectangleResult(NavRectangle navRectangle, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3273,8 +3132,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgGetLocationOnRouteResult(NavLocation navLocation, int n) {
+    public void rgGetLocationOnRouteResult(NavLocation navLocation, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3290,8 +3148,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgResult(int n) {
+    public void rgResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3307,8 +3164,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgGetRubberBandPointPositionResult(NavLocationWgs84 navLocationWgs84, boolean bl, int n) {
+    public void rgGetRubberBandPointPositionResult(NavLocationWgs84 navLocationWgs84, boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3324,8 +3180,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgEnhancedSignPostInfoStatus(boolean bl, int n) {
+    public void updateRgEnhancedSignPostInfoStatus(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(96);
@@ -3353,8 +3208,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcSetDemoModeResult(int n) {
+    public void etcSetDemoModeResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3370,8 +3224,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void lispGetLocationFromLiValueListResult(int n, NavLocation navLocation) {
+    public void lispGetLocationFromLiValueListResult(int n, NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3387,8 +3240,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void lispGetMatchingNVCResult(String string) {
+    public void lispGetMatchingNVCResult(String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3404,8 +3256,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void poiGetXt9LDBsResult(String[] stringArray) {
+    public void poiGetXt9LDBsResult(String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3421,8 +3272,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgMotorwayInfo(NavPoiInfo[] navPoiInfoArray, int n) {
+    public void updateRgMotorwayInfo(NavPoiInfo[] navPoiInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(99);
@@ -3450,8 +3300,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgVirtualDestinationInfo(RgInfoForNextDestination rgInfoForNextDestination, int n) {
+    public void updateRgVirtualDestinationInfo(RgInfoForNextDestination rgInfoForNextDestination, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(98);
@@ -3479,8 +3328,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rgTriggerRCCIUpdateResult(int n) {
+    public void rgTriggerRCCIUpdateResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3496,8 +3344,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liGetLocationDescriptionTransformNearByResult(NavLocation navLocation) {
+    public void liGetLocationDescriptionTransformNearByResult(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3513,8 +3360,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgTurnToInfo(RgTurnToInfo rgTurnToInfo, int n) {
+    public void updateRgTurnToInfo(RgTurnToInfo rgTurnToInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(100);
@@ -3542,8 +3388,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcGetPositionTimeInfoResult(PosTimeInfo posTimeInfo, int n) {
+    public void etcGetPositionTimeInfoResult(PosTimeInfo posTimeInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3559,8 +3404,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void poiGetCategoryTypesFromUIdResult(int[] nArray) {
+    public void poiGetCategoryTypesFromUIdResult(int[] nArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3576,8 +3420,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRgPersistedRouteDataAvailable(boolean bl, int n) {
+    public void updateRgPersistedRouteDataAvailable(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(101);
@@ -3605,8 +3448,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void liDisambiguateLocationResult(int[] nArray, NavLocation[] navLocationArray) {
+    public void liDisambiguateLocationResult(int[] nArray, NavLocation[] navLocationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3622,8 +3464,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void triggerEventAudioMessageResult(int n) {
+    public void triggerEventAudioMessageResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3639,8 +3480,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateMapIntegrationState(int n, int n2) {
+    public void updateMapIntegrationState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(102);
@@ -3668,8 +3508,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateMapIntegrationProgress(int n, int n2) {
+    public void updateMapIntegrationProgress(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(103);
@@ -3697,8 +3536,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void etcTriggerNavigationRestartResult(int n, int n2) {
+    public void etcTriggerNavigationRestartResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3714,8 +3552,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void lispRequestNVCListResult(int n, String string, int n2) {
+    public void lispRequestNVCListResult(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3731,8 +3568,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateBapManeuverState(int n, int n2) {
+    public void updateBapManeuverState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(104);
@@ -3760,8 +3596,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void rmImportToursFromGpxFileResult(int n) {
+    public void rmImportToursFromGpxFileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3777,8 +3612,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateRmImportToursFromGpxFileStatus(TourImportStatus tourImportStatus, int n) {
+    public void updateRmImportToursFromGpxFileStatus(TourImportStatus tourImportStatus, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(105);
@@ -3806,8 +3640,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void importRouteFromGpxFileResult(NavLocation navLocation) {
+    public void importRouteFromGpxFileResult(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3823,8 +3656,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateBapManeuverInformation(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n, int n2) {
+    public void updateBapManeuverInformation(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(106);
@@ -3852,8 +3684,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void poiRequestExtendedInfoResult(PoiExtendedInfo poiExtendedInfo, boolean bl) {
+    public void poiRequestExtendedInfoResult(PoiExtendedInfo poiExtendedInfo, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3869,8 +3700,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void trClearRecordedTraceCacheResult() {
+    public void trClearRecordedTraceCacheResult() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3886,8 +3716,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(107);
@@ -3915,8 +3744,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3932,8 +3760,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3949,8 +3776,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3966,8 +3792,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -3983,8 +3808,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void deleteSatelliteCacheResult(int n) {
+    public void deleteSatelliteCacheResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -4000,8 +3824,7 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -4017,14 +3840,13 @@ implements DSINavigationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSINavigationListener dSINavigationListener = (DSINavigationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSINavigationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSINavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSINavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSINavigationListener, new Object[]{string, string2});
                     continue;
                 }

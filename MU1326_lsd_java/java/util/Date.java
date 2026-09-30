@@ -3,6 +3,7 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -13,7 +14,7 @@ public class Date
 implements Serializable,
 Cloneable,
 Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7523967970034938905L;
     private transient long milliseconds;
 
     public Date() {
@@ -41,7 +42,6 @@ Comparable {
         }
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((Date)object);
     }
@@ -76,12 +76,12 @@ Comparable {
         return new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.US).format(this);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeLong(this.getTime());
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         this.setTime(objectInputStream.readLong());
     }

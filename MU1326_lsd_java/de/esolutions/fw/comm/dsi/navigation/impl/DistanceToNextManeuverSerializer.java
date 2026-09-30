@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.DistanceToNextManeuver;
 
 public class DistanceToNextManeuverSerializer {
-    public static void putOptionalDistanceToNextManeuver(ISerializer iSerializer, DistanceToNextManeuver distanceToNextManeuver) {
+    public static void putOptionalDistanceToNextManeuver(ISerializer iSerializer, DistanceToNextManeuver distanceToNextManeuver) throws SerializerException {
         boolean bl = distanceToNextManeuver == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DistanceToNextManeuverSerializer {
         }
     }
 
-    public static void putOptionalDistanceToNextManeuverVarArray(ISerializer iSerializer, DistanceToNextManeuver[] distanceToNextManeuverArray) {
+    public static void putOptionalDistanceToNextManeuverVarArray(ISerializer iSerializer, DistanceToNextManeuver[] distanceToNextManeuverArray) throws SerializerException {
         boolean bl = distanceToNextManeuverArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DistanceToNextManeuverSerializer {
         }
     }
 
-    public static DistanceToNextManeuver getOptionalDistanceToNextManeuver(IDeserializer iDeserializer) {
+    public static DistanceToNextManeuver getOptionalDistanceToNextManeuver(IDeserializer iDeserializer) throws SerializerException {
         DistanceToNextManeuver distanceToNextManeuver = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DistanceToNextManeuverSerializer {
         return distanceToNextManeuver;
     }
 
-    public static DistanceToNextManeuver[] getOptionalDistanceToNextManeuverVarArray(IDeserializer iDeserializer) {
+    public static DistanceToNextManeuver[] getOptionalDistanceToNextManeuverVarArray(IDeserializer iDeserializer) throws SerializerException {
         DistanceToNextManeuver[] distanceToNextManeuverArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

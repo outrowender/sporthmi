@@ -12,44 +12,24 @@ import java.util.SortedMap;
 public interface ConcurrentNavigableMap
 extends ConcurrentMap,
 NavigableMap {
-    @Override
-    default public NavigableMap subMap(Object object, boolean bl, Object object2, boolean bl2) {
-    }
+    public NavigableMap subMap(Object var1, boolean var2, Object var3, boolean var4);
 
-    @Override
-    default public NavigableMap headMap(Object object, boolean bl) {
-    }
+    public NavigableMap headMap(Object var1, boolean var2);
 
-    @Override
-    default public NavigableMap tailMap(Object object, boolean bl) {
-    }
+    public NavigableMap tailMap(Object var1, boolean var2);
 
-    @Override
-    default public SortedMap subMap(Object object, Object object2) {
-    }
+    public SortedMap subMap(Object var1, Object var2);
 
-    @Override
-    default public SortedMap headMap(Object object) {
-    }
+    public SortedMap headMap(Object var1);
 
-    @Override
-    default public SortedMap tailMap(Object object) {
-    }
+    public SortedMap tailMap(Object var1);
 
-    @Override
-    default public NavigableMap descendingMap() {
-    }
+    public NavigableMap descendingMap();
 
-    @Override
-    default public NavigableSet navigableKeySet() {
-    }
+    public NavigableSet navigableKeySet();
 
-    @Override
-    default public Set keySet() {
-    }
+    public Set keySet();
 
-    @Override
-    default public NavigableSet descendingKeySet() {
-    }
+    public NavigableSet descendingKeySet();
 }
 

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.fec.impl;
 import de.esolutions.fw.comm.asi.fec.SFecState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SFecStateSerializer {
-    public static void putOptionalSFecState(ISerializer iSerializer, SFecState sFecState) {
+    public static void putOptionalSFecState(ISerializer iSerializer, SFecState sFecState) throws SerializerException {
         boolean bl = sFecState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SFecStateSerializer {
         }
     }
 
-    public static void putOptionalSFecStateVarArray(ISerializer iSerializer, SFecState[] sFecStateArray) {
+    public static void putOptionalSFecStateVarArray(ISerializer iSerializer, SFecState[] sFecStateArray) throws SerializerException {
         boolean bl = sFecStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SFecStateSerializer {
         }
     }
 
-    public static SFecState getOptionalSFecState(IDeserializer iDeserializer) {
+    public static SFecState getOptionalSFecState(IDeserializer iDeserializer) throws SerializerException {
         SFecState sFecState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SFecStateSerializer {
         return sFecState;
     }
 
-    public static SFecState[] getOptionalSFecStateVarArray(IDeserializer iDeserializer) {
+    public static SFecState[] getOptionalSFecStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         SFecState[] sFecStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

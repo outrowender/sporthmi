@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.StartStopRestartProhibitList;
 
 public class StartStopRestartProhibitListSerializer {
-    public static void putOptionalStartStopRestartProhibitList(ISerializer iSerializer, StartStopRestartProhibitList startStopRestartProhibitList) {
+    public static void putOptionalStartStopRestartProhibitList(ISerializer iSerializer, StartStopRestartProhibitList startStopRestartProhibitList) throws SerializerException {
         boolean bl = startStopRestartProhibitList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class StartStopRestartProhibitListSerializer {
         }
     }
 
-    public static void putOptionalStartStopRestartProhibitListVarArray(ISerializer iSerializer, StartStopRestartProhibitList[] startStopRestartProhibitListArray) {
+    public static void putOptionalStartStopRestartProhibitListVarArray(ISerializer iSerializer, StartStopRestartProhibitList[] startStopRestartProhibitListArray) throws SerializerException {
         boolean bl = startStopRestartProhibitListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class StartStopRestartProhibitListSerializer {
         }
     }
 
-    public static StartStopRestartProhibitList getOptionalStartStopRestartProhibitList(IDeserializer iDeserializer) {
+    public static StartStopRestartProhibitList getOptionalStartStopRestartProhibitList(IDeserializer iDeserializer) throws SerializerException {
         StartStopRestartProhibitList startStopRestartProhibitList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class StartStopRestartProhibitListSerializer {
         return startStopRestartProhibitList;
     }
 
-    public static StartStopRestartProhibitList[] getOptionalStartStopRestartProhibitListVarArray(IDeserializer iDeserializer) {
+    public static StartStopRestartProhibitList[] getOptionalStartStopRestartProhibitListVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartStopRestartProhibitList[] startStopRestartProhibitListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

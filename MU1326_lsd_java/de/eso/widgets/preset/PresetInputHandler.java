@@ -26,35 +26,29 @@ implements IPresetInputHandler {
         return this.presetManager;
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
-        lc.log(-2137614336, "touchPadPressed keyCode: %1", (long)touchEvent.getCode());
+        lc.log(10000000, "touchPadPressed keyCode: %1", (long)touchEvent.getCode());
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
-        lc.log(-2137614336, "touchPadReleased keyCode: %1 - do nothing", (long)touchEvent.getCode());
+        lc.log(10000000, "touchPadReleased keyCode: %1 - do nothing", (long)touchEvent.getCode());
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
-        lc.log(-2137614336, "touchPadPositionMoved evt: %1", (Object)touchEvent);
+        lc.log(10000000, "touchPadPositionMoved evt: %1", (Object)touchEvent);
         this.presetManager.getPresetFSM().touchPadPositionMoved(touchEvent);
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
-        lc.log(-2137614336, "touchPadApproached keyCode: %1", (long)touchEvent.getCode());
+        lc.log(10000000, "touchPadApproached keyCode: %1", (long)touchEvent.getCode());
         if (this.isEcallActive()) {
-            lc.log(-2137614336, "touchPadApproached eCall is active -> return");
+            lc.log(10000000, "touchPadApproached eCall is active -> return");
             return;
         }
         int n = touchEvent.getCode();
@@ -114,16 +108,14 @@ implements IPresetInputHandler {
         return false;
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
-        lc.log(-2137614336, "touchPadAbandoned keyCode: %1", (long)touchEvent.getCode());
+        lc.log(10000000, "touchPadAbandoned keyCode: %1", (long)touchEvent.getCode());
         this.presetManager.getPresetFSM().touchPadAbandoned();
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
-        lc.log(-2137614336, "keyPressed keyCode: %1", (long)n);
+        lc.log(10000000, "keyPressed keyCode: %1", (long)n);
         switch (n) {
             case 43: {
                 this.presetManager.getPresetFSM().keyPressed(0);
@@ -163,10 +155,9 @@ implements IPresetInputHandler {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
-        lc.log(-2137614336, "keyReleased keyCode: %1", (long)n);
+        lc.log(10000000, "keyReleased keyCode: %1", (long)n);
         switch (n) {
             case 43: {
                 this.presetManager.getPresetFSM().keyReleased(0);
@@ -201,30 +192,27 @@ implements IPresetInputHandler {
                 break;
             }
             case 86: {
-                lc.log(-2137614336, "keyReleased on TouchPadCenter preset execution is NOT triggered");
+                lc.log(10000000, "keyReleased on TouchPadCenter preset execution is NOT triggered");
                 break;
             }
             default: {
-                lc.log(-2137614336, "keyReleased unsupported keyCode, preset execution is NOT triggered");
+                lc.log(10000000, "keyReleased unsupported keyCode, preset execution is NOT triggered");
             }
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-        lc.log(-2137614336, "keyTurned WheelButtonEvent: %1", (Object)wheelButtonEvent);
+        lc.log(10000000, "keyTurned WheelButtonEvent: %1", (Object)wheelButtonEvent);
         this.presetManager.getPresetFSM().cancelPopup();
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
-        lc.log(-2137614336, "keyMoved JoystickEvent: %1", (Object)joystickEvent);
+        lc.log(10000000, "keyMoved JoystickEvent: %1", (Object)joystickEvent);
         this.presetManager.getPresetFSM().cancelPopup();
     }
 
-    @Override
     public void presetPopupVisible(boolean bl) {
-        lc.log(-2137614336, "presetPopupVisible visible: %1", bl);
+        lc.log(10000000, "presetPopupVisible visible: %1", bl);
         this.presetManager.presetPopupVisible(bl);
     }
 }

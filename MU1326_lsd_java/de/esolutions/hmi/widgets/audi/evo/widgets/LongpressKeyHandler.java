@@ -27,14 +27,13 @@ IWidgetLogChannel {
         this.drawerFocusManager = iDrawerFocusManagerEvo;
     }
 
-    @Override
     public void handleLongpressStarted(Object object) {
         if (object != null) {
             OptionModel optionModel = null;
             AbstractWidgetController abstractWidgetController = this.getLongpressElement(15);
             if (abstractWidgetController != null && abstractWidgetController.getModel() instanceof OptionModel) {
                 optionModel = (OptionModel)abstractWidgetController.getModel();
-                menuLogCh.log(-2137614336, "LongpressKeyHandler#triggerLongpress: longpress triggered");
+                menuLogCh.log(10000000, "LongpressKeyHandler#triggerLongpress: longpress triggered");
             }
             if (optionModel != null) {
                 HMITerminalEvo hMITerminalEvo = (HMITerminalEvo)((AbstractWidget)object).getTerminal();
@@ -46,27 +45,27 @@ IWidgetLogChannel {
                     int n4 = iDrawerConditionEngine.getTargetWidgetID();
                     optionModel.keyPressed(n2, n3, n4, n);
                     optionModel.keyTyped(n2, n3, n4, n);
-                    menuLogCh.log(-2137614336, "LongpressKeyHandler#triggerLongpress: action performed successful");
+                    menuLogCh.log(10000000, "LongpressKeyHandler#triggerLongpress: action performed successful");
                     this.notifySdsService(abstractWidgetController);
                 } else {
                     menuLogCh.log(10000, "LongpressKeyHandler#triggerLongpress: drawerConditionEngine is null.");
                 }
             } else {
-                menuLogCh.log(-2137614336, "LongpressKeyHandler#triggerLongpress: longpress can not be performed! Could not find item with role ROLE_LONGPRESS");
+                menuLogCh.log(10000000, "LongpressKeyHandler#triggerLongpress: longpress can not be performed! Could not find item with role ROLE_LONGPRESS");
             }
         }
     }
 
     private void notifySdsService(AbstractWidgetController abstractWidgetController) {
         if (AbstractWidget.sdsService == null) {
-            menuLogCh.log(-2137614336, "LongpressKeyHandler#callSdsService: SDS Service is null");
+            menuLogCh.log(10000000, "LongpressKeyHandler#callSdsService: SDS Service is null");
             return;
         }
         if (!AbstractWidget.sdsService.isSDSActive()) {
             return;
         }
         boolean bl = this.hasSdsSilentAbortAction(abstractWidgetController);
-        menuLogCh.log(-2137614336, "LongpressKeyHandler#callSdsService: abort SDS (silent: %1) for selected item: %2", bl, (Object)abstractWidgetController);
+        menuLogCh.log(10000000, "LongpressKeyHandler#callSdsService: abort SDS (silent: %1) for selected item: %2", bl, (Object)abstractWidgetController);
         AbstractWidget.sdsService.abortSDSSession(bl, (byte)3);
     }
 

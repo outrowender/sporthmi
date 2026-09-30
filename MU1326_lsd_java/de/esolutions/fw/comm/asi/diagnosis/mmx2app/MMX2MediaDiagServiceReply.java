@@ -3,58 +3,44 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface MMX2MediaDiagServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "4c311096-2484-4cc9-acaf-f8abcdb758e6";
+    public static final String IPL_COMM_INTERFACE_KEY = "dccdf0f3-38de-548c-a50c-274e448a5cd3";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.6.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.8.0";
 
-    default public void requestSubsystemState(long l) {
-    }
+    public void requestSubsystemState(long var1) throws MethodException;
 
-    default public void requestMediaDBVersion(long l) {
-    }
+    public void requestMediaDBVersion(long var1) throws MethodException;
 
-    default public void requestActiveMediaSourceState(long l, int n) {
-    }
+    public void requestActiveMediaSourceState(long var1, int var3) throws MethodException;
 
-    default public void requestMediaRegionCodes(long l) {
-    }
+    public void requestMediaRegionCodes(long var1) throws MethodException;
 
-    default public void requestMediaTypeOpticalDrive(long l) {
-    }
+    public void requestMediaTypeOpticalDrive(long var1) throws MethodException;
 
-    default public void requestUsbOvercurrent(long l) {
-    }
+    public void requestUsbOvercurrent(long var1) throws MethodException;
 
-    default public void requestPmlState(long l) {
-    }
+    public void requestPmlState(long var1) throws MethodException;
 
-    default public void requestSparePartNumberMediaDB(long l) {
-    }
+    public void requestSparePartNumberMediaDB(long var1) throws MethodException;
 
-    default public void requestApplicationSoftwareVersionNumberMediaDB(long l) {
-    }
+    public void requestApplicationSoftwareVersionNumberMediaDB(long var1) throws MethodException;
 
-    default public void requestSerialNumberMediaDB(long l) {
-    }
+    public void requestSerialNumberMediaDB(long var1) throws MethodException;
 
-    default public void requestSystemNameMediaDB(long l) {
-    }
+    public void requestSystemNameMediaDB(long var1) throws MethodException;
 
-    default public void requestStatusUSBCommunication(long l) {
-    }
+    public void requestStatusUSBCommunication(long var1) throws MethodException;
 
-    default public void requestUSBHubIdentification(long l) {
-    }
+    public void requestUSBHubIdentification(long var1) throws MethodException;
 
-    default public void requestDTCPEncryptionState(long l) {
-    }
+    public void requestDTCPEncryptionState(long var1) throws MethodException;
 
-    default public void requestDTCPKeytypeMMX(long l) {
-    }
+    public void requestDTCPKeytypeMMX(long var1) throws MethodException;
 
-    default public void requestDTCPSRMInfo(long l) {
-    }
+    public void requestDTCPSRMInfo(long var1) throws MethodException;
 }
 

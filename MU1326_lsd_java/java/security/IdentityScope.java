@@ -6,13 +6,14 @@ package java.security;
 import com.ibm.oti.util.PriviAction;
 import java.security.AccessController;
 import java.security.Identity;
+import java.security.KeyManagementException;
 import java.security.Principal;
 import java.security.PublicKey;
 import java.util.Enumeration;
 
 public abstract class IdentityScope
 extends Identity {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -2337346281189773310L;
     static IdentityScope systemScope;
 
     protected IdentityScope() {
@@ -22,18 +23,15 @@ extends Identity {
         super(string);
     }
 
-    public IdentityScope(String string, IdentityScope identityScope) {
+    public IdentityScope(String string, IdentityScope identityScope) throws KeyManagementException {
         super(string, identityScope);
     }
 
-    public abstract void addIdentity(Identity identity) {
-    }
+    public abstract void addIdentity(Identity var1) throws KeyManagementException;
 
-    public abstract void removeIdentity(Identity identity) {
-    }
+    public abstract void removeIdentity(Identity var1) throws KeyManagementException;
 
-    public abstract Enumeration identities() {
-    }
+    public abstract Enumeration identities();
 
     public Identity getIdentity(Principal principal) {
         Enumeration enumeration = this.identities();
@@ -45,11 +43,9 @@ extends Identity {
         return null;
     }
 
-    public abstract Identity getIdentity(PublicKey publicKey) {
-    }
+    public abstract Identity getIdentity(PublicKey var1);
 
-    public abstract Identity getIdentity(String string) {
-    }
+    public abstract Identity getIdentity(String var1);
 
     protected static void setSystemScope(IdentityScope identityScope) {
         SecurityManager securityManager = System.getSecurityManager();
@@ -59,16 +55,14 @@ extends Identity {
         systemScope = identityScope;
     }
 
-    public abstract int size() {
-    }
+    public abstract int size();
 
-    @Override
     public String toString() {
-        String string = new StringBuffer("Name : ").append(this.getName()).toString();
+        String string = "Name : " + this.getName();
         if (this.getScope() != null) {
-            string = new StringBuffer(String.valueOf(string)).append("\nScope name : ").append(this.getScope().getName()).toString();
+            string = String.valueOf(string) + "\nScope name : " + this.getScope().getName();
         }
-        string = new StringBuffer(String.valueOf(string)).append("\nNumber of identities : ").append(this.size()).toString();
+        string = String.valueOf(string) + "\nNumber of identities : " + this.size();
         return string;
     }
 

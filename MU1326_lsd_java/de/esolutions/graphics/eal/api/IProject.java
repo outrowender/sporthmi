@@ -40,12 +40,10 @@ extends IObject {
         return iProject == null ? 0L : iProject.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -57,7 +55,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -154,7 +151,6 @@ extends IObject {
         return ealswigJNI.eal_api_IProject_merge__SWIG_2(this.swigCPtr, this, merge_t2.swigValue(), string);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IProject_isValid(this.swigCPtr, this);
     }
@@ -201,7 +197,6 @@ extends IObject {
         return l == 0L ? null : new ITimeLineSequence(l, true);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IProject_dispose(this.swigCPtr, this);
     }

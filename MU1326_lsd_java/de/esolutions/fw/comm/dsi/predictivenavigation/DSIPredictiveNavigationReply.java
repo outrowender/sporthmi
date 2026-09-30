@@ -3,30 +3,25 @@
  */
 package de.esolutions.fw.comm.dsi.predictivenavigation;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public interface DSIPredictiveNavigationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "858fb3eb-f9f4-5578-a0e6-68c88d2c9881";
+    public static final String IPL_COMM_INTERFACE_KEY = "430e0b9d-dec1-5286-bf8c-d0b07c687172";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.3";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.3";
 
-    default public void updateOperationMode(int n, int n2) {
-    }
+    public void updateOperationMode(int var1, int var2) throws MethodException;
 
-    default public void updateLikelyDestinations(LikelyDestination[] likelyDestinationArray, int n) {
-    }
+    public void updateLikelyDestinations(LikelyDestination[] var1, int var2) throws MethodException;
 
-    default public void updateMaxPredictions(int n, int n2) {
-    }
+    public void updateMaxPredictions(int var1, int var2) throws MethodException;
 
-    default public void clearCacheResult() {
-    }
+    public void clearCacheResult() throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

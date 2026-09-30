@@ -24,7 +24,6 @@ implements IWrappedNode3DTextMultiSection {
         this.layoutChanged = false;
     }
 
-    @Override
     public void setText(String string) {
         boolean bl;
         if (string == null) {
@@ -45,12 +44,10 @@ implements IWrappedNode3DTextMultiSection {
         }
     }
 
-    @Override
     public ITextLayout getLayout() {
         return this.layout;
     }
 
-    @Override
     public void notifyLayoutChanged(boolean bl) {
         this.layoutChanged = true;
         if (bl) {
@@ -58,7 +55,6 @@ implements IWrappedNode3DTextMultiSection {
         }
     }
 
-    @Override
     public int[] getOnScreenCharPosition(int n) {
         int[] nArray = new int[2];
         ITextLayoutResult iTextLayoutResult = EALManager.getManager().layout(this.getLayout(), this.getText());
@@ -71,7 +67,6 @@ implements IWrappedNode3DTextMultiSection {
         return nArray;
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         this.ealManager.destroy(this.layout);

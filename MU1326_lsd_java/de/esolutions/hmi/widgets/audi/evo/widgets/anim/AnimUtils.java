@@ -4,11 +4,11 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.anim;
 
 public class AnimUtils {
-    public static final String NULL_PREFIX;
-    public static final String NO_VALUE_TO_STRING_MAPPING;
+    public static final String NULL_PREFIX = "<UNKNOWN::>";
+    public static final String NO_VALUE_TO_STRING_MAPPING = "NO_VALUE_TO_STRING_MAPPING";
 
     public static String valueToString(int n, String[] stringArray) {
-        return new StringBuffer().append(n >= 0 && stringArray != null && n < stringArray.length ? stringArray[n] : "NO_VALUE_TO_STRING_MAPPING").append(" ( ").append(n).append(" )").toString();
+        return (n >= 0 && stringArray != null && n < stringArray.length ? stringArray[n] : NO_VALUE_TO_STRING_MAPPING) + " ( " + n + " )";
     }
 
     public static float clamp(float f2, float f3, float f4) {

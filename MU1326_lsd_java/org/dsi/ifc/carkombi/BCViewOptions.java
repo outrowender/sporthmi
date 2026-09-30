@@ -723,7 +723,7 @@ public class BCViewOptions {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(-230817536);
+        StringBuffer stringBuffer = new StringBuffer(81650);
         stringBuffer.append("BCViewOptions");
         stringBuffer.append('(');
         stringBuffer.append("currentConsumption1");

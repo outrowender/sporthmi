@@ -24,7 +24,6 @@ IEmptyableWidget {
     private int[] barOffset = new int[]{0, 0};
     private boolean horizontal = false;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateModelValue();
@@ -45,7 +44,6 @@ IEmptyableWidget {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = this.barCount;
         int n2 = this.maxBars;
@@ -59,7 +57,6 @@ IEmptyableWidget {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -120,7 +117,6 @@ IEmptyableWidget {
         return this.horizontal;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }
@@ -129,7 +125,6 @@ IEmptyableWidget {
         this.modelColumn = n;
     }
 
-    @Override
     public boolean hasContent() {
         return this.model != null;
     }

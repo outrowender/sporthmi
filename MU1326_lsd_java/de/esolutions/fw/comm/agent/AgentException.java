@@ -5,7 +5,7 @@ package de.esolutions.fw.comm.agent;
 
 public class AgentException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public AgentException() {
     }

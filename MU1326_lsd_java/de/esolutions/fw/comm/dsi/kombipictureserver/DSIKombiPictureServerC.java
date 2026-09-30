@@ -3,58 +3,42 @@
  */
 package de.esolutions.fw.comm.dsi.kombipictureserver;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIKombiPictureServerC {
-    default public void setKombiHmiReady() {
-    }
+    public void setKombiHmiReady() throws MethodException;
 
-    default public void responseCoverArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArt(long var1, int var3, int var4, int var5, ResourceLocator var6) throws MethodException;
 
-    default public void responseStationArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseStationArt(long var1, int var3, int var4, int var5, ResourceLocator var6) throws MethodException;
 
-    default public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseActiveCallPicture(int var1, int var2, ResourceLocator var3) throws MethodException;
 
-    default public void responseActiveCallPictureInstance(int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseActiveCallPictureInstance(int var1, int var2, int var3, ResourceLocator var4) throws MethodException;
 
-    default public void responseDynamicIcon(int n, int n2, boolean bl, ResourceLocator resourceLocator) {
-    }
+    public void responseDynamicIcon(int var1, int var2, boolean var3, ResourceLocator var4) throws MethodException;
 
-    default public void responseAdbContactPicture(long l, int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseAdbContactPicture(long var1, int var3, int var4, ResourceLocator var5) throws MethodException;
 
-    default public void responseInternalAddressID(long l, int n, int n2) {
-    }
+    public void responseInternalAddressID(long var1, int var3, int var4) throws MethodException;
 
-    default public void responsePictureServerAbilities(int n) {
-    }
+    public void responsePictureServerAbilities(int var1) throws MethodException;
 
-    default public void responsePictureStream(int n, short s, short s2, int n2, int n3, byte[] byArray) {
-    }
+    public void responsePictureStream(int var1, short var2, short var3, int var4, int var5, byte[] var6) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

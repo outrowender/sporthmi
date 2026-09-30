@@ -8,214 +8,144 @@ import org.dsi.ifc.global.NavSegmentID;
 import org.dsi.ifc.navigation.PhonemeData;
 
 public interface ILocationAccessor {
-    default public int getAdditionalFlags() {
-    }
+    public int getAdditionalFlags();
 
-    default public String getCountry() {
-    }
+    public String getCountry();
 
-    default public String getCountryAbbreviation() {
-    }
+    public String getCountryAbbreviation();
 
-    default public String getState() {
-    }
+    public String getState();
 
-    default public String getStateAbbreviation() {
-    }
+    public String getStateAbbreviation();
 
-    default public String getHousenumber() {
-    }
+    public String getHousenumber();
 
-    default public int getIconIndex() {
-    }
+    public int getIconIndex();
 
-    default public String getJunction() {
-    }
+    public String getJunction();
 
-    default public int getLatitude() {
-    }
+    public int getLatitude();
 
-    default public int getLongitude() {
-    }
+    public int getLongitude();
 
-    default public String getMmiInternalData() {
-    }
+    public String getMmiInternalData();
 
-    default public String getMotorWayExit() {
-    }
+    public String getMotorWayExit();
 
-    default public String getPhonenumber() {
-    }
+    public String getPhonenumber();
 
-    default public String getPoiCategory() {
-    }
+    public String getPoiCategory();
 
-    default public int getPoiCategoryNumber() {
-    }
+    public int getPoiCategoryNumber();
 
-    default public String getPoiClass() {
-    }
+    public String getPoiClass();
 
-    default public String getPoiName() {
-    }
+    public String getPoiName();
 
-    default public String getStreet() {
-    }
+    public String getStreet();
 
-    default public String getStreetNearby() {
-    }
+    public String getStreetNearby();
 
-    default public String getStreetRefinement() {
-    }
+    public String getStreetRefinement();
 
-    default public int getSubIconIndex() {
-    }
+    public int getSubIconIndex();
 
-    default public String getTown() {
-    }
+    public String getTown();
 
-    default public String getTowncenter() {
-    }
+    public String getTowncenter();
 
-    default public String getTownRefinement() {
-    }
+    public String getTownRefinement();
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getURLAddress() {
-    }
+    public String getURLAddress();
 
-    default public String getZipCode() {
-    }
+    public String getZipCode();
 
-    default public String getTownOriginalName() {
-    }
+    public String getTownOriginalName();
 
-    default public boolean isNavigable() {
-    }
+    public boolean isNavigable();
 
-    default public boolean isParentOfPOIs() {
-    }
+    public boolean isParentOfPOIs();
 
-    default public boolean isZipCodeNeededForRefinement() {
-    }
+    public boolean isZipCodeNeededForRefinement();
 
-    default public boolean isTownRefinementNeededForRefinement() {
-    }
+    public boolean isTownRefinementNeededForRefinement();
 
-    default public boolean isZipCodeSpelled() {
-    }
+    public boolean isZipCodeSpelled();
 
-    default public boolean isTownOrder9() {
-    }
+    public boolean isTownOrder9();
 
-    default public boolean isFullPostalCode() {
-    }
+    public boolean isFullPostalCode();
 
-    default public boolean isStateSpelled() {
-    }
+    public boolean isStateSpelled();
 
-    default public boolean isStreetBasename() {
-    }
+    public boolean isStreetBasename();
 
-    default public void removeAll() {
-    }
+    public void removeAll();
 
-    default public void setLocation(NavLocation navLocation) {
-    }
+    public void setLocation(NavLocation var1);
 
-    default public void setMmiInternalData(String string) {
-    }
+    public void setMmiInternalData(String var1) throws IllegalArgumentException;
 
-    default public int getCountryIconIndex() {
-    }
+    public int getCountryIconIndex();
 
-    default public int getAdditionalPoiAttributeBoolean(int n) {
-    }
+    public int getAdditionalPoiAttributeBoolean(int var1);
 
-    default public String getAdditionalPoiAttributeString(int n) {
-    }
+    public String getAdditionalPoiAttributeString(int var1);
 
-    default public int getAdditionalPoiAttributeInt(int n) {
-    }
+    public int getAdditionalPoiAttributeInt(int var1);
 
-    default public float getAdditionalPoiAttributeFloat(int n) {
-    }
+    public float getAdditionalPoiAttributeFloat(int var1);
 
-    default public int getConnectorCount() {
-    }
+    public int getConnectorCount();
 
-    default public int getConnectorAttributeBoolean(int n, int n2) {
-    }
+    public int getConnectorAttributeBoolean(int var1, int var2);
 
-    default public float getConnectorAttributeFloat(int n, int n2) {
-    }
+    public float getConnectorAttributeFloat(int var1, int var2);
 
-    default public String getConnectorAttributeString(int n, int n2) {
-    }
+    public String getConnectorAttributeString(int var1, int var2);
 
-    default public int getConnectorAttributeInt(int n, int n2) {
-    }
+    public int getConnectorAttributeInt(int var1, int var2);
 
-    default public PhonemeData getPhoneme(int n) {
-    }
+    public PhonemeData getPhoneme(int var1);
 
-    default public void setIsPicNavLocation(boolean bl) {
-    }
+    public void setIsPicNavLocation(boolean var1);
 
-    default public boolean getIsPicNavLocation() {
-    }
+    public boolean getIsPicNavLocation();
 
-    default public String getCountryCode() {
-    }
+    public String getCountryCode();
 
-    default public String getStreetIconText() {
-    }
+    public String getStreetIconText();
 
-    default public int getStreetIconId() {
-    }
+    public int getStreetIconId();
 
-    default public int[] getIconDecoratorInformation() {
-    }
+    public int[] getIconDecoratorInformation();
 
-    default public String getMapCode() {
-    }
+    public String getMapCode();
 
-    default public String getDistrict() {
-    }
+    public String getDistrict();
 
-    default public String getChome() {
-    }
+    public String getChome();
 
-    default public boolean isLocationDisambiguationPossible() {
-    }
+    public boolean isLocationDisambiguationPossible();
 
-    default public String getWard() {
-    }
+    public String getWard();
 
-    default public String getPlaceName() {
-    }
+    public String getPlaceName();
 
-    default public String getSubmunicipalTown() {
-    }
+    public String getSubmunicipalTown();
 
-    default public String getVillage() {
-    }
+    public String getVillage();
 
-    default public String getAdditionalLocationInformation(int n) {
-    }
+    public String getAdditionalLocationInformation(int var1);
 
-    default public String getGpxName() {
-    }
+    public String getGpxName();
 
-    default public boolean isLocationInCityState() {
-    }
+    public boolean isLocationInCityState();
 
-    default public NavSegmentID getTraceID() {
-    }
+    public NavSegmentID getTraceID();
 
-    default public boolean getAdditionalFlagStatus(int n) {
-    }
+    public boolean getAdditionalFlagStatus(int var1);
 }
 

@@ -54,39 +54,39 @@ public class MenuItemController
 extends MultiLayoutContainerController
 implements IMenuItemSingle,
 IMenuItemMultiLine {
-    public static final int TYPE_LABEL;
-    public static final int TYPE_ACTION;
-    public static final int TYPE_ACTION_MULTILINE;
-    public static final int TYPE_SUBMENU;
-    public static final int TYPE_SUBMENU_MULTILINE;
-    public static final int TYPE_CHECKBOX;
-    public static final int TYPE_CHECKBOX_MULTILINE;
-    public static final int TYPE_CONFIGURABLE;
-    public static final int TYPE_LABEL_MULTILINE;
-    public static final int TYPE_COMBO_BOX;
-    public static final int TYPE_SUB_ELEMENT;
-    public static final int TYPE_ROTARY;
-    public static final int TYPE_ROTARY_MULTILINE;
-    public static final int TYPE_RADIO_BUTTON;
-    public static final int TYPE_RADIO_BUTTON_MULTILINE;
-    public static final int TYPE_SUBMENU_PREVIEW;
-    public static final int TYPE_SUBMENU_PREVIEW_NO_ARROW;
-    public static final int TYPE_FORMFIELD_INPUT;
-    public static final int TYPE_TIME_SETTINGS;
-    public static final int TYPE_DATE_SETTINGS;
-    public static final int TYPE_AUXHEATER_PROGRAMMING;
-    public static final int TYPE_SDS_COMMAND;
-    public static final int TYPE_ROUTE_BRIEFING_MENU_ITEM;
-    public static final int TYPE_ROUTE_BRIEFING_DETAILS_BUTTON;
-    public static final int TYPE_SDS_BULLET_LABEL;
-    public static final int TYPE_TIME_SETTINGS_DUAL;
-    public static final int TYPE_DATE_SETTINGS_MAXDAYS30;
-    public static final int TYPE_DATE_SETTINGS_MAXDAYS365;
-    public static final int TYPE_GEOCOORDINATE_SETTINGS_LATITUDE;
-    public static final int TYPE_GEOCOORDINATE_SETTINGS_LONGITUDE;
-    public static final int SCROLL_GRID;
-    public static final int SCROLL_LINE_BY_LINE;
-    public static final int SCROLL_GRID_IF_FIT;
+    public static final int TYPE_LABEL = 1;
+    public static final int TYPE_ACTION = 2;
+    public static final int TYPE_ACTION_MULTILINE = 3;
+    public static final int TYPE_SUBMENU = 4;
+    public static final int TYPE_SUBMENU_MULTILINE = 5;
+    public static final int TYPE_CHECKBOX = 8;
+    public static final int TYPE_CHECKBOX_MULTILINE = 9;
+    public static final int TYPE_CONFIGURABLE = 16;
+    public static final int TYPE_LABEL_MULTILINE = 32;
+    public static final int TYPE_COMBO_BOX = 64;
+    public static final int TYPE_SUB_ELEMENT = 80;
+    public static final int TYPE_ROTARY = 128;
+    public static final int TYPE_ROTARY_MULTILINE = 129;
+    public static final int TYPE_RADIO_BUTTON = 256;
+    public static final int TYPE_RADIO_BUTTON_MULTILINE = 257;
+    public static final int TYPE_SUBMENU_PREVIEW = 512;
+    public static final int TYPE_SUBMENU_PREVIEW_NO_ARROW = 513;
+    public static final int TYPE_FORMFIELD_INPUT = 768;
+    public static final int TYPE_TIME_SETTINGS = 1024;
+    public static final int TYPE_DATE_SETTINGS = 1025;
+    public static final int TYPE_AUXHEATER_PROGRAMMING = 1026;
+    public static final int TYPE_SDS_COMMAND = 1027;
+    public static final int TYPE_ROUTE_BRIEFING_MENU_ITEM = 1028;
+    public static final int TYPE_ROUTE_BRIEFING_DETAILS_BUTTON = 1030;
+    public static final int TYPE_SDS_BULLET_LABEL = 1029;
+    public static final int TYPE_TIME_SETTINGS_DUAL = 0x400001;
+    public static final int TYPE_DATE_SETTINGS_MAXDAYS30 = 0x4010001;
+    public static final int TYPE_DATE_SETTINGS_MAXDAYS365 = 4198402;
+    public static final int TYPE_GEOCOORDINATE_SETTINGS_LATITUDE = 4206593;
+    public static final int TYPE_GEOCOORDINATE_SETTINGS_LONGITUDE = 4206594;
+    public static final int SCROLL_GRID = 0;
+    public static final int SCROLL_LINE_BY_LINE = 1;
+    public static final int SCROLL_GRID_IF_FIT = 2;
     protected int type = 1;
     protected int realType = 16;
     private int labelId = -1;
@@ -126,7 +126,7 @@ IMenuItemMultiLine {
     private int scrollType = 0;
     private boolean scrollLineByLine = false;
     private int scrollLineHeight = -1;
-    private int clippingHeight = -129;
+    private int clippingHeight = Integer.MAX_VALUE;
     private int menuContentHeight;
     private int menuContentWidth;
     public Map itemPreCreatedEnableState;
@@ -137,7 +137,6 @@ IMenuItemMultiLine {
     private boolean closeOptionDrawerAfterScreenConnected;
     private boolean lockable = false;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateFromModel();
@@ -195,7 +194,7 @@ IMenuItemMultiLine {
                 ((ContentEnabledListener)this.contentEnabledListeners.get(i2)).setContentEnabled(n, true);
             }
         } else {
-            menuItemLogCh.log(-2137614336, "MenuItemWidget#setContentEnabled. index: %1 is lt 0", (long)n);
+            menuItemLogCh.log(10000000, "MenuItemWidget#setContentEnabled. index: %1 is lt 0", (long)n);
         }
     }
 
@@ -209,7 +208,7 @@ IMenuItemMultiLine {
                 ((ContentEnabledListener)this.contentEnabledListeners.get(i2)).setContentEnabled(n, false);
             }
         } else {
-            menuItemLogCh.log(-2137614336, "MenuItemWidget#setContentDisabled. index: %1 is lt 0", (long)n);
+            menuItemLogCh.log(10000000, "MenuItemWidget#setContentDisabled. index: %1 is lt 0", (long)n);
         }
     }
 
@@ -223,7 +222,7 @@ IMenuItemMultiLine {
                 ((ContentEnabledListener)this.contentEnabledListeners.get(i2)).setContentVisible(n, true);
             }
         } else {
-            menuItemLogCh.log(-2137614336, "MenuItemWidget#setContentEnabled. index: %1 is lt 0", (long)n);
+            menuItemLogCh.log(10000000, "MenuItemWidget#setContentEnabled. index: %1 is lt 0", (long)n);
         }
     }
 
@@ -237,11 +236,10 @@ IMenuItemMultiLine {
                 ((ContentEnabledListener)this.contentEnabledListeners.get(i2)).setContentVisible(n, false);
             }
         } else {
-            menuItemLogCh.log(-2137614336, "MenuItemWidget#setContentDisabled. index: %1 is lt 0", (long)n);
+            menuItemLogCh.log(10000000, "MenuItemWidget#setContentDisabled. index: %1 is lt 0", (long)n);
         }
     }
 
-    @Override
     protected void afterConnected() {
         this.updateScrollLineByLine();
         super.afterConnected();
@@ -271,11 +269,10 @@ IMenuItemMultiLine {
         if (this.layoutManager instanceof GridLayout) {
             return ((GridLayout)this.layoutManager).getRowConstraints().getLength();
         }
-        menuItemLogCh.log(-1601830656, "MenuItemController#getGridRowCount: unknown layout: %1", (Object)this.layoutManager);
+        menuItemLogCh.log(100000, "MenuItemController#getGridRowCount: unknown layout: %1", (Object)this.layoutManager);
         return 1;
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof FocusedPropertyConfig) {
@@ -289,7 +286,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public void remove(AbstractWidget abstractWidget) {
         super.remove(abstractWidget);
         if (abstractWidget == this.property) {
@@ -297,7 +293,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     protected void autoLayoutSetup() {
         super.autoLayoutSetup();
         if (this.parent instanceof ListController) {
@@ -327,7 +322,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 14) {
@@ -357,7 +351,6 @@ IMenuItemMultiLine {
         return false;
     }
 
-    @Override
     public boolean isSelected() {
         return this.selected;
     }
@@ -386,13 +379,12 @@ IMenuItemMultiLine {
         return this.closeOptionDrawerAfterScreenConnected;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         super.keyPressed(keyEvent);
         if (keyEvent.isConsumed()) {
             return;
         }
-        menuItemLogCh.log(-2137614336, "MenuItemWidget#keyPressed. Key code: %2, widget state: %3, model: %1", this.model, (long)keyEvent.getKeyCode(), (long)this.widgetState);
+        menuItemLogCh.log(10000000, "MenuItemWidget#keyPressed. Key code: %2, widget state: %3, model: %1", this.model, (long)keyEvent.getKeyCode(), (long)this.widgetState);
         this.ensureKeyHandlerConfigured();
         boolean bl = this.hasState(36);
         if ((!this.hasInfolineDisclaimer || bl) && this.keyHandler != null) {
@@ -407,7 +399,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         super.keyReleased(keyEvent);
         if (keyEvent.isConsumed()) {
@@ -420,7 +411,6 @@ IMenuItemMultiLine {
         super.keyReleased(keyEvent);
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         super.keyTurned(wheelButtonEvent);
         if (wheelButtonEvent.isConsumed()) {
@@ -433,7 +423,6 @@ IMenuItemMultiLine {
         super.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         super.keyMoved(joystickEvent);
         if (joystickEvent.isConsumed()) {
@@ -445,7 +434,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public int getWidgetID() {
         return this.widgetID;
     }
@@ -478,7 +466,6 @@ IMenuItemMultiLine {
         return this.replacementModelIds;
     }
 
-    @Override
     public int getSizeForTabulator(int n) {
         if (this.layoutManager instanceof TabLayoutManager) {
             return ((TabLayoutManager)this.layoutManager).calculateTabulator(this, n);
@@ -486,13 +473,11 @@ IMenuItemMultiLine {
         return -1;
     }
 
-    @Override
     public int getPreferredHeight(boolean bl, int n) {
         int n2 = this.layoutManager instanceof ExpandableLayoutManager && this.preferredHeight == -1 ? ((ExpandableLayoutManager)this.layoutManager).calculateSize(this, bl, n)[1] : (this.layoutManager != null && this.preferredHeight == -1 ? this.layoutManager.calculateSize(this, n)[1] : this.getPreferredHeight());
         return n2 + this.marginTop + this.marginBottom;
     }
 
-    @Override
     public void showExtended(boolean bl) {
         this.propagateExpansionToLayout(this.layoutManager, bl);
         if (this.hasMultipleLayouts()) {
@@ -512,7 +497,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public IFocusedPropertyObject getProperty() {
         if (this.property != null) {
             IFocusedPropertyObject iFocusedPropertyObject = this.property.getCurrentFocusedPropertyObject();
@@ -588,17 +572,14 @@ IMenuItemMultiLine {
         this.glassplateInsetsBottom = n;
     }
 
-    @Override
     public int getGlassplateInsets(boolean bl) {
         return bl ? this.glassplateInsetsTop : this.glassplateInsetsBottom;
     }
 
-    @Override
     public int getMargin(boolean bl) {
         return bl ? this.marginTop : this.marginBottom;
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         if (!bl) {
             for (int i2 = 0; i2 < this.getChildrenSize(); ++i2) {
@@ -622,7 +603,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         int n;
         block4: {
@@ -640,7 +620,7 @@ IMenuItemMultiLine {
                 return null;
             }
             catch (Exception exception) {
-                logPreset.log(-1601830656, "MenuItemController#getPresetPopupData exception occured", (Throwable)exception);
+                logPreset.log(100000, "MenuItemController#getPresetPopupData exception occured", (Throwable)exception);
             }
         }
         return new PresetPopupData(0, n, new Preset(1, this.modelID, 0, null, null, 99), null, null, -1, null);
@@ -665,7 +645,6 @@ IMenuItemMultiLine {
         return null;
     }
 
-    @Override
     public String getDiagnosisText() {
         return this.getMainLabelText();
     }
@@ -678,7 +657,6 @@ IMenuItemMultiLine {
         this.autoWrap = n;
     }
 
-    @Override
     public int getSdsItemSelectedAction() {
         return this.sdsItemSelectedAction;
     }
@@ -811,16 +789,14 @@ IMenuItemMultiLine {
             }
             return abstractScreenFactory.getText(n);
         }
-        menuItemLogCh.log(-1601830656, "MenuItemWidget#getTextForID: screen factory is null. textID: %1", (long)n);
+        menuItemLogCh.log(100000, "MenuItemWidget#getTextForID: screen factory is null. textID: %1", (long)n);
         return null;
     }
 
-    @Override
     public String getInfolineText() {
         return this.infolineText;
     }
 
-    @Override
     public boolean hasInfolineText() {
         return this.infolineText != null;
     }
@@ -877,7 +853,6 @@ IMenuItemMultiLine {
         this.isMoving = bl;
     }
 
-    @Override
     public void setOptionsIconSpace(int n) {
         if (n == this.cashedOptionsIconSpace) {
             return;
@@ -906,13 +881,11 @@ IMenuItemMultiLine {
         this.cashedOptionsIconSpace = -1;
     }
 
-    @Override
     public void setLayoutManager(LayoutManager layoutManager) {
         super.setLayoutManager(layoutManager);
         this.resetCachedOptionsIconSpace();
     }
 
-    @Override
     public void setLayoutChoices(LayoutManager[] layoutManagerArray) {
         super.setLayoutChoices(layoutManagerArray);
         this.resetCachedOptionsIconSpace();
@@ -929,12 +902,11 @@ IMenuItemMultiLine {
                     this.invalidateChildrenBounds();
                 }
             } else {
-                menuItemLogCh.log(-1601830656, "MenuItemController#setOptionsIconSpace: columnConstraints have no optionsIconSpace. Space: %2, Constraints: %1", (Object)iAxisConstraints, (long)n);
+                menuItemLogCh.log(100000, "MenuItemController#setOptionsIconSpace: columnConstraints have no optionsIconSpace. Space: %2, Constraints: %1", (Object)iAxisConstraints, (long)n);
             }
         }
     }
 
-    @Override
     public boolean isFocusable() {
         return this.focusable;
     }
@@ -951,7 +923,6 @@ IMenuItemMultiLine {
         this.replacementTextIds = nArray;
     }
 
-    @Override
     public int getSubItemCount() {
         return this.scrollLineByLine ? this.calculateSubItemCount() : 1;
     }
@@ -968,7 +939,6 @@ IMenuItemMultiLine {
         return (int)Math.ceil(f2);
     }
 
-    @Override
     public void setMenuSize(int n, int n2, int n3) {
         this.menuContentHeight = n2;
         this.menuContentWidth = n;
@@ -978,7 +948,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public int getPreferredLineHeight(int n) {
         if (this.scrollLineHeight > 0) {
             return this.getFixedRowHeight(n);
@@ -1025,7 +994,6 @@ IMenuItemMultiLine {
         return n3 % this.scrollLineHeight;
     }
 
-    @Override
     public void setVisibleAreaBounds(int n, int n2, int n3) {
         this.setY(n - this.getSpaceAbove(n2));
         this.setHeight(this.getPreferredMultiLineHeight());
@@ -1064,7 +1032,6 @@ IMenuItemMultiLine {
         return (int)Math.ceil(d2);
     }
 
-    @Override
     public int getFilledInsets(boolean bl) {
         if (bl) {
             return 0;
@@ -1083,7 +1050,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public void setFocused(boolean bl) {
         super.setFocused(bl);
         if (this.realType == 64 && !bl) {
@@ -1094,7 +1060,6 @@ IMenuItemMultiLine {
         }
     }
 
-    @Override
     public boolean isScrollLineByLine() {
         return this.scrollLineByLine;
     }
@@ -1115,7 +1080,6 @@ IMenuItemMultiLine {
         this.scrollLineHeight = n;
     }
 
-    @Override
     public int getOptionIconYOffset() {
         if (AbstractWidget.framework.getScreenRes() == 0) {
             return 1;
@@ -1131,7 +1095,6 @@ IMenuItemMultiLine {
         this.infoLineDisabledTextIndex = this.infoLineEnabled ? n : -1;
     }
 
-    @Override
     public void disconnecting() {
         if (this.itemPreCreatedEnableState != null) {
             this.itemPreCreatedEnableState.clear();
@@ -1172,7 +1135,6 @@ IMenuItemMultiLine {
         return this.useSmallStageTextForMainLabel;
     }
 
-    @Override
     public int getSdsItemSelectedAction(int n) {
         if (n == 0) {
             return this.sdsItemSelectedAction;
@@ -1196,7 +1158,6 @@ IMenuItemMultiLine {
         this.noCursorAreaBottom = n;
     }
 
-    @Override
     public int getNoCursorArea(boolean bl) {
         return bl ? this.noCursorAreaTop : this.noCursorAreaBottom;
     }

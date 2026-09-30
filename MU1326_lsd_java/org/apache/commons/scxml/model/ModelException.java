@@ -5,7 +5,7 @@ package org.apache.commons.scxml.model;
 
 public class ModelException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     public ModelException() {
     }

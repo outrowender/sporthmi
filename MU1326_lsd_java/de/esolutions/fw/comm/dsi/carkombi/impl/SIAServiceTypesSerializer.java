@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAServiceTypes;
 
 public class SIAServiceTypesSerializer {
-    public static void putOptionalSIAServiceTypes(ISerializer iSerializer, SIAServiceTypes sIAServiceTypes) {
+    public static void putOptionalSIAServiceTypes(ISerializer iSerializer, SIAServiceTypes sIAServiceTypes) throws SerializerException {
         boolean bl = sIAServiceTypes == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class SIAServiceTypesSerializer {
         }
     }
 
-    public static void putOptionalSIAServiceTypesVarArray(ISerializer iSerializer, SIAServiceTypes[] sIAServiceTypesArray) {
+    public static void putOptionalSIAServiceTypesVarArray(ISerializer iSerializer, SIAServiceTypes[] sIAServiceTypesArray) throws SerializerException {
         boolean bl = sIAServiceTypesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class SIAServiceTypesSerializer {
         }
     }
 
-    public static SIAServiceTypes getOptionalSIAServiceTypes(IDeserializer iDeserializer) {
+    public static SIAServiceTypes getOptionalSIAServiceTypes(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceTypes sIAServiceTypes = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class SIAServiceTypesSerializer {
         return sIAServiceTypes;
     }
 
-    public static SIAServiceTypes[] getOptionalSIAServiceTypesVarArray(IDeserializer iDeserializer) {
+    public static SIAServiceTypes[] getOptionalSIAServiceTypesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceTypes[] sIAServiceTypesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

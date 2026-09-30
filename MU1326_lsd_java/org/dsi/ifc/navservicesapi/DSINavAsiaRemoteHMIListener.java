@@ -7,22 +7,16 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSINavAsiaRemoteHMIListener
 extends DSIListener {
-    default public void updateCurrentCityAndStreet(String string, String string2, int n) {
-    }
+    public void updateCurrentCityAndStreet(String var1, String var2, int var3);
 
-    default public void updateDayNightView(int n, int n2) {
-    }
+    public void updateDayNightView(int var1, int var2);
 
-    default public void updateDestination(double[] dArray, double[] dArray2, int n) {
-    }
+    public void updateDestination(double[] var1, double[] var2, int var3);
 
-    default public void updateDestinationDistanceAndTime(double[] dArray, int[] nArray, int n) {
-    }
+    public void updateDestinationDistanceAndTime(double[] var1, int[] var2, int var3);
 
-    default public void updatePositionInfo(double d2, double d3, double d4, double d5, double d6, int n) {
-    }
+    public void updatePositionInfo(double var1, double var3, double var5, double var7, double var9, int var11);
 
-    default public void updateNavigationState(boolean bl, boolean bl2, int n) {
-    }
+    public void updateNavigationState(boolean var1, boolean var2, int var3);
 }
 

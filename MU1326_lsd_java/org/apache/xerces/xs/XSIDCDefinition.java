@@ -9,23 +9,18 @@ import org.apache.xerces.xs.XSObjectList;
 
 public interface XSIDCDefinition
 extends XSObject {
-    public static final short IC_KEY;
-    public static final short IC_KEYREF;
-    public static final short IC_UNIQUE;
+    public static final short IC_KEY = 1;
+    public static final short IC_KEYREF = 2;
+    public static final short IC_UNIQUE = 3;
 
-    default public short getCategory() {
-    }
+    public short getCategory();
 
-    default public String getSelectorStr() {
-    }
+    public String getSelectorStr();
 
-    default public StringList getFieldStrs() {
-    }
+    public StringList getFieldStrs();
 
-    default public XSIDCDefinition getRefKey() {
-    }
+    public XSIDCDefinition getRefKey();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

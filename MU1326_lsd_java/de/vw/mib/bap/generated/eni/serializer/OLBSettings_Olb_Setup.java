@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class OLBSettings_Olb_Setup
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean driverAuthentificationPopupForOlbIsActive;
     public boolean olbTripReminderPopupIsActive;
 
@@ -27,12 +27,10 @@ implements BAPEntity {
         this.olbTripReminderPopupIsActive = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OLBSettings_Olb_Setup oLBSettings_Olb_Setup = (OLBSettings_Olb_Setup)bAPEntity;
         return this.driverAuthentificationPopupForOlbIsActive == oLBSettings_Olb_Setup.driverAuthentificationPopupForOlbIsActive && this.olbTripReminderPopupIsActive == oLBSettings_Olb_Setup.olbTripReminderPopupIsActive;
@@ -41,28 +39,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OLBSettings_Olb_Setup");
-        stringBuffer.append(new StringBuffer().append("\n - driverAuthentificationPopupForOlbIsActive:").append(this.driverAuthentificationPopupForOlbIsActive).toString());
-        stringBuffer.append(new StringBuffer().append("\n - olbTripReminderPopupIsActive:").append(this.olbTripReminderPopupIsActive).toString());
+        stringBuffer.append("\n - driverAuthentificationPopupForOlbIsActive:" + this.driverAuthentificationPopupForOlbIsActive);
+        stringBuffer.append("\n - olbTripReminderPopupIsActive:" + this.olbTripReminderPopupIsActive);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.driverAuthentificationPopupForOlbIsActive);
         bitStream.pushBoolean(this.olbTripReminderPopupIsActive);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.driverAuthentificationPopupForOlbIsActive = bitStream.popFrontBoolean();

@@ -4,18 +4,15 @@
 package de.esolutions.fw.util.transport;
 
 import de.esolutions.fw.util.transport.IWriteable;
+import de.esolutions.fw.util.transport.exception.TransportException;
 
 public interface IWriter {
-    default public int size() {
-    }
+    public int size();
 
-    default public void write(IWriteable iWriteable) {
-    }
+    public void write(IWriteable var1) throws TransportException;
 
-    default public void setDebugTag(Object object) {
-    }
+    public void setDebugTag(Object var1);
 
-    default public Object getDebugTag() {
-    }
+    public Object getDebugTag();
 }
 

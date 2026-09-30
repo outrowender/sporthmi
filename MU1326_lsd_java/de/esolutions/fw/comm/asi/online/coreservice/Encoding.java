@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface Encoding
 extends IEnum {
-    public static final int HTTP_TEXT;
-    public static final int HTTP_BINARY;
+    public static final int HTTP_TEXT = 0;
+    public static final int HTTP_BINARY = 1;
 }
 

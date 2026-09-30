@@ -47,7 +47,6 @@ implements Member {
         return true;
     }
 
-    @Override
     public Class getDeclaringClass() {
         return this.declaringClass;
     }
@@ -59,12 +58,10 @@ implements Member {
         return (Class[])this.exceptionTypes.clone();
     }
 
-    @Override
     public int getModifiers() {
         return super.getModifiers();
     }
 
-    @Override
     public String getName() {
         if (this.name != null) {
             return this.name;
@@ -84,7 +81,7 @@ implements Member {
         return this.getName().hashCode();
     }
 
-    public Object newInstance(Object[] objectArray) {
+    public Object newInstance(Object[] objectArray) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class clazz;
         Object object;
         if (objectArray == null) {
@@ -110,8 +107,7 @@ implements Member {
         return object;
     }
 
-    private native Object newInstanceImpl() {
-    }
+    private native Object newInstanceImpl();
 
     public String toString() {
         Class clazz;

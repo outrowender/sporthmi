@@ -6,25 +6,20 @@ package java.lang;
 public final class Byte
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -7183698231559129828L;
     final byte value;
-    public static final byte MAX_VALUE;
-    public static final byte MIN_VALUE;
-    public static final Class TYPE;
-
-    static {
-        TYPE = super.getClass().getComponentType();
-    }
+    public static final byte MAX_VALUE = 127;
+    public static final byte MIN_VALUE = -128;
+    public static final Class TYPE = new byte[0].getClass().getComponentType();
 
     public Byte(byte by) {
         this.value = by;
     }
 
-    public Byte(String string) {
+    public Byte(String string) throws NumberFormatException {
         this(Byte.parseByte(string));
     }
 
-    @Override
     public byte byteValue() {
         return this.value;
     }
@@ -33,12 +28,11 @@ implements Comparable {
         return this.value > by.value ? 1 : (this.value < by.value ? -1 : 0);
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((Byte)object);
     }
 
-    public static Byte decode(String string) {
+    public static Byte decode(String string) throws NumberFormatException {
         int n = Integer.decode(string);
         byte by = (byte)n;
         if (by == n) {
@@ -47,7 +41,6 @@ implements Comparable {
         throw new NumberFormatException();
     }
 
-    @Override
     public double doubleValue() {
         return this.value;
     }
@@ -56,7 +49,6 @@ implements Comparable {
         return object == this || object instanceof Byte && this.value == ((Byte)object).value;
     }
 
-    @Override
     public float floatValue() {
         return this.value;
     }
@@ -65,17 +57,15 @@ implements Comparable {
         return this.value;
     }
 
-    @Override
     public int intValue() {
         return this.value;
     }
 
-    @Override
     public long longValue() {
         return this.value;
     }
 
-    public static byte parseByte(String string) {
+    public static byte parseByte(String string) throws NumberFormatException {
         int n = Integer.parseInt(string);
         byte by = (byte)n;
         if (by == n) {
@@ -84,7 +74,7 @@ implements Comparable {
         throw new NumberFormatException();
     }
 
-    public static byte parseByte(String string, int n) {
+    public static byte parseByte(String string, int n) throws NumberFormatException {
         int n2 = Integer.parseInt(string, n);
         byte by = (byte)n2;
         if (by == n2) {
@@ -93,7 +83,6 @@ implements Comparable {
         throw new NumberFormatException();
     }
 
-    @Override
     public short shortValue() {
         return this.value;
     }
@@ -106,11 +95,11 @@ implements Comparable {
         return Integer.toString(by);
     }
 
-    public static Byte valueOf(String string) {
+    public static Byte valueOf(String string) throws NumberFormatException {
         return new Byte(Byte.parseByte(string));
     }
 
-    public static Byte valueOf(String string, int n) {
+    public static Byte valueOf(String string, int n) throws NumberFormatException {
         return new Byte(Byte.parseByte(string, n));
     }
 }

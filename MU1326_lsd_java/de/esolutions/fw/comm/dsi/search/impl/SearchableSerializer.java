@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.search.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.Searchable;
 
 public class SearchableSerializer {
-    public static void putOptionalSearchable(ISerializer iSerializer, Searchable searchable) {
+    public static void putOptionalSearchable(ISerializer iSerializer, Searchable searchable) throws SerializerException {
         boolean bl = searchable == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SearchableSerializer {
         }
     }
 
-    public static void putOptionalSearchableVarArray(ISerializer iSerializer, Searchable[] searchableArray) {
+    public static void putOptionalSearchableVarArray(ISerializer iSerializer, Searchable[] searchableArray) throws SerializerException {
         boolean bl = searchableArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SearchableSerializer {
         }
     }
 
-    public static Searchable getOptionalSearchable(IDeserializer iDeserializer) {
+    public static Searchable getOptionalSearchable(IDeserializer iDeserializer) throws SerializerException {
         Searchable searchable = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SearchableSerializer {
         return searchable;
     }
 
-    public static Searchable[] getOptionalSearchableVarArray(IDeserializer iDeserializer) {
+    public static Searchable[] getOptionalSearchableVarArray(IDeserializer iDeserializer) throws SerializerException {
         Searchable[] searchableArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

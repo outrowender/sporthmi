@@ -4,6 +4,7 @@
 package java.io;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Reader;
 
 public class LineNumberReader
@@ -34,8 +35,7 @@ extends BufferedReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             super.mark(n);
@@ -47,8 +47,7 @@ extends BufferedReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read() {
+    public int read() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             int n = super.read();
@@ -72,8 +71,7 @@ extends BufferedReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         Object object = this.lock;
         synchronized (object) {
             int n3;
@@ -102,8 +100,7 @@ extends BufferedReader {
         }
     }
 
-    @Override
-    public String readLine() {
+    public String readLine() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             StringBuffer stringBuffer = new StringBuffer(80);
@@ -123,8 +120,7 @@ extends BufferedReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             super.reset();
@@ -146,8 +142,7 @@ extends BufferedReader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l >= 0L) {
             Object object = this.lock;
             synchronized (object) {

@@ -5,7 +5,7 @@ package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
 import de.audi.atip.hmi.HMIImageConstantsSystem;
 import de.audi.atip.hmi.model.HMIResourceLocator;
-import de.eso.IconExtractor.IconExtractor$Bitmap;
+import de.eso.IconExtractor.IconExtractor;
 import de.esolutions.hmi.widgets.audi.base.Alignment;
 import de.esolutions.hmi.widgets.audi.base.HMIImage;
 import de.esolutions.hmi.widgets.audi.base.RedrawContext;
@@ -29,15 +29,15 @@ public class IconRendererHigh
 extends AbstractRendererHigh
 implements IconRenderer,
 Alignment {
-    private static final int ID_DYNAMIC_PROVIDER_LOGO;
-    private static final int DEFAULT_WAIT_FOR_ICON_TIME;
+    private static final int ID_DYNAMIC_PROVIDER_LOGO = 0x60000011;
+    private static final int DEFAULT_WAIT_FOR_ICON_TIME = 50;
     protected boolean disableAllFormsOfCaching = false;
     protected final IconController controller;
     protected IWrappedNode3DImage node;
     protected IWrappedNode3D groupNode;
     private int unscaledWidth;
     private int unscaledHeight;
-    protected static final boolean USE_IMAGE_SIZECHECK;
+    protected static final boolean USE_IMAGE_SIZECHECK = true;
     protected TextureDescription cachedSizeDisplayData;
     protected TextureDescription displayData;
     private float scaleY = 1.0f;
@@ -54,7 +54,6 @@ Alignment {
         this.controller = iconController;
     }
 
-    @Override
     public void setScaleFactor(float f2, float f3) {
         if (this.scaleX == f2 && this.scaleY == f3) {
             return;
@@ -64,7 +63,6 @@ Alignment {
         this.dirty = true;
     }
 
-    @Override
     public void setRotationZ(float f2) {
         float f3 = (float)Math.toRadians(f2);
         if (this.rotationZ == f3) {
@@ -74,7 +72,6 @@ Alignment {
         this.dirty = true;
     }
 
-    @Override
     public void setRotationY(float f2) {
         float f3 = (float)Math.toRadians(f2);
         if (this.rotationY == f3) {
@@ -84,7 +81,6 @@ Alignment {
         this.dirty = true;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -154,12 +150,12 @@ Alignment {
             if (hMIResourceLocator.getResourceURI() == null && this.controller.getDefaultImageMode() == 1) {
                 return this.getTextureDescription(hMIResourceLocator.getResourceID(), this.useEalAtlas());
             }
-            if (hMIResourceLocator.getResourceID() == 0x11000060) {
+            if (hMIResourceLocator.getResourceID() == 0x60000011) {
                 Integer n = new Integer(hMIResourceLocator.getResourceID());
-                logChannel3DEngine.log(-2137614336, "IconRendererHigh#updateContent Load icon with resourceID=%1 ", (long)hMIResourceLocator.getResourceID());
+                logChannel3DEngine.log(10000000, "IconRendererHigh#updateContent Load icon with resourceID=%1 ", (long)hMIResourceLocator.getResourceID());
                 return this.loadIcon(hMIResourceLocator.getResourceID(), n, this.getCache());
             }
-            logChannel3DEngine.log(-2137614336, "IconRendererHigh#updateContent Load icon with resourceURI=%1 ", (Object)hMIResourceLocator.getResourceURI());
+            logChannel3DEngine.log(10000000, "IconRendererHigh#updateContent Load icon with resourceURI=%1 ", (Object)hMIResourceLocator.getResourceURI());
             HMIImage hMIImage = this.getEALManager().getHMIImage(hMIResourceLocator, this.controller.getInitContext().getScreenID(), this.controller.isCacheImageInLRU());
             if (hMIImage == null) {
                 return null;
@@ -173,15 +169,15 @@ Alignment {
         if (object instanceof Integer) {
             return this.handleIntegerContent((Integer)object, eALManager);
         }
-        logChannel.log(-1601830656, "Unknown content: %1", object);
+        logChannel.log(100000, "Unknown content: %1", object);
         return null;
     }
 
     private TextureDescription loadIcon(int n, Integer n2, ITextureCache iTextureCache) {
         try {
             if (this.getTerminal().getFramework().isTarget()) {
-                IconExtractor$Bitmap iconExtractor$Bitmap = IconLoader.getImage(n, 50);
-                return this.createTextureDescription(n, n2, iconExtractor$Bitmap, iTextureCache);
+                IconExtractor.Bitmap bitmap = IconLoader.getImage(n, 50);
+                return this.createTextureDescription(n, n2, bitmap, iTextureCache);
             }
         }
         catch (Exception exception) {
@@ -198,12 +194,12 @@ Alignment {
         return null;
     }
 
-    private TextureDescription createTextureDescription(int n, Integer n2, IconExtractor$Bitmap iconExtractor$Bitmap, ITextureCache iTextureCache) {
-        if (iconExtractor$Bitmap != null) {
-            ByteBuffer byteBuffer = iconExtractor$Bitmap.getData();
+    private TextureDescription createTextureDescription(int n, Integer n2, IconExtractor.Bitmap bitmap, ITextureCache iTextureCache) {
+        if (bitmap != null) {
+            ByteBuffer byteBuffer = bitmap.getData();
             if (byteBuffer != null) {
-                int n3 = iconExtractor$Bitmap.getWidth();
-                int n4 = iconExtractor$Bitmap.getHeight();
+                int n3 = bitmap.getWidth();
+                int n4 = bitmap.getHeight();
                 HMITerminalEAL hMITerminalEAL = (HMITerminalEAL)((Object)this.getTerminal());
                 if (hMITerminalEAL != null) {
                     return hMITerminalEAL.getEALManager().createTextureDescription(byteBuffer, 6, n3, n4, iTextureCache, n2);
@@ -288,7 +284,7 @@ Alignment {
             TextureDescriptionGuideImage textureDescriptionGuideImage = (TextureDescriptionGuideImage)this.displayData;
             int n = textureDescriptionGuideImage.getIndex();
             if (!this.getEALManager().isLTR() && n == HMIImageConstantsSystem.carOPSbackground_Standalone_icon) {
-                f2 = 41025;
+                f2 = 20.0f;
             }
         }
         float f3 = IconRendererHigh.calculateNodeOffset(this.controller.getWidth(), this.node.getUnscaledWidth() * fArray[0], this.alignmentHoriz);
@@ -347,7 +343,7 @@ Alignment {
                 return new float[]{f9, f9};
             }
         }
-        logChannel.log(-1601830656, "IconRendererHigh#calculateScaling: unknown scaleMode: %1", (long)n3);
+        logChannel.log(100000, "IconRendererHigh#calculateScaling: unknown scaleMode: %1", (long)n3);
         return new float[]{f6, f7};
     }
 
@@ -364,7 +360,7 @@ Alignment {
                 return Math.max(f3, 1.0f);
             }
         }
-        logChannel.log(-1601830656, "IconRendererHigh#calculateAxisAutoscale: unknown autoscaleModification: %1", (long)n2);
+        logChannel.log(100000, "IconRendererHigh#calculateAxisAutoscale: unknown autoscaleModification: %1", (long)n2);
         return f3;
     }
 
@@ -386,11 +382,10 @@ Alignment {
                 return (int)((float)n - f2) / 2;
             }
         }
-        logChannel.log(-1601830656, "IconRendererHigh#calculateNodeOffset: unknown alignment: %1", (long)n2);
+        logChannel.log(100000, "IconRendererHigh#calculateNodeOffset: unknown alignment: %1", (long)n2);
         return 0.0f;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNode();
         this.destroyGroupNode();
@@ -398,7 +393,6 @@ Alignment {
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
@@ -425,7 +419,7 @@ Alignment {
             return;
         }
         if (textureDescription == null) {
-            logChannel.log(-1601830656, "IconRendererHigh#updateCachedSize: No image found for content: %1", object);
+            logChannel.log(100000, "IconRendererHigh#updateCachedSize: No image found for content: %1", object);
             this.setUnscaledSize(null, 0, 0);
             return;
         }
@@ -436,7 +430,7 @@ Alignment {
     protected void loadDimensions(TextureDescription textureDescription, Object object) {
         IWrappedTexture iWrappedTexture = textureDescription.getTexture(this);
         if (iWrappedTexture == null) {
-            logChannel.log(-1601830656, "IconRendererHigh#updateCachedSize: Texture could not be loaded for content: %1", object);
+            logChannel.log(100000, "IconRendererHigh#updateCachedSize: Texture could not be loaded for content: %1", object);
             this.setUnscaledSize(textureDescription, 0, 0);
             return;
         }
@@ -459,19 +453,16 @@ Alignment {
         this.cachedContent = null;
     }
 
-    @Override
     public int getPreferredWidth() {
         this.updateCachedSize();
-        return (int)((float)this.unscaledWidth * this.scaleX + 63);
+        return (int)((float)this.unscaledWidth * this.scaleX + 0.5f);
     }
 
-    @Override
     public int getPreferredHeight() {
         this.updateCachedSize();
-        return (int)((float)this.unscaledHeight * this.scaleY + 63);
+        return (int)((float)this.unscaledHeight * this.scaleY + 0.5f);
     }
 
-    @Override
     public String getDiagnosisText() {
         if (this.displayData == null) {
             return null;
@@ -480,7 +471,6 @@ Alignment {
         return String.valueOf(object);
     }
 
-    @Override
     public void setAlignment(int n, int n2) {
         this.alignmentVert = n2;
         this.alignmentHoriz = n;
@@ -498,7 +488,6 @@ Alignment {
         return this.scaleMode;
     }
 
-    @Override
     public void setScaleMode(int n) {
         this.scaleMode = n;
     }
@@ -507,7 +496,6 @@ Alignment {
         return this.autoscaleModification;
     }
 
-    @Override
     public void setAutoscaleModification(int n) {
         this.autoscaleModification = n;
     }

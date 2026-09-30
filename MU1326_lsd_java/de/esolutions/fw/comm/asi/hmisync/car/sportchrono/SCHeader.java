@@ -42,7 +42,7 @@ public class SCHeader {
     }
 
     public String toString() {
-        return new StringBuffer("SCHeader{").append("uid=").append(this.uid).append(", numOfRecords=").append(this.numOfRecords).append(", header=").append("[").append(this.header == null ? "null" : new StringBuffer().append("size=").append(this.header.length).toString()).append("]").append("}").toString();
+        return "SCHeader{" + "uid=" + this.uid + ", numOfRecords=" + this.numOfRecords + ", header=" + "[" + (this.header == null ? "null" : "size=" + this.header.length) + "]" + "}";
     }
 }
 

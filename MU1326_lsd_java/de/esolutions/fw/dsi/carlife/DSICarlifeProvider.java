@@ -29,28 +29,23 @@ implements DSICarlife {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carlife$DSICarlife == null ? (class$org$dsi$ifc$carlife$DSICarlife = DSICarlifeProvider.class$("org.dsi.ifc.carlife.DSICarlife")) : class$org$dsi$ifc$carlife$DSICarlife).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarlifeProxy(this.instance, (DSICarlifeReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         try {
             this.proxy.startService(serviceConfiguration);
@@ -60,7 +55,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         try {
             this.proxy.postButtonEvent(n, n2);
@@ -70,7 +64,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2) {
         try {
             this.proxy.postTouchEvent(n, touchEventArray, n2);
@@ -80,7 +73,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         try {
             this.proxy.postRotaryEvent(n);
@@ -90,7 +82,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
         try {
             this.proxy.postCharacterEvent(n, stringArray);
@@ -100,7 +91,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
         try {
             this.proxy.setMode(resourceArray, appStateArray);
@@ -110,7 +100,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         try {
             this.proxy.requestNightMode(bl);
@@ -120,7 +109,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
         try {
             this.proxy.responseModeChange(resourceArray, appStateArray);
@@ -130,7 +118,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -140,7 +127,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -150,7 +136,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -160,7 +145,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -170,7 +154,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -180,7 +163,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -190,7 +172,6 @@ implements DSICarlife {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

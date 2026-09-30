@@ -66,8 +66,7 @@ public abstract class Reference {
         this.initReferenceImpl(object);
     }
 
-    private final native void initReferenceImpl(Object object) {
-    }
+    private final native void initReferenceImpl(Object var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.

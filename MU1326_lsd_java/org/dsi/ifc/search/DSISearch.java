@@ -14,141 +14,115 @@ import org.dsi.ifc.search.SearchResult;
 
 public interface DSISearch
 extends DSIBase {
-    public static final String VERSION;
-    public static final int IN_INVALIDATEDATA;
-    public static final int IN_SOURCEDATAAVAILABILITYCHANGED;
-    public static final int ATTR_SEARCHISACTIVE;
-    public static final int ATTR_POTENTIALCONFLICT;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RP_REQUESTSUPPORTEDCOUNTRIESRESULT;
-    public static final int RP_SEARCHRESULT;
-    public static final int RP_ADDTOHISTORYRESULT;
-    public static final int RP_CANCELQUERYRESULT;
-    public static final int RP_SETCURRENTPOSITIONRESULT;
-    public static final int RP_SETROUTEPOINTSRESULT;
-    public static final int RP_SETLANGUAGERESULT;
-    public static final int RP_SETCARFUNCTIONSTATESRESULT;
-    public static final int RP_SETRADIOSTATIONSRESULT;
-    public static final int RP_SETACTIVEPROFILERESULT;
-    public static final int RP_SETACTIVESEARCHCOUNTRIESRESULT;
-    public static final int RP_RESETTOFACTORYSETTINGSRESULT;
-    public static final int RP_PREPARESOURCESRESULT;
-    public static final int RP_SETSEARCHFILTERRESULT;
-    public static final int RP_REMOVEFROMHISTORYRESULT;
-    public static final int RP_RESETAUTOCOMPLETIONRESULT;
-    public static final int RP_REMOVEALLFROMHISTORYRESULT;
-    public static final int RP_CREATEBACKUPFILERESULT;
-    public static final int RP_IMPORTBACKUPFILERESULT;
-    public static final int RP_SETENVIRONMENTRESULT;
-    public static final int RP_REQUESTSUGGESTIONRESULT;
-    public static final int RP_REMOVEALLFROMHISTORYBYSOURCERESULT;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int RT_SETACTIVEPROFILE;
-    public static final int RT_REQUESTSUPPORTEDCOUNTRIES;
-    public static final int RT_SETACTIVESEARCHCOUNTRIES;
-    public static final int RT_SEARCH;
-    public static final int RT_ADDTOHISTORY;
-    public static final int RT_REQUESTSUGGESTION;
-    public static final int RT_CANCELQUERY;
-    public static final int RT_SETCURRENTPOSITION;
-    public static final int RT_SETROUTEPOINTS;
-    public static final int RT_SETLANGUAGE;
-    public static final int RT_SETCARFUNCTIONSTATES;
-    public static final int RT_SETRADIOSTATIONS;
-    public static final int RT_RESETTOFACTORYSETTINGS;
-    public static final int RT_PREPARESOURCES;
-    public static final int RT_SETSEARCHFILTER;
-    public static final int RT_REMOVEFROMHISTORY;
-    public static final int RT_RESETAUTOCOMPLETION;
-    public static final int RT_REMOVEALLFROMHISTORY;
-    public static final int RT_CREATEBACKUPFILE;
-    public static final int RT_IMPORTBACKUPFILE;
-    public static final int RT_SETENVIRONMENT;
-    public static final int RT_REMOVEALLFROMHISTORYBYSOURCE;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
+    public static final String VERSION = "2.11.25";
+    public static final int IN_INVALIDATEDATA = 3000;
+    public static final int IN_SOURCEDATAAVAILABILITYCHANGED = 3001;
+    public static final int ATTR_SEARCHISACTIVE = 1;
+    public static final int ATTR_POTENTIALCONFLICT = 2;
+    public static final int ATTR_PROFILESTATE = 3;
+    public static final int RP_REQUESTSUPPORTEDCOUNTRIESRESULT = 2000;
+    public static final int RP_SEARCHRESULT = 2001;
+    public static final int RP_ADDTOHISTORYRESULT = 2002;
+    public static final int RP_CANCELQUERYRESULT = 2004;
+    public static final int RP_SETCURRENTPOSITIONRESULT = 2005;
+    public static final int RP_SETROUTEPOINTSRESULT = 2006;
+    public static final int RP_SETLANGUAGERESULT = 2007;
+    public static final int RP_SETCARFUNCTIONSTATESRESULT = 2008;
+    public static final int RP_SETRADIOSTATIONSRESULT = 2009;
+    public static final int RP_SETACTIVEPROFILERESULT = 2010;
+    public static final int RP_SETACTIVESEARCHCOUNTRIESRESULT = 2011;
+    public static final int RP_RESETTOFACTORYSETTINGSRESULT = 2012;
+    public static final int RP_PREPARESOURCESRESULT = 2013;
+    public static final int RP_SETSEARCHFILTERRESULT = 2014;
+    public static final int RP_REMOVEFROMHISTORYRESULT = 2015;
+    public static final int RP_RESETAUTOCOMPLETIONRESULT = 2016;
+    public static final int RP_REMOVEALLFROMHISTORYRESULT = 2017;
+    public static final int RP_CREATEBACKUPFILERESULT = 2018;
+    public static final int RP_IMPORTBACKUPFILERESULT = 2019;
+    public static final int RP_SETENVIRONMENTRESULT = 2020;
+    public static final int RP_REQUESTSUGGESTIONRESULT = 2021;
+    public static final int RP_REMOVEALLFROMHISTORYBYSOURCERESULT = 2022;
+    public static final int RP_PROFILECHANGED = 2023;
+    public static final int RP_PROFILECOPIED = 2024;
+    public static final int RP_PROFILERESET = 2025;
+    public static final int RP_PROFILERESETALL = 2026;
+    public static final int RT_SETACTIVEPROFILE = 1000;
+    public static final int RT_REQUESTSUPPORTEDCOUNTRIES = 1001;
+    public static final int RT_SETACTIVESEARCHCOUNTRIES = 1002;
+    public static final int RT_SEARCH = 1003;
+    public static final int RT_ADDTOHISTORY = 1004;
+    public static final int RT_REQUESTSUGGESTION = 1005;
+    public static final int RT_CANCELQUERY = 1006;
+    public static final int RT_SETCURRENTPOSITION = 1007;
+    public static final int RT_SETROUTEPOINTS = 1008;
+    public static final int RT_SETLANGUAGE = 1009;
+    public static final int RT_SETCARFUNCTIONSTATES = 1010;
+    public static final int RT_SETRADIOSTATIONS = 1011;
+    public static final int RT_RESETTOFACTORYSETTINGS = 1012;
+    public static final int RT_PREPARESOURCES = 1014;
+    public static final int RT_SETSEARCHFILTER = 1015;
+    public static final int RT_REMOVEFROMHISTORY = 1016;
+    public static final int RT_RESETAUTOCOMPLETION = 1017;
+    public static final int RT_REMOVEALLFROMHISTORY = 1018;
+    public static final int RT_CREATEBACKUPFILE = 1019;
+    public static final int RT_IMPORTBACKUPFILE = 1020;
+    public static final int RT_SETENVIRONMENT = 1021;
+    public static final int RT_REMOVEALLFROMHISTORYBYSOURCE = 1022;
+    public static final int RT_PROFILECHANGE = 1023;
+    public static final int RT_PROFILECOPY = 1024;
+    public static final int RT_PROFILERESET = 1025;
+    public static final int RT_PROFILERESETALL = 1026;
 
-    default public void requestSupportedCountries() {
-    }
+    public void requestSupportedCountries();
 
-    default public void setActiveSearchCountries(String[] stringArray) {
-    }
+    public void setActiveSearchCountries(String[] var1);
 
-    default public void search(SearchQuery searchQuery) {
-    }
+    public void search(SearchQuery var1);
 
-    default public void addToHistory(SearchResult searchResult) {
-    }
+    public void addToHistory(SearchResult var1);
 
-    default public void requestSuggestion(SearchQuery searchQuery) {
-    }
+    public void requestSuggestion(SearchQuery var1);
 
-    default public void cancelQuery(int n) {
-    }
+    public void cancelQuery(int var1);
 
-    default public void setCurrentPosition(NavPosition navPosition) {
-    }
+    public void setCurrentPosition(NavPosition var1);
 
-    default public void setRoutePoints(NavPosition[] navPositionArray) {
-    }
+    public void setRoutePoints(NavPosition[] var1);
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 
-    default public void setActiveProfile(int n) {
-    }
+    public void setActiveProfile(int var1);
 
-    default public void setCarFunctionStates(CarFunction[] carFunctionArray) {
-    }
+    public void setCarFunctionStates(CarFunction[] var1);
 
-    default public void setRadioStations(int n, RadioStation[] radioStationArray) {
-    }
+    public void setRadioStations(int var1, RadioStation[] var2);
 
-    default public void setSearchFilter(int n, SearchFilter searchFilter) {
-    }
+    public void setSearchFilter(int var1, SearchFilter var2);
 
-    default public void prepareSources(int[] nArray) {
-    }
+    public void prepareSources(int[] var1);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void removeFromHistory(long l) {
-    }
+    public void removeFromHistory(long var1);
 
-    default public void removeAllFromHistory() {
-    }
+    public void removeAllFromHistory();
 
-    default public void removeAllFromHistoryBySource(int n) {
-    }
+    public void removeAllFromHistoryBySource(int var1);
 
-    default public void resetAutocompletion(int n) {
-    }
+    public void resetAutocompletion(int var1);
 
-    default public void createBackupFile(String string) {
-    }
+    public void createBackupFile(String var1);
 
-    default public void importBackupFile(String string) {
-    }
+    public void importBackupFile(String var1);
 
-    default public void setEnvironment(Environment environment) {
-    }
+    public void setEnvironment(Environment var1);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

@@ -10,13 +10,13 @@ import de.vw.mib.bap.stream.BitStream;
 public final class POI_Search_StartResult
 implements StartResultMethod {
     public int searchType;
-    private static final int SEARCH_TYPE_BITSIZE;
-    public static final int SEARCH_TYPE_SEARCH_ALONG_THE_CURRENT_ROUTE_IN_CASE_OF_ACTIVE_RG;
-    public static final int SEARCH_TYPE_SEARCH_IN_THE_CIRCUMFERENCE_TO_THE_CURRENT_LOCATION;
+    private static final int SEARCH_TYPE_BITSIZE = 8;
+    public static final int SEARCH_TYPE_SEARCH_ALONG_THE_CURRENT_ROUTE_IN_CASE_OF_ACTIVE_RG = 0;
+    public static final int SEARCH_TYPE_SEARCH_IN_THE_CIRCUMFERENCE_TO_THE_CURRENT_LOCATION = 1;
     public int poi_Type;
-    private static final int POI_TYPE_BITSIZE;
-    public static final int POI_TYPE_GASSTATION_GENERAL;
-    public static final int POI_TYPE_PARKING_GENERAL;
+    private static final int POI_TYPE_BITSIZE = 8;
+    public static final int POI_TYPE_GASSTATION_GENERAL = 63;
+    public static final int POI_TYPE_PARKING_GENERAL = 103;
 
     public POI_Search_StartResult() {
         this.internalReset();
@@ -33,12 +33,10 @@ implements StartResultMethod {
         this.poi_Type = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         POI_Search_StartResult pOI_Search_StartResult = (POI_Search_StartResult)bAPEntity;
         return this.searchType == pOI_Search_StartResult.searchType && this.poi_Type == pOI_Search_StartResult.poi_Type;
@@ -47,7 +45,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("POI_Search_StartResult:");
@@ -82,20 +79,17 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.searchType);
         bitStream.pushByte((byte)this.poi_Type);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.searchType = bitStream.popFrontByte();
         this.poi_Type = bitStream.popFrontByte();
@@ -105,7 +99,6 @@ implements StartResultMethod {
         return 51;
     }
 
-    @Override
     public int getFunctionId() {
         return POI_Search_StartResult.functionId();
     }

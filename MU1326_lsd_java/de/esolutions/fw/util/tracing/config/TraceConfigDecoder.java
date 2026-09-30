@@ -12,7 +12,7 @@ import de.esolutions.fw.util.tracing.decode.MessageDecoderRegistry;
 
 public class TraceConfigDecoder
 extends TraceConfigElement {
-    private static final String chn;
+    private static final String chn = "ConfigDecoder";
     private final short id;
 
     public TraceConfigDecoder(short s, ConfigValue configValue, TraceConfig traceConfig) {
@@ -30,9 +30,9 @@ extends TraceConfigElement {
         if (string != null) {
             ITraceMessageDecoder iTraceMessageDecoder = MessageDecoderRegistry.getInstance().createDecoder(string);
             if (iTraceMessageDecoder == null) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigDecoder", "can't find default decoder: %1", string);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't find default decoder: %1", string);
             } else {
-                TraceMe.msg(TraceMe.INFO, "ConfigDecoder", "created default decoder: %1 for message type %2", string, new Short(this.id));
+                TraceMe.msg(TraceMe.INFO, chn, "created default decoder: %1 for message type %2", string, new Short(this.id));
                 iTraceMessageDecoder.init(this.getConfig());
             }
             return iTraceMessageDecoder;
@@ -41,18 +41,18 @@ extends TraceConfigElement {
             try {
                 Class clazz = Class.forName(string2);
                 ITraceMessageDecoder iTraceMessageDecoder = (ITraceMessageDecoder)clazz.newInstance();
-                TraceMe.msg(TraceMe.INFO, "ConfigDecoder", "created decoder %1 for message type %2", string2, new Integer(this.id));
+                TraceMe.msg(TraceMe.INFO, chn, "created decoder %1 for message type %2", string2, new Integer(this.id));
                 iTraceMessageDecoder.init(this.getConfig());
                 return iTraceMessageDecoder;
             }
             catch (ClassNotFoundException classNotFoundException) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigDecoder", "decoder class %1 NOT FOUND!", string2);
+                TraceMe.msg(TraceMe.ERROR, chn, "decoder class %1 NOT FOUND!", string2);
             }
             catch (Exception exception) {
-                TraceMe.msg(TraceMe.ERROR, "ConfigDecoder", "can't instantiate class %1", string2);
+                TraceMe.msg(TraceMe.ERROR, chn, "can't instantiate class %1", string2);
             }
         }
-        TraceMe.msg(TraceMe.WARN, "ConfigDecoder", "ignoring decoder for message type %1: neither class nor javaClass given!", new Integer(this.id));
+        TraceMe.msg(TraceMe.WARN, chn, "ignoring decoder for message type %1: neither class nor javaClass given!", new Integer(this.id));
         return null;
     }
 }

@@ -7,7 +7,6 @@ import de.esolutions.fw.comm.core.IService;
 
 public interface IExtendedService
 extends IService {
-    default public Boolean getCheckIK() {
-    }
+    public Boolean getCheckIK();
 }
 

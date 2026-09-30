@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.travelguide.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.travelguide.TravelGuideMemoryListElement;
 
 public class TravelGuideMemoryListElementSerializer {
-    public static void putOptionalTravelGuideMemoryListElement(ISerializer iSerializer, TravelGuideMemoryListElement travelGuideMemoryListElement) {
+    public static void putOptionalTravelGuideMemoryListElement(ISerializer iSerializer, TravelGuideMemoryListElement travelGuideMemoryListElement) throws SerializerException {
         boolean bl = travelGuideMemoryListElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class TravelGuideMemoryListElementSerializer {
         }
     }
 
-    public static void putOptionalTravelGuideMemoryListElementVarArray(ISerializer iSerializer, TravelGuideMemoryListElement[] travelGuideMemoryListElementArray) {
+    public static void putOptionalTravelGuideMemoryListElementVarArray(ISerializer iSerializer, TravelGuideMemoryListElement[] travelGuideMemoryListElementArray) throws SerializerException {
         boolean bl = travelGuideMemoryListElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class TravelGuideMemoryListElementSerializer {
         }
     }
 
-    public static TravelGuideMemoryListElement getOptionalTravelGuideMemoryListElement(IDeserializer iDeserializer) {
+    public static TravelGuideMemoryListElement getOptionalTravelGuideMemoryListElement(IDeserializer iDeserializer) throws SerializerException {
         TravelGuideMemoryListElement travelGuideMemoryListElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class TravelGuideMemoryListElementSerializer {
         return travelGuideMemoryListElement;
     }
 
-    public static TravelGuideMemoryListElement[] getOptionalTravelGuideMemoryListElementVarArray(IDeserializer iDeserializer) {
+    public static TravelGuideMemoryListElement[] getOptionalTravelGuideMemoryListElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         TravelGuideMemoryListElement[] travelGuideMemoryListElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

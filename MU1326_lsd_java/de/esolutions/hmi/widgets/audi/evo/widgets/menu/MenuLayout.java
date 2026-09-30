@@ -38,7 +38,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemIndex;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuItemMetaData;
-import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuLayout$MenuLayoutTempData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuLayoutData;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuSDSEventHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.MenuSDSNumbersController;
@@ -54,23 +53,23 @@ import java.util.ListIterator;
 public class MenuLayout
 implements WidgetConstants,
 IWidgetLogChannel {
-    public static final int SCROLLBAR_X_LAYOUT_MANUAL;
-    public static final int SCROLLBAR_X_LAYOUT_DYN_RIGHT;
-    public static final int SCROLLBAR_X_LAYOUT_DYN_LEFT;
-    public static final int SCROLLBAR_X_LAYOUT_MIN_VALUE;
-    public static final int SCROLLBAR_X_LAYOUT_MAX_VALUE;
-    private static final int CURSOR_MIN_HEIGHT;
-    private static final int FOCUS_CURSOR_BORDER;
-    private static final int DEFAULT_SDS_NUMBER_COUNT;
-    public static final int DEFAULT_TABULATOR_ALIGNMENT;
-    private static final float MOVE_MODE_ITEM_OPACITY;
-    private static final boolean SHOW_STATISTICS;
-    private static final double PxPerFrameToPxPerMs;
-    private static float stroboscopeSpeedStart;
-    private static float stroboscopeSpeedKeep;
-    private static float stroboscopeConstantSpeed;
-    private static float stroboscopeDefaultSpeedFactor;
-    private static float stroboscopeMaxSpeedFactor;
+    public static final int SCROLLBAR_X_LAYOUT_MANUAL = 0;
+    public static final int SCROLLBAR_X_LAYOUT_DYN_RIGHT = 1;
+    public static final int SCROLLBAR_X_LAYOUT_DYN_LEFT = 2;
+    public static final int SCROLLBAR_X_LAYOUT_MIN_VALUE = 0;
+    public static final int SCROLLBAR_X_LAYOUT_MAX_VALUE = 2;
+    private static final int CURSOR_MIN_HEIGHT = 10;
+    private static final int FOCUS_CURSOR_BORDER = 2;
+    private static final int DEFAULT_SDS_NUMBER_COUNT = 6;
+    public static final int DEFAULT_TABULATOR_ALIGNMENT = 1;
+    private static final float MOVE_MODE_ITEM_OPACITY = 0.5f;
+    private static final boolean SHOW_STATISTICS = SystemProperties.getBoolean("MenuShowStatistics", false);
+    private static final double PxPerFrameToPxPerMs = 0.06;
+    private static float stroboscopeSpeedStart = 1.0f;
+    private static float stroboscopeSpeedKeep = 0.7f;
+    private static float stroboscopeConstantSpeed = 0.03f;
+    private static float stroboscopeDefaultSpeedFactor = 500.0f;
+    private static float stroboscopeMaxSpeedFactor = 2.0f;
     private MenuController menu;
     private int itemsGap = 17;
     private int focusCursorLeftOffset = 0;
@@ -114,7 +113,7 @@ IWidgetLogChannel {
     }
 
     public void layout() {
-        menuLayoutLogCh.log(-2137614336, "MenuLayout#layout: --- layout %1", (Object)this.menu);
+        menuLayoutLogCh.log(10000000, "MenuLayout#layout: --- layout %1", (Object)this.menu);
         boolean bl = this.menu.isSDSActive() && this.menu.getChildOfRole(6) != null;
         IntList intList = bl ? new IntList(6) : null;
         ArrayList arrayList = bl ? new ArrayList(6) : null;
@@ -123,80 +122,80 @@ IWidgetLogChannel {
         this.lastVisibleItem = -1;
         this.lastFocusPosition = 0;
         this.lastFocusHeight = 0;
-        MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData = this.createTempData();
-        this.iterateThroughLayoutItems(menuLayout$MenuLayoutTempData, intList, arrayList, bl2);
-        this.layoutUnreachableItems(menuLayout$MenuLayoutTempData.yChild, menuLayout$MenuLayoutTempData.first, bl2);
-        this.layoutMoveItem(menuLayout$MenuLayoutTempData, bl2);
+        MenuLayoutTempData menuLayoutTempData = this.createTempData();
+        this.iterateThroughLayoutItems(menuLayoutTempData, intList, arrayList, bl2);
+        this.layoutUnreachableItems(menuLayoutTempData.yChild, menuLayoutTempData.first, bl2);
+        this.layoutMoveItem(menuLayoutTempData, bl2);
         this.applyTabulators(bl2);
-        if (!menuLayout$MenuLayoutTempData.focusCursorVisible) {
+        if (!menuLayoutTempData.focusCursorVisible) {
             this.hideWidgetOfRole(1);
         }
-        if (!menuLayout$MenuLayoutTempData.selectionCursorVisible) {
+        if (!menuLayoutTempData.selectionCursorVisible) {
             this.hideWidgetOfRole(2);
             this.hideWidgetOfRole(11);
         }
-        if (!menuLayout$MenuLayoutTempData.infolineVisible) {
+        if (!menuLayoutTempData.infolineVisible) {
             this.hideWidgetOfRole(13);
         }
         this.layoutSdsNumbers(intList, arrayList);
         this.layoutBackground();
         this.layoutScrollbar();
-        this.logLayout(menuLayout$MenuLayoutTempData);
+        this.logLayout(menuLayoutTempData);
         this.showStatistics();
-        this.orderVisibleEdges(menuLayout$MenuLayoutTempData);
-        menuLayoutLogCh.log(-2137614336, "MenuLayout#layout: +++ layout finished for menu %1", (Object)this.menu);
+        this.orderVisibleEdges(menuLayoutTempData);
+        menuLayoutLogCh.log(10000000, "MenuLayout#layout: +++ layout finished for menu %1", (Object)this.menu);
     }
 
-    private void iterateThroughLayoutItems(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, IntList intList, List list, boolean bl) {
+    private void iterateThroughLayoutItems(MenuLayoutTempData menuLayoutTempData, IntList intList, List list, boolean bl) {
         ListIterator listIterator;
         List list2 = this.getLayoutItems();
-        ListIterator listIterator2 = listIterator = menuLayout$MenuLayoutTempData.alignTop ? list2.listIterator() : list2.listIterator(list2.size());
-        while (MenuLayoutData.hasNext(listIterator, menuLayout$MenuLayoutTempData.alignTop)) {
+        ListIterator listIterator2 = listIterator = menuLayoutTempData.alignTop ? list2.listIterator() : list2.listIterator(list2.size());
+        while (MenuLayoutData.hasNext(listIterator, menuLayoutTempData.alignTop)) {
             int n;
             int n2;
-            int n3 = MenuLayoutData.nextIndex(listIterator, menuLayout$MenuLayoutTempData.alignTop);
-            MenuItemMetaData menuItemMetaData = (MenuItemMetaData)MenuLayoutData.next(listIterator, menuLayout$MenuLayoutTempData.alignTop);
-            this.prepareIterationStep(menuItemMetaData, menuLayout$MenuLayoutTempData);
+            int n3 = MenuLayoutData.nextIndex(listIterator, menuLayoutTempData.alignTop);
+            MenuItemMetaData menuItemMetaData = (MenuItemMetaData)MenuLayoutData.next(listIterator, menuLayoutTempData.alignTop);
+            this.prepareIterationStep(menuItemMetaData, menuLayoutTempData);
             float f2 = this.menu.getAnimationManager().getMenuItemHeight(menuItemMetaData);
-            float f3 = menuLayout$MenuLayoutTempData.alignTop ? menuLayout$MenuLayoutTempData.yChild : (float)(this.menu.getHeight() - 1) - menuLayout$MenuLayoutTempData.yChild;
+            float f3 = menuLayoutTempData.alignTop ? menuLayoutTempData.yChild : (float)(this.menu.getHeight() - 1) - menuLayoutTempData.yChild;
             int n4 = Math.round(f3);
             int n5 = Math.round(f2);
-            if (!menuLayout$MenuLayoutTempData.alignTop) {
+            if (!menuLayoutTempData.alignTop) {
                 n4 -= n5 - 1;
             }
-            if (this.isVisible(n2 = (n4 = this.setupStroboscope(menuLayout$MenuLayoutTempData, n4, n5)) + (n = Math.round(menuLayout$MenuLayoutTempData.alignTop ? menuLayout$MenuLayoutTempData.moveCursorGapOffset : -menuLayout$MenuLayoutTempData.moveCursorGapOffset)), n5)) {
-                this.setupVisibleMenuItem(n3, menuItemMetaData, n2, n5, menuLayout$MenuLayoutTempData, intList, list, bl);
+            if (this.isVisible(n2 = (n4 = this.setupStroboscope(menuLayoutTempData, n4, n5)) + (n = Math.round(menuLayoutTempData.alignTop ? menuLayoutTempData.moveCursorGapOffset : -menuLayoutTempData.moveCursorGapOffset)), n5)) {
+                this.setupVisibleMenuItem(n3, menuItemMetaData, n2, n5, menuLayoutTempData, intList, list, bl);
             } else {
-                if (this.hasIterationPassedVisibleItems(menuLayout$MenuLayoutTempData, menuItemMetaData)) {
-                    this.setupInvisibleMenuItem(menuItemMetaData, menuLayout$MenuLayoutTempData);
-                    this.destroyPassedInvisibleItems(n3, menuLayout$MenuLayoutTempData);
+                if (this.hasIterationPassedVisibleItems(menuLayoutTempData, menuItemMetaData)) {
+                    this.setupInvisibleMenuItem(menuItemMetaData, menuLayoutTempData);
+                    this.destroyPassedInvisibleItems(n3, menuLayoutTempData);
                     return;
                 }
-                this.setupInvisibleMenuItem(menuItemMetaData, menuLayout$MenuLayoutTempData);
+                this.setupInvisibleMenuItem(menuItemMetaData, menuLayoutTempData);
             }
-            this.setupItemDependentWidgets(menuItemMetaData, f3, n2, n5, menuLayout$MenuLayoutTempData);
-            this.cleanupIterationStep(menuItemMetaData, menuLayout$MenuLayoutTempData, f2);
+            this.setupItemDependentWidgets(menuItemMetaData, f3, n2, n5, menuLayoutTempData);
+            this.cleanupIterationStep(menuItemMetaData, menuLayoutTempData, f2);
         }
     }
 
-    private void destroyPassedInvisibleItems(int n, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
+    private void destroyPassedInvisibleItems(int n, MenuLayoutTempData menuLayoutTempData) {
         int n2 = this.getLayoutItems().size();
-        menuLogCh.log(-2137614336, "MenuLayout#destroyPassedInvisibleItems: last visible list index: %2, layoutItems length: %3, menu alignment: %1", (Object)(menuLayout$MenuLayoutTempData.alignTop ? "top" : "bottom"), (long)this.lastVisibleItem, (long)n2);
-        int n3 = menuLayout$MenuLayoutTempData.alignTop ? n2 - 1 : 0;
+        menuLogCh.log(10000000, "MenuLayout#destroyPassedInvisibleItems: last visible list index: %2, layoutItems length: %3, menu alignment: %1", (Object)(menuLayoutTempData.alignTop ? "top" : "bottom"), (long)this.lastVisibleItem, (long)n2);
+        int n3 = menuLayoutTempData.alignTop ? n2 - 1 : 0;
         new MenuUpdateManager(this.menu, this.getLayoutData()).destroyItems(n3, n);
-        if (!menuLayout$MenuLayoutTempData.alignTop) {
+        if (!menuLayoutTempData.alignTop) {
             int n4 = n;
             this.firstVisibleItem -= n4;
             this.lastVisibleItem -= n4;
         }
     }
 
-    private boolean hasIterationPassedVisibleItems(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, MenuItemMetaData menuItemMetaData) {
+    private boolean hasIterationPassedVisibleItems(MenuLayoutTempData menuLayoutTempData, MenuItemMetaData menuItemMetaData) {
         MenuItemIndex menuItemIndex;
         if (this.lastVisibleItem == -1) {
             return false;
         }
-        if (MenuController.isEqualMultiLineItem(menuLayout$MenuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
+        if (MenuController.isEqualMultiLineItem(menuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
             return false;
         }
         MenuViewport menuViewport = this.menu.getViewport();
@@ -208,34 +207,34 @@ IWidgetLogChannel {
         return MenuLayoutData.isBefore(menuItemIndex, menuItemMetaData.index, bl);
     }
 
-    private void prepareIterationStep(MenuItemMetaData menuItemMetaData, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
-        if (menuLayout$MenuLayoutTempData.first) {
-            menuLayout$MenuLayoutTempData.yChild += (float)this.menu.getMenuItemGlassplateInsets(menuItemMetaData, menuLayout$MenuLayoutTempData.alignTop);
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset = this.calculateInitialMoveCursorGapOffset(menuItemMetaData);
+    private void prepareIterationStep(MenuItemMetaData menuItemMetaData, MenuLayoutTempData menuLayoutTempData) {
+        if (menuLayoutTempData.first) {
+            menuLayoutTempData.yChild += (float)this.menu.getMenuItemGlassplateInsets(menuItemMetaData, menuLayoutTempData.alignTop);
+            menuLayoutTempData.moveCursorGapOffset = this.calculateInitialMoveCursorGapOffset(menuItemMetaData);
         }
-        if (this.isMoveGap(menuItemMetaData, menuLayout$MenuLayoutTempData.alignTop, true)) {
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightBefore();
+        if (this.isMoveGap(menuItemMetaData, menuLayoutTempData.alignTop, true)) {
+            menuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightBefore();
         }
-        if (this.isMoveGap(menuItemMetaData, menuLayout$MenuLayoutTempData.alignTop, false)) {
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightAfter();
+        if (this.isMoveGap(menuItemMetaData, menuLayoutTempData.alignTop, false)) {
+            menuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightAfter();
         }
     }
 
-    private void cleanupIterationStep(MenuItemMetaData menuItemMetaData, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, float f2) {
-        menuLayout$MenuLayoutTempData.yChild += f2 + (float)this.itemsGap;
+    private void cleanupIterationStep(MenuItemMetaData menuItemMetaData, MenuLayoutTempData menuLayoutTempData, float f2) {
+        menuLayoutTempData.yChild += f2 + (float)this.itemsGap;
         if (this.isMoveItem(menuItemMetaData)) {
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset -= f2 + (float)this.itemsGap;
+            menuLayoutTempData.moveCursorGapOffset -= f2 + (float)this.itemsGap;
         }
-        if (this.isMoveGap(menuItemMetaData, !menuLayout$MenuLayoutTempData.alignTop, true)) {
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightBefore();
+        if (this.isMoveGap(menuItemMetaData, !menuLayoutTempData.alignTop, true)) {
+            menuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightBefore();
         }
-        if (this.isMoveGap(menuItemMetaData, !menuLayout$MenuLayoutTempData.alignTop, false)) {
-            menuLayout$MenuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightAfter();
+        if (this.isMoveGap(menuItemMetaData, !menuLayoutTempData.alignTop, false)) {
+            menuLayoutTempData.moveCursorGapOffset += this.getMoveGapHeightAfter();
         }
-        menuLayout$MenuLayoutTempData.first = false;
+        menuLayoutTempData.first = false;
     }
 
-    private void setupVisibleMenuItem(int n, MenuItemMetaData menuItemMetaData, int n2, int n3, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, IntList intList, List list, boolean bl) {
+    private void setupVisibleMenuItem(int n, MenuItemMetaData menuItemMetaData, int n2, int n3, MenuLayoutTempData menuLayoutTempData, IntList intList, List list, boolean bl) {
         if (this.firstVisibleItem == -1) {
             this.firstVisibleItem = n;
             this.firstItemVisibleRatio = this.getVisibleRatio(menuItemMetaData, n2, n3);
@@ -243,47 +242,47 @@ IWidgetLogChannel {
         this.lastVisibleItem = n;
         this.lastItemVisibleRatio = this.getVisibleRatio(menuItemMetaData, n2, n3);
         if (this.isMoveItem(menuItemMetaData)) {
-            menuLayout$MenuLayoutTempData.moveLayoutItem = menuItemMetaData;
+            menuLayoutTempData.moveLayoutItem = menuItemMetaData;
         } else {
-            if (!MenuController.isEqualMultiLineItem(menuLayout$MenuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
-                menuLayout$MenuLayoutTempData.multiLineStartItem = menuItemMetaData;
+            if (!MenuController.isEqualMultiLineItem(menuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
+                menuLayoutTempData.multiLineStartItem = menuItemMetaData;
             }
-            if (menuLayout$MenuLayoutTempData.multiLineStartItem == menuItemMetaData || !menuLayout$MenuLayoutTempData.alignTop) {
-                menuLayout$MenuLayoutTempData.multiLineY = n2;
+            if (menuLayoutTempData.multiLineStartItem == menuItemMetaData || !menuLayoutTempData.alignTop) {
+                menuLayoutTempData.multiLineY = n2;
             }
             int n4 = Math.max(menuItemMetaData.heightBefore, menuItemMetaData.heightAfter);
-            this.layoutMenuItemWidget(menuItemMetaData, menuLayout$MenuLayoutTempData.multiLineY, n3, n4, true, false, menuLayout$MenuLayoutTempData.multiLineStartItem, bl);
+            this.layoutMenuItemWidget(menuItemMetaData, menuLayoutTempData.multiLineY, n3, n4, true, false, menuLayoutTempData.multiLineStartItem, bl);
             this.storeSDSNumberPosition(intList, list, menuItemMetaData, n2);
         }
     }
 
-    private void setupInvisibleMenuItem(MenuItemMetaData menuItemMetaData, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
+    private void setupInvisibleMenuItem(MenuItemMetaData menuItemMetaData, MenuLayoutTempData menuLayoutTempData) {
         if (this.isMoveItem(menuItemMetaData)) {
-            menuLayout$MenuLayoutTempData.moveLayoutItem = menuItemMetaData;
+            menuLayoutTempData.moveLayoutItem = menuItemMetaData;
         } else {
-            if (!MenuController.isEqualMultiLineItem(menuLayout$MenuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
-                menuLayout$MenuLayoutTempData.multiLineStartItem = null;
+            if (!MenuController.isEqualMultiLineItem(menuLayoutTempData.multiLineStartItem, menuItemMetaData)) {
+                menuLayoutTempData.multiLineStartItem = null;
             }
-            this.hideMenuItemWidget(menuItemMetaData, menuLayout$MenuLayoutTempData.multiLineStartItem);
+            this.hideMenuItemWidget(menuItemMetaData, menuLayoutTempData.multiLineStartItem);
         }
     }
 
-    private void setupItemDependentWidgets(MenuItemMetaData menuItemMetaData, float f2, int n, int n2, MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
+    private void setupItemDependentWidgets(MenuItemMetaData menuItemMetaData, float f2, int n, int n2, MenuLayoutTempData menuLayoutTempData) {
         if (this.isFocused(menuItemMetaData)) {
             if (this.menu.isFocusCursorVisible()) {
-                menuLayout$MenuLayoutTempData.focusCursorPosition = this.layoutFocusCursor(menuItemMetaData, f2, n2);
-                menuLayout$MenuLayoutTempData.focusCursorVisible = true;
+                menuLayoutTempData.focusCursorPosition = this.layoutFocusCursor(menuItemMetaData, f2, n2);
+                menuLayoutTempData.focusCursorVisible = true;
             } else {
-                menuLayoutLogCh.log(-2137614336, "MenuLayout#layout: focus cursor is hidden by menu. Focused item: %1", (Object)menuItemMetaData);
+                menuLayoutLogCh.log(10000000, "MenuLayout#layout: focus cursor is hidden by menu. Focused item: %1", (Object)menuItemMetaData);
             }
         }
         if (this.isSelected(menuItemMetaData)) {
             this.layoutSelectionCursor(menuItemMetaData, n, n2);
-            menuLayout$MenuLayoutTempData.selectionCursorVisible = true;
+            menuLayoutTempData.selectionCursorVisible = true;
         }
         if (this.hasInfoline(menuItemMetaData)) {
             this.layoutInfoline(menuItemMetaData, n, n2);
-            menuLayout$MenuLayoutTempData.infolineVisible = true;
+            menuLayoutTempData.infolineVisible = true;
         }
     }
 
@@ -365,17 +364,17 @@ IWidgetLogChannel {
         if (menuLayoutLogCh.isDebug()) {
             Object object;
             int n15 = n13 + Math.max(10, n14) - 1;
-            String string = new StringBuffer().append("Y: itemY(").append(f2).append(") + animationOffset(").append(f3).append(") + marginTop(").append(n2).append(") - filledInsetsTop(").append(n4).append(") + bounce(").append(n9).append(") + swipeOffset(").append(n10).append(") - swipeHeight/2(").append(n12).append(")").toString();
-            String string2 = new StringBuffer().append("Height: animHeight(").append(n7).append(") + swipeHeight(").append(n11).append(") - marginTop(").append(n2).append(") - marginBottom(").append(n3).append(") + filledInsetsTop(").append(n4).append(") + filledInsetsBottom(").append(n5).append(")").toString();
+            String string = "Y: itemY(" + f2 + ") + animationOffset(" + f3 + ") + marginTop(" + n2 + ") - filledInsetsTop(" + n4 + ") + bounce(" + n9 + ") + swipeOffset(" + n10 + ") - swipeHeight/2(" + n12 + ")";
+            String string2 = "Height: animHeight(" + n7 + ") + swipeHeight(" + n11 + ") - marginTop(" + n2 + ") - marginBottom(" + n3 + ") + filledInsetsTop(" + n4 + ") + filledInsetsBottom(" + n5 + ")";
             Buffer buffer = new Buffer();
             buffer.append(string).append(",    ").append(string2);
             if (abstractWidget instanceof FocusCursorController) {
                 object = (FocusCursorController)abstractWidget;
-                String string3 = new StringBuffer().append("optionsInDrawer: ").append(this.menu.hasOptionsInDrawer()).append(", optionsIconVisibleInViewSize: ").append(((FocusCursorController)object).isOptionsIconVisibleForViewSize()).append(", optionsIconVisible: ").append(((FocusCursorController)object).isOptionsIconVisible()).toString();
+                String string3 = "optionsInDrawer: " + this.menu.hasOptionsInDrawer() + ", optionsIconVisibleInViewSize: " + ((FocusCursorController)object).isOptionsIconVisibleForViewSize() + ", optionsIconVisible: " + ((FocusCursorController)object).isOptionsIconVisible();
                 buffer.append(",   ").append(string3);
             }
-            object = new StringBuffer().append("y: ").append(n13).append(" - ").append(n15).append(" (height Max(").append(n14).append(", ").append(10).append(")").toString();
-            menuLayoutLogCh.log(-2137614336, "MenuLayout#layoutFocusCursor: focusCursorPosition: %1, focused item: %2, Details: %3", object, (Object)menuItemMetaData, (Object)buffer);
+            object = "y: " + n13 + " - " + n15 + " (height Max(" + n14 + ", " + 10 + ")";
+            menuLayoutLogCh.log(10000000, "MenuLayout#layoutFocusCursor: focusCursorPosition: %1, focused item: %2, Details: %3", object, (Object)menuItemMetaData, (Object)buffer);
         }
         this.layoutCursor(1, 0, n13, n14);
         if (abstractWidget instanceof FocusCursorController) {
@@ -394,7 +393,7 @@ IWidgetLogChannel {
     }
 
     private void layoutSelectionCursor(MenuItemMetaData menuItemMetaData, int n, int n2) {
-        menuLayoutLogCh.log(-2137614336, "MenuLayout#layoutSelectionCursor: selection cursor at position %2 for item: %1", (Object)menuItemMetaData, (long)n);
+        menuLayoutLogCh.log(10000000, "MenuLayout#layoutSelectionCursor: selection cursor at position %2 for item: %1", (Object)menuItemMetaData, (long)n);
         int n3 = this.menu.getMenuItemMargin(menuItemMetaData, true);
         int n4 = this.menu.getMenuItemMargin(menuItemMetaData, false);
         int n5 = n + n3;
@@ -412,35 +411,35 @@ IWidgetLogChannel {
         int n4 = this.menu.getAnimationManager().getInfolineHeight();
         int n5 = n3 - (n4 - 1);
         int n6 = this.getInfolineWidth();
-        menuLayoutLogCh.log(-2137614336, "MenuLayout#layoutInfoline: infoline at position %2 for item: %1", (Object)menuItemMetaData, (long)n5);
+        menuLayoutLogCh.log(10000000, "MenuLayout#layoutInfoline: infoline at position %2 for item: %1", (Object)menuItemMetaData, (long)n5);
         abstractWidgetController.setBounds(this.contentLeftOffset, n5, n6, n4);
         abstractWidgetController.setOnScreen(true);
     }
 
-    private void layoutMoveItem(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, boolean bl) {
+    private void layoutMoveItem(MenuLayoutTempData menuLayoutTempData, boolean bl) {
         MenuItemMetaData menuItemMetaData;
-        if (!menuLayout$MenuLayoutTempData.focusCursorVisible || menuLayout$MenuLayoutTempData.focusCursorPosition == null) {
+        if (!menuLayoutTempData.focusCursorVisible || menuLayoutTempData.focusCursorPosition == null) {
             return;
         }
-        if (menuLayout$MenuLayoutTempData.moveLayoutItem != null || !this.menu.hasMoveItem()) {
+        if (menuLayoutTempData.moveLayoutItem != null || !this.menu.hasMoveItem()) {
             this.destroyCachedMoveItem();
         }
         if (!this.menu.hasMoveItem()) {
             return;
         }
-        if (menuLayout$MenuLayoutTempData.moveLayoutItem == null) {
+        if (menuLayoutTempData.moveLayoutItem == null) {
             this.prepareCachedMoveItem();
             if (this.moveItem == null) {
                 return;
             }
             menuItemMetaData = this.moveItem;
         } else {
-            menuItemMetaData = menuLayout$MenuLayoutTempData.moveLayoutItem;
+            menuItemMetaData = menuLayoutTempData.moveLayoutItem;
         }
-        this.layoutMenuItemWidget(menuItemMetaData, menuLayout$MenuLayoutTempData.focusCursorPosition[0], menuLayout$MenuLayoutTempData.focusCursorPosition[1], menuItemMetaData.heightAfter, false, true, null, bl);
+        this.layoutMenuItemWidget(menuItemMetaData, menuLayoutTempData.focusCursorPosition[0], menuLayoutTempData.focusCursorPosition[1], menuItemMetaData.heightAfter, false, true, null, bl);
         if (menuItemMetaData != null && this.isSelected(menuItemMetaData)) {
-            this.layoutSelectionCursor(menuItemMetaData, menuLayout$MenuLayoutTempData.focusCursorPosition[0], menuLayout$MenuLayoutTempData.focusCursorPosition[1]);
-            menuLayout$MenuLayoutTempData.selectionCursorVisible = true;
+            this.layoutSelectionCursor(menuItemMetaData, menuLayoutTempData.focusCursorPosition[0], menuLayoutTempData.focusCursorPosition[1]);
+            menuLayoutTempData.selectionCursorVisible = true;
         }
     }
 
@@ -451,7 +450,7 @@ IWidgetLogChannel {
         this.destroyCachedMoveItem();
         this.moveItem = this.menu.createMenuItem(this.menu.getMoveItemIndex());
         if (this.moveItem == null) {
-            menuLayoutLogCh.log(-1601830656, "MenuLayout#layoutMoveItem: move item %1 can not be created", (Object)this.menu.getMoveItemIndex());
+            menuLayoutLogCh.log(100000, "MenuLayout#layoutMoveItem: move item %1 can not be created", (Object)this.menu.getMoveItemIndex());
             return;
         }
     }
@@ -480,7 +479,7 @@ IWidgetLogChannel {
             return;
         }
         if (!(abstractWidget instanceof ScrollbarController)) {
-            menuLayoutLogCh.log(-1601830656, "MenuLayout#layoutScrollbar: wrong scrollbar attached, not instance of ScrollbarController: %1", (Object)abstractWidget);
+            menuLayoutLogCh.log(100000, "MenuLayout#layoutScrollbar: wrong scrollbar attached, not instance of ScrollbarController: %1", (Object)abstractWidget);
             return;
         }
         ScrollbarController scrollbarController = (ScrollbarController)abstractWidget;
@@ -488,14 +487,14 @@ IWidgetLogChannel {
         scrollbarController.setX(n + this.m_scrollbarOffset);
     }
 
-    private int setupStroboscope(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData, int n, int n2) {
-        if (menuLayout$MenuLayoutTempData.first) {
+    private int setupStroboscope(MenuLayoutTempData menuLayoutTempData, int n, int n2) {
+        if (menuLayoutTempData.first) {
             int n3 = this.calculateStroboscopeAdjustment(n, n2);
-            if (!menuLayout$MenuLayoutTempData.alignTop) {
+            if (!menuLayoutTempData.alignTop) {
                 n3 *= -1;
             }
             n += n3;
-            menuLayout$MenuLayoutTempData.yChild += (float)n3;
+            menuLayoutTempData.yChild += (float)n3;
         }
         return n;
     }
@@ -505,7 +504,7 @@ IWidgetLogChannel {
         boolean bl = this.stroboscopeActive;
         this.stroboscopeActive = this.shouldActivateStroboscope();
         if (bl != this.stroboscopeActive) {
-            menuLogCh.log(-2137614336, "MenuLayout#adjustViewportOffsetForStroboscope: stroboscope state changed. now active: %1", this.stroboscopeActive);
+            menuLogCh.log(10000000, "MenuLayout#adjustViewportOffsetForStroboscope: stroboscope state changed. now active: %1", this.stroboscopeActive);
         }
         if (!this.stroboscopeActive) {
             return 0;
@@ -522,7 +521,7 @@ IWidgetLogChannel {
         int n4 = n2 + this.getItemsGap();
         int n5 = this.menu.getFlatMenuItemCount();
         int n6 = this.calculateStroboscopeAdjustment(n, n3, f2, n4, n5);
-        menuLayoutLogCh.log(-2137614336, "MenuLayout#adjustViewportOffsetForStroboscope: stroboscope adjustment: %1, itemY: %2, itemHeight: %3", (long)n6, (long)n, (long)n2);
+        menuLayoutLogCh.log(10000000, "MenuLayout#adjustViewportOffsetForStroboscope: stroboscope adjustment: %1, itemY: %2, itemHeight: %3", (long)n6, (long)n, (long)n2);
         return n6;
     }
 
@@ -531,7 +530,7 @@ IWidgetLogChannel {
         f4 = Math.min(f4, stroboscopeMaxSpeedFactor);
         float f5 = stroboscopeConstantSpeed * f2 + f4 * (f3 * f2) / (float)n2;
         if (this.menu.getAnimationManager().isViewportScrollingDownward()) {
-            f5 *= 32959;
+            f5 *= -1.0f;
         }
         float f6 = n - this.stroboscopeLastYPos;
         f6 = f5 + (float)(n2 * (int)((f6 - f5) / (float)n2));
@@ -591,7 +590,7 @@ IWidgetLogChannel {
         MenuItemMetaData menuItemMetaData3;
         boolean bl4;
         if (!menuItemMetaData.isRealized() && !(bl4 = this.menu.realizeMenuItem(menuItemMetaData))) {
-            menuLayoutLogCh.log(-1601830656, "MenuLayout#layoutMenuItemWidget: can not realize item: %1, y: %2, height: %3", (Object)menuItemMetaData.index, (long)n, (long)n2);
+            menuLayoutLogCh.log(100000, "MenuLayout#layoutMenuItemWidget: can not realize item: %1, y: %2, height: %3", (Object)menuItemMetaData.index, (long)n, (long)n2);
             return;
         }
         AbstractWidgetController abstractWidgetController = menuItemMetaData.widget;
@@ -654,7 +653,7 @@ IWidgetLogChannel {
         } else {
             f3 *= this.menu.getOpenComboboxOpacity();
             if (this.menu.hasMoveItem()) {
-                f3 *= 63;
+                f3 *= 0.5f;
             }
         }
         abstractWidgetController.setOpacity(f3);
@@ -685,7 +684,7 @@ IWidgetLogChannel {
             return;
         }
         if (menuItemMetaData.isRealized()) {
-            menuLayoutLogCh.log(-2137614336, "MenuLayout#hideMenuItemWidget: hide item %1, because it's not visible", (Object)menuItemMetaData.index);
+            menuLayoutLogCh.log(10000000, "MenuLayout#hideMenuItemWidget: hide item %1, because it's not visible", (Object)menuItemMetaData.index);
             this.menu.destroyMenuItem(menuItemMetaData);
         }
     }
@@ -752,7 +751,7 @@ IWidgetLogChannel {
                 return n3;
             }
         }
-        menuLayoutLogCh.log(-1601830656, "MenuLayout#calculateTabulatorValue: Unknown tabulator alignment: %1, tabID: %2", (long)n2, (long)this.tabulatorIDs[n]);
+        menuLayoutLogCh.log(100000, "MenuLayout#calculateTabulatorValue: Unknown tabulator alignment: %1, tabID: %2", (long)n2, (long)this.tabulatorIDs[n]);
         return n3;
     }
 
@@ -877,7 +876,7 @@ IWidgetLogChannel {
 
     private void assertCursorRole(int n) {
         if (n != 1 && n != 2) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal role: ").append(n).toString());
+            throw new IllegalArgumentException("Illegal role: " + n);
         }
     }
 
@@ -905,7 +904,7 @@ IWidgetLogChannel {
             return;
         }
         if (!(abstractWidget instanceof MenuSDSNumbersController)) {
-            menuLayoutLogCh.log(-1601830656, "MenuLayout#layoutSdsNumbers: SDSNumbersWidget is not a MenuSDSNumbersController: %1", (Object)abstractWidget);
+            menuLayoutLogCh.log(100000, "MenuLayout#layoutSdsNumbers: SDSNumbersWidget is not a MenuSDSNumbersController: %1", (Object)abstractWidget);
             return;
         }
         MenuSDSNumbersController menuSDSNumbersController = (MenuSDSNumbersController)abstractWidget;
@@ -940,32 +939,32 @@ IWidgetLogChannel {
         }
     }
 
-    private MenuLayout$MenuLayoutTempData createTempData() {
+    private MenuLayoutTempData createTempData() {
         boolean bl = this.getLayoutData().alignTop;
         int n = this.menu.getAnimationManager().getViewportOffset();
         if (!bl) {
             n *= -1;
         }
         float f2 = n + this.getContentInsetsVert();
-        return new MenuLayout$MenuLayoutTempData(bl, n, f2);
+        return new MenuLayoutTempData(bl, n, f2);
     }
 
-    private void orderVisibleEdges(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
-        if (!menuLayout$MenuLayoutTempData.alignTop) {
+    private void orderVisibleEdges(MenuLayoutTempData menuLayoutTempData) {
+        if (!menuLayoutTempData.alignTop) {
             int n = this.firstVisibleItem;
             this.firstVisibleItem = this.lastVisibleItem;
             this.lastVisibleItem = n;
         }
     }
 
-    private void logLayout(MenuLayout$MenuLayoutTempData menuLayout$MenuLayoutTempData) {
+    private void logLayout(MenuLayoutTempData menuLayoutTempData) {
         if (menuLayoutLogCh.isDebug()) {
             List list = this.getLayoutItems();
-            Object object = list.isEmpty() ? null : (menuLayout$MenuLayoutTempData.alignTop ? list.get(0) : list.get(list.size() - 1));
+            Object object = list.isEmpty() ? null : (menuLayoutTempData.alignTop ? list.get(0) : list.get(list.size() - 1));
             Object object2 = this.firstVisibleItem != -1 && list.size() > this.firstVisibleItem ? list.get(this.firstVisibleItem) : null;
             Object object3 = this.lastVisibleItem != -1 && list.size() > this.lastVisibleItem ? list.get(this.lastVisibleItem) : null;
-            String string = new StringBuffer().append("first visible: ").append(object2).append(" with ").append(this.firstItemVisibleRatio).append(" %, last visible: ").append(object3).append(" with ").append(this.lastItemVisibleRatio).append(" %").toString();
-            menuLayoutLogCh.log(-2137614336, "MenuLayout#layout: first item: %1 at %3. %2", object, (Object)string, (long)menuLayout$MenuLayoutTempData.viewportOffset);
+            String string = "first visible: " + object2 + " with " + this.firstItemVisibleRatio + " %, last visible: " + object3 + " with " + this.lastItemVisibleRatio + " %";
+            menuLayoutLogCh.log(10000000, "MenuLayout#layout: first item: %1 at %3. %2", object, (Object)string, (long)menuLayoutTempData.viewportOffset);
         }
     }
 
@@ -974,8 +973,8 @@ IWidgetLogChannel {
             return;
         }
         float f2 = this.menu.getAnimationManager().getScrollAnimationFunction().getSpeed();
-        f2 = (float)((int)(f2 * 51266)) / 51266;
-        String[] stringArray = new String[]{new StringBuffer().append("Scroll speed: ").append(f2).append(" px/ms").toString(), new StringBuffer().append("Stroboscope: ").append(this.stroboscopeActive).toString()};
+        f2 = (float)((int)(f2 * 100.0f)) / 100.0f;
+        String[] stringArray = new String[]{"Scroll speed: " + f2 + " px/ms", "Stroboscope: " + this.stroboscopeActive};
         this.menu.getTerminal().getStatistics().showStatistics(18, stringArray, false);
     }
 
@@ -1090,7 +1089,7 @@ IWidgetLogChannel {
             if (!bl2) continue;
             return menuItemMetaData;
         }
-        menuLogCh.log(-1601830656, "MenuLayout#getCurrentItemUnderFocus: no item under focus found. Cursor pos: %3, downward: %1, layoutItems: %2", (Object)bl, (Object)list, (long)this.lastFocusPosition);
+        menuLogCh.log(100000, "MenuLayout#getCurrentItemUnderFocus: no item under focus found. Cursor pos: %3, downward: %1, layoutItems: %2", (Object)bl, (Object)list, (long)this.lastFocusPosition);
         return null;
     }
 
@@ -1276,13 +1275,25 @@ IWidgetLogChannel {
         this.backgroundHeight = n2;
     }
 
-    static {
-        SHOW_STATISTICS = SystemProperties.getBoolean("MenuShowStatistics", false);
-        stroboscopeSpeedStart = 1.0f;
-        stroboscopeSpeedKeep = 0x3333333F;
-        stroboscopeConstantSpeed = -1883048644;
-        stroboscopeDefaultSpeedFactor = 64067;
-        stroboscopeMaxSpeedFactor = 2.0f;
+    static class MenuLayoutTempData {
+        boolean first = true;
+        boolean focusCursorVisible = false;
+        boolean selectionCursorVisible = false;
+        boolean infolineVisible = false;
+        int[] focusCursorPosition = null;
+        float moveCursorGapOffset = 0.0f;
+        int multiLineY = 0;
+        MenuItemMetaData multiLineStartItem = null;
+        MenuItemMetaData moveLayoutItem = null;
+        float yChild;
+        final int viewportOffset;
+        final boolean alignTop;
+
+        public MenuLayoutTempData(boolean bl, int n, float f2) {
+            this.alignTop = bl;
+            this.viewportOffset = n;
+            this.yChild = f2;
+        }
     }
 }
 

@@ -142,7 +142,7 @@ public class CurrentStation {
     }
 
     public String toString() {
-        return new StringBuffer("CurrentStation{").append("id=").append(this.id).append(", name=").append(this.name).append(", fullName=").append(this.fullName).append(", artist=").append(this.artist).append(", artistType=").append(this.artistType).append(", title=").append(this.title).append(", titleType=").append(this.titleType).append(", image=").append(this.image).append(", audioStatus=").append(this.audioStatus).append(", layer=").append(this.layer).append(", album=").append(this.album).append(", radioText=").append(this.radioText).append(", extension=").append(this.extension).append("}").toString();
+        return "CurrentStation{" + "id=" + this.id + ", name=" + this.name + ", fullName=" + this.fullName + ", artist=" + this.artist + ", artistType=" + this.artistType + ", title=" + this.title + ", titleType=" + this.titleType + ", image=" + this.image + ", audioStatus=" + this.audioStatus + ", layer=" + this.layer + ", album=" + this.album + ", radioText=" + this.radioText + ", extension=" + this.extension + "}";
     }
 }
 

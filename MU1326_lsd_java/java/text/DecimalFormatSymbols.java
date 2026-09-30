@@ -5,10 +5,9 @@ package java.text;
 
 import com.ibm.oti.locale.Locale;
 import com.ibm.oti.util.ExtendedResourceBundle;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream$GetField;
 import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream$PutField;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.text.Format;
@@ -18,7 +17,7 @@ import java.util.Currency;
 public final class DecimalFormatSymbols
 implements Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 5772796243397350300L;
     private final int ZeroDigit;
     private final int Digit;
     private final int DecimalSeparator;
@@ -300,47 +299,47 @@ Serializable {
         this.patternChars[7] = c2;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
-        ObjectOutputStream$PutField objectOutputStream$PutField = objectOutputStream.putFields();
-        objectOutputStream$PutField.put("currencySymbol", this.currencySymbol);
-        objectOutputStream$PutField.put("decimalSeparator", this.getDecimalSeparator());
-        objectOutputStream$PutField.put("digit", this.getDigit());
-        objectOutputStream$PutField.put("exponential", this.getExponential());
-        objectOutputStream$PutField.put("groupingSeparator", this.getGroupingSeparator());
-        objectOutputStream$PutField.put("infinity", this.infinity);
-        objectOutputStream$PutField.put("intlCurrencySymbol", this.intlCurrencySymbol);
-        objectOutputStream$PutField.put("minusSign", this.getMinusSign());
-        objectOutputStream$PutField.put("monetarySeparator", this.getMonetaryDecimalSeparator());
-        objectOutputStream$PutField.put("NaN", this.NaN);
-        objectOutputStream$PutField.put("patternSeparator", this.getPatternSeparator());
-        objectOutputStream$PutField.put("percent", this.getPercent());
-        objectOutputStream$PutField.put("perMill", this.getPerMill());
-        objectOutputStream$PutField.put("serialVersionOnStream", 1);
-        objectOutputStream$PutField.put("zeroDigit", this.getZeroDigit());
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        ObjectOutputStream.PutField putField = objectOutputStream.putFields();
+        putField.put("currencySymbol", this.currencySymbol);
+        putField.put("decimalSeparator", this.getDecimalSeparator());
+        putField.put("digit", this.getDigit());
+        putField.put("exponential", this.getExponential());
+        putField.put("groupingSeparator", this.getGroupingSeparator());
+        putField.put("infinity", this.infinity);
+        putField.put("intlCurrencySymbol", this.intlCurrencySymbol);
+        putField.put("minusSign", this.getMinusSign());
+        putField.put("monetarySeparator", this.getMonetaryDecimalSeparator());
+        putField.put("NaN", this.NaN);
+        putField.put("patternSeparator", this.getPatternSeparator());
+        putField.put("percent", this.getPercent());
+        putField.put("perMill", this.getPerMill());
+        putField.put("serialVersionOnStream", 1);
+        putField.put("zeroDigit", this.getZeroDigit());
         objectOutputStream.writeFields();
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
-        ObjectInputStream$GetField objectInputStream$GetField = objectInputStream.readFields();
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        ObjectInputStream.GetField getField = objectInputStream.readFields();
         this.patternChars = new char[10];
-        this.currencySymbol = (String)objectInputStream$GetField.get("currencySymbol", "");
-        this.setDecimalSeparator(objectInputStream$GetField.get("decimalSeparator", '.'));
-        this.setDigit(objectInputStream$GetField.get("digit", '#'));
-        this.setGroupingSeparator(objectInputStream$GetField.get("groupingSeparator", ','));
-        this.infinity = (String)objectInputStream$GetField.get("infinity", "");
-        this.intlCurrencySymbol = (String)objectInputStream$GetField.get("intlCurrencySymbol", "");
-        this.setMinusSign(objectInputStream$GetField.get("minusSign", '-'));
-        this.NaN = (String)objectInputStream$GetField.get("NaN", "");
-        this.setPatternSeparator(objectInputStream$GetField.get("patternSeparator", ';'));
-        this.setPercent(objectInputStream$GetField.get("percent", '%'));
-        this.setPerMill(objectInputStream$GetField.get("perMill", '\u2030'));
-        this.setZeroDigit(objectInputStream$GetField.get("zeroDigit", '0'));
-        if (objectInputStream$GetField.get("serialVersionOnStream", 0) == 0) {
+        this.currencySymbol = (String)getField.get("currencySymbol", "");
+        this.setDecimalSeparator(getField.get("decimalSeparator", '.'));
+        this.setDigit(getField.get("digit", '#'));
+        this.setGroupingSeparator(getField.get("groupingSeparator", ','));
+        this.infinity = (String)getField.get("infinity", "");
+        this.intlCurrencySymbol = (String)getField.get("intlCurrencySymbol", "");
+        this.setMinusSign(getField.get("minusSign", '-'));
+        this.NaN = (String)getField.get("NaN", "");
+        this.setPatternSeparator(getField.get("patternSeparator", ';'));
+        this.setPercent(getField.get("percent", '%'));
+        this.setPerMill(getField.get("perMill", '\u2030'));
+        this.setZeroDigit(getField.get("zeroDigit", '0'));
+        if (getField.get("serialVersionOnStream", 0) == 0) {
             this.setMonetaryDecimalSeparator(this.getDecimalSeparator());
             this.setExponential('E');
         } else {
-            this.setMonetaryDecimalSeparator(objectInputStream$GetField.get("monetarySeparator", '.'));
-            this.setExponential(objectInputStream$GetField.get("exponential", 'E'));
+            this.setMonetaryDecimalSeparator(getField.get("monetarySeparator", '.'));
+            this.setExponential(getField.get("exponential", 'E'));
         }
     }
 }

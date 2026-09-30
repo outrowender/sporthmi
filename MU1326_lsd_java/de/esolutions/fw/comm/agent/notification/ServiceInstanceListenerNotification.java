@@ -25,10 +25,9 @@ extends AbstractNotification {
     }
 
     public String toString() {
-        return new StringBuffer().append("[ServiceInstanceListener:service=").append(this.instanceID).append(",doRegister=").append(this.doRegister).append(",agentID=").append(this.agentID).append("]").toString();
+        return "[ServiceInstanceListener:service=" + this.instanceID + ",doRegister=" + this.doRegister + ",agentID=" + this.agentID + "]";
     }
 
-    @Override
     public void performNotification() {
         CommAgentTracing.NOTIFICATION.log((short)1, "{ ServiceInstanceListenerNotification instanceID=%1 doRegister=%2 agentID=%3", this.instanceID, (Object)new Boolean(this.doRegister), (Object)new Short(this.agentID));
         ListIterator listIterator = this.listeners.listIterator();

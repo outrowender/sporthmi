@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCVehicleStateUpdateInfoAH;
 
 public class BCVehicleStateUpdateInfoAHSerializer {
-    public static void putOptionalBCVehicleStateUpdateInfoAH(ISerializer iSerializer, BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH) {
+    public static void putOptionalBCVehicleStateUpdateInfoAH(ISerializer iSerializer, BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH) throws SerializerException {
         boolean bl = bCVehicleStateUpdateInfoAH == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCVehicleStateUpdateInfoAHSerializer {
         }
     }
 
-    public static void putOptionalBCVehicleStateUpdateInfoAHVarArray(ISerializer iSerializer, BCVehicleStateUpdateInfoAH[] bCVehicleStateUpdateInfoAHArray) {
+    public static void putOptionalBCVehicleStateUpdateInfoAHVarArray(ISerializer iSerializer, BCVehicleStateUpdateInfoAH[] bCVehicleStateUpdateInfoAHArray) throws SerializerException {
         boolean bl = bCVehicleStateUpdateInfoAHArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCVehicleStateUpdateInfoAHSerializer {
         }
     }
 
-    public static BCVehicleStateUpdateInfoAH getOptionalBCVehicleStateUpdateInfoAH(IDeserializer iDeserializer) {
+    public static BCVehicleStateUpdateInfoAH getOptionalBCVehicleStateUpdateInfoAH(IDeserializer iDeserializer) throws SerializerException {
         BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class BCVehicleStateUpdateInfoAHSerializer {
         return bCVehicleStateUpdateInfoAH;
     }
 
-    public static BCVehicleStateUpdateInfoAH[] getOptionalBCVehicleStateUpdateInfoAHVarArray(IDeserializer iDeserializer) {
+    public static BCVehicleStateUpdateInfoAH[] getOptionalBCVehicleStateUpdateInfoAHVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCVehicleStateUpdateInfoAH[] bCVehicleStateUpdateInfoAHArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

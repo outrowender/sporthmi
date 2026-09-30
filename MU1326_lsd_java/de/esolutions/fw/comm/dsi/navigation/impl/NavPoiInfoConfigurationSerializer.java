@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavPoiInfoConfiguration;
 
 public class NavPoiInfoConfigurationSerializer {
-    public static void putOptionalNavPoiInfoConfiguration(ISerializer iSerializer, NavPoiInfoConfiguration navPoiInfoConfiguration) {
+    public static void putOptionalNavPoiInfoConfiguration(ISerializer iSerializer, NavPoiInfoConfiguration navPoiInfoConfiguration) throws SerializerException {
         boolean bl = navPoiInfoConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class NavPoiInfoConfigurationSerializer {
         }
     }
 
-    public static void putOptionalNavPoiInfoConfigurationVarArray(ISerializer iSerializer, NavPoiInfoConfiguration[] navPoiInfoConfigurationArray) {
+    public static void putOptionalNavPoiInfoConfigurationVarArray(ISerializer iSerializer, NavPoiInfoConfiguration[] navPoiInfoConfigurationArray) throws SerializerException {
         boolean bl = navPoiInfoConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class NavPoiInfoConfigurationSerializer {
         }
     }
 
-    public static NavPoiInfoConfiguration getOptionalNavPoiInfoConfiguration(IDeserializer iDeserializer) {
+    public static NavPoiInfoConfiguration getOptionalNavPoiInfoConfiguration(IDeserializer iDeserializer) throws SerializerException {
         NavPoiInfoConfiguration navPoiInfoConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class NavPoiInfoConfigurationSerializer {
         return navPoiInfoConfiguration;
     }
 
-    public static NavPoiInfoConfiguration[] getOptionalNavPoiInfoConfigurationVarArray(IDeserializer iDeserializer) {
+    public static NavPoiInfoConfiguration[] getOptionalNavPoiInfoConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavPoiInfoConfiguration[] navPoiInfoConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

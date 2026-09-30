@@ -6,13 +6,10 @@ package org.dsi.ifc.base;
 import org.dsi.ifc.base.IFactory;
 
 public interface IAdapterManager {
-    default public void registerFactories(IFactory iFactory) {
-    }
+    public void registerFactories(IFactory var1);
 
-    default public void unregisterFactories(IFactory iFactory) {
-    }
+    public void unregisterFactories(IFactory var1);
 
-    default public Object getFactory(Class clazz) {
-    }
+    public Object getFactory(Class var1);
 }
 

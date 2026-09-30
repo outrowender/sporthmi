@@ -4,7 +4,6 @@
 package org.dsi.ifc.speechrec.util;
 
 public interface ILocationStringEncoder {
-    default public String createLocationStringEncoding(int[] nArray, String[] stringArray, String[] stringArray2, String[] stringArray3) {
-    }
+    public String createLocationStringEncoding(int[] var1, String[] var2, String[] var3, String[] var4);
 }
 

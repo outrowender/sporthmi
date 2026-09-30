@@ -10,12 +10,10 @@ extends java.util.AbstractList {
     protected AbstractList() {
     }
 
-    @Override
     public Object[] toArray() {
         return Utils.collectionToArray(this);
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         return Utils.collectionToArray(this, objectArray);
     }

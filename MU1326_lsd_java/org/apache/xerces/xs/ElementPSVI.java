@@ -10,16 +10,12 @@ import org.apache.xerces.xs.XSNotationDeclaration;
 
 public interface ElementPSVI
 extends ItemPSVI {
-    default public XSElementDeclaration getElementDeclaration() {
-    }
+    public XSElementDeclaration getElementDeclaration();
 
-    default public XSNotationDeclaration getNotation() {
-    }
+    public XSNotationDeclaration getNotation();
 
-    default public boolean getNil() {
-    }
+    public boolean getNil();
 
-    default public XSModel getSchemaInformation() {
-    }
+    public XSModel getSchemaInformation();
 }
 

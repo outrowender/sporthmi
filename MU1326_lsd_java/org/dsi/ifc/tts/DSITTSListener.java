@@ -8,34 +8,24 @@ import org.dsi.ifc.tts.LanguageVoiceInfo;
 
 public interface DSITTSListener
 extends DSIListener {
-    default public void updateLanguage(String string, int n, int n2, int n3) {
-    }
+    public void updateLanguage(String var1, int var2, int var3, int var4);
 
-    default public void updateAvailableLanguages(LanguageVoiceInfo[] languageVoiceInfoArray, int n) {
-    }
+    public void updateAvailableLanguages(LanguageVoiceInfo[] var1, int var2);
 
-    default public void updateMarkerPassed(int n, int n2) {
-    }
+    public void updateMarkerPassed(int var1, int var2);
 
-    default public void responseSetLanguage(short s, int n) {
-    }
+    public void responseSetLanguage(short var1, int var2);
 
-    default public void responseInit(short s, int n) {
-    }
+    public void responseInit(short var1, int var2);
 
-    default public void responseAudioTrigger(short s, int n) {
-    }
+    public void responseAudioTrigger(short var1, int var2);
 
-    default public void updateAudioRequest(int n, int n2) {
-    }
+    public void updateAudioRequest(int var1, int var2);
 
-    default public void responsePlayTone(short s, int n) {
-    }
+    public void responsePlayTone(short var1, int var2);
 
-    default public void responseSpeakPrompt(short s, int n) {
-    }
+    public void responseSpeakPrompt(short var1, int var2);
 
-    default public void responseSkipSpeaking(short s, int n) {
-    }
+    public void responseSkipSpeaking(short var1, int var2);
 }
 

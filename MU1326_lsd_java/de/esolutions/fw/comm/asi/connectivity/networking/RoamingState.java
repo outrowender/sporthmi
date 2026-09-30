@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface RoamingState
 extends IEnum {
-    public static final int ROAMING_STATE_UNKNOWN;
-    public static final int ROAMING_STATE_HOME_NETWORK;
-    public static final int ROAMING_STATE_VISITED_NETWORK;
+    public static final int ROAMING_STATE_UNKNOWN = 0;
+    public static final int ROAMING_STATE_HOME_NETWORK = 1;
+    public static final int ROAMING_STATE_VISITED_NETWORK = 2;
 }
 

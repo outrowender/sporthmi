@@ -6,43 +6,30 @@ package de.esolutions.fw.util.commons.miniser;
 import de.esolutions.fw.util.commons.miniser.IMiniIntSerializer;
 
 public interface IMiniIntDeserializer {
-    default public short retrieveShort(byte[] byArray) {
-    }
+    public short retrieveShort(byte[] var1);
 
-    default public short retrieveShort(byte[] byArray, int n) {
-    }
+    public short retrieveShort(byte[] var1, int var2);
 
-    default public int retrieveUnsignedShort(byte[] byArray) {
-    }
+    public int retrieveUnsignedShort(byte[] var1);
 
-    default public int retrieveUnsignedShort(byte[] byArray, int n) {
-    }
+    public int retrieveUnsignedShort(byte[] var1, int var2);
 
-    default public int retrieveInt(byte[] byArray) {
-    }
+    public int retrieveInt(byte[] var1);
 
-    default public int retrieveInt(byte[] byArray, int n) {
-    }
+    public int retrieveInt(byte[] var1, int var2);
 
-    default public long retrieveUnsignedInt(byte[] byArray) {
-    }
+    public long retrieveUnsignedInt(byte[] var1);
 
-    default public long retrieveUnsignedInt(byte[] byArray, int n) {
-    }
+    public long retrieveUnsignedInt(byte[] var1, int var2);
 
-    default public long retrieveLong(byte[] byArray) {
-    }
+    public long retrieveLong(byte[] var1);
 
-    default public long retrieveLong(byte[] byArray, int n) {
-    }
+    public long retrieveLong(byte[] var1, int var2);
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 
-    default public IMiniIntSerializer createCompatibleSerializer() {
-    }
+    public IMiniIntSerializer createCompatibleSerializer();
 
-    default public IMiniIntDeserializer createCompatibleDeserializer() {
-    }
+    public IMiniIntDeserializer createCompatibleDeserializer();
 }
 

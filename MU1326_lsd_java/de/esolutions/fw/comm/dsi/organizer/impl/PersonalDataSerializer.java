@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.organizer.PersonalData;
 
 public class PersonalDataSerializer {
-    public static void putOptionalPersonalData(ISerializer iSerializer, PersonalData personalData) {
+    public static void putOptionalPersonalData(ISerializer iSerializer, PersonalData personalData) throws SerializerException {
         boolean bl = personalData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class PersonalDataSerializer {
         }
     }
 
-    public static void putOptionalPersonalDataVarArray(ISerializer iSerializer, PersonalData[] personalDataArray) {
+    public static void putOptionalPersonalDataVarArray(ISerializer iSerializer, PersonalData[] personalDataArray) throws SerializerException {
         boolean bl = personalDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class PersonalDataSerializer {
         }
     }
 
-    public static PersonalData getOptionalPersonalData(IDeserializer iDeserializer) {
+    public static PersonalData getOptionalPersonalData(IDeserializer iDeserializer) throws SerializerException {
         PersonalData personalData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class PersonalDataSerializer {
         return personalData;
     }
 
-    public static PersonalData[] getOptionalPersonalDataVarArray(IDeserializer iDeserializer) {
+    public static PersonalData[] getOptionalPersonalDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PersonalData[] personalDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

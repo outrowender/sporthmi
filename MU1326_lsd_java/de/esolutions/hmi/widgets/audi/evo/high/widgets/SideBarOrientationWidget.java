@@ -25,7 +25,6 @@ extends AbstractWidgetController {
     private int orientation;
     private boolean isSetUp = false;
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         abstractWidget.setChainedAction(3, 17);
         if (abstractWidget instanceof IconController) {
@@ -38,7 +37,7 @@ extends AbstractWidgetController {
                 this.compassIcon = (IconController)abstractWidget;
                 this.intermediateRotationNode.setBounds(abstractWidget.getX(), abstractWidget.getY(), 0, 0);
             } else {
-                sideBarLogChannel.log(-1601830656, "SideBarOrientationWidget#add Compass icon was already added to the widget.");
+                sideBarLogChannel.log(100000, "SideBarOrientationWidget#add Compass icon was already added to the widget.");
             }
         } else {
             if (abstractWidget instanceof LabelController) {
@@ -48,7 +47,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (!this.isSetUp) {
@@ -59,37 +57,33 @@ extends AbstractWidgetController {
             this.compassIcon.setBounds(-n3, -n4, 0, 0);
             this.intermediateRotationNode.setX(this.intermediateRotationNode.getX() + n3);
             this.intermediateRotationNode.setY(this.intermediateRotationNode.getY() + n4);
-            int n5 = 63 * (float)(n % 2);
-            int n6 = 63 * (float)(n2 % 2);
+            float f2 = 0.5f * (float)(n % 2);
+            float f3 = 0.5f * (float)(n2 % 2);
             IconRendererHigh iconRendererHigh = (IconRendererHigh)this.compassIcon.getRenderer();
-            iconRendererHigh.setFloatingPointOffset(-n5, -n6);
+            iconRendererHigh.setFloatingPointOffset(-f2, -f3);
             CompositeRendererHigh compositeRendererHigh = (CompositeRendererHigh)this.intermediateRotationNode.getRenderer();
-            compositeRendererHigh.setFloatingPointOffset(n5, n6);
+            compositeRendererHigh.setFloatingPointOffset(f2, f3);
             this.isSetUp = true;
         }
         this.updateValue();
     }
 
-    @Override
     public int getPreferredWidth() {
         int n = Math.min(this.intermediateRotationNode.getX(), this.northLabel.getX());
         int n2 = Math.max(this.intermediateRotationNode.getX() + this.intermediateRotationNode.getPreferredWidth(), this.northLabel.getX() + this.northLabel.getPreferredWidth());
         return n2 - n;
     }
 
-    @Override
     public int getPreferredHeight() {
         int n = Math.min(this.intermediateRotationNode.getY(), this.northLabel.getY());
         int n2 = Math.max(this.intermediateRotationNode.getY() + this.intermediateRotationNode.getPreferredHeight(), this.northLabel.getY() + this.northLabel.getPreferredHeight());
         return n2 - n;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateValue();
     }
@@ -102,7 +96,7 @@ extends AbstractWidgetController {
         int n;
         if (this.model instanceof ChoiceModelGUI && this.orientation != (n = ((ChoiceModelGUI)this.model).getValue())) {
             this.orientation = n;
-            sideBarLogChannel.log(-2137614336, "SideBarOrientationWidget#updateValue Orientation changed: orientation = %1", (long)this.orientation);
+            sideBarLogChannel.log(10000000, "SideBarOrientationWidget#updateValue Orientation changed: orientation = %1", (long)this.orientation);
             ((CompositeRendererHigh)this.intermediateRotationNode.getRenderer()).setRotationZ(this.orientation);
             this.intermediateRotationNode.setCompositesDirty(true);
         }

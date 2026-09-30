@@ -3,14 +3,14 @@
  */
 package java.net;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 public abstract class URLStreamHandler {
-    protected abstract URLConnection openConnection(URL uRL) {
-    }
+    protected abstract URLConnection openConnection(URL var1) throws IOException;
 
     protected void parseURL(URL uRL, String string, int n, int n2) {
         int n3;
@@ -95,7 +95,7 @@ public abstract class URLStreamHandler {
                     n4 = 1;
                 }
                 n3 = string5.lastIndexOf(47) + 1;
-                string5 = n3 == 0 ? string2.substring(n7, n6) : new StringBuffer(String.valueOf(string5.substring(0, n3))).append(string2.substring(n7, n6)).toString();
+                string5 = n3 == 0 ? string2.substring(n7, n6) : String.valueOf(string5.substring(0, n3)) + string2.substring(n7, n6);
             }
         }
         if (string5 == null) {
@@ -106,13 +106,13 @@ public abstract class URLStreamHandler {
         }
         if (n4 != 0) {
             while ((n3 = string5.indexOf("/./")) >= 0) {
-                string5 = new StringBuffer(String.valueOf(string5.substring(0, n3 + 1))).append(string5.substring(n3 + 3)).toString();
+                string5 = String.valueOf(string5.substring(0, n3 + 1)) + string5.substring(n3 + 3);
             }
             if (string5.endsWith("/.")) {
                 string5 = string5.substring(0, string5.length() - 1);
             }
             while ((n3 = string5.indexOf("/../")) >= 0) {
-                string5 = n3 != 0 ? new StringBuffer(String.valueOf(string5.substring(0, string5.lastIndexOf(47, n3 - 1)))).append(string5.substring(n3 + 3)).toString() : string5.substring(n3 + 3);
+                string5 = n3 != 0 ? String.valueOf(string5.substring(0, string5.lastIndexOf(47, n3 - 1))) + string5.substring(n3 + 3) : string5.substring(n3 + 3);
             }
             if (string5.endsWith("/..") && string5.length() > 3) {
                 string5 = string5.substring(0, string5.lastIndexOf(47, string5.length() - 4) + 1);

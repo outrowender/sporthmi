@@ -4,27 +4,21 @@
 package de.esolutions.fw.comm.asi.hmisync.car.climate;
 
 import de.esolutions.fw.comm.asi.hmisync.car.climate.ASIHMISyncCarClimateReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarClimateS {
-    default public void setAirconAC(boolean bl, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void setAirconAC(boolean var1, ASIHMISyncCarClimateReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void setNotification(ASIHMISyncCarClimateReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncCarClimateReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncCarClimateReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void clearNotification(ASIHMISyncCarClimateReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncCarClimateReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncCarClimateReply var2) throws MethodException;
 }
 

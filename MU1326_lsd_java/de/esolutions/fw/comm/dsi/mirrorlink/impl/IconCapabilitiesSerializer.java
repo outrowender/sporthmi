@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.IconCapabilities;
 
 public class IconCapabilitiesSerializer {
-    public static void putOptionalIconCapabilities(ISerializer iSerializer, IconCapabilities iconCapabilities) {
+    public static void putOptionalIconCapabilities(ISerializer iSerializer, IconCapabilities iconCapabilities) throws SerializerException {
         boolean bl = iconCapabilities == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class IconCapabilitiesSerializer {
         }
     }
 
-    public static void putOptionalIconCapabilitiesVarArray(ISerializer iSerializer, IconCapabilities[] iconCapabilitiesArray) {
+    public static void putOptionalIconCapabilitiesVarArray(ISerializer iSerializer, IconCapabilities[] iconCapabilitiesArray) throws SerializerException {
         boolean bl = iconCapabilitiesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class IconCapabilitiesSerializer {
         }
     }
 
-    public static IconCapabilities getOptionalIconCapabilities(IDeserializer iDeserializer) {
+    public static IconCapabilities getOptionalIconCapabilities(IDeserializer iDeserializer) throws SerializerException {
         IconCapabilities iconCapabilities = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class IconCapabilitiesSerializer {
         return iconCapabilities;
     }
 
-    public static IconCapabilities[] getOptionalIconCapabilitiesVarArray(IDeserializer iDeserializer) {
+    public static IconCapabilities[] getOptionalIconCapabilitiesVarArray(IDeserializer iDeserializer) throws SerializerException {
         IconCapabilities[] iconCapabilitiesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -20,12 +20,10 @@ extends IObject {
         return iFont == null ? 0L : iFont.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -37,7 +35,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -62,12 +59,10 @@ extends IObject {
         return ealswigJNI.eal_api_IFont_getMaximumHeight(this.swigCPtr, this, l);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IFont_isValid(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IFont_dispose(this.swigCPtr, this);
     }

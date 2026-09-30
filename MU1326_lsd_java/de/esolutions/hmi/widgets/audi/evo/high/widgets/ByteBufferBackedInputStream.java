@@ -3,6 +3,7 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.high.widgets;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -14,16 +15,14 @@ extends InputStream {
         this.buf = byteBuffer;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         if (!this.buf.hasRemaining()) {
             return -1;
         }
         return this.buf.get() & 0xFF;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (!this.buf.hasRemaining()) {
             return -1;
         }

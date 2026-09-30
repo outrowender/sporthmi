@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.TraceLevels;
 import de.esolutions.fw.util.tracing.entity.TraceEntityType;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
@@ -29,15 +30,13 @@ extends AbstractMessage {
         this.level = s;
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt16(this.type);
         iSerializer.putInt32(this.id);
         iSerializer.putInt16(this.level);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.type = iDeserializer.getInt16();
         this.id = iDeserializer.getInt32();
         this.level = iDeserializer.getInt16();
@@ -47,7 +46,6 @@ extends AbstractMessage {
         return new TraceEntityURI(this.type, this.id);
     }
 
-    @Override
     public short getLevel() {
         return this.level;
     }
@@ -60,7 +58,6 @@ extends AbstractMessage {
         return this.id;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("ChangeLevel: type=");
         buffer.append(this.type);

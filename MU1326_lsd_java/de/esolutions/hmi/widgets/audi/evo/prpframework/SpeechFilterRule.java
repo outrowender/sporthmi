@@ -12,7 +12,6 @@ public class SpeechFilterRule
 extends AbstractPRPRule {
     private RecognizerResult speechTopMatch = null;
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         this.speechTopMatch = null;
         Iterator iterator = list.iterator();
@@ -23,7 +22,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Speech-Filter-Rule";
     }

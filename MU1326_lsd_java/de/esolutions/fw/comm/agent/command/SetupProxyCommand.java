@@ -18,19 +18,16 @@ extends Command {
         this.setDependentClientHandler(iClientHandler);
     }
 
-    @Override
     public boolean handle(ICommandExecutor iCommandExecutor) {
         return iCommandExecutor.doSetupProxy(this.proxy, this.handler);
     }
 
-    @Override
     public void drop(ICommandExecutor iCommandExecutor, boolean bl) {
         iCommandExecutor.dropSetupProxy(this.proxy, bl);
     }
 
-    @Override
     public String getArgsString() {
-        return new StringBuffer().append("instance=").append(this.proxy.getInstanceID()).toString();
+        return "instance=" + this.proxy.getInstanceID();
     }
 }
 

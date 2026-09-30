@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombisync2.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombisync2.DisplayIdentification;
 
 public class DisplayIdentificationSerializer {
-    public static void putOptionalDisplayIdentification(ISerializer iSerializer, DisplayIdentification displayIdentification) {
+    public static void putOptionalDisplayIdentification(ISerializer iSerializer, DisplayIdentification displayIdentification) throws SerializerException {
         boolean bl = displayIdentification == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class DisplayIdentificationSerializer {
         }
     }
 
-    public static void putOptionalDisplayIdentificationVarArray(ISerializer iSerializer, DisplayIdentification[] displayIdentificationArray) {
+    public static void putOptionalDisplayIdentificationVarArray(ISerializer iSerializer, DisplayIdentification[] displayIdentificationArray) throws SerializerException {
         boolean bl = displayIdentificationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class DisplayIdentificationSerializer {
         }
     }
 
-    public static DisplayIdentification getOptionalDisplayIdentification(IDeserializer iDeserializer) {
+    public static DisplayIdentification getOptionalDisplayIdentification(IDeserializer iDeserializer) throws SerializerException {
         DisplayIdentification displayIdentification = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class DisplayIdentificationSerializer {
         return displayIdentification;
     }
 
-    public static DisplayIdentification[] getOptionalDisplayIdentificationVarArray(IDeserializer iDeserializer) {
+    public static DisplayIdentification[] getOptionalDisplayIdentificationVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayIdentification[] displayIdentificationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -32,7 +32,7 @@ public class LanguageInfo {
     }
 
     public String toString() {
-        return new StringBuffer("LanguageInfo{").append("language=").append(this.language).append(", region=").append(this.region).append("}").toString();
+        return "LanguageInfo{" + "language=" + this.language + ", region=" + this.region + "}";
     }
 }
 

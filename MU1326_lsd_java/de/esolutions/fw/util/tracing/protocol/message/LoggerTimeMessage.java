@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
@@ -27,15 +28,13 @@ extends AbstractMessage {
         super(MessageType.LOGGER_TIME);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt64(this.loggerTime);
         iSerializer.putInt64(this.traceTime);
         iSerializer.putInt32(this.error);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.loggerTime = iDeserializer.getInt64();
         this.traceTime = iDeserializer.getInt64();
         this.error = iDeserializer.getInt32();
@@ -49,12 +48,10 @@ extends AbstractMessage {
         return this.traceTime;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.traceTime;
     }
 
-    @Override
     public long getExternalTimeStamp() {
         return this.loggerTime;
     }
@@ -63,7 +60,6 @@ extends AbstractMessage {
         return this.error;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("LoggerTime: lts=");
         buffer.append(this.loggerTime);

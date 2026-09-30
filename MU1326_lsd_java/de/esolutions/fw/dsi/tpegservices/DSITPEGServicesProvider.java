@@ -26,28 +26,23 @@ implements DSITPEGServices {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$tpegservices$DSITPEGServices == null ? (class$org$dsi$ifc$tpegservices$DSITPEGServices = DSITPEGServicesProvider.class$("org.dsi.ifc.tpegservices.DSITPEGServices")) : class$org$dsi$ifc$tpegservices$DSITPEGServices).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITPEGServicesProxy(this.instance, (DSITPEGServicesReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestSimpleMapList(int n, int n2) {
         try {
             this.proxy.requestSimpleMapList(n, n2);
@@ -57,7 +52,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void addSimpleMapBookmark(int n) {
         try {
             this.proxy.addSimpleMapBookmark(n);
@@ -67,7 +61,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void deleteSimpleMapBookmark(int n) {
         try {
             this.proxy.deleteSimpleMapBookmark(n);
@@ -77,7 +70,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void deleteAllSimpleMapBookmarks() {
         try {
             this.proxy.deleteAllSimpleMapBookmarks();
@@ -87,7 +79,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestLocationDetails(int n) {
         try {
             this.proxy.requestLocationDetails(n);
@@ -97,7 +88,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestFuelPriceInformation(int n, int n2) {
         try {
             this.proxy.requestFuelPriceInformation(n, n2);
@@ -107,7 +97,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestSortedFuelPriceInformation(int n, int n2, int n3) {
         try {
             this.proxy.requestSortedFuelPriceInformation(n, n2, n3);
@@ -117,7 +106,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestNewsInformation(int n) {
         try {
             this.proxy.requestNewsInformation(n);
@@ -127,7 +115,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestResourceInformation(int n) {
         try {
             this.proxy.requestResourceInformation(n);
@@ -137,7 +124,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -147,7 +133,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void requestWeatherInfo(NavLocation navLocation, int n, int n2) {
         try {
             this.proxy.requestWeatherInfo(navLocation, n, n2);
@@ -157,7 +142,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -167,7 +151,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -177,7 +160,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -187,7 +169,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -197,7 +178,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -207,7 +187,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -217,7 +196,6 @@ implements DSITPEGServices {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

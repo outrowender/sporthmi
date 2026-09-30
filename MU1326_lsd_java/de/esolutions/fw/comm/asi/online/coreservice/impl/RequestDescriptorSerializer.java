@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.online.coreservice.impl;
 import de.esolutions.fw.comm.asi.online.coreservice.RequestDescriptor;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class RequestDescriptorSerializer {
-    public static void putOptionalRequestDescriptor(ISerializer iSerializer, RequestDescriptor requestDescriptor) {
+    public static void putOptionalRequestDescriptor(ISerializer iSerializer, RequestDescriptor requestDescriptor) throws SerializerException {
         boolean bl = requestDescriptor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class RequestDescriptorSerializer {
         }
     }
 
-    public static void putOptionalRequestDescriptorVarArray(ISerializer iSerializer, RequestDescriptor[] requestDescriptorArray) {
+    public static void putOptionalRequestDescriptorVarArray(ISerializer iSerializer, RequestDescriptor[] requestDescriptorArray) throws SerializerException {
         boolean bl = requestDescriptorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class RequestDescriptorSerializer {
         }
     }
 
-    public static RequestDescriptor getOptionalRequestDescriptor(IDeserializer iDeserializer) {
+    public static RequestDescriptor getOptionalRequestDescriptor(IDeserializer iDeserializer) throws SerializerException {
         RequestDescriptor requestDescriptor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class RequestDescriptorSerializer {
         return requestDescriptor;
     }
 
-    public static RequestDescriptor[] getOptionalRequestDescriptorVarArray(IDeserializer iDeserializer) {
+    public static RequestDescriptor[] getOptionalRequestDescriptorVarArray(IDeserializer iDeserializer) throws SerializerException {
         RequestDescriptor[] requestDescriptorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

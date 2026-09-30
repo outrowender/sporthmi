@@ -26,13 +26,13 @@ extends AbstractWidgetController
 implements AnimationListener,
 ListItemWidget {
     private static final int[] DEFAULT_MAPPING = new int[]{0, 1};
-    private static final int ANIMATION_TARGET;
-    private static final int ANIMATION_TYPE;
-    public static final int CHECK_MARK_STATE_UNCHECKED_SOURCE;
-    public static final int CHECK_MARK_STATE_CHECKED;
-    public static final int CHECK_MARK_STATE_UNCHECKED_DESTINATION;
-    public static final float CHECK_MARK_STATE_FULL_OPAQUE;
-    public static final float CHECK_MARK_STATE_TRANSLUTIENT;
+    private static final int ANIMATION_TARGET = 1000;
+    private static final int ANIMATION_TYPE = 75;
+    public static final int CHECK_MARK_STATE_UNCHECKED_SOURCE = 0;
+    public static final int CHECK_MARK_STATE_CHECKED = 1;
+    public static final int CHECK_MARK_STATE_UNCHECKED_DESTINATION = 2;
+    public static final float CHECK_MARK_STATE_FULL_OPAQUE = 0.0f;
+    public static final float CHECK_MARK_STATE_TRANSLUTIENT = 1.0f;
     private CheckboxRenderer renderer;
     private float checkMarkState = 1.0f;
     private float activeOpaqueness;
@@ -56,7 +56,6 @@ ListItemWidget {
         this.renderer = checkboxRenderer;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -85,7 +84,6 @@ ListItemWidget {
         this.itemDisabled = f2;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getUpdateType();
         if (n == 1 || n == 2 || n == 14) {
@@ -106,7 +104,6 @@ ListItemWidget {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         super.setEnabled(bl);
         this.updateState(this.isConnected());
@@ -131,9 +128,9 @@ ListItemWidget {
         this.startItemDisabled = this.itemDisabled;
         AbstractAnimation abstractAnimation = this.getAnimation();
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, 75, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, 75, false, this);
         }
     }
 
@@ -156,7 +153,7 @@ ListItemWidget {
         } else if (this.model instanceof Integer) {
             this.calculateCheckMarkFromInteger((Integer)this.model);
         } else {
-            logChannel.log(-1601830656, "CheckboxController#calculateTargets: Unknown model %2: %1", this.model, (long)this.modelID);
+            logChannel.log(100000, "CheckboxController#calculateTargets: Unknown model %2: %1", this.model, (long)this.modelID);
         }
     }
 
@@ -197,7 +194,6 @@ ListItemWidget {
         return this.animation;
     }
 
-    @Override
     public void animate(int n, float f2) {
         float f3 = this.animation.getProgress();
         this.checkMarkState = CheckboxController.getInterpolatedValue(this.startCheckMarkState, this.targetCheckMarkState, f3);
@@ -209,18 +205,15 @@ ListItemWidget {
         return f2 + (f3 - f2) * f4;
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         this.checkMarkState = this.targetCheckMarkState;
         this.itemDisabled = this.targetItemDisabled;
         this.setCompositesDirty(true);
     }
 
-    @Override
     protected void destroyWidget() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -228,13 +221,11 @@ ListItemWidget {
         this.animation = null;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateState(true);
     }
 
-    @Override
     public int getPreferredWidth() {
         if (this.renderer != null) {
             return this.renderer.getPreferredWidth();
@@ -242,7 +233,6 @@ ListItemWidget {
         return 0;
     }
 
-    @Override
     public int getPreferredHeight() {
         if (this.renderer != null) {
             return this.renderer.getPreferredHeight();
@@ -250,7 +240,6 @@ ListItemWidget {
         return 0;
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         super.keyPressed(keyEvent);
         if (keyEvent.isConsumed()) {
@@ -266,7 +255,6 @@ ListItemWidget {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         super.keyReleased(keyEvent);
         if (keyEvent.isConsumed()) {
@@ -310,7 +298,6 @@ ListItemWidget {
         this.modelColumn = n;
     }
 
-    @Override
     public int getModelColumn() {
         return this.modelColumn;
     }

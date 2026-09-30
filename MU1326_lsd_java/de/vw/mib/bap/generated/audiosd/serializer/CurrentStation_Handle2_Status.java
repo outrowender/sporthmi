@@ -10,15 +10,15 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CurrentStation_Handle2_Status
 implements StatusProperty {
     public int commonList_FsgHandle;
-    private static final int COMMON_LIST_FSG_HANDLE_BITSIZE;
+    private static final int COMMON_LIST_FSG_HANDLE_BITSIZE = 16;
     public int commonList_FsgHandle_absolutePosition;
-    private static final int COMMON_LIST_FSG_HANDLE_ABSOLUTE_POSITION_BITSIZE;
-    public static final int EXTENSION1_MIN;
+    private static final int COMMON_LIST_FSG_HANDLE_ABSOLUTE_POSITION_BITSIZE = 16;
+    public static final int EXTENSION1_MIN = 0;
     public int extension1;
-    private static final int EXTENSION1_BITSIZE;
-    public static final int EXTENSION2_MIN;
+    private static final int EXTENSION1_BITSIZE = 8;
+    public static final int EXTENSION2_MIN = 0;
     public int extension2;
-    private static final int EXTENSION2_BITSIZE;
+    private static final int EXTENSION2_BITSIZE = 8;
 
     public CurrentStation_Handle2_Status() {
         this.internalReset();
@@ -37,12 +37,10 @@ implements StatusProperty {
         this.extension2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CurrentStation_Handle2_Status currentStation_Handle2_Status = (CurrentStation_Handle2_Status)bAPEntity;
         return this.commonList_FsgHandle == currentStation_Handle2_Status.commonList_FsgHandle && this.commonList_FsgHandle_absolutePosition == currentStation_Handle2_Status.commonList_FsgHandle_absolutePosition && this.extension1 == currentStation_Handle2_Status.extension1 && this.extension2 == currentStation_Handle2_Status.extension2;
@@ -51,7 +49,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CurrentStation_Handle2_Status:");
@@ -66,7 +63,6 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -75,7 +71,6 @@ implements StatusProperty {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.commonList_FsgHandle);
         bitStream.pushShort((short)this.commonList_FsgHandle_absolutePosition);
@@ -83,7 +78,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.commonList_FsgHandle = bitStream.popFrontShort();
         this.commonList_FsgHandle_absolutePosition = bitStream.popFrontShort();
@@ -95,7 +89,6 @@ implements StatusProperty {
         return 51;
     }
 
-    @Override
     public int getFunctionId() {
         return CurrentStation_Handle2_Status.functionId();
     }

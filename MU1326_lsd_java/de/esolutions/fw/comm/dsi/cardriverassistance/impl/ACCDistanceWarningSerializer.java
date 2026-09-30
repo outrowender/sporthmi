@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.ACCDistanceWarning;
 
 public class ACCDistanceWarningSerializer {
-    public static void putOptionalACCDistanceWarning(ISerializer iSerializer, ACCDistanceWarning aCCDistanceWarning) {
+    public static void putOptionalACCDistanceWarning(ISerializer iSerializer, ACCDistanceWarning aCCDistanceWarning) throws SerializerException {
         boolean bl = aCCDistanceWarning == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ACCDistanceWarningSerializer {
         }
     }
 
-    public static void putOptionalACCDistanceWarningVarArray(ISerializer iSerializer, ACCDistanceWarning[] aCCDistanceWarningArray) {
+    public static void putOptionalACCDistanceWarningVarArray(ISerializer iSerializer, ACCDistanceWarning[] aCCDistanceWarningArray) throws SerializerException {
         boolean bl = aCCDistanceWarningArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ACCDistanceWarningSerializer {
         }
     }
 
-    public static ACCDistanceWarning getOptionalACCDistanceWarning(IDeserializer iDeserializer) {
+    public static ACCDistanceWarning getOptionalACCDistanceWarning(IDeserializer iDeserializer) throws SerializerException {
         ACCDistanceWarning aCCDistanceWarning = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ACCDistanceWarningSerializer {
         return aCCDistanceWarning;
     }
 
-    public static ACCDistanceWarning[] getOptionalACCDistanceWarningVarArray(IDeserializer iDeserializer) {
+    public static ACCDistanceWarning[] getOptionalACCDistanceWarningVarArray(IDeserializer iDeserializer) throws SerializerException {
         ACCDistanceWarning[] aCCDistanceWarningArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

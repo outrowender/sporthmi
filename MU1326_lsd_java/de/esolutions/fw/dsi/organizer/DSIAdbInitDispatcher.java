@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.organizer;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.organizer.DSIAdbInitReply;
 import de.esolutions.fw.comm.dsi.organizer.impl.DSIAdbInitReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIAdbInitReply {
         super(n, (class$org$dsi$ifc$organizer$DSIAdbInitListener == null ? (class$org$dsi$ifc$organizer$DSIAdbInitListener = DSIAdbInitDispatcher.class$("org.dsi.ifc.organizer.DSIAdbInitListener")) : class$org$dsi$ifc$organizer$DSIAdbInitListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateDefaultPublicProfileVisibility(boolean bl, int n) {
+    public void updateDefaultPublicProfileVisibility(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateMaxLocalEntries(int n, int n2) {
+    public void updateMaxLocalEntries(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateMaxPhoneEntries(int n, int n2) {
+    public void updateMaxPhoneEntries(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateMaxTopDestEntries(int n, int n2) {
+    public void updateMaxTopDestEntries(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -143,8 +139,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateMaxSpeedDialEntries(int n, int n2) {
+    public void updateMaxSpeedDialEntries(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -172,8 +167,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateAutoProfileAllocation(boolean bl, int n) {
+    public void updateAutoProfileAllocation(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -201,8 +195,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setDefaultPublicProfileVisibilityResult(int n) {
+    public void setDefaultPublicProfileVisibilityResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -218,8 +211,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setMaxLocalEntriesResult(int n) {
+    public void setMaxLocalEntriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -235,8 +227,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setMaxPhoneEntriesResult(int n) {
+    public void setMaxPhoneEntriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -252,8 +243,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setMaxTopDestEntriesResult(int n) {
+    public void setMaxTopDestEntriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -269,8 +259,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setMaxSpeedDialEntriesResult(int n) {
+    public void setMaxSpeedDialEntriesResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -286,8 +275,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setNumericalSpellerEnabledResult(int n) {
+    public void setNumericalSpellerEnabledResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -303,8 +291,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setAutoProfileAllocationResult(int n) {
+    public void setAutoProfileAllocationResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -320,8 +307,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setSpeedDialTypeResult(int n) {
+    public void setSpeedDialTypeResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -337,8 +323,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setProfileHandlingType(int n) {
+    public void setProfileHandlingType(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -354,8 +339,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setDefaultSortOrderResult(int n) {
+    public void setDefaultSortOrderResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -371,8 +355,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setOnlineDestinationEnabledResult(int n) {
+    public void setOnlineDestinationEnabledResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -388,8 +371,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void setDefaultSOSButtonResult(int n) {
+    public void setDefaultSOSButtonResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -405,8 +387,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void updateDefaultSOSButton(boolean bl, int n) {
+    public void updateDefaultSOSButton(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -434,8 +415,7 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -451,14 +431,13 @@ implements DSIAdbInitReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAdbInitListener dSIAdbInitListener = (DSIAdbInitListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbInitDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbInitDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAdbInitListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAdbInitDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAdbInitDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAdbInitListener, new Object[]{string, string2});
                     continue;
                 }

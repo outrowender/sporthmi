@@ -48,27 +48,22 @@ implements ITraceBackendListener {
         }
     }
 
-    @Override
     public void connected(short s, boolean bl) {
         this.worker.addConnectBackendCommand(s, bl);
     }
 
-    @Override
     public void disconnected(short s) {
         this.worker.addDisconnectBackendCommand(s);
     }
 
-    @Override
     public boolean triggerRequestFilterLevel(TraceEntityURI traceEntityURI, short s) {
         return this.worker.addRequestFilterLevelCommand(traceEntityURI, s);
     }
 
-    @Override
     public boolean triggerExecuteCallback(int n, byte[] byArray) {
         return this.worker.addExecuteCallbackCommand(n, byArray);
     }
 
-    @Override
     public short queryFilterLevel(TraceEntityURI traceEntityURI) {
         TraceEntity traceEntity = this.model.getEntity(traceEntityURI);
         if (traceEntity == null) {
@@ -77,28 +72,23 @@ implements ITraceBackendListener {
         return traceEntity.getCoreFilterLevel();
     }
 
-    @Override
     public void logMessage(short s, String string) {
         String string2 = this.worker.getController().getBackendKey(s);
         TraceMe.msg(TraceMe.TRACE, "CoreListener", "%1: %2", string2, string);
     }
 
-    @Override
     public int getCoreMaxEntities() {
         return this.config.getEntityPoolSize();
     }
 
-    @Override
     public String getCoreId() {
         return this.config.getId();
     }
 
-    @Override
     public void requestQuit() {
         this.worker.addRequestQuitCommand();
     }
 
-    @Override
     public ITraceMessageFormatter createFormatter(String string, boolean bl) {
         TraceConfigFormatter traceConfigFormatter = (TraceConfigFormatter)this.formatterConfigs.get(string);
         ITraceMessageFormatter iTraceMessageFormatter = null;
@@ -111,12 +101,10 @@ implements ITraceBackendListener {
         return iTraceMessageFormatter;
     }
 
-    @Override
     public ITraceEntityResolver getEntityResolver() {
         return this.resolver;
     }
 
-    @Override
     public String getTimeZoneName(int n) {
         TraceTimeZone traceTimeZone = this.timeZonePool.getTimeZone(n);
         if (traceTimeZone != null) {
@@ -125,7 +113,6 @@ implements ITraceBackendListener {
         return null;
     }
 
-    @Override
     public Object getComponent(String string) {
         return this.core.getComponent(string);
     }

@@ -9,7 +9,7 @@ import org.apache.xerces.dom.ParentNode;
 
 class NodeListCache
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -7927529254918631002L;
     int fLength = -1;
     int fChildIndex = -1;
     ChildNode fChild;

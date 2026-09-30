@@ -7,10 +7,10 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface EFecCheckResult
 extends IEnum {
-    public static final int eFecValid;
-    public static final int eFecSignatureFailed;
-    public static final int eFecVcrnTemporarilyFailed;
-    public static final int eFecDateFailed;
-    public static final int eFecValidityFailed;
+    public static final int eFecValid = 0;
+    public static final int eFecSignatureFailed = 1;
+    public static final int eFecVcrnTemporarilyFailed = 2;
+    public static final int eFecDateFailed = 3;
+    public static final int eFecValidityFailed = 4;
 }
 

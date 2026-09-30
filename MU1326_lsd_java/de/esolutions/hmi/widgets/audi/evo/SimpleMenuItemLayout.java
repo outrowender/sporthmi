@@ -14,12 +14,11 @@ import java.util.List;
 public class SimpleMenuItemLayout
 implements LayoutManager,
 WidgetConstants {
-    private static final int BIG_WIDGET_INDEX;
-    private static final int SMALL_WIDGET_INDEX;
+    private static final int BIG_WIDGET_INDEX = 0;
+    private static final int SMALL_WIDGET_INDEX = 1;
     private int gap = 5;
     private int alignmentVertical = 9;
 
-    @Override
     public void layout(AbstractWidget abstractWidget) {
         AbstractWidgetController abstractWidgetController;
         int n = abstractWidget.getWidth();
@@ -54,7 +53,7 @@ WidgetConstants {
             case 7: {
                 n5 = this.getActualChildHeight(abstractWidgetController, n4);
                 float f2 = (float)(n4 - n5) / 2.0f;
-                n6 = (int)(f2 + 63);
+                n6 = (int)(f2 + 0.5f);
                 break;
             }
             case 9: {
@@ -75,7 +74,6 @@ WidgetConstants {
         return abstractWidgetController.getPreferredHeight();
     }
 
-    @Override
     public int[] calculateSize(AbstractWidget abstractWidget, int n) {
         return new int[]{this.calculateWidth(abstractWidget), this.calculateHeight(abstractWidget)};
     }
@@ -106,7 +104,6 @@ WidgetConstants {
         return n;
     }
 
-    @Override
     public void flushCache() {
     }
 

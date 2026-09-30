@@ -35,7 +35,6 @@ IPartialPopupListener {
     private boolean isActive = false;
     private IConversionMatrixPreparationFinishedListener finishedListener;
 
-    @Override
     public void registerConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler iConversionCandidateSelectionHandler) {
         boolean bl = false;
         if (!this.registeredSelectionHandlers.isEmpty()) {
@@ -51,7 +50,6 @@ IPartialPopupListener {
         }
     }
 
-    @Override
     public void unRegisterConversionCandidateSelectionHandler(IConversionCandidateSelectionHandler iConversionCandidateSelectionHandler) {
         if (!this.registeredSelectionHandlers.isEmpty()) {
             int n = this.registeredSelectionHandlers.size();
@@ -63,18 +61,16 @@ IPartialPopupListener {
         }
     }
 
-    @Override
     public void setUnconvertedCharacters(String string, IConversionMatrixPreparationFinishedListener iConversionMatrixPreparationFinishedListener) {
         this.finishedListener = iConversionMatrixPreparationFinishedListener;
         String string2 = this.currentUnconvertedCharacters;
         this.currentUnconvertedCharacters = string;
         if (this.conversionFetcher != null && (!StringUtilities.isNullOrEmpty(string) || this.conversionFetcher instanceof ConversionDataFetcherWordPrediction)) {
             char c2 = TouchControllerListenerFactory.calculateLastInputChar(string2, string);
-            this.conversionFetcher.requestConversions(string, c2, 0, -129, false);
+            this.conversionFetcher.requestConversions(string, c2, 0, Integer.MAX_VALUE, false);
         }
     }
 
-    @Override
     public void setSelected(String string, int n) {
         if (this.updateHandler != null) {
             this.updateHandler.candidateSelected(string);
@@ -88,17 +84,14 @@ IPartialPopupListener {
         }
     }
 
-    @Override
     public String getUnconvertedCharacters() {
         return this.currentUnconvertedCharacters;
     }
 
-    @Override
     public void setUpdateHandler(IConversionMatrixModelUpdateHandler iConversionMatrixModelUpdateHandler) {
         this.updateHandler = iConversionMatrixModelUpdateHandler;
     }
 
-    @Override
     public void handleMatrixKeyEvent(KeyEvent keyEvent) {
         if (null != this.registeredSelectionHandlers && !this.registeredSelectionHandlers.isEmpty()) {
             for (int i2 = 0; i2 < this.registeredSelectionHandlers.size(); ++i2) {
@@ -107,7 +100,6 @@ IPartialPopupListener {
         }
     }
 
-    @Override
     public void setConversionDataFetcher(IConversionDataFetcher iConversionDataFetcher) {
         if (iConversionDataFetcher != null) {
             iConversionDataFetcher.registerConversionFetcherListener(this);
@@ -115,10 +107,9 @@ IPartialPopupListener {
         }
     }
 
-    @Override
     public void onConversionAvailableChange(String string, List list) {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "ConversionMatrixModel#onConversionAvailableChange rawInput = %1 UnconvertedCharacters = %2 conversion = %3", (Object)string, (Object)this.getUnconvertedCharacters(), (Object)list);
+            this.logChannel.log(10000000, "ConversionMatrixModel#onConversionAvailableChange rawInput = %1 UnconvertedCharacters = %2 conversion = %3", (Object)string, (Object)this.getUnconvertedCharacters(), (Object)list);
         }
         this.conversionlist = list;
         if (this.updateHandler != null && list != null) {
@@ -138,16 +129,13 @@ IPartialPopupListener {
         this.finishedListener = null;
     }
 
-    @Override
     public void onNextValidCharactersChange(String string, String string2, String string3) {
     }
 
-    @Override
     public List getConversionData() {
         return Collections.unmodifiableList(this.conversionlist);
     }
 
-    @Override
     public void removeConversionFetcher(IConversionDataFetcher iConversionDataFetcher) {
         if (iConversionDataFetcher != null) {
             iConversionDataFetcher.unregisterConversionFetcherListener(this);
@@ -155,35 +143,29 @@ IPartialPopupListener {
         this.conversionFetcher = null;
     }
 
-    @Override
     public void partialPopupVisible(int n, int n2) {
         if (this.updateHandler != null) {
             this.updateHandler.onPopupVisibilityChange(true);
         }
     }
 
-    @Override
     public void partialPopupHidden(int n, int n2) {
         if (this.updateHandler != null) {
             this.updateHandler.onPopupVisibilityChange(false);
         }
     }
 
-    @Override
     public int[] getPPIDsForCallbacks() {
         return PARTIAL_POPUP_IDS_TO_LISTEN_FOR;
     }
 
-    @Override
     public void partialPopupRemoved(int n, int n2) {
     }
 
-    @Override
     public void setIsActivated(boolean bl) {
         this.isActive = bl;
     }
 
-    @Override
     public boolean isActivated() {
         return this.isActive;
     }
@@ -198,11 +180,9 @@ IPartialPopupListener {
         this.currentUnconvertedCharacters = string;
     }
 
-    @Override
     public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
     }
 
-    @Override
     public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 }

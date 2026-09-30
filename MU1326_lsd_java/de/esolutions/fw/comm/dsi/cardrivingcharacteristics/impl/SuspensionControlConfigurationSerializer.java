@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SuspensionContro
 import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SuspensionControlLevelsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlAdditionalFunctions;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlAirProfiles;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlConfiguration;
@@ -16,7 +17,7 @@ import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlDRCProfiles;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlLevels;
 
 public class SuspensionControlConfigurationSerializer {
-    public static void putOptionalSuspensionControlConfiguration(ISerializer iSerializer, SuspensionControlConfiguration suspensionControlConfiguration) {
+    public static void putOptionalSuspensionControlConfiguration(ISerializer iSerializer, SuspensionControlConfiguration suspensionControlConfiguration) throws SerializerException {
         boolean bl = suspensionControlConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class SuspensionControlConfigurationSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlConfigurationVarArray(ISerializer iSerializer, SuspensionControlConfiguration[] suspensionControlConfigurationArray) {
+    public static void putOptionalSuspensionControlConfigurationVarArray(ISerializer iSerializer, SuspensionControlConfiguration[] suspensionControlConfigurationArray) throws SerializerException {
         boolean bl = suspensionControlConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class SuspensionControlConfigurationSerializer {
         }
     }
 
-    public static SuspensionControlConfiguration getOptionalSuspensionControlConfiguration(IDeserializer iDeserializer) {
+    public static SuspensionControlConfiguration getOptionalSuspensionControlConfiguration(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlConfiguration suspensionControlConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class SuspensionControlConfigurationSerializer {
         return suspensionControlConfiguration;
     }
 
-    public static SuspensionControlConfiguration[] getOptionalSuspensionControlConfigurationVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlConfiguration[] getOptionalSuspensionControlConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlConfiguration[] suspensionControlConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

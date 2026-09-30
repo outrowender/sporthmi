@@ -7,77 +7,64 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIAdbInit
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_SETDEFAULTPUBLICPROFILEVISIBILITY;
-    public static final int RT_SETMAXLOCALENTRIES;
-    public static final int RT_SETMAXPHONEENTRIES;
-    public static final int RT_SETMAXTOPDESTENTRIES;
-    public static final int RT_SETMAXSPEEDDIALENTRIES;
-    public static final int RT_SETNUMERICALSPELLERENABLED;
-    public static final int RT_SETAUTOPROFILEALLOCATION;
-    public static final int RT_FINALIZECONFIGURATION;
-    public static final int RT_SETSPEEDDIALTYPE;
-    public static final int RT_SETPROFILEHANDLINGTYPE;
-    public static final int RT_SETDEFAULTSORTORDER;
-    public static final int RT_SETONLINEDESTINATIONENABLED;
-    public static final int RT_SETDEFAULTSOSBUTTON;
-    public static final int ATTR_DEFAULTPUBLICPROFILEVISIBILITY;
-    public static final int ATTR_MAXLOCALENTRIES;
-    public static final int ATTR_MAXPHONEENTRIES;
-    public static final int ATTR_MAXTOPDESTENTRIES;
-    public static final int ATTR_MAXSPEEDDIALENTRIES;
-    public static final int ATTR_AUTOPROFILEALLOCATION;
-    public static final int ATTR_DEFAULTSOSBUTTON;
-    public static final int RP_SETDEFAULTPUBLICPROFILEVISIBILITYRESULT;
-    public static final int RP_SETMAXLOCALENTRIESRESULT;
-    public static final int RP_SETMAXPHONEENTRIESRESULT;
-    public static final int RP_SETMAXTOPDESTENTRIESRESULT;
-    public static final int RP_SETMAXSPEEDDIALENTRIESRESULT;
-    public static final int RP_SETAUTOPROFILEALLOCATIONRESULT;
-    public static final int RP_SETNUMERICALSPELLERENABLEDRESULT;
-    public static final int RP_SETSPEEDDIALTYPERESULT;
-    public static final int RP_SETPROFILEHANDLINGTYPE;
-    public static final int RP_SETDEFAULTSORTORDERRESULT;
-    public static final int RP_SETONLINEDESTINATIONENABLEDRESULT;
-    public static final int RP_SETDEFAULTSOSBUTTONRESULT;
+    public static final String VERSION = "2.11.31";
+    public static final int RT_SETDEFAULTPUBLICPROFILEVISIBILITY = 1000;
+    public static final int RT_SETMAXLOCALENTRIES = 1001;
+    public static final int RT_SETMAXPHONEENTRIES = 1002;
+    public static final int RT_SETMAXTOPDESTENTRIES = 1003;
+    public static final int RT_SETMAXSPEEDDIALENTRIES = 1004;
+    public static final int RT_SETNUMERICALSPELLERENABLED = 1005;
+    public static final int RT_SETAUTOPROFILEALLOCATION = 1006;
+    public static final int RT_FINALIZECONFIGURATION = 1007;
+    public static final int RT_SETSPEEDDIALTYPE = 1009;
+    public static final int RT_SETPROFILEHANDLINGTYPE = 1010;
+    public static final int RT_SETDEFAULTSORTORDER = 1011;
+    public static final int RT_SETONLINEDESTINATIONENABLED = 1012;
+    public static final int RT_SETDEFAULTSOSBUTTON = 1013;
+    public static final int ATTR_DEFAULTPUBLICPROFILEVISIBILITY = 1;
+    public static final int ATTR_MAXLOCALENTRIES = 2;
+    public static final int ATTR_MAXPHONEENTRIES = 3;
+    public static final int ATTR_MAXTOPDESTENTRIES = 4;
+    public static final int ATTR_MAXSPEEDDIALENTRIES = 5;
+    public static final int ATTR_AUTOPROFILEALLOCATION = 6;
+    public static final int ATTR_DEFAULTSOSBUTTON = 7;
+    public static final int RP_SETDEFAULTPUBLICPROFILEVISIBILITYRESULT = 2000;
+    public static final int RP_SETMAXLOCALENTRIESRESULT = 2001;
+    public static final int RP_SETMAXPHONEENTRIESRESULT = 2002;
+    public static final int RP_SETMAXTOPDESTENTRIESRESULT = 2003;
+    public static final int RP_SETMAXSPEEDDIALENTRIESRESULT = 2004;
+    public static final int RP_SETAUTOPROFILEALLOCATIONRESULT = 2005;
+    public static final int RP_SETNUMERICALSPELLERENABLEDRESULT = 2006;
+    public static final int RP_SETSPEEDDIALTYPERESULT = 2009;
+    public static final int RP_SETPROFILEHANDLINGTYPE = 2010;
+    public static final int RP_SETDEFAULTSORTORDERRESULT = 2011;
+    public static final int RP_SETONLINEDESTINATIONENABLEDRESULT = 2012;
+    public static final int RP_SETDEFAULTSOSBUTTONRESULT = 2013;
 
-    default public void setDefaultPublicProfileVisibility(boolean bl) {
-    }
+    public void setDefaultPublicProfileVisibility(boolean var1);
 
-    default public void setMaxLocalEntries(int n) {
-    }
+    public void setMaxLocalEntries(int var1);
 
-    default public void setMaxPhoneEntries(int n) {
-    }
+    public void setMaxPhoneEntries(int var1);
 
-    default public void setMaxTopDestEntries(int n) {
-    }
+    public void setMaxTopDestEntries(int var1);
 
-    default public void setMaxSpeedDialEntries(int n) {
-    }
+    public void setMaxSpeedDialEntries(int var1);
 
-    default public void setNumericalSpellerEnabled(boolean bl) {
-    }
+    public void setNumericalSpellerEnabled(boolean var1);
 
-    default public void setAutoProfileAllocation(boolean bl) {
-    }
+    public void setAutoProfileAllocation(boolean var1);
 
-    default public void finalizeConfiguration() {
-    }
+    public void finalizeConfiguration();
 
-    default public void setSpeedDialType(int n) {
-    }
+    public void setSpeedDialType(int var1);
 
-    default public void setProfileHandlingType(int n) {
-    }
+    public void setProfileHandlingType(int var1);
 
-    default public void setDefaultSortOrder(int n) {
-    }
+    public void setDefaultSortOrder(int var1);
 
-    default public void setOnlineDestinationEnabled(boolean bl) {
-    }
+    public void setOnlineDestinationEnabled(boolean var1);
 
-    default public void setDefaultSOSButton(boolean bl) {
-    }
+    public void setDefaultSOSButton(boolean var1);
 }
 

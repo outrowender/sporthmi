@@ -4,18 +4,20 @@
 package de.esolutions.fw.comm.asi.sdisConfigProvider.impl;
 
 import de.esolutions.fw.comm.asi.sdisConfigProvider.SdisConfigProviderReply;
-import de.esolutions.fw.comm.asi.sdisConfigProvider.impl.SdisConfigProviderReplyProxy$1;
-import de.esolutions.fw.comm.asi.sdisConfigProvider.impl.SdisConfigProviderReplyProxy$2;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SdisConfigProviderReplyProxy
 implements SdisConfigProviderReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.sdisConfigProvider.SdisConfigProvider");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public SdisConfigProviderReplyProxy() {
@@ -23,21 +25,30 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateConfig(int n, long l) {
-        SdisConfigProviderReplyProxy$1 sdisConfigProviderReplyProxy$1 = new SdisConfigProviderReplyProxy$1(this, n, l);
-        this.proxy.remoteCallMethod((short)7, sdisConfigProviderReplyProxy$1);
+    public void updateConfig(final int n, final long l) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putUInt32(l);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        SdisConfigProviderReplyProxy$2 sdisConfigProviderReplyProxy$2 = new SdisConfigProviderReplyProxy$2(this, string, bl);
-        this.proxy.remoteCallMethod((short)6, sdisConfigProviderReplyProxy$2);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 }
 

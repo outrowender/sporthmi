@@ -8,10 +8,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class ByteArrayData {
     private static final boolean IGNORE_FLAGS = Boolean.getBoolean("ByteArrayData.IGNORE_FLAGS");
-    public static final String DEFAULT_ENCODING;
+    public static final String DEFAULT_ENCODING = "UTF-8";
     private String charset;
     private int nrStrings;
     private int[] offset;
@@ -25,16 +26,16 @@ public class ByteArrayData {
     }
 
     public ByteArrayData() {
-        this("UTF-8");
+        this(DEFAULT_ENCODING);
     }
 
-    public ByteArrayData(InputStream inputStream, String string) {
+    public ByteArrayData(InputStream inputStream, String string) throws IOException {
         this(string);
         this.read(inputStream);
     }
 
-    public ByteArrayData(InputStream inputStream) {
-        this(inputStream, "UTF-8");
+    public ByteArrayData(InputStream inputStream) throws IOException {
+        this(inputStream, DEFAULT_ENCODING);
     }
 
     public ByteArrayData(String[] stringArray) {
@@ -42,7 +43,7 @@ public class ByteArrayData {
     }
 
     public ByteArrayData(String[] stringArray, String[] stringArray2) {
-        this("UTF-8");
+        this(DEFAULT_ENCODING);
         this.cache = stringArray;
         this.altCache = stringArray2;
         this.flags = null;
@@ -58,7 +59,7 @@ public class ByteArrayData {
         this.altCache = new String[this.nrStrings];
     }
 
-    public final void read(InputStream inputStream) {
+    public final void read(InputStream inputStream) throws IOException {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         this.nrStrings = dataInputStream.readInt();
         if (this.nrStrings >= 0) {
@@ -95,7 +96,7 @@ public class ByteArrayData {
         dataInputStream.close();
     }
 
-    private static byte[] createBytesForEntry(int n, String[] stringArray, String[] stringArray2, String string) {
+    private static byte[] createBytesForEntry(int n, String[] stringArray, String[] stringArray2, String string) throws UnsupportedEncodingException {
         byte[] byArray = (stringArray != null && stringArray.length > n && stringArray[n] != null ? stringArray[n] : "").getBytes(string);
         if (stringArray2 != null && stringArray2.length > n && stringArray2[n] != null) {
             byte[] byArray2 = stringArray2[n].getBytes(string);
@@ -118,26 +119,26 @@ public class ByteArrayData {
         return byArray;
     }
 
-    public static final void write(OutputStream outputStream, String[] stringArray) {
-        ByteArrayData.write(outputStream, stringArray, "UTF-8");
+    public static final void write(OutputStream outputStream, String[] stringArray) throws IOException, UnsupportedEncodingException {
+        ByteArrayData.write(outputStream, stringArray, DEFAULT_ENCODING);
     }
 
-    public static final void write(OutputStream outputStream, String[] stringArray, String[] stringArray2) {
-        ByteArrayData.write(outputStream, stringArray, stringArray2, "UTF-8");
+    public static final void write(OutputStream outputStream, String[] stringArray, String[] stringArray2) throws IOException, UnsupportedEncodingException {
+        ByteArrayData.write(outputStream, stringArray, stringArray2, DEFAULT_ENCODING);
     }
 
-    public static final void write(OutputStream outputStream, String[] stringArray, String string) {
+    public static final void write(OutputStream outputStream, String[] stringArray, String string) throws IOException, UnsupportedEncodingException {
         ByteArrayData.write(outputStream, stringArray, (String[])null, string);
     }
 
-    public static final void write(OutputStream outputStream, String[] stringArray, byte[] byArray, String string) {
+    public static final void write(OutputStream outputStream, String[] stringArray, byte[] byArray, String string) throws IOException, UnsupportedEncodingException {
         ByteArrayData.write(outputStream, stringArray, null, byArray, string);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static void write(OutputStream outputStream, String[] stringArray, String[] stringArray2, String string) {
+    public static void write(OutputStream outputStream, String[] stringArray, String[] stringArray2, String string) throws IOException, UnsupportedEncodingException {
         if (outputStream == null) {
             return;
         }
@@ -170,7 +171,7 @@ public class ByteArrayData {
         }
     }
 
-    public static void write(OutputStream outputStream, String[] stringArray, String[] stringArray2, byte[] byArray, String string) {
+    public static void write(OutputStream outputStream, String[] stringArray, String[] stringArray2, byte[] byArray, String string) throws IOException, UnsupportedEncodingException {
         ByteArrayData.write(outputStream, stringArray, stringArray2, string);
         if (outputStream != null && byArray != null) {
             if (byArray.length != stringArray.length) {
@@ -185,7 +186,7 @@ public class ByteArrayData {
         return this.data[n] & 0xFF;
     }
 
-    private void fillCache(int n) {
+    private void fillCache(int n) throws UnsupportedEncodingException {
         if (this.cache[n] == null) {
             int n2 = this.offset[n + 1];
             int n3 = this.offset[n];
@@ -205,13 +206,13 @@ public class ByteArrayData {
         }
     }
 
-    private void fillCache() {
+    private void fillCache() throws UnsupportedEncodingException {
         for (int i2 = 0; i2 < this.nrStrings; ++i2) {
             this.fillCache(i2);
         }
     }
 
-    public String getString(int n) {
+    public String getString(int n) throws UnsupportedEncodingException {
         if (n >= 0 && n < this.cache.length) {
             this.fillCache(n);
             return this.cache[n];
@@ -219,7 +220,7 @@ public class ByteArrayData {
         return null;
     }
 
-    public String getAltString(int n) {
+    public String getAltString(int n) throws UnsupportedEncodingException {
         if (n >= 0 && n < this.cache.length) {
             this.fillCache(n);
             return this.altCache[n];
@@ -227,12 +228,12 @@ public class ByteArrayData {
         return null;
     }
 
-    public String[] getStringArray() {
+    public String[] getStringArray() throws UnsupportedEncodingException {
         this.fillCache();
         return this.cache;
     }
 
-    public String[] getAltStringArray() {
+    public String[] getAltStringArray() throws UnsupportedEncodingException {
         this.fillCache();
         return this.altCache;
     }

@@ -7,7 +7,7 @@ import org.apache.xerces.xni.XMLString;
 
 public class XMLStringBuffer
 extends XMLString {
-    public static final int DEFAULT_SIZE;
+    public static final int DEFAULT_SIZE = 32;
 
     public XMLStringBuffer() {
         this(32);
@@ -37,7 +37,6 @@ extends XMLString {
         this.append(xMLString);
     }
 
-    @Override
     public void clear() {
         this.offset = 0;
         this.length = 0;

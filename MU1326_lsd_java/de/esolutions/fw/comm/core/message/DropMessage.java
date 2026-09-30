@@ -7,6 +7,7 @@ import de.esolutions.fw.comm.core.message.AbstractMessage;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class DropMessage
 extends AbstractMessage {
@@ -14,16 +15,14 @@ extends AbstractMessage {
         super(MessageType.DROP, iSerializer);
     }
 
-    public DropMessage(IDeserializer iDeserializer, boolean bl) {
+    public DropMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.DROP, iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
     }
 }
 

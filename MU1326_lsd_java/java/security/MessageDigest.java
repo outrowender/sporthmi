@@ -4,7 +4,7 @@
 package java.security;
 
 import com.ibm.oti.util.Msg;
-import java.security.MessageDigest$Wrapper;
+import java.security.DigestException;
 import java.security.MessageDigestSpi;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public abstract class MessageDigest
 extends MessageDigestSpi {
-    private static final String KEY_PREFIX;
+    private static final String KEY_PREFIX = "MessageDigest.";
     private String algorithmName;
     private Provider provider;
 
@@ -22,8 +22,7 @@ extends MessageDigestSpi {
         this.setAlgorithm(string);
     }
 
-    @Override
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
@@ -38,7 +37,7 @@ extends MessageDigestSpi {
         return this.digest();
     }
 
-    public int digest(byte[] byArray, int n, int n2) {
+    public int digest(byte[] byArray, int n, int n2) throws DigestException {
         return this.engineDigest(byArray, n, n2);
     }
 
@@ -50,7 +49,7 @@ extends MessageDigestSpi {
         return this.engineGetDigestLength();
     }
 
-    public static MessageDigest getInstance(String string) {
+    public static MessageDigest getInstance(String string) throws NoSuchAlgorithmException {
         Provider[] providerArray = Security.getProviders();
         int n = 0;
         while (n < providerArray.length) {
@@ -65,7 +64,7 @@ extends MessageDigestSpi {
         throw new NoSuchAlgorithmException(string);
     }
 
-    public static MessageDigest getInstance(String string, String string2) {
+    public static MessageDigest getInstance(String string, String string2) throws NoSuchAlgorithmException, NoSuchProviderException {
         if (string2 == null || string2 == "") {
             throw new IllegalArgumentException();
         }
@@ -76,7 +75,7 @@ extends MessageDigestSpi {
         return MessageDigest.toMessageDigestImplementation(string, provider);
     }
 
-    public static MessageDigest getInstance(String string, Provider provider) {
+    public static MessageDigest getInstance(String string, Provider provider) throws NoSuchAlgorithmException {
         return MessageDigest.toMessageDigestImplementation(string, provider);
     }
 
@@ -100,7 +99,7 @@ extends MessageDigestSpi {
         this.provider = provider;
     }
 
-    private static MessageDigest toMessageDigestImplementation(String string, Provider provider) {
+    private static MessageDigest toMessageDigestImplementation(String string, Provider provider) throws NoSuchAlgorithmException {
         if (provider == null) {
             throw new IllegalArgumentException();
         }
@@ -108,13 +107,13 @@ extends MessageDigestSpi {
             throw new IllegalArgumentException();
         }
         try {
-            String string2 = provider.lookupProperty("MessageDigest.", string);
+            String string2 = provider.lookupProperty(KEY_PREFIX, string);
             if (string2 == null) {
                 throw new NoSuchAlgorithmException(string);
             }
-            Class clazz = Class.forName(string2, true, super.getClass().getClassLoader());
+            Class clazz = Class.forName(string2, true, provider.getClass().getClassLoader());
             MessageDigestSpi messageDigestSpi = (MessageDigestSpi)clazz.newInstance();
-            MessageDigest messageDigest = messageDigestSpi instanceof MessageDigest ? (MessageDigest)messageDigestSpi : new MessageDigest$Wrapper(messageDigestSpi, string);
+            MessageDigest messageDigest = messageDigestSpi instanceof MessageDigest ? (MessageDigest)messageDigestSpi : new Wrapper(messageDigestSpi, string);
             messageDigest.setProvider(provider);
             return messageDigest;
         }
@@ -142,6 +141,42 @@ extends MessageDigestSpi {
 
     public void update(byte by) {
         this.engineUpdate(by);
+    }
+
+    private static class Wrapper
+    extends MessageDigest {
+        MessageDigestSpi providerDigest;
+
+        Wrapper(MessageDigestSpi messageDigestSpi, String string) {
+            super(string);
+            this.providerDigest = messageDigestSpi;
+        }
+
+        public Object clone() throws CloneNotSupportedException {
+            Wrapper wrapper = new Wrapper((MessageDigestSpi)this.providerDigest.clone(), this.getAlgorithm());
+            wrapper.setProvider(this.getProvider());
+            return wrapper;
+        }
+
+        protected byte[] engineDigest() {
+            return this.providerDigest.engineDigest();
+        }
+
+        protected void engineReset() {
+            this.providerDigest.engineReset();
+        }
+
+        protected void engineUpdate(byte[] byArray, int n, int n2) {
+            this.providerDigest.engineUpdate(byArray, n, n2);
+        }
+
+        protected void engineUpdate(byte by) {
+            this.providerDigest.engineUpdate(by);
+        }
+
+        protected int engineGetDigestLength() {
+            return this.providerDigest.engineGetDigestLength();
+        }
     }
 }
 

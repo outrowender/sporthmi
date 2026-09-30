@@ -7,20 +7,19 @@ import com.ibm.oti.util.PriviAction;
 import java.net.NegCacheElement;
 import java.security.AccessController;
 import java.util.LinkedHashMap;
-import java.util.Map$Entry;
+import java.util.Map;
 
 class NegativeCache
 extends LinkedHashMap {
     static NegativeCache negCache = null;
-    static final int MAX_NEGATIVE_ENTRIES;
-    static final float LOADING;
+    static final int MAX_NEGATIVE_ENTRIES = 5;
+    static final float LOADING = 0.75f;
 
     NegativeCache(int n, float f2, boolean bl) {
         super(n, f2, bl);
     }
 
-    @Override
-    protected boolean removeEldestEntry(Map$Entry map$Entry) {
+    protected boolean removeEldestEntry(Map.Entry entry) {
         return this.size() > 5;
     }
 
@@ -57,7 +56,7 @@ extends LinkedHashMap {
 
     static void checkCacheExists() {
         if (negCache == null) {
-            negCache = new NegativeCache(6, 16447, true);
+            negCache = new NegativeCache(6, 0.75f, true);
         }
     }
 }

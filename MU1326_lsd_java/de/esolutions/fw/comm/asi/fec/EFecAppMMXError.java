@@ -7,7 +7,7 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface EFecAppMMXError
 extends IEnum {
-    public static final int eErrorUnknown;
-    public static final int eErrorFecManagerNotAlive;
+    public static final int eErrorUnknown = 0;
+    public static final int eErrorFecManagerNotAlive = 1;
 }
 

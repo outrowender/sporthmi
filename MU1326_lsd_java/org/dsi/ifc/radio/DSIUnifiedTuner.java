@@ -7,104 +7,93 @@ import org.dsi.ifc.base.DSIBase;
 
 public interface DSIUnifiedTuner
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_DETECTEDDEVICE;
-    public static final int ATTR_AUDIOSTATUS;
-    public static final int ATTR_SELECTEDSTATION;
-    public static final int ATTR_STATIONLIST;
-    public static final int ATTR_RADIOTEXT;
-    public static final int ATTR_ENHANCEDRADIOTEXT;
-    public static final int ATTR_RADIOTEXTPLUS;
-    public static final int ATTR_ENHANCEDRADIOTEXTPLUS;
-    public static final int ATTR_SLIDESHOWINFO;
-    public static final int ATTR_SOFTLINKSWITCHSTATUS;
-    public static final int ATTR_REGMODESTATUS;
-    public static final int ATTR_DEVICEUSAGESTATUS;
-    public static final int ATTR_PROFILESTATE;
-    public static final int RT_SELECTSTATION;
-    public static final int RT_SETSTATIONFOLLOWINGMODE;
-    public static final int RT_SETLISTMODE;
-    public static final int RT_ENABLERADIOTEXTPLUS;
-    public static final int RT_SETSOFTLINKSWITCH;
-    public static final int RT_SETREGMODE;
-    public static final int RT_SWITCHDEVICEUSAGE;
-    public static final int RT_PROFILECHANGE;
-    public static final int RT_PROFILECOPY;
-    public static final int RT_PROFILERESET;
-    public static final int RT_PROFILERESETALL;
-    public static final int RP_SELECTSTATIONSTATUS;
-    public static final int RP_LISTMODE;
-    public static final int RP_STATIONFOLLOWINGMODE;
-    public static final int RP_PROFILECHANGED;
-    public static final int RP_PROFILECOPIED;
-    public static final int RP_PROFILERESET;
-    public static final int RP_PROFILERESETALL;
-    public static final int DEVICETYPE_NONE;
-    public static final int DEVICETYPE_RU;
-    public static final int STATIONFOLLOWINGMODE_AUTO;
-    public static final int STATIONFOLLOWINGMODE_STAYANALOG;
-    public static final int STATIONFOLLOWINGMODE_STAYDIGITAL;
-    public static final int STATIONFOLLOWINGMODE_OFF;
-    public static final int SOFTLINKSWITCH_OFF;
-    public static final int SOFTLINKSWITCH_ON;
-    public static final int REGMODE_OFF;
-    public static final int REGMODE_ON;
-    public static final int REGMODE_AUTO;
-    public static final int AUDIOSTATUS_ANALOG;
-    public static final int AUDIOSTATUS_DIGITAL;
-    public static final int AUDIOSTATUS_MUTE;
-    public static final int LISTMODE_AUTO;
-    public static final int LISTMODE_SHOWALTERNATIVES;
-    public static final int TPAVAILABILITY_UNKNOWN;
-    public static final int TPAVAILABILITY_NO;
-    public static final int TPAVAILABILITY_DIRECT;
-    public static final int TPAVAILABILITY_LINKED;
-    public static final int SELECTSTATIONMODE_FM;
-    public static final int SELECTSTATIONMODE_DAB;
-    public static final int RADIOTEXTSOURCE_FM;
-    public static final int RADIOTEXTSOURCE_DAB;
-    public static final int SCROLLINGPS_UNKNOWN;
-    public static final int SCROLLINGPS_FALSE;
-    public static final int SCROLLINGPS_TRUE;
-    public static final int SELECTSTATIONSTATUS_UNDEFINED;
-    public static final int SELECTSTATIONSTATUS_RUNNING;
-    public static final int SELECTSTATIONSTATUS_DONE;
-    public static final int SELECTSTATIONSTATUS_ABORTED;
-    public static final int SELECTSTATIONSTATUS_FAILURE;
-    public static final int DEVICEUSAGE_AVAILABLE;
-    public static final int DEVICEUSAGE_USED;
+    public static final String VERSION = "2.11.36";
+    public static final int ATTR_DETECTEDDEVICE = 1;
+    public static final int ATTR_AUDIOSTATUS = 2;
+    public static final int ATTR_SELECTEDSTATION = 3;
+    public static final int ATTR_STATIONLIST = 4;
+    public static final int ATTR_RADIOTEXT = 5;
+    public static final int ATTR_ENHANCEDRADIOTEXT = 6;
+    public static final int ATTR_RADIOTEXTPLUS = 7;
+    public static final int ATTR_ENHANCEDRADIOTEXTPLUS = 8;
+    public static final int ATTR_SLIDESHOWINFO = 9;
+    public static final int ATTR_SOFTLINKSWITCHSTATUS = 10;
+    public static final int ATTR_REGMODESTATUS = 11;
+    public static final int ATTR_DEVICEUSAGESTATUS = 12;
+    public static final int ATTR_PROFILESTATE = 13;
+    public static final int RT_SELECTSTATION = 1000;
+    public static final int RT_SETSTATIONFOLLOWINGMODE = 1001;
+    public static final int RT_SETLISTMODE = 1002;
+    public static final int RT_ENABLERADIOTEXTPLUS = 1003;
+    public static final int RT_SETSOFTLINKSWITCH = 1004;
+    public static final int RT_SETREGMODE = 1005;
+    public static final int RT_SWITCHDEVICEUSAGE = 1006;
+    public static final int RT_PROFILECHANGE = 1007;
+    public static final int RT_PROFILECOPY = 1008;
+    public static final int RT_PROFILERESET = 1009;
+    public static final int RT_PROFILERESETALL = 1010;
+    public static final int RP_SELECTSTATIONSTATUS = 2000;
+    public static final int RP_LISTMODE = 2001;
+    public static final int RP_STATIONFOLLOWINGMODE = 2002;
+    public static final int RP_PROFILECHANGED = 2003;
+    public static final int RP_PROFILECOPIED = 2004;
+    public static final int RP_PROFILERESET = 2005;
+    public static final int RP_PROFILERESETALL = 2006;
+    public static final int DEVICETYPE_NONE = 1;
+    public static final int DEVICETYPE_RU = 3;
+    public static final int STATIONFOLLOWINGMODE_AUTO = 1;
+    public static final int STATIONFOLLOWINGMODE_STAYANALOG = 2;
+    public static final int STATIONFOLLOWINGMODE_STAYDIGITAL = 3;
+    public static final int STATIONFOLLOWINGMODE_OFF = 4;
+    public static final int SOFTLINKSWITCH_OFF = 0;
+    public static final int SOFTLINKSWITCH_ON = 1;
+    public static final int REGMODE_OFF = 0;
+    public static final int REGMODE_ON = 1;
+    public static final int REGMODE_AUTO = 2;
+    public static final int AUDIOSTATUS_ANALOG = 1;
+    public static final int AUDIOSTATUS_DIGITAL = 2;
+    public static final int AUDIOSTATUS_MUTE = 3;
+    public static final int LISTMODE_AUTO = 1;
+    public static final int LISTMODE_SHOWALTERNATIVES = 2;
+    public static final int TPAVAILABILITY_UNKNOWN = 0;
+    public static final int TPAVAILABILITY_NO = 1;
+    public static final int TPAVAILABILITY_DIRECT = 2;
+    public static final int TPAVAILABILITY_LINKED = 3;
+    public static final int SELECTSTATIONMODE_FM = 1;
+    public static final int SELECTSTATIONMODE_DAB = 2;
+    public static final int RADIOTEXTSOURCE_FM = 1;
+    public static final int RADIOTEXTSOURCE_DAB = 2;
+    public static final int SCROLLINGPS_UNKNOWN = 0;
+    public static final int SCROLLINGPS_FALSE = 1;
+    public static final int SCROLLINGPS_TRUE = 2;
+    public static final int SELECTSTATIONSTATUS_UNDEFINED = 0;
+    public static final int SELECTSTATIONSTATUS_RUNNING = 1;
+    public static final int SELECTSTATIONSTATUS_DONE = 2;
+    public static final int SELECTSTATIONSTATUS_ABORTED = 3;
+    public static final int SELECTSTATIONSTATUS_FAILURE = 4;
+    public static final int DEVICEUSAGE_AVAILABLE = 0;
+    public static final int DEVICEUSAGE_USED = 1;
 
-    default public void selectStation(int n, long l, int n2, int n3, int n4, int n5) {
-    }
+    public void selectStation(int var1, long var2, int var4, int var5, int var6, int var7);
 
-    default public void setStationFollowingMode(int n) {
-    }
+    public void setStationFollowingMode(int var1);
 
-    default public void setListMode(int n) {
-    }
+    public void setListMode(int var1);
 
-    default public void enableRadioTextPlus(int[] nArray) {
-    }
+    public void enableRadioTextPlus(int[] var1);
 
-    default public void setSoftLinkSwitch(int n) {
-    }
+    public void setSoftLinkSwitch(int var1);
 
-    default public void setRegMode(int n) {
-    }
+    public void setRegMode(int var1);
 
-    default public void switchDeviceUsage(int n) {
-    }
+    public void switchDeviceUsage(int var1);
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1);
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2);
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1);
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll();
 }
 

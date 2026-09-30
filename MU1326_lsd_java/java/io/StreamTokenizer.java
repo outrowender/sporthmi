@@ -1,28 +1,26 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
+import java.io.IOException;
 import java.io.Reader;
 
 public class StreamTokenizer {
     public double nval;
     public String sval;
-    public static final int TT_EOF;
-    public static final int TT_EOL;
-    public static final int TT_NUMBER;
-    public static final int TT_WORD;
-    private static final int TT_UNKNOWN;
+    public static final int TT_EOF = -1;
+    public static final int TT_EOL = 10;
+    public static final int TT_NUMBER = -2;
+    public static final int TT_WORD = -3;
+    private static final int TT_UNKNOWN = -4;
     public int ttype = -4;
     private byte[] tokenTypes = new byte[256];
-    private static final byte TOKEN_COMMENT;
-    private static final byte TOKEN_QUOTE;
-    private static final byte TOKEN_WHITE;
-    private static final byte TOKEN_WORD;
-    private static final byte TOKEN_DIGIT;
+    private static final byte TOKEN_COMMENT = 1;
+    private static final byte TOKEN_QUOTE = 2;
+    private static final byte TOKEN_WHITE = 4;
+    private static final byte TOKEN_WORD = 8;
+    private static final byte TOKEN_DIGIT = 16;
     private int lineNumber = 1;
     private boolean forceLowercase = false;
     private boolean isEOLSignificant = false;
@@ -70,7 +68,7 @@ public class StreamTokenizer {
         this.forceLowercase = bl;
     }
 
-    public int nextToken() {
+    public int nextToken() throws IOException {
         int n;
         if (this.pushBackToken) {
             this.pushBackToken = false;
@@ -136,7 +134,7 @@ public class StreamTokenizer {
                 return 45;
             }
             try {
-                this.nval = Double.valueOf((String)stringBuffer.toString());
+                this.nval = Double.valueOf(stringBuffer.toString());
             }
             catch (NumberFormatException numberFormatException) {
                 this.nval = 0.0;
@@ -319,7 +317,7 @@ public class StreamTokenizer {
         }
     }
 
-    private int read() {
+    private int read() throws IOException {
         return this.inReader.read();
     }
 

@@ -3,87 +3,63 @@
  */
 package de.esolutions.fw.comm.dsi.swdlselection;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.swdlselection.LameClient;
 
 public interface DSISwdlSelectionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "fb91eb47-429d-5abb-ab06-b298a7835f6d";
+    public static final String IPL_COMM_INTERFACE_KEY = "3f2a3d3c-757b-5e14-88ca-e40491368c8e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.12";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.12";
 
-    default public void updateLameClients(LameClient[] lameClientArray, int n) {
-    }
+    public void updateLameClients(LameClient[] var1, int var2) throws MethodException;
 
-    default public void updateEngineering(boolean bl, int n) {
-    }
+    public void updateEngineering(boolean var1, int var2) throws MethodException;
 
-    default public void updateUserSwdl(boolean bl, int n) {
-    }
+    public void updateUserSwdl(boolean var1, int var2) throws MethodException;
 
-    default public void updateRingNotOK(boolean bl, int n) {
-    }
+    public void updateRingNotOK(boolean var1, int var2) throws MethodException;
 
-    default public void updateEndDownload(boolean bl, int n) {
-    }
+    public void updateEndDownload(boolean var1, int var2) throws MethodException;
 
-    default public void updateAvailableMedia(byte by, int n) {
-    }
+    public void updateAvailableMedia(byte var1, int var2) throws MethodException;
 
-    default public void updateUnitType(int n, int n2) {
-    }
+    public void updateUnitType(int var1, int var2) throws MethodException;
 
-    default public void getMedia(int[] nArray) {
-    }
+    public void getMedia(int[] var1) throws MethodException;
 
-    default public void storeNfsIpAddress(String string) {
-    }
+    public void storeNfsIpAddress(String var1) throws MethodException;
 
-    default public void storeNfsPath(String string) {
-    }
+    public void storeNfsPath(String var1) throws MethodException;
 
-    default public void storeFsPath(String string) {
-    }
+    public void storeFsPath(String var1) throws MethodException;
 
-    default public void setMedium(int n, String string, String[] stringArray) {
-    }
+    public void setMedium(int var1, String var2, String[] var3) throws MethodException;
 
-    default public void setRelease(int n, String string) {
-    }
+    public void setRelease(int var1, String var2) throws MethodException;
 
-    default public void getUserDefinedAllowed(boolean bl) {
-    }
+    public void getUserDefinedAllowed(boolean var1) throws MethodException;
 
-    default public void setTargetLanguage(short s) {
-    }
+    public void setTargetLanguage(short var1) throws MethodException;
 
-    default public void getIncompatibleDevices(String[] stringArray, String[] stringArray2) {
-    }
+    public void getIncompatibleDevices(String[] var1, String[] var2) throws MethodException;
 
-    default public void startVersionUpload(boolean bl) {
-    }
+    public void startVersionUpload(boolean var1) throws MethodException;
 
-    default public void checkConsistency(int n, boolean bl, String string, int n2) {
-    }
+    public void checkConsistency(int var1, boolean var2, String var3, int var4) throws MethodException;
 
-    default public void abortSetMedium() {
-    }
+    public void abortSetMedium() throws MethodException;
 
-    default public void abortSetRelease() {
-    }
+    public void abortSetRelease() throws MethodException;
 
-    default public void getFinalizeTargets(int[] nArray) {
-    }
+    public void getFinalizeTargets(int[] var1) throws MethodException;
 
-    default public void setFinalizeTarget(int n, long l, long l2, long l3) {
-    }
+    public void setFinalizeTarget(int var1, long var2, long var4, long var6) throws MethodException;
 
-    default public void enterComponentUpdateConfirmation() {
-    }
+    public void enterComponentUpdateConfirmation() throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

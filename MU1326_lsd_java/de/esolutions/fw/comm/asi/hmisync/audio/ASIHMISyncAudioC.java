@@ -3,44 +3,33 @@
  */
 package de.esolutions.fw.comm.asi.hmisync.audio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface ASIHMISyncAudioC {
-    default public void setAudioContext(int n) {
-    }
+    public void setAudioContext(int var1) throws MethodException;
 
-    default public void forceFrontAudioContext(int n) {
-    }
+    public void forceFrontAudioContext(int var1) throws MethodException;
 
-    default public void requestEnableA2LS(String string) {
-    }
+    public void requestEnableA2LS(String var1) throws MethodException;
 
-    default public void disableA2LS() {
-    }
+    public void disableA2LS() throws MethodException;
 
-    default public void setVolume(int n) {
-    }
+    public void setVolume(int var1) throws MethodException;
 
-    default public void increaseVolume(int n) {
-    }
+    public void increaseVolume(int var1) throws MethodException;
 
-    default public void decreaseVolume(int n) {
-    }
+    public void decreaseVolume(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void setNotification(long l) {
-    }
+    public void setNotification(long var1) throws MethodException;
 
-    default public void setNotification(long[] lArray) {
-    }
+    public void setNotification(long[] var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void clearNotification(long l) {
-    }
+    public void clearNotification(long var1) throws MethodException;
 
-    default public void clearNotification(long[] lArray) {
-    }
+    public void clearNotification(long[] var1) throws MethodException;
 }
 

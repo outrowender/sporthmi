@@ -3,6 +3,8 @@
  */
 package de.esolutions.hmi.widgets.audi.base.animation;
 
+import de.audi.atip.hmi.event.ATIPEvent;
+import de.audi.atip.hmi.event.ATIPEventListener;
 import de.audi.atip.hmi.view.AnimationListener;
 import de.audi.atip.hmi.view.IAnimation;
 import de.audi.atip.hmi.view.IAnimationController;
@@ -18,9 +20,6 @@ import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
-import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation$1;
-import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation$AbstractAnimationStepEvent;
-import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation$AnimationTimeoutAlarm;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimationController;
 import de.esolutions.hmi.widgets.audi.base.animation.AnimationException;
 import de.esolutions.hmi.widgets.audi.base.animation.IAnimationCurve;
@@ -31,14 +30,14 @@ implements IAnimation,
 WidgetConstants,
 AnimationListener,
 IWidgetLogChannel {
-    private static final int INITIAL_TIMER_DELAY;
-    private static final String DEBUG_TEXT_CURRENT_SCREEN;
-    private static final String DEBUG_TEXT_STEP;
-    private static final String DEBUG_TEXT_FADE_IN;
-    private static final String DEBUG_TEXT_ANIMATION_TYPE;
-    private static final String DEBUG_TEXT_DELAY;
-    private static final int SCREEN_CHANGE_TIMEOUT;
-    private static final boolean SHOW_ANIMATION_STATISTICS;
+    private static final int INITIAL_TIMER_DELAY = 1;
+    private static final String DEBUG_TEXT_CURRENT_SCREEN = " current screen: ";
+    private static final String DEBUG_TEXT_STEP = " step: ";
+    private static final String DEBUG_TEXT_FADE_IN = " fade in: ";
+    private static final String DEBUG_TEXT_ANIMATION_TYPE = "Animation type: ";
+    private static final String DEBUG_TEXT_DELAY = " delay: ";
+    private static final int SCREEN_CHANGE_TIMEOUT = 5000;
+    private static final boolean SHOW_ANIMATION_STATISTICS = System.getProperty("showAnimationStatistics") != null;
     protected AnimationListener listener;
     protected Job animationStepJob = null;
     protected int type;
@@ -73,13 +72,13 @@ IWidgetLogChannel {
         this.animationStepStart = AbstractWidget.framework.getMonotonicTime();
         this.blocked = this.controller.isAnimationBlocked(n);
         if (this.blocked) {
-            this.logAnimation.log(-2137614336, "Animation#initializeAnimation animations for type: %1 are blocked", (long)n);
+            this.logAnimation.log(10000000, "Animation#initializeAnimation animations for type: %1 are blocked", (long)n);
         }
         this.type = n;
         if (abstractWidget.getInitContext() != null) {
             this.animatedScreen = abstractWidget.getInitContext().getScreen();
         } else {
-            this.logAnimation.log(-1601830656, "Animation#initializeAnimation cannot extract animated screen because no init context available");
+            this.logAnimation.log(100000, "Animation#initializeAnimation cannot extract animated screen because no init context available");
         }
         this.start = f2;
         this.target = f3;
@@ -96,7 +95,7 @@ IWidgetLogChannel {
     }
 
     public void cancelTimer(Timer timer) {
-        this.logAnimation.log(1078071040, "Animation#cancelTimer animation should already be finished, listener be informed and deactivated");
+        this.logAnimation.log(1000000, "Animation#cancelTimer animation should already be finished, listener be informed and deactivated");
     }
 
     protected void deactivateAnimation(Exception exception) {
@@ -114,7 +113,7 @@ IWidgetLogChannel {
 
     public void processAnimationStepEvent(boolean bl) {
         if (screenLogChannel.isDebug()) {
-            this.logAnimation.log(-2137614336, "Animation#fireTimer for type: %1 on terminal: %2 called", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
+            this.logAnimation.log(10000000, "Animation#fireTimer for type: %1 on terminal: %2 called", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
         }
         this.lastAnimationStepStart = this.animationStepStart;
         this.animationStepStart = AbstractWidget.framework.getMonotonicTime();
@@ -134,7 +133,7 @@ IWidgetLogChannel {
             }
             if (this.isAnimating) {
                 if (this.animatedScreen != null && !this.animatedScreen.isConnected()) {
-                    this.logAnimation.log(-2137614336, "Animation#fireTimer animatedScreen with id: %1 is not connected stopping animation", (long)this.animatedScreen.getID());
+                    this.logAnimation.log(10000000, "Animation#fireTimer animatedScreen with id: %1 is not connected stopping animation", (long)this.animatedScreen.getID());
                     this.stopAnimation();
                 } else {
                     ++this.animationSteps;
@@ -148,7 +147,7 @@ IWidgetLogChannel {
         }
         long l = AbstractWidget.framework.getMonotonicTime() - this.animationStepStart;
         this.pureAnimationTime += l;
-        this.logAnimation.log(-2137614336, "Animation#fireTimer step: %1 for type: %2 took : %3 ms", (long)this.animationSteps, (long)n, l);
+        this.logAnimation.log(10000000, "Animation#fireTimer step: %1 for type: %2 took : %3 ms", (long)this.animationSteps, (long)n, l);
     }
 
     protected void doErrorHandling(Exception exception) {
@@ -202,17 +201,17 @@ IWidgetLogChannel {
         if ((long)this.animationCurve.getTimerIntervall() - l2 < (long)this.getMinimumTimerIntervall()) {
             l = this.getMinimumTimerIntervall();
             if (screenLogChannel.isDebug()) {
-                this.logAnimation.log(-2137614336, "Animation#adjustTimerDelay type: %1 minDelay: %2 next timer in %3", (long)this.type, (long)this.animationCurve.getTimerIntervall(), (long)this.getMinimumTimerIntervall());
+                this.logAnimation.log(10000000, "Animation#adjustTimerDelay type: %1 minDelay: %2 next timer in %3", (long)this.type, (long)this.animationCurve.getTimerIntervall(), (long)this.getMinimumTimerIntervall());
             }
         } else {
             l = (long)this.getTimerIntervall() - l2;
             if (screenLogChannel.isDebug()) {
-                this.logAnimation.log(-2137614336, "Animation#adjustTimerDelay type: %1 minDelay: %2 next timer in %3", (long)this.type, (long)this.animationCurve.getTimerIntervall(), (long)this.animationCurve.getTimerIntervall() - l2);
+                this.logAnimation.log(10000000, "Animation#adjustTimerDelay type: %1 minDelay: %2 next timer in %3", (long)this.type, (long)this.animationCurve.getTimerIntervall(), (long)this.animationCurve.getTimerIntervall() - l2);
             }
         }
         if (null != this.animationStepJob) {
-            AbstractAnimation$AbstractAnimationStepEvent abstractAnimation$AbstractAnimationStepEvent = (AbstractAnimation$AbstractAnimationStepEvent)this.animationStepJob.getPayload();
-            AbstractAnimation$AbstractAnimationStepEvent.access$000(abstractAnimation$AbstractAnimationStepEvent, l);
+            AbstractAnimationStepEvent abstractAnimationStepEvent = (AbstractAnimationStepEvent)this.animationStepJob.getPayload();
+            abstractAnimationStepEvent.setDelay(l);
         }
     }
 
@@ -228,11 +227,11 @@ IWidgetLogChannel {
     protected void paintStandardTarget() {
         if (this.animatedScreen != null) {
             if (this.animatedScreen.isConnected() && this.controller.paintForAnimation(this)) {
-                this.logAnimation.log(-2137614336, "Animation#manageRepaint only painting for repaintTarget %1", (Object)this.animatedScreen);
-                logRepaintCause.log(-2137614336, "Animation#paintStandardTarget: animation type: %2, paint standard target: %1", (Object)this.animatedScreen, (long)this.type);
+                this.logAnimation.log(10000000, "Animation#manageRepaint only painting for repaintTarget %1", (Object)this.animatedScreen);
+                logRepaintCause.log(10000000, "Animation#paintStandardTarget: animation type: %2, paint standard target: %1", (Object)this.animatedScreen, (long)this.type);
                 this.animatedScreen.paint();
             } else if (!this.controller.paintForAnimation(this)) {
-                this.logAnimation.log(-2137614336, "Animation#manageRepaint not painting for screen with id %1 because highest prio animation will paint, current animation type %2", (long)this.animatedScreen.getID(), (long)this.type);
+                this.logAnimation.log(10000000, "Animation#manageRepaint not painting for screen with id %1 because highest prio animation will paint, current animation type %2", (long)this.animatedScreen.getID(), (long)this.type);
             } else {
                 this.logAnimation.log(10000, "Animation#manageRepaint warning: screen with id is not conrected repaintTarget %1 , current animation type %2", (long)this.animatedScreen.getID(), (long)this.type);
             }
@@ -240,8 +239,8 @@ IWidgetLogChannel {
             Screen screen = this.controller.getConnectedMainScreen();
             if (screen != null) {
                 if (screen.isConnected()) {
-                    this.logAnimation.log(-2137614336, "Animation#manageRepaint only painting for repaintTarget %1", (Object)screen);
-                    logRepaintCause.log(-2137614336, "Animation#paintStandardTarget: animation type: %2, paint connected screen: %1", (Object)screen, (long)this.type);
+                    this.logAnimation.log(10000000, "Animation#manageRepaint only painting for repaintTarget %1", (Object)screen);
+                    logRepaintCause.log(10000000, "Animation#paintStandardTarget: animation type: %2, paint connected screen: %1", (Object)screen, (long)this.type);
                     screen.paint();
                 } else {
                     this.logAnimation.log(10000, "Animation#manageRepaint warning: screen with id is not connected repaintTarget %1 , current animation type %2", (long)screen.getID(), (long)this.type);
@@ -255,8 +254,8 @@ IWidgetLogChannel {
     private void paintAndDrawStandardTarget() {
         if (this.animatedScreen != null) {
             if (this.animatedScreen.isConnected()) {
-                this.logAnimation.log(-2137614336, "Animation#paintAndDrawStandardTarget drawing and painting for repaintTarget %1", (Object)this.animatedScreen);
-                logRepaintCause.log(-2137614336, "Animation#paintAndDrawStandardTarget: trigger repaint. type: %2, animated screen: %1", (Object)this.animatedScreen, (long)this.type);
+                this.logAnimation.log(10000000, "Animation#paintAndDrawStandardTarget drawing and painting for repaintTarget %1", (Object)this.animatedScreen);
+                logRepaintCause.log(10000000, "Animation#paintAndDrawStandardTarget: trigger repaint. type: %2, animated screen: %1", (Object)this.animatedScreen, (long)this.type);
                 this.paintRootWindow();
             } else {
                 this.logAnimation.log(10000, "Animation#paintAndDrawStandardTarget not painting for repaintTarget %1, because it is not connected", (Object)this.animatedScreen);
@@ -264,8 +263,8 @@ IWidgetLogChannel {
         } else {
             AbstractWidget abstractWidget = (AbstractWidget)((Object)this.controller.getConnectedMainScreen());
             if (abstractWidget != null) {
-                this.logAnimation.log(-2137614336, "Animation#paintAndDrawStandardTarget drawing and painting for repaintTarget %1", (Object)abstractWidget);
-                logRepaintCause.log(-2137614336, "Animation#paintAndDrawStandardTarget: trigger repaint. type: %2, connected screen: %1", (Object)abstractWidget, (long)this.type);
+                this.logAnimation.log(10000000, "Animation#paintAndDrawStandardTarget drawing and painting for repaintTarget %1", (Object)abstractWidget);
+                logRepaintCause.log(10000000, "Animation#paintAndDrawStandardTarget: trigger repaint. type: %2, connected screen: %1", (Object)abstractWidget, (long)this.type);
                 this.paintRootWindow();
             } else {
                 this.logAnimation.log(10000, "Animation#paintAndDrawStandardTarget no repaintTarget available");
@@ -294,17 +293,17 @@ IWidgetLogChannel {
                 if (screen != null) {
                     if (Util.equals(screen2, screen)) continue;
                     if (screen2.isConnected()) {
-                        this.logAnimation.log(-2137614336, "Animation#paintRegisteredTargets painting: %1", (Object)screen2);
-                        logRepaintCause.log(-2137614336, "Animation#paintRegisteredTargets: animation type: %2, paint target: %1", (Object)screen2, (long)this.type);
+                        this.logAnimation.log(10000000, "Animation#paintRegisteredTargets painting: %1", (Object)screen2);
+                        logRepaintCause.log(10000000, "Animation#paintRegisteredTargets: animation type: %2, paint target: %1", (Object)screen2, (long)this.type);
                         screen2.paint();
                         continue;
                     }
-                    this.logAnimation.log(-1601830656, "Animation#paintRegisteredTargets not painting: %1 because it is not connected", (Object)screen2);
+                    this.logAnimation.log(100000, "Animation#paintRegisteredTargets not painting: %1 because it is not connected", (Object)screen2);
                     continue;
                 }
                 if (screen2.isConnected()) {
-                    this.logAnimation.log(-2137614336, "Animation#paintRegisteredTargets painting: %1", (Object)screen2);
-                    logRepaintCause.log(-2137614336, "Animation#paintRegisteredTargets: animation type: %2, paint target: %1", (Object)screen2, (long)this.type);
+                    this.logAnimation.log(10000000, "Animation#paintRegisteredTargets painting: %1", (Object)screen2);
+                    logRepaintCause.log(10000000, "Animation#paintRegisteredTargets: animation type: %2, paint target: %1", (Object)screen2, (long)this.type);
                     screen2.paint();
                     continue;
                 }
@@ -316,19 +315,24 @@ IWidgetLogChannel {
 
     private void rescheduleAnimationEvent(boolean bl) {
         if (bl) {
-            AbstractAnimation$1 abstractAnimation$1 = new AbstractAnimation$1(this, 1L);
+            AbstractAnimationStepEvent abstractAnimationStepEvent = new AbstractAnimationStepEvent(1L){
+
+                public void run() {
+                    AbstractAnimation.this.processAnimationStepEvent(false);
+                }
+            };
             if (this.logAnimation.isDebug()) {
-                AbstractAnimation$AbstractAnimationStepEvent.access$200(abstractAnimation$1, this.type, this.animationSteps, this.fadeIn, null != this.animatedScreen ? this.animatedScreen.getID() : 128);
+                abstractAnimationStepEvent.setDebugInfo(this.type, this.animationSteps, this.fadeIn, null != this.animatedScreen ? this.animatedScreen.getID() : Integer.MIN_VALUE);
             }
-            this.animationStepJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(abstractAnimation$1, 1L);
+            this.animationStepJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(abstractAnimationStepEvent, 1L);
             return;
         }
         this.animationStepJob.cancel();
-        AbstractAnimation$AbstractAnimationStepEvent abstractAnimation$AbstractAnimationStepEvent = (AbstractAnimation$AbstractAnimationStepEvent)this.animationStepJob.getPayload();
+        AbstractAnimationStepEvent abstractAnimationStepEvent = (AbstractAnimationStepEvent)this.animationStepJob.getPayload();
         if (this.logAnimation.isDebug()) {
-            AbstractAnimation$AbstractAnimationStepEvent.access$200(abstractAnimation$AbstractAnimationStepEvent, this.type, this.animationSteps, this.fadeIn, null != this.animatedScreen ? this.animatedScreen.getID() : 128);
+            abstractAnimationStepEvent.setDebugInfo(this.type, this.animationSteps, this.fadeIn, null != this.animatedScreen ? this.animatedScreen.getID() : Integer.MIN_VALUE);
         }
-        this.animationStepJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(abstractAnimation$AbstractAnimationStepEvent, AbstractAnimation$AbstractAnimationStepEvent.access$300(abstractAnimation$AbstractAnimationStepEvent));
+        this.animationStepJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(abstractAnimationStepEvent, abstractAnimationStepEvent.getDelay());
     }
 
     private void finishAnimation() {
@@ -341,8 +345,8 @@ IWidgetLogChannel {
             }
             this.deactivateAnimation(null);
             if (this.logAnimation.isDebug()) {
-                this.logAnimation.log(-2137614336, "Animation#finishedAnimation  for type: %1, on terminal: %2", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
-                this.logAnimation.log(-2137614336, "Animation#finishedAnimation  steps: %1, consumed time: %2", (long)this.animationSteps, this.pureAnimationTime);
+                this.logAnimation.log(10000000, "Animation#finishedAnimation  for type: %1, on terminal: %2", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
+                this.logAnimation.log(10000000, "Animation#finishedAnimation  steps: %1, consumed time: %2", (long)this.animationSteps, this.pureAnimationTime);
             }
             this.callAnimationFinished();
         } else {
@@ -351,8 +355,8 @@ IWidgetLogChannel {
             this.callAnimationFinished();
             this.manageRepaint(bl);
             if (this.logAnimation.isDebug()) {
-                this.logAnimation.log(-2137614336, "Animation#finishedAnimation  for type: %1, on terminal: %2", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
-                this.logAnimation.log(-2137614336, "Animation#finishedAnimation  steps: %1, consumed time: %2", (long)this.animationSteps, this.pureAnimationTime);
+                this.logAnimation.log(10000000, "Animation#finishedAnimation  for type: %1, on terminal: %2", (long)this.type, (long)this.controller.getTerminal().getTerminalID());
+                this.logAnimation.log(10000000, "Animation#finishedAnimation  steps: %1, consumed time: %2", (long)this.animationSteps, this.pureAnimationTime);
             }
         }
     }
@@ -364,26 +368,24 @@ IWidgetLogChannel {
         }
     }
 
-    protected abstract void doSpecializedAnimation() {
-    }
+    protected abstract void doSpecializedAnimation();
 
-    protected abstract void stopSpecializedAnimation() {
-    }
+    protected abstract void stopSpecializedAnimation();
 
     protected boolean renderEachStep() {
         return this.controller.isScreenChangeType(this.type);
     }
 
     public void startDynamicAnimation(float f2, float f3, int n, boolean bl, AbstractWidget abstractWidget) {
-        if (-2137614336 <= this.logAnimation.getCurrentLogThreshold()) {
-            this.logAnimation.log(-2137614336, "Animation#startDynamicAnimation for type: %1, on terminal: %2", (long)n, (long)this.controller.getTerminal().getTerminalID());
-            this.logAnimation.log(-2137614336, "Animation#startDynamicAnimation start: %1, target: %2", (Object)Float.toString(f2), (Object)Float.toString(f3));
+        if (10000000 <= this.logAnimation.getCurrentLogThreshold()) {
+            this.logAnimation.log(10000000, "Animation#startDynamicAnimation for type: %1, on terminal: %2", (long)n, (long)this.controller.getTerminal().getTerminalID());
+            this.logAnimation.log(10000000, "Animation#startDynamicAnimation start: %1, target: %2", (Object)Float.toString(f2), (Object)Float.toString(f3));
         }
         this.initializeAnimation(f2, f3, n, bl, abstractWidget);
         long l = AbstractWidget.framework.getMonotonicTime();
         this.startAnimation();
         this.pureAnimationTime = AbstractWidget.framework.getMonotonicTime() - l;
-        this.logAnimation.log(-2137614336, "Animation#startDynamicAnimation start for type: %1 took : %2 ms", (long)n, this.pureAnimationTime);
+        this.logAnimation.log(10000000, "Animation#startDynamicAnimation start for type: %1 took : %2 ms", (long)n, this.pureAnimationTime);
     }
 
     public void startEndlessAnimation(int n, AbstractWidget abstractWidget) {
@@ -396,7 +398,7 @@ IWidgetLogChannel {
         if (!this.blocked) {
             this.rescheduleAnimationEvent(true);
         } else {
-            this.logAnimation.log(-2137614336, "Animation#Animation with type: %1 not started because it is blocked", (long)this.type);
+            this.logAnimation.log(10000000, "Animation#Animation with type: %1 not started because it is blocked", (long)this.type);
         }
         this.animationStart = AbstractWidget.framework.getMonotonicTime();
         this.activateAnimation();
@@ -407,20 +409,18 @@ IWidgetLogChannel {
 
     private void restartWatchdog() {
         if (this.animationWatchDog == null) {
-            this.animationWatchDog = AbstractWidget.framework.getErrorMgr().createWatchDog(0, new AbstractAnimation$AnimationTimeoutAlarm(this, null), new StringBuffer().append("Animation timed out! Type: ").append(this.type).toString(), 0, 3, 0, false);
+            this.animationWatchDog = AbstractWidget.framework.getErrorMgr().createWatchDog(5000L, new AnimationTimeoutAlarm(), "Animation timed out! Type: " + this.type, 0, 3, 0, false);
         } else {
             this.animationWatchDog.restart();
         }
     }
 
-    protected abstract boolean startSpezializedAnimation() {
-    }
+    protected abstract boolean startSpezializedAnimation();
 
     private boolean watchDogNeeded() {
         return this.controller.isScreenChangeType(this.type);
     }
 
-    @Override
     public void stopAnimation() {
         if (this.animationStepJob != null) {
             this.animationStepJob.cancel();
@@ -438,11 +438,11 @@ IWidgetLogChannel {
 
     private void callAnimationFinished() {
         if (this.listener != null) {
-            logWidgetPerformance.log(1078071040, "Animation#callAnimationFinished start, type: %2", (long)this.type);
+            logWidgetPerformance.log(1000000, "Animation#callAnimationFinished start, type: %2", (long)this.type);
             long l = AbstractWidget.framework.getMonotonicTime();
             this.listener.animationFinished(this.type, 0);
             long l2 = AbstractWidget.framework.getMonotonicTime();
-            logWidgetPerformance.log(1078071040, "Animation#callAnimationFinished finished, took %1 ms, animation type: %2", l2 - l, (long)this.type);
+            logWidgetPerformance.log(1000000, "Animation#callAnimationFinished finished, took %1 ms, animation type: %2", l2 - l, (long)this.type);
         }
     }
 
@@ -473,20 +473,19 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public boolean isAnimating() {
         return this.isAnimating;
     }
 
     public void setTarget(float f2) {
         if (this.logAnimation.isDebug()) {
-            this.logAnimation.log(-2137614336, "Animation#setTarget is called. previous target: %1 new target: %2", (Object)Float.toString(this.animationCurve.getTarget()), (Object)Float.toString(f2));
+            this.logAnimation.log(10000000, "Animation#setTarget is called. previous target: %1 new target: %2", (Object)Float.toString(this.animationCurve.getTarget()), (Object)Float.toString(f2));
         }
         this.target = f2;
         this.animationCurve.setTarget(f2);
         if (null != this.animationStepJob) {
-            AbstractAnimation$AbstractAnimationStepEvent abstractAnimation$AbstractAnimationStepEvent = (AbstractAnimation$AbstractAnimationStepEvent)this.animationStepJob.getPayload();
-            AbstractAnimation$AbstractAnimationStepEvent.access$000(abstractAnimation$AbstractAnimationStepEvent, this.animationCurve.getTimerIntervall());
+            AbstractAnimationStepEvent abstractAnimationStepEvent = (AbstractAnimationStepEvent)this.animationStepJob.getPayload();
+            abstractAnimationStepEvent.setDelay(this.animationCurve.getTimerIntervall());
         }
     }
 
@@ -494,7 +493,6 @@ IWidgetLogChannel {
         this.fadeIn = bl;
     }
 
-    @Override
     public boolean isFadeIn() {
         return this.fadeIn;
     }
@@ -503,12 +501,10 @@ IWidgetLogChannel {
         return this.animationCurve.getTarget();
     }
 
-    @Override
     public float getProgress() {
         return this.animationCurve.getProgress();
     }
 
-    @Override
     public void addListener(AnimationListener animationListener) {
         this.listener = animationListener;
     }
@@ -520,15 +516,15 @@ IWidgetLogChannel {
     protected void animateListener() {
         if (this.listener != null) {
             long l = (long)this.animationCurve.getProgress();
-            this.logAnimation.log(-2137614336, "Animation#animateListener listener: %1", (Object)this.listener);
-            this.logAnimation.log(-2137614336, "Animation#animateListener progress: %1", l);
-            logWidgetPerformance.log(1078071040, "Animation#animateListener start animate, type: %1, progress: %2", (long)this.type, l);
+            this.logAnimation.log(10000000, "Animation#animateListener listener: %1", (Object)this.listener);
+            this.logAnimation.log(10000000, "Animation#animateListener progress: %1", l);
+            logWidgetPerformance.log(1000000, "Animation#animateListener start animate, type: %1, progress: %2", (long)this.type, l);
             long l2 = AbstractWidget.framework.getMonotonicTime();
             this.listener.animate(this.type, this.animationCurve.getValue(), 0);
             long l3 = AbstractWidget.framework.getMonotonicTime();
-            logWidgetPerformance.log(1078071040, "Animation#animateListener finished animate, took %1 ms, animation type: %2", l3 - l2, (long)this.type);
+            logWidgetPerformance.log(1000000, "Animation#animateListener finished animate, took %1 ms, animation type: %2", l3 - l2, (long)this.type);
         } else {
-            this.logAnimation.log(-2137614336, "Animation#animateListener no listener for animation registered");
+            this.logAnimation.log(10000000, "Animation#animateListener no listener for animation registered");
         }
     }
 
@@ -536,13 +532,10 @@ IWidgetLogChannel {
         this.controller = abstractAnimationController;
     }
 
-    protected abstract boolean repaintAtFinish() {
-    }
+    protected abstract boolean repaintAtFinish();
 
-    protected abstract IAnimationCurve createAnimationCurve() {
-    }
+    protected abstract IAnimationCurve createAnimationCurve();
 
-    @Override
     public void animate(int n, float f2, int n2) {
         this.animate(n, f2);
     }
@@ -557,7 +550,6 @@ IWidgetLogChannel {
         this.callAnimationFinished();
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
@@ -567,23 +559,20 @@ IWidgetLogChannel {
             String[] stringArray = new String[3];
             stringArray[0] = this.controller.getAnimationName(this.type);
             long l = AbstractWidget.framework.getMonotonicTime() - this.animationStart;
-            stringArray[1] = new StringBuffer().append("total time: ").append(l).append("ms steps: ").append(this.animationSteps).toString();
-            float f2 = (float)this.animationSteps / ((float)(l + (long)this.animationCurve.getTimerIntervall()) / 31300);
-            stringArray[2] = new StringBuffer().append("updates per second: ").append(f2).toString();
+            stringArray[1] = "total time: " + l + "ms steps: " + this.animationSteps;
+            float f2 = (float)this.animationSteps / ((float)(l + (long)this.animationCurve.getTimerIntervall()) / 1000.0f);
+            stringArray[2] = "updates per second: " + f2;
             this.controller.getTerminal().getStatistics().showStatistics(2, stringArray, bl);
         }
     }
 
-    protected abstract int getMinimumDelay() {
-    }
+    protected abstract int getMinimumDelay();
 
-    protected abstract int getMinimumTimerIntervall() {
-    }
+    protected abstract int getMinimumTimerIntervall();
 
-    @Override
     public void setBlocked(boolean bl) {
         if (this.blocked && !bl) {
-            this.logAnimation.log(-2137614336, "Animation#Animation with type: %1 is started now because it is unblocked", (long)this.type);
+            this.logAnimation.log(10000000, "Animation#Animation with type: %1 is started now because it is unblocked", (long)this.type);
             this.animationStepStart = AbstractWidget.framework.getMonotonicTime();
             this.rescheduleAnimationEvent(true);
             this.restartWatchdog();
@@ -595,22 +584,18 @@ IWidgetLogChannel {
         return this.combiSyncInfo;
     }
 
-    @Override
     public void setCombiSyncInfo(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
         this.combiSyncInfo = iMMICombiAnimationInfo;
     }
 
-    @Override
     public boolean isBlocked() {
         return this.blocked;
     }
 
-    @Override
     public long getPlannedDuration() {
         return this.animationCurve.getPlannedDuration();
     }
 
-    @Override
     public long getStartTime() {
         return this.animationStart;
     }
@@ -622,20 +607,17 @@ IWidgetLogChannel {
         return -1L;
     }
 
-    @Override
     public long getCurrentDuration() {
         return System.currentTimeMillis() - this.animationStart;
     }
 
-    @Override
     public int getCurrentAnimationStep() {
         return this.animationSteps;
     }
 
-    @Override
     public void rollBackAnimation(boolean bl) {
         if (bl) {
-            this.logAnimation.log(-2137614336, "Animation#rollBackAnimation rollBack for type: %1", (long)this.type);
+            this.logAnimation.log(10000000, "Animation#rollBackAnimation rollBack for type: %1", (long)this.type);
             if (this.animationCurve.getAnimationDirection() == 1) {
                 this.animationCurve.setAnimationDirection(2);
             } else {
@@ -692,8 +674,69 @@ IWidgetLogChannel {
         return this.isInitialized;
     }
 
-    static {
-        SHOW_ANIMATION_STATISTICS = System.getProperty("showAnimationStatistics") != null;
+    private class AnimationTimeoutAlarm
+    implements Runnable {
+        private AnimationTimeoutAlarm() {
+        }
+
+        public void run() {
+            AbstractWidget.hmiService.getEventDispatcher().postEvent(new AbstractAnimationStepEvent(1L){
+
+                public void run() {
+                    AbstractAnimation.this.processAnimationStepEvent(true);
+                }
+
+                public String toString() {
+                    return "AnimationTimeoutEvent";
+                }
+            }, 1L);
+        }
+    }
+
+    private static abstract class AbstractAnimationStepEvent
+    extends ATIPEvent
+    implements Runnable {
+        private static final int EVENT_ID = 10552;
+        private long delay;
+        private int dbgCurrenScreen = Integer.MIN_VALUE;
+        private int dbgStep = Integer.MIN_VALUE;
+        private int dbgType = Integer.MIN_VALUE;
+        private boolean dbgFadeIn = false;
+
+        private AbstractAnimationStepEvent(long l) {
+            super((ATIPEventListener)null, 10552);
+        }
+
+        public void dispatch() {
+            this.run();
+        }
+
+        private long getDelay() {
+            return this.delay;
+        }
+
+        private void setDelay(long l) {
+            this.delay = l;
+        }
+
+        private void setDebugInfo(int n, int n2, boolean bl, int n3) {
+            this.dbgFadeIn = bl;
+            this.dbgType = n;
+            this.dbgStep = n2;
+            this.dbgCurrenScreen = n3;
+        }
+
+        public String toString() {
+            if (this.dbgType > Integer.MIN_VALUE) {
+                Buffer buffer = new Buffer(100);
+                buffer.append(AbstractAnimation.DEBUG_TEXT_ANIMATION_TYPE).append(this.dbgType).append(AbstractAnimation.DEBUG_TEXT_FADE_IN).append(this.dbgFadeIn).append(AbstractAnimation.DEBUG_TEXT_STEP).append(this.dbgStep).append(AbstractAnimation.DEBUG_TEXT_DELAY).append(this.delay);
+                if (this.dbgCurrenScreen > Integer.MIN_VALUE) {
+                    buffer.append(AbstractAnimation.DEBUG_TEXT_CURRENT_SCREEN).append(this.dbgCurrenScreen);
+                }
+                return buffer.toString();
+            }
+            return "AnimationStepEvent";
+        }
     }
 }
 

@@ -8,11 +8,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.scxml.ErrorReporter;
 import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.model.Action;
+import org.apache.commons.scxml.model.ModelException;
 
 public class Exit
 extends Action {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private String expr;
     private String namelist;
 
@@ -32,8 +34,7 @@ extends Action {
         this.namelist = string;
     }
 
-    @Override
-    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
+    public void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) throws ModelException, SCXMLExpressionException {
     }
 }
 

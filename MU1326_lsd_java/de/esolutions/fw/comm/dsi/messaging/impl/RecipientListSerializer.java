@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.messaging.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.messaging.RecipientList;
 
 public class RecipientListSerializer {
-    public static void putOptionalRecipientList(ISerializer iSerializer, RecipientList recipientList) {
+    public static void putOptionalRecipientList(ISerializer iSerializer, RecipientList recipientList) throws SerializerException {
         boolean bl = recipientList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RecipientListSerializer {
         }
     }
 
-    public static void putOptionalRecipientListVarArray(ISerializer iSerializer, RecipientList[] recipientListArray) {
+    public static void putOptionalRecipientListVarArray(ISerializer iSerializer, RecipientList[] recipientListArray) throws SerializerException {
         boolean bl = recipientListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RecipientListSerializer {
         }
     }
 
-    public static RecipientList getOptionalRecipientList(IDeserializer iDeserializer) {
+    public static RecipientList getOptionalRecipientList(IDeserializer iDeserializer) throws SerializerException {
         RecipientList recipientList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RecipientListSerializer {
         return recipientList;
     }
 
-    public static RecipientList[] getOptionalRecipientListVarArray(IDeserializer iDeserializer) {
+    public static RecipientList[] getOptionalRecipientListVarArray(IDeserializer iDeserializer) throws SerializerException {
         RecipientList[] recipientListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

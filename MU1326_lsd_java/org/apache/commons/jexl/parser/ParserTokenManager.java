@@ -13,12 +13,12 @@ import org.apache.commons.jexl.parser.TokenMgrError;
 public class ParserTokenManager
 implements ParserConstants {
     public PrintStream debugStream = System.out;
-    static final long[] jjbitVec0 = new long[]{0L, 0L, 2882303761517117313L, 2882303761517117313L};
+    static final long[] jjbitVec0 = new long[]{0L, 0L, -1L, -1L};
     static final int[] jjnextStates = new int[]{13, 14, 15, 1, 2, 7, 8, 10, 11};
     public static final String[] jjstrLiteralImages = new String[]{"", null, null, null, null, null, null, null, null, "{", "}", "empty", "(", ")", "size", "=", "||", "or", "&&", "and", "|", "^", "&", "==", "eq", "!=", "ne", "<", "lt", ">", "gt", "<=", "le", ">=", "ge", "+", "-", "*", "/", "div", "%", "mod", "~", "!", "not", "null", "true", "false", ";", "if", "else", "while", "foreach", "in", ",", "[", "]", ".", null, null, null, null};
     public static final String[] lexStateNames = new String[]{"DEFAULT"};
-    static final long[] jjtoToken = new long[]{0};
-    static final long[] jjtoSkip = new long[]{0};
+    static final long[] jjtoToken = new long[]{2882303761517117313L};
+    static final long[] jjtoSkip = new long[]{126L};
     private SimpleCharStream input_stream;
     private final int[] jjrounds = new int[17];
     private final int[] jjstateSet = new int[34];
@@ -55,7 +55,7 @@ implements ParserConstants {
                 return -1;
             }
             case 2: {
-                if ((l & 0) != 0L) {
+                if ((l & 0x1CE00000004800L) != 0L) {
                     this.jjmatchedKind = 58;
                     this.jjmatchedPos = 2;
                     return 5;
@@ -71,13 +71,13 @@ implements ParserConstants {
                     this.jjmatchedPos = 3;
                     return 5;
                 }
-                if ((l & 0) != 0L) {
+                if ((l & 0x4600000004000L) != 0L) {
                     return 5;
                 }
                 return -1;
             }
             case 4: {
-                if ((l & 0) != 0L) {
+                if ((l & 0x10000000000000L) != 0L) {
                     this.jjmatchedKind = 58;
                     this.jjmatchedPos = 4;
                     return 5;
@@ -88,7 +88,7 @@ implements ParserConstants {
                 return -1;
             }
             case 5: {
-                if ((l & 0) != 0L) {
+                if ((l & 0x10000000000000L) != 0L) {
                     this.jjmatchedKind = 58;
                     this.jjmatchedPos = 5;
                     return 5;
@@ -125,14 +125,14 @@ implements ParserConstants {
         switch (this.curChar) {
             case '!': {
                 this.jjmatchedKind = 43;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x2000000L);
             }
             case '%': {
                 return this.jjStopAtPos(0, 40);
             }
             case '&': {
                 this.jjmatchedKind = 22;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(262144L);
             }
             case '(': {
                 return this.jjStopAtPos(0, 12);
@@ -163,15 +163,15 @@ implements ParserConstants {
             }
             case '<': {
                 this.jjmatchedKind = 27;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x80000000L);
             }
             case '=': {
                 this.jjmatchedKind = 15;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x800000L);
             }
             case '>': {
                 this.jjmatchedKind = 29;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x200000000L);
             }
             case '[': {
                 return this.jjStopAtPos(0, 55);
@@ -183,10 +183,10 @@ implements ParserConstants {
                 return this.jjStopAtPos(0, 21);
             }
             case 'a': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(524288L);
             }
             case 'd': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x8000000000L);
             }
             case 'e': {
                 return this.jjMoveStringLiteralDfa1_0(1125899923621888L);
@@ -201,32 +201,32 @@ implements ParserConstants {
                 return this.jjMoveStringLiteralDfa1_0(0x22000000000000L);
             }
             case 'l': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0L);
             }
             case 'm': {
-                return this.jjMoveStringLiteralDfa1_0(0x300004000000L);
+                return this.jjMoveStringLiteralDfa1_0(0x20000000000L);
             }
             case 'n': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x300004000000L);
             }
             case 'o': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(131072L);
             }
             case 's': {
-                return this.jjMoveStringLiteralDfa1_0(0x400000000000L);
+                return this.jjMoveStringLiteralDfa1_0(16384L);
             }
             case 't': {
-                return this.jjMoveStringLiteralDfa1_0(0x8000000000000L);
+                return this.jjMoveStringLiteralDfa1_0(0x400000000000L);
             }
             case 'w': {
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(0x8000000000000L);
             }
             case '{': {
                 return this.jjStopAtPos(0, 9);
             }
             case '|': {
                 this.jjmatchedKind = 20;
-                return this.jjMoveStringLiteralDfa1_0(0);
+                return this.jjMoveStringLiteralDfa1_0(65536L);
             }
             case '}': {
                 return this.jjStopAtPos(0, 10);
@@ -248,82 +248,82 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case '&': {
-                if ((l & 0) == 0L) break;
+                if ((l & 0x40000L) == 0L) break;
                 return this.jjStopAtPos(1, 18);
             }
             case '=': {
-                if ((l & 0) != 0L) {
+                if ((l & 0x800000L) != 0L) {
                     return this.jjStopAtPos(1, 23);
                 }
-                if ((l & 0) != 0L) {
+                if ((l & 0x2000000L) != 0L) {
                     return this.jjStopAtPos(1, 25);
                 }
-                if ((l & 0) != 0L) {
+                if ((l & 0x80000000L) != 0L) {
                     return this.jjStopAtPos(1, 31);
                 }
-                if ((l & 0) == 0L) break;
+                if ((l & 0x200000000L) == 0L) break;
                 return this.jjStopAtPos(1, 33);
             }
             case 'a': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x800000000000L);
             }
             case 'e': {
-                if ((l & 0) != 0L) {
+                if ((l & 0x4000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(1, 26, 5);
                 }
-                if ((l & 0) != 0L) {
+                if ((l & 0x100000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(1, 32, 5);
                 }
-                if ((l & 0) == 0L) break;
+                if ((l & 0x400000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(1, 34, 5);
             }
             case 'f': {
-                if ((l & 0x8000004000L) == 0L) break;
+                if ((l & 0x2000000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(1, 49, 5);
             }
             case 'h': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x8000000000000L);
             }
             case 'i': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x8000004000L);
             }
             case 'l': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x4000000000000L);
             }
             case 'm': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 2048L);
             }
             case 'n': {
-                if ((l & 0x10120000000000L) != 0L) {
+                if ((l & 0x20000000000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(1, 53, 5);
                 }
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 524288L);
             }
             case 'o': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x10120000000000L);
             }
             case 'q': {
-                if ((l & 0) == 0L) break;
+                if ((l & 0x1000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(1, 24, 5);
             }
             case 'r': {
-                if ((l & 0) != 0L) {
+                if ((l & 0x20000L) != 0L) {
                     return this.jjStartNfaWithStates_0(1, 17, 5);
                 }
-                return this.jjMoveStringLiteralDfa2_0(l, 0x8000000000000L);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x400000000000L);
             }
             case 't': {
-                if ((l & 0) != 0L) {
+                if ((l & 0x10000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(1, 28, 5);
                 }
-                if ((l & 0) == 0L) break;
+                if ((l & 0x40000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(1, 30, 5);
             }
             case 'u': {
-                return this.jjMoveStringLiteralDfa2_0(l, 0);
+                return this.jjMoveStringLiteralDfa2_0(l, 0x200000000000L);
             }
             case '|': {
-                if ((l & 0) == 0L) break;
+                if ((l & 0x10000L) == 0L) break;
                 return this.jjStopAtPos(1, 16);
             }
         }
@@ -343,40 +343,40 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case 'd': {
-                if ((l2 & 0) != 0L) {
+                if ((l2 & 0x80000L) != 0L) {
                     return this.jjStartNfaWithStates_0(2, 19, 5);
                 }
-                if ((l2 & 0x300004000000L) == 0L) break;
+                if ((l2 & 0x20000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(2, 41, 5);
             }
             case 'i': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0);
+                return this.jjMoveStringLiteralDfa3_0(l2, 0x8000000000000L);
             }
             case 'l': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0x100000000000L);
+                return this.jjMoveStringLiteralDfa3_0(l2, 0xA00000000000L);
             }
             case 'p': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0);
+                return this.jjMoveStringLiteralDfa3_0(l2, 2048L);
             }
             case 'r': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0);
+                return this.jjMoveStringLiteralDfa3_0(l2, 0x10000000000000L);
             }
             case 's': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0);
+                return this.jjMoveStringLiteralDfa3_0(l2, 0x4000000000000L);
             }
             case 't': {
-                if ((l2 & 0x3FF000000000000L) == 0L) break;
+                if ((l2 & 0x100000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(2, 44, 5);
             }
             case 'u': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0x8000000000000L);
+                return this.jjMoveStringLiteralDfa3_0(l2, 0x400000000000L);
             }
             case 'v': {
-                if ((l2 & 0) == 0L) break;
+                if ((l2 & 0x8000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(2, 39, 5);
             }
             case 'z': {
-                return this.jjMoveStringLiteralDfa3_0(l2, 0x400000000000L);
+                return this.jjMoveStringLiteralDfa3_0(l2, 16384L);
             }
         }
         return this.jjStartNfa_0(1, l2);
@@ -395,28 +395,28 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case 'e': {
-                if ((l2 & 0x400000000000L) != 0L) {
+                if ((l2 & 0x4000L) != 0L) {
                     return this.jjStartNfaWithStates_0(3, 14, 5);
                 }
-                if ((l2 & 0x8000000000000L) != 0L) {
+                if ((l2 & 0x400000000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(3, 46, 5);
                 }
-                if ((l2 & 0) != 0L) {
+                if ((l2 & 0x4000000000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(3, 50, 5);
                 }
-                return this.jjMoveStringLiteralDfa4_0(l2, 0);
+                return this.jjMoveStringLiteralDfa4_0(l2, 0x10000000000000L);
             }
             case 'l': {
-                if ((l2 & 0) != 0L) {
+                if ((l2 & 0x200000000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(3, 45, 5);
                 }
-                return this.jjMoveStringLiteralDfa4_0(l2, 0);
+                return this.jjMoveStringLiteralDfa4_0(l2, 0x8000000000000L);
             }
             case 's': {
-                return this.jjMoveStringLiteralDfa4_0(l2, 0);
+                return this.jjMoveStringLiteralDfa4_0(l2, 0x800000000000L);
             }
             case 't': {
-                return this.jjMoveStringLiteralDfa4_0(l2, 0);
+                return this.jjMoveStringLiteralDfa4_0(l2, 2048L);
             }
         }
         return this.jjStartNfa_0(2, l2);
@@ -435,17 +435,17 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case 'a': {
-                return this.jjMoveStringLiteralDfa5_0(l2, 0);
+                return this.jjMoveStringLiteralDfa5_0(l2, 0x10000000000000L);
             }
             case 'e': {
-                if ((l2 & 0) != 0L) {
+                if ((l2 & 0x800000000000L) != 0L) {
                     return this.jjStartNfaWithStates_0(4, 47, 5);
                 }
-                if ((l2 & 0) == 0L) break;
+                if ((l2 & 0x8000000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(4, 51, 5);
             }
             case 'y': {
-                if ((l2 & 0) == 0L) break;
+                if ((l2 & 0x800L) == 0L) break;
                 return this.jjStartNfaWithStates_0(4, 11, 5);
             }
         }
@@ -465,7 +465,7 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case 'c': {
-                return this.jjMoveStringLiteralDfa6_0(l2, 0);
+                return this.jjMoveStringLiteralDfa6_0(l2, 0x10000000000000L);
             }
         }
         return this.jjStartNfa_0(4, l2);
@@ -484,7 +484,7 @@ implements ParserConstants {
         }
         switch (this.curChar) {
             case 'h': {
-                if ((l2 & 0) == 0L) break;
+                if ((l2 & 0x10000000000000L) == 0L) break;
                 return this.jjStartNfaWithStates_0(6, 52, 5);
             }
         }
@@ -525,9 +525,9 @@ implements ParserConstants {
         this.jjnewStateCnt = 17;
         int n4 = 1;
         this.jjstateSet[0] = n;
-        int n5 = -129;
+        int n5 = Integer.MAX_VALUE;
         while (true) {
-            if (++this.jjround == -129) {
+            if (++this.jjround == Integer.MAX_VALUE) {
                 this.ReInitRounds();
             }
             if (this.curChar < '@') {
@@ -535,7 +535,7 @@ implements ParserConstants {
                 block33: do {
                     switch (this.jjstateSet[--n4]) {
                         case 3: {
-                            if ((0xFFFFFFFBFFFFDBFFL & l) != 0L) {
+                            if ((0x3FF000000000000L & l) != 0L) {
                                 if (n5 > 7) {
                                     n5 = 7;
                                 }
@@ -567,12 +567,12 @@ implements ParserConstants {
                             break;
                         }
                         case 1: {
-                            if ((0 & l) == 0L) break;
+                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) break;
                             this.jjCheckNAddTwoStates(1, 2);
                             break;
                         }
                         case 2: {
-                            if ((0x3FF001000000000L & l) == 0L) break;
+                            if ((0x2400L & l) == 0L) break;
                             n5 = 1;
                             break;
                         }
@@ -585,7 +585,7 @@ implements ParserConstants {
                             break;
                         }
                         case 5: {
-                            if ((0xFFFFFF7FFFFFDBFFL & l) == 0L) continue block33;
+                            if ((0x3FF001000000000L & l) == 0L) continue block33;
                             if (n5 > 58) {
                                 n5 = 58;
                             }
@@ -598,7 +598,7 @@ implements ParserConstants {
                             break;
                         }
                         case 7: {
-                            if ((0 & l) == 0L) break;
+                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) break;
                             this.jjCheckNAddTwoStates(7, 8);
                             break;
                         }
@@ -613,7 +613,7 @@ implements ParserConstants {
                             break;
                         }
                         case 10: {
-                            if ((0x7FFFFFE87FFFFFEL & l) == 0L) break;
+                            if ((0xFFFFFF7FFFFFDBFFL & l) == 0L) break;
                             this.jjCheckNAddTwoStates(10, 11);
                             break;
                         }
@@ -623,7 +623,7 @@ implements ParserConstants {
                             break;
                         }
                         case 12: {
-                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) continue block33;
+                            if ((0x3FF000000000000L & l) == 0L) continue block33;
                             if (n5 > 7) {
                                 n5 = 7;
                             }
@@ -631,7 +631,7 @@ implements ParserConstants {
                             break;
                         }
                         case 13: {
-                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) continue block33;
+                            if ((0x3FF000000000000L & l) == 0L) continue block33;
                             if (n5 > 7) {
                                 n5 = 7;
                             }
@@ -639,7 +639,7 @@ implements ParserConstants {
                             break;
                         }
                         case 14: {
-                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) break;
+                            if ((0x3FF000000000000L & l) == 0L) break;
                             this.jjCheckNAddTwoStates(14, 15);
                             break;
                         }
@@ -649,7 +649,7 @@ implements ParserConstants {
                             break;
                         }
                         case 16: {
-                            if ((0xFFFFFFFBFFFFDBFFL & l) == 0L) continue block33;
+                            if ((0x3FF000000000000L & l) == 0L) continue block33;
                             if (n5 > 8) {
                                 n5 = 8;
                             }
@@ -664,7 +664,7 @@ implements ParserConstants {
                     switch (this.jjstateSet[--n4]) {
                         case 3: 
                         case 5: {
-                            if ((0 & l) == 0L) continue block34;
+                            if ((0x7FFFFFE87FFFFFEL & l) == 0L) continue block34;
                             if (n5 > 58) {
                                 n5 = 58;
                             }
@@ -708,10 +708,10 @@ implements ParserConstants {
                     }
                 } while (n4 != n3);
             }
-            if (n5 != -129) {
+            if (n5 != Integer.MAX_VALUE) {
                 this.jjmatchedKind = n5;
                 this.jjmatchedPos = n2;
-                n5 = -129;
+                n5 = Integer.MAX_VALUE;
             }
             ++n2;
             n4 = this.jjnewStateCnt;
@@ -746,10 +746,10 @@ implements ParserConstants {
     }
 
     private final void ReInitRounds() {
-        this.jjround = 0x1000080;
+        this.jjround = -2147483647;
         int n = 17;
         while (n-- > 0) {
-            this.jjrounds[n] = 128;
+            this.jjrounds[n] = Integer.MIN_VALUE;
         }
     }
 
@@ -760,7 +760,7 @@ implements ParserConstants {
 
     public void SwitchTo(int n) {
         if (n >= 1 || n < 0) {
-            throw new TokenMgrError(new StringBuffer().append("Error: Ignoring invalid lexical state : ").append(n).append(". State unchanged.").toString(), 2);
+            throw new TokenMgrError("Error: Ignoring invalid lexical state : " + n + ". State unchanged.", 2);
         }
         this.curLexState = n;
     }
@@ -793,17 +793,17 @@ implements ParserConstants {
                 }
                 try {
                     this.input_stream.backup(0);
-                    while (this.curChar <= ' ' && (0xFFFFFFFFFFFFFFFFL & 1L << this.curChar) != 0L) {
+                    while (this.curChar <= ' ' && (0x100003600L & 1L << this.curChar) != 0L) {
                         this.curChar = this.input_stream.BeginToken();
                     }
                 }
                 catch (IOException iOException) {
                     continue;
                 }
-                this.jjmatchedKind = -129;
+                this.jjmatchedKind = Integer.MAX_VALUE;
                 this.jjmatchedPos = 0;
                 n = this.jjMoveStringLiteralDfa0_0();
-                if (this.jjmatchedKind == -129) break block11;
+                if (this.jjmatchedKind == Integer.MAX_VALUE) break block11;
                 if (this.jjmatchedPos + 1 < n) {
                     this.input_stream.backup(n - this.jjmatchedPos - 1);
                 }

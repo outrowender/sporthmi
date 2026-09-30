@@ -26,7 +26,7 @@ implements IWriter {
         this.serializer = iSerializer;
     }
 
-    public AbstractMessage(MessageType messageType, IDeserializer iDeserializer, boolean bl) {
+    public AbstractMessage(MessageType messageType, IDeserializer iDeserializer, boolean bl) throws SerializerException {
         if (!bl) {
             this.type = messageType;
         }
@@ -41,7 +41,6 @@ implements IWriter {
         return this.serializer;
     }
 
-    @Override
     public int size() {
         try {
             this.serializer.beginSizeCalc();
@@ -53,24 +52,23 @@ implements IWriter {
         }
     }
 
-    @Override
-    public void write(IWriteable iWriteable) {
+    public void write(IWriteable iWriteable) throws TransportException {
         try {
             this.serializer.attachBuffer(iWriteable);
             this.serialize(this.serializer);
             this.serializer.detachBuffer();
         }
         catch (SerializerException serializerException) {
-            throw new TransportException(new StringBuffer().append("Serializer failed with: ").append(serializerException).toString());
+            throw new TransportException("Serializer failed with: " + serializerException);
         }
     }
 
-    public void serialize(ISerializer iSerializer) {
+    public void serialize(ISerializer iSerializer) throws SerializerException {
         iSerializer.putInt8(this.type.toByte());
         this.serializeElements(iSerializer);
     }
 
-    public void deserialize(IDeserializer iDeserializer, boolean bl) {
+    public void deserialize(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         if (bl) {
             byte by = iDeserializer.getInt8();
             this.type = MessageType.getType(by);
@@ -78,11 +76,9 @@ implements IWriter {
         this.deserializeElements(iDeserializer);
     }
 
-    protected abstract void serializeElements(ISerializer iSerializer) {
-    }
+    protected abstract void serializeElements(ISerializer var1) throws SerializerException;
 
-    protected abstract void deserializeElements(IDeserializer iDeserializer) {
-    }
+    protected abstract void deserializeElements(IDeserializer var1) throws SerializerException;
 
     public void setPayload(IReadable iReadable) {
         this.payload = iReadable;
@@ -92,12 +88,10 @@ implements IWriter {
         return this.payload;
     }
 
-    @Override
     public void setDebugTag(Object object) {
         this.debugTag = object;
     }
 
-    @Override
     public Object getDebugTag() {
         return this.debugTag;
     }
@@ -107,7 +101,7 @@ implements IWriter {
     }
 
     public void dump(Buffer buffer) {
-        buffer.append(super.getClass().getName());
+        buffer.append(this.getClass().getName());
     }
 
     public String toString() {

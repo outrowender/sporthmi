@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tollcollect.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.tollcollect.TCCardDateInformation;
 
 public class TCCardDateInformationSerializer {
-    public static void putOptionalTCCardDateInformation(ISerializer iSerializer, TCCardDateInformation tCCardDateInformation) {
+    public static void putOptionalTCCardDateInformation(ISerializer iSerializer, TCCardDateInformation tCCardDateInformation) throws SerializerException {
         boolean bl = tCCardDateInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TCCardDateInformationSerializer {
         }
     }
 
-    public static void putOptionalTCCardDateInformationVarArray(ISerializer iSerializer, TCCardDateInformation[] tCCardDateInformationArray) {
+    public static void putOptionalTCCardDateInformationVarArray(ISerializer iSerializer, TCCardDateInformation[] tCCardDateInformationArray) throws SerializerException {
         boolean bl = tCCardDateInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TCCardDateInformationSerializer {
         }
     }
 
-    public static TCCardDateInformation getOptionalTCCardDateInformation(IDeserializer iDeserializer) {
+    public static TCCardDateInformation getOptionalTCCardDateInformation(IDeserializer iDeserializer) throws SerializerException {
         TCCardDateInformation tCCardDateInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class TCCardDateInformationSerializer {
         return tCCardDateInformation;
     }
 
-    public static TCCardDateInformation[] getOptionalTCCardDateInformationVarArray(IDeserializer iDeserializer) {
+    public static TCCardDateInformation[] getOptionalTCCardDateInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         TCCardDateInformation[] tCCardDateInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

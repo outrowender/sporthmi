@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radiodata.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radiodata.RadioStationDataRequest;
 
 public class RadioStationDataRequestSerializer {
-    public static void putOptionalRadioStationDataRequest(ISerializer iSerializer, RadioStationDataRequest radioStationDataRequest) {
+    public static void putOptionalRadioStationDataRequest(ISerializer iSerializer, RadioStationDataRequest radioStationDataRequest) throws SerializerException {
         boolean bl = radioStationDataRequest == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -69,7 +70,7 @@ public class RadioStationDataRequestSerializer {
         }
     }
 
-    public static void putOptionalRadioStationDataRequestVarArray(ISerializer iSerializer, RadioStationDataRequest[] radioStationDataRequestArray) {
+    public static void putOptionalRadioStationDataRequestVarArray(ISerializer iSerializer, RadioStationDataRequest[] radioStationDataRequestArray) throws SerializerException {
         boolean bl = radioStationDataRequestArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -80,7 +81,7 @@ public class RadioStationDataRequestSerializer {
         }
     }
 
-    public static RadioStationDataRequest getOptionalRadioStationDataRequest(IDeserializer iDeserializer) {
+    public static RadioStationDataRequest getOptionalRadioStationDataRequest(IDeserializer iDeserializer) throws SerializerException {
         RadioStationDataRequest radioStationDataRequest = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -143,7 +144,7 @@ public class RadioStationDataRequestSerializer {
         return radioStationDataRequest;
     }
 
-    public static RadioStationDataRequest[] getOptionalRadioStationDataRequestVarArray(IDeserializer iDeserializer) {
+    public static RadioStationDataRequest[] getOptionalRadioStationDataRequestVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioStationDataRequest[] radioStationDataRequestArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

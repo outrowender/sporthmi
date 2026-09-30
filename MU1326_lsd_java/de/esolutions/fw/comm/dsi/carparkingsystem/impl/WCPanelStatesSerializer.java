@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.WCPanelStates;
 
 public class WCPanelStatesSerializer {
-    public static void putOptionalWCPanelStates(ISerializer iSerializer, WCPanelStates wCPanelStates) {
+    public static void putOptionalWCPanelStates(ISerializer iSerializer, WCPanelStates wCPanelStates) throws SerializerException {
         boolean bl = wCPanelStates == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class WCPanelStatesSerializer {
         }
     }
 
-    public static void putOptionalWCPanelStatesVarArray(ISerializer iSerializer, WCPanelStates[] wCPanelStatesArray) {
+    public static void putOptionalWCPanelStatesVarArray(ISerializer iSerializer, WCPanelStates[] wCPanelStatesArray) throws SerializerException {
         boolean bl = wCPanelStatesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class WCPanelStatesSerializer {
         }
     }
 
-    public static WCPanelStates getOptionalWCPanelStates(IDeserializer iDeserializer) {
+    public static WCPanelStates getOptionalWCPanelStates(IDeserializer iDeserializer) throws SerializerException {
         WCPanelStates wCPanelStates = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class WCPanelStatesSerializer {
         return wCPanelStates;
     }
 
-    public static WCPanelStates[] getOptionalWCPanelStatesVarArray(IDeserializer iDeserializer) {
+    public static WCPanelStates[] getOptionalWCPanelStatesVarArray(IDeserializer iDeserializer) throws SerializerException {
         WCPanelStates[] wCPanelStatesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

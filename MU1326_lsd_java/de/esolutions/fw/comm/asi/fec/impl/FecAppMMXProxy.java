@@ -30,8 +30,7 @@ FecAppMMXC {
         return this.proxy;
     }
 
-    @Override
-    public void registerForFec(int n) {
+    public void registerForFec(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -42,8 +41,7 @@ FecAppMMXC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void checkPkgSignature(String string, short[] sArray, short[] sArray2) {
+    public void checkPkgSignature(String string, short[] sArray, short[] sArray2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

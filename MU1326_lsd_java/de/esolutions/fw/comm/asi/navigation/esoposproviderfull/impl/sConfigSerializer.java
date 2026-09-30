@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sConfig;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sConfigSerializer {
-    public static void putOptionalsConfig(ISerializer iSerializer, sConfig sConfig2) {
+    public static void putOptionalsConfig(ISerializer iSerializer, sConfig sConfig2) throws SerializerException {
         boolean bl = sConfig2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class sConfigSerializer {
         }
     }
 
-    public static void putOptionalsConfigVarArray(ISerializer iSerializer, sConfig[] sConfigArray) {
+    public static void putOptionalsConfigVarArray(ISerializer iSerializer, sConfig[] sConfigArray) throws SerializerException {
         boolean bl = sConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class sConfigSerializer {
         }
     }
 
-    public static sConfig getOptionalsConfig(IDeserializer iDeserializer) {
+    public static sConfig getOptionalsConfig(IDeserializer iDeserializer) throws SerializerException {
         sConfig sConfig2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class sConfigSerializer {
         return sConfig2;
     }
 
-    public static sConfig[] getOptionalsConfigVarArray(IDeserializer iDeserializer) {
+    public static sConfig[] getOptionalsConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         sConfig[] sConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

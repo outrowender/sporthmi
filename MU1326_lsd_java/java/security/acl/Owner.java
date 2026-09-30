@@ -4,15 +4,14 @@
 package java.security.acl;
 
 import java.security.Principal;
+import java.security.acl.LastOwnerException;
+import java.security.acl.NotOwnerException;
 
 public interface Owner {
-    default public boolean addOwner(Principal principal, Principal principal2) {
-    }
+    public boolean addOwner(Principal var1, Principal var2) throws NotOwnerException;
 
-    default public boolean deleteOwner(Principal principal, Principal principal2) {
-    }
+    public boolean deleteOwner(Principal var1, Principal var2) throws NotOwnerException, LastOwnerException;
 
-    default public boolean isOwner(Principal principal) {
-    }
+    public boolean isOwner(Principal var1);
 }
 

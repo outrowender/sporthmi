@@ -71,7 +71,6 @@ implements ITraceEntity {
         return null;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
@@ -132,7 +131,6 @@ implements ITraceEntity {
         return string;
     }
 
-    @Override
     public TraceEntityURI getURI() {
         return this.uri;
     }
@@ -141,7 +139,6 @@ implements ITraceEntity {
         return new TraceEntityURIWithLevel(this.uri, this.frontendFilterLevel);
     }
 
-    @Override
     public int getCreateEpoch() {
         return this.createEpoch;
     }
@@ -162,7 +159,6 @@ implements ITraceEntity {
         return this.createFilterLevel;
     }
 
-    @Override
     public short getFrontendFilterLevel() {
         return this.frontendFilterLevel;
     }
@@ -192,7 +188,6 @@ implements ITraceEntity {
         this.coreFilterLevel = s;
     }
 
-    @Override
     public short getCoreFilterLevel() {
         return this.coreFilterLevel;
     }
@@ -201,12 +196,10 @@ implements ITraceEntity {
         this.parent = traceEntity;
     }
 
-    @Override
     public ITraceEntity getParent() {
         return this.parent;
     }
 
-    @Override
     public TraceEntityURI getParentURI() {
         if (this.parent == null) {
             return null;
@@ -223,7 +216,7 @@ implements ITraceEntity {
     }
 
     public String toString() {
-        return new StringBuffer().append("[").append(this.uri.getId()).append(":").append(this.name).append(",").append(TraceEntityType.names[this.uri.getType()]).append(",frontend=").append(TraceLevels.levelNames[this.frontendFilterLevel]).append(",core=").append(TraceLevels.levelNames[this.coreFilterLevel]).append(",create=").append(TraceLevels.levelNames[this.createFilterLevel]).append(",config=").append(TraceLevels.levelNames[this.configFilterLevel]).append(",").append(this.parent == null ? "none" : this.parent.getName()).append(",epoch=").append(this.createEpoch).append("]").toString();
+        return "[" + this.uri.getId() + ":" + this.name + "," + TraceEntityType.names[this.uri.getType()] + ",frontend=" + TraceLevels.levelNames[this.frontendFilterLevel] + ",core=" + TraceLevels.levelNames[this.coreFilterLevel] + ",create=" + TraceLevels.levelNames[this.createFilterLevel] + ",config=" + TraceLevels.levelNames[this.configFilterLevel] + "," + (this.parent == null ? "none" : this.parent.getName()) + ",epoch=" + this.createEpoch + "]";
     }
 
     public void setAttachment(Object object) {
@@ -234,7 +227,6 @@ implements ITraceEntity {
         return this.attachment;
     }
 
-    @Override
     public IExternalTraceEntity createExternalCoreEntity() {
         return new ExternalTraceEntity(this.name, this.uri, this.coreFilterLevel, this.parent == null ? null : this.parent.getURI());
     }

@@ -15,18 +15,18 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.balancefader.ValuePair;
 public class TouchInputHandler
 implements IWidgetLogChannel,
 IBalFadeTouchpadConfig {
-    private static final int MIN_MOVEMENT_FOR_AIT;
-    private static final long LOCK_DURATION;
-    private static final long TIME_BETWEEN_LOCKS;
-    private static final ValuePair WIDGET_ON_SCREEN_SIZE_CM;
-    private static final String TOUCHPAD_TYPE_TOUCHWHEEL;
-    private static final String TOUCHPAD_TYPE_AIT;
+    private static final int MIN_MOVEMENT_FOR_AIT = 16;
+    private static final long LOCK_DURATION = 1000L;
+    private static final long TIME_BETWEEN_LOCKS = 2000L;
+    private static final ValuePair WIDGET_ON_SCREEN_SIZE_CM = new ValuePair(4.0f, 4.0f);
+    private static final String TOUCHPAD_TYPE_TOUCHWHEEL = "TOUCHWHEEL";
+    private static final String TOUCHPAD_TYPE_AIT = "AIT";
     private String touchPadType = "TOUCHWHEEL";
     private BalanceFaderController controller;
     private AxisLockWithTimer xAxis;
     private AxisLockWithTimer yAxis;
     private ValuePair previousEventPosition = new ValuePair();
-    private ValuePair oldCursorPosition = new ValuePair(32959, 32959);
+    private ValuePair oldCursorPosition = new ValuePair(-1.0f, -1.0f);
     private ValuePair touchPadSizeInCm;
     private ValuePair touchPadSensitivity;
     private ValuePair normalizedTouchPadSensitivity;
@@ -40,29 +40,29 @@ IBalFadeTouchpadConfig {
             this.evaluateTouchPadType();
             this.initializeTouchPadConstants();
             this.updateNormalizedTouchPadSensitivity();
-            this.xAxis = new AxisLockWithTimer(0, 0, 63, iFrameworkAccess);
-            this.yAxis = new AxisLockWithTimer(0, 0, 63, iFrameworkAccess);
+            this.xAxis = new AxisLockWithTimer(1000L, 2000L, 0.5f, iFrameworkAccess);
+            this.yAxis = new AxisLockWithTimer(1000L, 2000L, 0.5f, iFrameworkAccess);
         }
     }
 
     private void evaluateTouchPadType() {
-        this.touchPadType = 6 == this.controller.getTerminalImpl().getKbdService().getCurrentKeyboardType() ? "AIT" : "TOUCHWHEEL";
-        logBalanceFader.log(-2137614336, "TouchInputHandler#evaluateTouchPadType touchPadType = %1", (Object)this.touchPadType);
+        this.touchPadType = 6 == this.controller.getTerminalImpl().getKbdService().getCurrentKeyboardType() ? TOUCHPAD_TYPE_AIT : TOUCHPAD_TYPE_TOUCHWHEEL;
+        logBalanceFader.log(10000000, "TouchInputHandler#evaluateTouchPadType touchPadType = %1", (Object)this.touchPadType);
     }
 
     private void initializeTouchPadConstants() {
         if (this.isTouchPadTypeAIT()) {
-            ValuePair valuePair = new ValuePair(2114, 16450);
-            ValuePair valuePair2 = new ValuePair(8414020, 8401988);
+            ValuePair valuePair = new ValuePair(34.0f, 48.0f);
+            ValuePair valuePair2 = new ValuePair(910.0f, 722.0f);
             this.touchPadSize = valuePair2.subtract(valuePair);
-            this.touchPadSizeInCm = new ValuePair(14401, 2113);
-            this.touchPadSensitivity = new ValuePair(63, 63);
+            this.touchPadSizeInCm = new ValuePair(11.5f, 8.5f);
+            this.touchPadSensitivity = new ValuePair(0.5f, 0.5f);
         } else {
-            ValuePair valuePair = new ValuePair(27714, 27714);
-            ValuePair valuePair3 = new ValuePair(12611140, 12611140);
+            ValuePair valuePair = new ValuePair(59.0f, 59.0f);
+            ValuePair valuePair3 = new ValuePair(955.0f, 955.0f);
             this.touchPadSize = valuePair3.subtract(valuePair);
-            this.touchPadSizeInCm = new ValuePair(-1701209792, -1701209792);
-            this.touchPadSensitivity = new ValuePair(63, 63);
+            this.touchPadSizeInCm = new ValuePair(4.8f, 4.8f);
+            this.touchPadSensitivity = new ValuePair(0.5f, 0.5f);
         }
     }
 
@@ -72,7 +72,7 @@ IBalFadeTouchpadConfig {
     }
 
     public void touchPadPressed(TouchEvent touchEvent) {
-        this.oldCursorPosition.setXY(32959, 32959);
+        this.oldCursorPosition.setXY(-1.0f, -1.0f);
         this.previousEventPosition.setXY(touchEvent.getX(), touchEvent.getY());
         if (this.isTouchPadTypeAIT()) {
             this.initialPosition.setXY(touchEvent.getX(), touchEvent.getY());
@@ -81,11 +81,11 @@ IBalFadeTouchpadConfig {
     }
 
     private boolean isTouchPadTypeAIT() {
-        return this.touchPadType.equals("AIT");
+        return this.touchPadType.equals(TOUCHPAD_TYPE_AIT);
     }
 
     public void touchPadReleased(TouchEvent touchEvent) {
-        this.oldCursorPosition.setXY(32959, 32959);
+        this.oldCursorPosition.setXY(-1.0f, -1.0f);
         this.xAxis.reset();
         this.yAxis.reset();
     }
@@ -103,10 +103,10 @@ IBalFadeTouchpadConfig {
         this.xAxis.tryToLock(valuePair4.getX(), this.oldCursorPosition.getX());
         this.yAxis.tryToLock(valuePair4.getY(), this.oldCursorPosition.getY());
         if (this.xAxis.isLocked()) {
-            valuePair4.setX(63);
+            valuePair4.setX(0.5f);
         }
         if (this.yAxis.isLocked()) {
-            valuePair4.setY(63);
+            valuePair4.setY(0.5f);
         }
         this.oldCursorPosition.setXY(valuePair4);
         this.updateCrosshairMode();
@@ -116,7 +116,7 @@ IBalFadeTouchpadConfig {
     private boolean isInDeadDistance(ValuePair valuePair) {
         float f2 = Math.abs(this.initialPosition.getX() - valuePair.getX());
         float f3 = Math.abs(this.initialPosition.getY() - valuePair.getY());
-        if (f2 < 32833 && f3 < 32833) {
+        if (f2 < 16.0f && f3 < 16.0f) {
             return true;
         }
         this.deadDistanceAbandoned = true;
@@ -134,23 +134,19 @@ IBalFadeTouchpadConfig {
         this.controller.setCrosshairMode(n);
     }
 
-    @Override
     public String bftp_getConfigs() {
         return this.configToString();
     }
 
-    @Override
     public String bftp_getKbType() {
         return this.touchPadType;
     }
 
-    @Override
     public void bftp_setTouchSensitivity(float f2, float f3) {
         this.touchPadSensitivity.setXY(f2, f3);
         this.updateNormalizedTouchPadSensitivity();
     }
 
-    @Override
     public void bftp_setLockBreakDist(float f2, float f3, float f4) {
     }
 
@@ -163,11 +159,7 @@ IBalFadeTouchpadConfig {
 
     public void disconnect() {
         this.previousEventPosition.setXY(0.0f, 0.0f);
-        this.oldCursorPosition.setXY(32959, 32959);
-    }
-
-    static {
-        WIDGET_ON_SCREEN_SIZE_CM = new ValuePair(32832, 32832);
+        this.oldCursorPosition.setXY(-1.0f, -1.0f);
     }
 }
 

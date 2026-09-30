@@ -32,7 +32,7 @@ public class sAntennaStateVICS {
     }
 
     public String toString() {
-        return new StringBuffer("sAntennaStateVICS{").append("msg_id=").append(this.msg_id).append(", antennaState=").append(this.antennaState).append("}").toString();
+        return "sAntennaStateVICS{" + "msg_id=" + this.msg_id + ", antennaState=" + this.antennaState + "}";
     }
 }
 

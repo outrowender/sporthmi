@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.TimeState;
 
 public class TimeStateSerializer {
-    public static void putOptionalTimeState(ISerializer iSerializer, TimeState timeState) {
+    public static void putOptionalTimeState(ISerializer iSerializer, TimeState timeState) throws SerializerException {
         boolean bl = timeState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TimeStateSerializer {
         }
     }
 
-    public static void putOptionalTimeStateVarArray(ISerializer iSerializer, TimeState[] timeStateArray) {
+    public static void putOptionalTimeStateVarArray(ISerializer iSerializer, TimeState[] timeStateArray) throws SerializerException {
         boolean bl = timeStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TimeStateSerializer {
         }
     }
 
-    public static TimeState getOptionalTimeState(IDeserializer iDeserializer) {
+    public static TimeState getOptionalTimeState(IDeserializer iDeserializer) throws SerializerException {
         TimeState timeState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TimeStateSerializer {
         return timeState;
     }
 
-    public static TimeState[] getOptionalTimeStateVarArray(IDeserializer iDeserializer) {
+    public static TimeState[] getOptionalTimeStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         TimeState[] timeStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

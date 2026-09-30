@@ -8,105 +8,99 @@ import org.dsi.ifc.media.AudioRoute;
 
 public interface DSIMediaRouter
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_STREAMINGSTATUS;
-    public static final int ATTR_ACTIVEAUDIOROUTES;
-    public static final int RT_REGISTERCLIENT;
-    public static final int RT_UNREGISTERCLIENT;
-    public static final int RT_REQUESTCONFIGURATION;
-    public static final int RT_STARTSTREAMING;
-    public static final int RT_STOPSTREAMING;
-    public static final int RT_SETAUDIOROUTES;
-    public static final int RP_RESPONSECONFIGURATION;
-    public static final int RP_RESPONSECLIENTSTATUS;
-    public static final int SINKFLAG_NONE;
-    public static final int SINKFLAG_HEADUNIT;
-    public static final int SINKFLAG_NETWORK;
-    public static final int AUDIOSOURCE_NONE;
-    public static final int AUDIOSOURCE_INTERNAL;
-    public static final int AUDIOSOURCE_EXTERNAL;
-    public static final int AUDIOSOURCE_NETWORK;
-    public static final int VIDEOSOURCE_NONE;
-    public static final int VIDEOSOURCE_INTERNAL;
-    public static final int VIDEOSOURCE_EXTERNAL;
-    public static final int CLIENTSTATUS_UNKNOWN;
-    public static final int CLIENTSTATUS_REGISTRATION_SUCCESS;
-    public static final int CLIENTSTATUS_REGISTRATION_FAILED;
-    public static final int CLIENTSTATUS_DEREGISTRATION_SUCCSSS;
-    public static final int CLIENTSTATUS_DEREGISTRATION_FAILED;
-    public static final int STREAMINGSTATUS_UNKNOWN;
-    public static final int STREAMINGSTATUS_STARTED;
-    public static final int STREAMINGSTATUS_STOPPED;
-    public static final int STREAMINGSTATUS_STOPPED_WITH_ERROR;
-    public static final int STREAMINGSTATUS_STREAM_CHANGED;
-    public static final int CONFIGURATIONRESULT_OK;
-    public static final int CONFIGURATIONRESULT_NOK;
-    public static final int VIRTUALCHANNEL_NONE;
-    public static final int VIRTUALCHANNEL_ENT_INTMEDIA;
-    public static final int VIRTUALCHANNEL_ENT_A2LS;
-    public static final int VIRTUALCHANNEL_ENT_ML;
-    public static final int VIRTUALCHANNEL_ENT_MIRRORLINK;
-    public static final int VIRTUALCHANNEL_ENT_DIO;
-    public static final int VIRTUALCHANNEL_ENT_GAL;
-    public static final int VIRTUALCHANNEL_ENT_RSVD1;
-    public static final int VIRTUALCHANNEL_ENT_RSVD2;
-    public static final int VIRTUALCHANNEL_ENT_RSVD3;
-    public static final int VIRTUALCHANNEL_ANN_INT_NAV;
-    public static final int VIRTUALCHANNEL_ANN_INT_SPEECH;
-    public static final int VIRTUALCHANNEL_ANN_DIO_ALT;
-    public static final int VIRTUALCHANNEL_ANN_DIO_VOICE;
-    public static final int VIRTUALCHANNEL_ANN_GAL_UI;
-    public static final int VIRTUALCHANNEL_ANN_GAL_GUIDANCE;
-    public static final int VIRTUALCHANNEL_ANN_GAL_VOICE;
-    public static final int VIRTUALCHANNEL_ANN_ML_VOICE;
-    public static final int VIRTUALCHANNEL_ANN_ML_GUIDANCE;
-    public static final int VIRTUALCHANNEL_TEL_INT;
-    public static final int VIRTUALCHANNEL_TEL_DIO;
-    public static final int VIRTUALCHANNEL_TEL_GAL;
-    public static final int VIRTUALCHANNEL_TEL_ML;
-    public static final int VIRTUALCHANNEL_MIC;
-    public static final int VIRTUALCHANNEL_MIC_DIO;
-    public static final int VIRTUALCHANNEL_MIC_GAL;
-    public static final int VIRTUALCHANNEL_MIC_ML;
-    public static final int VIRTUALCHANNEL_SSE_INPUT;
-    public static final int VIRTUALCHANNEL_INPUT_ENT1;
-    public static final int VIRTUALCHANNEL_INPUT_ENT2;
-    public static final int VIRTUALCHANNEL_INPUT_ENT3;
-    public static final int VIRTUALCHANNEL_INPUT_ENT4;
-    public static final int VIRTUALCHANNEL_ANN_BCL_ALT;
-    public static final int VIRTUALCHANNEL_ANN_BCL_VOICE;
-    public static final int VIRTUALCHANNEL_ENT_BCL;
-    public static final int VIRTUALCHANNEL_MIC_BCL;
-    public static final int VIRTUALCHANNEL_TEL_BCL;
-    public static final int PHYSICALCHANNEL_NONE;
-    public static final int PHYSICALCHANNEL_MPL1;
-    public static final int PHYSICALCHANNEL_MPL2;
-    public static final int PHYSICALCHANNEL_ANN1;
-    public static final int PHYSICALCHANNEL_ANN2;
-    public static final int PHYSICALCHANNEL_TEL;
-    public static final int PHYSICALCHANNEL_INPUT_ENT1;
-    public static final int PHYSICALCHANNEL_INPUT_ENT2;
-    public static final int ROUTINGRESULT_OK;
-    public static final int ROUTINGRESULT_NOK;
-    public static final int ROUTINGRESULT_INVALID_SOURCE;
-    public static final int ROUTINGRESULT_INVALID_SINK;
+    public static final String VERSION = "2.11.52";
+    public static final int ATTR_STREAMINGSTATUS = 1;
+    public static final int ATTR_ACTIVEAUDIOROUTES = 2;
+    public static final int RT_REGISTERCLIENT = 1000;
+    public static final int RT_UNREGISTERCLIENT = 1001;
+    public static final int RT_REQUESTCONFIGURATION = 1002;
+    public static final int RT_STARTSTREAMING = 1003;
+    public static final int RT_STOPSTREAMING = 1004;
+    public static final int RT_SETAUDIOROUTES = 1005;
+    public static final int RP_RESPONSECONFIGURATION = 2000;
+    public static final int RP_RESPONSECLIENTSTATUS = 2001;
+    public static final int SINKFLAG_NONE = 0;
+    public static final int SINKFLAG_HEADUNIT = 1;
+    public static final int SINKFLAG_NETWORK = 2;
+    public static final int AUDIOSOURCE_NONE = 0;
+    public static final int AUDIOSOURCE_INTERNAL = 1;
+    public static final int AUDIOSOURCE_EXTERNAL = 2;
+    public static final int AUDIOSOURCE_NETWORK = 3;
+    public static final int VIDEOSOURCE_NONE = 0;
+    public static final int VIDEOSOURCE_INTERNAL = 1;
+    public static final int VIDEOSOURCE_EXTERNAL = 2;
+    public static final int CLIENTSTATUS_UNKNOWN = 0;
+    public static final int CLIENTSTATUS_REGISTRATION_SUCCESS = 1;
+    public static final int CLIENTSTATUS_REGISTRATION_FAILED = 2;
+    public static final int CLIENTSTATUS_DEREGISTRATION_SUCCSSS = 3;
+    public static final int CLIENTSTATUS_DEREGISTRATION_FAILED = 4;
+    public static final int STREAMINGSTATUS_UNKNOWN = 0;
+    public static final int STREAMINGSTATUS_STARTED = 1;
+    public static final int STREAMINGSTATUS_STOPPED = 2;
+    public static final int STREAMINGSTATUS_STOPPED_WITH_ERROR = 3;
+    public static final int STREAMINGSTATUS_STREAM_CHANGED = 4;
+    public static final int CONFIGURATIONRESULT_OK = 0;
+    public static final int CONFIGURATIONRESULT_NOK = 1;
+    public static final int VIRTUALCHANNEL_NONE = 0;
+    public static final int VIRTUALCHANNEL_ENT_INTMEDIA = 1;
+    public static final int VIRTUALCHANNEL_ENT_A2LS = 2;
+    public static final int VIRTUALCHANNEL_ENT_ML = 3;
+    public static final int VIRTUALCHANNEL_ENT_MIRRORLINK = 3;
+    public static final int VIRTUALCHANNEL_ENT_DIO = 4;
+    public static final int VIRTUALCHANNEL_ENT_GAL = 5;
+    public static final int VIRTUALCHANNEL_ENT_RSVD1 = 6;
+    public static final int VIRTUALCHANNEL_ENT_RSVD2 = 7;
+    public static final int VIRTUALCHANNEL_ENT_RSVD3 = 8;
+    public static final int VIRTUALCHANNEL_ANN_INT_NAV = 9;
+    public static final int VIRTUALCHANNEL_ANN_INT_SPEECH = 10;
+    public static final int VIRTUALCHANNEL_ANN_DIO_ALT = 11;
+    public static final int VIRTUALCHANNEL_ANN_DIO_VOICE = 12;
+    public static final int VIRTUALCHANNEL_ANN_GAL_UI = 13;
+    public static final int VIRTUALCHANNEL_ANN_GAL_GUIDANCE = 14;
+    public static final int VIRTUALCHANNEL_ANN_GAL_VOICE = 15;
+    public static final int VIRTUALCHANNEL_ANN_ML_VOICE = 16;
+    public static final int VIRTUALCHANNEL_ANN_ML_GUIDANCE = 17;
+    public static final int VIRTUALCHANNEL_TEL_INT = 18;
+    public static final int VIRTUALCHANNEL_TEL_DIO = 19;
+    public static final int VIRTUALCHANNEL_TEL_GAL = 20;
+    public static final int VIRTUALCHANNEL_TEL_ML = 21;
+    public static final int VIRTUALCHANNEL_MIC = 22;
+    public static final int VIRTUALCHANNEL_MIC_DIO = 23;
+    public static final int VIRTUALCHANNEL_MIC_GAL = 24;
+    public static final int VIRTUALCHANNEL_MIC_ML = 25;
+    public static final int VIRTUALCHANNEL_SSE_INPUT = 26;
+    public static final int VIRTUALCHANNEL_INPUT_ENT1 = 27;
+    public static final int VIRTUALCHANNEL_INPUT_ENT2 = 28;
+    public static final int VIRTUALCHANNEL_INPUT_ENT3 = 29;
+    public static final int VIRTUALCHANNEL_INPUT_ENT4 = 30;
+    public static final int VIRTUALCHANNEL_ANN_BCL_ALT = 31;
+    public static final int VIRTUALCHANNEL_ANN_BCL_VOICE = 32;
+    public static final int VIRTUALCHANNEL_ENT_BCL = 33;
+    public static final int VIRTUALCHANNEL_MIC_BCL = 34;
+    public static final int VIRTUALCHANNEL_TEL_BCL = 35;
+    public static final int PHYSICALCHANNEL_NONE = 0;
+    public static final int PHYSICALCHANNEL_MPL1 = 1;
+    public static final int PHYSICALCHANNEL_MPL2 = 2;
+    public static final int PHYSICALCHANNEL_ANN1 = 3;
+    public static final int PHYSICALCHANNEL_ANN2 = 4;
+    public static final int PHYSICALCHANNEL_TEL = 5;
+    public static final int PHYSICALCHANNEL_INPUT_ENT1 = 6;
+    public static final int PHYSICALCHANNEL_INPUT_ENT2 = 7;
+    public static final int ROUTINGRESULT_OK = 0;
+    public static final int ROUTINGRESULT_NOK = 1;
+    public static final int ROUTINGRESULT_INVALID_SOURCE = 2;
+    public static final int ROUTINGRESULT_INVALID_SINK = 3;
 
-    default public void registerClient(int n, String string, String string2) {
-    }
+    public void registerClient(int var1, String var2, String var3);
 
-    default public void unregisterClient(int n) {
-    }
+    public void unregisterClient(int var1);
 
-    default public void startStreaming(int n) {
-    }
+    public void startStreaming(int var1);
 
-    default public void stopStreaming(int n) {
-    }
+    public void stopStreaming(int var1);
 
-    default public void requestConfiguration(int n, int n2, int n3, int n4) {
-    }
+    public void requestConfiguration(int var1, int var2, int var3, int var4);
 
-    default public void setAudioRoutes(AudioRoute[] audioRouteArray) {
-    }
+    public void setAudioRoutes(AudioRoute[] var1);
 }
 

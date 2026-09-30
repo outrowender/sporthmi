@@ -3,8 +3,8 @@
  */
 package java.security;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator$Wrapper;
 import java.security.KeyPairGeneratorSpi;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -15,7 +15,7 @@ import java.security.spec.AlgorithmParameterSpec;
 
 public abstract class KeyPairGenerator
 extends KeyPairGeneratorSpi {
-    private static final String KEY_PREFIX;
+    private static final String KEY_PREFIX = "KeyPairGenerator.";
     private String algorithmName;
     private Provider provider;
 
@@ -31,14 +31,14 @@ extends KeyPairGeneratorSpi {
         return this.algorithmName;
     }
 
-    public static KeyPairGenerator getInstance(String string) {
+    public static KeyPairGenerator getInstance(String string) throws NoSuchAlgorithmException {
         if (string == null) {
             throw new IllegalArgumentException();
         }
         return KeyPairGenerator.toKeyPairGeneratorImplementation(string);
     }
 
-    public static KeyPairGenerator getInstance(String string, String string2) {
+    public static KeyPairGenerator getInstance(String string, String string2) throws NoSuchAlgorithmException, NoSuchProviderException {
         if (string2 == null) {
             throw new IllegalArgumentException();
         }
@@ -55,7 +55,7 @@ extends KeyPairGeneratorSpi {
         return KeyPairGenerator.toKeyPairGeneratorImplementation(string, provider);
     }
 
-    public static KeyPairGenerator getInstance(String string, Provider provider) {
+    public static KeyPairGenerator getInstance(String string, Provider provider) throws NoSuchAlgorithmException {
         if (string == null || provider == null) {
             throw new IllegalArgumentException();
         }
@@ -70,17 +70,15 @@ extends KeyPairGeneratorSpi {
         this.initialize(n, new SecureRandom());
     }
 
-    @Override
     public void initialize(int n, SecureRandom secureRandom) {
         throw new UnsupportedOperationException();
     }
 
-    public void initialize(AlgorithmParameterSpec algorithmParameterSpec) {
+    public void initialize(AlgorithmParameterSpec algorithmParameterSpec) throws InvalidAlgorithmParameterException {
         this.initialize(algorithmParameterSpec, new SecureRandom());
     }
 
-    @Override
-    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) {
+    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) throws InvalidAlgorithmParameterException {
         super.initialize(algorithmParameterSpec, secureRandom);
     }
 
@@ -92,7 +90,7 @@ extends KeyPairGeneratorSpi {
         this.provider = provider;
     }
 
-    private static KeyPairGenerator toKeyPairGeneratorImplementation(String string) {
+    private static KeyPairGenerator toKeyPairGeneratorImplementation(String string) throws NoSuchAlgorithmException {
         Provider[] providerArray = Security.getProviders();
         int n = 0;
         while (n < providerArray.length) {
@@ -107,10 +105,10 @@ extends KeyPairGeneratorSpi {
         throw new NoSuchAlgorithmException(string);
     }
 
-    private static KeyPairGenerator toKeyPairGeneratorImplementation(String string, Provider provider) {
+    private static KeyPairGenerator toKeyPairGeneratorImplementation(String string, Provider provider) throws NoSuchAlgorithmException {
         String string2;
         try {
-            string2 = provider.lookupProperty("KeyPairGenerator.", string);
+            string2 = provider.lookupProperty(KEY_PREFIX, string);
         }
         catch (ClassCastException classCastException) {
             throw new NoSuchAlgorithmException(string);
@@ -119,9 +117,9 @@ extends KeyPairGeneratorSpi {
             throw new NoSuchAlgorithmException(string);
         }
         try {
-            Class clazz = Class.forName(string2, true, super.getClass().getClassLoader());
+            Class clazz = Class.forName(string2, true, provider.getClass().getClassLoader());
             KeyPairGeneratorSpi keyPairGeneratorSpi = (KeyPairGeneratorSpi)clazz.newInstance();
-            KeyPairGenerator keyPairGenerator = keyPairGeneratorSpi instanceof KeyPairGenerator ? (KeyPairGenerator)keyPairGeneratorSpi : new KeyPairGenerator$Wrapper(keyPairGeneratorSpi, string);
+            KeyPairGenerator keyPairGenerator = keyPairGeneratorSpi instanceof KeyPairGenerator ? (KeyPairGenerator)keyPairGeneratorSpi : new Wrapper(keyPairGeneratorSpi, string);
             keyPairGenerator.setProvider(provider);
             return keyPairGenerator;
         }
@@ -135,9 +133,30 @@ extends KeyPairGeneratorSpi {
         throw new NoSuchAlgorithmException(string);
     }
 
-    @Override
     public KeyPair generateKeyPair() {
         return null;
+    }
+
+    private static class Wrapper
+    extends KeyPairGenerator {
+        KeyPairGeneratorSpi keyPairGeneratorProvider;
+
+        Wrapper(KeyPairGeneratorSpi keyPairGeneratorSpi, String string) {
+            super(string);
+            this.keyPairGeneratorProvider = keyPairGeneratorSpi;
+        }
+
+        public KeyPair generateKeyPair() {
+            return this.keyPairGeneratorProvider.generateKeyPair();
+        }
+
+        public void initialize(int n, SecureRandom secureRandom) {
+            this.keyPairGeneratorProvider.initialize(n, secureRandom);
+        }
+
+        public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) throws InvalidAlgorithmParameterException {
+            this.keyPairGeneratorProvider.initialize(algorithmParameterSpec, secureRandom);
+        }
     }
 }
 

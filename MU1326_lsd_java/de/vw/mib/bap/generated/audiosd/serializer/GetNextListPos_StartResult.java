@@ -10,17 +10,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class GetNextListPos_StartResult
 implements StartResultMethod {
     public int currentPos;
-    private static final int CURRENT_POS_BITSIZE;
+    private static final int CURRENT_POS_BITSIZE = 16;
     public int offset;
-    private static final int OFFSET_BITSIZE;
+    private static final int OFFSET_BITSIZE = 16;
     public int listType;
-    private static final int LIST_TYPE_BITSIZE;
-    public static final int LIST_TYPE_RECEPTION_LIST;
-    public static final int LIST_TYPE_TP_MEMO_LIST;
-    public static final int LIST_TYPE_SOURCE_LIST;
-    public static final int LIST_TYPE_RADIO_TV_PRESET_LIST;
-    public static final int LIST_TYPE_MEDIA_BROWSER;
-    public static final int LIST_TYPE_COMMON_LIST_DF4_1;
+    private static final int LIST_TYPE_BITSIZE = 8;
+    public static final int LIST_TYPE_RECEPTION_LIST = 0;
+    public static final int LIST_TYPE_TP_MEMO_LIST = 1;
+    public static final int LIST_TYPE_SOURCE_LIST = 2;
+    public static final int LIST_TYPE_RADIO_TV_PRESET_LIST = 3;
+    public static final int LIST_TYPE_MEDIA_BROWSER = 4;
+    public static final int LIST_TYPE_COMMON_LIST_DF4_1 = 5;
 
     public GetNextListPos_StartResult() {
         this.internalReset();
@@ -38,12 +38,10 @@ implements StartResultMethod {
         this.listType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         GetNextListPos_StartResult getNextListPos_StartResult = (GetNextListPos_StartResult)bAPEntity;
         return this.currentPos == getNextListPos_StartResult.currentPos && this.offset == getNextListPos_StartResult.offset && this.listType == getNextListPos_StartResult.listType;
@@ -52,7 +50,6 @@ implements StartResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("GetNextListPos_StartResult:");
@@ -93,7 +90,6 @@ implements StartResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
@@ -101,14 +97,12 @@ implements StartResultMethod {
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.currentPos);
         bitStream.pushShort((short)this.offset);
         bitStream.pushByte((byte)this.listType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.currentPos = bitStream.popFrontShort();
         this.offset = (short)bitStream.popFrontShort();
@@ -119,7 +113,6 @@ implements StartResultMethod {
         return 44;
     }
 
-    @Override
     public int getFunctionId() {
         return GetNextListPos_StartResult.functionId();
     }

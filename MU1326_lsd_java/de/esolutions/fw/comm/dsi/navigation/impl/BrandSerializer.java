@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.Brand;
 
 public class BrandSerializer {
-    public static void putOptionalBrand(ISerializer iSerializer, Brand brand) {
+    public static void putOptionalBrand(ISerializer iSerializer, Brand brand) throws SerializerException {
         boolean bl = brand == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BrandSerializer {
         }
     }
 
-    public static void putOptionalBrandVarArray(ISerializer iSerializer, Brand[] brandArray) {
+    public static void putOptionalBrandVarArray(ISerializer iSerializer, Brand[] brandArray) throws SerializerException {
         boolean bl = brandArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BrandSerializer {
         }
     }
 
-    public static Brand getOptionalBrand(IDeserializer iDeserializer) {
+    public static Brand getOptionalBrand(IDeserializer iDeserializer) throws SerializerException {
         Brand brand = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class BrandSerializer {
         return brand;
     }
 
-    public static Brand[] getOptionalBrandVarArray(IDeserializer iDeserializer) {
+    public static Brand[] getOptionalBrandVarArray(IDeserializer iDeserializer) throws SerializerException {
         Brand[] brandArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

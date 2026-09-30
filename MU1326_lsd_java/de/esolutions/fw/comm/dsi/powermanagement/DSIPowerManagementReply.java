@@ -3,48 +3,37 @@
  */
 package de.esolutions.fw.comm.dsi.powermanagement;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.powermanagement.ClampSignal;
 
 public interface DSIPowerManagementReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "6f03b6fa-61a3-550e-b68d-542d13666d43";
+    public static final String IPL_COMM_INTERFACE_KEY = "8fff252e-ea27-52bc-8f1f-2bc868ac2c70";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.13";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.13";
 
-    default public void updatePowerManagementState(int n, int n2, int n3) {
-    }
+    public void updatePowerManagementState(int var1, int var2, int var3) throws MethodException;
 
-    default public void updatePowerManagementStateRight(int n, int n2, int n3) {
-    }
+    public void updatePowerManagementStateRight(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateBEMState(int n, int n2) {
-    }
+    public void updateBEMState(int var1, int var2) throws MethodException;
 
-    default public void updateTelMaxPopup(boolean bl, int n) {
-    }
+    public void updateTelMaxPopup(boolean var1, int var2) throws MethodException;
 
-    default public void updateTStandbyPopup(boolean bl, int n) {
-    }
+    public void updateTStandbyPopup(boolean var1, int var2) throws MethodException;
 
-    default public void updateClampSignal(ClampSignal clampSignal, int n) {
-    }
+    public void updateClampSignal(ClampSignal var1, int var2) throws MethodException;
 
-    default public void updateRVCActive(boolean bl, int n) {
-    }
+    public void updateRVCActive(boolean var1, int var2) throws MethodException;
 
-    default public void updateChildLockState(int n, int n2) {
-    }
+    public void updateChildLockState(int var1, int var2) throws MethodException;
 
-    default public void updateLastOn(int n, int n2) {
-    }
+    public void updateLastOn(int var1, int var2) throws MethodException;
 
-    default public void updateSplashScreenAnimation(int n, int n2) {
-    }
+    public void updateSplashScreenAnimation(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

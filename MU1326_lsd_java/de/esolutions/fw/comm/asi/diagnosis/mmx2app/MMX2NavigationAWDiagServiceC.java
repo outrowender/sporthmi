@@ -25,75 +25,53 @@ import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sInfraredBeaconStateVICS
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sRadioBeaconStateVICS;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sSubsystemStates;
 import de.esolutions.fw.comm.asi.diagnosis.navigationAW.sUnitStateDSRC;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2NavigationAWDiagServiceC {
-    default public void responseErrorNavigation(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorNavigation(sClientResponseError var1) throws MethodException;
 
-    default public void responseSubsystemStates(sSubsystemStates sSubsystemStates2) {
-    }
+    public void responseSubsystemStates(sSubsystemStates var1) throws MethodException;
 
-    default public void responseVersionsNavDB(sVersionsNavDB sVersionsNavDB2) {
-    }
+    public void responseVersionsNavDB(sVersionsNavDB var1) throws MethodException;
 
-    default public void responseActiveNavDB(sActiveNavDB sActiveNavDB2) {
-    }
+    public void responseActiveNavDB(sActiveNavDB var1) throws MethodException;
 
-    default public void responseGPSNoSatellite(sGPSNoSatellite sGPSNoSatellite2) {
-    }
+    public void responseGPSNoSatellite(sGPSNoSatellite var1) throws MethodException;
 
-    default public void responseGPSOffroad(sGPSOffroad sGPSOffroad2) {
-    }
+    public void responseGPSOffroad(sGPSOffroad var1) throws MethodException;
 
-    default public void responseNavCalibrationState(sNavCalibrationState sNavCalibrationState2) {
-    }
+    public void responseNavCalibrationState(sNavCalibrationState var1) throws MethodException;
 
-    default public void responseNavCorrectedPosition(sNavCorrectedPosition sNavCorrectedPosition2) {
-    }
+    public void responseNavCorrectedPosition(sNavCorrectedPosition var1) throws MethodException;
 
-    default public void responseNavCorrectedDirection(sNavCorrectedDirection sNavCorrectedDirection2) {
-    }
+    public void responseNavCorrectedDirection(sNavCorrectedDirection var1) throws MethodException;
 
-    default public void responseUnitStateDSRC(sUnitStateDSRC sUnitStateDSRC2) {
-    }
+    public void responseUnitStateDSRC(sUnitStateDSRC var1) throws MethodException;
 
-    default public void responseAntennaStateDSRC(sAntennaStateDSRC sAntennaStateDSRC2) {
-    }
+    public void responseAntennaStateDSRC(sAntennaStateDSRC var1) throws MethodException;
 
-    default public void responseAntennaStateVICS(sAntennaStateVICS sAntennaStateVICS2) {
-    }
+    public void responseAntennaStateVICS(sAntennaStateVICS var1) throws MethodException;
 
-    default public void responseRadioBeaconStateVICS(sRadioBeaconStateVICS sRadioBeaconStateVICS2) {
-    }
+    public void responseRadioBeaconStateVICS(sRadioBeaconStateVICS var1) throws MethodException;
 
-    default public void responseInfraredBeaconStateVICS(sInfraredBeaconStateVICS sInfraredBeaconStateVICS2) {
-    }
+    public void responseInfraredBeaconStateVICS(sInfraredBeaconStateVICS var1) throws MethodException;
 
-    default public void responseResetCalibration(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseResetCalibration(sRoutineResponse var1) throws MethodException;
 
-    default public void responseSparePartNumber(sSparePartNumber sSparePartNumber2) {
-    }
+    public void responseSparePartNumber(sSparePartNumber var1) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumber(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) {
-    }
+    public void responseApplicationSoftwareVersionNumber(sApplicationSoftwareVersionNumber var1) throws MethodException;
 
-    default public void responseHardwareNumber(sHardwareNumber sHardwareNumber2) {
-    }
+    public void responseHardwareNumber(sHardwareNumber var1) throws MethodException;
 
-    default public void responseHardwareVersionNumber(sHardwareVersionNumber sHardwareVersionNumber2) {
-    }
+    public void responseHardwareVersionNumber(sHardwareVersionNumber var1) throws MethodException;
 
-    default public void responseSerialNumber(sSerialNumber sSerialNumber2) {
-    }
+    public void responseSerialNumber(sSerialNumber var1) throws MethodException;
 
-    default public void responseSystemName(sSystemName sSystemName2) {
-    }
+    public void responseSystemName(sSystemName var1) throws MethodException;
 
-    default public void responseCountryRegionVersion(sNavCountryRegionVersion sNavCountryRegionVersion2) {
-    }
+    public void responseCountryRegionVersion(sNavCountryRegionVersion var1) throws MethodException;
 
-    default public void responseDeleteMemory(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseDeleteMemory(sRoutineResponse var1) throws MethodException;
 }
 

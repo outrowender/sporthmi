@@ -4,12 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.menu;
 
 public interface IMenuItem {
-    public static final int TABULATOR_COMBO_BOX;
+    public static final int TABULATOR_COMBO_BOX = 1;
 
-    default public int getSizeForTabulator(int n) {
-    }
+    public int getSizeForTabulator(int var1);
 
-    default public int getWidgetID() {
-    }
+    public int getWidgetID();
 }
 

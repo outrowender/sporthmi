@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.navigation;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.navigation.DSIBlockingReply;
 import de.esolutions.fw.comm.dsi.navigation.impl.DSIBlockingReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIBlockingReply {
         super(n, (class$org$dsi$ifc$navigation$DSIBlockingListener == null ? (class$org$dsi$ifc$navigation$DSIBlockingListener = DSIBlockingDispatcher.class$("org.dsi.ifc.navigation.DSIBlockingListener")) : class$org$dsi$ifc$navigation$DSIBlockingListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateListOfBlocks(BlockElement[] blockElementArray, int n) {
+    public void updateListOfBlocks(BlockElement[] blockElementArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -58,8 +57,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateNaviCoreAvailableToSetBlocks(int n, int n2) {
+    public void updateNaviCoreAvailableToSetBlocks(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -87,8 +85,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumNumberOfBlockedAreas(int n, int n2) {
+    public void updateMaximumNumberOfBlockedAreas(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -116,8 +113,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumNumberOfBlockedRouteSegments(int n, int n2) {
+    public void updateMaximumNumberOfBlockedRouteSegments(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -145,8 +141,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumNumberOfBlockedRoadSegments(int n, int n2) {
+    public void updateMaximumNumberOfBlockedRoadSegments(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -174,8 +169,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumDimensionsOfBlockedArea(int n, int n2, int n3) {
+    public void updateMaximumDimensionsOfBlockedArea(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -203,8 +197,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumSegmentLengthOfBlockedRouteSegment(int n, int n2) {
+    public void updateMaximumSegmentLengthOfBlockedRouteSegment(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -232,8 +225,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void updateMaximumLengthOfBlockRouteBasedOnLength(int n, int n2) {
+    public void updateMaximumLengthOfBlockRouteBasedOnLength(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -261,8 +253,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void blockAreaResult(long l, int n) {
+    public void blockAreaResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -278,8 +269,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void blockRouteSegmentsResult(long l, int n) {
+    public void blockRouteSegmentsResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -295,8 +285,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void blockRoadSegmentsResult(long l, int n) {
+    public void blockRoadSegmentsResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -312,8 +301,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void blockRouteBasedOnLengthResult(long l, int n) {
+    public void blockRouteBasedOnLengthResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -329,8 +317,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void persistBlockResult(long[] lArray, int n) {
+    public void persistBlockResult(long[] lArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -346,8 +333,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void deleteBlockResult(long[] lArray, int n) {
+    public void deleteBlockResult(long[] lArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -363,8 +349,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void setBlockDescriptionResult(long[] lArray, int n) {
+    public void setBlockDescriptionResult(long[] lArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -380,8 +365,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void getBoundingRectangleOfBlocksResult(long[] lArray, NavRectangle navRectangle) {
+    public void getBoundingRectangleOfBlocksResult(long[] lArray, NavRectangle navRectangle) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -397,8 +381,7 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -414,14 +397,13 @@ implements DSIBlockingReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIBlockingListener dSIBlockingListener = (DSIBlockingListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBlockingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBlockingDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIBlockingListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBlockingDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBlockingDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIBlockingListener, new Object[]{string, string2});
                     continue;
                 }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.kombifastlist;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.kombifastlist.DSIFastListScrollingNavigationReply;
 import de.esolutions.fw.comm.dsi.kombifastlist.impl.DSIFastListScrollingNavigationReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIFastListScrollingNavigationReply {
         super(n, (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener = DSIFastListScrollingNavigationDispatcher.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingNavigationListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void indicationNavBook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
+    public void indicationNavBook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -44,8 +43,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void indicationGetInitialsNavigation(int n, int n2, int n3, int n4) {
+    public void indicationGetInitialsNavigation(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -61,8 +59,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void indicationNotifyLastDestListPUSH(boolean bl, boolean bl2) {
+    public void indicationNotifyLastDestListPUSH(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -78,8 +75,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void indicationNotifyFavoriteDestListPUSH(boolean bl, boolean bl2) {
+    public void indicationNotifyFavoriteDestListPUSH(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -95,8 +91,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void indicationNotifyCurrentListSizeNavigation(boolean bl, boolean bl2) {
+    public void indicationNotifyCurrentListSizeNavigation(boolean bl, boolean bl2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -112,8 +107,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void indicationNavBookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
+    public void indicationNavBookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -129,8 +123,7 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -146,14 +139,13 @@ implements DSIFastListScrollingNavigationReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIFastListScrollingNavigationListener dSIFastListScrollingNavigationListener = (DSIFastListScrollingNavigationListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingNavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingNavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIFastListScrollingNavigationListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIFastListScrollingNavigationDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIFastListScrollingNavigationDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIFastListScrollingNavigationListener, new Object[]{string, string2});
                     continue;
                 }

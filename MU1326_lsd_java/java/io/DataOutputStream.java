@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package java.io;
 
@@ -10,6 +7,7 @@ import com.ibm.oti.util.Msg;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.FilterOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UTFDataFormatException;
 
@@ -22,20 +20,18 @@ implements DataOutput {
         super(outputStream);
     }
 
-    @Override
-    public void flush() {
+    public void flush() throws IOException {
         super.flush();
     }
 
     public final int size() {
         if (this.written < 0) {
-            this.written = -129;
+            this.written = Integer.MAX_VALUE;
         }
         return this.written;
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (byArray != null) {
             this.out.write(byArray, n, n2);
             this.written += n2;
@@ -44,26 +40,22 @@ implements DataOutput {
         }
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         this.out.write(n);
         ++this.written;
     }
 
-    @Override
-    public final void writeBoolean(boolean bl) {
+    public final void writeBoolean(boolean bl) throws IOException {
         this.out.write(bl ? 1 : 0);
         ++this.written;
     }
 
-    @Override
-    public final void writeByte(int n) {
+    public final void writeByte(int n) throws IOException {
         this.out.write(n);
         ++this.written;
     }
 
-    @Override
-    public final void writeBytes(String string) {
+    public final void writeBytes(String string) throws IOException {
         byte[] byArray = new byte[string.length()];
         int n = 0;
         while (n < string.length()) {
@@ -74,15 +66,13 @@ implements DataOutput {
         this.written += byArray.length;
     }
 
-    @Override
-    public final void writeChar(int n) {
+    public final void writeChar(int n) throws IOException {
         this.out.write(n >> 8);
         this.out.write(n);
         this.written += 2;
     }
 
-    @Override
-    public final void writeChars(String string) {
+    public final void writeChars(String string) throws IOException {
         byte[] byArray = new byte[string.length() * 2];
         int n = 0;
         while (n < string.length()) {
@@ -95,18 +85,15 @@ implements DataOutput {
         this.written += byArray.length;
     }
 
-    @Override
-    public final void writeDouble(double d2) {
-        this.writeLong(Double.doubleToLongBits((double)d2));
+    public final void writeDouble(double d2) throws IOException {
+        this.writeLong(Double.doubleToLongBits(d2));
     }
 
-    @Override
-    public final void writeFloat(float f2) {
+    public final void writeFloat(float f2) throws IOException {
         this.writeInt(Float.floatToIntBits(f2));
     }
 
-    @Override
-    public final void writeInt(int n) {
+    public final void writeInt(int n) throws IOException {
         this.out.write(n >> 24);
         this.out.write(n >> 16);
         this.out.write(n >> 8);
@@ -114,22 +101,19 @@ implements DataOutput {
         this.written += 4;
     }
 
-    @Override
-    public final void writeLong(long l) {
+    public final void writeLong(long l) throws IOException {
         this.writeInt((int)(l >> 32));
         this.writeInt((int)l);
     }
 
-    @Override
-    public final void writeShort(int n) {
+    public final void writeShort(int n) throws IOException {
         this.writeChar(n);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public final void writeUTF(String string) {
+    public final void writeUTF(String string) throws IOException {
         long l;
         int n = string.length();
         if (n <= 2730) {
@@ -173,7 +157,7 @@ implements DataOutput {
                     DataInputStream.useShared = true;
                 }
             }
-        } else if (n <= -65536 && (l = this.countUTFBytes(string)) <= 0) {
+        } else if (n <= 65535 && (l = this.countUTFBytes(string)) <= 65535L) {
             this.writeShort((int)l);
             this.writeUTFBytes(string, l);
         } else {
@@ -201,12 +185,12 @@ implements DataOutput {
      * Converted monitor instructions to comments
      * Lifted jumps to return sites
      */
-    void writeUTFBytes(String string, long l) {
+    void writeUTFBytes(String string, long l) throws IOException {
         int n;
         byte[] byArray;
         boolean bl = true;
         int n2 = (int)l;
-        if (l > 0) {
+        if (l > 8192L) {
             bl = false;
             n2 = 8192;
         }

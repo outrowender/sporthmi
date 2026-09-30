@@ -24,7 +24,6 @@ extends CompositeRendererHigh {
         this.controller = mirroredContainerController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         super.applyProperties(redrawContextHigh);
         if (this.node == null) {
@@ -41,14 +40,11 @@ extends CompositeRendererHigh {
         this.node.setOpacity(this.controller.getRenderOpacity());
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void applyMirror(boolean bl) {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
         this.node.setPosition(bl ? (float)(n + this.controller.getWidth()) : (float)n, n2, 1.0f);
-        this.node.setScale(bl ? 32959 : (int)1.0f, 1.0f, 1.0f);
+        this.node.setScale(bl ? -1.0f : 1.0f, 1.0f, 1.0f);
     }
 
     private void backmirrorParticularChildren() {
@@ -57,7 +53,7 @@ extends CompositeRendererHigh {
         ArrayList arrayList = new ArrayList();
         for (n = 0; n < this.controller.getChildren().size(); ++n) {
             abstractWidget = this.controller.getChild(n);
-            if (!this.isBackMirrorCandidate(super.getClass()) || this.isInternalMirroredNode(abstractWidget)) continue;
+            if (!this.isBackMirrorCandidate(abstractWidget.getClass()) || this.isInternalMirroredNode(abstractWidget)) continue;
             arrayList.add(abstractWidget);
         }
         for (n = 0; n < arrayList.size(); ++n) {
@@ -104,7 +100,7 @@ extends CompositeRendererHigh {
         ArrayList arrayList = new ArrayList();
         for (n = 0; n < this.controller.getChildren().size(); ++n) {
             abstractWidget = this.controller.getChild(n);
-            if (!super.getClass().equals(class$de$esolutions$hmi$widgets$audi$evo$high$widgets$MirroredContainerController == null ? MirrorRendererHigh.class$("de.esolutions.hmi.widgets.audi.evo.high.widgets.MirroredContainerController") : class$de$esolutions$hmi$widgets$audi$evo$high$widgets$MirroredContainerController)) continue;
+            if (!abstractWidget.getClass().equals(class$de$esolutions$hmi$widgets$audi$evo$high$widgets$MirroredContainerController == null ? MirrorRendererHigh.class$("de.esolutions.hmi.widgets.audi.evo.high.widgets.MirroredContainerController") : class$de$esolutions$hmi$widgets$audi$evo$high$widgets$MirroredContainerController)) continue;
             arrayList.add(abstractWidget);
         }
         for (n = 0; n < arrayList.size(); ++n) {

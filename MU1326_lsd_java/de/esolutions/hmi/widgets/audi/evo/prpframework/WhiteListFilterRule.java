@@ -39,10 +39,9 @@ extends AbstractPRPRule {
         this.isPhoneNumber = bl2;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         Object object2;
-        IWidgetLogChannel.logPRPEngine.log(1078071040, "WhiteListFilterRule#execute additionalArgument = %1", object);
+        IWidgetLogChannel.logPRPEngine.log(1000000, "WhiteListFilterRule#execute additionalArgument = %1", object);
         ICharacterRegister iCharacterRegister = null;
         if (object instanceof String) {
             object2 = ((String)object).toCharArray();
@@ -85,12 +84,10 @@ extends AbstractPRPRule {
         return true;
     }
 
-    @Override
     public int getValidity() {
         return this.validity;
     }
 
-    @Override
     public String getRuleName() {
         return this.ruleName;
     }

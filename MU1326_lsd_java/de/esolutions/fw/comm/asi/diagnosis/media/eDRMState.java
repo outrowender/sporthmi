@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eDRMState
 extends IEnum {
-    public static final int DRM_STATE_NOT_PROTECTED;
-    public static final int DRM_STATE_PROTECTED;
-    public static final int DRM_STATE_NOT_AVAILABLE;
+    public static final int DRM_STATE_NOT_PROTECTED = 0;
+    public static final int DRM_STATE_PROTECTED = 1;
+    public static final int DRM_STATE_NOT_AVAILABLE = 255;
 }
 

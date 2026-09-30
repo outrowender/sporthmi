@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sOLRLocationReference;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sRectangleSetReference;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sRectangleSetReferenceSerializer {
-    public static void putOptionalsRectangleSetReference(ISerializer iSerializer, sRectangleSetReference sRectangleSetReference2) {
+    public static void putOptionalsRectangleSetReference(ISerializer iSerializer, sRectangleSetReference sRectangleSetReference2) throws SerializerException {
         boolean bl = sRectangleSetReference2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sRectangleSetReferenceSerializer {
         }
     }
 
-    public static void putOptionalsRectangleSetReferenceVarArray(ISerializer iSerializer, sRectangleSetReference[] sRectangleSetReferenceArray) {
+    public static void putOptionalsRectangleSetReferenceVarArray(ISerializer iSerializer, sRectangleSetReference[] sRectangleSetReferenceArray) throws SerializerException {
         boolean bl = sRectangleSetReferenceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sRectangleSetReferenceSerializer {
         }
     }
 
-    public static sRectangleSetReference getOptionalsRectangleSetReference(IDeserializer iDeserializer) {
+    public static sRectangleSetReference getOptionalsRectangleSetReference(IDeserializer iDeserializer) throws SerializerException {
         sRectangleSetReference sRectangleSetReference2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -41,7 +42,7 @@ public class sRectangleSetReferenceSerializer {
         return sRectangleSetReference2;
     }
 
-    public static sRectangleSetReference[] getOptionalsRectangleSetReferenceVarArray(IDeserializer iDeserializer) {
+    public static sRectangleSetReference[] getOptionalsRectangleSetReferenceVarArray(IDeserializer iDeserializer) throws SerializerException {
         sRectangleSetReference[] sRectangleSetReferenceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

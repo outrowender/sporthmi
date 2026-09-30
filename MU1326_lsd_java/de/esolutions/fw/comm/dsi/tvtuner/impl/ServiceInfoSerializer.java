@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tvtuner.ServiceInfo;
 
 public class ServiceInfoSerializer {
-    public static void putOptionalServiceInfo(ISerializer iSerializer, ServiceInfo serviceInfo) {
+    public static void putOptionalServiceInfo(ISerializer iSerializer, ServiceInfo serviceInfo) throws SerializerException {
         boolean bl = serviceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ServiceInfoSerializer {
         }
     }
 
-    public static void putOptionalServiceInfoVarArray(ISerializer iSerializer, ServiceInfo[] serviceInfoArray) {
+    public static void putOptionalServiceInfoVarArray(ISerializer iSerializer, ServiceInfo[] serviceInfoArray) throws SerializerException {
         boolean bl = serviceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ServiceInfoSerializer {
         }
     }
 
-    public static ServiceInfo getOptionalServiceInfo(IDeserializer iDeserializer) {
+    public static ServiceInfo getOptionalServiceInfo(IDeserializer iDeserializer) throws SerializerException {
         ServiceInfo serviceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class ServiceInfoSerializer {
         return serviceInfo;
     }
 
-    public static ServiceInfo[] getOptionalServiceInfoVarArray(IDeserializer iDeserializer) {
+    public static ServiceInfo[] getOptionalServiceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceInfo[] serviceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

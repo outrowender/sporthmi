@@ -15,7 +15,6 @@ implements IThreadEntityCreator {
         this.frontend = traceFrontend;
     }
 
-    @Override
     public int createThreadEntity(String string) {
         TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createThread(string, (short)7);
         if (traceEntityURIWithLevel == null) {

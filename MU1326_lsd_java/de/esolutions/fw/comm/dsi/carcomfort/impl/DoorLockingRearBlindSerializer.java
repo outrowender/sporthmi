@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingRearBlind;
 
 public class DoorLockingRearBlindSerializer {
-    public static void putOptionalDoorLockingRearBlind(ISerializer iSerializer, DoorLockingRearBlind doorLockingRearBlind) {
+    public static void putOptionalDoorLockingRearBlind(ISerializer iSerializer, DoorLockingRearBlind doorLockingRearBlind) throws SerializerException {
         boolean bl = doorLockingRearBlind == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class DoorLockingRearBlindSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingRearBlindVarArray(ISerializer iSerializer, DoorLockingRearBlind[] doorLockingRearBlindArray) {
+    public static void putOptionalDoorLockingRearBlindVarArray(ISerializer iSerializer, DoorLockingRearBlind[] doorLockingRearBlindArray) throws SerializerException {
         boolean bl = doorLockingRearBlindArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class DoorLockingRearBlindSerializer {
         }
     }
 
-    public static DoorLockingRearBlind getOptionalDoorLockingRearBlind(IDeserializer iDeserializer) {
+    public static DoorLockingRearBlind getOptionalDoorLockingRearBlind(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingRearBlind doorLockingRearBlind = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class DoorLockingRearBlindSerializer {
         return doorLockingRearBlind;
     }
 
-    public static DoorLockingRearBlind[] getOptionalDoorLockingRearBlindVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingRearBlind[] getOptionalDoorLockingRearBlindVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingRearBlind[] doorLockingRearBlindArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

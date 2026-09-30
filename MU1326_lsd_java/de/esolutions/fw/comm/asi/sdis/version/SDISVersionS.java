@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.sdis.version;
 
 import de.esolutions.fw.comm.asi.sdis.version.SDISVersionReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface SDISVersionS {
-    default public void setNotification(SDISVersionReply sDISVersionReply) {
-    }
+    public void setNotification(SDISVersionReply var1) throws MethodException;
 
-    default public void setNotification(long l, SDISVersionReply sDISVersionReply) {
-    }
+    public void setNotification(long var1, SDISVersionReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, SDISVersionReply sDISVersionReply) {
-    }
+    public void setNotification(long[] var1, SDISVersionReply var2) throws MethodException;
 
-    default public void clearNotification(SDISVersionReply sDISVersionReply) {
-    }
+    public void clearNotification(SDISVersionReply var1) throws MethodException;
 
-    default public void clearNotification(long l, SDISVersionReply sDISVersionReply) {
-    }
+    public void clearNotification(long var1, SDISVersionReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, SDISVersionReply sDISVersionReply) {
-    }
+    public void clearNotification(long[] var1, SDISVersionReply var2) throws MethodException;
 }
 

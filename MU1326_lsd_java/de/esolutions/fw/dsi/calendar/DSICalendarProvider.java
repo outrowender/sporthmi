@@ -28,28 +28,23 @@ implements DSICalendar {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$calendar$DSICalendar == null ? (class$org$dsi$ifc$calendar$DSICalendar = DSICalendarProvider.class$("org.dsi.ifc.calendar.DSICalendar")) : class$org$dsi$ifc$calendar$DSICalendar).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICalendarProxy(this.instance, (DSICalendarReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2) {
         try {
             this.proxy.getCalendarSummaries(dateTime, dateTime2);
@@ -59,7 +54,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void getCalendarEntry(long l) {
         try {
             this.proxy.getCalendarEntry(l);
@@ -69,7 +63,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void setCalendarConfig(CalendarConfig calendarConfig) {
         try {
             this.proxy.setCalendarConfig(calendarConfig);
@@ -79,7 +72,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void getCalendarConfig(long l) {
         try {
             this.proxy.getCalendarConfig(l);
@@ -89,7 +81,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void setAlarm(long l, long l2) {
         try {
             this.proxy.setAlarm(l, l2);
@@ -99,7 +90,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void getAlarm(long l) {
         try {
             this.proxy.getAlarm(l);
@@ -109,7 +99,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void getEmailAddresses(long l) {
         try {
             this.proxy.getEmailAddresses(l);
@@ -119,7 +108,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void getTelephoneNumbers(long l) {
         try {
             this.proxy.getTelephoneNumbers(l);
@@ -129,7 +117,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void insertProfile(ProfileInfo profileInfo) {
         try {
             this.proxy.insertProfile(profileInfo);
@@ -139,7 +126,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void deleteProfile(long l) {
         try {
             this.proxy.deleteProfile(l);
@@ -149,7 +135,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -159,7 +144,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -169,7 +153,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -179,7 +162,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -189,7 +171,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -199,7 +180,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -209,7 +189,6 @@ implements DSICalendar {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

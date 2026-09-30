@@ -11,7 +11,6 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.LayoutContainerController;
 public class MapKZBResourceVisibilityProxyContainer
 extends LayoutContainerController
 implements IMixedListCallback {
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         MixedListKZBMerger.addCallbackListener(this);
@@ -21,13 +20,11 @@ implements IMixedListCallback {
         }
     }
 
-    @Override
     public void disconnecting() {
         super.disconnecting();
         MixedListKZBMerger.removeCallbackListener(this);
     }
 
-    @Override
     public void kZBMergedCallback(boolean bl) {
         if (bl) {
             mapOverlayLogCh.log(10000, "MapKZBResourceVisibilityProxyContainer#kZBMergedCallback KZB Resource now loaded. Set on screen to true.");

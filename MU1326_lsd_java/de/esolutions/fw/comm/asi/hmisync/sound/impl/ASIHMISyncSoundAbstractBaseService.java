@@ -8,17 +8,18 @@ import de.esolutions.fw.comm.asi.hmisync.sound.ASIHMISyncSoundS;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeRange;
 import de.esolutions.fw.comm.asi.hmisync.sound.SoundShapeValue;
-import de.esolutions.fw.comm.asi.hmisync.sound.impl.ASIHMISyncSoundAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncSoundAbstractBaseService
 implements ASIHMISyncSoundS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.sound.ASIHMISyncSound");
-    private static final int attributesCount;
+    private static final int attributesCount = 27;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -118,39 +119,33 @@ implements ASIHMISyncSoundS {
     }
 
     public ASIHMISyncSoundAbstractBaseService() {
-        ASIHMISyncSoundAbstractBaseService$AttributesBitMapProvider aSIHMISyncSoundAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncSoundAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncSound", aSIHMISyncSoundAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncSound", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncSoundReply);
         this.sendAttributeUpdate(l, aSIHMISyncSoundReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.setNotification(aSIHMISyncSoundReply);
         this.sendAttributeUpdate(aSIHMISyncSoundReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncSoundReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncSoundReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncSoundReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.clearNotification(aSIHMISyncSoundReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncSoundReply);
     }
@@ -198,59 +193,59 @@ implements ASIHMISyncSoundS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncSoundReply aSIHMISyncSoundReply) {
         try {
-            if (l == 0) {
+            if (l == 14L) {
                 aSIHMISyncSoundReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 27L) {
                 aSIHMISyncSoundReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 26L) {
                 aSIHMISyncSoundReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 28L) {
                 aSIHMISyncSoundReply.updateSoundState(this.SoundState, this.SoundState_valid);
-            } else if (l == 0) {
+            } else if (l == 15L) {
                 aSIHMISyncSoundReply.updateAmplifier(this.Amplifier, this.Amplifier_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncSoundReply.updateBassRange(this.BassRange, this.BassRange_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncSoundReply.updateBassValue(this.BassValue, this.BassValue_valid);
-            } else if (l == 0) {
+            } else if (l == 33L) {
                 aSIHMISyncSoundReply.updateTrebleRange(this.TrebleRange, this.TrebleRange_valid);
-            } else if (l == 0) {
+            } else if (l == 34L) {
                 aSIHMISyncSoundReply.updateTrebleValue(this.TrebleValue, this.TrebleValue_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncSoundReply.updateBalanceRange(this.BalanceRange, this.BalanceRange_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncSoundReply.updateBalanceValue(this.BalanceValue, this.BalanceValue_valid);
-            } else if (l == 0) {
+            } else if (l == 20L) {
                 aSIHMISyncSoundReply.updateFaderRange(this.FaderRange, this.FaderRange_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncSoundReply.updateFaderValue(this.FaderValue, this.FaderValue_valid);
-            } else if (l == 0) {
+            } else if (l == 29L) {
                 aSIHMISyncSoundReply.updateSubwooferRange(this.SubwooferRange, this.SubwooferRange_valid);
-            } else if (l == 0) {
+            } else if (l == 30L) {
                 aSIHMISyncSoundReply.updateSubwooferValue(this.SubwooferValue, this.SubwooferValue_valid);
-            } else if (l == 0) {
+            } else if (l == 31L) {
                 aSIHMISyncSoundReply.updateSurroundRange(this.SurroundRange, this.SurroundRange_valid);
-            } else if (l == 0) {
+            } else if (l == 32L) {
                 aSIHMISyncSoundReply.updateSurroundValue(this.SurroundValue, this.SurroundValue_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncSoundReply.updateNoiseCompensationRange(this.NoiseCompensationRange, this.NoiseCompensationRange_valid);
-            } else if (l == 0) {
+            } else if (l == 23L) {
                 aSIHMISyncSoundReply.updateNoiseCompensationValue(this.NoiseCompensationValue, this.NoiseCompensationValue_valid);
-            } else if (l == 0) {
+            } else if (l == 39L) {
                 aSIHMISyncSoundReply.updateThreeDModeRange(this.ThreeDModeRange, this.ThreeDModeRange_valid);
-            } else if (l == 0) {
+            } else if (l == 40L) {
                 aSIHMISyncSoundReply.updateThreeDModeValue(this.ThreeDModeValue, this.ThreeDModeValue_valid);
-            } else if (l == 0) {
+            } else if (l == 42L) {
                 aSIHMISyncSoundReply.updateSoundShapeRange(this.SoundShapeRange, this.SoundShapeRange_valid);
-            } else if (l == 0) {
+            } else if (l == 43L) {
                 aSIHMISyncSoundReply.updateSoundShapeValue(this.SoundShapeValue, this.SoundShapeValue_valid);
-            } else if (l == 0) {
+            } else if (l == 25L) {
                 aSIHMISyncSoundReply.updatePresetPositionList(this.PresetPositionList, this.PresetPositionList_valid);
-            } else if (l == 0) {
+            } else if (l == 24L) {
                 aSIHMISyncSoundReply.updatePresetPosition(this.PresetPosition, this.PresetPosition_valid);
-            } else if (l == 0) {
+            } else if (l == 38L) {
                 aSIHMISyncSoundReply.updatePresetEQList(this.PresetEQList, this.PresetEQList_valid);
-            } else if (l == 0) {
+            } else if (l == 37L) {
                 aSIHMISyncSoundReply.updatePresetEQ(this.PresetEQ, this.PresetEQ_valid);
             } else {
                 System.out.println("unexpected");
@@ -261,11 +256,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncSoundAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(14);
@@ -279,11 +274,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -302,11 +297,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -325,11 +320,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSoundState(int n) {
+    public void updateSoundState(int n) throws MethodException {
         this.updateSoundState(n, true);
     }
 
-    public void updateSoundState(int n, boolean bl) {
+    public void updateSoundState(int n, boolean bl) throws MethodException {
         this.SoundState = n;
         this.SoundState_valid = bl;
         List list = this.baseService.getNotifications(28);
@@ -343,11 +338,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateAmplifier(int n) {
+    public void updateAmplifier(int n) throws MethodException {
         this.updateAmplifier(n, true);
     }
 
-    public void updateAmplifier(int n, boolean bl) {
+    public void updateAmplifier(int n, boolean bl) throws MethodException {
         this.Amplifier = n;
         this.Amplifier_valid = bl;
         List list = this.baseService.getNotifications(15);
@@ -361,11 +356,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateBassRange(SoundRange soundRange) {
+    public void updateBassRange(SoundRange soundRange) throws MethodException {
         this.updateBassRange(soundRange, true);
     }
 
-    public void updateBassRange(SoundRange soundRange, boolean bl) {
+    public void updateBassRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.BassRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.BassRange_valid = bl;
         List list = this.baseService.getNotifications(18);
@@ -379,11 +374,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateBassValue(int n) {
+    public void updateBassValue(int n) throws MethodException {
         this.updateBassValue(n, true);
     }
 
-    public void updateBassValue(int n, boolean bl) {
+    public void updateBassValue(int n, boolean bl) throws MethodException {
         this.BassValue = n;
         this.BassValue_valid = bl;
         List list = this.baseService.getNotifications(19);
@@ -397,11 +392,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateTrebleRange(SoundRange soundRange) {
+    public void updateTrebleRange(SoundRange soundRange) throws MethodException {
         this.updateTrebleRange(soundRange, true);
     }
 
-    public void updateTrebleRange(SoundRange soundRange, boolean bl) {
+    public void updateTrebleRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.TrebleRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.TrebleRange_valid = bl;
         List list = this.baseService.getNotifications(33);
@@ -415,11 +410,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateTrebleValue(int n) {
+    public void updateTrebleValue(int n) throws MethodException {
         this.updateTrebleValue(n, true);
     }
 
-    public void updateTrebleValue(int n, boolean bl) {
+    public void updateTrebleValue(int n, boolean bl) throws MethodException {
         this.TrebleValue = n;
         this.TrebleValue_valid = bl;
         List list = this.baseService.getNotifications(34);
@@ -433,11 +428,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateBalanceRange(SoundRange soundRange) {
+    public void updateBalanceRange(SoundRange soundRange) throws MethodException {
         this.updateBalanceRange(soundRange, true);
     }
 
-    public void updateBalanceRange(SoundRange soundRange, boolean bl) {
+    public void updateBalanceRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.BalanceRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.BalanceRange_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -451,11 +446,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateBalanceValue(int n) {
+    public void updateBalanceValue(int n) throws MethodException {
         this.updateBalanceValue(n, true);
     }
 
-    public void updateBalanceValue(int n, boolean bl) {
+    public void updateBalanceValue(int n, boolean bl) throws MethodException {
         this.BalanceValue = n;
         this.BalanceValue_valid = bl;
         List list = this.baseService.getNotifications(17);
@@ -469,11 +464,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateFaderRange(SoundRange soundRange) {
+    public void updateFaderRange(SoundRange soundRange) throws MethodException {
         this.updateFaderRange(soundRange, true);
     }
 
-    public void updateFaderRange(SoundRange soundRange, boolean bl) {
+    public void updateFaderRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.FaderRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.FaderRange_valid = bl;
         List list = this.baseService.getNotifications(20);
@@ -487,11 +482,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateFaderValue(int n) {
+    public void updateFaderValue(int n) throws MethodException {
         this.updateFaderValue(n, true);
     }
 
-    public void updateFaderValue(int n, boolean bl) {
+    public void updateFaderValue(int n, boolean bl) throws MethodException {
         this.FaderValue = n;
         this.FaderValue_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -505,11 +500,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSubwooferRange(SoundRange soundRange) {
+    public void updateSubwooferRange(SoundRange soundRange) throws MethodException {
         this.updateSubwooferRange(soundRange, true);
     }
 
-    public void updateSubwooferRange(SoundRange soundRange, boolean bl) {
+    public void updateSubwooferRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.SubwooferRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.SubwooferRange_valid = bl;
         List list = this.baseService.getNotifications(29);
@@ -523,11 +518,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSubwooferValue(int n) {
+    public void updateSubwooferValue(int n) throws MethodException {
         this.updateSubwooferValue(n, true);
     }
 
-    public void updateSubwooferValue(int n, boolean bl) {
+    public void updateSubwooferValue(int n, boolean bl) throws MethodException {
         this.SubwooferValue = n;
         this.SubwooferValue_valid = bl;
         List list = this.baseService.getNotifications(30);
@@ -541,11 +536,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSurroundRange(SoundRange soundRange) {
+    public void updateSurroundRange(SoundRange soundRange) throws MethodException {
         this.updateSurroundRange(soundRange, true);
     }
 
-    public void updateSurroundRange(SoundRange soundRange, boolean bl) {
+    public void updateSurroundRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.SurroundRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.SurroundRange_valid = bl;
         List list = this.baseService.getNotifications(31);
@@ -559,11 +554,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSurroundValue(int n) {
+    public void updateSurroundValue(int n) throws MethodException {
         this.updateSurroundValue(n, true);
     }
 
-    public void updateSurroundValue(int n, boolean bl) {
+    public void updateSurroundValue(int n, boolean bl) throws MethodException {
         this.SurroundValue = n;
         this.SurroundValue_valid = bl;
         List list = this.baseService.getNotifications(32);
@@ -577,11 +572,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateNoiseCompensationRange(SoundRange soundRange) {
+    public void updateNoiseCompensationRange(SoundRange soundRange) throws MethodException {
         this.updateNoiseCompensationRange(soundRange, true);
     }
 
-    public void updateNoiseCompensationRange(SoundRange soundRange, boolean bl) {
+    public void updateNoiseCompensationRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.NoiseCompensationRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.NoiseCompensationRange_valid = bl;
         List list = this.baseService.getNotifications(22);
@@ -595,11 +590,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateNoiseCompensationValue(int n) {
+    public void updateNoiseCompensationValue(int n) throws MethodException {
         this.updateNoiseCompensationValue(n, true);
     }
 
-    public void updateNoiseCompensationValue(int n, boolean bl) {
+    public void updateNoiseCompensationValue(int n, boolean bl) throws MethodException {
         this.NoiseCompensationValue = n;
         this.NoiseCompensationValue_valid = bl;
         List list = this.baseService.getNotifications(23);
@@ -613,11 +608,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateThreeDModeRange(SoundRange soundRange) {
+    public void updateThreeDModeRange(SoundRange soundRange) throws MethodException {
         this.updateThreeDModeRange(soundRange, true);
     }
 
-    public void updateThreeDModeRange(SoundRange soundRange, boolean bl) {
+    public void updateThreeDModeRange(SoundRange soundRange, boolean bl) throws MethodException {
         this.ThreeDModeRange = ASIHMISyncSoundAbstractBaseService.copySoundRange(soundRange);
         this.ThreeDModeRange_valid = bl;
         List list = this.baseService.getNotifications(39);
@@ -631,11 +626,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateThreeDModeValue(int n) {
+    public void updateThreeDModeValue(int n) throws MethodException {
         this.updateThreeDModeValue(n, true);
     }
 
-    public void updateThreeDModeValue(int n, boolean bl) {
+    public void updateThreeDModeValue(int n, boolean bl) throws MethodException {
         this.ThreeDModeValue = n;
         this.ThreeDModeValue_valid = bl;
         List list = this.baseService.getNotifications(40);
@@ -649,11 +644,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSoundShapeRange(SoundShapeRange soundShapeRange) {
+    public void updateSoundShapeRange(SoundShapeRange soundShapeRange) throws MethodException {
         this.updateSoundShapeRange(soundShapeRange, true);
     }
 
-    public void updateSoundShapeRange(SoundShapeRange soundShapeRange, boolean bl) {
+    public void updateSoundShapeRange(SoundShapeRange soundShapeRange, boolean bl) throws MethodException {
         this.SoundShapeRange = ASIHMISyncSoundAbstractBaseService.copySoundShapeRange(soundShapeRange);
         this.SoundShapeRange_valid = bl;
         List list = this.baseService.getNotifications(42);
@@ -667,11 +662,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updateSoundShapeValue(SoundShapeValue soundShapeValue) {
+    public void updateSoundShapeValue(SoundShapeValue soundShapeValue) throws MethodException {
         this.updateSoundShapeValue(soundShapeValue, true);
     }
 
-    public void updateSoundShapeValue(SoundShapeValue soundShapeValue, boolean bl) {
+    public void updateSoundShapeValue(SoundShapeValue soundShapeValue, boolean bl) throws MethodException {
         this.SoundShapeValue = ASIHMISyncSoundAbstractBaseService.copySoundShapeValue(soundShapeValue);
         this.SoundShapeValue_valid = bl;
         List list = this.baseService.getNotifications(43);
@@ -685,11 +680,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updatePresetPositionList(int n) {
+    public void updatePresetPositionList(int n) throws MethodException {
         this.updatePresetPositionList(n, true);
     }
 
-    public void updatePresetPositionList(int n, boolean bl) {
+    public void updatePresetPositionList(int n, boolean bl) throws MethodException {
         this.PresetPositionList = n;
         this.PresetPositionList_valid = bl;
         List list = this.baseService.getNotifications(25);
@@ -703,11 +698,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updatePresetPosition(int n) {
+    public void updatePresetPosition(int n) throws MethodException {
         this.updatePresetPosition(n, true);
     }
 
-    public void updatePresetPosition(int n, boolean bl) {
+    public void updatePresetPosition(int n, boolean bl) throws MethodException {
         this.PresetPosition = n;
         this.PresetPosition_valid = bl;
         List list = this.baseService.getNotifications(24);
@@ -721,11 +716,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updatePresetEQList(int n) {
+    public void updatePresetEQList(int n) throws MethodException {
         this.updatePresetEQList(n, true);
     }
 
-    public void updatePresetEQList(int n, boolean bl) {
+    public void updatePresetEQList(int n, boolean bl) throws MethodException {
         this.PresetEQList = n;
         this.PresetEQList_valid = bl;
         List list = this.baseService.getNotifications(38);
@@ -739,11 +734,11 @@ implements ASIHMISyncSoundS {
         }
     }
 
-    public void updatePresetEQ(int n) {
+    public void updatePresetEQ(int n) throws MethodException {
         this.updatePresetEQ(n, true);
     }
 
-    public void updatePresetEQ(int n, boolean bl) {
+    public void updatePresetEQ(int n, boolean bl) throws MethodException {
         this.PresetEQ = n;
         this.PresetEQ_valid = bl;
         List list = this.baseService.getNotifications(37);
@@ -754,6 +749,50 @@ implements ASIHMISyncSoundS {
                 aSIHMISyncSoundReply.updatePresetEQ(n, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(14L), new Integer(0));
+            this.map.put(new Long(27L), new Integer(1));
+            this.map.put(new Long(26L), new Integer(2));
+            this.map.put(new Long(28L), new Integer(3));
+            this.map.put(new Long(15L), new Integer(4));
+            this.map.put(new Long(18L), new Integer(5));
+            this.map.put(new Long(19L), new Integer(6));
+            this.map.put(new Long(33L), new Integer(7));
+            this.map.put(new Long(34L), new Integer(8));
+            this.map.put(new Long(16L), new Integer(9));
+            this.map.put(new Long(17L), new Integer(10));
+            this.map.put(new Long(20L), new Integer(11));
+            this.map.put(new Long(21L), new Integer(12));
+            this.map.put(new Long(29L), new Integer(13));
+            this.map.put(new Long(30L), new Integer(14));
+            this.map.put(new Long(31L), new Integer(15));
+            this.map.put(new Long(32L), new Integer(16));
+            this.map.put(new Long(22L), new Integer(17));
+            this.map.put(new Long(23L), new Integer(18));
+            this.map.put(new Long(39L), new Integer(19));
+            this.map.put(new Long(40L), new Integer(20));
+            this.map.put(new Long(42L), new Integer(21));
+            this.map.put(new Long(43L), new Integer(22));
+            this.map.put(new Long(25L), new Integer(23));
+            this.map.put(new Long(24L), new Integer(24));
+            this.map.put(new Long(38L), new Integer(25));
+            this.map.put(new Long(37L), new Integer(26));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 27;
         }
     }
 }

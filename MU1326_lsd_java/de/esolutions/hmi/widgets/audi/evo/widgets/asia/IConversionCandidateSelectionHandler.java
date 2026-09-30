@@ -6,10 +6,8 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 import de.audi.atip.hmi.event.KeyEvent;
 
 public interface IConversionCandidateSelectionHandler {
-    default public void acceptConversionCandidateSelection(String string, int n) {
-    }
+    public void acceptConversionCandidateSelection(String var1, int var2);
 
-    default public void acceptKeyEventInConversionMatrix(KeyEvent keyEvent) {
-    }
+    public void acceptKeyEventInConversionMatrix(KeyEvent var1);
 }
 

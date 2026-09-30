@@ -15,7 +15,6 @@ implements Comparable {
         this.character = c2;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object instanceof RecognizerResult) {
             return this.confidence - ((RecognizerResult)object).getConfidence();
@@ -50,7 +49,7 @@ implements Comparable {
     }
 
     public String toString() {
-        return new StringBuffer().append(this.character).append(" (").append(this.confidence).append(")").toString();
+        return this.character + " (" + this.confidence + ")";
     }
 }
 

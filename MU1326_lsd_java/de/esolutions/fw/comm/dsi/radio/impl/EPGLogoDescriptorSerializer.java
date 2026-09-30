@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.EPGLogoDescriptor;
 
 public class EPGLogoDescriptorSerializer {
-    public static void putOptionalEPGLogoDescriptor(ISerializer iSerializer, EPGLogoDescriptor ePGLogoDescriptor) {
+    public static void putOptionalEPGLogoDescriptor(ISerializer iSerializer, EPGLogoDescriptor ePGLogoDescriptor) throws SerializerException {
         boolean bl = ePGLogoDescriptor == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class EPGLogoDescriptorSerializer {
         }
     }
 
-    public static void putOptionalEPGLogoDescriptorVarArray(ISerializer iSerializer, EPGLogoDescriptor[] ePGLogoDescriptorArray) {
+    public static void putOptionalEPGLogoDescriptorVarArray(ISerializer iSerializer, EPGLogoDescriptor[] ePGLogoDescriptorArray) throws SerializerException {
         boolean bl = ePGLogoDescriptorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class EPGLogoDescriptorSerializer {
         }
     }
 
-    public static EPGLogoDescriptor getOptionalEPGLogoDescriptor(IDeserializer iDeserializer) {
+    public static EPGLogoDescriptor getOptionalEPGLogoDescriptor(IDeserializer iDeserializer) throws SerializerException {
         EPGLogoDescriptor ePGLogoDescriptor = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class EPGLogoDescriptorSerializer {
         return ePGLogoDescriptor;
     }
 
-    public static EPGLogoDescriptor[] getOptionalEPGLogoDescriptorVarArray(IDeserializer iDeserializer) {
+    public static EPGLogoDescriptor[] getOptionalEPGLogoDescriptorVarArray(IDeserializer iDeserializer) throws SerializerException {
         EPGLogoDescriptor[] ePGLogoDescriptorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

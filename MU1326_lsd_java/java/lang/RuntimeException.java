@@ -5,7 +5,7 @@ package java.lang;
 
 public class RuntimeException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -7034897190745766939L;
 
     public RuntimeException() {
     }

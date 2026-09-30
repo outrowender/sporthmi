@@ -6,21 +6,21 @@ package java.text;
 import com.ibm.oti.text.CompactIntArray;
 import com.ibm.oti.text.IntHashtable;
 import java.text.EntryPair;
-import java.text.RBCollationTables$BuildAPI;
+import java.text.ParseException;
 import java.text.RBTableBuilder;
 import java.util.Vector;
 
 final class RBCollationTables {
-    static final int EXPANDCHARINDEX;
-    static final int CONTRACTCHARINDEX;
-    static final int UNMAPPED;
-    static final int PRIMARYORDERMASK;
-    static final int SECONDARYORDERMASK;
-    static final int TERTIARYORDERMASK;
-    static final int PRIMARYDIFFERENCEONLY;
-    static final int SECONDARYDIFFERENCEONLY;
-    static final int PRIMARYORDERSHIFT;
-    static final int SECONDARYORDERSHIFT;
+    static final int EXPANDCHARINDEX = 0x7E000000;
+    static final int CONTRACTCHARINDEX = 0x7F000000;
+    static final int UNMAPPED = -1;
+    static final int PRIMARYORDERMASK = -65536;
+    static final int SECONDARYORDERMASK = 65280;
+    static final int TERTIARYORDERMASK = 255;
+    static final int PRIMARYDIFFERENCEONLY = -65536;
+    static final int SECONDARYDIFFERENCEONLY = -256;
+    static final int PRIMARYORDERSHIFT = 16;
+    static final int SECONDARYORDERSHIFT = 8;
     private String rules = null;
     private boolean frenchSec = false;
     private boolean seAsianSwapping = false;
@@ -31,9 +31,9 @@ final class RBCollationTables {
     private short maxSecOrder = 0;
     private short maxTerOrder = 0;
 
-    public RBCollationTables(String string, int n) {
+    public RBCollationTables(String string, int n) throws ParseException {
         this.rules = string;
-        RBTableBuilder rBTableBuilder = new RBTableBuilder(new RBCollationTables$BuildAPI(this, null));
+        RBTableBuilder rBTableBuilder = new RBTableBuilder(new BuildAPI());
         rBTableBuilder.build(string, n);
     }
 
@@ -51,7 +51,7 @@ final class RBCollationTables {
 
     Vector getContractValues(char c2) {
         int n = this.mapping.elementAt(c2);
-        return this.getContractValues(n - 127);
+        return this.getContractValues(n - 0x7F000000);
     }
 
     Vector getContractValues(int n) {
@@ -82,7 +82,7 @@ final class RBCollationTables {
     }
 
     final int[] getExpandValueList(int n) {
-        return (int[])this.expandTable.elementAt(n - 126);
+        return (int[])this.expandTable.elementAt(n - 0x7E000000);
     }
 
     int getUnicodeOrder(char c2) {
@@ -121,36 +121,20 @@ final class RBCollationTables {
         return -1;
     }
 
-    static /* synthetic */ void access$0(RBCollationTables rBCollationTables, boolean bl) {
-        rBCollationTables.frenchSec = bl;
-    }
+    final class BuildAPI {
+        private BuildAPI() {
+        }
 
-    static /* synthetic */ void access$1(RBCollationTables rBCollationTables, boolean bl) {
-        rBCollationTables.seAsianSwapping = bl;
-    }
-
-    static /* synthetic */ void access$2(RBCollationTables rBCollationTables, CompactIntArray compactIntArray) {
-        rBCollationTables.mapping = compactIntArray;
-    }
-
-    static /* synthetic */ void access$3(RBCollationTables rBCollationTables, Vector vector) {
-        rBCollationTables.contractTable = vector;
-    }
-
-    static /* synthetic */ void access$4(RBCollationTables rBCollationTables, Vector vector) {
-        rBCollationTables.expandTable = vector;
-    }
-
-    static /* synthetic */ void access$5(RBCollationTables rBCollationTables, IntHashtable intHashtable) {
-        rBCollationTables.contractFlags = intHashtable;
-    }
-
-    static /* synthetic */ void access$6(RBCollationTables rBCollationTables, short s) {
-        rBCollationTables.maxSecOrder = s;
-    }
-
-    static /* synthetic */ void access$7(RBCollationTables rBCollationTables, short s) {
-        rBCollationTables.maxTerOrder = s;
+        void fillInTables(boolean bl, boolean bl2, CompactIntArray compactIntArray, Vector vector, Vector vector2, IntHashtable intHashtable, short s, short s2) {
+            RBCollationTables.this.frenchSec = bl;
+            RBCollationTables.this.seAsianSwapping = bl2;
+            RBCollationTables.this.mapping = compactIntArray;
+            RBCollationTables.this.contractTable = vector;
+            RBCollationTables.this.expandTable = vector2;
+            RBCollationTables.this.contractFlags = intHashtable;
+            RBCollationTables.this.maxSecOrder = s;
+            RBCollationTables.this.maxTerOrder = s2;
+        }
     }
 }
 

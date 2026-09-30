@@ -8,46 +8,32 @@ import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 import de.esolutions.fw.util.tracing.message.ITraceMessage;
 
 public interface IProtocolActions {
-    default public boolean handleInit(String string, int n) {
-    }
+    public boolean handleInit(String var1, int var2);
 
-    default public boolean handlePassiveInit() {
-    }
+    public boolean handlePassiveInit();
 
-    default public void handleExit() {
-    }
+    public void handleExit();
 
-    default public boolean handleCreateEntity(IExternalTraceEntity iExternalTraceEntity) {
-    }
+    public boolean handleCreateEntity(IExternalTraceEntity var1);
 
-    default public boolean handleLogData(ITraceMessage iTraceMessage) {
-    }
+    public boolean handleLogData(ITraceMessage var1);
 
-    default public boolean handleChangeLevel(TraceEntityURI traceEntityURI, short s) {
-    }
+    public boolean handleChangeLevel(TraceEntityURI var1, short var2);
 
-    default public boolean handleExecuteCallback(int n, byte[] byArray) {
-    }
+    public boolean handleExecuteCallback(int var1, byte[] var2);
 
-    default public boolean handleDroppedData(int n) {
-    }
+    public boolean handleDroppedData(int var1);
 
-    default public boolean handleToggleEntity(TraceEntityURI traceEntityURI, boolean bl) {
-    }
+    public boolean handleToggleEntity(TraceEntityURI var1, boolean var2);
 
-    default public boolean handleRegisterTimezone(int n, int n2, String string) {
-    }
+    public boolean handleRegisterTimezone(int var1, int var2, String var3);
 
-    default public boolean handleUpdateTimezone(int n, long l, long l2) {
-    }
+    public boolean handleUpdateTimezone(int var1, long var2, long var4);
 
-    default public boolean handleFileRequestMessage(int n, String string, byte by) {
-    }
+    public boolean handleFileRequestMessage(int var1, String var2, byte var3);
 
-    default public boolean handleFileStatusMessage(int n, String string, byte by, long l, long l2, byte by2, byte[] byArray) {
-    }
+    public boolean handleFileStatusMessage(int var1, String var2, byte var3, long var4, long var6, byte var8, byte[] var9);
 
-    default public boolean handleFileTransferMessage(int n, int n2, byte by, int n3, byte[] byArray) {
-    }
+    public boolean handleFileTransferMessage(int var1, int var2, byte var3, int var4, byte[] var5);
 }
 

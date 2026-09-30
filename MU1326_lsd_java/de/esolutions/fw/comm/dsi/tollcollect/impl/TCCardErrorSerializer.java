@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.tollcollect.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.tollcollect.TCCardError;
 
 public class TCCardErrorSerializer {
-    public static void putOptionalTCCardError(ISerializer iSerializer, TCCardError tCCardError) {
+    public static void putOptionalTCCardError(ISerializer iSerializer, TCCardError tCCardError) throws SerializerException {
         boolean bl = tCCardError == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TCCardErrorSerializer {
         }
     }
 
-    public static void putOptionalTCCardErrorVarArray(ISerializer iSerializer, TCCardError[] tCCardErrorArray) {
+    public static void putOptionalTCCardErrorVarArray(ISerializer iSerializer, TCCardError[] tCCardErrorArray) throws SerializerException {
         boolean bl = tCCardErrorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TCCardErrorSerializer {
         }
     }
 
-    public static TCCardError getOptionalTCCardError(IDeserializer iDeserializer) {
+    public static TCCardError getOptionalTCCardError(IDeserializer iDeserializer) throws SerializerException {
         TCCardError tCCardError = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TCCardErrorSerializer {
         return tCCardError;
     }
 
-    public static TCCardError[] getOptionalTCCardErrorVarArray(IDeserializer iDeserializer) {
+    public static TCCardError[] getOptionalTCCardErrorVarArray(IDeserializer iDeserializer) throws SerializerException {
         TCCardError[] tCCardErrorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

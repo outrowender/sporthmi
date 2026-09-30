@@ -34,19 +34,19 @@ import java.util.List;
 public class DisclaimerController
 extends AbstractWidgetController
 implements IViewSizeAnimatable {
-    private static final int VP_STATE_VISIBLE_ENABLED;
-    private static final int VP_STATE_INVISIBLE;
-    private static final int VP_STATE_VISIBLE_DISABLED;
-    private static final int VP_STATE_VISIBLE_DISABLED_FUNCTIONAL;
-    public static final int DISCLAIMER_MODE_SINGLEMODEL;
-    public static final int DISCLAIMER_MODE_MULTIPLE_MODEL_AUTO;
-    public static final int DISCLAIMER_MODE_MULTIPLE_MODEL_MANUAL;
-    public static final int DISCLAIMER_MODE_ALL_FOR_ONE;
-    public static final int DISCLAIMER_ROLE_MENU;
-    public static final int DISCLAIMER_ROLE_CHILDMODEL;
-    public static final int DISCLAIMER_ROLE_SELECTOR;
-    public static final int DISCLAIMER_ROLE_CONTAINER;
-    public static final int DISCLAIMER_ROLE_KEY_RELEASED;
+    private static final int VP_STATE_VISIBLE_ENABLED = 0;
+    private static final int VP_STATE_INVISIBLE = 1;
+    private static final int VP_STATE_VISIBLE_DISABLED = 2;
+    private static final int VP_STATE_VISIBLE_DISABLED_FUNCTIONAL = 3;
+    public static final int DISCLAIMER_MODE_SINGLEMODEL = 0;
+    public static final int DISCLAIMER_MODE_MULTIPLE_MODEL_AUTO = 2;
+    public static final int DISCLAIMER_MODE_MULTIPLE_MODEL_MANUAL = 4;
+    public static final int DISCLAIMER_MODE_ALL_FOR_ONE = 6;
+    public static final int DISCLAIMER_ROLE_MENU = 0;
+    public static final int DISCLAIMER_ROLE_CHILDMODEL = 1;
+    public static final int DISCLAIMER_ROLE_SELECTOR = 2;
+    public static final int DISCLAIMER_ROLE_CONTAINER = 4;
+    public static final int DISCLAIMER_ROLE_KEY_RELEASED = 3;
     private int mode;
     private int selector;
     private int value;
@@ -84,7 +84,7 @@ implements IViewSizeAnimatable {
                 this.value = this.getValueSinglemode();
             }
         }
-        logDisclaimer.log(-2137614336, "DisclaimerController#updateModelValue Model has value: %1", (long)this.value);
+        logDisclaimer.log(10000000, "DisclaimerController#updateModelValue Model has value: %1", (long)this.value);
         this.refreshVisibilityStatus(this.value);
         this.setMainMenuVisibility();
     }
@@ -93,13 +93,13 @@ implements IViewSizeAnimatable {
         if (!this.modelIsChoiceModel()) {
             return this.value;
         }
-        logDisclaimer.log(-2137614336, "DisclaimerController#updateModelValue with SINGLEMODE");
+        logDisclaimer.log(10000000, "DisclaimerController#updateModelValue with SINGLEMODE");
         this.forwardModelToChildren(this.model);
         return ((ChoiceModelGUI)this.model).getValue();
     }
 
     private int getValueMultipleProxyAuto() {
-        logDisclaimer.log(-2137614336, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_MULTIPLE_MODEL_AUTO");
+        logDisclaimer.log(10000000, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_MULTIPLE_MODEL_AUTO");
         if (!this.modelIsChoiceModel() && this.modelStubList.isEmpty()) {
             return this.value;
         }
@@ -113,41 +113,41 @@ implements IViewSizeAnimatable {
         if (n < this.modelStubList.size() + 1 && n > 0) {
             Object object;
             this.selector = n;
-            logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyAuto Selector is %1", (long)this.selector);
+            logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyAuto Selector is %1", (long)this.selector);
             Object object2 = this.modelStubList.get(this.selector - 1);
             if (object2 instanceof AbstractWidgetController && (object = ((AbstractWidgetController)object2).getModel()) instanceof ChoiceModelGUI) {
-                logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyAuto Model with value %1 is forwarded to children", (long)((ChoiceModelGUI)object).getValue());
+                logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyAuto Model with value %1 is forwarded to children", (long)((ChoiceModelGUI)object).getValue());
                 this.forwardModelToChildren(object);
                 return ((ChoiceModelGUI)object).getValue();
             }
         } else {
-            logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyAuto Selector has unsupported Value: %1", (long)this.selector);
+            logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyAuto Selector has unsupported Value: %1", (long)this.selector);
         }
         return this.value;
     }
 
     private int getValueMultipleProxyManual() {
-        logDisclaimer.log(-2137614336, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_MULTIPLE_MODEL_MANUAL");
+        logDisclaimer.log(10000000, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_MULTIPLE_MODEL_MANUAL");
         if (this.modelStubList.isEmpty()) {
             return this.value;
         }
         if (this.selector < this.modelStubList.size() && this.selector >= 0) {
             Object object;
-            logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyAuto Selector is %1", (long)this.selector);
+            logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyAuto Selector is %1", (long)this.selector);
             Object object2 = this.modelStubList.get(this.selector);
             if (object2 instanceof AbstractWidgetController && (object = ((AbstractWidgetController)object2).getModel()) instanceof ChoiceModelGUI) {
-                logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyManual Model with value %1 is forwarded to children", (long)((ChoiceModelGUI)object).getValue());
+                logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyManual Model with value %1 is forwarded to children", (long)((ChoiceModelGUI)object).getValue());
                 this.forwardModelToChildren(object);
                 return ((ChoiceModelGUI)object).getValue();
             }
         } else {
-            logDisclaimer.log(-2137614336, "DisclaimerController#getValueMultipleProxyAuto Selector has unsupported Value: %1", (long)this.selector);
+            logDisclaimer.log(10000000, "DisclaimerController#getValueMultipleProxyAuto Selector has unsupported Value: %1", (long)this.selector);
         }
         return this.value;
     }
 
     private int getValueFromAll() {
-        logDisclaimer.log(-2137614336, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_ALL_FOR_ONE");
+        logDisclaimer.log(10000000, "DisclaimerController#updateModelValue with DISCLAIMER_MODE_ALL_FOR_ONE");
         int n = -1;
         ChoiceModelGUI choiceModelGUI = null;
         Iterator iterator = this.modelStubList.iterator();
@@ -170,7 +170,6 @@ implements IViewSizeAnimatable {
         return this.model instanceof ChoiceModelGUI;
     }
 
-    @Override
     protected void initializeWidget() {
         if (this.renderer == null) {
             this.renderer = ((ExtHMITerminalEvo)((Object)this.terminal)).getRendererFactory().createCompositeRenderer(this);
@@ -181,13 +180,12 @@ implements IViewSizeAnimatable {
         }
         super.initializeWidget();
         this.currentViewSize = this.terminal.getViewSizeManager().getCurrentViewSize();
-        logDisclaimer.log(-2137614336, "DisclaimerController#initializeWidget Current Disclaimer-Mode is: %1", (long)this.mode);
-        logDisclaimer.log(-2137614336, "DisclaimerController#initializeWidget Current Disclaimer has: %1 ModelStubs", (long)this.modelStubList.size());
+        logDisclaimer.log(10000000, "DisclaimerController#initializeWidget Current Disclaimer-Mode is: %1", (long)this.mode);
+        logDisclaimer.log(10000000, "DisclaimerController#initializeWidget Current Disclaimer has: %1 ModelStubs", (long)this.modelStubList.size());
         this.getParentContainer();
         this.updateModelValue();
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof InstructionTextContoller) {
             this.disclaimerMenu = (InstructionTextContoller)abstractWidget;
@@ -241,12 +239,12 @@ implements IViewSizeAnimatable {
         Object object = abstractWidgetController.getModel();
         if (object instanceof ChoiceModelGUI) {
             int n = ((ChoiceModelGUI)object).getValue();
-            logDisclaimer.log(-2137614336, "DisclaimerController#getSelectorWidgetValue Current Selector-Value is: %1", (long)n);
+            logDisclaimer.log(10000000, "DisclaimerController#getSelectorWidgetValue Current Selector-Value is: %1", (long)n);
             return n;
         }
         if (object instanceof RangeModel2D) {
             int n = ((RangeModel2D)object).getValueX();
-            logDisclaimer.log(-2137614336, "DisclaimerController#getSelectorWidgetValue Current Selector-Value is: %1", (long)n);
+            logDisclaimer.log(10000000, "DisclaimerController#getSelectorWidgetValue Current Selector-Value is: %1", (long)n);
             return n;
         }
         return this.value;
@@ -259,7 +257,7 @@ implements IViewSizeAnimatable {
             this.parentContainer = this.getParent().getParent();
             return;
         }
-        logDisclaimer.log(-1601830656, "DisclaimerController#getParentContainer Disclaimer is not in valid hierarchy!");
+        logDisclaimer.log(100000, "DisclaimerController#getParentContainer Disclaimer is not in valid hierarchy!");
         this.parentContainer = this.getParent();
     }
 
@@ -314,7 +312,7 @@ implements IViewSizeAnimatable {
             if (!(((AbstractWidgetController)object).getParent() instanceof MenuController) && !(((AbstractWidgetController)object).getParent() instanceof MenuItemController)) {
                 ((AbstractWidgetController)object).setOnScreen(bl);
                 ((AbstractWidgetController)object).setActive(bl);
-                logDisclaimer.log(-2137614336, "DisclaimerController#applyVisibilityToChildren widget: %1 is visible: %2", (Object)((AbstractWidgetController)object), (Object)String.valueOf(((AbstractWidgetController)object).isOnScreen()));
+                logDisclaimer.log(10000000, "DisclaimerController#applyVisibilityToChildren widget: %1 is visible: %2", (Object)((AbstractWidgetController)object), (Object)String.valueOf(((AbstractWidgetController)object).isOnScreen()));
             }
             this.applyVisibilityToChildren((AbstractWidgetController)object, bl);
         }
@@ -323,12 +321,12 @@ implements IViewSizeAnimatable {
     private void applyVisiblityToWidget(AbstractWidgetController abstractWidgetController) {
         abstractWidgetController.setOnScreen(!this.isVisible());
         abstractWidgetController.setActive(!this.isVisible());
-        logDisclaimer.log(-2137614336, "DisclaimerController#applyVisiblityToWidget widget: %1 is visible: %2", (Object)abstractWidgetController, (Object)String.valueOf(abstractWidgetController.isOnScreen()));
+        logDisclaimer.log(10000000, "DisclaimerController#applyVisiblityToWidget widget: %1 is visible: %2", (Object)abstractWidgetController, (Object)String.valueOf(abstractWidgetController.isOnScreen()));
     }
 
     private void sendKeyEventsToModels() {
         if (this.keyReleasedModelList == null || this.keyReleasedModelList.size() < 1) {
-            logChannel.log(-2137614336, "VisibilityProxyWidget#applyKeyEventsToWidget There are no Models for KeyReleased Events");
+            logChannel.log(10000000, "VisibilityProxyWidget#applyKeyEventsToWidget There are no Models for KeyReleased Events");
             return;
         }
         Iterator iterator = this.keyReleasedModelList.iterator();
@@ -337,7 +335,7 @@ implements IViewSizeAnimatable {
             if (!(object instanceof VisibilityProxyWidget) && !(object instanceof ModelStubController) || !(((AbstractWidgetController)object).getModel() instanceof ButtonModelGUI)) continue;
             ButtonModelGUI buttonModelGUI = (ButtonModelGUI)((AbstractWidgetController)object).getModel();
             buttonModelGUI.keyReleased(buttonModelGUI.getID(), this.getTerminal().getTerminalID());
-            logChannel.log(-2137614336, "VisibilityProxyWidget#applyKeyEventsToWidget KeyReleased is send to Model with ID: %1", (long)buttonModelGUI.getID());
+            logChannel.log(10000000, "VisibilityProxyWidget#applyKeyEventsToWidget KeyReleased is send to Model with ID: %1", (long)buttonModelGUI.getID());
         }
     }
 
@@ -383,7 +381,7 @@ implements IViewSizeAnimatable {
                 menuController.setBounds(n2, n, n4, n3);
                 menuController.setCompositesDirty(true);
                 if (!logDisclaimer.isDebug()) continue;
-                logDisclaimer.log(-2137614336, "DisclaimerController#applyBoundsToDisclaimer Disclaimer has new bounds: x:%1, y:%2, width:%3, height:%4", (Object)String.valueOf(menuController.getX()), (Object)String.valueOf(menuController.getY()), (Object)String.valueOf(menuController.getWidth()), (Object)String.valueOf(menuController.getHeight()));
+                logDisclaimer.log(10000000, "DisclaimerController#applyBoundsToDisclaimer Disclaimer has new bounds: x:%1, y:%2, width:%3, height:%4", (Object)String.valueOf(menuController.getX()), (Object)String.valueOf(menuController.getY()), (Object)String.valueOf(menuController.getWidth()), (Object)String.valueOf(menuController.getHeight()));
             }
         }
     }
@@ -422,26 +420,26 @@ implements IViewSizeAnimatable {
                     bl3 = false;
                     bl2 = true;
                     bl = true;
-                    logChannel.log(-1601830656, "VisibilityProxyWidget#refreshVisibilityStatus status: %1 is undefined - set parent VISIBLE_DISABLED", (long)n);
+                    logChannel.log(100000, "VisibilityProxyWidget#refreshVisibilityStatus status: %1 is undefined - set parent VISIBLE_DISABLED", (long)n);
                 }
             }
             this.setVisibleByOwnCondition(bl3 || !bl3 && bl2);
             this.setEnabled(bl2);
             this.setFunctional(bl);
-            logDisclaimer.log(-2137614336, "DisclaimerController#refreshVisibilityStatus Disclaimer is set to visible: %1, enabled: %2, functional: %3", this.isVisible(), this.isFunctional(), this.isEnabled());
+            logDisclaimer.log(10000000, "DisclaimerController#refreshVisibilityStatus Disclaimer is set to visible: %1, enabled: %2, functional: %3", this.isVisible(), this.isFunctional(), this.isEnabled());
             if (this.disclaimerMenu != null) {
                 this.disclaimerMenu.setVisible(this.isVisible());
                 this.disclaimerMenu.setEnabled(this.isEnabled());
                 this.disclaimerMenu.setFunctional(this.isFunctional());
             } else {
-                logChannel.log(-1601830656, "VisibilityProxyWidget#refreshVisibilityStatus status disclaimer has no menu!");
+                logChannel.log(100000, "VisibilityProxyWidget#refreshVisibilityStatus status disclaimer has no menu!");
             }
             if (this.disclaimerContainer != null) {
                 this.disclaimerContainer.setVisible(this.isVisible());
                 this.disclaimerContainer.setEnabled(this.isEnabled());
                 this.disclaimerContainer.setFunctional(this.isFunctional());
             } else {
-                logChannel.log(-1601830656, "VisibilityProxyWidget#refreshVisibilityStatus status disclaimer has no container!");
+                logChannel.log(100000, "VisibilityProxyWidget#refreshVisibilityStatus status disclaimer has no container!");
             }
             if (this.isVisible()) {
                 if (this.optionDrawerCanOpen) {
@@ -461,7 +459,6 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void predisconnecting() {
         super.predisconnecting();
         if (this.isVisible()) {
@@ -469,13 +466,11 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.updateModelValue();
     }
 
-    @Override
     public void setVisible(boolean bl) {
     }
 
@@ -492,15 +487,14 @@ implements IViewSizeAnimatable {
                     LabelController labelController = (LabelController)object2;
                     labelController.setModel((ChoiceModelGUI)object);
                     labelController.updateContent();
-                    logChannel.log(-2137614336, "DisclaimerController#forwardModelToChildren: Disclaimer send Model %1 to Label: %2", object, object2);
+                    logChannel.log(10000000, "DisclaimerController#forwardModelToChildren: Disclaimer send Model %1 to Label: %2", object, object2);
                     continue;
                 }
-                logChannel.log(-2137614336, "DisclaimerController#forwardModelToChildren: Disclaimer could not send Model %1 to child: %2", object, object2);
+                logChannel.log(10000000, "DisclaimerController#forwardModelToChildren: Disclaimer could not send Model %1 to child: %2", object, object2);
             }
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         int n = this.value;
         this.updateModelValue();
@@ -511,7 +505,6 @@ implements IViewSizeAnimatable {
         super.processModelUpdateEvent(modelUpdateEvent);
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -547,24 +540,20 @@ implements IViewSizeAnimatable {
         this.renderer = iRenderer;
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
     }
 
     public void setViewSizeAnimationFinished(float[] fArray) {
-        logChannel.log(-2137614336, "DisclaimerController#setViewSizeAnimationFinished: Disclaimer relayoutes");
+        logChannel.log(10000000, "DisclaimerController#setViewSizeAnimationFinished: Disclaimer relayoutes");
     }
 
-    @Override
     public void viewSizeTargetChanged(float[] fArray, float[] fArray2, boolean bl) {
-        logChannel.log(-2137614336, "DisclaimerController#viewSizeTargetChanged");
+        logChannel.log(10000000, "DisclaimerController#viewSizeTargetChanged");
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
     }
 
-    @Override
     public void viewSizeAnimationStarted(float f2, float[] fArray, float[] fArray2) {
     }
 

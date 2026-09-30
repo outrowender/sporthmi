@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.mirrorlink.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.mirrorlink.Action;
 
 public class ActionSerializer {
-    public static void putOptionalAction(ISerializer iSerializer, Action action) {
+    public static void putOptionalAction(ISerializer iSerializer, Action action) throws SerializerException {
         boolean bl = action == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ActionSerializer {
         }
     }
 
-    public static void putOptionalActionVarArray(ISerializer iSerializer, Action[] actionArray) {
+    public static void putOptionalActionVarArray(ISerializer iSerializer, Action[] actionArray) throws SerializerException {
         boolean bl = actionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ActionSerializer {
         }
     }
 
-    public static Action getOptionalAction(IDeserializer iDeserializer) {
+    public static Action getOptionalAction(IDeserializer iDeserializer) throws SerializerException {
         Action action = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ActionSerializer {
         return action;
     }
 
-    public static Action[] getOptionalActionVarArray(IDeserializer iDeserializer) {
+    public static Action[] getOptionalActionVarArray(IDeserializer iDeserializer) throws SerializerException {
         Action[] actionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class ClientErrorCommand
 extends AbstractAgentErrorLogCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"client_errors", "ce"};
     }
 
-    @Override
     public String getDescription() {
         return "Show client errors from error log";
     }
 
-    @Override
     public String getUsage() {
         return "[id][[,id]...]";
     }
 
-    @Override
     protected void handleWithAgentErrorLog(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentErrorLog iAgentErrorLog = this.getErrorLog();
         IInfoBase[] iInfoBaseArray = iAgentErrorLog.getClientErrors();
@@ -38,7 +34,7 @@ extends AbstractAgentErrorLogCommand {
         InfoUtils.printInfos(iInfoBaseArray, new InfoStream(printStream));
         int n = iAgentErrorLog.getNumDroppedClientErrors();
         if (n > 0) {
-            printStream.println(new StringBuffer().append("Dropped client error entries: ").append(n).toString());
+            printStream.println("Dropped client error entries: " + n);
         }
     }
 }

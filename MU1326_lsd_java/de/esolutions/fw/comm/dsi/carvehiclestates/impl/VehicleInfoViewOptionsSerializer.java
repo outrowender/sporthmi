@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.VehicleInfoViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class VehicleInfoViewOptionsSerializer {
-    public static void putOptionalVehicleInfoViewOptions(ISerializer iSerializer, VehicleInfoViewOptions vehicleInfoViewOptions) {
+    public static void putOptionalVehicleInfoViewOptions(ISerializer iSerializer, VehicleInfoViewOptions vehicleInfoViewOptions) throws SerializerException {
         boolean bl = vehicleInfoViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class VehicleInfoViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalVehicleInfoViewOptionsVarArray(ISerializer iSerializer, VehicleInfoViewOptions[] vehicleInfoViewOptionsArray) {
+    public static void putOptionalVehicleInfoViewOptionsVarArray(ISerializer iSerializer, VehicleInfoViewOptions[] vehicleInfoViewOptionsArray) throws SerializerException {
         boolean bl = vehicleInfoViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class VehicleInfoViewOptionsSerializer {
         }
     }
 
-    public static VehicleInfoViewOptions getOptionalVehicleInfoViewOptions(IDeserializer iDeserializer) {
+    public static VehicleInfoViewOptions getOptionalVehicleInfoViewOptions(IDeserializer iDeserializer) throws SerializerException {
         VehicleInfoViewOptions vehicleInfoViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class VehicleInfoViewOptionsSerializer {
         return vehicleInfoViewOptions;
     }
 
-    public static VehicleInfoViewOptions[] getOptionalVehicleInfoViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static VehicleInfoViewOptions[] getOptionalVehicleInfoViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         VehicleInfoViewOptions[] vehicleInfoViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

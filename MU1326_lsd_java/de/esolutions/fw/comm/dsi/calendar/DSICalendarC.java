@@ -3,60 +3,44 @@
  */
 package de.esolutions.fw.comm.dsi.calendar;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.calendar.ProfileInfo;
 import org.dsi.ifc.global.DateTime;
 
 public interface DSICalendarC {
-    default public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2) {
-    }
+    public void getCalendarSummaries(DateTime var1, DateTime var2) throws MethodException;
 
-    default public void getCalendarEntry(long l) {
-    }
+    public void getCalendarEntry(long var1) throws MethodException;
 
-    default public void setCalendarConfig(CalendarConfig calendarConfig) {
-    }
+    public void setCalendarConfig(CalendarConfig var1) throws MethodException;
 
-    default public void getCalendarConfig(long l) {
-    }
+    public void getCalendarConfig(long var1) throws MethodException;
 
-    default public void setAlarm(long l, long l2) {
-    }
+    public void setAlarm(long var1, long var3) throws MethodException;
 
-    default public void getAlarm(long l) {
-    }
+    public void getAlarm(long var1) throws MethodException;
 
-    default public void getEmailAddresses(long l) {
-    }
+    public void getEmailAddresses(long var1) throws MethodException;
 
-    default public void getTelephoneNumbers(long l) {
-    }
+    public void getTelephoneNumbers(long var1) throws MethodException;
 
-    default public void insertProfile(ProfileInfo profileInfo) {
-    }
+    public void insertProfile(ProfileInfo var1) throws MethodException;
 
-    default public void deleteProfile(long l) {
-    }
+    public void deleteProfile(long var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

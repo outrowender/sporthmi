@@ -9,49 +9,34 @@ import org.dsi.ifc.networking.CPacketCounter;
 
 public interface DSIDataConfigurationListener
 extends DSIListener {
-    default public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) {
-    }
+    public void updateAvailableProfiles(CDataProfile[] var1, int var2);
 
-    default public void updateActiveProfile(int n, int n2) {
-    }
+    public void updateActiveProfile(int var1, int var2);
 
-    default public void updateRoamingState(int n, int n2) {
-    }
+    public void updateRoamingState(int var1, int var2);
 
-    default public void updateConnectionMode(int n, int n2) {
-    }
+    public void updateConnectionMode(int var1, int var2);
 
-    default public void updateDataRequest(int n, int n2) {
-    }
+    public void updateDataRequest(int var1, int var2);
 
-    default public void updateRequestSetting(int n, int n2, int n3) {
-    }
+    public void updateRequestSetting(int var1, int var2, int var3);
 
-    default public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
-    }
+    public void setDataProfileResponse(CDataProfile var1, int var2);
 
-    default public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
-    }
+    public void automaticProfileResponse(int var1, CDataProfile var2, int var3);
 
-    default public void setRoamingStateResponse(int n) {
-    }
+    public void setRoamingStateResponse(int var1);
 
-    default public void setConnectionModeResponse(int n) {
-    }
+    public void setConnectionModeResponse(int var1);
 
-    default public void setRequestSettingResponse(int n) {
-    }
+    public void setRequestSettingResponse(int var1);
 
-    default public void acceptDataRequestResponse(int n) {
-    }
+    public void acceptDataRequestResponse(int var1);
 
-    default public void resetPacketCounterResponse(int n) {
-    }
+    public void resetPacketCounterResponse(int var1);
 
-    default public void restoreFactorySettingsResponse(int n) {
-    }
+    public void restoreFactorySettingsResponse(int var1);
 
-    default public void updatePacketCounter(CPacketCounter cPacketCounter, int n) {
-    }
+    public void updatePacketCounter(CPacketCounter var1, int var2);
 }
 

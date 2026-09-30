@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.online.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.online.OSRLicense;
 
 public class OSRLicenseSerializer {
-    public static void putOptionalOSRLicense(ISerializer iSerializer, OSRLicense oSRLicense) {
+    public static void putOptionalOSRLicense(ISerializer iSerializer, OSRLicense oSRLicense) throws SerializerException {
         boolean bl = oSRLicense == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -41,7 +42,7 @@ public class OSRLicenseSerializer {
         }
     }
 
-    public static void putOptionalOSRLicenseVarArray(ISerializer iSerializer, OSRLicense[] oSRLicenseArray) {
+    public static void putOptionalOSRLicenseVarArray(ISerializer iSerializer, OSRLicense[] oSRLicenseArray) throws SerializerException {
         boolean bl = oSRLicenseArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -52,7 +53,7 @@ public class OSRLicenseSerializer {
         }
     }
 
-    public static OSRLicense getOptionalOSRLicense(IDeserializer iDeserializer) {
+    public static OSRLicense getOptionalOSRLicense(IDeserializer iDeserializer) throws SerializerException {
         OSRLicense oSRLicense = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -85,7 +86,7 @@ public class OSRLicenseSerializer {
         return oSRLicense;
     }
 
-    public static OSRLicense[] getOptionalOSRLicenseVarArray(IDeserializer iDeserializer) {
+    public static OSRLicense[] getOptionalOSRLicenseVarArray(IDeserializer iDeserializer) throws SerializerException {
         OSRLicense[] oSRLicenseArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

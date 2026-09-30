@@ -13,22 +13,18 @@ import java.io.PrintStream;
 
 public class ServiceDirectoryCommand
 extends AbstractAgentSnapshotCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"service_directory", "sd"};
     }
 
-    @Override
     public String getDescription() {
         return "show all known service references";
     }
 
-    @Override
     public String getUsage() {
         return "[uuid][,uuid...]";
     }
 
-    @Override
     protected void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         IAgentSnapshot iAgentSnapshot = this.getSnapshot();
         IInfoBase[] iInfoBaseArray = iAgentSnapshot.getAllServiceLocators();

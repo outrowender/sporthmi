@@ -8,10 +8,8 @@ import org.dsi.ifc.online.OperatorCallResult;
 
 public interface DSIOperatorCallListener
 extends DSIListener {
-    default public void responseOperatorCallResult(int n, OperatorCallResult[] operatorCallResultArray) {
-    }
+    public void responseOperatorCallResult(int var1, OperatorCallResult[] var2);
 
-    default public void responseOperatorPhoneNumber(int n, String string, String[] stringArray, int n2) {
-    }
+    public void responseOperatorPhoneNumber(int var1, String var2, String[] var3, int var4);
 }
 

@@ -9,9 +9,9 @@ import java.io.Serializable;
 public class BitSet
 implements Serializable,
 Cloneable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 7997698588986878753L;
     private long[] bits;
-    private static final int ELM_SIZE;
+    private static final int ELM_SIZE = 64;
 
     public BitSet() {
         this(64);
@@ -90,14 +90,14 @@ Cloneable {
     }
 
     public int hashCode() {
+        long l = 1234L;
         int n = 0;
-        int n2 = 0;
-        int n3 = this.bits.length;
-        while (n2 < n3) {
-            n ^= this.bits[n2] * (long)(n2 + 1);
-            ++n2;
+        int n2 = this.bits.length;
+        while (n < n2) {
+            l ^= this.bits[n] * (long)(n + 1);
+            ++n;
         }
-        return n >> 32 ^ n;
+        return (int)(l >> 32 ^ l);
     }
 
     public boolean get(int n) {

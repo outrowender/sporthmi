@@ -4,13 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 
 public interface ITimer {
-    default public void onEnqueue(int n) {
-    }
+    public void onEnqueue(int var1);
 
-    default public void onTimeout(int n) {
-    }
+    public void onTimeout(int var1);
 
-    default public void onCancel(int n) {
-    }
+    public void onCancel(int var1);
 }
 

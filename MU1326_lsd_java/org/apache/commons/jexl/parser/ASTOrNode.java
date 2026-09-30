@@ -19,13 +19,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         Object object = ((SimpleNode)this.jjtGetChild(0)).value(jexlContext);
         boolean bl = Coercion.coerceBoolean(object);
         return bl || Coercion.coerceBoolean(((SimpleNode)this.jjtGetChild(1)).value(jexlContext)) != false ? Boolean.TRUE : Boolean.FALSE;

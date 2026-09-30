@@ -7,66 +7,50 @@ import de.esolutions.fw.comm.asi.online.coreservice.KeyValPair;
 import de.esolutions.fw.comm.asi.online.coreservice.OAuthToken;
 import de.esolutions.fw.comm.asi.online.coreservice.Result;
 import de.esolutions.fw.comm.asi.online.coreservice.ServiceListEntry;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.online.OSRNotifyProperties;
 import org.dsi.ifc.online.OSRNotifyPropertiesSL;
 import org.dsi.ifc.online.OSRServiceState;
 import org.dsi.ifc.online.OSRUser;
 
 public interface ExtOnlineCoreServiceReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "5bb8eff1-90a0-11e2-9e96-0800200c9a66";
+    public static final String IPL_COMM_INTERFACE_KEY = "ffcc1b5d-eaea-5a1c-86e3-def3e28eb53d";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.9";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.0";
 
-    default public void initResponse(int n) {
-    }
+    public void initResponse(int var1) throws MethodException;
 
-    default public void registerServiceResponse(int n) {
-    }
+    public void registerServiceResponse(int var1) throws MethodException;
 
-    default public void enableApplication() {
-    }
+    public void enableApplication() throws MethodException;
 
-    default public void disableApplication() {
-    }
+    public void disableApplication() throws MethodException;
 
-    default public void getServiceListEntryResponse(int n, ServiceListEntry serviceListEntry) {
-    }
+    public void getServiceListEntryResponse(int var1, ServiceListEntry var2) throws MethodException;
 
-    default public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-    }
+    public void updateApplicationState(OSRNotifyProperties[] var1) throws MethodException;
 
-    default public void updateServices(OSRNotifyPropertiesSL[] oSRNotifyPropertiesSLArray) {
-    }
+    public void updateServices(OSRNotifyPropertiesSL[] var1) throws MethodException;
 
-    default public void updateServiceState(int n) {
-    }
+    public void updateServiceState(int var1) throws MethodException;
 
-    default public void precheckOnlineServiceServiceIDResponse(OSRServiceState oSRServiceState) {
-    }
+    public void precheckOnlineServiceServiceIDResponse(OSRServiceState var1) throws MethodException;
 
-    default public void precheckOnlineServiceResponse(OSRServiceState[] oSRServiceStateArray) {
-    }
+    public void precheckOnlineServiceResponse(OSRServiceState[] var1) throws MethodException;
 
-    default public void keyStoreChanged() {
-    }
+    public void keyStoreChanged() throws MethodException;
 
-    default public void updateLoggedInUser(OSRUser oSRUser, int n) {
-    }
+    public void updateLoggedInUser(OSRUser var1, int var2) throws MethodException;
 
-    default public void getTokenResponse(int n, OAuthToken oAuthToken, String string) {
-    }
+    public void getTokenResponse(int var1, OAuthToken var2, String var3) throws MethodException;
 
-    default public void onlineResponse(int n, KeyValPair[] keyValPairArray) {
-    }
+    public void onlineResponse(int var1, KeyValPair[] var2) throws MethodException;
 
-    default public void dataResponse(int n, byte[] byArray) {
-    }
+    public void dataResponse(int var1, byte[] var2) throws MethodException;
 
-    default public void finalResponse(int n, Result result) {
-    }
+    public void finalResponse(int var1, Result var2) throws MethodException;
 
-    default public void updateCredentials(int n, int n2, String string, String string2, String string3) {
-    }
+    public void updateCredentials(int var1, int var2, String var3, String var4, String var5) throws MethodException;
 }
 

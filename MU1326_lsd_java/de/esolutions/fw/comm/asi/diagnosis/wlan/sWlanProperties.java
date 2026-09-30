@@ -92,7 +92,7 @@ public class sWlanProperties {
     }
 
     public String toString() {
-        return new StringBuffer("sWlanProperties{").append("msg_id=").append(this.msg_id).append(", mac_AP=").append(this.mac_AP).append(", mac_Tethering=").append(this.mac_Tethering).append(", ipProtocolVersion=").append(this.ipProtocolVersion).append(", ipV4=").append(this.ipV4).append(", subnetmaskV4=").append(this.subnetmaskV4).append(", ipV6=").append(this.ipV6).append(", subnetmaskV6=").append(this.subnetmaskV6).append("}").toString();
+        return "sWlanProperties{" + "msg_id=" + this.msg_id + ", mac_AP=" + this.mac_AP + ", mac_Tethering=" + this.mac_Tethering + ", ipProtocolVersion=" + this.ipProtocolVersion + ", ipV4=" + this.ipV4 + ", subnetmaskV4=" + this.subnetmaskV4 + ", ipV6=" + this.ipV6 + ", subnetmaskV6=" + this.subnetmaskV6 + "}";
     }
 }
 

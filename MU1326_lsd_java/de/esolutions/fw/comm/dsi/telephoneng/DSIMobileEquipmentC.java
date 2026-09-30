@@ -3,193 +3,133 @@
  */
 package de.esolutions.fw.comm.dsi.telephoneng;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephoneng.CFRequestData;
 import org.dsi.ifc.telephoneng.Favorite;
 import org.dsi.ifc.telephoneng.MailboxDialingNumber;
 
 public interface DSIMobileEquipmentC {
-    default public void acceptCall(int n) {
-    }
+    public void acceptCall(int var1) throws MethodException;
 
-    default public void hangupCall(int n) {
-    }
+    public void hangupCall(int var1) throws MethodException;
 
-    default public void swapCalls() {
-    }
+    public void swapCalls() throws MethodException;
 
-    default public void splitCall(short s) {
-    }
+    public void splitCall(short var1) throws MethodException;
 
-    default public void joinCalls() {
-    }
+    public void joinCalls() throws MethodException;
 
-    default public void dialNumber(String string) {
-    }
+    public void dialNumber(String var1) throws MethodException;
 
-    default public void dialOperator(int n, String string) {
-    }
+    public void dialOperator(int var1, String var2) throws MethodException;
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9) throws MethodException;
 
-    default public void sendDTMF(String string) {
-    }
+    public void sendDTMF(String var1) throws MethodException;
 
-    default public void requestNetworkRegistration(String string, int n) {
-    }
+    public void requestNetworkRegistration(String var1, int var2) throws MethodException;
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration() throws MethodException;
 
-    default public void requestNetworkSearch() {
-    }
+    public void requestNetworkSearch() throws MethodException;
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch() throws MethodException;
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray) {
-    }
+    public void requestCallForward(CFRequestData[] var1) throws MethodException;
 
-    default public void requestCallWaiting(int n) {
-    }
+    public void requestCallWaiting(int var1) throws MethodException;
 
-    default public void requestCLIR(int n) {
-    }
+    public void requestCLIR(int var1) throws MethodException;
 
-    default public void requestServiceCodeAbort() {
-    }
+    public void requestServiceCodeAbort() throws MethodException;
 
-    default public void requestSetAutomaticPinEntryActive(boolean bl) {
-    }
+    public void requestSetAutomaticPinEntryActive(boolean var1) throws MethodException;
 
-    default public void requestSetAutomaticRedialActive(boolean bl) {
-    }
+    public void requestSetAutomaticRedialActive(boolean var1) throws MethodException;
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1) throws MethodException;
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1) throws MethodException;
 
-    default public void requestSetEnhancedPrivacyMode(boolean bl) {
-    }
+    public void requestSetEnhancedPrivacyMode(boolean var1) throws MethodException;
 
-    default public void requestSetMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray) {
-    }
+    public void requestSetMailboxContent(MailboxDialingNumber[] var1) throws MethodException;
 
-    default public void requestSetPrivacyMode(boolean bl) {
-    }
+    public void requestSetPrivacyMode(boolean var1) throws MethodException;
 
-    default public void requestTelPower(int n) {
-    }
+    public void requestTelPower(int var1) throws MethodException;
 
-    default public void requestUnlockSIM(int n, String string, String string2) {
-    }
+    public void requestUnlockSIM(int var1, String var2, String var3) throws MethodException;
 
-    default public void requestCheckSIMPINCode(String string) {
-    }
+    public void requestCheckSIMPINCode(String var1) throws MethodException;
 
-    default public void requestChangeSIMCode(int n, String string, String string2) {
-    }
+    public void requestChangeSIMCode(int var1, String var2, String var3) throws MethodException;
 
-    default public void requestSetHandsFreeMode(int n) {
-    }
+    public void requestSetHandsFreeMode(int var1) throws MethodException;
 
-    default public void requestSetMICMuteState(int n) {
-    }
+    public void requestSetMICMuteState(int var1) throws MethodException;
 
-    default public void requestSetLanguage(String string) {
-    }
+    public void requestSetLanguage(String var1) throws MethodException;
 
-    default public void requestSIMPINRequired(String string, boolean bl) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2) throws MethodException;
 
-    default public void restoreFactorySettings() {
-    }
+    public void restoreFactorySettings() throws MethodException;
 
-    default public void requestSetMicGainLevel(int n) {
-    }
+    public void requestSetMicGainLevel(int var1) throws MethodException;
 
-    default public void requestDecreaseMicGainLevel(short s) {
-    }
+    public void requestDecreaseMicGainLevel(short var1) throws MethodException;
 
-    default public void requestIncreaseMicGainLevel(short s) {
-    }
+    public void requestIncreaseMicGainLevel(short var1) throws MethodException;
 
-    default public void requestSetOptimizationMode(int n) {
-    }
+    public void requestSetOptimizationMode(int var1) throws MethodException;
 
-    default public void requestUnlockOtherSIM(int n, String string) {
-    }
+    public void requestUnlockOtherSIM(int var1, String var2) throws MethodException;
 
-    default public void requestSetSIMAliases(String string, String string2) {
-    }
+    public void requestSetSIMAliases(String var1, String var2) throws MethodException;
 
-    default public void requestSetNADMode(int n) {
-    }
+    public void requestSetNADMode(int var1) throws MethodException;
 
-    default public void requestRemoveOtherSIM() {
-    }
+    public void requestRemoveOtherSIM() throws MethodException;
 
-    default public void requestSetPhoneReminderSetting(boolean bl) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1) throws MethodException;
 
-    default public void requestSetPrefixActivated(boolean bl) {
-    }
+    public void requestSetPrefixActivated(boolean var1) throws MethodException;
 
-    default public void requestSetPrefixContent(String string) {
-    }
+    public void requestSetPrefixContent(String var1) throws MethodException;
 
-    default public void requestSetPhoneRingtone(int n, String string) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2) throws MethodException;
 
-    default public void requestSetFavorites(Favorite[] favoriteArray) {
-    }
+    public void requestSetFavorites(Favorite[] var1) throws MethodException;
 
-    default public void requestSetSIMName(String string) {
-    }
+    public void requestSetSIMName(String var1) throws MethodException;
 
-    default public void requestSetESIMActive(boolean bl) {
-    }
+    public void requestSetESIMActive(boolean var1) throws MethodException;
 
-    default public void deleteCallstacksAll(int n) {
-    }
+    public void deleteCallstacksAll(int var1) throws MethodException;
 
-    default public void deleteCallstacksEntry(int n, int n2) {
-    }
+    public void deleteCallstacksEntry(int var1, int var2) throws MethodException;
 
-    default public void resetMissedCallIndicator() {
-    }
+    public void resetMissedCallIndicator() throws MethodException;
 
-    default public void revertCallstacks(boolean bl) {
-    }
+    public void revertCallstacks(boolean var1) throws MethodException;
 
-    default public void requestStartSpeechRecognition() {
-    }
+    public void requestStartSpeechRecognition() throws MethodException;
 
-    default public void requestStopSpeechRecognition() {
-    }
+    public void requestStopSpeechRecognition() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

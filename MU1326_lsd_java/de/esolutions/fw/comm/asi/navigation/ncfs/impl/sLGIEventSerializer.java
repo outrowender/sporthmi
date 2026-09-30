@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sLGIEvent;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sLocationContainer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sLGIEventSerializer {
-    public static void putOptionalsLGIEvent(ISerializer iSerializer, sLGIEvent sLGIEvent2) {
+    public static void putOptionalsLGIEvent(ISerializer iSerializer, sLGIEvent sLGIEvent2) throws SerializerException {
         boolean bl = sLGIEvent2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class sLGIEventSerializer {
         }
     }
 
-    public static void putOptionalsLGIEventVarArray(ISerializer iSerializer, sLGIEvent[] sLGIEventArray) {
+    public static void putOptionalsLGIEventVarArray(ISerializer iSerializer, sLGIEvent[] sLGIEventArray) throws SerializerException {
         boolean bl = sLGIEventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class sLGIEventSerializer {
         }
     }
 
-    public static sLGIEvent getOptionalsLGIEvent(IDeserializer iDeserializer) {
+    public static sLGIEvent getOptionalsLGIEvent(IDeserializer iDeserializer) throws SerializerException {
         sLGIEvent sLGIEvent2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class sLGIEventSerializer {
         return sLGIEvent2;
     }
 
-    public static sLGIEvent[] getOptionalsLGIEventVarArray(IDeserializer iDeserializer) {
+    public static sLGIEvent[] getOptionalsLGIEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         sLGIEvent[] sLGIEventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

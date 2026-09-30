@@ -10,9 +10,9 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.sport.ChargingAirPressureGauge
 
 public class ChargingAirPressureGaugeRendererHigh
 extends AbstractKanziTemplateRenderer {
-    private static final String TEMPLATE_NODE_PATH;
-    private static final String EAL_NODE_NAME;
-    private static final String BAR_LENGTH_PROPERTY;
+    private static final String TEMPLATE_NODE_PATH = "Prefabs/tg_boost";
+    private static final String EAL_NODE_NAME = "tg_boost";
+    private static final String BAR_LENGTH_PROPERTY = "tg_barLength";
     private ChargingAirPressureGaugeController controller;
 
     public ChargingAirPressureGaugeRendererHigh(ChargingAirPressureGaugeController chargingAirPressureGaugeController) {
@@ -20,31 +20,26 @@ extends AbstractKanziTemplateRenderer {
     }
 
     private void setBarLengthProperty(float f2) {
-        this.setProperty("tg_barLength", f2);
+        this.setProperty(BAR_LENGTH_PROPERTY, f2);
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         this.node.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
-        this.setBarLengthProperty(this.controller.getAirPressurePercentageValue() / 51266);
+        this.setBarLengthProperty(this.controller.getAirPressurePercentageValue() / 100.0f);
     }
 
-    @Override
     protected String getTemplateNodePath() {
-        return "Prefabs/tg_boost";
+        return TEMPLATE_NODE_PATH;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "tg_boost";
+        return EAL_NODE_NAME;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 21;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

@@ -39,7 +39,6 @@ implements Comparable {
         return this.arrayOffset;
     }
 
-    @Override
     public int compareTo(Object object) {
         if (object == null) {
             throw new NullPointerException("ob is null");
@@ -82,8 +81,7 @@ implements Comparable {
         return object instanceof LongBuffer && this.compareTo(object) == 0;
     }
 
-    public abstract long get() {
-    }
+    public abstract long get();
 
     public LongBuffer get(long[] lArray) {
         if (lArray == null) {
@@ -118,8 +116,7 @@ implements Comparable {
         return this;
     }
 
-    public abstract long get(int n) {
-    }
+    public abstract long get(int var1);
 
     public final boolean hasArray() {
         return this.array != null;
@@ -141,11 +138,9 @@ implements Comparable {
         return n;
     }
 
-    public abstract boolean isDirect() {
-    }
+    public abstract boolean isDirect();
 
-    public abstract LongBuffer put(long l) {
-    }
+    public abstract LongBuffer put(long var1);
 
     public final LongBuffer put(long[] lArray) {
         if (lArray == null) {
@@ -191,14 +186,12 @@ implements Comparable {
         return this.put(lArray);
     }
 
-    public abstract LongBuffer put(int n, long l) {
-    }
+    public abstract LongBuffer put(int var1, long var2);
 
-    public abstract LongBuffer slice() {
-    }
+    public abstract LongBuffer slice();
 
     public String toString() {
-        return new StringBuffer("java.nio.LongBuffer[pos=").append(this.position()).append(" lim=").append(this.limit()).append(" cap=").append(this.capacity()).append("]").toString();
+        return "java.nio.LongBuffer[pos=" + this.position() + " lim=" + this.limit() + " cap=" + this.capacity() + "]";
     }
 
     public static LongBuffer wrap(long[] lArray) {
@@ -221,7 +214,6 @@ implements Comparable {
         return new LongBufferImpl(lArray, n, n2, lArray.length, 0);
     }
 
-    public abstract ByteOrder order() {
-    }
+    public abstract ByteOrder order();
 }
 

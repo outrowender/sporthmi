@@ -7,14 +7,13 @@ import com.ibm.oti.util.Msg;
 import java.security.DigestException;
 
 public abstract class MessageDigestSpi {
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
-    protected abstract byte[] engineDigest() {
-    }
+    protected abstract byte[] engineDigest();
 
-    protected int engineDigest(byte[] byArray, int n, int n2) {
+    protected int engineDigest(byte[] byArray, int n, int n2) throws DigestException {
         if (byArray == null) {
             throw new IllegalArgumentException(Msg.getString("K0047"));
         }
@@ -41,13 +40,10 @@ public abstract class MessageDigestSpi {
         return 0;
     }
 
-    protected abstract void engineReset() {
-    }
+    protected abstract void engineReset();
 
-    protected abstract void engineUpdate(byte[] byArray, int n, int n2) {
-    }
+    protected abstract void engineUpdate(byte[] var1, int var2, int var3);
 
-    protected abstract void engineUpdate(byte by) {
-    }
+    protected abstract void engineUpdate(byte var1);
 }
 

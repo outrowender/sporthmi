@@ -8,21 +8,21 @@ import java.io.UnsupportedEncodingException;
 
 class Socks4Message {
     protected byte[] buffer = new byte[256];
-    private static final int SOCKS_VERSION;
-    public static final int COMMAND_CONNECT;
-    public static final int COMMAND_BIND;
-    public static final int RETURN_SUCCESS;
-    public static final int RETURN_FAILURE;
-    public static final int RETURN_CANNOT_CONNECT_TO_IDENTD;
-    public static final int RETURN_DIFFERENT_USER_IDS;
-    protected static final int INDEX_VERSION;
-    private static final int INDEX_COMMAND;
-    private static final int INDEX_PORT;
-    private static final int INDEX_IP;
-    private static final int INDEX_USER_ID;
-    private static final int BUFFER_LENGTH;
-    public static final int REPLY_LENGTH;
-    private static final int MAX_USER_ID_LENGTH;
+    private static final int SOCKS_VERSION = 4;
+    public static final int COMMAND_CONNECT = 1;
+    public static final int COMMAND_BIND = 2;
+    public static final int RETURN_SUCCESS = 90;
+    public static final int RETURN_FAILURE = 91;
+    public static final int RETURN_CANNOT_CONNECT_TO_IDENTD = 92;
+    public static final int RETURN_DIFFERENT_USER_IDS = 93;
+    protected static final int INDEX_VERSION = 0;
+    private static final int INDEX_COMMAND = 1;
+    private static final int INDEX_PORT = 2;
+    private static final int INDEX_IP = 4;
+    private static final int INDEX_USER_ID = 8;
+    private static final int BUFFER_LENGTH = 256;
+    public static final int REPLY_LENGTH = 8;
+    private static final int MAX_USER_ID_LENGTH = 248;
 
     public Socks4Message() {
         this.setVersionNumber(4);

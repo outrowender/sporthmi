@@ -47,11 +47,9 @@ public abstract class Policy {
         Policy.policy = policy;
     }
 
-    public abstract PermissionCollection getPermissions(CodeSource codeSource) {
-    }
+    public abstract PermissionCollection getPermissions(CodeSource var1);
 
-    public abstract void refresh() {
-    }
+    public abstract void refresh();
 
     public PermissionCollection getPermissions(ProtectionDomain protectionDomain) {
         return this.getPermissions(protectionDomain.getCodeSource());

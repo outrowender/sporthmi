@@ -26,7 +26,6 @@ IIdleTimerWidget {
     private boolean longTyped;
     private int buttonID;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
     }
@@ -35,7 +34,6 @@ IIdleTimerWidget {
         this.longTypedTimeout = n;
     }
 
-    @Override
     public void setFocused(boolean bl) {
         super.setFocused(bl);
         if (bl && this.model instanceof ChoiceModelGUI && this.getTerminalImpl() != null) {
@@ -43,7 +41,6 @@ IIdleTimerWidget {
         }
     }
 
-    @Override
     protected Object calculateModelContent() {
         return null;
     }
@@ -54,32 +51,29 @@ IIdleTimerWidget {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         super.setVisible(bl);
         this.notifyButtonGroup();
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (!(this.isActive() && this.isEnabled() && this.isVisible())) {
             return;
         }
         if (this.model instanceof ChoiceModelGUI) {
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#keyPressed() ChoiceModelGUI");
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#keyPressed() ChoiceModelGUI");
             ((ChoiceModelGUI)this.model).itemSelected(this.buttonID, this.getTerminalImpl().getTerminalID());
         } else if (this.model instanceof ButtonModelGUI) {
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#keyPressed() ButtonModelGUI");
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#keyPressed() ButtonModelGUI");
             ((ButtonModelGUI)this.model).keyPressed(this.modelID, this.getTerminalImpl().getTerminalID());
         }
         super.keyPressed(keyEvent);
         if (!this.isTimerRunning()) {
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#keyPressed() timerStarted");
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#keyPressed() timerStarted");
             this.restartTimer();
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         super.keyTurned(wheelButtonEvent);
         if (this.isTimerRunning()) {
@@ -87,7 +81,6 @@ IIdleTimerWidget {
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (!(this.isActive() && this.isEnabled() && this.isVisible() && keyEvent.getKeyCode() != 13 && keyEvent.getKeyCode() != 14)) {
             return;
@@ -95,16 +88,15 @@ IIdleTimerWidget {
         this.cancelTimer();
         if (this.model instanceof ButtonModelGUI) {
             if (!this.longTyped) {
-                IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#keyReleased() keyTyped longtyped: %1", this.longTyped);
+                IWidgetLogChannel.logChannel.log(10000000, "ButtonController#keyReleased() keyTyped longtyped: %1", this.longTyped);
                 ((ButtonModelGUI)this.model).keyTyped(this.modelID, this.getTerminalImpl().getTerminalID());
             }
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#keyReleased() keyReleased longtyped: %1", this.longTyped);
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#keyReleased() keyReleased longtyped: %1", this.longTyped);
             ((ButtonModelGUI)this.model).keyReleased(this.modelID, this.getTerminalImpl().getTerminalID());
         }
         super.keyReleased(keyEvent);
     }
 
-    @Override
     public void restartTimer() {
         this.longTyped = false;
         this.cancelTimer();
@@ -116,25 +108,23 @@ IIdleTimerWidget {
                 this.timerEvent = new TimerEvent(this);
             }
             this.timerJob = hmiService.getEventDispatcher().postEvent(this.timerEvent, this.longTypedTimeout);
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#restartTimer()");
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#restartTimer()");
         }
     }
 
-    @Override
     public void cancelTimer() {
         if (this.isTimerRunning()) {
             this.timerJob.cancel();
             this.timerJob = null;
-            IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#cancelTimer()");
+            IWidgetLogChannel.logChannel.log(10000000, "ButtonController#cancelTimer()");
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.timerEvent) && this.isTimerRunning()) {
             this.timerJob = null;
             if (this.execute()) {
-                IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#processEvent()");
+                IWidgetLogChannel.logChannel.log(10000000, "ButtonController#processEvent()");
                 this.longTypedTimeoutOccured();
             }
         }
@@ -152,7 +142,7 @@ IIdleTimerWidget {
     }
 
     private void longTypedTimeoutOccured() {
-        IWidgetLogChannel.logChannel.log(-2137614336, "ButtonController#longTypedTimeoutOccured()");
+        IWidgetLogChannel.logChannel.log(10000000, "ButtonController#longTypedTimeoutOccured()");
         this.longTyped = true;
         ((ButtonModelGUI)this.model).keyLongTyped(this.modelID, this.getTerminalImpl().getTerminalID());
     }
@@ -165,7 +155,6 @@ IIdleTimerWidget {
         return this.buttonID;
     }
 
-    @Override
     public int getCurrentVisState() {
         int n = 2;
         if ((this.widgetState & 4) != 0 && (this.widgetState & 0x20) != 0) {

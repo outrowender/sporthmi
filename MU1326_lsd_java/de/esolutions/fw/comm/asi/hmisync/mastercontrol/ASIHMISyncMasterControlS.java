@@ -4,24 +4,19 @@
 package de.esolutions.fw.comm.asi.hmisync.mastercontrol;
 
 import de.esolutions.fw.comm.asi.hmisync.mastercontrol.ASIHMISyncMasterControlReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncMasterControlS {
-    default public void setNotification(ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void setNotification(ASIHMISyncMasterControlReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncMasterControlReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncMasterControlReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void clearNotification(ASIHMISyncMasterControlReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncMasterControlReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncMasterControlReply aSIHMISyncMasterControlReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncMasterControlReply var2) throws MethodException;
 }
 

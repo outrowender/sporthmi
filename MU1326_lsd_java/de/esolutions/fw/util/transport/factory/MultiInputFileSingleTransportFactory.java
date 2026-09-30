@@ -26,7 +26,6 @@ implements ISingleTransportFactory {
         this.firstIndex = n2;
     }
 
-    @Override
     public ITransport createTransport() {
         try {
             MultiFileInputStream multiFileInputStream = new MultiFileInputStream(this.baseName, this.suffix, this.numDigits, this.firstIndex);
@@ -40,9 +39,8 @@ implements ISingleTransportFactory {
         }
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[MultiInputFile:").append(this.baseName).append(",").append(this.suffix).append(",").append(this.numDigits).append(",").append(this.firstIndex).append("]").toString();
+        return "[MultiInputFile:" + this.baseName + "," + this.suffix + "," + this.numDigits + "," + this.firstIndex + "]";
     }
 }
 

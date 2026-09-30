@@ -11,15 +11,15 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.FingerTraceController;
 
 public class FingerTraceRendererHigh
 extends AbstractFingerTraceRendererHigh {
-    public static final String NODE_NAME_FINGERTRACE_BACKGROUND;
-    protected static final int FINGER_TRACE_SIZE;
-    private static final float PEEPHOLE_FULLY_TRANSPARENT;
-    private static final float WIFA_HACK_SCALING_FOR_ALL_IN_TOUCH;
-    public static final int Y_OFFSET_LINE;
-    public static final int X_OFFSET_LINE;
-    public static final int X_OFFSET_LINEBACKGROUND;
-    public static final int Y_OFFSET_LINEBACKGROUND;
-    private static final String TEMPLATE_PATH_FINGER_TRACE_PLATE;
+    public static final String NODE_NAME_FINGERTRACE_BACKGROUND = "fingertraceBackground";
+    protected static final int FINGER_TRACE_SIZE = 88;
+    private static final float PEEPHOLE_FULLY_TRANSPARENT = 1.0f;
+    private static final float WIFA_HACK_SCALING_FOR_ALL_IN_TOUCH = 1.5f;
+    public static final int Y_OFFSET_LINE = -17;
+    public static final int X_OFFSET_LINE = 19;
+    public static final int X_OFFSET_LINEBACKGROUND = 12;
+    public static final int Y_OFFSET_LINEBACKGROUND = -22;
+    private static final String TEMPLATE_PATH_FINGER_TRACE_PLATE = "Prefabs/fingerTrace_plate";
     private float wifaHackExtraOffsetX;
     private float wifaHackExtraOffsetY;
     private float wifaHackExtraScaling = 1.0f;
@@ -28,22 +28,17 @@ extends AbstractFingerTraceRendererHigh {
         super(fingerTraceController);
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         int n = this.getKbdType();
-        this.wifaHackExtraScaling = n == 6 ? 49215 : (int)1.0f;
+        this.wifaHackExtraScaling = n == 6 ? 1.5f : 1.0f;
         this.wifaHackExtraOffsetX = (this.wifaHackExtraScaling - 1.0f) * (float)this.getFingerTraceWidth();
         this.wifaHackExtraOffsetY = (this.wifaHackExtraScaling - 1.0f) * (float)this.getFingerTraceHeight();
         if (n == 6) {
-            this.wifaHackExtraOffsetY -= 45121;
+            this.wifaHackExtraOffsetY -= 22.0f;
         }
     }
 
-    @Override
     protected void applyProperties() {
         int n = this.controller.getX();
         int n2 = this.controller.getY();
@@ -55,7 +50,6 @@ extends AbstractFingerTraceRendererHigh {
         }
     }
 
-    @Override
     public void showFingerTrace(float f2) {
         super.showFingerTrace(f2);
         if (this.lineBackgroundKZB != null) {
@@ -66,7 +60,6 @@ extends AbstractFingerTraceRendererHigh {
         this.showLineBackground = f2 > 0.0f;
     }
 
-    @Override
     public void clearLine() {
         super.clearLine();
         if (this.lineBackgroundKZB != null) {
@@ -74,7 +67,6 @@ extends AbstractFingerTraceRendererHigh {
         }
     }
 
-    @Override
     public void removeFingerTrace() {
         super.removeFingerTrace();
         if (this.lineBackgroundKZB != null) {
@@ -84,54 +76,46 @@ extends AbstractFingerTraceRendererHigh {
     }
 
     protected String getTemplateNodePath() {
-        return "Prefabs/fingerTrace_plate";
+        return TEMPLATE_PATH_FINGER_TRACE_PLATE;
     }
 
     protected String getEALNodeName() {
         return "fingerTracePlate";
     }
 
-    @Override
     protected float getLineWidth() {
         float f2 = 1.0f;
-        f2 = this.getKbdType() == 6 ? (float)65 : (float)8257;
+        f2 = this.getKbdType() == 6 ? 8.0f : 10.0f;
         return f2;
     }
 
-    @Override
     protected float getScalingFactorX() {
         return (float)(this.getFingerTraceWidth() * 2) * this.wifaHackExtraScaling / this.tpResolution;
     }
 
-    @Override
     protected float getScalingFactorY() {
         return (float)(this.getFingerTraceHeight() * 2) * this.wifaHackExtraScaling / this.tpResolution;
     }
 
-    @Override
     protected int getFingerTraceWidth() {
         return 88;
     }
 
-    @Override
     protected int getFingerTraceHeight() {
         return 88;
     }
 
-    @Override
     protected float getLinePointOffsetX() {
         return this.wifaHackExtraOffsetX;
     }
 
-    @Override
     protected float getLinePointOffsetY() {
         return this.wifaHackExtraOffsetY;
     }
 
-    @Override
     protected IWrappedNode3D createBackgroundNode() {
         IWrappedNode3D iWrappedNode3D = null;
-        iWrappedNode3D = this.getEALManager().createTemplateInstanceNode(null, EALManager.createNodeName("fingertraceBackground", this), 0.0f, 0.0f, 18, "Prefabs/fingerTrace_plate", this.getInitContext().getScreenID());
+        iWrappedNode3D = this.getEALManager().createTemplateInstanceNode(null, EALManager.createNodeName(NODE_NAME_FINGERTRACE_BACKGROUND, this), 0.0f, 0.0f, 18, TEMPLATE_PATH_FINGER_TRACE_PLATE, this.getInitContext().getScreenID());
         if (iWrappedNode3D != null) {
             iWrappedNode3D.setVisible(false);
         }

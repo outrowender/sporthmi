@@ -18,14 +18,13 @@ extends OutputStream {
         FileOutputStream.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
-    public FileOutputStream(File file) {
+    public FileOutputStream(File file) throws FileNotFoundException {
         this(file, false);
     }
 
-    public FileOutputStream(File file, boolean bl) {
+    public FileOutputStream(File file, boolean bl) throws FileNotFoundException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkWrite(file.getPath());
@@ -48,11 +47,11 @@ extends OutputStream {
         this.fd = fileDescriptor;
     }
 
-    public FileOutputStream(String string) {
+    public FileOutputStream(String string) throws FileNotFoundException {
         this(string, false);
     }
 
-    public FileOutputStream(String string, boolean bl) {
+    public FileOutputStream(String string, boolean bl) throws FileNotFoundException {
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null) {
             securityManager.checkWrite(string);
@@ -64,55 +63,47 @@ extends OutputStream {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.closeImpl();
     }
 
-    private native void closeImpl() {
-    }
+    private native void closeImpl();
 
-    protected void finalize() {
+    protected void finalize() throws IOException {
         if (this.fd != null) {
             this.close();
         }
     }
 
-    public final FileDescriptor getFD() {
+    public final FileDescriptor getFD() throws IOException {
         if (this.fd != null) {
             return this.fd;
         }
         throw new IOException();
     }
 
-    private native int openImpl(byte[] byArray, boolean bl) {
-    }
+    private native int openImpl(byte[] var1, boolean var2);
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (this.fd == null) {
             throw new IOException();
         }
         this.writeImpl(byArray, n, n2, this.getFD().descriptor);
     }
 
-    private native void writeImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native void writeImpl(byte[] var1, int var2, int var3, long var4);
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.fd == null) {
             throw new IOException();
         }
         this.writeByteImpl(n, this.getFD().descriptor);
     }
 
-    private native void writeByteImpl(int n, long l) {
-    }
+    private native void writeByteImpl(int var1, long var2);
 }
 

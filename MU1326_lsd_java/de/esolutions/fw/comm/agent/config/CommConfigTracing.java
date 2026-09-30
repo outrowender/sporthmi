@@ -41,7 +41,6 @@ implements IConfigValueTracer {
         return this.truncatePayloadSize;
     }
 
-    @Override
     public void traceValues() {
         CommAgentTracing.CONFIG.log((short)2, "tracing.version     = %1 ms", new Byte(this.version));
         CommAgentTracing.CONFIG.log((short)2, "tracing.flags       = %1", new Byte(this.flags));

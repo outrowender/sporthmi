@@ -20,57 +20,41 @@ import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedDirection;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCorrectedPosition;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersion;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sVersionsNavDB;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2NavigationDiagServiceC {
-    default public void responseErrorNavigation(sClientResponseError sClientResponseError2) {
-    }
+    public void responseErrorNavigation(sClientResponseError var1) throws MethodException;
 
-    default public void responseSubsystemState(sSubsystemState sSubsystemState2) {
-    }
+    public void responseSubsystemState(sSubsystemState var1) throws MethodException;
 
-    default public void responseVersionsNavDB(sVersionsNavDB sVersionsNavDB2) {
-    }
+    public void responseVersionsNavDB(sVersionsNavDB var1) throws MethodException;
 
-    default public void responseActiveNavDB(sActiveNavDB sActiveNavDB2) {
-    }
+    public void responseActiveNavDB(sActiveNavDB var1) throws MethodException;
 
-    default public void responseGPSNoSatellite(sGPSNoSatellite sGPSNoSatellite2) {
-    }
+    public void responseGPSNoSatellite(sGPSNoSatellite var1) throws MethodException;
 
-    default public void responseGPSOffroad(sGPSOffroad sGPSOffroad2) {
-    }
+    public void responseGPSOffroad(sGPSOffroad var1) throws MethodException;
 
-    default public void responseNavCalibrationState(sNavCalibrationState sNavCalibrationState2) {
-    }
+    public void responseNavCalibrationState(sNavCalibrationState var1) throws MethodException;
 
-    default public void responseNavCorrectedPosition(sNavCorrectedPosition sNavCorrectedPosition2) {
-    }
+    public void responseNavCorrectedPosition(sNavCorrectedPosition var1) throws MethodException;
 
-    default public void responseNavCorrectedDirection(sNavCorrectedDirection sNavCorrectedDirection2) {
-    }
+    public void responseNavCorrectedDirection(sNavCorrectedDirection var1) throws MethodException;
 
-    default public void responseResetCalibration(sRoutineResponse sRoutineResponse2) {
-    }
+    public void responseResetCalibration(sRoutineResponse var1) throws MethodException;
 
-    default public void responseSparePartNumberNavDB(sSparePartNumber sSparePartNumber2) {
-    }
+    public void responseSparePartNumberNavDB(sSparePartNumber var1) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumberNavDB(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2) {
-    }
+    public void responseApplicationSoftwareVersionNumberNavDB(sApplicationSoftwareVersionNumber var1) throws MethodException;
 
-    default public void responseHardwareNumberNavDB(sHardwareNumber sHardwareNumber2) {
-    }
+    public void responseHardwareNumberNavDB(sHardwareNumber var1) throws MethodException;
 
-    default public void responseHardwareVersionNumberNavDB(sHardwareVersionNumber sHardwareVersionNumber2) {
-    }
+    public void responseHardwareVersionNumberNavDB(sHardwareVersionNumber var1) throws MethodException;
 
-    default public void responseSerialNumberNavDB(sSerialNumber sSerialNumber2) {
-    }
+    public void responseSerialNumberNavDB(sSerialNumber var1) throws MethodException;
 
-    default public void responseSystemNameNavDB(sSystemName sSystemName2) {
-    }
+    public void responseSystemNameNavDB(sSystemName var1) throws MethodException;
 
-    default public void responseCountryRegionVersion(sNavCountryRegionVersion sNavCountryRegionVersion2) {
-    }
+    public void responseCountryRegionVersion(sNavCountryRegionVersion var1) throws MethodException;
 }
 

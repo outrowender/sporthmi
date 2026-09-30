@@ -7,15 +7,15 @@ import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 
 public final class PresetLayoutConfigurator {
-    private static final String TEMPLATE_NODE_ALL_IN_TOUCH;
-    private static final String TEMPLATE_NODE_HORIZONTAL_SHORT;
-    private static final String TEMPLATE_NODE_PATH_VERTICAL_SHORT;
-    private static final String TEMPLATE_NODE_PATH_HORIZONTAL_LONG;
-    private static String templateNodePath;
-    public static final int PRESET_LAYOUT_NO_PRESET;
-    public static final int PRESET_LAYOUT_SINGLE_ROW_HORIZONTAL;
-    public static final int PRESET_LAYOUT_DOUBLE_ROW_HORIZONTAL;
-    public static final int PRESET_LAYOUT_DOUBLE_ROW_VERTICAL;
+    private static final String TEMPLATE_NODE_ALL_IN_TOUCH = "Prefabs/sk_allInTouch";
+    private static final String TEMPLATE_NODE_HORIZONTAL_SHORT = "Prefabs/sk_horizontalShort";
+    private static final String TEMPLATE_NODE_PATH_VERTICAL_SHORT = "Prefabs/sk_verticalShort";
+    private static final String TEMPLATE_NODE_PATH_HORIZONTAL_LONG = "Prefabs/sk_horizontalLong";
+    private static String templateNodePath = "Prefabs/sk_allInTouch";
+    public static final int PRESET_LAYOUT_NO_PRESET = 0;
+    public static final int PRESET_LAYOUT_SINGLE_ROW_HORIZONTAL = 1;
+    public static final int PRESET_LAYOUT_DOUBLE_ROW_HORIZONTAL = 3;
+    public static final int PRESET_LAYOUT_DOUBLE_ROW_VERTICAL = 8;
     private int glassplateHeightTouch;
     private int glassplateHeightLongTouch;
     private int headlineX;
@@ -26,7 +26,7 @@ public final class PresetLayoutConfigurator {
     private int width;
 
     public void init(int n, int n2) {
-        IWidgetLogChannel.logPresetInput.log(1078071040, "PresetLayoutConfigurator#init kbdType: %1, presetlayout %2", (long)n, (long)n2);
+        IWidgetLogChannel.logPresetInput.log(1000000, "PresetLayoutConfigurator#init kbdType: %1, presetlayout %2", (long)n, (long)n2);
         this.kbdType = n;
         int n3 = AbstractWidget.framework.getScreenRes();
         if (n3 == 2) {
@@ -38,7 +38,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 0;
                 this.headlineY = 0;
-                templateNodePath = "Prefabs/sk_allInTouch";
+                templateNodePath = TEMPLATE_NODE_ALL_IN_TOUCH;
             } else if (n2 == 8) {
                 this.x = 214;
                 this.y = 100;
@@ -47,7 +47,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 0;
                 this.headlineY = 5;
-                templateNodePath = "Prefabs/sk_verticalShort";
+                templateNodePath = TEMPLATE_NODE_PATH_VERTICAL_SHORT;
             } else {
                 this.x = 62;
                 this.y = 135;
@@ -56,7 +56,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 195;
                 this.headlineY = 0;
-                templateNodePath = "Prefabs/sk_horizontalLong";
+                templateNodePath = TEMPLATE_NODE_PATH_HORIZONTAL_LONG;
             }
         } else if (n3 == 1) {
             if (n2 == 1) {
@@ -67,7 +67,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 83;
                 this.headlineY = 0;
-                templateNodePath = "Prefabs/sk_horizontalLong";
+                templateNodePath = TEMPLATE_NODE_PATH_HORIZONTAL_LONG;
             } else if (n2 == 8) {
                 this.x = 213;
                 this.y = 100;
@@ -76,7 +76,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 0;
                 this.headlineY = 5;
-                templateNodePath = "Prefabs/sk_verticalShort";
+                templateNodePath = TEMPLATE_NODE_PATH_VERTICAL_SHORT;
             } else {
                 this.x = 78;
                 this.y = 117;
@@ -85,7 +85,7 @@ public final class PresetLayoutConfigurator {
                 this.glassplateHeightLongTouch = 234;
                 this.headlineX = 161;
                 this.headlineY = 0;
-                templateNodePath = "Prefabs/sk_horizontalShort";
+                templateNodePath = TEMPLATE_NODE_HORIZONTAL_SHORT;
             }
         } else if (n3 == 0) {
             this.x = 75;
@@ -95,7 +95,7 @@ public final class PresetLayoutConfigurator {
             this.glassplateHeightLongTouch = 130;
             this.headlineX = 35;
             this.headlineY = -10;
-            templateNodePath = "Prefabs/sk_horizontalShort";
+            templateNodePath = TEMPLATE_NODE_HORIZONTAL_SHORT;
         }
     }
 
@@ -133,10 +133,6 @@ public final class PresetLayoutConfigurator {
 
     public int getWidth() {
         return this.width;
-    }
-
-    static {
-        templateNodePath = "Prefabs/sk_allInTouch";
     }
 }
 

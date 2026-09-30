@@ -34,10 +34,10 @@ implements IGeoPosConstants {
     private static int cpDecimal4 = 4;
     private static int cpDecimal5 = 5;
     private ChoiceModel triggerModel;
-    private static final int INDEX_TEXT_N;
-    private static final int INDEX_TEXT_E;
-    private static final int INDEX_TEXT_S;
-    private static final int INDEX_TEXT_W;
+    private static final int INDEX_TEXT_N = 2;
+    private static final int INDEX_TEXT_E = 3;
+    private static final int INDEX_TEXT_S = 4;
+    private static final int INDEX_TEXT_W = 5;
     private int[] textIDs;
     private boolean isDecimal = false;
     private int[][] geoValues;
@@ -70,13 +70,12 @@ implements IGeoPosConstants {
         return n4 * n;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         boolean bl;
         super.connected(initializationContext);
         this.readDataFromModel();
         if (this.triggerModel == null) {
-            this.triggerModel = (ChoiceModel)hmiService.getModel(153093632);
+            this.triggerModel = (ChoiceModel)hmiService.getModel(401417);
         }
         if (!(bl = this.terminal.getFramework().getLanguageMgr().isLeftToRightOrientation())) {
             cpDegree = 3;
@@ -200,7 +199,6 @@ implements IGeoPosConstants {
         }
     }
 
-    @Override
     protected void enterEditableMode() {
         this.isInEditableMode = true;
         this.setHighlighted(true);
@@ -213,7 +211,6 @@ implements IGeoPosConstants {
         }
     }
 
-    @Override
     protected void exitEditableMode() {
         this.isInEditableMode = false;
         this.setHighlighted(false);
@@ -222,7 +219,6 @@ implements IGeoPosConstants {
         this.writeDataToModel();
     }
 
-    @Override
     protected void exitEditableModeWithoutSavings() {
         this.isInEditableMode = false;
         this.setHighlighted(false);
@@ -248,7 +244,6 @@ implements IGeoPosConstants {
         return this.inputType;
     }
 
-    @Override
     public List getLineDescription() {
         int n;
         boolean bl = true;
@@ -258,14 +253,14 @@ implements IGeoPosConstants {
         ArrayList arrayList = new ArrayList(8);
         int n2 = this.getInputType();
         int n3 = this.getGeoValue(n2, 0);
-        arrayList.add(new LineElement(new StringBuffer().append(n2 == 0 ? GeoPosSettingsController.appendOneLeadingZero(n3) : GeoPosSettingsController.appendTwoLeadingZeros(n3)).append(n3).toString(), true, this.renderer.getTextWidth("000"), bl ? 3 : 1));
+        arrayList.add(new LineElement((n2 == 0 ? GeoPosSettingsController.appendOneLeadingZero(n3) : GeoPosSettingsController.appendTwoLeadingZeros(n3)) + n3, true, this.renderer.getTextWidth("000"), bl ? 3 : 1));
         if (this.getFormat() == 0) {
             arrayList.add(new LineElement("\u00b0"));
             n3 = this.getGeoValue(n2, 1);
-            arrayList.add(new LineElement(new StringBuffer().append(GeoPosSettingsController.appendOneLeadingZero(n3)).append(n3).toString(), true));
+            arrayList.add(new LineElement(GeoPosSettingsController.appendOneLeadingZero(n3) + n3, true));
             arrayList.add(new LineElement("'"));
             n3 = this.getGeoValue(n2, 2);
-            arrayList.add(new LineElement(new StringBuffer().append(GeoPosSettingsController.appendOneLeadingZero(n3)).append(n3).toString(), true));
+            arrayList.add(new LineElement(GeoPosSettingsController.appendOneLeadingZero(n3) + n3, true));
             arrayList.add(new LineElement(","));
             arrayList.add(new LineElement(String.valueOf(this.getGeoValue(n2, 3)), true));
             arrayList.add(new LineElement("\""));
@@ -287,12 +282,10 @@ implements IGeoPosConstants {
         return arrayList;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
 
-    @Override
     public int getCursorIndex() {
         int n = this.getCursorPos();
         return n;
@@ -349,22 +342,19 @@ implements IGeoPosConstants {
         }
     }
 
-    @Override
     public boolean isInEditableMode() {
         return this.isInEditableMode;
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
-        menuItemLogCh.log(-2137614336, "AbstractGeoPosController#keyMoved KeyCode = %1", (long)joystickEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "AbstractGeoPosController#keyMoved KeyCode = %1", (long)joystickEvent.getKeyCode());
         if (joystickEvent.getDirection() == 8 && this.getCurrentVisState() == 3) {
             joystickEvent.consume();
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        menuItemLogCh.log(-2137614336, "AbstractGeoPosController#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
+        menuItemLogCh.log(10000000, "AbstractGeoPosController#keyReleased KeyCode = %1", (long)keyEvent.getKeyCode());
         if (this.dds_pressed && keyEvent.getKeyCode() == 17) {
             this.menuEnterKeyPressed(keyEvent);
         } else if (keyEvent.getKeyCode() == 15) {
@@ -457,7 +447,6 @@ implements IGeoPosConstants {
         }
     }
 
-    @Override
     public void keyTurned1(WheelButtonEvent wheelButtonEvent) {
         if (this.getCurrentVisState() == 3 && this.isInEditableMode) {
             int n = wheelButtonEvent.getClickCount();
@@ -498,7 +487,6 @@ implements IGeoPosConstants {
         }
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (modelUpdateEvent.getModelType() == 9 && modelUpdateEvent.getUpdateType() != 2) {
             this.readDataFromModel();
@@ -560,7 +548,7 @@ implements IGeoPosConstants {
                 }
             }
         } else {
-            menuItemLogCh.log(-2137614336, "GeoPosWidget#getDeepCopy original doesn't have right dimensions");
+            menuItemLogCh.log(10000000, "GeoPosWidget#getDeepCopy original doesn't have right dimensions");
             nArray2 = new int[2][5];
         }
         return nArray2;

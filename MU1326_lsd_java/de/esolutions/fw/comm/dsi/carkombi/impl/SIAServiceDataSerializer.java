@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAServiceData;
 
 public class SIAServiceDataSerializer {
-    public static void putOptionalSIAServiceData(ISerializer iSerializer, SIAServiceData sIAServiceData) {
+    public static void putOptionalSIAServiceData(ISerializer iSerializer, SIAServiceData sIAServiceData) throws SerializerException {
         boolean bl = sIAServiceData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SIAServiceDataSerializer {
         }
     }
 
-    public static void putOptionalSIAServiceDataVarArray(ISerializer iSerializer, SIAServiceData[] sIAServiceDataArray) {
+    public static void putOptionalSIAServiceDataVarArray(ISerializer iSerializer, SIAServiceData[] sIAServiceDataArray) throws SerializerException {
         boolean bl = sIAServiceDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SIAServiceDataSerializer {
         }
     }
 
-    public static SIAServiceData getOptionalSIAServiceData(IDeserializer iDeserializer) {
+    public static SIAServiceData getOptionalSIAServiceData(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceData sIAServiceData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class SIAServiceDataSerializer {
         return sIAServiceData;
     }
 
-    public static SIAServiceData[] getOptionalSIAServiceDataVarArray(IDeserializer iDeserializer) {
+    public static SIAServiceData[] getOptionalSIAServiceDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAServiceData[] sIAServiceDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

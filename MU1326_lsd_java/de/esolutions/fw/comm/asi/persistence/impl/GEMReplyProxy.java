@@ -4,17 +4,20 @@
 package de.esolutions.fw.comm.asi.persistence.impl;
 
 import de.esolutions.fw.comm.asi.persistence.GEMReply;
-import de.esolutions.fw.comm.asi.persistence.impl.GEMReplyProxy$1;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class GEMReplyProxy
 implements GEMReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.persistence.GEM");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public GEMReplyProxy() {
@@ -22,15 +25,18 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void gemActive(boolean bl) {
-        GEMReplyProxy$1 gEMReplyProxy$1 = new GEMReplyProxy$1(this, bl);
-        this.proxy.remoteCallMethod((short)0, gEMReplyProxy$1);
+    public void gemActive(final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 }
 

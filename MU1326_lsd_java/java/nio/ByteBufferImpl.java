@@ -32,107 +32,73 @@ ByteBufferUtil {
     private boolean isExternal = false;
     private ByteBufferImpl parent = null;
 
-    private native int allocateDirectByte(int n) {
-    }
+    private native int allocateDirectByte(int var1);
 
-    private native int getDirectBytePointer(int n, int n2) {
-    }
+    private native int getDirectBytePointer(int var1, int var2);
 
-    private native byte getDirectByte(int n, int n2) {
-    }
+    private native byte getDirectByte(int var1, int var2);
 
-    private native void getDirectByteArray(int n, int n2, int n3, byte[] byArray, int n4) {
-    }
+    private native void getDirectByteArray(int var1, int var2, int var3, byte[] var4, int var5);
 
-    private native void putDirectByte(int n, int n2, byte by) {
-    }
+    private native void putDirectByte(int var1, int var2, byte var3);
 
-    private native void putDirectByteArray(int n, int n2, int n3, byte[] byArray, int n4) {
-    }
+    private native void putDirectByteArray(int var1, int var2, int var3, byte[] var4, int var5);
 
-    private native float getDirectFloat(int n, int n2, boolean bl) {
-    }
+    private native float getDirectFloat(int var1, int var2, boolean var3);
 
-    private native void getDirectFloatArray(int n, int n2, int n3, float[] fArray, int n4, boolean bl) {
-    }
+    private native void getDirectFloatArray(int var1, int var2, int var3, float[] var4, int var5, boolean var6);
 
-    private native void putDirectFloat(int n, int n2, float f2, boolean bl) {
-    }
+    private native void putDirectFloat(int var1, int var2, float var3, boolean var4);
 
-    private native void putDirectFloatArray(int n, int n2, int n3, float[] fArray, int n4, boolean bl) {
-    }
+    private native void putDirectFloatArray(int var1, int var2, int var3, float[] var4, int var5, boolean var6);
 
-    private native int getDirectInt(int n, int n2, boolean bl) {
-    }
+    private native int getDirectInt(int var1, int var2, boolean var3);
 
-    private native void getDirectIntArray(int n, int n2, int n3, int[] nArray, int n4, boolean bl) {
-    }
+    private native void getDirectIntArray(int var1, int var2, int var3, int[] var4, int var5, boolean var6);
 
-    private native void putDirectInt(int n, int n2, int n3, boolean bl) {
-    }
+    private native void putDirectInt(int var1, int var2, int var3, boolean var4);
 
-    private native void putDirectIntArray(int n, int n2, int n3, int[] nArray, int n4, boolean bl) {
-    }
+    private native void putDirectIntArray(int var1, int var2, int var3, int[] var4, int var5, boolean var6);
 
-    private native long getDirectLong(int n, int n2, boolean bl) {
-    }
+    private native long getDirectLong(int var1, int var2, boolean var3);
 
-    private native void getDirectLongArray(int n, int n2, int n3, long[] lArray, int n4, boolean bl) {
-    }
+    private native void getDirectLongArray(int var1, int var2, int var3, long[] var4, int var5, boolean var6);
 
-    private native void putDirectLong(int n, int n2, long l, boolean bl) {
-    }
+    private native void putDirectLong(int var1, int var2, long var3, boolean var5);
 
-    private native void putDirectLongArray(int n, int n2, int n3, long[] lArray, int n4, boolean bl) {
-    }
+    private native void putDirectLongArray(int var1, int var2, int var3, long[] var4, int var5, boolean var6);
 
-    private native double getDirectDouble(int n, int n2, boolean bl) {
-    }
+    private native double getDirectDouble(int var1, int var2, boolean var3);
 
-    private native void getDirectDoubleArray(int n, int n2, int n3, double[] dArray, int n4, boolean bl) {
-    }
+    private native void getDirectDoubleArray(int var1, int var2, int var3, double[] var4, int var5, boolean var6);
 
-    private native void putDirectDouble(int n, int n2, double d2, boolean bl) {
-    }
+    private native void putDirectDouble(int var1, int var2, double var3, boolean var5);
 
-    private native void putDirectDoubleArray(int n, int n2, int n3, double[] dArray, int n4, boolean bl) {
-    }
+    private native void putDirectDoubleArray(int var1, int var2, int var3, double[] var4, int var5, boolean var6);
 
-    private native char getDirectChar(int n, int n2, boolean bl) {
-    }
+    private native char getDirectChar(int var1, int var2, boolean var3);
 
-    private native void getDirectCharArray(int n, int n2, int n3, char[] cArray, int n4, boolean bl) {
-    }
+    private native void getDirectCharArray(int var1, int var2, int var3, char[] var4, int var5, boolean var6);
 
-    private native void putDirectChar(int n, int n2, char c2, boolean bl) {
-    }
+    private native void putDirectChar(int var1, int var2, char var3, boolean var4);
 
-    private native void putDirectCharArray(int n, int n2, int n3, char[] cArray, int n4, boolean bl) {
-    }
+    private native void putDirectCharArray(int var1, int var2, int var3, char[] var4, int var5, boolean var6);
 
-    private native short getDirectShort(int n, int n2, boolean bl) {
-    }
+    private native short getDirectShort(int var1, int var2, boolean var3);
 
-    private native void getDirectShortArray(int n, int n2, int n3, short[] sArray, int n4, boolean bl) {
-    }
+    private native void getDirectShortArray(int var1, int var2, int var3, short[] var4, int var5, boolean var6);
 
-    private native void putDirectShort(int n, int n2, short s, boolean bl) {
-    }
+    private native void putDirectShort(int var1, int var2, short var3, boolean var4);
 
-    private native void putDirectShortArray(int n, int n2, int n3, short[] sArray, int n4, boolean bl) {
-    }
+    private native void putDirectShortArray(int var1, int var2, int var3, short[] var4, int var5, boolean var6);
 
-    private native byte getMaxByteOfArray(int n, int n2) {
-    }
+    private native byte getMaxByteOfArray(int var1, int var2);
 
-    private native boolean isNoNegativeByteArray(int n, int n2) {
-    }
+    private native boolean isNoNegativeByteArray(int var1, int var2);
 
-    private native void freePointer(int n) {
-    }
+    private native void freePointer(int var1);
 
-    static native boolean isNativeLittleEndian() {
-    }
+    static native boolean isNativeLittleEndian();
 
     ByteBufferImpl(byte[] byArray, int n, int n2, int n3) {
         super(n, n + n2, n2, byArray, n3);
@@ -169,49 +135,42 @@ ByteBufferUtil {
         this.parent = byteBufferImpl;
     }
 
-    @Override
     public FloatBuffer asFloatBuffer() {
         this.validate();
         int n = this.remaining() / 4;
         return this.isDirect() ? new FloatBufferImpl(this, n, this.position()) : new FloatBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public IntBuffer asIntBuffer() {
         this.validate();
         int n = this.remaining() / 4;
         return this.isDirect() ? new IntBufferImpl(this, n, this.position()) : new IntBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public LongBuffer asLongBuffer() {
         this.validate();
         int n = this.remaining() / 8;
         return this.isDirect() ? new LongBufferImpl(this, n, this.position()) : new LongBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public DoubleBuffer asDoubleBuffer() {
         this.validate();
         int n = this.remaining() / 8;
         return this.isDirect() ? new DoubleBufferImpl(this, n, this.position()) : new DoubleBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public CharBuffer asCharBuffer() {
         this.validate();
         int n = this.remaining() / 2;
         return this.isDirect() ? new CharBufferImpl(this, n, this.position()) : new CharBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public ShortBuffer asShortBuffer() {
         this.validate();
         int n = this.remaining() / 2;
         return this.isDirect() ? new ShortBufferImpl(this, n, this.position()) : new ShortBufferImpl(this, this.array(), n, this.position() + this.arrayOffset());
     }
 
-    @Override
     public byte get() {
         if (this.position() >= this.limit()) {
             throw new BufferUnderflowException();
@@ -223,7 +182,6 @@ ByteBufferUtil {
         return by;
     }
 
-    @Override
     public byte get(int n) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -234,7 +192,6 @@ ByteBufferUtil {
         return by;
     }
 
-    @Override
     public float getFloat() {
         if (this.remaining() < 4) {
             throw new BufferUnderflowException();
@@ -252,7 +209,6 @@ ByteBufferUtil {
         return f2;
     }
 
-    @Override
     public float getFloat(int n) {
         if (n < 0 || n > this.limit() - 4) {
             throw new IndexOutOfBoundsException("index is negative or not smaller than the buffer's limit, minus three");
@@ -268,7 +224,6 @@ ByteBufferUtil {
         return f2;
     }
 
-    @Override
     public int getInt() {
         if (this.remaining() < 4) {
             throw new BufferUnderflowException();
@@ -286,7 +241,6 @@ ByteBufferUtil {
         return n;
     }
 
-    @Override
     public int getInt(int n) {
         if (n < 0 || n > this.limit() - 4) {
             throw new IndexOutOfBoundsException("index is negative or not smaller than the buffer's limit, minus three");
@@ -302,7 +256,6 @@ ByteBufferUtil {
         return n2;
     }
 
-    @Override
     public long getLong() {
         if (this.remaining() < 8) {
             throw new BufferUnderflowException();
@@ -320,7 +273,6 @@ ByteBufferUtil {
         return l;
     }
 
-    @Override
     public long getLong(int n) {
         if (n < 0 || n > this.limit() - 8) {
             throw new IndexOutOfBoundsException("index is negative or not smaller than the buffer's limit, minus seven");
@@ -336,7 +288,6 @@ ByteBufferUtil {
         return l;
     }
 
-    @Override
     public double getDouble() {
         if (this.remaining() < 8) {
             throw new BufferUnderflowException();
@@ -354,7 +305,6 @@ ByteBufferUtil {
         return d2;
     }
 
-    @Override
     public double getDouble(int n) {
         if (n < 0 || n > this.limit() - 8) {
             throw new IndexOutOfBoundsException("index is negative or not smaller than the buffer's limit, minus seven");
@@ -370,7 +320,6 @@ ByteBufferUtil {
         return d2;
     }
 
-    @Override
     public char getChar() {
         if (this.remaining() < 2) {
             throw new BufferUnderflowException();
@@ -388,7 +337,6 @@ ByteBufferUtil {
         return c2;
     }
 
-    @Override
     public char getChar(int n) {
         if (n < 0 || n > this.limit() - 2) {
             throw new IndexOutOfBoundsException("index is negative or not smaller than the buffer's limit, minus three");
@@ -404,7 +352,6 @@ ByteBufferUtil {
         return c2;
     }
 
-    @Override
     public short getShort() {
         if (this.remaining() < 2) {
             throw new BufferUnderflowException();
@@ -422,7 +369,6 @@ ByteBufferUtil {
         return s;
     }
 
-    @Override
     public short getShort(int n) {
         if (n < 0 || n > this.limit() - 2) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -438,12 +384,10 @@ ByteBufferUtil {
         return s;
     }
 
-    @Override
     public boolean isDirect() {
         return this.isDirect;
     }
 
-    @Override
     public ByteBuffer put(byte by) {
         if (this.position() >= this.limit()) {
             throw new BufferOverflowException();
@@ -458,7 +402,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer put(int n, byte by) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -472,7 +415,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putFloat(float f2) {
         if (this.remaining() < 4) {
             throw new BufferOverflowException();
@@ -489,7 +431,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putFloat(int n, float f2) {
         if (n < 0 || n > this.limit() - 4) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -504,7 +445,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putInt(int n) {
         if (this.remaining() < 4) {
             throw new BufferOverflowException();
@@ -521,7 +461,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putInt(int n, int n2) {
         if (n < 0 || n > this.limit() - 4) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -536,7 +475,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putLong(long l) {
         if (this.remaining() < 8) {
             throw new BufferOverflowException();
@@ -553,7 +491,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putLong(int n, long l) {
         if (n < 0 || n > this.limit() - 8) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -568,7 +505,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putDouble(double d2) {
         if (this.remaining() < 8) {
             throw new BufferOverflowException();
@@ -585,7 +521,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putDouble(int n, double d2) {
         if (n < 0 || n > this.limit() - 8) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -600,7 +535,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putChar(char c2) {
         if (this.remaining() < 2) {
             throw new BufferOverflowException();
@@ -617,7 +551,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putChar(int n, char c2) {
         if (n < 0 || n > this.limit() - 2) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -632,7 +565,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putShort(short s) {
         if (this.remaining() < 2) {
             throw new BufferOverflowException();
@@ -649,7 +581,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer putShort(int n, short s) {
         if (n < 0 || n > this.limit() - 2) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -664,7 +595,6 @@ ByteBufferUtil {
         return this;
     }
 
-    @Override
     public ByteBuffer slice() {
         if (this.isDirect()) {
             this.validate();
@@ -673,7 +603,6 @@ ByteBufferUtil {
         return new ByteBufferImpl(this.array(), 0, this.remaining(), this.position() + this.arrayOffset());
     }
 
-    @Override
     public synchronized void dispose() {
         if (this.pointer != 0 && this.parent == null && !this.isExternal) {
             this.freePointer(this.pointer);
@@ -681,7 +610,7 @@ ByteBufferUtil {
         }
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         try {
             this.dispose();
         }
@@ -690,7 +619,6 @@ ByteBufferUtil {
         }
     }
 
-    @Override
     public int getDirectPointer() {
         this.validate();
         return this.getDirectBytePointer(this.pointer, this.position());
@@ -700,7 +628,6 @@ ByteBufferUtil {
         return this.hasArray();
     }
 
-    @Override
     public byte getMaxOfArray(int n) {
         if (this.isDirect()) {
             this.validate();
@@ -719,7 +646,6 @@ ByteBufferUtil {
         return by;
     }
 
-    @Override
     public boolean isNoNegativeArray(int n) {
         int n2;
         if (this.isDirect()) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.generalvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.generalvehiclestates.AirbagData;
 
 public class AirbagDataSerializer {
-    public static void putOptionalAirbagData(ISerializer iSerializer, AirbagData airbagData) {
+    public static void putOptionalAirbagData(ISerializer iSerializer, AirbagData airbagData) throws SerializerException {
         boolean bl = airbagData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class AirbagDataSerializer {
         }
     }
 
-    public static void putOptionalAirbagDataVarArray(ISerializer iSerializer, AirbagData[] airbagDataArray) {
+    public static void putOptionalAirbagDataVarArray(ISerializer iSerializer, AirbagData[] airbagDataArray) throws SerializerException {
         boolean bl = airbagDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class AirbagDataSerializer {
         }
     }
 
-    public static AirbagData getOptionalAirbagData(IDeserializer iDeserializer) {
+    public static AirbagData getOptionalAirbagData(IDeserializer iDeserializer) throws SerializerException {
         AirbagData airbagData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class AirbagDataSerializer {
         return airbagData;
     }
 
-    public static AirbagData[] getOptionalAirbagDataVarArray(IDeserializer iDeserializer) {
+    public static AirbagData[] getOptionalAirbagDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         AirbagData[] airbagDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

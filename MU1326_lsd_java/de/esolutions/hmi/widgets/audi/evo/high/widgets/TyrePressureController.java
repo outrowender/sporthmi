@@ -15,8 +15,8 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.MirroredContainerControll
 public class TyrePressureController
 extends AbstractWidgetController {
     private static final int[] DEFAULT_INIT = new int[]{1, 1, 1, 1, 1};
-    private static final int DEFAULT_P_U;
-    private static final int DEFAULT_T_U;
+    private static final int DEFAULT_P_U = 1;
+    private static final int DEFAULT_T_U = 1;
     private IRenderer renderer;
     private int[] tyrePressure = new int[5];
     private int[] tyreTemperature = new int[5];
@@ -28,57 +28,56 @@ extends AbstractWidgetController {
     private int rearAxleYPosition;
     private int rightTyreOffset;
     private int leftTyreOffset;
-    static final int[][] OFFSET_FIXED_AXLE_FOR_CARS;
-    static final int ROW_Q7;
-    static final int ROW_B9_LIMO_ALLROAD;
-    static final int ROW_R8;
-    static final int ROW_A3_COUPE_SPORTBACK_PHEV;
-    static final int ROW_B9_CABRIO;
-    static final int ROW_TT;
-    static final int ROW_Q5;
-    static final int ROW_A3_CABRIO;
-    static final int ROW_A3_LIMO;
-    static final int ROW_B9_COUPE_SPORTBACK;
-    static final int ROW_R8_SPYDER;
-    static final int ROW_R8_ETRON;
-    static final int ROW_Q2;
-    static final int ROW_Q2_G20STD;
-    static final int PICTURE_INDEX_LINE;
-    static final int PICTURE_INDEX_VARIANT_Q7_CAR;
-    static final int PICTURE_INDEX_VARIANT_Q7_WHEEL;
-    static final int PICTURE_INDEX_VARIANT_Q5_CAR;
-    static final int PICTURE_INDEX_VARIANT_B9_LIMO_CAR;
-    static final int PICTURE_INDEX_VARIANT_B9_AVANT_CAR;
-    static final int PICTURE_INDEX_VARIANT_A3_KURZHECK_CAR;
-    static final int PICTURE_INDEX_VARIANT_A3_SportBACK_CAR;
-    static final int PICTURE_INDEX_VARIANT_A3_CABRIO_CAR;
-    static final int PICTURE_INDEX_VARIANT_A3_LIMO_CAR;
-    static final int PICTURE_INDEX_VARIANT_B9_COUPE_CAR;
-    static final int PICTURE_INDEX_VARIANT_B9_SPORTBACK_CAR;
-    static final int PICTURE_INDEX_VARIANT_B9_Q5_A3_WHEEL;
-    static final int PICTURE_INDEX_VARIANT_TT3_CABRIO_CAR;
-    static final int PICTURE_INDEX_VARIANT_TT3_COUPE_CAR;
-    static final int PICTURE_INDEX_VARIANT_TT3_WHEEL_FRONT;
-    static final int PICTURE_INDEX_VARIANT_TT3_WHEEL_BACK;
-    static final int PICTURE_INDEX_VARIANT_R8_CAR_LHD;
-    static final int PICTURE_INDEX_VARIANT_R8_CAR_RHD;
-    static final int PICTURE_INDEX_VARIANT_R8_WHEEL_FRONT;
-    static final int PICTURE_INDEX_VARIANT_R8_WHEEL_BACK;
-    static final int PICTURE_INDEX_VARIANT_B9_CABRIO_CAR;
-    static final int PICTURE_INDEX_VARIANT_R8_ETRON_CAR;
-    static final int PICTURE_INDEX_VARIANT_R8_SPYDER_CAR;
-    static final int PICTURE_INDEX_VARIANT_R8_ETRON_SPYDER_WHEEL_BACK;
-    static final int PICTURE_INDEX_VARIANT_R8_ETRON_SPYDER_WHEEL_FRONT;
-    static final int PICTURE_INDEX_VARIANT_Q2_CAR;
-    static final int PICTURE_INDEX_VARIANT_Q2_WHEEL;
-    static final int PICTURE_INDEX_VARIANT_Q2_WHEEL_G20STD;
+    static final int[][] OFFSET_FIXED_AXLE_FOR_CARS = new int[][]{{25, 170, 52, 1, 0}, {27, 172, 58, 1, 0}, {25, 164, 56, 0, 0}, {25, 170, 56, 2, 0}, {26, 170, 56, 2, 0}, {23, 161, 54, 2, 0}, {25, 170, 58, 1, 0}, {25, 170, 58, 2, 2}, {25, 170, 56, 2, 0}, {26, 170, 56, 2, -1}, {28, 166, 56, -1, -1}, {32, 170, 56, -1, -1}, {23, 167, 58, 1, 0}, {17, 86, 23, 1, 1}};
+    static final int ROW_Q7 = 0;
+    static final int ROW_B9_LIMO_ALLROAD = 1;
+    static final int ROW_R8 = 2;
+    static final int ROW_A3_COUPE_SPORTBACK_PHEV = 3;
+    static final int ROW_B9_CABRIO = 4;
+    static final int ROW_TT = 5;
+    static final int ROW_Q5 = 6;
+    static final int ROW_A3_CABRIO = 7;
+    static final int ROW_A3_LIMO = 8;
+    static final int ROW_B9_COUPE_SPORTBACK = 9;
+    static final int ROW_R8_SPYDER = 10;
+    static final int ROW_R8_ETRON = 11;
+    static final int ROW_Q2 = 12;
+    static final int ROW_Q2_G20STD = 13;
+    static final int PICTURE_INDEX_LINE = 0;
+    static final int PICTURE_INDEX_VARIANT_Q7_CAR = 1;
+    static final int PICTURE_INDEX_VARIANT_Q7_WHEEL = 2;
+    static final int PICTURE_INDEX_VARIANT_Q5_CAR = 3;
+    static final int PICTURE_INDEX_VARIANT_B9_LIMO_CAR = 4;
+    static final int PICTURE_INDEX_VARIANT_B9_AVANT_CAR = 5;
+    static final int PICTURE_INDEX_VARIANT_A3_KURZHECK_CAR = 6;
+    static final int PICTURE_INDEX_VARIANT_A3_SportBACK_CAR = 7;
+    static final int PICTURE_INDEX_VARIANT_A3_CABRIO_CAR = 8;
+    static final int PICTURE_INDEX_VARIANT_A3_LIMO_CAR = 9;
+    static final int PICTURE_INDEX_VARIANT_B9_COUPE_CAR = 10;
+    static final int PICTURE_INDEX_VARIANT_B9_SPORTBACK_CAR = 11;
+    static final int PICTURE_INDEX_VARIANT_B9_Q5_A3_WHEEL = 12;
+    static final int PICTURE_INDEX_VARIANT_TT3_CABRIO_CAR = 13;
+    static final int PICTURE_INDEX_VARIANT_TT3_COUPE_CAR = 14;
+    static final int PICTURE_INDEX_VARIANT_TT3_WHEEL_FRONT = 15;
+    static final int PICTURE_INDEX_VARIANT_TT3_WHEEL_BACK = 16;
+    static final int PICTURE_INDEX_VARIANT_R8_CAR_LHD = 17;
+    static final int PICTURE_INDEX_VARIANT_R8_CAR_RHD = 26;
+    static final int PICTURE_INDEX_VARIANT_R8_WHEEL_FRONT = 18;
+    static final int PICTURE_INDEX_VARIANT_R8_WHEEL_BACK = 19;
+    static final int PICTURE_INDEX_VARIANT_B9_CABRIO_CAR = 20;
+    static final int PICTURE_INDEX_VARIANT_R8_ETRON_CAR = 21;
+    static final int PICTURE_INDEX_VARIANT_R8_SPYDER_CAR = 22;
+    static final int PICTURE_INDEX_VARIANT_R8_ETRON_SPYDER_WHEEL_BACK = 23;
+    static final int PICTURE_INDEX_VARIANT_R8_ETRON_SPYDER_WHEEL_FRONT = 24;
+    static final int PICTURE_INDEX_VARIANT_Q2_CAR = 25;
+    static final int PICTURE_INDEX_VARIANT_Q2_WHEEL = 12;
+    static final int PICTURE_INDEX_VARIANT_Q2_WHEEL_G20STD = 2;
     private int pictureIndexLine;
     private int pictureIndexCar;
     private int pictureIndexWheelFront;
     private int pictureIndexWheelBack;
     private boolean variantSettingsAreSet = false;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.updateModelValue();
@@ -159,7 +158,6 @@ extends AbstractWidgetController {
         }
     }
 
-    @Override
     public IRenderer getRenderer() {
         return this.renderer;
     }
@@ -188,7 +186,6 @@ extends AbstractWidgetController {
         return this.temperatureUnit;
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         this.updateModelValue();
         this.setCompositesDirty(true);
@@ -400,10 +397,6 @@ extends AbstractWidgetController {
 
     public int getLeftTyreOffset() {
         return this.leftTyreOffset;
-    }
-
-    static {
-        OFFSET_FIXED_AXLE_FOR_CARS = new int[][]{{25, 170, 52, 1, 0}, {27, 172, 58, 1, 0}, {25, 164, 56, 0, 0}, {25, 170, 56, 2, 0}, {26, 170, 56, 2, 0}, {23, 161, 54, 2, 0}, {25, 170, 58, 1, 0}, {25, 170, 58, 2, 2}, {25, 170, 56, 2, 0}, {26, 170, 56, 2, -1}, {28, 166, 56, -1, -1}, {32, 170, 56, -1, -1}, {23, 167, 58, 1, 0}, {17, 86, 23, 1, 1}};
     }
 }
 

@@ -15,12 +15,10 @@ implements FastDeleteHelper {
         this.m_cursor = doubleCursor;
     }
 
-    @Override
     public boolean isEditMode() {
         return this.m_cursor.getCursorMode() == 1;
     }
 
-    @Override
     public int getWordLength() {
         int[] nArray = this.m_cursor.currentWordIdx();
         int n = 0;
@@ -30,12 +28,10 @@ implements FastDeleteHelper {
         return n;
     }
 
-    @Override
     public int getTextLength() {
         return this.m_cursor.getString().length();
     }
 
-    @Override
     public void deleteWordIncludingPrecedingWhitespaces() {
         int[] nArray = this.m_cursor.currentWordIdx();
         if (nArray[0] != -1) {
@@ -47,7 +43,6 @@ implements FastDeleteHelper {
         }
     }
 
-    @Override
     public boolean deleteOneChar() {
         boolean bl;
         int n = this.m_cursor.currentCharIdx();
@@ -77,12 +72,10 @@ implements FastDeleteHelper {
         return this.isWhitespace(c2) && !this.isWhitespace(c3) || this.isInterpunctation(c3) && !this.isWhitespace(c2) && !this.isInterpunctation(c2);
     }
 
-    @Override
     public boolean lock() {
         return this.m_cursor.mtxAquireLock();
     }
 
-    @Override
     public void unlock() {
         this.m_cursor.mtxReleaseLock();
     }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.calendar;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.calendar.DSICalendarReply;
 import de.esolutions.fw.comm.dsi.calendar.impl.DSICalendarReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSICalendarReply {
         super(n, (class$org$dsi$ifc$calendar$DSICalendarListener == null ? (class$org$dsi$ifc$calendar$DSICalendarListener = DSICalendarDispatcher.class$("org.dsi.ifc.calendar.DSICalendarListener")) : class$org$dsi$ifc$calendar$DSICalendarListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getCalendarSummariesResult(int n, CalendarSummary[] calendarSummaryArray) {
+    public void getCalendarSummariesResult(int n, CalendarSummary[] calendarSummaryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -46,8 +45,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void getCalendarEntryResult(int n, CalendarEntry calendarEntry) {
+    public void getCalendarEntryResult(int n, CalendarEntry calendarEntry) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -63,8 +61,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void indicateAlarm(long l) {
+    public void indicateAlarm(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -80,8 +77,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void setCalendarConfigResult(int n) {
+    public void setCalendarConfigResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -97,8 +93,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) {
+    public void getCalendarConfigResult(int n, CalendarConfig calendarConfig) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -114,8 +109,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void setAlarmRepeatResult(int n) {
+    public void setAlarmRepeatResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -131,8 +125,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void getAlarmRepeatResult(int n, long l) {
+    public void getAlarmRepeatResult(int n, long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -148,8 +141,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void getEmailAddressesResult(int n, String[] stringArray) {
+    public void getEmailAddressesResult(int n, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -165,8 +157,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void getTelephoneNumbersResult(int n, String[] stringArray) {
+    public void getTelephoneNumbersResult(int n, String[] stringArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -182,8 +173,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void insertProfileResult(int n) {
+    public void insertProfileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -199,8 +189,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void deleteProfileResult(int n) {
+    public void deleteProfileResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -216,8 +205,7 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -233,14 +221,13 @@ implements DSICalendarReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSICalendarListener dSICalendarListener = (DSICalendarListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICalendarDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICalendarDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSICalendarListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSICalendarDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSICalendarDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSICalendarListener, new Object[]{string, string2});
                     continue;
                 }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCSound;
 
 public class PDCSoundSerializer {
-    public static void putOptionalPDCSound(ISerializer iSerializer, PDCSound pDCSound) {
+    public static void putOptionalPDCSound(ISerializer iSerializer, PDCSound pDCSound) throws SerializerException {
         boolean bl = pDCSound == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PDCSoundSerializer {
         }
     }
 
-    public static void putOptionalPDCSoundVarArray(ISerializer iSerializer, PDCSound[] pDCSoundArray) {
+    public static void putOptionalPDCSoundVarArray(ISerializer iSerializer, PDCSound[] pDCSoundArray) throws SerializerException {
         boolean bl = pDCSoundArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PDCSoundSerializer {
         }
     }
 
-    public static PDCSound getOptionalPDCSound(IDeserializer iDeserializer) {
+    public static PDCSound getOptionalPDCSound(IDeserializer iDeserializer) throws SerializerException {
         PDCSound pDCSound = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PDCSoundSerializer {
         return pDCSound;
     }
 
-    public static PDCSound[] getOptionalPDCSoundVarArray(IDeserializer iDeserializer) {
+    public static PDCSound[] getOptionalPDCSoundVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCSound[] pDCSoundArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,25 +6,20 @@ package java.lang;
 public final class Long
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 4290774380558885855L;
     final long value;
-    public static final long MAX_VALUE;
-    public static final long MIN_VALUE;
-    public static final Class TYPE;
-
-    static {
-        TYPE = super.getClass().getComponentType();
-    }
+    public static final long MAX_VALUE = 0x7FFFFFFFFFFFFFFFL;
+    public static final long MIN_VALUE = -9223372036854775808L;
+    public static final Class TYPE = new long[0].getClass().getComponentType();
 
     public Long(long l) {
         this.value = l;
     }
 
-    public Long(String string) {
+    public Long(String string) throws NumberFormatException {
         this(Long.parseLong(string));
     }
 
-    @Override
     public byte byteValue() {
         return (byte)this.value;
     }
@@ -33,12 +28,11 @@ implements Comparable {
         return this.value > l.value ? 1 : (this.value < l.value ? -1 : 0);
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((Long)object);
     }
 
-    public static Long decode(String string) {
+    public static Long decode(String string) throws NumberFormatException {
         boolean bl;
         int n = string.length();
         int n2 = 0;
@@ -79,7 +73,6 @@ implements Comparable {
         return new Long(l);
     }
 
-    @Override
     public double doubleValue() {
         return this.value;
     }
@@ -88,7 +81,6 @@ implements Comparable {
         return object == this || object instanceof Long && this.value == ((Long)object).value;
     }
 
-    @Override
     public float floatValue() {
         return this.value;
     }
@@ -145,21 +137,19 @@ implements Comparable {
         return (int)(this.value ^ this.value >>> 32);
     }
 
-    @Override
     public int intValue() {
         return (int)this.value;
     }
 
-    @Override
     public long longValue() {
         return this.value;
     }
 
-    public static long parseLong(String string) {
+    public static long parseLong(String string) throws NumberFormatException {
         return Long.parseLong(string, 10);
     }
 
-    public static long parseLong(String string, int n) {
+    public static long parseLong(String string, int n) throws NumberFormatException {
         boolean bl;
         if (string == null || n < 2 || n > 36) {
             throw new NumberFormatException();
@@ -200,7 +190,6 @@ implements Comparable {
         return l2;
     }
 
-    @Override
     public short shortValue() {
         return (short)this.value;
     }
@@ -228,7 +217,7 @@ lbl7:
         }
         var5_3 = new char[var2_1];
         do {
-            var5_3[--var2_1] = (char)((var0 & 1L) + 0);
+            var5_3[--var2_1] = (char)((var0 & 1L) + 48L);
             var0 >>= 1;
         } while (var2_1 > 0);
         return new String(0, var5_3.length, var5_3);
@@ -257,7 +246,7 @@ lbl7:
         }
         var5_3 = new char[var2_1];
         do {
-            var6_4 = (var6_4 = (int)(var0 & 0)) > 9 ? var6_4 - 10 + 97 : (var6_4 += 48);
+            var6_4 = (var6_4 = (int)(var0 & 15L)) > 9 ? var6_4 - 10 + 97 : (var6_4 += 48);
             var5_3[--var2_1] = (char)var6_4;
             var0 >>= 4;
         } while (var2_1 > 0);
@@ -287,7 +276,7 @@ lbl7:
         }
         var5_3 = new char[var2_1];
         do {
-            var5_3[--var2_1] = (char)((var0 & 0) + 0);
+            var5_3[--var2_1] = (char)((var0 & 7L) + 48L);
             var0 >>>= 3;
         } while (var2_1 > 0);
         return new String(0, var5_3.length, var5_3);
@@ -331,11 +320,11 @@ lbl7:
         return new String(0, cArray.length, cArray);
     }
 
-    public static Long valueOf(String string) {
+    public static Long valueOf(String string) throws NumberFormatException {
         return new Long(Long.parseLong(string));
     }
 
-    public static Long valueOf(String string, int n) {
+    public static Long valueOf(String string, int n) throws NumberFormatException {
         return new Long(Long.parseLong(string, n));
     }
 }

@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.upnp;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.upnp.DSIUPNPPlayerReply;
 import de.esolutions.fw.comm.dsi.upnp.impl.DSIUPNPPlayerReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -26,13 +27,11 @@ implements DSIUPNPPlayerReply {
         super(n, (class$org$dsi$ifc$upnp$DSIUPNPPlayerListener == null ? (class$org$dsi$ifc$upnp$DSIUPNPPlayerListener = DSIUPNPPlayerDispatcher.class$("org.dsi.ifc.upnp.DSIUPNPPlayerListener")) : class$org$dsi$ifc$upnp$DSIUPNPPlayerListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updatePlaybackModeList(String string, PlaybackMode[] playbackModeArray, int n) {
+    public void updatePlaybackModeList(String string, PlaybackMode[] playbackModeArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -60,8 +59,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackMode(String string, int n, int n2) {
+    public void updatePlaybackMode(String string, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -89,8 +87,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlaybackState(String string, int n, int n2) {
+    public void updatePlaybackState(String string, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -118,8 +115,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updatePlayPosition(String string, String string2, int n, int n2, int n3) {
+    public void updatePlayPosition(String string, String string2, int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -147,8 +143,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updateDetailInfo(String string, EntryInfo entryInfo, ResourceLocator resourceLocator, int n) {
+    public void updateDetailInfo(String string, EntryInfo entryInfo, ResourceLocator resourceLocator, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -176,8 +171,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updateDeviceList(DeviceInfo[] deviceInfoArray, int n) {
+    public void updateDeviceList(DeviceInfo[] deviceInfoArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -205,8 +199,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void updateVolume(String string, int n, int n2) {
+    public void updateVolume(String string, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -234,8 +227,7 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -251,14 +243,13 @@ implements DSIUPNPPlayerReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIUPNPPlayerListener dSIUPNPPlayerListener = (DSIUPNPPlayerListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUPNPPlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUPNPPlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIUPNPPlayerListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIUPNPPlayerDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIUPNPPlayerDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIUPNPPlayerListener, new Object[]{string, string2});
                     continue;
                 }

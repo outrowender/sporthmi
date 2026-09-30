@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCWallDetectionRightLeft;
 
 public class PDCWallDetectionRightLeftSerializer {
-    public static void putOptionalPDCWallDetectionRightLeft(ISerializer iSerializer, PDCWallDetectionRightLeft pDCWallDetectionRightLeft) {
+    public static void putOptionalPDCWallDetectionRightLeft(ISerializer iSerializer, PDCWallDetectionRightLeft pDCWallDetectionRightLeft) throws SerializerException {
         boolean bl = pDCWallDetectionRightLeft == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class PDCWallDetectionRightLeftSerializer {
         }
     }
 
-    public static void putOptionalPDCWallDetectionRightLeftVarArray(ISerializer iSerializer, PDCWallDetectionRightLeft[] pDCWallDetectionRightLeftArray) {
+    public static void putOptionalPDCWallDetectionRightLeftVarArray(ISerializer iSerializer, PDCWallDetectionRightLeft[] pDCWallDetectionRightLeftArray) throws SerializerException {
         boolean bl = pDCWallDetectionRightLeftArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class PDCWallDetectionRightLeftSerializer {
         }
     }
 
-    public static PDCWallDetectionRightLeft getOptionalPDCWallDetectionRightLeft(IDeserializer iDeserializer) {
+    public static PDCWallDetectionRightLeft getOptionalPDCWallDetectionRightLeft(IDeserializer iDeserializer) throws SerializerException {
         PDCWallDetectionRightLeft pDCWallDetectionRightLeft = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class PDCWallDetectionRightLeftSerializer {
         return pDCWallDetectionRightLeft;
     }
 
-    public static PDCWallDetectionRightLeft[] getOptionalPDCWallDetectionRightLeftVarArray(IDeserializer iDeserializer) {
+    public static PDCWallDetectionRightLeft[] getOptionalPDCWallDetectionRightLeftVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCWallDetectionRightLeft[] pDCWallDetectionRightLeftArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

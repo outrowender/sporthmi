@@ -8,6 +8,7 @@ import de.esolutions.fw.comm.core.message.CommStringTool;
 import de.esolutions.fw.comm.core.message.MessageType;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class HelloMessage
 extends AbstractMessage {
@@ -20,18 +21,16 @@ extends AbstractMessage {
         this.uri = string;
     }
 
-    public HelloMessage(IDeserializer iDeserializer, boolean bl) {
+    public HelloMessage(IDeserializer iDeserializer, boolean bl) throws SerializerException {
         super(MessageType.HELLO, iDeserializer, bl);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putUInt8(this.version);
         CommStringTool.serializeCommString(this.uri, iSerializer);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         this.version = iDeserializer.getUInt8();
         this.uri = CommStringTool.deserializeCommString(iDeserializer);
     }

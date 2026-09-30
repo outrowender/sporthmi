@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface ESupplementalInfo
 extends IEnum {
-    public static final int eFecNoSupplementalInfo;
-    public static final int eFecOverwritten;
-    public static final int eFecAlreadyInstalled;
+    public static final int eFecNoSupplementalInfo = 0;
+    public static final int eFecOverwritten = 1;
+    public static final int eFecAlreadyInstalled = 2;
 }
 

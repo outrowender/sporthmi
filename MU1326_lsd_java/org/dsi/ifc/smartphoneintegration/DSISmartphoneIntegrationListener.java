@@ -8,22 +8,16 @@ import org.dsi.ifc.smartphoneintegration.Device;
 
 public interface DSISmartphoneIntegrationListener
 extends DSIListener {
-    default public void updateDiscoveredDevices(Device[] deviceArray, int n) {
-    }
+    public void updateDiscoveredDevices(Device[] var1, int var2);
 
-    default public void updateDeviceConnectionState(int n, int n2, int n3, int n4) {
-    }
+    public void updateDeviceConnectionState(int var1, int var2, int var3, int var4);
 
-    default public void responseFactorySettings(int n, boolean bl) {
-    }
+    public void responseFactorySettings(int var1, boolean var2);
 
-    default public void updateSWaPStatus(int n, int n2) {
-    }
+    public void updateSWaPStatus(int var1, int var2);
 
-    default public void updateUSBResetActive(boolean bl, int n) {
-    }
+    public void updateUSBResetActive(boolean var1, int var2);
 
-    default public void updateAppConnectContextRequested(boolean bl, int n) {
-    }
+    public void updateAppConnectContextRequested(boolean var1, int var2);
 }
 

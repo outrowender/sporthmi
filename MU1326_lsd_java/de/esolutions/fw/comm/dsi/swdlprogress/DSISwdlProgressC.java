@@ -3,35 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.swdlprogress;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSISwdlProgressC {
-    default public void getProgressDetails(String string) {
-    }
+    public void getProgressDetails(String var1) throws MethodException;
 
-    default public void handleUserSelection(int n, String string, int n2) {
-    }
+    public void handleUserSelection(int var1, String var2, int var3) throws MethodException;
 
-    default public void handleMediumSelection(int n, String string, byte by, int n2) {
-    }
+    public void handleMediumSelection(int var1, String var2, byte var3, int var4) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

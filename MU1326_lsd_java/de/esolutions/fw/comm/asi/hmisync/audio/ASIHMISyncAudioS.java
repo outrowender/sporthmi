@@ -4,45 +4,33 @@
 package de.esolutions.fw.comm.asi.hmisync.audio;
 
 import de.esolutions.fw.comm.asi.hmisync.audio.ASIHMISyncAudioReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncAudioS {
-    default public void setAudioContext(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setAudioContext(int var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void forceFrontAudioContext(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void forceFrontAudioContext(int var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void requestEnableA2LS(String string, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void requestEnableA2LS(String var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void disableA2LS(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void disableA2LS(ASIHMISyncAudioReply var1) throws MethodException;
 
-    default public void setVolume(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setVolume(int var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void increaseVolume(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void increaseVolume(int var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void decreaseVolume(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void decreaseVolume(int var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setNotification(ASIHMISyncAudioReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncAudioReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncAudioReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void clearNotification(ASIHMISyncAudioReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncAudioReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncAudioReply var2) throws MethodException;
 }
 

@@ -17,7 +17,6 @@ implements ICharacterConverter {
         this.converterImplementation = iFreetextConverter;
     }
 
-    @Override
     public void setUnconvertedCharacters(String string) {
         if (StringUtilities.isNullOrEmpty(string)) {
             string = "";
@@ -25,22 +24,18 @@ implements ICharacterConverter {
         this.unconvertedChars = string;
     }
 
-    @Override
     public String getUnconvertedCharacters() {
         return this.unconvertedChars;
     }
 
-    @Override
     public String getValidCharacters() {
         return this.converterImplementation.getValidCharacters(this.unconvertedChars);
     }
 
-    @Override
     public List getConversions() {
-        return this.getConversions(-129);
+        return this.getConversions(Integer.MAX_VALUE);
     }
 
-    @Override
     public List getConversions(int n) {
         return this.converterImplementation.getPossibleConversions(this.unconvertedChars, n);
     }

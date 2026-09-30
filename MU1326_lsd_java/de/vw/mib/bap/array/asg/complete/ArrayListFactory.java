@@ -10,11 +10,11 @@ import de.vw.mib.bap.array.asg.ASGArrayListFactory;
 import de.vw.mib.bap.array.asg.complete.ASGArrayListComplete;
 
 public class ArrayListFactory {
-    private static final int HIGH_LEVEL_RETRY_A_NUMBER_OF_RETRIES;
-    private static final int HIGH_LEVEL_RETRY_A_RETRY_TIME;
+    private static final int HIGH_LEVEL_RETRY_A_NUMBER_OF_RETRIES = 2;
+    private static final int HIGH_LEVEL_RETRY_A_RETRY_TIME = 1000;
 
     public ASGArrayList createCompleteArrayList(ASGArrayListDelegate aSGArrayListDelegate, ASGArrayListChangeNotifier aSGArrayListChangeNotifier, ASGArrayListFactory aSGArrayListFactory, int n, int n2) {
-        return this.createCompleteArrayList(aSGArrayListDelegate, aSGArrayListChangeNotifier, aSGArrayListFactory, n, n2, false, 2, 0);
+        return this.createCompleteArrayList(aSGArrayListDelegate, aSGArrayListChangeNotifier, aSGArrayListFactory, n, n2, false, 2, 1000L);
     }
 
     public ASGArrayList createCompleteArrayList(ASGArrayListDelegate aSGArrayListDelegate, ASGArrayListChangeNotifier aSGArrayListChangeNotifier, ASGArrayListFactory aSGArrayListFactory, int n, int n2, boolean bl, int n3, long l) {

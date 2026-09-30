@@ -10,7 +10,7 @@ import org.apache.xerces.dom.EntityReferenceImpl;
 public class DeferredEntityReferenceImpl
 extends EntityReferenceImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 390319091370032223L;
     protected transient int fNodeIndex;
 
     DeferredEntityReferenceImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -19,12 +19,10 @@ implements DeferredNode {
         this.needsSyncData(true);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument;
@@ -32,7 +30,6 @@ implements DeferredNode {
         this.baseURI = deferredDocumentImpl.getNodeValue(this.fNodeIndex);
     }
 
-    @Override
     protected void synchronizeChildren() {
         this.needsSyncChildren(false);
         this.isReadOnly(false);

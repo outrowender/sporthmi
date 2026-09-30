@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlWindowheaterActivity;
 
 public class BatteryControlWindowheaterActivitySerializer {
-    public static void putOptionalBatteryControlWindowheaterActivity(ISerializer iSerializer, BatteryControlWindowheaterActivity batteryControlWindowheaterActivity) {
+    public static void putOptionalBatteryControlWindowheaterActivity(ISerializer iSerializer, BatteryControlWindowheaterActivity batteryControlWindowheaterActivity) throws SerializerException {
         boolean bl = batteryControlWindowheaterActivity == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BatteryControlWindowheaterActivitySerializer {
         }
     }
 
-    public static void putOptionalBatteryControlWindowheaterActivityVarArray(ISerializer iSerializer, BatteryControlWindowheaterActivity[] batteryControlWindowheaterActivityArray) {
+    public static void putOptionalBatteryControlWindowheaterActivityVarArray(ISerializer iSerializer, BatteryControlWindowheaterActivity[] batteryControlWindowheaterActivityArray) throws SerializerException {
         boolean bl = batteryControlWindowheaterActivityArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BatteryControlWindowheaterActivitySerializer {
         }
     }
 
-    public static BatteryControlWindowheaterActivity getOptionalBatteryControlWindowheaterActivity(IDeserializer iDeserializer) {
+    public static BatteryControlWindowheaterActivity getOptionalBatteryControlWindowheaterActivity(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWindowheaterActivity batteryControlWindowheaterActivity = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BatteryControlWindowheaterActivitySerializer {
         return batteryControlWindowheaterActivity;
     }
 
-    public static BatteryControlWindowheaterActivity[] getOptionalBatteryControlWindowheaterActivityVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlWindowheaterActivity[] getOptionalBatteryControlWindowheaterActivityVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWindowheaterActivity[] batteryControlWindowheaterActivityArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

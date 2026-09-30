@@ -10,9 +10,10 @@ import de.esolutions.fw.comm.asi.navigation.ncfs.sOLRLocationReference;
 import de.esolutions.fw.comm.asi.navigation.ncfs.sTmcLocationReference;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sLineLocationReferenceContainerSerializer {
-    public static void putOptionalsLineLocationReferenceContainer(ISerializer iSerializer, sLineLocationReferenceContainer sLineLocationReferenceContainer2) {
+    public static void putOptionalsLineLocationReferenceContainer(ISerializer iSerializer, sLineLocationReferenceContainer sLineLocationReferenceContainer2) throws SerializerException {
         boolean bl = sLineLocationReferenceContainer2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class sLineLocationReferenceContainerSerializer {
         }
     }
 
-    public static void putOptionalsLineLocationReferenceContainerVarArray(ISerializer iSerializer, sLineLocationReferenceContainer[] sLineLocationReferenceContainerArray) {
+    public static void putOptionalsLineLocationReferenceContainerVarArray(ISerializer iSerializer, sLineLocationReferenceContainer[] sLineLocationReferenceContainerArray) throws SerializerException {
         boolean bl = sLineLocationReferenceContainerArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class sLineLocationReferenceContainerSerializer {
         }
     }
 
-    public static sLineLocationReferenceContainer getOptionalsLineLocationReferenceContainer(IDeserializer iDeserializer) {
+    public static sLineLocationReferenceContainer getOptionalsLineLocationReferenceContainer(IDeserializer iDeserializer) throws SerializerException {
         sLineLocationReferenceContainer sLineLocationReferenceContainer2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sLineLocationReferenceContainerSerializer {
         return sLineLocationReferenceContainer2;
     }
 
-    public static sLineLocationReferenceContainer[] getOptionalsLineLocationReferenceContainerVarArray(IDeserializer iDeserializer) {
+    public static sLineLocationReferenceContainer[] getOptionalsLineLocationReferenceContainerVarArray(IDeserializer iDeserializer) throws SerializerException {
         sLineLocationReferenceContainer[] sLineLocationReferenceContainerArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -65,7 +65,7 @@ public class OilLevelData {
     }
 
     public String toString() {
-        return new StringBuffer("OilLevelData{").append("level=").append(this.level).append(", refillVolume=").append(this.refillVolume).append(", warnings=").append(this.warnings).append(", oilsystem=").append(this.oilsystem).append(", bargraph=").append(this.bargraph).append("}").toString();
+        return "OilLevelData{" + "level=" + this.level + ", refillVolume=" + this.refillVolume + ", warnings=" + this.warnings + ", oilsystem=" + this.oilsystem + ", bargraph=" + this.bargraph + "}";
     }
 }
 

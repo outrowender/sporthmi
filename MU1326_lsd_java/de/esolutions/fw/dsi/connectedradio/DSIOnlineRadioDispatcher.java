@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.connectedradio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.connectedradio.DSIOnlineRadioReply;
 import de.esolutions.fw.comm.dsi.connectedradio.impl.DSIOnlineRadioReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIOnlineRadioReply {
         super(n, (class$org$dsi$ifc$connectedradio$DSIOnlineRadioListener == null ? (class$org$dsi$ifc$connectedradio$DSIOnlineRadioListener = DSIOnlineRadioDispatcher.class$("org.dsi.ifc.connectedradio.DSIOnlineRadioListener")) : class$org$dsi$ifc$connectedradio$DSIOnlineRadioListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void getRadioStationLogoResult(int n, int n2, RadioStation radioStation, int n3) {
+    public void getRadioStationLogoResult(int n, int n2, RadioStation radioStation, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void getStreamUrlResult(int n, int n2, RadioStation radioStation) {
+    public void getStreamUrlResult(int n, int n2, RadioStation radioStation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void getMetaInformationResult(int n, int n2, RadioStation radioStation) {
+    public void getMetaInformationResult(int n, int n2, RadioStation radioStation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -79,8 +76,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void downloadDatabaseResult(int n, int n2) {
+    public void downloadDatabaseResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -96,8 +92,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void cancelDownloadDatabaseResult(int n, int n2) {
+    public void cancelDownloadDatabaseResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -113,8 +108,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -142,8 +136,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -159,8 +152,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -176,8 +168,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -193,8 +184,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -210,8 +200,7 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -227,14 +216,13 @@ implements DSIOnlineRadioReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIOnlineRadioListener dSIOnlineRadioListener = (DSIOnlineRadioListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineRadioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineRadioDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIOnlineRadioListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIOnlineRadioDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIOnlineRadioDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIOnlineRadioListener, new Object[]{string, string2});
                     continue;
                 }

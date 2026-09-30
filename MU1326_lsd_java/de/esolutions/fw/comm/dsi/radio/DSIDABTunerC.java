@@ -3,86 +3,61 @@
  */
 package de.esolutions.fw.comm.dsi.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIDABTunerC {
-    default public void selectService(int n, long l, int n2, int n3, int n4, int n5, long l2) {
-    }
+    public void selectService(int var1, long var2, int var4, int var5, int var6, int var7, long var8) throws MethodException;
 
-    default public void seekService(int n) {
-    }
+    public void seekService(int var1) throws MethodException;
 
-    default public void tuneEnsemble(int n, int n2, int n3, long l) {
-    }
+    public void tuneEnsemble(int var1, int var2, int var3, long var4) throws MethodException;
 
-    default public void selectDataService(int n, int n2, long l, int n3) {
-    }
+    public void selectDataService(int var1, int var2, long var3, int var5) throws MethodException;
 
-    default public void switchDRC(boolean bl) {
-    }
+    public void switchDRC(boolean var1) throws MethodException;
 
-    default public void switchLinking(int n) {
-    }
+    public void switchLinking(int var1) throws MethodException;
 
-    default public void switchLinkingDeviceUsage(int n) {
-    }
+    public void switchLinkingDeviceUsage(int var1) throws MethodException;
 
-    default public void switchFrequencyTable(int n) {
-    }
+    public void switchFrequencyTable(int var1) throws MethodException;
 
-    default public void reset(int n) {
-    }
+    public void reset(int var1) throws MethodException;
 
-    default public void forceLMUpdate(int n) {
-    }
+    public void forceLMUpdate(int var1) throws MethodException;
 
-    default public void prepareTuning(int n, long l, int n2, int n3, int n4, int n5) {
-    }
+    public void prepareTuning(int var1, long var2, int var4, int var5, int var6, int var7) throws MethodException;
 
-    default public void enableRadioTextPlus(int[] nArray) {
-    }
+    public void enableRadioTextPlus(int[] var1) throws MethodException;
 
-    default public void setEpgMode(int n) {
-    }
+    public void setEpgMode(int var1) throws MethodException;
 
-    default public void setSlideShowMode(int n) {
-    }
+    public void setSlideShowMode(int var1) throws MethodException;
 
-    default public void setIntellitextMode(int n) {
-    }
+    public void setIntellitextMode(int var1) throws MethodException;
 
-    default public void getEPGDetailData(int n, int n2, long l, int n3) {
-    }
+    public void getEPGDetailData(int var1, int var2, long var3, int var5) throws MethodException;
 
-    default public void profileChange(int n) {
-    }
+    public void profileChange(int var1) throws MethodException;
 
-    default public void profileCopy(int n, int n2) {
-    }
+    public void profileCopy(int var1, int var2) throws MethodException;
 
-    default public void profileReset(int n) {
-    }
+    public void profileReset(int var1) throws MethodException;
 
-    default public void profileResetAll() {
-    }
+    public void profileResetAll() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

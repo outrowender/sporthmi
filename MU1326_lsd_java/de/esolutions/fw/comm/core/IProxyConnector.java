@@ -9,19 +9,14 @@ import de.esolutions.fw.comm.core.ServiceInstanceID;
 
 public interface IProxyConnector
 extends IProxyListener {
-    default public void connectProxy(Proxy proxy) {
-    }
+    public void connectProxy(Proxy var1);
 
-    default public void disconnectProxy(Proxy proxy) {
-    }
+    public void disconnectProxy(Proxy var1);
 
-    default public void registerProxyListener(Proxy proxy, IProxyListener iProxyListener, boolean bl) {
-    }
+    public void registerProxyListener(Proxy var1, IProxyListener var2, boolean var3);
 
-    default public void registerRemoteReplyService(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void registerRemoteReplyService(ServiceInstanceID var1, short var2);
 
-    default public void unregisterRemoteReplyService(ServiceInstanceID serviceInstanceID, short s) {
-    }
+    public void unregisterRemoteReplyService(ServiceInstanceID var1, short var2);
 }
 

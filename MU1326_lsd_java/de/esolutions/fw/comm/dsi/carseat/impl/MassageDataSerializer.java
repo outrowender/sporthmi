@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageData;
 
 public class MassageDataSerializer {
-    public static void putOptionalMassageData(ISerializer iSerializer, MassageData massageData) {
+    public static void putOptionalMassageData(ISerializer iSerializer, MassageData massageData) throws SerializerException {
         boolean bl = massageData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class MassageDataSerializer {
         }
     }
 
-    public static void putOptionalMassageDataVarArray(ISerializer iSerializer, MassageData[] massageDataArray) {
+    public static void putOptionalMassageDataVarArray(ISerializer iSerializer, MassageData[] massageDataArray) throws SerializerException {
         boolean bl = massageDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class MassageDataSerializer {
         }
     }
 
-    public static MassageData getOptionalMassageData(IDeserializer iDeserializer) {
+    public static MassageData getOptionalMassageData(IDeserializer iDeserializer) throws SerializerException {
         MassageData massageData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class MassageDataSerializer {
         return massageData;
     }
 
-    public static MassageData[] getOptionalMassageDataVarArray(IDeserializer iDeserializer) {
+    public static MassageData[] getOptionalMassageDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         MassageData[] massageDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

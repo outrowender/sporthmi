@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.radiodata;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radiodata.CountryRegionData;
 import org.dsi.ifc.radiodata.CountryRegionTranslationData;
@@ -11,66 +12,47 @@ import org.dsi.ifc.radiodata.RadioStationDataResponse;
 import org.dsi.ifc.radiodata.RadioStationLogoResponse;
 
 public interface DSIRadioDataReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "33a6fa68-c4fd-555f-9b16-c2504d731c26";
+    public static final String IPL_COMM_INTERFACE_KEY = "d5d3a20b-9acf-575b-8821-250c27f4e1be";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.4";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.4";
 
-    default public void responseRadioStationData(RadioStationDataResponse[] radioStationDataResponseArray, int n) {
-    }
+    public void responseRadioStationData(RadioStationDataResponse[] var1, int var2) throws MethodException;
 
-    default public void responseRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
-    }
+    public void responseRadioStationLogos(RadioStationLogoResponse[] var1, int var2) throws MethodException;
 
-    default public void responseDynamicDatabaseAlteration(int n, int n2) {
-    }
+    public void responseDynamicDatabaseAlteration(int var1, int var2) throws MethodException;
 
-    default public void responseCountryList(int[] nArray, int n) {
-    }
+    public void responseCountryList(int[] var1, int var2) throws MethodException;
 
-    default public void responseDatabaseVersionInfo(int n, int n2, int n3, String string, int n4, int n5, int n6) {
-    }
+    public void responseDatabaseVersionInfo(int var1, int var2, int var3, String var4, int var5, int var6, int var7) throws MethodException;
 
-    default public void updateDatabaseState(int n, int n2) {
-    }
+    public void updateDatabaseState(int var1, int var2) throws MethodException;
 
-    default public void responsePersistStationLogos(int n, int n2) {
-    }
+    public void responsePersistStationLogos(int var1, int var2) throws MethodException;
 
-    default public void updateRadioStationLogos(RadioStationLogoResponse[] radioStationLogoResponseArray, int n) {
-    }
+    public void updateRadioStationLogos(RadioStationLogoResponse[] var1, int var2) throws MethodException;
 
-    default public void responseCountryRegionData(CountryRegionData[] countryRegionDataArray, int n) {
-    }
+    public void responseCountryRegionData(CountryRegionData[] var1, int var2) throws MethodException;
 
-    default public void responseCountryRegionTranslationData(CountryRegionTranslationData[] countryRegionTranslationDataArray, int n) {
-    }
+    public void responseCountryRegionTranslationData(CountryRegionTranslationData[] var1, int var2) throws MethodException;
 
-    default public void responsePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
-    }
+    public void responsePersistStationLogosWithChangedUrls(RadioStationData[] var1, ResourceLocator[] var2, int var3, int var4) throws MethodException;
 
-    default public void updatePersistStationLogosWithChangedUrls(RadioStationData[] radioStationDataArray, ResourceLocator[] resourceLocatorArray, int n, int n2) {
-    }
+    public void updatePersistStationLogosWithChangedUrls(RadioStationData[] var1, ResourceLocator[] var2, int var3, int var4) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

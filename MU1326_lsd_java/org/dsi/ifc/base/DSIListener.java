@@ -4,12 +4,11 @@
 package org.dsi.ifc.base;
 
 public interface DSIListener {
-    public static final int RT_NONE;
-    public static final int ATTRVALIDFLAG_UNKNOWN;
-    public static final int ATTRVALIDFLAG_VALID;
-    public static final int ATTRVALIDFLAG_INVALID;
+    public static final int RT_NONE = 0;
+    public static final int ATTRVALIDFLAG_UNKNOWN = 0;
+    public static final int ATTRVALIDFLAG_VALID = 1;
+    public static final int ATTRVALIDFLAG_INVALID = 2;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 }
 

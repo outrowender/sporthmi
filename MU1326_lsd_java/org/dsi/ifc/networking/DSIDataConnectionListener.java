@@ -10,19 +10,14 @@ import org.dsi.ifc.networking.DataConnectionStateStruct;
 
 public interface DSIDataConnectionListener
 extends DSIListener {
-    default public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
-    }
+    public void updateStateDataConnection(DataConnectionStateStruct var1, int var2);
 
-    default public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) {
-    }
+    public void updateConnectionStateInformation(ConnectionStateInformationStruct var1, int var2);
 
-    default public void updateRoamingState(int n, int n2) {
-    }
+    public void updateRoamingState(int var1, int var2);
 
-    default public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) {
-    }
+    public void updateErrorState(ApplicationErrorStruct var1, int var2);
 
-    default public void forceDisconnectResponse(int n) {
-    }
+    public void forceDisconnectResponse(int var1);
 }
 

@@ -8,31 +8,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface BAPArrayDataList {
-    default public int size() {
-    }
+    public int size();
 
-    default public BAPArrayElement get(int n) {
-    }
+    public BAPArrayElement get(int var1);
 
-    default public BAPArrayDataList getElements(int n, int n2) {
-    }
+    public BAPArrayDataList getElements(int var1, int var2);
 
-    default public BAPArrayElement getFirst() {
-    }
+    public BAPArrayElement getFirst();
 
-    default public BAPArrayElement getLast() {
-    }
+    public BAPArrayElement getLast();
 
-    default public Iterator getIterator() {
-    }
+    public Iterator getIterator();
 
-    default public BAPArrayElement[] toArray() {
-    }
+    public BAPArrayElement[] toArray();
 
-    default public boolean addToList(List list) {
-    }
+    public boolean addToList(List var1);
 
-    default public boolean addToList(int n, List list) {
-    }
+    public boolean addToList(int var1, List var2);
 }
 

@@ -38,7 +38,6 @@ implements IViewSizeAnimatable {
     private IconController hintTextIconLeftSide;
     private boolean isViewSizeChanging;
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (this.layoutManager == null) {
@@ -156,7 +155,6 @@ implements IViewSizeAnimatable {
         return this.fixedNumberOfOptions;
     }
 
-    @Override
     public IRenderer getRenderer() {
         IRendererFactory iRendererFactory;
         if (this.renderer == null && (iRendererFactory = this.getRendererFactory()) != null) {
@@ -173,7 +171,6 @@ implements IViewSizeAnimatable {
         return extHMITerminalEvo.getRendererFactory();
     }
 
-    @Override
     public void setViewSizeAnimation(float f2, float[] fArray, float[] fArray2, boolean bl) {
         int n;
         super.setViewSizeAnimation(f2, fArray, fArray2, bl);
@@ -197,7 +194,6 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setViewSizeAnimationFinished(float[] fArray, boolean bl) {
         super.setViewSizeAnimationFinished(fArray, bl);
         this.isViewSizeChanging = false;
@@ -208,7 +204,6 @@ implements IViewSizeAnimatable {
         }
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.optionsMenu != null) {
             this.optionsMenu.setVisible(bl);
@@ -225,7 +220,6 @@ implements IViewSizeAnimatable {
         this.hintTextHorizontalOrientation = n;
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof IconController) {
             this.icon = (IconController)abstractWidget;

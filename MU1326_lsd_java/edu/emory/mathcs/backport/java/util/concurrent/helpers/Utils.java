@@ -1,23 +1,25 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  sun.misc.Perf
  */
 package edu.emory.mathcs.backport.java.util.concurrent.helpers;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
 import edu.emory.mathcs.backport.java.util.concurrent.helpers.NanoTimer;
-import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils$1;
-import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils$MillisProvider;
-import edu.emory.mathcs.backport.java.util.concurrent.helpers.Utils$SunPerfProvider;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 import java.lang.reflect.Array;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Iterator;
+import sun.misc.Perf;
 
 public final class Utils {
     private static final NanoTimer nanoTimer;
-    private static final String providerProp;
+    private static final String providerProp = "edu.emory.mathcs.backport.java.util.concurrent.NanoTimerProvider";
     static /* synthetic */ Class array$Ljava$lang$Object;
 
     private Utils() {
@@ -27,7 +29,7 @@ public final class Utils {
         return nanoTimer.nanoTime();
     }
 
-    public static long awaitNanos(Condition condition, long l) {
+    public static long awaitNanos(Condition condition, long l) throws InterruptedException {
         if (l <= 0L) {
             return l;
         }
@@ -63,8 +65,8 @@ public final class Utils {
             }
             int n3 = (objectArray.length / 2 + 1) * 3;
             if (n3 < objectArray.length) {
-                if (objectArray.length < -129) {
-                    n3 = -129;
+                if (objectArray.length < Integer.MAX_VALUE) {
+                    n3 = Integer.MAX_VALUE;
                 } else {
                     throw new OutOfMemoryError("required array size too large");
                 }
@@ -75,7 +77,7 @@ public final class Utils {
     }
 
     public static Object[] collectionToArray(Collection collection, Object[] objectArray) {
-        Class clazz = super.getClass();
+        Class clazz = objectArray.getClass();
         int n = collection.size();
         Object[] objectArray2 = objectArray.length >= n ? objectArray : (Object[])Array.newInstance(clazz.getComponentType(), n);
         Iterator iterator = collection.iterator();
@@ -97,8 +99,8 @@ public final class Utils {
             }
             int n3 = (objectArray2.length / 2 + 1) * 3;
             if (n3 < objectArray2.length) {
-                if (objectArray2.length < -129) {
-                    n3 = -129;
+                if (objectArray2.length < Integer.MAX_VALUE) {
+                    n3 = Integer.MAX_VALUE;
                 } else {
                     throw new OutOfMemoryError("required array size too large");
                 }
@@ -106,10 +108,6 @@ public final class Utils {
             objectArray2 = Arrays.copyOf(objectArray2, n3, clazz);
             n = n3;
         }
-    }
-
-    static /* synthetic */ long access$000(long l, long l2) {
-        return Utils.gcd(l, l2);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -124,7 +122,12 @@ public final class Utils {
     static {
         NanoTimer nanoTimer = null;
         try {
-            String string = (String)AccessController.doPrivileged(new Utils$1());
+            String string = (String)AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    return System.getProperty(Utils.providerProp);
+                }
+            });
             if (string != null) {
                 Class clazz = Class.forName(string);
                 nanoTimer = (NanoTimer)clazz.newInstance();
@@ -136,16 +139,51 @@ public final class Utils {
         }
         if (nanoTimer == null) {
             try {
-                nanoTimer = new Utils$SunPerfProvider();
+                nanoTimer = new SunPerfProvider();
             }
             catch (Throwable throwable) {
                 // empty catch block
             }
         }
         if (nanoTimer == null) {
-            nanoTimer = new Utils$MillisProvider();
+            nanoTimer = new MillisProvider();
         }
         Utils.nanoTimer = nanoTimer;
+    }
+
+    private static final class MillisProvider
+    implements NanoTimer {
+        MillisProvider() {
+        }
+
+        public long nanoTime() {
+            return System.currentTimeMillis() * 1000000L;
+        }
+    }
+
+    private static final class SunPerfProvider
+    implements NanoTimer {
+        final Perf perf = (Perf)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return Perf.getPerf();
+            }
+        });
+        final long multiplier;
+        final long divisor;
+
+        SunPerfProvider() {
+            long l = 1000000000L;
+            long l2 = this.perf.highResFrequency();
+            long l3 = Utils.gcd(l, l2);
+            this.multiplier = l / l3;
+            this.divisor = l2 / l3;
+        }
+
+        public long nanoTime() {
+            long l = this.perf.highResCounter();
+            return l / this.divisor * this.multiplier + l % this.divisor * this.multiplier / this.divisor;
+        }
     }
 }
 

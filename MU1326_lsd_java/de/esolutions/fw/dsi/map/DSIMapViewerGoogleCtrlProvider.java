@@ -26,28 +26,23 @@ implements DSIMapViewerGoogleCtrl {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerGoogleCtrl == null ? (class$org$dsi$ifc$map$DSIMapViewerGoogleCtrl = DSIMapViewerGoogleCtrlProvider.class$("org.dsi.ifc.map.DSIMapViewerGoogleCtrl")) : class$org$dsi$ifc$map$DSIMapViewerGoogleCtrl).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerGoogleCtrlProxy(this.instance, (DSIMapViewerGoogleCtrlReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestClearCache() {
         try {
             this.proxy.requestClearCache();
@@ -57,7 +52,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -67,7 +61,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setLayerVisibility(int[] nArray) {
         try {
             this.proxy.setLayerVisibility(nArray);
@@ -77,7 +70,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setConnectionInformation(int n) {
         try {
             this.proxy.setConnectionInformation(n);
@@ -87,7 +79,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void loadKml(String[] stringArray) {
         try {
             this.proxy.loadKml(stringArray);
@@ -97,7 +88,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setCopyrightPosition(Rect rect, int n, int n2) {
         try {
             this.proxy.setCopyrightPosition(rect, n, n2);
@@ -107,7 +97,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSIMapViewerGoogleCtrl {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

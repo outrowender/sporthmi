@@ -5,25 +5,22 @@ package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.ConfigValue;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 
 public class ConfigNullValue
 extends ConfigValue {
-    @Override
     public boolean isArray() {
         return false;
     }
 
-    @Override
     public boolean isDictionary() {
         return false;
     }
 
-    @Override
     public boolean isNull() {
         return true;
     }
 
-    @Override
     public boolean isScalar() {
         return false;
     }
@@ -36,8 +33,7 @@ extends ConfigValue {
         return object instanceof ConfigNullValue;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         iConfigExporter.writeNull();
     }
 }

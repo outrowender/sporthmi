@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OperatorCallAddressEntry;
 
 public class OperatorCallAddressEntrySerializer {
-    public static void putOptionalOperatorCallAddressEntry(ISerializer iSerializer, OperatorCallAddressEntry operatorCallAddressEntry) {
+    public static void putOptionalOperatorCallAddressEntry(ISerializer iSerializer, OperatorCallAddressEntry operatorCallAddressEntry) throws SerializerException {
         boolean bl = operatorCallAddressEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class OperatorCallAddressEntrySerializer {
         }
     }
 
-    public static void putOptionalOperatorCallAddressEntryVarArray(ISerializer iSerializer, OperatorCallAddressEntry[] operatorCallAddressEntryArray) {
+    public static void putOptionalOperatorCallAddressEntryVarArray(ISerializer iSerializer, OperatorCallAddressEntry[] operatorCallAddressEntryArray) throws SerializerException {
         boolean bl = operatorCallAddressEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class OperatorCallAddressEntrySerializer {
         }
     }
 
-    public static OperatorCallAddressEntry getOptionalOperatorCallAddressEntry(IDeserializer iDeserializer) {
+    public static OperatorCallAddressEntry getOptionalOperatorCallAddressEntry(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallAddressEntry operatorCallAddressEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class OperatorCallAddressEntrySerializer {
         return operatorCallAddressEntry;
     }
 
-    public static OperatorCallAddressEntry[] getOptionalOperatorCallAddressEntryVarArray(IDeserializer iDeserializer) {
+    public static OperatorCallAddressEntry[] getOptionalOperatorCallAddressEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         OperatorCallAddressEntry[] operatorCallAddressEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

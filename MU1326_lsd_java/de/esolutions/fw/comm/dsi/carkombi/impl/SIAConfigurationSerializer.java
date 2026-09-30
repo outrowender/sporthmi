@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarArrayListTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAConfiguration;
 import org.dsi.ifc.global.CarArrayListTransmittableElements;
 
 public class SIAConfigurationSerializer {
-    public static void putOptionalSIAConfiguration(ISerializer iSerializer, SIAConfiguration sIAConfiguration) {
+    public static void putOptionalSIAConfiguration(ISerializer iSerializer, SIAConfiguration sIAConfiguration) throws SerializerException {
         boolean bl = sIAConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SIAConfigurationSerializer {
         }
     }
 
-    public static void putOptionalSIAConfigurationVarArray(ISerializer iSerializer, SIAConfiguration[] sIAConfigurationArray) {
+    public static void putOptionalSIAConfigurationVarArray(ISerializer iSerializer, SIAConfiguration[] sIAConfigurationArray) throws SerializerException {
         boolean bl = sIAConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SIAConfigurationSerializer {
         }
     }
 
-    public static SIAConfiguration getOptionalSIAConfiguration(IDeserializer iDeserializer) {
+    public static SIAConfiguration getOptionalSIAConfiguration(IDeserializer iDeserializer) throws SerializerException {
         SIAConfiguration sIAConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class SIAConfigurationSerializer {
         return sIAConfiguration;
     }
 
-    public static SIAConfiguration[] getOptionalSIAConfigurationVarArray(IDeserializer iDeserializer) {
+    public static SIAConfiguration[] getOptionalSIAConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAConfiguration[] sIAConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

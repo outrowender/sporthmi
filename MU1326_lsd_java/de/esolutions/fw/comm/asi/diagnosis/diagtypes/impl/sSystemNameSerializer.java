@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sSystemName;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sSystemNameSerializer {
-    public static void putOptionalsSystemName(ISerializer iSerializer, sSystemName sSystemName2) {
+    public static void putOptionalsSystemName(ISerializer iSerializer, sSystemName sSystemName2) throws SerializerException {
         boolean bl = sSystemName2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sSystemNameSerializer {
         }
     }
 
-    public static void putOptionalsSystemNameVarArray(ISerializer iSerializer, sSystemName[] sSystemNameArray) {
+    public static void putOptionalsSystemNameVarArray(ISerializer iSerializer, sSystemName[] sSystemNameArray) throws SerializerException {
         boolean bl = sSystemNameArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sSystemNameSerializer {
         }
     }
 
-    public static sSystemName getOptionalsSystemName(IDeserializer iDeserializer) {
+    public static sSystemName getOptionalsSystemName(IDeserializer iDeserializer) throws SerializerException {
         sSystemName sSystemName2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sSystemNameSerializer {
         return sSystemName2;
     }
 
-    public static sSystemName[] getOptionalsSystemNameVarArray(IDeserializer iDeserializer) {
+    public static sSystemName[] getOptionalsSystemNameVarArray(IDeserializer iDeserializer) throws SerializerException {
         sSystemName[] sSystemNameArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

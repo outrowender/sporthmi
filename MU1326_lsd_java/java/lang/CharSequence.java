@@ -4,16 +4,12 @@
 package java.lang;
 
 public interface CharSequence {
-    default public int length() {
-    }
+    public int length();
 
-    default public char charAt(int n) {
-    }
+    public char charAt(int var1);
 
-    default public CharSequence subSequence(int n, int n2) {
-    }
+    public CharSequence subSequence(int var1, int var2);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

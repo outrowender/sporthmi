@@ -6,13 +6,10 @@ package de.vw.mib.bap.functions;
 import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface RequestContext {
-    default public void status(BAPEntity bAPEntity) {
-    }
+    public void status(BAPEntity var1);
 
-    default public void requestError(int n) {
-    }
+    public void requestError(int var1);
 
-    default public RequestContext copy() {
-    }
+    public RequestContext copy();
 }
 

@@ -8,22 +8,16 @@ import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public interface DSIFastListScrollingNavigationListener
 extends DSIListener {
-    default public void indicationNavBook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void indicationNavBook(int var1, int var2, int var3, int var4, long var5, int var7, int var8, int var9, int var10, int var11, int var12);
 
-    default public void indicationGetInitialsNavigation(int n, int n2, int n3, int n4) {
-    }
+    public void indicationGetInitialsNavigation(int var1, int var2, int var3, int var4);
 
-    default public void indicationNotifyLastDestListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyLastDestListPUSH(boolean var1, boolean var2);
 
-    default public void indicationNotifyFavoriteDestListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyFavoriteDestListPUSH(boolean var1, boolean var2);
 
-    default public void indicationNotifyCurrentListSizeNavigation(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCurrentListSizeNavigation(boolean var1, boolean var2);
 
-    default public void indicationNavBookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
-    }
+    public void indicationNavBookJobs(int var1, int var2, int var3, ArrayHeader[] var4);
 }
 

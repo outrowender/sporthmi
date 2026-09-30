@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.microMuteOnOff.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MicroMuteOnOff_SetGet microMuteOnOff_SetGet = (MicroMuteOnOff_SetGet)bAPEntity;
         return this.microMuteOnOff.equalTo(microMuteOnOff_SetGet.microMuteOnOff);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MicroMuteOnOff_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.microMuteOnOff.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.microMuteOnOff.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.microMuteOnOff.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 34;
     }
 
-    @Override
     public int getFunctionId() {
         return MicroMuteOnOff_SetGet.functionId();
     }

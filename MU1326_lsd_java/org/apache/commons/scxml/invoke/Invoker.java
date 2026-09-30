@@ -6,21 +6,17 @@ package org.apache.commons.scxml.invoke;
 import java.util.Map;
 import org.apache.commons.scxml.SCInstance;
 import org.apache.commons.scxml.TriggerEvent;
+import org.apache.commons.scxml.invoke.InvokerException;
 
 public interface Invoker {
-    default public void setParentStateId(String string) {
-    }
+    public void setParentStateId(String var1);
 
-    default public void setSCInstance(SCInstance sCInstance) {
-    }
+    public void setSCInstance(SCInstance var1);
 
-    default public void invoke(String string, Map map) {
-    }
+    public void invoke(String var1, Map var2) throws InvokerException;
 
-    default public void parentEvents(TriggerEvent[] triggerEventArray) {
-    }
+    public void parentEvents(TriggerEvent[] var1) throws InvokerException;
 
-    default public void cancel() {
-    }
+    public void cancel() throws InvokerException;
 }
 

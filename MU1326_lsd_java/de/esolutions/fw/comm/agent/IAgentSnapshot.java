@@ -12,31 +12,22 @@ import de.esolutions.fw.comm.agent.diag.info.StubInfo;
 import de.esolutions.fw.comm.agent.diag.info.WorkerInfo;
 
 public interface IAgentSnapshot {
-    default public ProxyInfo[] getAllProxies() {
-    }
+    public ProxyInfo[] getAllProxies();
 
-    default public StubInfo[] getAllStubs() {
-    }
+    public StubInfo[] getAllStubs();
 
-    default public ClientInfo[] getAllClients() {
-    }
+    public ClientInfo[] getAllClients();
 
-    default public WorkerInfo getWorker() {
-    }
+    public WorkerInfo getWorker();
 
-    default public ServiceHandlerInfo[] getAllServiceHandlers() {
-    }
+    public ServiceHandlerInfo[] getAllServiceHandlers();
 
-    default public ServiceLocatorInfo[] getAllServiceLocators() {
-    }
+    public ServiceLocatorInfo[] getAllServiceLocators();
 
-    default public String[] getAllInfoProviderNames() {
-    }
+    public String[] getAllInfoProviderNames();
 
-    default public IInfoBase[] getInfoProviderData(String string) {
-    }
+    public IInfoBase[] getInfoProviderData(String var1);
 
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 }
 

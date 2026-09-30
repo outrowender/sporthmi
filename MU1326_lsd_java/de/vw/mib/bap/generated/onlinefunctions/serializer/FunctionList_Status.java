@@ -14,15 +14,15 @@ implements StatusProperty {
     public boolean fctBap_ConfigAvailable;
     public boolean fctFunctionListAvailable;
     public boolean fctHeartbeatAvailable;
-    private static final int RESERVED_BIT_5__12_BITSIZE;
+    private static final int RESERVED_BIT_5__12_BITSIZE = 8;
     public boolean fctFsg_ControlAvailable;
     public boolean fctFsg_SetupAvailable;
     public boolean fctFsg_OperationStateAvailable;
     public boolean fctTrafficLightOnline_InfoAvailable;
     public boolean fctTrafficLightOnline_SpeedAvailable;
     public boolean fctTrafficLightOnline_TimeAvailable;
-    private static final int RESERVED_BIT_19__63_BITSIZE;
-    private static final int FUNCTION_LIST_STATUS_BITSIZE;
+    private static final int RESERVED_BIT_19__63_BITSIZE = 45;
+    private static final int FUNCTION_LIST_STATUS_BITSIZE = 64;
 
     public FunctionList_Status() {
         this.internalReset();
@@ -48,12 +48,10 @@ implements StatusProperty {
         this.fctTrafficLightOnline_TimeAvailable = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FunctionList_Status functionList_Status = (FunctionList_Status)bAPEntity;
         return this.reserved_bit_0 == functionList_Status.reserved_bit_0 && this.fctGetAllAvailable == functionList_Status.fctGetAllAvailable && this.fctBap_ConfigAvailable == functionList_Status.fctBap_ConfigAvailable && this.fctFunctionListAvailable == functionList_Status.fctFunctionListAvailable && this.fctHeartbeatAvailable == functionList_Status.fctHeartbeatAvailable && this.fctFsg_ControlAvailable == functionList_Status.fctFsg_ControlAvailable && this.fctFsg_SetupAvailable == functionList_Status.fctFsg_SetupAvailable && this.fctFsg_OperationStateAvailable == functionList_Status.fctFsg_OperationStateAvailable && this.fctTrafficLightOnline_InfoAvailable == functionList_Status.fctTrafficLightOnline_InfoAvailable && this.fctTrafficLightOnline_SpeedAvailable == functionList_Status.fctTrafficLightOnline_SpeedAvailable && this.fctTrafficLightOnline_TimeAvailable == functionList_Status.fctTrafficLightOnline_TimeAvailable;
@@ -62,7 +60,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FunctionList_Status:");
@@ -135,13 +132,11 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 64;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBoolean(this.reserved_bit_0);
         bitStream.pushBoolean(this.fctGetAllAvailable);
@@ -158,7 +153,6 @@ implements StatusProperty {
         bitStream.resetBits(45);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserved_bit_0 = bitStream.popFrontBoolean();
         this.fctGetAllAvailable = bitStream.popFrontBoolean();
@@ -179,7 +173,6 @@ implements StatusProperty {
         return 3;
     }
 
-    @Override
     public int getFunctionId() {
         return FunctionList_Status.functionId();
     }

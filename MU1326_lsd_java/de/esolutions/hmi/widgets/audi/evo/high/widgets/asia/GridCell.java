@@ -10,10 +10,8 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DImage;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DText;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.asia.ConversionWidgetRenderer;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.asia.IImageNodeCreator;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$ICandidateItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$MultiCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionLineController$ConversionLineButtonType;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionLineController$IButtonItem;
+import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController;
+import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionLineController;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,7 +24,7 @@ final class GridCell {
     protected IWrappedNode3DImage currentButtonImageNode;
     private Map buttonImageCache;
     private final IImageNodeCreator imageCreator;
-    private AbstractConversionWidgetController$ICandidateItem currentCandidateItem;
+    private AbstractConversionWidgetController.ICandidateItem currentCandidateItem;
 
     protected GridCell(IWrappedNode3D iWrappedNode3D, IWrappedNode3DText iWrappedNode3DText, IImageNodeCreator iImageNodeCreator, IWrappedNode3DImage iWrappedNode3DImage, IWrappedNode3DImage iWrappedNode3DImage2) {
         this.cellNode = iWrappedNode3D;
@@ -46,42 +44,42 @@ final class GridCell {
         return this.currentCandidateItem.getId();
     }
 
-    public AbstractConversionWidgetController$ICandidateItem getCurrentCandidate() {
+    public AbstractConversionWidgetController.ICandidateItem getCurrentCandidate() {
         return this.currentCandidateItem;
     }
 
-    public void setCandidateItem(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem) {
-        this.currentCandidateItem = abstractConversionWidgetController$ICandidateItem;
+    public void setCandidateItem(AbstractConversionWidgetController.ICandidateItem iCandidateItem) {
+        this.currentCandidateItem = iCandidateItem;
         this.currentButtonImageNode.setVisible(false);
-        if (abstractConversionWidgetController$ICandidateItem == null) {
+        if (iCandidateItem == null) {
             this.candidateTextNode.setText("", this.candidateTextNode.getFont());
-        } else if (abstractConversionWidgetController$ICandidateItem instanceof ConversionLineController$IButtonItem) {
+        } else if (iCandidateItem instanceof ConversionLineController.IButtonItem) {
             this.candidateTextNode.setText("", this.candidateTextNode.getFont());
-            this.currentButtonImageNode = this.createOrGetButtonImage((ConversionLineController$IButtonItem)abstractConversionWidgetController$ICandidateItem);
+            this.currentButtonImageNode = this.createOrGetButtonImage((ConversionLineController.IButtonItem)iCandidateItem);
             this.centerImage(this.currentButtonImageNode);
             this.currentButtonImageNode.setVisible(true);
         } else {
-            AbstractConversionWidgetController$MultiCharItem abstractConversionWidgetController$MultiCharItem = (AbstractConversionWidgetController$MultiCharItem)abstractConversionWidgetController$ICandidateItem;
-            if (GridCell.isTextAbbreviated(abstractConversionWidgetController$MultiCharItem)) {
-                this.candidateTextNode.setText(abstractConversionWidgetController$MultiCharItem.getAbbreviatedCharacters(), this.candidateTextNode.getFont());
+            AbstractConversionWidgetController.MultiCharItem multiCharItem = (AbstractConversionWidgetController.MultiCharItem)iCandidateItem;
+            if (GridCell.isTextAbbreviated(multiCharItem)) {
+                this.candidateTextNode.setText(multiCharItem.getAbbreviatedCharacters(), this.candidateTextNode.getFont());
             } else {
-                this.candidateTextNode.setText(abstractConversionWidgetController$MultiCharItem.getChars(), this.candidateTextNode.getFont());
+                this.candidateTextNode.setText(multiCharItem.getChars(), this.candidateTextNode.getFont());
             }
             this.centerText();
         }
     }
 
-    private IWrappedNode3DImage createOrGetButtonImage(ConversionLineController$IButtonItem conversionLineController$IButtonItem) {
-        ConversionLineController$ConversionLineButtonType conversionLineController$ConversionLineButtonType = conversionLineController$IButtonItem.getButtonType();
-        if (!this.buttonImageCache.containsKey(conversionLineController$ConversionLineButtonType)) {
-            IWrappedNode3DImage iWrappedNode3DImage = this.imageCreator.createButtonImageNodeById(this.cellNode, conversionLineController$IButtonItem);
-            this.buttonImageCache.put(conversionLineController$ConversionLineButtonType, iWrappedNode3DImage);
+    private IWrappedNode3DImage createOrGetButtonImage(ConversionLineController.IButtonItem iButtonItem) {
+        ConversionLineController.ConversionLineButtonType conversionLineButtonType = iButtonItem.getButtonType();
+        if (!this.buttonImageCache.containsKey(conversionLineButtonType)) {
+            IWrappedNode3DImage iWrappedNode3DImage = this.imageCreator.createButtonImageNodeById(this.cellNode, iButtonItem);
+            this.buttonImageCache.put(conversionLineButtonType, iWrappedNode3DImage);
         }
-        return (IWrappedNode3DImage)this.buttonImageCache.get(conversionLineController$ConversionLineButtonType);
+        return (IWrappedNode3DImage)this.buttonImageCache.get(conversionLineButtonType);
     }
 
-    private static boolean isTextAbbreviated(AbstractConversionWidgetController$MultiCharItem abstractConversionWidgetController$MultiCharItem) {
-        return !StringUtilities.isNullOrEmpty(abstractConversionWidgetController$MultiCharItem.getAbbreviatedCharacters());
+    private static boolean isTextAbbreviated(AbstractConversionWidgetController.MultiCharItem multiCharItem) {
+        return !StringUtilities.isNullOrEmpty(multiCharItem.getAbbreviatedCharacters());
     }
 
     protected void setSize(float f2, float f3) {
@@ -97,8 +95,8 @@ final class GridCell {
     private void centerText() {
         int n = (int)((this.cellNode.getHeight() + (float)EALManager.getFontHeightUppercase(this.candidateTextNode.getFont())) / 2.0f);
         int n2 = 0;
-        if (this.currentCandidateItem instanceof AbstractConversionWidgetController$MultiCharItem) {
-            n2 = (int)((this.cellNode.getWidth() - ((AbstractConversionWidgetController$MultiCharItem)this.currentCandidateItem).getWidth()) / 2.0f);
+        if (this.currentCandidateItem instanceof AbstractConversionWidgetController.MultiCharItem) {
+            n2 = (int)((this.cellNode.getWidth() - ((AbstractConversionWidgetController.MultiCharItem)this.currentCandidateItem).getWidth()) / 2.0f);
         }
         this.candidateTextNode.setPosition(n2, n, 0.0f);
     }
@@ -132,7 +130,7 @@ final class GridCell {
     }
 
     public String toString() {
-        return new StringBuffer().append("GridCell [cellNode=").append(this.cellNode).append(", candidateTextNode=").append(this.candidateTextNode).append(", separatorNodeVertical=").append(this.separatorNodeVertical).append(", separatorNodeHorizontal=").append(this.separatorNodeHorizontal).append(", currentCandidateItem=").append(this.currentCandidateItem).append(", hasImage=").append(this.currentButtonImageNode != null).append("]").toString();
+        return "GridCell [cellNode=" + this.cellNode + ", candidateTextNode=" + this.candidateTextNode + ", separatorNodeVertical=" + this.separatorNodeVertical + ", separatorNodeHorizontal=" + this.separatorNodeHorizontal + ", currentCandidateItem=" + this.currentCandidateItem + ", hasImage=" + (this.currentButtonImageNode != null) + "]";
     }
 }
 

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.esolutions.fw.util.serializer.stream;
 
@@ -27,12 +24,10 @@ implements IStreamSerializer {
         this.id = by;
     }
 
-    @Override
     public byte getSerializerId() {
         return this.id;
     }
 
-    @Override
     public void attachBuffer(IWriteable iWriteable) {
         this.writeable = iWriteable;
         this.ddata = iWriteable.getDirectData();
@@ -40,17 +35,14 @@ implements IStreamSerializer {
         this.hasWriteable = true;
     }
 
-    @Override
     public IWriteable getAttachedBuffer() {
         return this.writeable;
     }
 
-    @Override
     public int getDirectPos() {
         return this.dpos;
     }
 
-    @Override
     public void beginSizeCalc() {
         this.writeable = null;
         this.ddata = null;
@@ -58,7 +50,6 @@ implements IStreamSerializer {
         this.hasWriteable = false;
     }
 
-    @Override
     public int detachBuffer() {
         int n = this.dpos;
         this.hasWriteable = false;
@@ -68,7 +59,6 @@ implements IStreamSerializer {
         return n;
     }
 
-    @Override
     public int endSizeCalc() {
         int n = this.dpos;
         this.hasWriteable = false;
@@ -77,8 +67,7 @@ implements IStreamSerializer {
         return n;
     }
 
-    @Override
-    public void putBool(boolean bl) {
+    public void putBool(boolean bl) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.ddata[this.dpos] = bl ? -1 : 0;
@@ -90,8 +79,7 @@ implements IStreamSerializer {
         ++this.dpos;
     }
 
-    @Override
-    public void putBoolArray(boolean[] blArray) {
+    public void putBoolArray(boolean[] blArray) throws SerializerBufferOverflowException {
         int n = blArray.length;
         if (this.hasWriteable) {
             try {
@@ -108,11 +96,10 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putDouble(double d2) {
+    public void putDouble(double d2) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
-                long l = Double.doubleToLongBits((double)d2);
+                long l = Double.doubleToLongBits(d2);
                 this.intSer.storeLong(l, this.ddata, this.dpos);
             }
             catch (IndexOutOfBoundsException indexOutOfBoundsException) {
@@ -122,14 +109,13 @@ implements IStreamSerializer {
         this.dpos += 8;
     }
 
-    @Override
-    public void putDoubleArray(double[] dArray) {
+    public void putDoubleArray(double[] dArray) throws SerializerBufferOverflowException {
         int n = dArray.length;
         int n2 = n << 3;
         if (this.hasWriteable) {
             try {
                 for (int i2 = 0; i2 < n; ++i2) {
-                    this.intSer.storeLong(Double.doubleToLongBits((double)dArray[i2]), this.ddata, this.dpos);
+                    this.intSer.storeLong(Double.doubleToLongBits(dArray[i2]), this.ddata, this.dpos);
                     this.dpos += 8;
                 }
             }
@@ -141,8 +127,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putFlags(byte by, int n) {
+    public void putFlags(byte by, int n) throws SerializerBufferOverflowException {
         int n2;
         int[] nArray = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4};
         if (by < 32) {
@@ -166,8 +151,7 @@ implements IStreamSerializer {
         this.dpos += n2;
     }
 
-    @Override
-    public void putFloat(float f2) {
+    public void putFloat(float f2) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 int n = Float.floatToIntBits(f2);
@@ -180,8 +164,7 @@ implements IStreamSerializer {
         this.dpos += 4;
     }
 
-    @Override
-    public void putFloatArray(float[] fArray) {
+    public void putFloatArray(float[] fArray) throws SerializerBufferOverflowException {
         int n = fArray.length;
         int n2 = n << 2;
         if (this.hasWriteable) {
@@ -199,8 +182,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putInt16(short s) {
+    public void putInt16(short s) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.intSer.storeShort(s, this.ddata, this.dpos);
@@ -212,8 +194,7 @@ implements IStreamSerializer {
         this.dpos += 2;
     }
 
-    @Override
-    public void putInt16Array(short[] sArray) {
+    public void putInt16Array(short[] sArray) throws SerializerBufferOverflowException {
         int n = sArray.length;
         int n2 = n << 1;
         if (this.hasWriteable) {
@@ -231,8 +212,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putUChar16(char c2) {
+    public void putUChar16(char c2) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.intSer.storeShort((short)c2, this.ddata, this.dpos);
@@ -244,8 +224,7 @@ implements IStreamSerializer {
         this.dpos += 2;
     }
 
-    @Override
-    public void putUChar16Array(char[] cArray) {
+    public void putUChar16Array(char[] cArray) throws SerializerBufferOverflowException {
         int n = cArray.length;
         int n2 = n << 1;
         if (this.hasWriteable) {
@@ -263,8 +242,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putInt32(int n) {
+    public void putInt32(int n) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.intSer.storeInt(n, this.ddata, this.dpos);
@@ -276,8 +254,7 @@ implements IStreamSerializer {
         this.dpos += 4;
     }
 
-    @Override
-    public void putInt32Array(int[] nArray) {
+    public void putInt32Array(int[] nArray) throws SerializerBufferOverflowException {
         int n = nArray.length;
         int n2 = n << 2;
         if (this.hasWriteable) {
@@ -295,8 +272,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putInt64(long l) {
+    public void putInt64(long l) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.intSer.storeLong(l, this.ddata, this.dpos);
@@ -308,8 +284,7 @@ implements IStreamSerializer {
         this.dpos += 8;
     }
 
-    @Override
-    public void putInt64Array(long[] lArray) {
+    public void putInt64Array(long[] lArray) throws SerializerBufferOverflowException {
         int n = lArray.length;
         int n2 = n << 3;
         if (this.hasWriteable) {
@@ -327,8 +302,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putInt8(byte by) {
+    public void putInt8(byte by) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 this.ddata[this.dpos] = by;
@@ -340,8 +314,7 @@ implements IStreamSerializer {
         ++this.dpos;
     }
 
-    @Override
-    public void putInt8Array(byte[] byArray) {
+    public void putInt8Array(byte[] byArray) throws SerializerBufferOverflowException {
         int n = byArray.length;
         if (this.hasWriteable) {
             try {
@@ -354,12 +327,11 @@ implements IStreamSerializer {
         this.dpos += n;
     }
 
-    @Override
-    public void putUInt16(int n) {
+    public void putUInt16(int n) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
-                if (n < 0 || n > -65536) {
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned short value: int=").append(n).toString());
+                if (n < 0 || n > 65535) {
+                    throw new Exception("Can't serialize unsigned short value: int=" + n);
                 }
                 this.intSer.storeShort((short)n, this.ddata, this.dpos);
             }
@@ -370,19 +342,18 @@ implements IStreamSerializer {
         this.dpos += 2;
     }
 
-    @Override
-    public void putUInt16Array(int[] nArray) {
+    public void putUInt16Array(int[] nArray) throws SerializerBufferOverflowException {
         int n = nArray.length;
         int n2 = n << 1;
         if (this.hasWriteable) {
             try {
                 for (int i2 = 0; i2 < n; ++i2) {
-                    if (nArray[i2] >= 0 && nArray[i2] <= -65536) {
+                    if (nArray[i2] >= 0 && nArray[i2] <= 65535) {
                         this.intSer.storeShort((short)nArray[i2], this.ddata, this.dpos);
                         this.dpos += 2;
                         continue;
                     }
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned short value: int=").append(nArray[i2]).toString());
+                    throw new Exception("Can't serialize unsigned short value: int=" + nArray[i2]);
                 }
             }
             catch (Exception exception) {
@@ -393,12 +364,11 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putUInt32(long l) {
+    public void putUInt32(long l) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
-                if (l < 0L || l > 0) {
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned int value: long=").append(l).toString());
+                if (l < 0L || l > 0xFFFFFFFFL) {
+                    throw new Exception("Can't serialize unsigned int value: long=" + l);
                 }
                 this.intSer.storeInt((int)l, this.ddata, this.dpos);
             }
@@ -409,19 +379,18 @@ implements IStreamSerializer {
         this.dpos += 4;
     }
 
-    @Override
-    public void putUInt32Array(long[] lArray) {
+    public void putUInt32Array(long[] lArray) throws SerializerBufferOverflowException {
         int n = lArray.length;
         int n2 = n << 2;
         if (this.hasWriteable) {
             try {
                 for (int i2 = 0; i2 < n; ++i2) {
-                    if (lArray[i2] >= 0L && lArray[i2] <= 0) {
+                    if (lArray[i2] >= 0L && lArray[i2] <= 0xFFFFFFFFL) {
                         this.intSer.storeInt((int)lArray[i2], this.ddata, this.dpos);
                         this.dpos += 4;
                         continue;
                     }
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned int value: long=").append(lArray[i2]).toString());
+                    throw new Exception("Can't serialize unsigned int value: long=" + lArray[i2]);
                 }
             }
             catch (Exception exception) {
@@ -432,22 +401,19 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putUInt64(long l) {
+    public void putUInt64(long l) throws SerializerBufferOverflowException {
         this.putInt64(l);
     }
 
-    @Override
-    public void putUInt64Array(long[] lArray) {
+    public void putUInt64Array(long[] lArray) throws SerializerBufferOverflowException {
         this.putInt64Array(lArray);
     }
 
-    @Override
-    public void putUInt8(short s) {
+    public void putUInt8(short s) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 if (s < 0 || s > 255) {
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned byte value: short=").append(s).toString());
+                    throw new Exception("Can't serialize unsigned byte value: short=" + s);
                 }
                 this.ddata[this.dpos] = (byte)s;
             }
@@ -458,8 +424,7 @@ implements IStreamSerializer {
         ++this.dpos;
     }
 
-    @Override
-    public void putUInt8Array(short[] sArray) {
+    public void putUInt8Array(short[] sArray) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 for (int i2 = 0; i2 < sArray.length; ++i2) {
@@ -468,7 +433,7 @@ implements IStreamSerializer {
                         ++this.dpos;
                         continue;
                     }
-                    throw new Exception(new StringBuffer().append("Can't serialize unsigned byte value: short=").append(sArray[i2]).toString());
+                    throw new Exception("Can't serialize unsigned byte value: short=" + sArray[i2]);
                 }
             }
             catch (Exception exception) {
@@ -479,8 +444,7 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
-    public void putRawBytes(byte[] byArray) {
+    public void putRawBytes(byte[] byArray) throws SerializerBufferOverflowException {
         if (this.hasWriteable) {
             try {
                 for (int i2 = 0; i2 < byArray.length; ++i2) {
@@ -496,22 +460,18 @@ implements IStreamSerializer {
         }
     }
 
-    @Override
     public String getDescription() {
         return this.intSer.getDescription();
     }
 
-    @Override
     public byte getId() {
         return this.id;
     }
 
-    @Override
     public IStreamSerializer createCompatibleStreamSerializer() {
         return new DefaultSerializerBase(this.intSer.createCompatibleSerializer(), this.id);
     }
 
-    @Override
     public IStreamDeserializer createCompatibleStreamDeserializer() {
         return new DefaultDeserializerBase(this.intSer.createCompatibleDeserializer(), this.id);
     }

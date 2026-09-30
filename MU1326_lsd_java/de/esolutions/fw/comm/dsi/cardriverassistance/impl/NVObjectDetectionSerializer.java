@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.NVObjectDetection;
 
 public class NVObjectDetectionSerializer {
-    public static void putOptionalNVObjectDetection(ISerializer iSerializer, NVObjectDetection nVObjectDetection) {
+    public static void putOptionalNVObjectDetection(ISerializer iSerializer, NVObjectDetection nVObjectDetection) throws SerializerException {
         boolean bl = nVObjectDetection == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NVObjectDetectionSerializer {
         }
     }
 
-    public static void putOptionalNVObjectDetectionVarArray(ISerializer iSerializer, NVObjectDetection[] nVObjectDetectionArray) {
+    public static void putOptionalNVObjectDetectionVarArray(ISerializer iSerializer, NVObjectDetection[] nVObjectDetectionArray) throws SerializerException {
         boolean bl = nVObjectDetectionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NVObjectDetectionSerializer {
         }
     }
 
-    public static NVObjectDetection getOptionalNVObjectDetection(IDeserializer iDeserializer) {
+    public static NVObjectDetection getOptionalNVObjectDetection(IDeserializer iDeserializer) throws SerializerException {
         NVObjectDetection nVObjectDetection = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NVObjectDetectionSerializer {
         return nVObjectDetection;
     }
 
-    public static NVObjectDetection[] getOptionalNVObjectDetectionVarArray(IDeserializer iDeserializer) {
+    public static NVObjectDetection[] getOptionalNVObjectDetectionVarArray(IDeserializer iDeserializer) throws SerializerException {
         NVObjectDetection[] nVObjectDetectionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

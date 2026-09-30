@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.RDKSpeedLimit;
 
 public class RDKSpeedLimitSerializer {
-    public static void putOptionalRDKSpeedLimit(ISerializer iSerializer, RDKSpeedLimit rDKSpeedLimit) {
+    public static void putOptionalRDKSpeedLimit(ISerializer iSerializer, RDKSpeedLimit rDKSpeedLimit) throws SerializerException {
         boolean bl = rDKSpeedLimit == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class RDKSpeedLimitSerializer {
         }
     }
 
-    public static void putOptionalRDKSpeedLimitVarArray(ISerializer iSerializer, RDKSpeedLimit[] rDKSpeedLimitArray) {
+    public static void putOptionalRDKSpeedLimitVarArray(ISerializer iSerializer, RDKSpeedLimit[] rDKSpeedLimitArray) throws SerializerException {
         boolean bl = rDKSpeedLimitArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class RDKSpeedLimitSerializer {
         }
     }
 
-    public static RDKSpeedLimit getOptionalRDKSpeedLimit(IDeserializer iDeserializer) {
+    public static RDKSpeedLimit getOptionalRDKSpeedLimit(IDeserializer iDeserializer) throws SerializerException {
         RDKSpeedLimit rDKSpeedLimit = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class RDKSpeedLimitSerializer {
         return rDKSpeedLimit;
     }
 
-    public static RDKSpeedLimit[] getOptionalRDKSpeedLimitVarArray(IDeserializer iDeserializer) {
+    public static RDKSpeedLimit[] getOptionalRDKSpeedLimitVarArray(IDeserializer iDeserializer) throws SerializerException {
         RDKSpeedLimit[] rDKSpeedLimitArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

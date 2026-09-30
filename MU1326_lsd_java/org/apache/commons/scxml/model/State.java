@@ -13,7 +13,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public class State
 extends TransitionTarget {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2L;
     private Map children = new LinkedHashMap();
     private Parallel parallel;
     private Invoke invoke;

@@ -15,11 +15,11 @@ import org.w3c.dom.Node;
 public class NamedNodeMapImpl
 implements NamedNodeMap,
 Serializable {
-    static final long serialVersionUID;
+    static final long serialVersionUID = -7039242451046758020L;
     protected short flags;
-    protected static final short READONLY;
-    protected static final short CHANGED;
-    protected static final short HASDEFAULTS;
+    protected static final short READONLY = 1;
+    protected static final short CHANGED = 2;
+    protected static final short HASDEFAULTS = 4;
     protected Vector nodes;
     protected NodeImpl ownerNode;
 
@@ -27,30 +27,25 @@ Serializable {
         this.ownerNode = nodeImpl;
     }
 
-    @Override
     public int getLength() {
         return this.nodes != null ? this.nodes.size() : 0;
     }
 
-    @Override
     public Node item(int n) {
         return this.nodes != null && n < this.nodes.size() ? (Node)this.nodes.elementAt(n) : null;
     }
 
-    @Override
     public Node getNamedItem(String string) {
         int n = this.findNamePoint(string, 0);
         return n < 0 ? null : (Node)this.nodes.elementAt(n);
     }
 
-    @Override
     public Node getNamedItemNS(String string, String string2) {
         int n = this.findNamePoint(string, string2);
         return n < 0 ? null : (Node)this.nodes.elementAt(n);
     }
 
-    @Override
-    public Node setNamedItem(Node node) {
+    public Node setNamedItem(Node node) throws DOMException {
         CoreDocumentImpl coreDocumentImpl = this.ownerNode.ownerDocument();
         if (coreDocumentImpl.errorChecking) {
             if (this.isReadOnly()) {
@@ -77,8 +72,7 @@ Serializable {
         return nodeImpl;
     }
 
-    @Override
-    public Node setNamedItemNS(Node node) {
+    public Node setNamedItemNS(Node node) throws DOMException {
         CoreDocumentImpl coreDocumentImpl = this.ownerNode.ownerDocument();
         if (coreDocumentImpl.errorChecking) {
             if (this.isReadOnly()) {
@@ -111,8 +105,7 @@ Serializable {
         return nodeImpl;
     }
 
-    @Override
-    public Node removeNamedItem(String string) {
+    public Node removeNamedItem(String string) throws DOMException {
         if (this.isReadOnly()) {
             String string2 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
             throw new DOMException(7, string2);
@@ -127,8 +120,7 @@ Serializable {
         return nodeImpl;
     }
 
-    @Override
-    public Node removeNamedItemNS(String string, String string2) {
+    public Node removeNamedItemNS(String string, String string2) throws DOMException {
         if (this.isReadOnly()) {
             String string3 = DOMMessageFormatter.formatMessage("http://www.w3.org/dom/DOMTR", "NO_MODIFICATION_ALLOWED_ERR", null);
             throw new DOMException(7, string3);

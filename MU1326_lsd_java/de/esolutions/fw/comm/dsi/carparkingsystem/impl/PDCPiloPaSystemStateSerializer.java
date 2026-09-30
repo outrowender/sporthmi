@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCPiloPaSystemState;
 
 public class PDCPiloPaSystemStateSerializer {
-    public static void putOptionalPDCPiloPaSystemState(ISerializer iSerializer, PDCPiloPaSystemState pDCPiloPaSystemState) {
+    public static void putOptionalPDCPiloPaSystemState(ISerializer iSerializer, PDCPiloPaSystemState pDCPiloPaSystemState) throws SerializerException {
         boolean bl = pDCPiloPaSystemState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PDCPiloPaSystemStateSerializer {
         }
     }
 
-    public static void putOptionalPDCPiloPaSystemStateVarArray(ISerializer iSerializer, PDCPiloPaSystemState[] pDCPiloPaSystemStateArray) {
+    public static void putOptionalPDCPiloPaSystemStateVarArray(ISerializer iSerializer, PDCPiloPaSystemState[] pDCPiloPaSystemStateArray) throws SerializerException {
         boolean bl = pDCPiloPaSystemStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PDCPiloPaSystemStateSerializer {
         }
     }
 
-    public static PDCPiloPaSystemState getOptionalPDCPiloPaSystemState(IDeserializer iDeserializer) {
+    public static PDCPiloPaSystemState getOptionalPDCPiloPaSystemState(IDeserializer iDeserializer) throws SerializerException {
         PDCPiloPaSystemState pDCPiloPaSystemState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PDCPiloPaSystemStateSerializer {
         return pDCPiloPaSystemState;
     }
 
-    public static PDCPiloPaSystemState[] getOptionalPDCPiloPaSystemStateVarArray(IDeserializer iDeserializer) {
+    public static PDCPiloPaSystemState[] getOptionalPDCPiloPaSystemStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCPiloPaSystemState[] pDCPiloPaSystemStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

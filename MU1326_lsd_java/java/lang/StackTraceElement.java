@@ -9,16 +9,12 @@ import java.io.Serializable;
 
 public final class StackTraceElement
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 6992337162326171013L;
     String declaringClass;
     String methodName;
     String fileName;
     int lineNumber;
-    private static final String[] digits;
-
-    static {
-        digits = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-    }
+    private static final String[] digits = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
     private StackTraceElement() {
     }

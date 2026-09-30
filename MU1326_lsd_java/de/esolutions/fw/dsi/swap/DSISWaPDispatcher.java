@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.swap;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.swap.DSISWaPReply;
 import de.esolutions.fw.comm.dsi.swap.impl.DSISWaPReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -27,13 +28,11 @@ implements DSISWaPReply {
         super(n, (class$org$dsi$ifc$swap$DSISWaPListener == null ? (class$org$dsi$ifc$swap$DSISWaPListener = DSISWaPDispatcher.class$("org.dsi.ifc.swap.DSISWaPListener")) : class$org$dsi$ifc$swap$DSISWaPListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateSoftwareEnabling(int[] nArray, int n) {
+    public void updateSoftwareEnabling(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -61,8 +60,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateIllegalFSCs(int[] nArray, int n) {
+    public void updateIllegalFSCs(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -90,8 +88,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateAreFSCsSigned(boolean bl, int n) {
+    public void updateAreFSCsSigned(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -119,8 +116,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateLimitedLifetime(boolean bl, int n) {
+    public void updateLimitedLifetime(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -148,8 +144,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateConfigCheck(ConfigInfo configInfo, int n) {
+    public void updateConfigCheck(ConfigInfo configInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -177,8 +172,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateConfigPrepare(String string, int n) {
+    public void updateConfigPrepare(String string, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(6);
@@ -206,8 +200,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateConfigFinalize(ConfigInfo configInfo, int n) {
+    public void updateConfigFinalize(ConfigInfo configInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(7);
@@ -235,8 +228,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void updateFscList(SFscStatus[] sFscStatusArray, int n) {
+    public void updateFscList(SFscStatus[] sFscStatusArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(8);
@@ -264,8 +256,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void encryptFile(String string, int n) {
+    public void encryptFile(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -281,8 +272,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void checkSignature(boolean bl, String string) {
+    public void checkSignature(boolean bl, String string) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -298,8 +288,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void getPublicKey(short[] sArray, boolean bl) {
+    public void getPublicKey(short[] sArray, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -315,8 +304,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void checkSingleFsc(int n, int n2) {
+    public void checkSingleFsc(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -332,8 +320,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void decryptFile(String string, int n) {
+    public void decryptFile(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -349,8 +336,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void getFscDetail(SFscDetails sFscDetails) {
+    public void getFscDetail(SFscDetails sFscDetails) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -366,8 +352,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void importFSCs(int n, SFscImportStatus sFscImportStatus) {
+    public void importFSCs(int n, SFscImportStatus sFscImportStatus) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -383,8 +368,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void importFSCsList(int n, SFscImportStatus[] sFscImportStatusArray) {
+    public void importFSCsList(int n, SFscImportStatus[] sFscImportStatusArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -400,8 +384,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void exportCCD(int n) {
+    public void exportCCD(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -417,8 +400,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void getHistory(SFscHistory sFscHistory) {
+    public void getHistory(SFscHistory sFscHistory) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -434,8 +416,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void getHistoryList(SFscHistory[] sFscHistoryArray) {
+    public void getHistoryList(SFscHistory[] sFscHistoryArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -451,8 +432,7 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -468,14 +448,13 @@ implements DSISWaPReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISWaPListener dSISWaPListener = (DSISWaPListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISWaPDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISWaPDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISWaPListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISWaPDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISWaPDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISWaPListener, new Object[]{string, string2});
                     continue;
                 }

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEEnergyFlowComfort;
 
 public class BCmEEnergyFlowComfortSerializer {
-    public static void putOptionalBCmEEnergyFlowComfort(ISerializer iSerializer, BCmEEnergyFlowComfort bCmEEnergyFlowComfort) {
+    public static void putOptionalBCmEEnergyFlowComfort(ISerializer iSerializer, BCmEEnergyFlowComfort bCmEEnergyFlowComfort) throws SerializerException {
         boolean bl = bCmEEnergyFlowComfort == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCmEEnergyFlowComfortSerializer {
         }
     }
 
-    public static void putOptionalBCmEEnergyFlowComfortVarArray(ISerializer iSerializer, BCmEEnergyFlowComfort[] bCmEEnergyFlowComfortArray) {
+    public static void putOptionalBCmEEnergyFlowComfortVarArray(ISerializer iSerializer, BCmEEnergyFlowComfort[] bCmEEnergyFlowComfortArray) throws SerializerException {
         boolean bl = bCmEEnergyFlowComfortArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCmEEnergyFlowComfortSerializer {
         }
     }
 
-    public static BCmEEnergyFlowComfort getOptionalBCmEEnergyFlowComfort(IDeserializer iDeserializer) {
+    public static BCmEEnergyFlowComfort getOptionalBCmEEnergyFlowComfort(IDeserializer iDeserializer) throws SerializerException {
         BCmEEnergyFlowComfort bCmEEnergyFlowComfort = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCmEEnergyFlowComfortSerializer {
         return bCmEEnergyFlowComfort;
     }
 
-    public static BCmEEnergyFlowComfort[] getOptionalBCmEEnergyFlowComfortVarArray(IDeserializer iDeserializer) {
+    public static BCmEEnergyFlowComfort[] getOptionalBCmEEnergyFlowComfortVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEEnergyFlowComfort[] bCmEEnergyFlowComfortArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

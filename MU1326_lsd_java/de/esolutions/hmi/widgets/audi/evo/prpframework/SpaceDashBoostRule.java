@@ -9,7 +9,6 @@ import java.util.List;
 
 public class SpaceDashBoostRule
 extends AbstractPRPRule {
-    @Override
     public void execute(List list, Object object, boolean bl) {
         RecognizerResult[] recognizerResultArray = SpaceDashBoostRule.searchCharacters(list, new char[]{' ', '-'});
         RecognizerResult recognizerResult = recognizerResultArray[0];
@@ -28,7 +27,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Space-Dash-Boost-Rule";
     }

@@ -4,6 +4,6 @@
 package de.esolutions.fw.comm.dsi.diagnose;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSIDIAGNOSESYSTEM_DIAGNOSTICVALUECHANGED;
+    public static final int ATTRIBUTE_ID_DSIDIAGNOSESYSTEM_DIAGNOSTICVALUECHANGED = 20;
 }
 

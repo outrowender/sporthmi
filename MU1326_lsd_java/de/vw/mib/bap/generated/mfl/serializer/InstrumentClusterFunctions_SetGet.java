@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.configurationOptions.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         InstrumentClusterFunctions_SetGet instrumentClusterFunctions_SetGet = (InstrumentClusterFunctions_SetGet)bAPEntity;
         return this.configurationOptions.equalTo(instrumentClusterFunctions_SetGet.configurationOptions);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("InstrumentClusterFunctions_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.configurationOptions.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.configurationOptions.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.configurationOptions.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 16;
     }
 
-    @Override
     public int getFunctionId() {
         return InstrumentClusterFunctions_SetGet.functionId();
     }

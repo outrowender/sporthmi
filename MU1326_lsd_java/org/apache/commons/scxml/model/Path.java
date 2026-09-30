@@ -14,7 +14,7 @@ import org.apache.commons.scxml.model.TransitionTarget;
 
 public class Path
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private List upSeg = new ArrayList();
     private List downSeg = new ArrayList();
     private TransitionTarget scope = null;

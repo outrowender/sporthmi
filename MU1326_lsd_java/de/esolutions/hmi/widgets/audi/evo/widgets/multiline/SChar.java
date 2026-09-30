@@ -4,10 +4,10 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.multiline;
 
 public class SChar {
-    public static final int TYPE_NORMAL;
-    public static final int TYPE_PREFIX_NEW_LINE;
-    public static final int TYPE_PREFIX_FIRST_LINE_CHAR;
-    public static final int TYPE_SUFFIX_LAST_CHAR;
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_PREFIX_NEW_LINE = 1;
+    public static final int TYPE_PREFIX_FIRST_LINE_CHAR = 2;
+    public static final int TYPE_SUFFIX_LAST_CHAR = 4;
     public short[] word;
     public short w;
     public short x;

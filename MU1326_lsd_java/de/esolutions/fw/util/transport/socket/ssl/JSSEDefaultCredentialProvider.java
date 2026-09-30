@@ -6,6 +6,7 @@ package de.esolutions.fw.util.transport.socket.ssl;
 import de.esolutions.fw.util.transport.socket.ssl.ISSLCredentialProvider;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManagerFactory;
@@ -35,18 +36,15 @@ implements ISSLCredentialProvider {
         this.trustStorePassPhrase = string;
     }
 
-    @Override
     public KeyManagerFactory getKeyManagerFactory() {
         return this.keyManagerFactory;
     }
 
-    @Override
     public TrustManagerFactory getTrustManagerFactory() {
         return this.trustManagerFactory;
     }
 
-    @Override
-    public void init() {
+    public void init() throws IOException, GeneralSecurityException {
         if (this.keyManagerFactory != null && this.trustManagerFactory != null) {
             return;
         }
@@ -60,32 +58,32 @@ implements ISSLCredentialProvider {
         this.loadTrustStore(this.trustStoreStream);
     }
 
-    private void loadKeyStore(InputStream inputStream) {
+    private void loadKeyStore(InputStream inputStream) throws IOException, GeneralSecurityException {
         String string = this.keyStorePassPhrase;
         if (string == null) {
             string = "";
         }
         char[] cArray = string.toCharArray();
         String string2 = KeyStore.getDefaultType();
-        System.out.println(new StringBuffer().append("JSSE: defaultKeyStore: ").append(KeyStore.getDefaultType()).toString());
+        System.out.println("JSSE: defaultKeyStore: " + KeyStore.getDefaultType());
         String string3 = KeyManagerFactory.getDefaultAlgorithm();
-        System.out.println(new StringBuffer().append("JSSE: defaultKeyManager: ").append(string3).toString());
+        System.out.println("JSSE: defaultKeyManager: " + string3);
         this.keyManagerFactory = KeyManagerFactory.getInstance(string3);
         KeyStore keyStore = KeyStore.getInstance(string2);
         keyStore.load(inputStream, cArray);
         this.keyManagerFactory.init(keyStore, cArray);
     }
 
-    private void loadTrustStore(InputStream inputStream) {
+    private void loadTrustStore(InputStream inputStream) throws IOException, GeneralSecurityException {
         String string = this.trustStorePassPhrase;
         if (string == null) {
             string = "";
         }
         char[] cArray = string.toCharArray();
         String string2 = KeyStore.getDefaultType();
-        System.out.println(new StringBuffer().append("JSSE: defaultKeyStore: ").append(KeyStore.getDefaultType()).toString());
+        System.out.println("JSSE: defaultKeyStore: " + KeyStore.getDefaultType());
         String string3 = TrustManagerFactory.getDefaultAlgorithm();
-        System.out.println(new StringBuffer().append("JSSE: defaultTrustManager: ").append(string3).toString());
+        System.out.println("JSSE: defaultTrustManager: " + string3);
         this.trustManagerFactory = TrustManagerFactory.getInstance(string3);
         KeyStore keyStore = KeyStore.getInstance(string2);
         keyStore.load(inputStream, cArray);

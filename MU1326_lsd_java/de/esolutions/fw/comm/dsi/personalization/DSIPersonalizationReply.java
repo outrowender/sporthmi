@@ -3,25 +3,22 @@
  */
 package de.esolutions.fw.comm.dsi.personalization;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIPersonalizationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "7d391dea-7dea-58b1-b8be-fea9d4a1e349";
+    public static final String IPL_COMM_INTERFACE_KEY = "f913ad4b-0134-5e84-b2e4-69d9bc951858";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.0";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.0";
 
-    default public void copyProfile(int n, int n2) {
-    }
+    public void copyProfile(int var1, int var2) throws MethodException;
 
-    default public void resetProfile(int n) {
-    }
+    public void resetProfile(int var1) throws MethodException;
 
-    default public void resetAllProfiles() {
-    }
+    public void resetAllProfiles() throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

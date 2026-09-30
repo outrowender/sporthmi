@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.navigation.impl;
 import de.esolutions.fw.comm.asi.diagnosis.navigation.sNavCountryRegionVersionEntry;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sNavCountryRegionVersionEntrySerializer {
-    public static void putOptionalsNavCountryRegionVersionEntry(ISerializer iSerializer, sNavCountryRegionVersionEntry sNavCountryRegionVersionEntry2) {
+    public static void putOptionalsNavCountryRegionVersionEntry(ISerializer iSerializer, sNavCountryRegionVersionEntry sNavCountryRegionVersionEntry2) throws SerializerException {
         boolean bl = sNavCountryRegionVersionEntry2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -17,7 +18,7 @@ public class sNavCountryRegionVersionEntrySerializer {
         }
     }
 
-    public static void putOptionalsNavCountryRegionVersionEntryVarArray(ISerializer iSerializer, sNavCountryRegionVersionEntry[] sNavCountryRegionVersionEntryArray) {
+    public static void putOptionalsNavCountryRegionVersionEntryVarArray(ISerializer iSerializer, sNavCountryRegionVersionEntry[] sNavCountryRegionVersionEntryArray) throws SerializerException {
         boolean bl = sNavCountryRegionVersionEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -28,7 +29,7 @@ public class sNavCountryRegionVersionEntrySerializer {
         }
     }
 
-    public static sNavCountryRegionVersionEntry getOptionalsNavCountryRegionVersionEntry(IDeserializer iDeserializer) {
+    public static sNavCountryRegionVersionEntry getOptionalsNavCountryRegionVersionEntry(IDeserializer iDeserializer) throws SerializerException {
         sNavCountryRegionVersionEntry sNavCountryRegionVersionEntry2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -39,7 +40,7 @@ public class sNavCountryRegionVersionEntrySerializer {
         return sNavCountryRegionVersionEntry2;
     }
 
-    public static sNavCountryRegionVersionEntry[] getOptionalsNavCountryRegionVersionEntryVarArray(IDeserializer iDeserializer) {
+    public static sNavCountryRegionVersionEntry[] getOptionalsNavCountryRegionVersionEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         sNavCountryRegionVersionEntry[] sNavCountryRegionVersionEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

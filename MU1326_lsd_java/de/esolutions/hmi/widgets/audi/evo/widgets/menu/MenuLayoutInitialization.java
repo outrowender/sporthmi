@@ -3,7 +3,7 @@
  */
 package de.esolutions.hmi.widgets.audi.evo.widgets.menu;
 
-import de.audi.atip.hmi.model.menu.MenuModel$FocusedMenuItem;
+import de.audi.atip.hmi.model.menu.MenuModel;
 import de.audi.atip.hmi.model.menu.MenuModelGUI;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.util.Util;
@@ -97,7 +97,7 @@ WidgetConstants {
         this.menu.getItemFocusedPropagator().initializeItemsFocusedFlag(menuUpdateRequest.focusIndex);
         this.menu.getAnimationManager().focus(menuUpdateRequest, true, true);
         if (!Util.equals(menuUpdateRequest.focusIndex, this.menu.getFocusedIndex())) {
-            menuLogCh.log(-1601830656, "MenuLayoutInitialization#focusInitialItem: unexpected initial focus: %1, expected: %2", (Object)this.menu.getFocusedIndex(), (Object)menuUpdateRequest.focusIndex);
+            menuLogCh.log(100000, "MenuLayoutInitialization#focusInitialItem: unexpected initial focus: %1, expected: %2", (Object)this.menu.getFocusedIndex(), (Object)menuUpdateRequest.focusIndex);
             this.menu.refreshAllItems();
         }
     }
@@ -105,16 +105,16 @@ WidgetConstants {
     private MenuUpdateRequest getInitialFocusRequestWithoutAutoMerge() {
         MenuUpdateRequest menuUpdateRequest = this.getInitialFocusFromScreenData();
         if (menuUpdateRequest != null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from screen data: %1", (Object)menuUpdateRequest);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from screen data: %1", (Object)menuUpdateRequest);
             return menuUpdateRequest;
         }
         if (this.initialRequestFromPersistence != null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from persistence: %1", (Object)this.initialRequestFromPersistence);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from persistence: %1", (Object)this.initialRequestFromPersistence);
             return this.initialRequestFromPersistence;
         }
         menuUpdateRequest = this.getInitialFocusForModel();
         if (menuUpdateRequest != null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from model: %1", (Object)menuUpdateRequest);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithoutAutoMerge: initial update request from model: %1", (Object)menuUpdateRequest);
             return menuUpdateRequest;
         }
         return null;
@@ -123,15 +123,15 @@ WidgetConstants {
     private MenuUpdateRequest getInitialFocusRequestWithAutoMerge() {
         MenuUpdateRequest menuUpdateRequest = this.getInitialFocusForFixedIndex();
         if (menuUpdateRequest != null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: initial update request from fixed configuration: %1", (Object)menuUpdateRequest);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: initial update request from fixed configuration: %1", (Object)menuUpdateRequest);
             return menuUpdateRequest;
         }
         menuUpdateRequest = this.getInitialFocusForFirstItem();
         if (menuUpdateRequest != null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: initial update request for first item: %1", (Object)menuUpdateRequest);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: initial update request for first item: %1", (Object)menuUpdateRequest);
             return menuUpdateRequest;
         }
-        menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: menu is empty");
+        menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestWithAutoMerge: menu is empty");
         return null;
     }
 
@@ -141,7 +141,7 @@ WidgetConstants {
             return null;
         }
         if (!this.shouldUsePersistenceForWidget()) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: don't use persistence. persistentLayout: %1", this.persistentLayout);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: don't use persistence. persistentLayout: %1", this.persistentLayout);
             return null;
         }
         WidgetStorageObjectMenu widgetStorageObjectMenu = this.loadLayout();
@@ -151,13 +151,13 @@ WidgetConstants {
         MenuItemIndex menuItemIndex2 = widgetStorageObjectMenu.getFocusedIndex();
         Long l = widgetStorageObjectMenu.getFocusedUniqueID();
         if (l != null && (menuItemIndex = this.menu.getMenuItemIndexForUniqueID(l, menuItemIndex2)) != null && !menuItemIndex.equals(menuItemIndex2)) {
-            menuLogCh.log(-1601830656, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: expected item %1, but found item %2 for rowID %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l);
+            menuLogCh.log(100000, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: expected item %1, but found item %2 for rowID %3", (Object)menuItemIndex2, (Object)menuItemIndex, (Object)l);
             menuItemIndex2 = menuItemIndex;
         }
         if (menuItemIndex2 != null) {
             return new MenuUpdateRequest(menuItemIndex2, widgetStorageObjectMenu.getFocusAdvice(), MenuUpdateRequest.UPDATE_NONE);
         }
-        menuLogCh.log(-1601830656, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: storage object has no focusedIndex: %1", (Object)widgetStorageObjectMenu);
+        menuLogCh.log(100000, "MenuLayoutInitialization#getInitialFocusRequestForPersistence: storage object has no focusedIndex: %1", (Object)widgetStorageObjectMenu);
         return null;
     }
 
@@ -180,27 +180,27 @@ WidgetConstants {
         if (object == null || !(object instanceof MenuModelGUI)) {
             return null;
         }
-        MenuModel$FocusedMenuItem menuModel$FocusedMenuItem = ((MenuModelGUI)object).getLastFocusedMenuItem();
-        if (menuModel$FocusedMenuItem == null) {
+        MenuModel.FocusedMenuItem focusedMenuItem = ((MenuModelGUI)object).getLastFocusedMenuItem();
+        if (focusedMenuItem == null) {
             return null;
         }
-        int n = menuModel$FocusedMenuItem.getMenuItemID();
+        int n = focusedMenuItem.getMenuItemID();
         int n2 = this.menu.getChildIndexForWidgetId(n, true);
         if (n2 == -1) {
-            menuLogCh.log(-1601830656, "MenuLayoutInitialization#getInitialFocusForModel: no menu item found for widgetID: %1", (long)n);
+            menuLogCh.log(100000, "MenuLayoutInitialization#getInitialFocusForModel: no menu item found for widgetID: %1", (long)n);
             return null;
         }
         AbstractWidgetController abstractWidgetController = (AbstractWidgetController)this.menu.getChild(n2);
         if (abstractWidgetController instanceof IMenuItemMultiItem) {
-            long l = menuModel$FocusedMenuItem.getUniqueListRowID();
+            long l = focusedMenuItem.getUniqueListRowID();
             int n3 = ((IMenuItemMultiItem)((Object)abstractWidgetController)).getItemIndexForUniqueID(l);
             if (n3 == -1) {
-                menuLogCh.log(-1601830656, "MenuLayoutInitialization#getInitialFocusForModel: no list row found for uniqueID: %1, widgetID: %2", l, (long)n);
+                menuLogCh.log(100000, "MenuLayoutInitialization#getInitialFocusForModel: no list row found for uniqueID: %1, widgetID: %2", l, (long)n);
                 return null;
             }
-            return new MenuUpdateRequest(new MenuItemIndex(n2, n3), menuModel$FocusedMenuItem.getAdvice(), MenuUpdateRequest.UPDATE_NONE);
+            return new MenuUpdateRequest(new MenuItemIndex(n2, n3), focusedMenuItem.getAdvice(), MenuUpdateRequest.UPDATE_NONE);
         }
-        return new MenuUpdateRequest(new MenuItemIndex(n2, 0), menuModel$FocusedMenuItem.getAdvice(), MenuUpdateRequest.UPDATE_NONE);
+        return new MenuUpdateRequest(new MenuItemIndex(n2, 0), focusedMenuItem.getAdvice(), MenuUpdateRequest.UPDATE_NONE);
     }
 
     private MenuUpdateRequest getInitialFocusForFixedIndex() {
@@ -243,7 +243,7 @@ WidgetConstants {
             if (bl) continue;
             return menuItemIndex2;
         }
-        menuLogCh.log(1078071040, "MenuController#getFirstNonTouchfieldItem: menu contains only touchfield items.");
+        menuLogCh.log(1000000, "MenuController#getFirstNonTouchfieldItem: menu contains only touchfield items.");
         return menuItemIndex;
     }
 
@@ -256,7 +256,7 @@ WidgetConstants {
             if (menuItemIndex == null) continue;
             return menuItemIndex;
         }
-        menuLogCh.log(-2137614336, "MenuLayoutInitialization#getActiveMenuItemForWidgetIds: no valid item found for widgetIDs of length: %1", (long)nArray.length);
+        menuLogCh.log(10000000, "MenuLayoutInitialization#getActiveMenuItemForWidgetIds: no valid item found for widgetIDs of length: %1", (long)nArray.length);
         return null;
     }
 
@@ -269,7 +269,7 @@ WidgetConstants {
             AbstractWidgetController abstractWidgetController = (AbstractWidgetController)this.menu.getChild(n2);
             return this.getFocusableItemOfWidget(abstractWidgetController, n, n2);
         }
-        menuLogCh.log(-1601830656, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: no child found for widgetID: %1", (long)n);
+        menuLogCh.log(100000, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: no child found for widgetID: %1", (long)n);
         return null;
     }
 
@@ -288,7 +288,7 @@ WidgetConstants {
             }
             ++n2;
         }
-        menuLogCh.log(-1601830656, "MenuLayoutInitialization#getActiveMenuItemForInternalId: no child found for internalID: %1", (long)n);
+        menuLogCh.log(100000, "MenuLayoutInitialization#getActiveMenuItemForInternalId: no child found for internalID: %1", (long)n);
         return null;
     }
 
@@ -297,28 +297,28 @@ WidgetConstants {
             if (abstractWidgetController instanceof IMenuItemMulti) {
                 IMenuItemMulti iMenuItemMulti = (IMenuItemMulti)((Object)abstractWidgetController);
                 if (MenuController.isEmpty(iMenuItemMulti)) {
-                    menuLogCh.log(-2137614336, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: multiItem %1 with ID %2 is empty", (long)n2, (long)n);
+                    menuLogCh.log(10000000, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: multiItem %1 with ID %2 is empty", (long)n2, (long)n);
                     return null;
                 }
                 MenuItemIndex menuItemIndex = new MenuItemIndex(n2, 0);
-                menuLogCh.log(-2137614336, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: found multiItem with ID %2, focus item: %1", (Object)menuItemIndex, (long)n);
+                menuLogCh.log(10000000, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: found multiItem with ID %2, focus item: %1", (Object)menuItemIndex, (long)n);
                 return menuItemIndex;
             }
             MenuItemIndex menuItemIndex = new MenuItemIndex(n2, 0);
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: found singleItem with ID %2, focus item: %1", (Object)menuItemIndex, (long)n);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: found singleItem with ID %2, focus item: %1", (Object)menuItemIndex, (long)n);
             return menuItemIndex;
         }
-        menuLogCh.log(-2137614336, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: widget %3 with ID %2 is not an active menu item: %1", (Object)abstractWidgetController, (long)n, (long)n2);
+        menuLogCh.log(10000000, "MenuLayoutInitialization#getActiveMenuItemForWidgetId: widget %3 with ID %2 is not an active menu item: %1", (Object)abstractWidgetController, (long)n, (long)n2);
         return null;
     }
 
     private boolean shouldUsePersistenceForEnterScreen(InitializationContext initializationContext) {
         if (!initializationContext.isReinit()) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#shouldUsePersistenceForEnterScreen: load persistence, because reInit flag is not set");
+            menuLogCh.log(10000000, "MenuLayoutInitialization#shouldUsePersistenceForEnterScreen: load persistence, because reInit flag is not set");
             return true;
         }
         if (initializationContext.isStayOnFocusedElement()) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#shouldUsePersistenceForEnterScreen: load persistence, because StayOnFocusedElement flag is set");
+            menuLogCh.log(10000000, "MenuLayoutInitialization#shouldUsePersistenceForEnterScreen: load persistence, because StayOnFocusedElement flag is set");
             return true;
         }
         return false;
@@ -356,11 +356,11 @@ WidgetConstants {
         WidgetPersistenceManager widgetPersistenceManager = this.menu.getTerminalImpl().getWidgetPersistenceManager();
         AbstractWidgetStorageObject abstractWidgetStorageObject = widgetPersistenceManager.read();
         if (abstractWidgetStorageObject == null) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#loadLayout: storage object is null");
+            menuLogCh.log(10000000, "MenuLayoutInitialization#loadLayout: storage object is null");
             return null;
         }
         if (abstractWidgetStorageObject instanceof WidgetStorageObjectMenu) {
-            menuLogCh.log(-2137614336, "MenuLayoutInitialization#loadLayout: loaded storage object: %1", (Object)abstractWidgetStorageObject);
+            menuLogCh.log(10000000, "MenuLayoutInitialization#loadLayout: loaded storage object: %1", (Object)abstractWidgetStorageObject);
             return (WidgetStorageObjectMenu)abstractWidgetStorageObject;
         }
         menuLogCh.log(10000, "MenuLayoutInitialization#loadLayout: loaded wrong storage object: %1", (Object)abstractWidgetStorageObject);

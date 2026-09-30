@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.ComponentInfo;
 
 public class ComponentInfoSerializer {
-    public static void putOptionalComponentInfo(ISerializer iSerializer, ComponentInfo componentInfo) {
+    public static void putOptionalComponentInfo(ISerializer iSerializer, ComponentInfo componentInfo) throws SerializerException {
         boolean bl = componentInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class ComponentInfoSerializer {
         }
     }
 
-    public static void putOptionalComponentInfoVarArray(ISerializer iSerializer, ComponentInfo[] componentInfoArray) {
+    public static void putOptionalComponentInfoVarArray(ISerializer iSerializer, ComponentInfo[] componentInfoArray) throws SerializerException {
         boolean bl = componentInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class ComponentInfoSerializer {
         }
     }
 
-    public static ComponentInfo getOptionalComponentInfo(IDeserializer iDeserializer) {
+    public static ComponentInfo getOptionalComponentInfo(IDeserializer iDeserializer) throws SerializerException {
         ComponentInfo componentInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class ComponentInfoSerializer {
         return componentInfo;
     }
 
-    public static ComponentInfo[] getOptionalComponentInfoVarArray(IDeserializer iDeserializer) {
+    public static ComponentInfo[] getOptionalComponentInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ComponentInfo[] componentInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

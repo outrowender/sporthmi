@@ -4,7 +4,6 @@
 package org.elektrobit.json.simple;
 
 public interface JSONAware {
-    default public String toJSONString() {
-    }
+    public String toJSONString();
 }
 

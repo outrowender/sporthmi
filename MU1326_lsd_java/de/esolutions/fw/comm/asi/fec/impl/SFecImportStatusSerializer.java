@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.fec.impl;
 import de.esolutions.fw.comm.asi.fec.SFecImportStatus;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class SFecImportStatusSerializer {
-    public static void putOptionalSFecImportStatus(ISerializer iSerializer, SFecImportStatus sFecImportStatus) {
+    public static void putOptionalSFecImportStatus(ISerializer iSerializer, SFecImportStatus sFecImportStatus) throws SerializerException {
         boolean bl = sFecImportStatus == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class SFecImportStatusSerializer {
         }
     }
 
-    public static void putOptionalSFecImportStatusVarArray(ISerializer iSerializer, SFecImportStatus[] sFecImportStatusArray) {
+    public static void putOptionalSFecImportStatusVarArray(ISerializer iSerializer, SFecImportStatus[] sFecImportStatusArray) throws SerializerException {
         boolean bl = sFecImportStatusArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class SFecImportStatusSerializer {
         }
     }
 
-    public static SFecImportStatus getOptionalSFecImportStatus(IDeserializer iDeserializer) {
+    public static SFecImportStatus getOptionalSFecImportStatus(IDeserializer iDeserializer) throws SerializerException {
         SFecImportStatus sFecImportStatus = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class SFecImportStatusSerializer {
         return sFecImportStatus;
     }
 
-    public static SFecImportStatus[] getOptionalSFecImportStatusVarArray(IDeserializer iDeserializer) {
+    public static SFecImportStatus[] getOptionalSFecImportStatusVarArray(IDeserializer iDeserializer) throws SerializerException {
         SFecImportStatus[] sFecImportStatusArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

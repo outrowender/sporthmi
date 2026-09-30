@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.RegisterStateStruct;
 
 public class RegisterStateStructSerializer {
-    public static void putOptionalRegisterStateStruct(ISerializer iSerializer, RegisterStateStruct registerStateStruct) {
+    public static void putOptionalRegisterStateStruct(ISerializer iSerializer, RegisterStateStruct registerStateStruct) throws SerializerException {
         boolean bl = registerStateStruct == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class RegisterStateStructSerializer {
         }
     }
 
-    public static void putOptionalRegisterStateStructVarArray(ISerializer iSerializer, RegisterStateStruct[] registerStateStructArray) {
+    public static void putOptionalRegisterStateStructVarArray(ISerializer iSerializer, RegisterStateStruct[] registerStateStructArray) throws SerializerException {
         boolean bl = registerStateStructArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class RegisterStateStructSerializer {
         }
     }
 
-    public static RegisterStateStruct getOptionalRegisterStateStruct(IDeserializer iDeserializer) {
+    public static RegisterStateStruct getOptionalRegisterStateStruct(IDeserializer iDeserializer) throws SerializerException {
         RegisterStateStruct registerStateStruct = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class RegisterStateStructSerializer {
         return registerStateStruct;
     }
 
-    public static RegisterStateStruct[] getOptionalRegisterStateStructVarArray(IDeserializer iDeserializer) {
+    public static RegisterStateStruct[] getOptionalRegisterStateStructVarArray(IDeserializer iDeserializer) throws SerializerException {
         RegisterStateStruct[] registerStateStructArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

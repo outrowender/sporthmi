@@ -25,28 +25,23 @@ implements DSIMediaRecorder {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaRecorder == null ? (class$org$dsi$ifc$media$DSIMediaRecorder = DSIMediaRecorderProvider.class$("org.dsi.ifc.media.DSIMediaRecorder")) : class$org$dsi$ifc$media$DSIMediaRecorder).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaRecorderProxy(this.instance, (DSIMediaRecorderReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setActiveMedia(long l, long l2) {
         try {
             this.proxy.setActiveMedia(l, l2);
@@ -56,7 +51,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setSelection(int n) {
         try {
             this.proxy.setSelection(n);
@@ -66,7 +60,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void startImport(boolean bl) {
         try {
             this.proxy.startImport(bl);
@@ -76,7 +69,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void abortImport() {
         try {
             this.proxy.abortImport();
@@ -86,7 +78,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void startDelete() {
         try {
             this.proxy.startDelete();
@@ -96,7 +87,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void abortDelete() {
         try {
             this.proxy.abortDelete();
@@ -106,7 +96,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setTargetMedia(long l, long l2) {
         try {
             this.proxy.setTargetMedia(l, l2);
@@ -116,7 +105,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setEncodingQuality(int n) {
         try {
             this.proxy.setEncodingQuality(n);
@@ -126,7 +114,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -136,7 +123,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -146,7 +132,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -156,7 +141,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -166,7 +150,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -176,7 +159,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -186,7 +168,6 @@ implements DSIMediaRecorder {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

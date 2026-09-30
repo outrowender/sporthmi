@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.hmisync.tv.impl;
 import de.esolutions.fw.comm.asi.hmisync.tv.ParentalSettings;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ParentalSettingsSerializer {
-    public static void putOptionalParentalSettings(ISerializer iSerializer, ParentalSettings parentalSettings) {
+    public static void putOptionalParentalSettings(ISerializer iSerializer, ParentalSettings parentalSettings) throws SerializerException {
         boolean bl = parentalSettings == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ParentalSettingsSerializer {
         }
     }
 
-    public static void putOptionalParentalSettingsVarArray(ISerializer iSerializer, ParentalSettings[] parentalSettingsArray) {
+    public static void putOptionalParentalSettingsVarArray(ISerializer iSerializer, ParentalSettings[] parentalSettingsArray) throws SerializerException {
         boolean bl = parentalSettingsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ParentalSettingsSerializer {
         }
     }
 
-    public static ParentalSettings getOptionalParentalSettings(IDeserializer iDeserializer) {
+    public static ParentalSettings getOptionalParentalSettings(IDeserializer iDeserializer) throws SerializerException {
         ParentalSettings parentalSettings = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ParentalSettingsSerializer {
         return parentalSettings;
     }
 
-    public static ParentalSettings[] getOptionalParentalSettingsVarArray(IDeserializer iDeserializer) {
+    public static ParentalSettings[] getOptionalParentalSettingsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ParentalSettings[] parentalSettingsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

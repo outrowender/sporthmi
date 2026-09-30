@@ -25,7 +25,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class AdapterActivator
 implements BundleActivator {
-    private static final String TRACECLIENT;
+    private static final String TRACECLIENT = "DSI Adapter";
     public static BundleContext bundleContext;
     private DSIAdmin admin;
     private ServiceRegistration dumpInfoProviderServiceReg;
@@ -34,10 +34,9 @@ implements BundleActivator {
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$job$IDispatcherManager;
     static /* synthetic */ Class class$de$esolutions$fw$util$commons$error$DumpInfoProvider;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(BundleContext bundleContext) throws Exception {
         AdapterActivator.bundleContext = bundleContext;
-        TraceClient.init("DSI Adapter");
+        TraceClient.init(TRACECLIENT);
         Channels.DSI_ADMIN.log((short)1, "-> Start DSI Adapter.");
         Channels.DSI_ADMIN.log((short)1, "Retrieving the IDispatcherManager.");
         try {
@@ -73,8 +72,7 @@ implements BundleActivator {
         Channels.DSI_ADMIN.log((short)0, "- registering DSIAdapterDumpInfoProvider");
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
         Channels.DSI_ADMIN.log((short)1, "-> Stop DSI Adapter.");
         ListenerTracker.getInstance().close();
         if (this.admin != null) {

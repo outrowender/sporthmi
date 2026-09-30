@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.comm.dsi.picturestore.impl.PictureAttributeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.picturestore.PictureAttribute;
 import org.dsi.ifc.picturestore.PictureEntryInfo;
 
 public class PictureEntryInfoSerializer {
-    public static void putOptionalPictureEntryInfo(ISerializer iSerializer, PictureEntryInfo pictureEntryInfo) {
+    public static void putOptionalPictureEntryInfo(ISerializer iSerializer, PictureEntryInfo pictureEntryInfo) throws SerializerException {
         boolean bl = pictureEntryInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class PictureEntryInfoSerializer {
         }
     }
 
-    public static void putOptionalPictureEntryInfoVarArray(ISerializer iSerializer, PictureEntryInfo[] pictureEntryInfoArray) {
+    public static void putOptionalPictureEntryInfoVarArray(ISerializer iSerializer, PictureEntryInfo[] pictureEntryInfoArray) throws SerializerException {
         boolean bl = pictureEntryInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class PictureEntryInfoSerializer {
         }
     }
 
-    public static PictureEntryInfo getOptionalPictureEntryInfo(IDeserializer iDeserializer) {
+    public static PictureEntryInfo getOptionalPictureEntryInfo(IDeserializer iDeserializer) throws SerializerException {
         PictureEntryInfo pictureEntryInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class PictureEntryInfoSerializer {
         return pictureEntryInfo;
     }
 
-    public static PictureEntryInfo[] getOptionalPictureEntryInfoVarArray(IDeserializer iDeserializer) {
+    public static PictureEntryInfo[] getOptionalPictureEntryInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PictureEntryInfo[] pictureEntryInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

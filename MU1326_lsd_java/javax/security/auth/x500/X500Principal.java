@@ -4,6 +4,7 @@
 package javax.security.auth.x500;
 
 import com.ibm.oti.util.ASN1Exception;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,10 +14,10 @@ import java.security.Principal;
 public final class X500Principal
 implements Principal,
 Serializable {
-    private static final long serialVersionUID;
-    public static final String RFC1779;
-    public static final String RFC2253;
-    public static final String CANONICAL;
+    private static final long serialVersionUID = -500463348111345721L;
+    public static final String RFC1779 = "RFC1779";
+    public static final String RFC2253 = "RFC2253";
+    public static final String CANONICAL = "CANONICAL";
     private transient com.ibm.oti.security.provider.X500Principal principal = null;
 
     public X500Principal(byte[] byArray) {
@@ -47,9 +48,8 @@ Serializable {
         this.principal = new com.ibm.oti.security.provider.X500Principal(string);
     }
 
-    @Override
     public String getName() {
-        return this.getName("RFC2253");
+        return this.getName(RFC2253);
     }
 
     public String getName(String string) {
@@ -60,42 +60,39 @@ Serializable {
         return this.principal.getEncoded();
     }
 
-    @Override
     public String toString() {
         return this.principal.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (!(object instanceof X500Principal)) {
             return false;
         }
-        return this.getName("CANONICAL").equals(((X500Principal)object).getName("CANONICAL"));
+        return this.getName(CANONICAL).equals(((X500Principal)object).getName(CANONICAL));
     }
 
-    @Override
     public int hashCode() {
-        return this.getName("CANONICAL").hashCode();
+        return this.getName(CANONICAL).hashCode();
     }
 
     private int mapAPIConstantToInternal(String string) {
-        if (string.equals("RFC1779")) {
+        if (string.equals(RFC1779)) {
             return 0;
         }
-        if (string.equals("RFC2253")) {
+        if (string.equals(RFC2253)) {
             return 1;
         }
-        if (string.equals("CANONICAL")) {
+        if (string.equals(CANONICAL)) {
             return 2;
         }
         throw new IllegalArgumentException();
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeObject(this.getEncoded());
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         byte[] byArray = (byte[])objectInputStream.readObject();
         this.principal = new com.ibm.oti.security.provider.X500Principal(byArray);
     }

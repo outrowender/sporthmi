@@ -24,10 +24,9 @@ extends AbstractNotification {
     }
 
     public String toString() {
-        return new StringBuffer().append("[ProxyListener:proxyId=").append(this.proxy.getProxyID()).append(",state=").append(Lifecycle.lifecycleNames[this.state]).append("]").toString();
+        return "[ProxyListener:proxyId=" + this.proxy.getProxyID() + ",state=" + Lifecycle.lifecycleNames[this.state] + "]";
     }
 
-    @Override
     public void performNotification() {
         CommAgentTracing.NOTIFICATION.log((short)1, "{ ProxyListenerNotification: state=%1 proxy=#%2:%3", (Object)Lifecycle.lifecycleNames[this.state], (Object)new Integer(this.proxy.getProxyID()), (Object)this.proxy.getInstanceID());
         ListIterator listIterator = this.listeners.listIterator();

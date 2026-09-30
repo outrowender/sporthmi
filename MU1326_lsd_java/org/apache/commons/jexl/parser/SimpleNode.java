@@ -25,25 +25,20 @@ implements Node {
         this.parser = parser;
     }
 
-    @Override
     public void jjtOpen() {
     }
 
-    @Override
     public void jjtClose() {
     }
 
-    @Override
     public void jjtSetParent(Node node) {
         this.parent = node;
     }
 
-    @Override
     public Node jjtGetParent() {
         return this.parent;
     }
 
-    @Override
     public void jjtAddChild(Node node, int n) {
         if (this.children == null) {
             this.children = new Node[n + 1];
@@ -55,17 +50,14 @@ implements Node {
         this.children[n] = node;
     }
 
-    @Override
     public Node jjtGetChild(int n) {
         return this.children[n];
     }
 
-    @Override
     public int jjtGetNumChildren() {
         return this.children == null ? 0 : this.children.length;
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
@@ -84,7 +76,7 @@ implements Node {
     }
 
     public String toString(String string) {
-        return new StringBuffer().append(string).append(this.toString()).toString();
+        return string + this.toString();
     }
 
     public void dump(String string) {
@@ -93,12 +85,12 @@ implements Node {
             for (int i2 = 0; i2 < this.children.length; ++i2) {
                 SimpleNode simpleNode = (SimpleNode)this.children[i2];
                 if (simpleNode == null) continue;
-                simpleNode.dump(new StringBuffer().append(string).append(" ").toString());
+                simpleNode.dump(string + " ");
             }
         }
     }
 
-    public boolean interpret(JexlContext jexlContext) {
+    public boolean interpret(JexlContext jexlContext) throws Exception {
         for (int i2 = 0; i2 < this.jjtGetNumChildren(); ++i2) {
             SimpleNode simpleNode = (SimpleNode)this.jjtGetChild(i2);
             if (simpleNode.interpret(jexlContext)) continue;
@@ -107,15 +99,15 @@ implements Node {
         return true;
     }
 
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         return null;
     }
 
-    public Object setValue(JexlContext jexlContext, Object object) {
+    public Object setValue(JexlContext jexlContext, Object object) throws Exception {
         return null;
     }
 
-    public Object execute(Object object, JexlContext jexlContext) {
+    public Object execute(Object object, JexlContext jexlContext) throws Exception {
         return null;
     }
 }

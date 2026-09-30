@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataReceptionList;
 
 public class DataReceptionListSerializer {
-    public static void putOptionalDataReceptionList(ISerializer iSerializer, DataReceptionList dataReceptionList) {
+    public static void putOptionalDataReceptionList(ISerializer iSerializer, DataReceptionList dataReceptionList) throws SerializerException {
         boolean bl = dataReceptionList == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class DataReceptionListSerializer {
         }
     }
 
-    public static void putOptionalDataReceptionListVarArray(ISerializer iSerializer, DataReceptionList[] dataReceptionListArray) {
+    public static void putOptionalDataReceptionListVarArray(ISerializer iSerializer, DataReceptionList[] dataReceptionListArray) throws SerializerException {
         boolean bl = dataReceptionListArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class DataReceptionListSerializer {
         }
     }
 
-    public static DataReceptionList getOptionalDataReceptionList(IDeserializer iDeserializer) {
+    public static DataReceptionList getOptionalDataReceptionList(IDeserializer iDeserializer) throws SerializerException {
         DataReceptionList dataReceptionList = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class DataReceptionListSerializer {
         return dataReceptionList;
     }
 
-    public static DataReceptionList[] getOptionalDataReceptionListVarArray(IDeserializer iDeserializer) {
+    public static DataReceptionList[] getOptionalDataReceptionListVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataReceptionList[] dataReceptionListArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.online.coreservice.impl;
 import de.esolutions.fw.comm.asi.online.coreservice.OAuthToken;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class OAuthTokenSerializer {
-    public static void putOptionalOAuthToken(ISerializer iSerializer, OAuthToken oAuthToken) {
+    public static void putOptionalOAuthToken(ISerializer iSerializer, OAuthToken oAuthToken) throws SerializerException {
         boolean bl = oAuthToken == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class OAuthTokenSerializer {
         }
     }
 
-    public static void putOptionalOAuthTokenVarArray(ISerializer iSerializer, OAuthToken[] oAuthTokenArray) {
+    public static void putOptionalOAuthTokenVarArray(ISerializer iSerializer, OAuthToken[] oAuthTokenArray) throws SerializerException {
         boolean bl = oAuthTokenArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class OAuthTokenSerializer {
         }
     }
 
-    public static OAuthToken getOptionalOAuthToken(IDeserializer iDeserializer) {
+    public static OAuthToken getOptionalOAuthToken(IDeserializer iDeserializer) throws SerializerException {
         OAuthToken oAuthToken = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class OAuthTokenSerializer {
         return oAuthToken;
     }
 
-    public static OAuthToken[] getOptionalOAuthTokenVarArray(IDeserializer iDeserializer) {
+    public static OAuthToken[] getOptionalOAuthTokenVarArray(IDeserializer iDeserializer) throws SerializerException {
         OAuthToken[] oAuthTokenArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

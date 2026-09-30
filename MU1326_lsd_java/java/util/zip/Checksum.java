@@ -4,16 +4,12 @@
 package java.util.zip;
 
 public interface Checksum {
-    default public long getValue() {
-    }
+    public long getValue();
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public void update(int n) {
-    }
+    public void update(int var1);
 
-    default public void update(byte[] byArray, int n, int n2) {
-    }
+    public void update(byte[] var1, int var2, int var3);
 }
 

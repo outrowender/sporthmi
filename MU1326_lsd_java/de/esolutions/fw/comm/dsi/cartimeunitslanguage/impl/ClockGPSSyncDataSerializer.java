@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.ClockDateSerializer;
 import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.ClockTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockDate;
 import org.dsi.ifc.cartimeunitslanguage.ClockGPSSyncData;
 import org.dsi.ifc.cartimeunitslanguage.ClockTime;
 
 public class ClockGPSSyncDataSerializer {
-    public static void putOptionalClockGPSSyncData(ISerializer iSerializer, ClockGPSSyncData clockGPSSyncData) {
+    public static void putOptionalClockGPSSyncData(ISerializer iSerializer, ClockGPSSyncData clockGPSSyncData) throws SerializerException {
         boolean bl = clockGPSSyncData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class ClockGPSSyncDataSerializer {
         }
     }
 
-    public static void putOptionalClockGPSSyncDataVarArray(ISerializer iSerializer, ClockGPSSyncData[] clockGPSSyncDataArray) {
+    public static void putOptionalClockGPSSyncDataVarArray(ISerializer iSerializer, ClockGPSSyncData[] clockGPSSyncDataArray) throws SerializerException {
         boolean bl = clockGPSSyncDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class ClockGPSSyncDataSerializer {
         }
     }
 
-    public static ClockGPSSyncData getOptionalClockGPSSyncData(IDeserializer iDeserializer) {
+    public static ClockGPSSyncData getOptionalClockGPSSyncData(IDeserializer iDeserializer) throws SerializerException {
         ClockGPSSyncData clockGPSSyncData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ClockGPSSyncDataSerializer {
         return clockGPSSyncData;
     }
 
-    public static ClockGPSSyncData[] getOptionalClockGPSSyncDataVarArray(IDeserializer iDeserializer) {
+    public static ClockGPSSyncData[] getOptionalClockGPSSyncDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockGPSSyncData[] clockGPSSyncDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

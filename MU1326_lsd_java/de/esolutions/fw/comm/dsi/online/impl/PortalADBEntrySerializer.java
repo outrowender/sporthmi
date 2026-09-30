@@ -10,6 +10,7 @@ import de.esolutions.fw.comm.dsi.online.impl.PortalPersonalDataSerializer;
 import de.esolutions.fw.comm.dsi.online.impl.PortalPhoneDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalADBEntry;
 import org.dsi.ifc.online.PortalAddressData;
 import org.dsi.ifc.online.PortalMessagingData;
@@ -18,7 +19,7 @@ import org.dsi.ifc.online.PortalPersonalData;
 import org.dsi.ifc.online.PortalPhoneData;
 
 public class PortalADBEntrySerializer {
-    public static void putOptionalPortalADBEntry(ISerializer iSerializer, PortalADBEntry portalADBEntry) {
+    public static void putOptionalPortalADBEntry(ISerializer iSerializer, PortalADBEntry portalADBEntry) throws SerializerException {
         boolean bl = portalADBEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -51,7 +52,7 @@ public class PortalADBEntrySerializer {
         }
     }
 
-    public static void putOptionalPortalADBEntryVarArray(ISerializer iSerializer, PortalADBEntry[] portalADBEntryArray) {
+    public static void putOptionalPortalADBEntryVarArray(ISerializer iSerializer, PortalADBEntry[] portalADBEntryArray) throws SerializerException {
         boolean bl = portalADBEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -62,7 +63,7 @@ public class PortalADBEntrySerializer {
         }
     }
 
-    public static PortalADBEntry getOptionalPortalADBEntry(IDeserializer iDeserializer) {
+    public static PortalADBEntry getOptionalPortalADBEntry(IDeserializer iDeserializer) throws SerializerException {
         PortalADBEntry portalADBEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -97,7 +98,7 @@ public class PortalADBEntrySerializer {
         return portalADBEntry;
     }
 
-    public static PortalADBEntry[] getOptionalPortalADBEntryVarArray(IDeserializer iDeserializer) {
+    public static PortalADBEntry[] getOptionalPortalADBEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalADBEntry[] portalADBEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

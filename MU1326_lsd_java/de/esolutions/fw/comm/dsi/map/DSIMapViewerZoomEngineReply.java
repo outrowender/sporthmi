@@ -3,28 +3,24 @@
  */
 package de.esolutions.fw.comm.dsi.map;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIMapViewerZoomEngineReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "e66e2809-cb0c-5c13-a5a3-2dbaeacc08ce";
+    public static final String IPL_COMM_INTERFACE_KEY = "2ff38b18-4828-5546-afad-f644f0526a3d";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.62";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.62";
 
-    default public void updateAutoZoomEnabled(boolean bl, int n) {
-    }
+    public void updateAutoZoomEnabled(boolean var1, int var2) throws MethodException;
 
-    default public void updateManoeuvreZoomEnabled(boolean bl, int n) {
-    }
+    public void updateManoeuvreZoomEnabled(boolean var1, int var2) throws MethodException;
 
-    default public void updateRecommendedZoom(float f2, int n) {
-    }
+    public void updateRecommendedZoom(float var1, int var2) throws MethodException;
 
-    default public void updateZoomEngineState(int n, int n2) {
-    }
+    public void updateZoomEngineState(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

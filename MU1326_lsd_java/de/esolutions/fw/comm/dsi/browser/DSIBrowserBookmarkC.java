@@ -3,59 +3,43 @@
  */
 package de.esolutions.fw.comm.dsi.browser;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.browser.Bookmark;
 import org.dsi.ifc.browser.PathInfo;
 
 public interface DSIBrowserBookmarkC {
-    default public void listBookmarks(String string) {
-    }
+    public void listBookmarks(String var1) throws MethodException;
 
-    default public void addBookmark(Bookmark bookmark) {
-    }
+    public void addBookmark(Bookmark var1) throws MethodException;
 
-    default public void editBookmark(Bookmark bookmark, Bookmark bookmark2) {
-    }
+    public void editBookmark(Bookmark var1, Bookmark var2) throws MethodException;
 
-    default public void deleteBookmark(Bookmark bookmark) {
-    }
+    public void deleteBookmark(Bookmark var1) throws MethodException;
 
-    default public void createFolder(Bookmark bookmark) {
-    }
+    public void createFolder(Bookmark var1) throws MethodException;
 
-    default public void deleteFolder(String string) {
-    }
+    public void deleteFolder(String var1) throws MethodException;
 
-    default public void renameFolder(String string, String string2) {
-    }
+    public void renameFolder(String var1, String var2) throws MethodException;
 
-    default public void exportBookmarks(PathInfo pathInfo) {
-    }
+    public void exportBookmarks(PathInfo var1) throws MethodException;
 
-    default public void importBookmarks(PathInfo pathInfo, boolean bl, boolean bl2) {
-    }
+    public void importBookmarks(PathInfo var1, boolean var2, boolean var3) throws MethodException;
 
-    default public void getQuotaInformation() {
-    }
+    public void getQuotaInformation() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

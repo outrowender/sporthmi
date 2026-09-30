@@ -6,59 +6,44 @@ package de.esolutions.fw.comm.asi.hmisync.headunit;
 import de.esolutions.fw.comm.asi.hmisync.headunit.CarConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.headunit.ClockDate;
 import de.esolutions.fw.comm.asi.hmisync.headunit.ClockTime;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncHeadUnitReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "00c7b221-4634-4004-97dd-03531d5bc83c";
+    public static final String IPL_COMM_INTERFACE_KEY = "d70a28c6-c507-5f9a-8920-21d1424b355a";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.2.00";
+    public static final String IPL_COMM_MODULE_VERSION = "1.2.00";
 
-    default public void resetLanguage(int n, String string) {
-    }
+    public void resetLanguage(int var1, String var2) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateClockTime(ClockTime clockTime, boolean bl) {
-    }
+    public void updateClockTime(ClockTime var1, boolean var2) throws MethodException;
 
-    default public void updateClockDate(ClockDate clockDate, boolean bl) {
-    }
+    public void updateClockDate(ClockDate var1, boolean var2) throws MethodException;
 
-    default public void updateLanguage1(int n, boolean bl) {
-    }
+    public void updateLanguage1(int var1, boolean var2) throws MethodException;
 
-    default public void updateLanguage2(String string, boolean bl) {
-    }
+    public void updateLanguage2(String var1, boolean var2) throws MethodException;
 
-    default public void updateTemperatureUnit(int n, boolean bl) {
-    }
+    public void updateTemperatureUnit(int var1, boolean var2) throws MethodException;
 
-    default public void updateSpeedUnit(int n, boolean bl) {
-    }
+    public void updateSpeedUnit(int var1, boolean var2) throws MethodException;
 
-    default public void updateDistanceUnit(int n, boolean bl) {
-    }
+    public void updateDistanceUnit(int var1, boolean var2) throws MethodException;
 
-    default public void updatePressureUnit(int n, boolean bl) {
-    }
+    public void updatePressureUnit(int var1, boolean var2) throws MethodException;
 
-    default public void updateCarConfiguration(CarConfiguration carConfiguration, boolean bl) {
-    }
+    public void updateCarConfiguration(CarConfiguration var1, boolean var2) throws MethodException;
 
-    default public void updateRegion(int n, boolean bl) {
-    }
+    public void updateRegion(int var1, boolean var2) throws MethodException;
 
-    default public void updateExtCarConfiguration(int[] nArray, boolean bl) {
-    }
+    public void updateExtCarConfiguration(int[] var1, boolean var2) throws MethodException;
 
-    default public void updateSplashScreenCoding(short s, boolean bl) {
-    }
+    public void updateSplashScreenCoding(short var1, boolean var2) throws MethodException;
 }
 

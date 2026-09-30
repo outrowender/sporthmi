@@ -17,12 +17,10 @@ implements Iterator {
         this.length = n;
     }
 
-    @Override
     public boolean hasNext() {
         return this.next < this.length;
     }
 
-    @Override
     public Object next() {
         MenuItemIndex menuItemIndex = this.getNextIndex();
         ++this.next;
@@ -36,7 +34,6 @@ implements Iterator {
         return new MenuItemIndex(this.startIndex.widget, this.startIndex.widgetPart + this.next);
     }
 
-    @Override
     public void remove() {
         throw new IllegalStateException("Remove menu items is not supported");
     }

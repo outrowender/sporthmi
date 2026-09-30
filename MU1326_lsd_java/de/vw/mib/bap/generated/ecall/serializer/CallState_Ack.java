@@ -11,162 +11,162 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CallState_Ack
 implements AckProperty {
     public int callState0;
-    public static final int CALL_STATE0_INCOMING_ON_HOLD;
-    public static final int CALL_STATE0_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE0_CONNECTED_CIB;
-    public static final int CALL_STATE0_ON_HOLD;
-    public static final int CALL_STATE0_DISCONNECTING;
-    public static final int CALL_STATE0_DIALING;
-    public static final int CALL_STATE0_ACTIVE;
-    public static final int CALL_STATE0_RINGING_WAITING;
-    public static final int CALL_STATE0_IDLE;
-    private static final int CALL_STATE0_BITSIZE;
+    public static final int CALL_STATE0_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE0_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE0_CONNECTED_CIB = 6;
+    public static final int CALL_STATE0_ON_HOLD = 5;
+    public static final int CALL_STATE0_DISCONNECTING = 4;
+    public static final int CALL_STATE0_DIALING = 3;
+    public static final int CALL_STATE0_ACTIVE = 2;
+    public static final int CALL_STATE0_RINGING_WAITING = 1;
+    public static final int CALL_STATE0_IDLE = 0;
+    private static final int CALL_STATE0_BITSIZE = 4;
     public int callType0;
-    public static final int CALL_TYPE0_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE0_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE0_MEC;
-    public static final int CALL_TYPE0_ACN;
-    public static final int CALL_TYPE0_SERVICE_CALL;
-    public static final int CALL_TYPE0_INFO_CALL;
-    public static final int CALL_TYPE0_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE0_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE0_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE0_BITSIZE;
+    public static final int CALL_TYPE0_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE0_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE0_MEC = 9;
+    public static final int CALL_TYPE0_ACN = 8;
+    public static final int CALL_TYPE0_SERVICE_CALL = 7;
+    public static final int CALL_TYPE0_INFO_CALL = 6;
+    public static final int CALL_TYPE0_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE0_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE0_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE0_BITSIZE = 4;
     public int callState1;
-    public static final int CALL_STATE1_INCOMING_ON_HOLD;
-    public static final int CALL_STATE1_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE1_CONNECTED_CIB;
-    public static final int CALL_STATE1_ON_HOLD;
-    public static final int CALL_STATE1_DISCONNECTING;
-    public static final int CALL_STATE1_DIALING;
-    public static final int CALL_STATE1_ACTIVE;
-    public static final int CALL_STATE1_RINGING_WAITING;
-    public static final int CALL_STATE1_IDLE;
-    private static final int CALL_STATE1_BITSIZE;
+    public static final int CALL_STATE1_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE1_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE1_CONNECTED_CIB = 6;
+    public static final int CALL_STATE1_ON_HOLD = 5;
+    public static final int CALL_STATE1_DISCONNECTING = 4;
+    public static final int CALL_STATE1_DIALING = 3;
+    public static final int CALL_STATE1_ACTIVE = 2;
+    public static final int CALL_STATE1_RINGING_WAITING = 1;
+    public static final int CALL_STATE1_IDLE = 0;
+    private static final int CALL_STATE1_BITSIZE = 4;
     public int callType1;
-    public static final int CALL_TYPE1_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE1_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE1_MEC;
-    public static final int CALL_TYPE1_ACN;
-    public static final int CALL_TYPE1_SERVICE_CALL;
-    public static final int CALL_TYPE1_INFO_CALL;
-    public static final int CALL_TYPE1_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE1_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE1_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE1_BITSIZE;
+    public static final int CALL_TYPE1_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE1_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE1_MEC = 9;
+    public static final int CALL_TYPE1_ACN = 8;
+    public static final int CALL_TYPE1_SERVICE_CALL = 7;
+    public static final int CALL_TYPE1_INFO_CALL = 6;
+    public static final int CALL_TYPE1_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE1_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE1_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE1_BITSIZE = 4;
     public int callState2;
-    public static final int CALL_STATE2_INCOMING_ON_HOLD;
-    public static final int CALL_STATE2_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE2_CONNECTED_CIB;
-    public static final int CALL_STATE2_ON_HOLD;
-    public static final int CALL_STATE2_DISCONNECTING;
-    public static final int CALL_STATE2_DIALING;
-    public static final int CALL_STATE2_ACTIVE;
-    public static final int CALL_STATE2_RINGING_WAITING;
-    public static final int CALL_STATE2_IDLE;
-    private static final int CALL_STATE2_BITSIZE;
+    public static final int CALL_STATE2_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE2_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE2_CONNECTED_CIB = 6;
+    public static final int CALL_STATE2_ON_HOLD = 5;
+    public static final int CALL_STATE2_DISCONNECTING = 4;
+    public static final int CALL_STATE2_DIALING = 3;
+    public static final int CALL_STATE2_ACTIVE = 2;
+    public static final int CALL_STATE2_RINGING_WAITING = 1;
+    public static final int CALL_STATE2_IDLE = 0;
+    private static final int CALL_STATE2_BITSIZE = 4;
     public int callType2;
-    public static final int CALL_TYPE2_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE2_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE2_MEC;
-    public static final int CALL_TYPE2_ACN;
-    public static final int CALL_TYPE2_SERVICE_CALL;
-    public static final int CALL_TYPE2_INFO_CALL;
-    public static final int CALL_TYPE2_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE2_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE2_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE2_BITSIZE;
+    public static final int CALL_TYPE2_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE2_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE2_MEC = 9;
+    public static final int CALL_TYPE2_ACN = 8;
+    public static final int CALL_TYPE2_SERVICE_CALL = 7;
+    public static final int CALL_TYPE2_INFO_CALL = 6;
+    public static final int CALL_TYPE2_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE2_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE2_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE2_BITSIZE = 4;
     public int callState3;
-    public static final int CALL_STATE3_INCOMING_ON_HOLD;
-    public static final int CALL_STATE3_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE3_CONNECTED_CIB;
-    public static final int CALL_STATE3_ON_HOLD;
-    public static final int CALL_STATE3_DISCONNECTING;
-    public static final int CALL_STATE3_DIALING;
-    public static final int CALL_STATE3_ACTIVE;
-    public static final int CALL_STATE3_RINGING_WAITING;
-    public static final int CALL_STATE3_IDLE;
-    private static final int CALL_STATE3_BITSIZE;
+    public static final int CALL_STATE3_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE3_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE3_CONNECTED_CIB = 6;
+    public static final int CALL_STATE3_ON_HOLD = 5;
+    public static final int CALL_STATE3_DISCONNECTING = 4;
+    public static final int CALL_STATE3_DIALING = 3;
+    public static final int CALL_STATE3_ACTIVE = 2;
+    public static final int CALL_STATE3_RINGING_WAITING = 1;
+    public static final int CALL_STATE3_IDLE = 0;
+    private static final int CALL_STATE3_BITSIZE = 4;
     public int callType3;
-    public static final int CALL_TYPE3_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE3_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE3_MEC;
-    public static final int CALL_TYPE3_ACN;
-    public static final int CALL_TYPE3_SERVICE_CALL;
-    public static final int CALL_TYPE3_INFO_CALL;
-    public static final int CALL_TYPE3_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE3_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE3_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE3_BITSIZE;
+    public static final int CALL_TYPE3_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE3_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE3_MEC = 9;
+    public static final int CALL_TYPE3_ACN = 8;
+    public static final int CALL_TYPE3_SERVICE_CALL = 7;
+    public static final int CALL_TYPE3_INFO_CALL = 6;
+    public static final int CALL_TYPE3_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE3_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE3_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE3_BITSIZE = 4;
     public int callState4;
-    public static final int CALL_STATE4_INCOMING_ON_HOLD;
-    public static final int CALL_STATE4_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE4_CONNECTED_CIB;
-    public static final int CALL_STATE4_ON_HOLD;
-    public static final int CALL_STATE4_DISCONNECTING;
-    public static final int CALL_STATE4_DIALING;
-    public static final int CALL_STATE4_ACTIVE;
-    public static final int CALL_STATE4_RINGING_WAITING;
-    public static final int CALL_STATE4_IDLE;
-    private static final int CALL_STATE4_BITSIZE;
+    public static final int CALL_STATE4_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE4_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE4_CONNECTED_CIB = 6;
+    public static final int CALL_STATE4_ON_HOLD = 5;
+    public static final int CALL_STATE4_DISCONNECTING = 4;
+    public static final int CALL_STATE4_DIALING = 3;
+    public static final int CALL_STATE4_ACTIVE = 2;
+    public static final int CALL_STATE4_RINGING_WAITING = 1;
+    public static final int CALL_STATE4_IDLE = 0;
+    private static final int CALL_STATE4_BITSIZE = 4;
     public int callType4;
-    public static final int CALL_TYPE4_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE4_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE4_MEC;
-    public static final int CALL_TYPE4_ACN;
-    public static final int CALL_TYPE4_SERVICE_CALL;
-    public static final int CALL_TYPE4_INFO_CALL;
-    public static final int CALL_TYPE4_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE4_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE4_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE4_BITSIZE;
+    public static final int CALL_TYPE4_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE4_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE4_MEC = 9;
+    public static final int CALL_TYPE4_ACN = 8;
+    public static final int CALL_TYPE4_SERVICE_CALL = 7;
+    public static final int CALL_TYPE4_INFO_CALL = 6;
+    public static final int CALL_TYPE4_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE4_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE4_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE4_BITSIZE = 4;
     public int callState5;
-    public static final int CALL_STATE5_INCOMING_ON_HOLD;
-    public static final int CALL_STATE5_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE5_CONNECTED_CIB;
-    public static final int CALL_STATE5_ON_HOLD;
-    public static final int CALL_STATE5_DISCONNECTING;
-    public static final int CALL_STATE5_DIALING;
-    public static final int CALL_STATE5_ACTIVE;
-    public static final int CALL_STATE5_RINGING_WAITING;
-    public static final int CALL_STATE5_IDLE;
-    private static final int CALL_STATE5_BITSIZE;
+    public static final int CALL_STATE5_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE5_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE5_CONNECTED_CIB = 6;
+    public static final int CALL_STATE5_ON_HOLD = 5;
+    public static final int CALL_STATE5_DISCONNECTING = 4;
+    public static final int CALL_STATE5_DIALING = 3;
+    public static final int CALL_STATE5_ACTIVE = 2;
+    public static final int CALL_STATE5_RINGING_WAITING = 1;
+    public static final int CALL_STATE5_IDLE = 0;
+    private static final int CALL_STATE5_BITSIZE = 4;
     public int callType5;
-    public static final int CALL_TYPE5_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE5_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE5_MEC;
-    public static final int CALL_TYPE5_ACN;
-    public static final int CALL_TYPE5_SERVICE_CALL;
-    public static final int CALL_TYPE5_INFO_CALL;
-    public static final int CALL_TYPE5_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE5_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE5_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE5_BITSIZE;
+    public static final int CALL_TYPE5_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE5_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE5_MEC = 9;
+    public static final int CALL_TYPE5_ACN = 8;
+    public static final int CALL_TYPE5_SERVICE_CALL = 7;
+    public static final int CALL_TYPE5_INFO_CALL = 6;
+    public static final int CALL_TYPE5_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE5_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE5_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE5_BITSIZE = 4;
     public int callState6;
-    public static final int CALL_STATE6_INCOMING_ON_HOLD;
-    public static final int CALL_STATE6_REMOTE_SIDE_BUSY;
-    public static final int CALL_STATE6_CONNECTED_CIB;
-    public static final int CALL_STATE6_ON_HOLD;
-    public static final int CALL_STATE6_DISCONNECTING;
-    public static final int CALL_STATE6_DIALING;
-    public static final int CALL_STATE6_ACTIVE;
-    public static final int CALL_STATE6_RINGING_WAITING;
-    public static final int CALL_STATE6_IDLE;
-    private static final int CALL_STATE6_BITSIZE;
+    public static final int CALL_STATE6_INCOMING_ON_HOLD = 8;
+    public static final int CALL_STATE6_REMOTE_SIDE_BUSY = 7;
+    public static final int CALL_STATE6_CONNECTED_CIB = 6;
+    public static final int CALL_STATE6_ON_HOLD = 5;
+    public static final int CALL_STATE6_DISCONNECTING = 4;
+    public static final int CALL_STATE6_DIALING = 3;
+    public static final int CALL_STATE6_ACTIVE = 2;
+    public static final int CALL_STATE6_RINGING_WAITING = 1;
+    public static final int CALL_STATE6_IDLE = 0;
+    private static final int CALL_STATE6_BITSIZE = 4;
     public int callType6;
-    public static final int CALL_TYPE6_ACN_LEGAL_DF3_7;
-    public static final int CALL_TYPE6_MEC_LEGAL_DF3_2;
-    public static final int CALL_TYPE6_MEC;
-    public static final int CALL_TYPE6_ACN;
-    public static final int CALL_TYPE6_SERVICE_CALL;
-    public static final int CALL_TYPE6_INFO_CALL;
-    public static final int CALL_TYPE6_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION;
-    public static final int CALL_TYPE6_SINGLE_VOICE_CALL;
-    public static final int CALL_TYPE6_UNKNOWN_CALL_TYPE;
-    private static final int CALL_TYPE6_BITSIZE;
+    public static final int CALL_TYPE6_ACN_LEGAL_DF3_7 = 11;
+    public static final int CALL_TYPE6_MEC_LEGAL_DF3_2 = 10;
+    public static final int CALL_TYPE6_MEC = 9;
+    public static final int CALL_TYPE6_ACN = 8;
+    public static final int CALL_TYPE6_SERVICE_CALL = 7;
+    public static final int CALL_TYPE6_INFO_CALL = 6;
+    public static final int CALL_TYPE6_EMERGENCY_CALL_MANUAL_E_G_112_W_O_DATA_TRANSMISSION = 4;
+    public static final int CALL_TYPE6_SINGLE_VOICE_CALL = 1;
+    public static final int CALL_TYPE6_UNKNOWN_CALL_TYPE = 0;
+    private static final int CALL_TYPE6_BITSIZE = 4;
     public int extension;
-    public static final int EXTENSION_MIN;
-    private static final int EXTENSION_BITSIZE;
+    public static final int EXTENSION_MIN = 0;
+    private static final int EXTENSION_BITSIZE = 4;
     public CallState_AdditionalStates additionalStates = new CallState_AdditionalStates();
 
     public CallState_Ack() {
@@ -197,13 +197,11 @@ implements AckProperty {
         this.extension = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.additionalStates.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CallState_Ack callState_Ack = (CallState_Ack)bAPEntity;
         return this.callState0 == callState_Ack.callState0 && this.callType0 == callState_Ack.callType0 && this.callState1 == callState_Ack.callState1 && this.callType1 == callState_Ack.callType1 && this.callState2 == callState_Ack.callState2 && this.callType2 == callState_Ack.callType2 && this.callState3 == callState_Ack.callState3 && this.callType3 == callState_Ack.callType3 && this.callState4 == callState_Ack.callState4 && this.callType4 == callState_Ack.callType4 && this.callState5 == callState_Ack.callState5 && this.callType5 == callState_Ack.callType5 && this.callState6 == callState_Ack.callState6 && this.callType6 == callState_Ack.callType6 && this.extension == callState_Ack.extension && this.additionalStates.equalTo(callState_Ack.additionalStates);
@@ -212,7 +210,6 @@ implements AckProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CallState_Ack");
@@ -235,12 +232,10 @@ implements AckProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushBits(4, this.callState0);
         bitStream.pushBits(4, this.callType0);
@@ -260,7 +255,6 @@ implements AckProperty {
         this.additionalStates.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.callState0 = bitStream.popFrontBits(4);
         this.callType0 = bitStream.popFrontBits(4);
@@ -284,7 +278,6 @@ implements AckProperty {
         return 17;
     }
 
-    @Override
     public int getFunctionId() {
         return CallState_Ack.functionId();
     }

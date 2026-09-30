@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public class RrdCalculationInfoSerializer {
-    public static void putOptionalRrdCalculationInfo(ISerializer iSerializer, RrdCalculationInfo rrdCalculationInfo) {
+    public static void putOptionalRrdCalculationInfo(ISerializer iSerializer, RrdCalculationInfo rrdCalculationInfo) throws SerializerException {
         boolean bl = rrdCalculationInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RrdCalculationInfoSerializer {
         }
     }
 
-    public static void putOptionalRrdCalculationInfoVarArray(ISerializer iSerializer, RrdCalculationInfo[] rrdCalculationInfoArray) {
+    public static void putOptionalRrdCalculationInfoVarArray(ISerializer iSerializer, RrdCalculationInfo[] rrdCalculationInfoArray) throws SerializerException {
         boolean bl = rrdCalculationInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RrdCalculationInfoSerializer {
         }
     }
 
-    public static RrdCalculationInfo getOptionalRrdCalculationInfo(IDeserializer iDeserializer) {
+    public static RrdCalculationInfo getOptionalRrdCalculationInfo(IDeserializer iDeserializer) throws SerializerException {
         RrdCalculationInfo rrdCalculationInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class RrdCalculationInfoSerializer {
         return rrdCalculationInfo;
     }
 
-    public static RrdCalculationInfo[] getOptionalRrdCalculationInfoVarArray(IDeserializer iDeserializer) {
+    public static RrdCalculationInfo[] getOptionalRrdCalculationInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RrdCalculationInfo[] rrdCalculationInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

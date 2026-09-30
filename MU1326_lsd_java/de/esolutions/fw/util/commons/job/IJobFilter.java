@@ -7,16 +7,12 @@ import de.esolutions.fw.util.commons.job.Job;
 import java.io.PrintStream;
 
 public interface IJobFilter {
-    default public IJobFilter getNext() {
-    }
+    public IJobFilter getNext();
 
-    default public void setNext(IJobFilter iJobFilter) {
-    }
+    public void setNext(IJobFilter var1);
 
-    default public void enqueue(Job job, int n) {
-    }
+    public void enqueue(Job var1, int var2);
 
-    default public void dump(PrintStream printStream) {
-    }
+    public void dump(PrintStream var1);
 }
 

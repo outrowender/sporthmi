@@ -18,7 +18,6 @@ extends AbstractPRPRule {
         this.ruleName = "SpecialCharacters-CaseInsensitive-NVC-Rule";
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         if (list == null || list.isEmpty()) {
             return;
@@ -51,7 +50,6 @@ extends AbstractPRPRule {
         return false;
     }
 
-    @Override
     public String getRuleName() {
         return "SpecialCharacters-CaseInsensitive-NVC-Rule";
     }

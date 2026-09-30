@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDODestinationReached;
 
 public class UGDODestinationReachedSerializer {
-    public static void putOptionalUGDODestinationReached(ISerializer iSerializer, UGDODestinationReached uGDODestinationReached) {
+    public static void putOptionalUGDODestinationReached(ISerializer iSerializer, UGDODestinationReached uGDODestinationReached) throws SerializerException {
         boolean bl = uGDODestinationReached == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -45,7 +46,7 @@ public class UGDODestinationReachedSerializer {
         }
     }
 
-    public static void putOptionalUGDODestinationReachedVarArray(ISerializer iSerializer, UGDODestinationReached[] uGDODestinationReachedArray) {
+    public static void putOptionalUGDODestinationReachedVarArray(ISerializer iSerializer, UGDODestinationReached[] uGDODestinationReachedArray) throws SerializerException {
         boolean bl = uGDODestinationReachedArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -56,7 +57,7 @@ public class UGDODestinationReachedSerializer {
         }
     }
 
-    public static UGDODestinationReached getOptionalUGDODestinationReached(IDeserializer iDeserializer) {
+    public static UGDODestinationReached getOptionalUGDODestinationReached(IDeserializer iDeserializer) throws SerializerException {
         UGDODestinationReached uGDODestinationReached = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -95,7 +96,7 @@ public class UGDODestinationReachedSerializer {
         return uGDODestinationReached;
     }
 
-    public static UGDODestinationReached[] getOptionalUGDODestinationReachedVarArray(IDeserializer iDeserializer) {
+    public static UGDODestinationReached[] getOptionalUGDODestinationReachedVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDODestinationReached[] uGDODestinationReachedArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

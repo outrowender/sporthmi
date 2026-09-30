@@ -8,32 +8,27 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSICalendarExchange
 extends DSIBase {
-    public static final String VERSION;
-    public static final int RT_PARSEICAL;
-    public static final int RT_PARSEICALDIRECTORY;
-    public static final int RT_EXPORTICAL;
-    public static final int RT_IMPORTICAL;
-    public static final int RT_ABORTEXPORT;
-    public static final int RP_PARSEICALRESULT;
-    public static final int RP_PARSEICALDIRECTORYRESULT;
-    public static final int RP_EXPORTICALRESULT;
-    public static final int RP_FINISHEXPORTRESULT;
-    public static final int RESULTTYPE_OK;
-    public static final int RESULTTYPE_ERROR;
+    public static final String VERSION = "2.11.2";
+    public static final int RT_PARSEICAL = 1000;
+    public static final int RT_PARSEICALDIRECTORY = 1001;
+    public static final int RT_EXPORTICAL = 1002;
+    public static final int RT_IMPORTICAL = 1003;
+    public static final int RT_ABORTEXPORT = 1004;
+    public static final int RP_PARSEICALRESULT = 2000;
+    public static final int RP_PARSEICALDIRECTORYRESULT = 2001;
+    public static final int RP_EXPORTICALRESULT = 2002;
+    public static final int RP_FINISHEXPORTRESULT = 2003;
+    public static final int RESULTTYPE_OK = 0;
+    public static final int RESULTTYPE_ERROR = 1;
 
-    default public void parseICal(String string) {
-    }
+    public void parseICal(String var1);
 
-    default public void parseICalDirectory(String string) {
-    }
+    public void parseICalDirectory(String var1);
 
-    default public void exportICal(int n, int n2, long[] lArray, int n3) {
-    }
+    public void exportICal(int var1, int var2, long[] var3, int var4);
 
-    default public void importICal(ResourceLocator[] resourceLocatorArray) {
-    }
+    public void importICal(ResourceLocator[] var1);
 
-    default public void abortExport() {
-    }
+    public void abortExport();
 }
 

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sUsbOvercurrent;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sUsbOvercurrentSerializer {
-    public static void putOptionalsUsbOvercurrent(ISerializer iSerializer, sUsbOvercurrent sUsbOvercurrent2) {
+    public static void putOptionalsUsbOvercurrent(ISerializer iSerializer, sUsbOvercurrent sUsbOvercurrent2) throws SerializerException {
         boolean bl = sUsbOvercurrent2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sUsbOvercurrentSerializer {
         }
     }
 
-    public static void putOptionalsUsbOvercurrentVarArray(ISerializer iSerializer, sUsbOvercurrent[] sUsbOvercurrentArray) {
+    public static void putOptionalsUsbOvercurrentVarArray(ISerializer iSerializer, sUsbOvercurrent[] sUsbOvercurrentArray) throws SerializerException {
         boolean bl = sUsbOvercurrentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sUsbOvercurrentSerializer {
         }
     }
 
-    public static sUsbOvercurrent getOptionalsUsbOvercurrent(IDeserializer iDeserializer) {
+    public static sUsbOvercurrent getOptionalsUsbOvercurrent(IDeserializer iDeserializer) throws SerializerException {
         sUsbOvercurrent sUsbOvercurrent2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sUsbOvercurrentSerializer {
         return sUsbOvercurrent2;
     }
 
-    public static sUsbOvercurrent[] getOptionalsUsbOvercurrentVarArray(IDeserializer iDeserializer) {
+    public static sUsbOvercurrent[] getOptionalsUsbOvercurrentVarArray(IDeserializer iDeserializer) throws SerializerException {
         sUsbOvercurrent[] sUsbOvercurrentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

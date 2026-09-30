@@ -21,7 +21,7 @@ import de.esolutions.hmi.widgets.audi.evo.high.AnimationControllerMIB2High;
 public class CombiMapController
 extends DisplayControllerEvo
 implements NaviMoKoKDKConstants {
-    private static final boolean SMALL_STAGE_FLAG_DEFAULT;
+    private static final boolean SMALL_STAGE_FLAG_DEFAULT = false;
     private int kombiTerminal = 1;
     private int displayType;
     private int updateRate = 10;
@@ -30,12 +30,10 @@ implements NaviMoKoKDKConstants {
     private int kdkPosY = 0;
     private int kdkOpacity = 0;
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.kombiTerminal == 1) {
@@ -66,47 +64,46 @@ implements NaviMoKoKDKConstants {
     }
 
     private void positionKDKBackgrounds(IDisplayManager iDisplayManager, Layout layout) {
-        logKDK.log(-2137614336, "CombiMapController#connected layout: %1", (Object)super.getClass().getName());
+        logKDK.log(10000000, "CombiMapController#connected layout: %1", (Object)layout.getClass().getName());
         int n = layout.getIntegerConstant(58);
         int n2 = layout.getIntegerConstant(59);
         int n3 = layout.getIntegerConstant(60);
         int n4 = layout.getIntegerConstant(61);
-        logKDK.log(-2137614336, "CombiMapController#connected KDK background small stage: (%1, %2)", (long)n, (long)n2);
+        logKDK.log(10000000, "CombiMapController#connected KDK background small stage: (%1, %2)", (long)n, (long)n2);
         iDisplayManager.setPosition(101, this.kombiTerminal, n, n2);
-        logKDK.log(-2137614336, "CombiMapController#connected KDK background large stage: (%1, %2)", (long)n3, (long)n4);
+        logKDK.log(10000000, "CombiMapController#connected KDK background large stage: (%1, %2)", (long)n3, (long)n4);
         iDisplayManager.setPosition(102, this.kombiTerminal, n3, n4);
     }
 
     private void positionMap(IDisplayManager iDisplayManager, Layout layout, boolean bl) {
-        logKDK.log(-2137614336, "CombiMapController#positionMap layout: %1", (Object)super.getClass().getName());
+        logKDK.log(10000000, "CombiMapController#positionMap layout: %1", (Object)layout.getClass().getName());
         int n = layout.getIntegerConstant(108);
         int n2 = layout.getIntegerConstant(109);
         if (bl) {
-            logKDK.log(-2137614336, "CombiMapController#positionMap adding a small stage offset from the layout");
+            logKDK.log(10000000, "CombiMapController#positionMap adding a small stage offset from the layout");
             n += layout.getIntegerConstant(80);
             n2 += layout.getIntegerConstant(81);
         }
-        logKDK.log(-2137614336, "CombiMapController#positionMap mapX: %1, mapY: %2", (long)n, (long)n2);
+        logKDK.log(10000000, "CombiMapController#positionMap mapX: %1, mapY: %2", (long)n, (long)n2);
         iDisplayManager.setPosition(33, this.kombiTerminal, n, n2);
         iDisplayManager.setPosition(58, this.kombiTerminal, n, n2);
     }
 
-    @Override
     public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-        logKDK.log(1078071040, "CombiMapController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
-        if (modelUpdateEvent.getModelId() == 1495533056) {
+        logKDK.log(1000000, "CombiMapController#processModelUpdateEvent %1", (Object)modelUpdateEvent);
+        if (modelUpdateEvent.getModelId() == 402521) {
             if (this.kombiTerminal != 0) {
                 IDisplayManager iDisplayManager = this.getDisplayManager(hmiService);
                 Layout layout = this.getLayout(this.terminal);
                 if (iDisplayManager != null && layout != null && hmiService != null) {
-                    HMIModel hMIModel = hmiService.getModel(1495533056);
+                    HMIModel hMIModel = hmiService.getModel(402521);
                     boolean bl = false;
                     if (hMIModel instanceof ChoiceModelGUI) {
                         bl = ((ChoiceModelGUI)((Object)hMIModel)).getValue() == 1;
                     }
                     this.positionMap(iDisplayManager, layout, bl);
                 } else {
-                    logKDK.log(-1601830656, "CombiMapController#processModelUpdateEvent environment not fully initialized");
+                    logKDK.log(100000, "CombiMapController#processModelUpdateEvent environment not fully initialized");
                 }
             }
         } else if (this.kombiTerminal != 0) {
@@ -125,7 +122,7 @@ implements NaviMoKoKDKConstants {
     private void handleKDK(ModelUpdateEvent modelUpdateEvent) {
         IDisplayManagerKombiControl iDisplayManagerKombiControl = this.getDisplayManager();
         if (iDisplayManagerKombiControl == null) {
-            IWidgetLogChannel.logKDK.log(-1601830656, "CombiMapController#handleKDK failed to retrieve the display manager; ignoring the invocation");
+            IWidgetLogChannel.logKDK.log(100000, "CombiMapController#handleKDK failed to retrieve the display manager; ignoring the invocation");
             return;
         }
         int n = this.updateKdkDisplayable(modelUpdateEvent);
@@ -149,7 +146,7 @@ implements NaviMoKoKDKConstants {
     private int updateKdkDisplayable(ModelUpdateEvent modelUpdateEvent) {
         int n = this.kdkDisplayable;
         this.kdkDisplayable = this.getKdkDisplayable(modelUpdateEvent);
-        logKDK.log(-2137614336, "CombiMapController#updateKdkDisplayable received model update, previous visible kdk: %1 new visible kdk: %2", (long)n, (long)this.kdkDisplayable);
+        logKDK.log(10000000, "CombiMapController#updateKdkDisplayable received model update, previous visible kdk: %1 new visible kdk: %2", (long)n, (long)this.kdkDisplayable);
         return n;
     }
 
@@ -172,7 +169,7 @@ implements NaviMoKoKDKConstants {
                 this.kdkOpacity = 100;
             }
             n3 = this.kdkOpacity;
-            logKDK.log(-2137614336, "CombiMapController#handleKdkDualTerminal layout: %1", (Object)super.getClass().getName());
+            logKDK.log(10000000, "CombiMapController#handleKdkDualTerminal layout: %1", (Object)layout.getClass().getName());
             int n6 = layout.getIntegerConstant(118);
             int n7 = layout.getIntegerConstant(119);
             int n8 = layout.getIntegerConstant(120);
@@ -189,21 +186,21 @@ implements NaviMoKoKDKConstants {
                 this.kdkPosX = layout.getIntegerConstant(58);
                 this.kdkPosY = layout.getIntegerConstant(59);
             }
-            logKDK.log(-2137614336, "CombiMapController#handleKdkDualTerminal KDK cropping source: (%1, %2), size: %3 x %4", (Object)String.valueOf(n6), (Object)String.valueOf(n7), (Object)String.valueOf(n8), (Object)String.valueOf(n9));
-            logKDK.log(-2137614336, "CombiMapController#handleKdkDualTerminal KDK cropping target: (%1, %2)", (long)this.kdkPosX, (long)this.kdkPosY);
+            logKDK.log(10000000, "CombiMapController#handleKdkDualTerminal KDK cropping source: (%1, %2), size: %3 x %4", (Object)String.valueOf(n6), (Object)String.valueOf(n7), (Object)String.valueOf(n8), (Object)String.valueOf(n9));
+            logKDK.log(10000000, "CombiMapController#handleKdkDualTerminal KDK cropping target: (%1, %2)", (long)this.kdkPosX, (long)this.kdkPosY);
             iDisplayManagerKombiControl.setCropping(n, this.kombiTerminal, n6, n7, n8, n9, this.kdkPosX, this.kdkPosY, n8, n9);
-            logKDK.log(-2137614336, "CombiMapController#handleKdkDualTerminal setting the KDK's opacity to %1", (long)this.kdkOpacity);
+            logKDK.log(10000000, "CombiMapController#handleKdkDualTerminal setting the KDK's opacity to %1", (long)this.kdkOpacity);
             iDisplayManagerKombiControl.setOpacity(n, this.kombiTerminal, this.kdkOpacity);
         }
         this.positionKDKBackgrounds(iDisplayManagerKombiControl, layout);
-        logKDK.log(-2137614336, "CombiMapController#handleKdkDualTerminal setting the primary KDK backround's opacity to %1, the secondary background's opacity to %2", (long)n3, (long)n5);
+        logKDK.log(10000000, "CombiMapController#handleKdkDualTerminal setting the primary KDK backround's opacity to %1, the secondary background's opacity to %2", (long)n3, (long)n5);
         iDisplayManagerKombiControl.setOpacity(n2, this.kombiTerminal, n3);
         iDisplayManagerKombiControl.setOpacity(n4, this.kombiTerminal, n5);
         iDisplayManagerKombiControl.setKDKVisible(n, this.kombiTerminal);
     }
 
     private void handleKdkSingleTerminal(int n, int n2, Layout layout) {
-        logKDK.log(-2137614336, "CombiMapController#handleKDK kombiTerminal == HMITerminal.MAIN (G24)");
+        logKDK.log(10000000, "CombiMapController#handleKDK kombiTerminal == HMITerminal.MAIN (G24)");
         int n3 = layout.getIntegerConstant(58);
         int n4 = layout.getIntegerConstant(60);
         int n5 = layout.getIntegerConstant(59);
@@ -220,7 +217,7 @@ implements NaviMoKoKDKConstants {
             if (n != -1) {
                 ((IDisplayManagerKombiControl)hmiService.getDisplayManager()).setKDKVisible(n, this.kombiTerminal);
             }
-            logKDK.log(-2137614336, "CombiMapController#handleKDK before starting kdk animation fade in: %1", n != -1);
+            logKDK.log(10000000, "CombiMapController#handleKDK before starting kdk animation fade in: %1", n != -1);
             ((AnimationControllerMIB2High)hmiService.getHMITerminal(0).getIAnimationController()).startKDKAnimation(n != -1);
         }
     }
@@ -254,21 +251,18 @@ implements NaviMoKoKDKConstants {
         return bl;
     }
 
-    @Override
     public void switchToTargetContext() {
         if (this.kombiTerminal != 0 && !this.isMapContext(this.getTargetContextID())) {
             logDisplay.log(10000, "CombiMapController#switchToTargetContext not switching to context: %1 because it is no valid map context", (long)this.getTargetContextID());
             return;
         }
-        logDisplay.log(-2137614336, "CombiMapController#switchToTargetContext context: %1", (long)this.getTargetContextID());
+        logDisplay.log(10000000, "CombiMapController#switchToTargetContext context: %1", (long)this.getTargetContextID());
         hmiService.getDisplayManager().switchContext(this.getTargetContextID(), this.kombiTerminal, this);
     }
 
-    @Override
     public void setOpacityOnBackgroundLayers(float f2, boolean bl) {
     }
 
-    @Override
     protected void positionDisplayables() {
     }
 

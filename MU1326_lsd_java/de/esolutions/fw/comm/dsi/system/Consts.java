@@ -4,6 +4,6 @@
 package de.esolutions.fw.comm.dsi.system;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSIHMIWATCHDOG_QUERYHEARTBEAT;
+    public static final int ATTRIBUTE_ID_DSIHMIWATCHDOG_QUERYHEARTBEAT = 1;
 }
 

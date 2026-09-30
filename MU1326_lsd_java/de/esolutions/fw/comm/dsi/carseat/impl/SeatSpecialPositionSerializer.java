@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carseat.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.SeatSpecialPosition;
 
 public class SeatSpecialPositionSerializer {
-    public static void putOptionalSeatSpecialPosition(ISerializer iSerializer, SeatSpecialPosition seatSpecialPosition) {
+    public static void putOptionalSeatSpecialPosition(ISerializer iSerializer, SeatSpecialPosition seatSpecialPosition) throws SerializerException {
         boolean bl = seatSpecialPosition == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class SeatSpecialPositionSerializer {
         }
     }
 
-    public static void putOptionalSeatSpecialPositionVarArray(ISerializer iSerializer, SeatSpecialPosition[] seatSpecialPositionArray) {
+    public static void putOptionalSeatSpecialPositionVarArray(ISerializer iSerializer, SeatSpecialPosition[] seatSpecialPositionArray) throws SerializerException {
         boolean bl = seatSpecialPositionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class SeatSpecialPositionSerializer {
         }
     }
 
-    public static SeatSpecialPosition getOptionalSeatSpecialPosition(IDeserializer iDeserializer) {
+    public static SeatSpecialPosition getOptionalSeatSpecialPosition(IDeserializer iDeserializer) throws SerializerException {
         SeatSpecialPosition seatSpecialPosition = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class SeatSpecialPositionSerializer {
         return seatSpecialPosition;
     }
 
-    public static SeatSpecialPosition[] getOptionalSeatSpecialPositionVarArray(IDeserializer iDeserializer) {
+    public static SeatSpecialPosition[] getOptionalSeatSpecialPositionVarArray(IDeserializer iDeserializer) throws SerializerException {
         SeatSpecialPosition[] seatSpecialPositionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

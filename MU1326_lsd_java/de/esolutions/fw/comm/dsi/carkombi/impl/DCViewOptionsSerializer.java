@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.DCConfigurationSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.DCConfiguration;
 import org.dsi.ifc.carkombi.DCViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class DCViewOptionsSerializer {
-    public static void putOptionalDCViewOptions(ISerializer iSerializer, DCViewOptions dCViewOptions) {
+    public static void putOptionalDCViewOptions(ISerializer iSerializer, DCViewOptions dCViewOptions) throws SerializerException {
         boolean bl = dCViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -55,7 +56,7 @@ public class DCViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalDCViewOptionsVarArray(ISerializer iSerializer, DCViewOptions[] dCViewOptionsArray) {
+    public static void putOptionalDCViewOptionsVarArray(ISerializer iSerializer, DCViewOptions[] dCViewOptionsArray) throws SerializerException {
         boolean bl = dCViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -66,7 +67,7 @@ public class DCViewOptionsSerializer {
         }
     }
 
-    public static DCViewOptions getOptionalDCViewOptions(IDeserializer iDeserializer) {
+    public static DCViewOptions getOptionalDCViewOptions(IDeserializer iDeserializer) throws SerializerException {
         DCViewOptions dCViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -111,7 +112,7 @@ public class DCViewOptionsSerializer {
         return dCViewOptions;
     }
 
-    public static DCViewOptions[] getOptionalDCViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static DCViewOptions[] getOptionalDCViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DCViewOptions[] dCViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

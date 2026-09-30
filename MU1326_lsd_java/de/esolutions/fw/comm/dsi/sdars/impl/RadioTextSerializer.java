@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.sdars.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.sdars.RadioText;
 
 public class RadioTextSerializer {
-    public static void putOptionalRadioText(ISerializer iSerializer, RadioText radioText) {
+    public static void putOptionalRadioText(ISerializer iSerializer, RadioText radioText) throws SerializerException {
         boolean bl = radioText == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class RadioTextSerializer {
         }
     }
 
-    public static void putOptionalRadioTextVarArray(ISerializer iSerializer, RadioText[] radioTextArray) {
+    public static void putOptionalRadioTextVarArray(ISerializer iSerializer, RadioText[] radioTextArray) throws SerializerException {
         boolean bl = radioTextArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class RadioTextSerializer {
         }
     }
 
-    public static RadioText getOptionalRadioText(IDeserializer iDeserializer) {
+    public static RadioText getOptionalRadioText(IDeserializer iDeserializer) throws SerializerException {
         RadioText radioText = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class RadioTextSerializer {
         return radioText;
     }
 
-    public static RadioText[] getOptionalRadioTextVarArray(IDeserializer iDeserializer) {
+    public static RadioText[] getOptionalRadioTextVarArray(IDeserializer iDeserializer) throws SerializerException {
         RadioText[] radioTextArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

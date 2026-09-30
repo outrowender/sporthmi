@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.PDCInfo;
 
 public class PDCInfoSerializer {
-    public static void putOptionalPDCInfo(ISerializer iSerializer, PDCInfo pDCInfo) {
+    public static void putOptionalPDCInfo(ISerializer iSerializer, PDCInfo pDCInfo) throws SerializerException {
         boolean bl = pDCInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class PDCInfoSerializer {
         }
     }
 
-    public static void putOptionalPDCInfoVarArray(ISerializer iSerializer, PDCInfo[] pDCInfoArray) {
+    public static void putOptionalPDCInfoVarArray(ISerializer iSerializer, PDCInfo[] pDCInfoArray) throws SerializerException {
         boolean bl = pDCInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class PDCInfoSerializer {
         }
     }
 
-    public static PDCInfo getOptionalPDCInfo(IDeserializer iDeserializer) {
+    public static PDCInfo getOptionalPDCInfo(IDeserializer iDeserializer) throws SerializerException {
         PDCInfo pDCInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class PDCInfoSerializer {
         return pDCInfo;
     }
 
-    public static PDCInfo[] getOptionalPDCInfoVarArray(IDeserializer iDeserializer) {
+    public static PDCInfo[] getOptionalPDCInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PDCInfo[] pDCInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

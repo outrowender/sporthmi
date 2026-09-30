@@ -6,48 +6,35 @@ package de.esolutions.fw.comm.asi.hmisync.car.sportchrono;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.ASIHMISyncCarSportChronoReply;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCData;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarSportChronoS {
-    default public void requestRecordData(long l, long l2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void requestRecordData(long var1, long var3, ASIHMISyncCarSportChronoReply var5) throws MethodException;
 
-    default public void setRecord(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setRecord(int var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 
-    default public void requestTrackData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void requestTrackData(int var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 
-    default public void initTrackTransfer(SCHeader sCHeader, String string, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void initTrackTransfer(SCHeader var1, String var2, ASIHMISyncCarSportChronoReply var3) throws MethodException;
 
-    default public void setTrackData(int n, SCData[] sCDataArray, int n2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setTrackData(int var1, SCData[] var2, int var3, ASIHMISyncCarSportChronoReply var4) throws MethodException;
 
-    default public void setReferenceLap(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setReferenceLap(int var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 
-    default public void requestReferenceLapData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void requestReferenceLapData(int var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 
-    default public void saveReferenceLap(int n, short s, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void saveReferenceLap(int var1, short var2, ASIHMISyncCarSportChronoReply var3) throws MethodException;
 
-    default public void setNotification(ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setNotification(ASIHMISyncCarSportChronoReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncCarSportChronoReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void clearNotification(ASIHMISyncCarSportChronoReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncCarSportChronoReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncCarSportChronoReply var2) throws MethodException;
 }
 

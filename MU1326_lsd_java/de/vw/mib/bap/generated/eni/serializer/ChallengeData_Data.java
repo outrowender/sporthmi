@@ -12,22 +12,20 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ChallengeData_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_CHALLENGE_TYPE_CHALLENGE;
-    public static final int RECORD_ADDRESS_POS;
-    public static final int POS_MIN;
+    public static final int RECORD_ADDRESS_CHALLENGE_TYPE_CHALLENGE = 1;
+    public static final int RECORD_ADDRESS_POS = 15;
+    public static final int POS_MIN = 0;
     public int pos;
-    public static final int CHALLENGE_TYPE_SESSION_CHALLENGE;
-    public static final int CHALLENGE_TYPE_USER_CHALLENGE;
+    public static final int CHALLENGE_TYPE_SESSION_CHALLENGE = 0;
+    public static final int CHALLENGE_TYPE_USER_CHALLENGE = 1;
     public int challengeType;
-    private static final int MAX_CHALLENGE_LENGTH;
+    private static final int MAX_CHALLENGE_LENGTH = 129;
     public final BAPString challenge;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
@@ -49,14 +47,12 @@ implements BAPArrayElement {
         this.challengeType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
         this.challenge.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ChallengeData_Data challengeData_Data = (ChallengeData_Data)bAPEntity;
         return this.arrayHeader.equalTo(challengeData_Data.arrayHeader) && this.pos == challengeData_Data.pos && this.challengeType == challengeData_Data.challengeType && this.challenge.equalTo(challengeData_Data.challenge);
@@ -65,22 +61,19 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ChallengeData_Data");
-        stringBuffer.append(new StringBuffer().append("\n - pos:").append(this.pos).toString());
-        stringBuffer.append(new StringBuffer().append("\n - challengeType:").append(this.challengeType).toString());
-        stringBuffer.append(new StringBuffer().append("\n - challenge:").append(this.challenge.toString()).toString());
+        stringBuffer.append("\n - pos:" + this.pos);
+        stringBuffer.append("\n - challengeType:" + this.challengeType);
+        stringBuffer.append("\n - challenge:" + this.challenge.toString());
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -96,7 +89,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 15: {
@@ -112,12 +104,10 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }

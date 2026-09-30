@@ -25,7 +25,7 @@ public class BlankZoneInfo {
     }
 
     public String toString() {
-        return new StringBuffer("BlankZoneInfo{").append("blankZone=").append(this.blankZone).append("}").toString();
+        return "BlankZoneInfo{" + "blankZone=" + this.blankZone + "}";
     }
 }
 

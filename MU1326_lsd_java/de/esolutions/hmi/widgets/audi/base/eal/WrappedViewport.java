@@ -9,7 +9,7 @@ import de.esolutions.graphics.eal.api.INode2DLink;
 import de.esolutions.graphics.eal.api.INode3DScene;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
-import de.esolutions.hmi.widgets.audi.base.eal.EALViewportsAndLayers$Helper;
+import de.esolutions.hmi.widgets.audi.base.eal.EALViewportsAndLayers;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedLayer;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
@@ -48,9 +48,8 @@ IWidgetLogChannel {
         this.layers = new ArrayList();
     }
 
-    @Override
     public void addLayer(IWrappedLayer iWrappedLayer) {
-        logChannel3DEngineLayersAndViewports.log(-2137614336, "WrappedViewport#addLayer %1", (Object)iWrappedLayer);
+        logChannel3DEngineLayersAndViewports.log(10000000, "WrappedViewport#addLayer %1", (Object)iWrappedLayer);
         if (iWrappedLayer != null) {
             this.layers.add(iWrappedLayer);
             iWrappedLayer.setViewport(this);
@@ -58,9 +57,8 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void removeLayer(IWrappedLayer iWrappedLayer) {
-        logChannel3DEngineLayersAndViewports.log(-2137614336, "WrappedViewport#removeLayer %1", (Object)iWrappedLayer);
+        logChannel3DEngineLayersAndViewports.log(10000000, "WrappedViewport#removeLayer %1", (Object)iWrappedLayer);
         if (iWrappedLayer != null && this.layers.size() > 0) {
             this.layers.remove(iWrappedLayer);
             iWrappedLayer.setViewport(null);
@@ -68,27 +66,24 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public int getLayerCount() {
         return this.layers.size();
     }
 
-    @Override
     public IWrappedTexture enableOffscreen() {
         return this.enableOffscreen(this.width, this.height);
     }
 
-    @Override
     public IWrappedTexture enableOffscreen(int n, int n2) {
         if (this.texture != null) {
             if (this.offscreen) {
-                lc.log(1078071040, "WrappedViewport#enableOffscreen: layer %1 already offscreen", (Object)this.name);
+                lc.log(1000000, "WrappedViewport#enableOffscreen: layer %1 already offscreen", (Object)this.name);
                 return this.texture;
             }
-            lc.log(1078071040, "WrappedViewport#enableOffscreen: Reenabling offscreen texture for layer %1", (Object)this.name);
+            lc.log(1000000, "WrappedViewport#enableOffscreen: Reenabling offscreen texture for layer %1", (Object)this.name);
             if (this.ealManager.reEnableOffscreen(this)) {
                 this.offscreen = true;
-                if (EALViewportsAndLayers$Helper.isOnlyOffscreenViewport(this.index)) {
+                if (EALViewportsAndLayers.Helper.isOnlyOffscreenViewport(this.index)) {
                     this.link.setVisible(true);
                 }
                 return this.texture;
@@ -101,25 +96,24 @@ IWidgetLogChannel {
         if (this.texture == null) {
             lc.log(10000, "WrappedViewport#enableOffscreen: Could not create offscreen texture for layer %1", (Object)this.name);
         }
-        if (EALViewportsAndLayers$Helper.isOnlyOffscreenViewport(this.index)) {
+        if (EALViewportsAndLayers.Helper.isOnlyOffscreenViewport(this.index)) {
             this.link.setVisible(true);
         }
         this.offscreen = true;
         return this.texture;
     }
 
-    @Override
     public void disableOffscreen() {
-        if (EALViewportsAndLayers$Helper.isOnlyOffscreenViewport(this.index)) {
+        if (EALViewportsAndLayers.Helper.isOnlyOffscreenViewport(this.index)) {
             this.link.setVisible(false);
         }
         if (!this.offscreen) {
-            lc.log(1078071040, "WrappedViewport#enableOffscreen: layer %1 already onscreen", (Object)this.name);
+            lc.log(1000000, "WrappedViewport#enableOffscreen: layer %1 already onscreen", (Object)this.name);
             return;
         }
-        lc.log(-2137614336, "WrappedViewport#disableOffscreen: Disposing old offscreen texture for layer %1", (Object)this.name);
+        lc.log(10000000, "WrappedViewport#disableOffscreen: Disposing old offscreen texture for layer %1", (Object)this.name);
         if (this.texture == null) {
-            lc.log(-2137614336, "WrappedViewport#disableOffscreen: Offscreen texture for layer %1 was already disabled", (Object)this.name);
+            lc.log(10000000, "WrappedViewport#disableOffscreen: Offscreen texture for layer %1 was already disabled", (Object)this.name);
             this.offscreen = false;
             return;
         }
@@ -130,57 +124,47 @@ IWidgetLogChannel {
         }
     }
 
-    @Override
     public void destroyTexture() {
         if (this.texture == null) {
-            lc.log(-2137614336, "WrappedViewport#destroyTexture: Offscreen texture for layer %1 was already destroyed", (Object)this.name);
+            lc.log(10000000, "WrappedViewport#destroyTexture: Offscreen texture for layer %1 was already destroyed", (Object)this.name);
             return;
         }
         this.ealManager.destroy(this.texture);
         this.texture = null;
     }
 
-    @Override
     public IWrappedTexture getTexture() {
         return this.texture;
     }
 
-    @Override
     public boolean isAutomaticallyCreated() {
         return this.automaticallyCreated;
     }
 
-    @Override
     public INode2DLink getLink() {
         return this.link;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public INode3DScene getScene() {
         return this.scene;
     }
 
-    @Override
     public int getWidth() {
         return this.width;
     }
 
-    @Override
     public int getHeight() {
         return this.height;
     }
 
-    @Override
     public int getIndex() {
         return this.index;
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (!bl && !this.forceInvisible) {
             for (int i2 = 0; i2 < this.layers.size(); ++i2) {
@@ -193,17 +177,16 @@ IWidgetLogChannel {
         }
         if (this.link.isVisible() == bl) {
             if (logChannel3DEngineLayersAndViewports.isDebug()) {
-                logChannel3DEngineLayersAndViewports.log(-2137614336, "WrappedViewport#setVisible: %2 no visibility change, visible = %1", bl, (Object)this);
+                logChannel3DEngineLayersAndViewports.log(10000000, "WrappedViewport#setVisible: %2 no visibility change, visible = %1", bl, (Object)this);
             }
             return;
         }
         if (logChannel3DEngineLayersAndViewports.isInfo()) {
-            logChannel3DEngineLayersAndViewports.log(1078071040, "WrappedViewport#setVisible: %2 visibility set to %1", bl, (Object)this);
+            logChannel3DEngineLayersAndViewports.log(1000000, "WrappedViewport#setVisible: %2 visibility set to %1", bl, (Object)this);
         }
         this.link.setVisible(bl);
     }
 
-    @Override
     public List getLayers() {
         return this.layers;
     }
@@ -214,7 +197,6 @@ IWidgetLogChannel {
         return buffer.toString();
     }
 
-    @Override
     public void setForceInvisible(boolean bl) {
         this.forceInvisible = bl;
     }

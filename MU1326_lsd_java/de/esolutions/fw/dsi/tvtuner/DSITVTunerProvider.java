@@ -25,28 +25,23 @@ implements DSITVTuner {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$tvtuner$DSITVTuner == null ? (class$org$dsi$ifc$tvtuner$DSITVTuner = DSITVTunerProvider.class$("org.dsi.ifc.tvtuner.DSITVTuner")) : class$org$dsi$ifc$tvtuner$DSITVTuner).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITVTunerProxy(this.instance, (DSITVTunerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void selectService(long l, int n, int n2) {
         try {
             this.proxy.selectService(l, n, n2);
@@ -56,7 +51,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void selectNextService(int n, int n2) {
         try {
             this.proxy.selectNextService(n, n2);
@@ -66,7 +60,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void abortSeek() {
         try {
             this.proxy.abortSeek();
@@ -76,7 +69,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void switchSource(int n) {
         try {
             this.proxy.switchSource(n);
@@ -86,7 +78,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setAudioChannel(int n) {
         try {
             this.proxy.setAudioChannel(n);
@@ -96,7 +87,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setNormArea(int n) {
         try {
             this.proxy.setNormArea(n);
@@ -106,7 +96,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void enableServiceLinking(boolean bl) {
         try {
             this.proxy.enableServiceLinking(bl);
@@ -116,7 +105,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setTerminalMode(int n, int n2) {
         try {
             this.proxy.setTerminalMode(n, n2);
@@ -126,7 +114,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setNormAreaSubList(int[] nArray) {
         try {
             this.proxy.setNormAreaSubList(nArray);
@@ -136,7 +123,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setAVNorm(int n) {
         try {
             this.proxy.setAVNorm(n);
@@ -146,7 +132,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void incMoved(byte by) {
         try {
             this.proxy.incMoved(by);
@@ -156,7 +141,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setCoordinateRel(short s, short s2, short s3) {
         try {
             this.proxy.setCoordinateRel(s, s2, s3);
@@ -166,7 +150,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setTMTVKeyPanel(short s, short s2) {
         try {
             this.proxy.setTMTVKeyPanel(s, s2);
@@ -176,7 +159,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void enableSubtitle(boolean bl) {
         try {
             this.proxy.enableSubtitle(bl);
@@ -186,7 +168,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setBrowserListSort(int n) {
         try {
             this.proxy.setBrowserListSort(n);
@@ -196,7 +177,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -206,7 +186,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -216,7 +195,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -226,7 +204,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -236,7 +213,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -246,7 +222,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -256,7 +231,6 @@ implements DSITVTuner {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

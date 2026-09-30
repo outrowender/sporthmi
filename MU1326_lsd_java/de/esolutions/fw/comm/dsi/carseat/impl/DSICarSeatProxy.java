@@ -10,20 +10,16 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.carseat.DSICarSeat;
 import de.esolutions.fw.comm.dsi.carseat.DSICarSeatC;
 import de.esolutions.fw.comm.dsi.carseat.DSICarSeatReply;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$1;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$10;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$11;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$12;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$13;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$2;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$3;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$4;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$5;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$6;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$7;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$8;
-import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatProxy$9;
 import de.esolutions.fw.comm.dsi.carseat.impl.DSICarSeatReplyService;
+import de.esolutions.fw.comm.dsi.carseat.impl.MassageDataSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SeatAdjustmentSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SeatContentSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SeatPneumaticContentSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SeatSpecialPositionSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SwitcherDataBackForwardSerializer;
+import de.esolutions.fw.comm.dsi.carseat.impl.SwitcherDataUpDownSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carseat.MassageData;
@@ -50,8 +46,7 @@ DSICarSeatC {
         return this.proxy;
     }
 
-    @Override
-    public void setSeatRadioKeyAutomatic(boolean bl) {
+    public void setSeatRadioKeyAutomatic(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -62,8 +57,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setSeatCodriverSettingsFromRear(boolean bl) {
+    public void setSeatCodriverSettingsFromRear(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -74,8 +68,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setSeatCodriverSettingsFromDriver(boolean bl) {
+    public void setSeatCodriverSettingsFromDriver(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -86,8 +79,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void setSeatEasyEntryFrontLeft(boolean bl) {
+    public void setSeatEasyEntryFrontLeft(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -98,8 +90,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void setSeatEasyEntryFrontRight(boolean bl) {
+    public void setSeatEasyEntryFrontRight(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -110,8 +101,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setSeatEasyEntryRearLeft(boolean bl) {
+    public void setSeatEasyEntryRearLeft(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -122,8 +112,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setSeatEasyEntryRearRight(boolean bl) {
+    public void setSeatEasyEntryRearRight(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -134,32 +123,48 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void setSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition) {
-        DSICarSeatProxy$1 dSICarSeatProxy$1 = new DSICarSeatProxy$1(this, seatSpecialPosition);
-        this.proxy.remoteCallMethod((short)18, dSICarSeatProxy$1);
+    public void setSeatSpecialPosition(final SeatSpecialPosition seatSpecialPosition) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatSpecialPositionSerializer.putOptionalSeatSpecialPosition(iSerializer, seatSpecialPosition);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void setSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition) {
-        DSICarSeatProxy$2 dSICarSeatProxy$2 = new DSICarSeatProxy$2(this, seatSpecialPosition);
-        this.proxy.remoteCallMethod((short)79, dSICarSeatProxy$2);
+    public void setSeatSpecialPositionRearCoDriver(final SeatSpecialPosition seatSpecialPosition) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatSpecialPositionSerializer.putOptionalSeatSpecialPosition(iSerializer, seatSpecialPosition);
+            }
+        };
+        this.proxy.remoteCallMethod((short)79, iSerializable);
     }
 
-    @Override
-    public void showSeatPopup(SeatContent seatContent) {
-        DSICarSeatProxy$3 dSICarSeatProxy$3 = new DSICarSeatProxy$3(this, seatContent);
-        this.proxy.remoteCallMethod((short)85, dSICarSeatProxy$3);
+    public void showSeatPopup(final SeatContent seatContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatContentSerializer.putOptionalSeatContent(iSerializer, seatContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)85, iSerializable);
     }
 
-    @Override
-    public void cancelSeatPopup(SeatContent seatContent, int n) {
-        DSICarSeatProxy$4 dSICarSeatProxy$4 = new DSICarSeatProxy$4(this, seatContent, n);
-        this.proxy.remoteCallMethod((short)72, dSICarSeatProxy$4);
+    public void cancelSeatPopup(final SeatContent seatContent, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatContentSerializer.putOptionalSeatContent(iSerializer, seatContent);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)72, iSerializable);
     }
 
-    @Override
-    public void setSeatHMIIsReady(boolean bl) {
+    public void setSeatHMIIsReady(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -170,8 +175,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setSeatPneumaticCodriverSettingsFromDriver(boolean bl) {
+    public void setSeatPneumaticCodriverSettingsFromDriver(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -182,76 +186,110 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)49, genericSerializable);
     }
 
-    @Override
-    public void showSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
-        DSICarSeatProxy$5 dSICarSeatProxy$5 = new DSICarSeatProxy$5(this, seatPneumaticContent);
-        this.proxy.remoteCallMethod((short)52, dSICarSeatProxy$5);
+    public void showSeatPneumaticPopup(final SeatPneumaticContent seatPneumaticContent) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatPneumaticContentSerializer.putOptionalSeatPneumaticContent(iSerializer, seatPneumaticContent);
+            }
+        };
+        this.proxy.remoteCallMethod((short)52, iSerializable);
     }
 
-    @Override
-    public void cancelSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent, int n) {
-        DSICarSeatProxy$6 dSICarSeatProxy$6 = new DSICarSeatProxy$6(this, seatPneumaticContent, n);
-        this.proxy.remoteCallMethod((short)47, dSICarSeatProxy$6);
+    public void cancelSeatPneumaticPopup(final SeatPneumaticContent seatPneumaticContent, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SeatPneumaticContentSerializer.putOptionalSeatPneumaticContent(iSerializer, seatPneumaticContent);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)47, iSerializable);
     }
 
-    @Override
-    public void setSeatSetFactoryDefault() {
+    public void setSeatSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)51, null);
     }
 
-    @Override
-    public void setSeatPneumaticSetFactoryDefault() {
+    public void setSeatPneumaticSetFactoryDefault() throws MethodException {
         this.proxy.remoteCallMethod((short)50, null);
     }
 
-    @Override
-    public void startSeatMoveRearSeatDisplay() {
+    public void startSeatMoveRearSeatDisplay() throws MethodException {
         this.proxy.remoteCallMethod((short)87, null);
     }
 
-    @Override
-    public void abortSeatMoveRearSeatDisplay() {
+    public void abortSeatMoveRearSeatDisplay() throws MethodException {
         this.proxy.remoteCallMethod((short)68, null);
     }
 
-    @Override
-    public void setSeatMassageData(int n, MassageData massageData) {
-        DSICarSeatProxy$7 dSICarSeatProxy$7 = new DSICarSeatProxy$7(this, n, massageData);
-        this.proxy.remoteCallMethod((short)128, dSICarSeatProxy$7);
+    public void setSeatMassageData(final int n, final MassageData massageData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                MassageDataSerializer.putOptionalMassageData(iSerializer, massageData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)128, iSerializable);
     }
 
-    @Override
-    public void setSeatSwitcherDataUp(int n, SwitcherDataUpDown switcherDataUpDown) {
-        DSICarSeatProxy$8 dSICarSeatProxy$8 = new DSICarSeatProxy$8(this, n, switcherDataUpDown);
-        this.proxy.remoteCallMethod((short)133, dSICarSeatProxy$8);
+    public void setSeatSwitcherDataUp(final int n, final SwitcherDataUpDown switcherDataUpDown) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SwitcherDataUpDownSerializer.putOptionalSwitcherDataUpDown(iSerializer, switcherDataUpDown);
+            }
+        };
+        this.proxy.remoteCallMethod((short)133, iSerializable);
     }
 
-    @Override
-    public void setSeatSwitcherDataDown(int n, SwitcherDataUpDown switcherDataUpDown) {
-        DSICarSeatProxy$9 dSICarSeatProxy$9 = new DSICarSeatProxy$9(this, n, switcherDataUpDown);
-        this.proxy.remoteCallMethod((short)132, dSICarSeatProxy$9);
+    public void setSeatSwitcherDataDown(final int n, final SwitcherDataUpDown switcherDataUpDown) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SwitcherDataUpDownSerializer.putOptionalSwitcherDataUpDown(iSerializer, switcherDataUpDown);
+            }
+        };
+        this.proxy.remoteCallMethod((short)132, iSerializable);
     }
 
-    @Override
-    public void setSeatSwitcherDataForward(int n, SwitcherDataBackForward switcherDataBackForward) {
-        DSICarSeatProxy$10 dSICarSeatProxy$10 = new DSICarSeatProxy$10(this, n, switcherDataBackForward);
-        this.proxy.remoteCallMethod((short)83, dSICarSeatProxy$10);
+    public void setSeatSwitcherDataForward(final int n, final SwitcherDataBackForward switcherDataBackForward) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SwitcherDataBackForwardSerializer.putOptionalSwitcherDataBackForward(iSerializer, switcherDataBackForward);
+            }
+        };
+        this.proxy.remoteCallMethod((short)83, iSerializable);
     }
 
-    @Override
-    public void setSeatSwitcherDataBack(int n, SwitcherDataBackForward switcherDataBackForward) {
-        DSICarSeatProxy$11 dSICarSeatProxy$11 = new DSICarSeatProxy$11(this, n, switcherDataBackForward);
-        this.proxy.remoteCallMethod((short)81, dSICarSeatProxy$11);
+    public void setSeatSwitcherDataBack(final int n, final SwitcherDataBackForward switcherDataBackForward) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SwitcherDataBackForwardSerializer.putOptionalSwitcherDataBackForward(iSerializer, switcherDataBackForward);
+            }
+        };
+        this.proxy.remoteCallMethod((short)81, iSerializable);
     }
 
-    @Override
-    public void setSeatAdjustment(int n, SeatAdjustment seatAdjustment) {
-        DSICarSeatProxy$12 dSICarSeatProxy$12 = new DSICarSeatProxy$12(this, n, seatAdjustment);
-        this.proxy.remoteCallMethod((short)74, dSICarSeatProxy$12);
+    public void setSeatAdjustment(final int n, final SeatAdjustment seatAdjustment) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SeatAdjustmentSerializer.putOptionalSeatAdjustment(iSerializer, seatAdjustment);
+            }
+        };
+        this.proxy.remoteCallMethod((short)74, iSerializable);
     }
 
-    @Override
-    public void startSeatDeleteSpecialPosition(boolean bl, boolean bl2) {
+    public void startSeatDeleteSpecialPosition(boolean bl, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -263,8 +301,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)86, genericSerializable);
     }
 
-    @Override
-    public void setSeatCoDriverSettingsFromRearActivation(boolean bl) {
+    public void setSeatCoDriverSettingsFromRearActivation(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -275,8 +312,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)75, genericSerializable);
     }
 
-    @Override
-    public void setSeatFoldHeadRestRearDriver(boolean bl) {
+    public void setSeatFoldHeadRestRearDriver(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -287,8 +323,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)77, genericSerializable);
     }
 
-    @Override
-    public void setSeatFoldHeadRestRearCoDriver(boolean bl) {
+    public void setSeatFoldHeadRestRearCoDriver(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -299,8 +334,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)76, genericSerializable);
     }
 
-    @Override
-    public void setSeatStopButton(int n, boolean bl) {
+    public void setSeatStopButton(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -312,14 +346,18 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)80, genericSerializable);
     }
 
-    @Override
-    public void setSeatPremiumMassageData(int n, MassageData massageData) {
-        DSICarSeatProxy$13 dSICarSeatProxy$13 = new DSICarSeatProxy$13(this, n, massageData);
-        this.proxy.remoteCallMethod((short)130, dSICarSeatProxy$13);
+    public void setSeatPremiumMassageData(final int n, final MassageData massageData) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                MassageDataSerializer.putOptionalMassageData(iSerializer, massageData);
+            }
+        };
+        this.proxy.remoteCallMethod((short)130, iSerializable);
     }
 
-    @Override
-    public void setSeatPremiumMassageSwitcher(int n, boolean bl) {
+    public void setSeatPremiumMassageSwitcher(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -331,8 +369,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)131, genericSerializable);
     }
 
-    @Override
-    public void setSeatMassageSwitcher(int n, boolean bl) {
+    public void setSeatMassageSwitcher(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -344,8 +381,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)129, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -356,8 +392,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -368,13 +403,11 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -385,8 +418,7 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -397,13 +429,11 @@ DSICarSeatC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

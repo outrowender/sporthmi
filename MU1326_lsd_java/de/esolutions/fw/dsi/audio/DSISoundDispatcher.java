@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.audio;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.audio.DSISoundReply;
 import de.esolutions.fw.comm.dsi.audio.impl.DSISoundReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSISoundReply {
         super(n, (class$org$dsi$ifc$audio$DSISoundListener == null ? (class$org$dsi$ifc$audio$DSISoundListener = DSISoundDispatcher.class$("org.dsi.ifc.audio.DSISoundListener")) : class$org$dsi$ifc$audio$DSISoundListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void inputGainOffsetRange(int n, int n2, int n3, int n4) {
+    public void inputGainOffsetRange(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -45,8 +44,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void menuVolEntRange(int n, int n2, int n3) {
+    public void menuVolEntRange(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -62,8 +60,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void menuVolumeRange(int n, int n2, int n3, int n4) {
+    public void menuVolumeRange(int n, int n2, int n3, int n4) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -79,8 +76,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void volumeRange(int n, int n2, int n3, int n4, int n5) {
+    public void volumeRange(int n, int n2, int n3, int n4, int n5) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -96,8 +92,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSurroundOnOff(int n, int n2, boolean bl, int n3) {
+    public void updateSurroundOnOff(int n, int n2, boolean bl, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(49);
@@ -125,8 +120,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateBalance(int n, int n2, short s, int n3) {
+    public void updateBalance(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -154,8 +148,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateBalanceRange(int n, int n2, int n3) {
+    public void updateBalanceRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -183,8 +176,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateBass(int n, int n2, short s, int n3) {
+    public void updateBass(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -212,8 +204,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateBassRange(int n, int n2, int n3) {
+    public void updateBassRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -241,8 +232,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void createExportFileResult(int n, boolean bl) {
+    public void createExportFileResult(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -258,8 +248,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateFader(int n, int n2, short s, int n3) {
+    public void updateFader(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(9);
@@ -287,8 +276,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateFaderRange(int n, int n2, int n3) {
+    public void updateFaderRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(10);
@@ -316,8 +304,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void importFileResponse(int n, boolean bl) {
+    public void importFileResponse(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -333,8 +320,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateInputGainOffset(int n, int n2, short s, int n3) {
+    public void updateInputGainOffset(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(12);
@@ -362,8 +348,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateLoweringEntertainment(int n, int n2, int n3, short s, int n4) {
+    public void updateLoweringEntertainment(int n, int n2, int n3, short s, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(13);
@@ -391,8 +376,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateMutePinState(boolean bl, int n) {
+    public void updateMutePinState(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(14);
@@ -420,8 +404,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSubwoofer(int n, int n2, short s, int n3) {
+    public void updateSubwoofer(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(17);
@@ -449,8 +432,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSubwooferRange(int n, int n2, int n3) {
+    public void updateSubwooferRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(18);
@@ -478,8 +460,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSurrLevelRange(int n, int n2, int n3) {
+    public void updateSurrLevelRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(19);
@@ -507,8 +488,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSurroundLevel(int n, int n2, short s, int n3) {
+    public void updateSurroundLevel(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(20);
@@ -536,8 +516,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateTreble(int n, int n2, short s, int n3) {
+    public void updateTreble(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(21);
@@ -565,8 +544,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateTrebleRange(int n, int n2, int n3) {
+    public void updateTrebleRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(22);
@@ -594,8 +572,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateVolume(int n, int n2, short s, int n3) {
+    public void updateVolume(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(24);
@@ -623,8 +600,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateVolumeRange(int n, int n2, int n3) {
+    public void updateVolumeRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(26);
@@ -652,8 +628,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateMiddle(int n, int n2, short s, int n3) {
+    public void updateMiddle(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(27);
@@ -681,8 +656,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateMiddleRange(int n, int n2, int n3) {
+    public void updateMiddleRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(28);
@@ -710,8 +684,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateEqualizerRange(int n, int n2, int[] nArray, int n3) {
+    public void updateEqualizerRange(int n, int n2, int[] nArray, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(31);
@@ -739,8 +712,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateEqualizer(int[] nArray, int[] nArray2, int n) {
+    public void updateEqualizer(int[] nArray, int[] nArray2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(32);
@@ -768,8 +740,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateOnVolumeLimit(int n, int n2) {
+    public void updateOnVolumeLimit(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(33);
@@ -797,8 +768,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateOnVolumeLimitRange(int n, int n2, int n3) {
+    public void updateOnVolumeLimitRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(34);
@@ -826,8 +796,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateActiveAmplifierCapabilities(AmplifierCapabilities amplifierCapabilities, int n) {
+    public void updateActiveAmplifierCapabilities(AmplifierCapabilities amplifierCapabilities, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(35);
@@ -855,8 +824,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateMuteTheftProtection(boolean bl, int n) {
+    public void updateMuteTheftProtection(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(36);
@@ -884,8 +852,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateMicGainLevel(int n, int n2) {
+    public void updateMicGainLevel(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(37);
@@ -913,8 +880,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateVolumeFocus(int n, int n2, int n3) {
+    public void updateVolumeFocus(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(38);
@@ -942,8 +908,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateNoiseCompensation(int n, int n2, short s, int n3) {
+    public void updateNoiseCompensation(int n, int n2, short s, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(39);
@@ -971,8 +936,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateNoiseCompensationRange(int n, int n2, int n3) {
+    public void updateNoiseCompensationRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(47);
@@ -1000,8 +964,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateThreeDMode(int n, int n2, int n3, int n4) {
+    public void updateThreeDMode(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(50);
@@ -1029,8 +992,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateThreeDModeRange(int n, int n2, int n3) {
+    public void updateThreeDModeRange(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(51);
@@ -1058,8 +1020,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updatePresetPosition(int n, int n2, int n3, int n4) {
+    public void updatePresetPosition(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(42);
@@ -1087,8 +1048,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updatePresetPositionList(int n, int n2) {
+    public void updatePresetPositionList(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(44);
@@ -1116,8 +1076,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updatePresetEQList(int n, int n2) {
+    public void updatePresetEQList(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(45);
@@ -1145,8 +1104,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updatePresetEQ(int n, int n2, int n3, int n4) {
+    public void updatePresetEQ(int n, int n2, int n3, int n4) throws MethodException {
         if ((n4 & 0x80) == 128) {
             n4 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(43);
@@ -1174,8 +1132,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSubwooferActivity(int n, int n2, boolean bl, int n3) {
+    public void updateSubwooferActivity(int n, int n2, boolean bl, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(48);
@@ -1203,8 +1160,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void responseWidebandSpeech(int n, boolean bl) {
+    public void responseWidebandSpeech(int n, boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1220,8 +1176,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSoundShapeActive(boolean bl, int n) {
+    public void updateSoundShapeActive(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(52);
@@ -1249,8 +1204,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSoundShape(short s, short s2, short s3, int n) {
+    public void updateSoundShape(short s, short s2, short s3, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(53);
@@ -1278,8 +1232,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateSoundShapeRange(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
+    public void updateSoundShapeRange(int n, int n2, int n3, int n4, int n5, int n6, int n7) throws MethodException {
         if ((n7 & 0x80) == 128) {
             n7 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(54);
@@ -1307,8 +1260,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateICCAvailable(boolean bl, int n, int n2) {
+    public void updateICCAvailable(boolean bl, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(55);
@@ -1336,8 +1288,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void updateProfileState(int n, int n2, int n3) {
+    public void updateProfileState(int n, int n2, int n3) throws MethodException {
         if ((n3 & 0x80) == 128) {
             n3 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(56);
@@ -1365,8 +1316,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void profileChanged(int n, int n2) {
+    public void profileChanged(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1382,8 +1332,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void profileCopied(int n, int n2, int n3) {
+    public void profileCopied(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1399,8 +1348,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void profileReset(int n, int n2) {
+    public void profileReset(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1416,8 +1364,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void profileResetAll(int n) {
+    public void profileResetAll(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1433,8 +1380,7 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -1450,14 +1396,13 @@ implements DSISoundReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSISoundListener dSISoundListener = (DSISoundListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISoundDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISoundDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSISoundListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSISoundDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSISoundDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSISoundListener, new Object[]{string, string2});
                     continue;
                 }

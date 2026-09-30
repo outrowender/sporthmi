@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class ResourceLocatorSerializer {
-    public static void putOptionalResourceLocator(ISerializer iSerializer, ResourceLocator resourceLocator) {
+    public static void putOptionalResourceLocator(ISerializer iSerializer, ResourceLocator resourceLocator) throws SerializerException {
         boolean bl = resourceLocator == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ResourceLocatorSerializer {
         }
     }
 
-    public static void putOptionalResourceLocatorVarArray(ISerializer iSerializer, ResourceLocator[] resourceLocatorArray) {
+    public static void putOptionalResourceLocatorVarArray(ISerializer iSerializer, ResourceLocator[] resourceLocatorArray) throws SerializerException {
         boolean bl = resourceLocatorArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ResourceLocatorSerializer {
         }
     }
 
-    public static ResourceLocator getOptionalResourceLocator(IDeserializer iDeserializer) {
+    public static ResourceLocator getOptionalResourceLocator(IDeserializer iDeserializer) throws SerializerException {
         ResourceLocator resourceLocator = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ResourceLocatorSerializer {
         return resourceLocator;
     }
 
-    public static ResourceLocator[] getOptionalResourceLocatorVarArray(IDeserializer iDeserializer) {
+    public static ResourceLocator[] getOptionalResourceLocatorVarArray(IDeserializer iDeserializer) throws SerializerException {
         ResourceLocator[] resourceLocatorArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

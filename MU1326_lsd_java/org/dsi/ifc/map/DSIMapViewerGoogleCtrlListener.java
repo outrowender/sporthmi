@@ -9,22 +9,16 @@ import org.dsi.ifc.map.Rect;
 
 public interface DSIMapViewerGoogleCtrlListener
 extends DSIListener {
-    default public void updateAvailableLayers(LayerProperty[] layerPropertyArray, int n) {
-    }
+    public void updateAvailableLayers(LayerProperty[] var1, int var2);
 
-    default public void updateVisibleLayers(int[] nArray, int n) {
-    }
+    public void updateVisibleLayers(int[] var1, int var2);
 
-    default public void updateAvailableLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableLanguages(String[] var1, int var2);
 
-    default public void updateCurrentLanguage(String string, int n) {
-    }
+    public void updateCurrentLanguage(String var1, int var2);
 
-    default public void updateGoogleDataStatus(int n, int n2) {
-    }
+    public void updateGoogleDataStatus(int var1, int var2);
 
-    default public void updateCopyrightPosition(Rect rect, int n, int n2, int n3) {
-    }
+    public void updateCopyrightPosition(Rect var1, int var2, int var3, int var4);
 }
 

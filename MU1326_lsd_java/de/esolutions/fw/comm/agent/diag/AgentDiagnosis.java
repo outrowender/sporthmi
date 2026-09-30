@@ -37,7 +37,6 @@ implements IAgentDiagnosis {
         this.infoProviderEnabled = true;
     }
 
-    @Override
     public IAgentSnapshot createSnapshot() {
         CommAgentTracing.DIAGNOSIS.log((short)1, "+ createSnapshot");
         AgentSnapshot agentSnapshot = new AgentSnapshot(this.clientPool, this.worker, this.serviceRegistry, this.serviceDirectory, this.infoProviders);
@@ -45,19 +44,16 @@ implements IAgentDiagnosis {
         return agentSnapshot;
     }
 
-    @Override
     public IAgentErrorLog getErrorLog() {
         return this.errorLog;
     }
 
-    @Override
     public void registerInfoProvider(IAgentInfoProvider iAgentInfoProvider) {
         if (this.infoProviderEnabled) {
             this.infoProviders.add(iAgentInfoProvider);
         }
     }
 
-    @Override
     public void unregisterInfoProvider(IAgentInfoProvider iAgentInfoProvider) {
         this.infoProviders.remove(iAgentInfoProvider);
     }

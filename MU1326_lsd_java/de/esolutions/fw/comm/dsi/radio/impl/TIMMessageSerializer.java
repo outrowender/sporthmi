@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.radio.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.radio.TIMMessage;
 
 public class TIMMessageSerializer {
-    public static void putOptionalTIMMessage(ISerializer iSerializer, TIMMessage tIMMessage) {
+    public static void putOptionalTIMMessage(ISerializer iSerializer, TIMMessage tIMMessage) throws SerializerException {
         boolean bl = tIMMessage == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -39,7 +40,7 @@ public class TIMMessageSerializer {
         }
     }
 
-    public static void putOptionalTIMMessageVarArray(ISerializer iSerializer, TIMMessage[] tIMMessageArray) {
+    public static void putOptionalTIMMessageVarArray(ISerializer iSerializer, TIMMessage[] tIMMessageArray) throws SerializerException {
         boolean bl = tIMMessageArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -50,7 +51,7 @@ public class TIMMessageSerializer {
         }
     }
 
-    public static TIMMessage getOptionalTIMMessage(IDeserializer iDeserializer) {
+    public static TIMMessage getOptionalTIMMessage(IDeserializer iDeserializer) throws SerializerException {
         TIMMessage tIMMessage = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -83,7 +84,7 @@ public class TIMMessageSerializer {
         return tIMMessage;
     }
 
-    public static TIMMessage[] getOptionalTIMMessageVarArray(IDeserializer iDeserializer) {
+    public static TIMMessage[] getOptionalTIMMessageVarArray(IDeserializer iDeserializer) throws SerializerException {
         TIMMessage[] tIMMessageArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

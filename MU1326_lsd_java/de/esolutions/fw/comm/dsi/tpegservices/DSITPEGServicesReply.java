@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.tpegservices;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.tpegservices.FuelPriceInformation;
 import org.dsi.ifc.tpegservices.NewsCategory;
@@ -11,51 +12,37 @@ import org.dsi.ifc.tpegservices.SimpleMapData;
 import org.dsi.ifc.tpegservices.WeatherInfo;
 
 public interface DSITPEGServicesReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "df2bcc79-5aca-58de-9890-11936aa66c5b";
+    public static final String IPL_COMM_INTERFACE_KEY = "38b87564-71b1-5f7e-8a45-5e821f7bee7c";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.5";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.5";
 
-    default public void updateTPEGContentAvailability(int[] nArray, int n) {
-    }
+    public void updateTPEGContentAvailability(int[] var1, int var2) throws MethodException;
 
-    default public void updateSimpleMapsBookmarks(SimpleMapData[] simpleMapDataArray, int n) {
-    }
+    public void updateSimpleMapsBookmarks(SimpleMapData[] var1, int var2) throws MethodException;
 
-    default public void requestLocationDetailsResponse(NavLocation navLocation) {
-    }
+    public void requestLocationDetailsResponse(NavLocation var1) throws MethodException;
 
-    default public void requestFuelPriceInformationResponse(FuelPriceInformation[] fuelPriceInformationArray) {
-    }
+    public void requestFuelPriceInformationResponse(FuelPriceInformation[] var1) throws MethodException;
 
-    default public void requestNewsInformationResponse(NewsCategory newsCategory) {
-    }
+    public void requestNewsInformationResponse(NewsCategory var1) throws MethodException;
 
-    default public void requestSimpleMapListResponse(int n, int n2, SimpleMapData[] simpleMapDataArray) {
-    }
+    public void requestSimpleMapListResponse(int var1, int var2, SimpleMapData[] var3) throws MethodException;
 
-    default public void addSimpleMapBookmarkResult(int n, int n2) {
-    }
+    public void addSimpleMapBookmarkResult(int var1, int var2) throws MethodException;
 
-    default public void deleteSimpleMapBookmarkResult(int n, int n2) {
-    }
+    public void deleteSimpleMapBookmarkResult(int var1, int var2) throws MethodException;
 
-    default public void deleteAllSimpleMapBookmarksResult(int n) {
-    }
+    public void deleteAllSimpleMapBookmarksResult(int var1) throws MethodException;
 
-    default public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
-    }
+    public void requestResourceInformationResponse(int var1, ResourceInformation var2) throws MethodException;
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1) throws MethodException;
 
-    default public void requestWeatherInfoResult(WeatherInfo weatherInfo, int n) {
-    }
+    public void requestWeatherInfoResult(WeatherInfo var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

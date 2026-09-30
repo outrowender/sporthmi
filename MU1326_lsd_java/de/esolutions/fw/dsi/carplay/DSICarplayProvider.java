@@ -31,28 +31,23 @@ implements DSICarplay {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$carplay$DSICarplay == null ? (class$org$dsi$ifc$carplay$DSICarplay = DSICarplayProvider.class$("org.dsi.ifc.carplay.DSICarplay")) : class$org$dsi$ifc$carplay$DSICarplay).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSICarplayProxy(this.instance, (DSICarplayReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         try {
             this.proxy.startService(serviceConfiguration);
@@ -62,7 +57,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         try {
             this.proxy.postButtonEvent(n, n2);
@@ -72,7 +66,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
         try {
             this.proxy.postTouchEvent(n, n2, touchEventArray);
@@ -82,7 +75,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         try {
             this.proxy.postRotaryEvent(n);
@@ -92,7 +84,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
         try {
             this.proxy.postCharacterEvent(n, stringArray);
@@ -102,7 +93,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
         try {
             this.proxy.requestModeChange(resourceRequestArray, appStateRequestArray, string);
@@ -112,7 +102,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
         try {
             this.proxy.responseUpdateMode(resourceArray, appStateArray);
@@ -122,7 +111,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void responseBTDeactivation() {
         try {
             this.proxy.responseBTDeactivation();
@@ -132,7 +120,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void requestUI(int n) {
         try {
             this.proxy.requestUI(n);
@@ -142,7 +129,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         try {
             this.proxy.requestNightMode(bl);
@@ -152,7 +138,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void requestSIRIAction(int n) {
         try {
             this.proxy.requestSIRIAction(n);
@@ -162,7 +147,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void responseUpdateMainAudioType(int n) {
         try {
             this.proxy.responseUpdateMainAudioType(n);
@@ -172,7 +156,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void requestUI2(String string) {
         try {
             this.proxy.requestUI2(string);
@@ -182,7 +165,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -192,7 +174,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -202,7 +183,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -212,7 +192,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -222,7 +201,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -232,7 +210,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -242,7 +219,6 @@ implements DSICarplay {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -15,10 +15,8 @@ import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.evo.high.PartialPopupControllerMMICombi;
 import de.esolutions.hmi.widgets.audi.evo.high.PartialPopupManagerEvoHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.PartialPopupManagerMMICombi$1;
-import de.esolutions.hmi.widgets.audi.evo.high.PartialPopupManagerMMICombi$OptionSelectedJob;
-import de.esolutions.hmi.widgets.audi.evo.high.PartialPopupManagerMMICombi$PopupCanceledJob;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -41,40 +39,36 @@ PartialPopupBAPServiceListener {
         this.logPPMMICombi = IWidgetLogChannel.logChannelPPMMICombi;
     }
 
-    @Override
     public void notifyPartialPopupVisible() {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#notifyPartialPopupVisible received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#notifyPartialPopupVisible received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
     }
 
-    @Override
     public void notifyPartialPopupHidden() {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#notifyPartialPopupHidden received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#notifyPartialPopupHidden received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
     }
 
-    @Override
     public void optionSelected(int n, int n2) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#optionSelected received, popupID: %1, option: %2", (long)n, (long)n2);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#optionSelected received, popupID: %1, option: %2", (long)n, (long)n2);
         IPartialPopupController iPartialPopupController = this.getPartialPopup(n);
         if (iPartialPopupController instanceof PartialPopupControllerMMICombi) {
-            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new PartialPopupManagerMMICombi$OptionSelectedJob(this, n, n2, null)));
+            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new OptionSelectedJob(n, n2)));
         } else {
             this.logPPMMICombi.log(10000, "PartialPopupManagerMMICombi#optionSelected received, but no popup with popupID: %1 registered", (long)n);
         }
     }
 
-    @Override
     public void cancelPopup(int n) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#cancelPopup received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#cancelPopup received, last requested pp via BAP is: %1", (long)this.currentRequestedPPViaBAP);
         IPartialPopupController iPartialPopupController = this.getPartialPopup(n);
         if (iPartialPopupController instanceof PartialPopupControllerMMICombi) {
-            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new PartialPopupManagerMMICombi$PopupCanceledJob(this, n, null)));
+            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new PopupCanceledJob(n)));
         } else {
             this.logPPMMICombi.log(10000, "PartialPopupManagerMMICombi#cancelPopup received, but no popup with popupID: %1 registered", (long)n);
         }
     }
 
     public int showPPViaBAP(int n, PartialPopupBAPContent partialPopupBAPContent) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#showPPViaBAP id: %2, content %1", (Object)partialPopupBAPContent, (long)n);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#showPPViaBAP id: %2, content %1", (Object)partialPopupBAPContent, (long)n);
         if (this.bAPService != null) {
             this.bAPService.showPartialPopup(n, partialPopupBAPContent);
             this.currentRequestedPPViaBAP = n;
@@ -85,7 +79,7 @@ PartialPopupBAPServiceListener {
     }
 
     public int hidePPViaBAP(int n) {
-        this.logPPMMICombi.log(1078071040, "PartialPopupManagerMMICombi#hidePPViaBAP id: %1", (long)n);
+        this.logPPMMICombi.log(1000000, "PartialPopupManagerMMICombi#hidePPViaBAP id: %1", (long)n);
         if (this.bAPService != null) {
             this.bAPService.hidePartialPopup(n);
         } else {
@@ -94,18 +88,29 @@ PartialPopupBAPServiceListener {
         return 0;
     }
 
-    @Override
     public void startTrackingServices() {
         this.initializeBAPServiceTracker();
         super.startTrackingServices();
     }
 
     private void initializeBAPServiceTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService = PartialPopupManagerMMICombi.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPService")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService).getName(), (ServiceTrackerCustomizer)new PartialPopupManagerMMICombi$1(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService = PartialPopupManagerMMICombi.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPService")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                PartialPopupManagerMMICombi.this.bAPService = (PartialPopupBAPService)PartialPopupManagerMMICombi.this.bundleContext.getService(serviceReference);
+                return PartialPopupManagerMMICombi.this.bAPService;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                PartialPopupManagerMMICombi.this.bAPService = null;
+            }
+        });
         serviceTracker.open();
     }
 
-    @Override
     public void registerServices() {
         this.bundleContext.registerService((class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener = PartialPopupManagerMMICombi.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPServiceListener")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener).getName(), (Object)this, null);
     }
@@ -119,8 +124,34 @@ PartialPopupBAPServiceListener {
         }
     }
 
-    static /* synthetic */ BundleContext access$200(PartialPopupManagerMMICombi partialPopupManagerMMICombi) {
-        return partialPopupManagerMMICombi.bundleContext;
+    private class PopupCanceledJob
+    implements Runnable {
+        private int popupID;
+
+        private PopupCanceledJob(int n) {
+            this.popupID = n;
+        }
+
+        public void run() {
+            PartialPopupManagerMMICombi.this.hidePopup(this.popupID);
+        }
+    }
+
+    private class OptionSelectedJob
+    implements Runnable {
+        private int popupID;
+        private int optionID;
+
+        private OptionSelectedJob(int n, int n2) {
+            this.popupID = n;
+            this.optionID = n2;
+        }
+
+        public void run() {
+            if (PartialPopupManagerMMICombi.this.getPartialPopup(this.popupID) != null) {
+                ((PartialPopupControllerMMICombi)PartialPopupManagerMMICombi.this.getPartialPopup(this.popupID)).optionSelected(this.optionID);
+            }
+        }
     }
 }
 

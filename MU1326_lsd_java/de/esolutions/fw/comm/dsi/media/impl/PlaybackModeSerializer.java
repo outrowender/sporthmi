@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.PlaybackMode;
 
 public class PlaybackModeSerializer {
-    public static void putOptionalPlaybackMode(ISerializer iSerializer, PlaybackMode playbackMode) {
+    public static void putOptionalPlaybackMode(ISerializer iSerializer, PlaybackMode playbackMode) throws SerializerException {
         boolean bl = playbackMode == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class PlaybackModeSerializer {
         }
     }
 
-    public static void putOptionalPlaybackModeVarArray(ISerializer iSerializer, PlaybackMode[] playbackModeArray) {
+    public static void putOptionalPlaybackModeVarArray(ISerializer iSerializer, PlaybackMode[] playbackModeArray) throws SerializerException {
         boolean bl = playbackModeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class PlaybackModeSerializer {
         }
     }
 
-    public static PlaybackMode getOptionalPlaybackMode(IDeserializer iDeserializer) {
+    public static PlaybackMode getOptionalPlaybackMode(IDeserializer iDeserializer) throws SerializerException {
         PlaybackMode playbackMode = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class PlaybackModeSerializer {
         return playbackMode;
     }
 
-    public static PlaybackMode[] getOptionalPlaybackModeVarArray(IDeserializer iDeserializer) {
+    public static PlaybackMode[] getOptionalPlaybackModeVarArray(IDeserializer iDeserializer) throws SerializerException {
         PlaybackMode[] playbackModeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

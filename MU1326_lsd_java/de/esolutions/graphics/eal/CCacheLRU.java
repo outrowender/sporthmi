@@ -3,7 +3,6 @@
  */
 package de.esolutions.graphics.eal;
 
-import de.esolutions.graphics.eal.CCacheLRU$cacheMode_t;
 import de.esolutions.graphics.eal.FlagImage;
 import de.esolutions.graphics.eal.FlagTexture;
 import de.esolutions.graphics.eal.ICacheCallback;
@@ -44,8 +43,8 @@ public class CCacheLRU {
         return this.swigCPtr == 0L;
     }
 
-    public CCacheLRU(IProject iProject, CCacheLRU$cacheMode_t cCacheLRU$cacheMode_t, int n) {
-        this(ealswigJNI.new_eal_CCacheLRU__SWIG_0(IProject.getCPtr(iProject), iProject, cCacheLRU$cacheMode_t.swigValue(), n), true);
+    public CCacheLRU(IProject iProject, cacheMode_t cacheMode_t2, int n) {
+        this(ealswigJNI.new_eal_CCacheLRU__SWIG_0(IProject.getCPtr(iProject), iProject, cacheMode_t2.swigValue(), n), true);
     }
 
     public CCacheLRU(IProject iProject, int n, int n2) {
@@ -96,6 +95,52 @@ public class CCacheLRU {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    public static final class cacheMode_t {
+        public static final cacheMode_t CACHE_MODE_DURATION = new cacheMode_t("CACHE_MODE_DURATION");
+        public static final cacheMode_t CACHE_MODE_AMOUNT = new cacheMode_t("CACHE_MODE_AMOUNT");
+        public static final cacheMode_t CACHE_MODE_SIZE = new cacheMode_t("CACHE_MODE_SIZE");
+        private static cacheMode_t[] swigValues = new cacheMode_t[]{CACHE_MODE_DURATION, CACHE_MODE_AMOUNT, CACHE_MODE_SIZE};
+        private static int swigNext = 0;
+        private final int swigValue;
+        private final String swigName;
+
+        public final int swigValue() {
+            return this.swigValue;
+        }
+
+        public String toString() {
+            return this.swigName;
+        }
+
+        public static cacheMode_t swigToEnum(int n) {
+            if (n < swigValues.length && n >= 0 && cacheMode_t.swigValues[n].swigValue == n) {
+                return swigValues[n];
+            }
+            for (int i2 = 0; i2 < swigValues.length; ++i2) {
+                if (cacheMode_t.swigValues[i2].swigValue != n) continue;
+                return swigValues[i2];
+            }
+            throw new IllegalArgumentException("No enum " + (class$de$esolutions$graphics$eal$CCacheLRU$cacheMode_t == null ? (class$de$esolutions$graphics$eal$CCacheLRU$cacheMode_t = CCacheLRU.class$("de.esolutions.graphics.eal.CCacheLRU$cacheMode_t")) : class$de$esolutions$graphics$eal$CCacheLRU$cacheMode_t) + " with value " + n);
+        }
+
+        private cacheMode_t(String string) {
+            this.swigName = string;
+            this.swigValue = swigNext++;
+        }
+
+        private cacheMode_t(String string, int n) {
+            this.swigName = string;
+            this.swigValue = n;
+            swigNext = n + 1;
+        }
+
+        private cacheMode_t(String string, cacheMode_t cacheMode_t2) {
+            this.swigName = string;
+            this.swigValue = cacheMode_t2.swigValue;
+            swigNext = this.swigValue + 1;
         }
     }
 }

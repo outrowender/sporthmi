@@ -3,23 +3,52 @@
  */
 package de.esolutions.fw.util.commons.job;
 
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.fw.util.commons.job.JobQueue;
-import de.esolutions.fw.util.commons.job.TimedJobQueue$1;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
+import java.util.List;
 
 public class TimedJobQueue
 extends JobQueue {
-    public TimedJobQueue(ITimeSource iTimeSource) {
+    public TimedJobQueue(ITimeSource iTimeSource) throws UnsupportedOperationException {
         super(iTimeSource, null);
-        this.initFilterChain(new TimedJobQueue$1(this));
+        this.initFilterChain(new BaseJobFilter(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void enqueue(Job job, int n) {
+                long l = TimedJobQueue.this.getTimeSource().getCurrentTime();
+                job.setPosted(l);
+                TimedJobQueue timedJobQueue = TimedJobQueue.this;
+                synchronized (timedJobQueue) {
+                    List list = TimedJobQueue.this.getJobs();
+                    boolean bl = false;
+                    for (int i2 = 0; i2 < list.size(); ++i2) {
+                        Job job2 = TimedJobQueue.this.getJob(i2);
+                        if (job2.getDue() <= job.getDue()) continue;
+                        list.add(i2, job);
+                        bl = true;
+                        break;
+                    }
+                    if (!bl) {
+                        list.add(job);
+                    }
+                    TimedJobQueue.this.notifyAll();
+                }
+            }
+
+            public String toString() {
+                return "TimedJobQueue: EnqueueFilter";
+            }
+        });
     }
 
     /*
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
     public synchronized Job getNextJob() {
         while (true) {
             this.waitForNextJob();
@@ -32,7 +61,7 @@ extends JobQueue {
             long l = job.getDue() - this.getTimeSource().getCurrentTime();
             if (l > 0L) {
                 try {
-                    super.wait(l);
+                    this.wait(l);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();
@@ -43,7 +72,6 @@ extends JobQueue {
         }
     }
 
-    @Override
     public synchronized int getDueJobs() {
         long l = this.getTimeSource().getCurrentTime();
         for (int i2 = 0; i2 < this.length(); ++i2) {

@@ -3,50 +3,37 @@
  */
 package java.io;
 
+import java.io.IOException;
+
 public interface DataInput {
-    default public boolean readBoolean() {
-    }
+    public boolean readBoolean() throws IOException;
 
-    default public byte readByte() {
-    }
+    public byte readByte() throws IOException;
 
-    default public char readChar() {
-    }
+    public char readChar() throws IOException;
 
-    default public double readDouble() {
-    }
+    public double readDouble() throws IOException;
 
-    default public float readFloat() {
-    }
+    public float readFloat() throws IOException;
 
-    default public void readFully(byte[] byArray) {
-    }
+    public void readFully(byte[] var1) throws IOException;
 
-    default public void readFully(byte[] byArray, int n, int n2) {
-    }
+    public void readFully(byte[] var1, int var2, int var3) throws IOException;
 
-    default public int readInt() {
-    }
+    public int readInt() throws IOException;
 
-    default public String readLine() {
-    }
+    public String readLine() throws IOException;
 
-    default public long readLong() {
-    }
+    public long readLong() throws IOException;
 
-    default public short readShort() {
-    }
+    public short readShort() throws IOException;
 
-    default public int readUnsignedByte() {
-    }
+    public int readUnsignedByte() throws IOException;
 
-    default public int readUnsignedShort() {
-    }
+    public int readUnsignedShort() throws IOException;
 
-    default public String readUTF() {
-    }
+    public String readUTF() throws IOException;
 
-    default public int skipBytes(int n) {
-    }
+    public int skipBytes(int var1) throws IOException;
 }
 

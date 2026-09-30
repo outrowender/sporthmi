@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.media.impl;
 import de.esolutions.fw.comm.asi.diagnosis.media.sDTCPState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sDTCPStateSerializer {
-    public static void putOptionalsDTCPState(ISerializer iSerializer, sDTCPState sDTCPState2) {
+    public static void putOptionalsDTCPState(ISerializer iSerializer, sDTCPState sDTCPState2) throws SerializerException {
         boolean bl = sDTCPState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class sDTCPStateSerializer {
         }
     }
 
-    public static void putOptionalsDTCPStateVarArray(ISerializer iSerializer, sDTCPState[] sDTCPStateArray) {
+    public static void putOptionalsDTCPStateVarArray(ISerializer iSerializer, sDTCPState[] sDTCPStateArray) throws SerializerException {
         boolean bl = sDTCPStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class sDTCPStateSerializer {
         }
     }
 
-    public static sDTCPState getOptionalsDTCPState(IDeserializer iDeserializer) {
+    public static sDTCPState getOptionalsDTCPState(IDeserializer iDeserializer) throws SerializerException {
         sDTCPState sDTCPState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class sDTCPStateSerializer {
         return sDTCPState2;
     }
 
-    public static sDTCPState[] getOptionalsDTCPStateVarArray(IDeserializer iDeserializer) {
+    public static sDTCPState[] getOptionalsDTCPStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sDTCPState[] sDTCPStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

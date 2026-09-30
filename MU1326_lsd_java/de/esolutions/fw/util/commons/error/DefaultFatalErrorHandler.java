@@ -30,13 +30,12 @@ implements IFatalErrorHandler {
         return buffer.toString();
     }
 
-    @Override
     public final void handleFatalError(Throwable throwable, String string) {
         ++this.count;
         if (this.count == 1) {
             System.out.println("==========> Java/FW detected FATAL ERROR <==========");
             long l = this.runtime.freeMemory();
-            int n = (int)(l / 0);
+            int n = (int)(l / 1024L);
             if (n > 256) {
                 Thread thread = Thread.currentThread();
                 long l2 = System.currentTimeMillis();
@@ -50,7 +49,7 @@ implements IFatalErrorHandler {
                 }
                 if (throwable != null) {
                     System.out.print("Error: ");
-                    System.out.print(super.getClass().getName());
+                    System.out.print(throwable.getClass().getName());
                     System.out.println();
                     throwable.printStackTrace();
                 }

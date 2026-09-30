@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface eUsbCommunicationState
 extends IEnum {
-    public static final int USB_COMSTATE_OK;
-    public static final int USB_COMSTATE_ERROR;
-    public static final int USB_COMSTATE_NOT_AVALABLE;
+    public static final int USB_COMSTATE_OK = 0;
+    public static final int USB_COMSTATE_ERROR = 1;
+    public static final int USB_COMSTATE_NOT_AVALABLE = 255;
 }
 

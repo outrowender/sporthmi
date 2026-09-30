@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.calendar.impl;
 import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.CalendarSummary;
 import org.dsi.ifc.global.DateTime;
 
 public class CalendarSummarySerializer {
-    public static void putOptionalCalendarSummary(ISerializer iSerializer, CalendarSummary calendarSummary) {
+    public static void putOptionalCalendarSummary(ISerializer iSerializer, CalendarSummary calendarSummary) throws SerializerException {
         boolean bl = calendarSummary == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class CalendarSummarySerializer {
         }
     }
 
-    public static void putOptionalCalendarSummaryVarArray(ISerializer iSerializer, CalendarSummary[] calendarSummaryArray) {
+    public static void putOptionalCalendarSummaryVarArray(ISerializer iSerializer, CalendarSummary[] calendarSummaryArray) throws SerializerException {
         boolean bl = calendarSummaryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class CalendarSummarySerializer {
         }
     }
 
-    public static CalendarSummary getOptionalCalendarSummary(IDeserializer iDeserializer) {
+    public static CalendarSummary getOptionalCalendarSummary(IDeserializer iDeserializer) throws SerializerException {
         CalendarSummary calendarSummary = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class CalendarSummarySerializer {
         return calendarSummary;
     }
 
-    public static CalendarSummary[] getOptionalCalendarSummaryVarArray(IDeserializer iDeserializer) {
+    public static CalendarSummary[] getOptionalCalendarSummaryVarArray(IDeserializer iDeserializer) throws SerializerException {
         CalendarSummary[] calendarSummaryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

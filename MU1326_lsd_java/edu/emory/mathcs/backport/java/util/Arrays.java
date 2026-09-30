@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package edu.emory.mathcs.backport.java.util;
 
@@ -234,7 +231,7 @@ public class Arrays {
     }
 
     public static Object[] copyOf(Object[] objectArray, int n) {
-        return Arrays.copyOf(objectArray, n, super.getClass());
+        return Arrays.copyOf(objectArray, n, objectArray.getClass());
     }
 
     public static Object[] copyOf(Object[] objectArray, int n, Class clazz) {
@@ -301,7 +298,7 @@ public class Arrays {
     }
 
     public static Object[] copyOfRange(Object[] objectArray, int n, int n2) {
-        return Arrays.copyOfRange(objectArray, n, n2, super.getClass());
+        return Arrays.copyOfRange(objectArray, n, n2, objectArray.getClass());
     }
 
     public static Object[] copyOfRange(Object[] objectArray, int n, int n2, Class clazz) {
@@ -500,7 +497,7 @@ public class Arrays {
         }
         int n = 1;
         for (int i2 = 0; i2 < dArray.length; ++i2) {
-            long l = Double.doubleToLongBits((double)dArray[i2]);
+            long l = Double.doubleToLongBits(dArray[i2]);
             n = 31 * n + (int)(l ^ l >>> 32);
         }
         return n;

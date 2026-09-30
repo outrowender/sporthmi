@@ -10,11 +10,10 @@ import java.util.Hashtable;
 
 class BasicPermissionCollection
 extends PermissionCollection {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 739301742472979399L;
     boolean all_allowed = false;
     Hashtable permissions = new Hashtable(8);
 
-    @Override
     public void add(Permission permission) {
         if (this.isReadOnly()) {
             throw new IllegalStateException();
@@ -24,12 +23,10 @@ extends PermissionCollection {
         this.permissions.put(string, permission);
     }
 
-    @Override
     public Enumeration elements() {
         return this.permissions.elements();
     }
 
-    @Override
     public boolean implies(Permission permission) {
         if (this.all_allowed) {
             return true;
@@ -43,7 +40,7 @@ extends PermissionCollection {
             if (n + 1 == string.length()) {
                 return false;
             }
-            if (this.permissions.get(new StringBuffer(String.valueOf(string = string.substring(0, n))).append(".*").toString()) != null) {
+            if (this.permissions.get(String.valueOf(string = string.substring(0, n)) + ".*") != null) {
                 return true;
             }
             n = string.lastIndexOf(46);

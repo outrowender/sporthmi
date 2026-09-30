@@ -26,28 +26,23 @@ implements DSIPictureViewer {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$picturestore$DSIPictureViewer == null ? (class$org$dsi$ifc$picturestore$DSIPictureViewer = DSIPictureViewerProvider.class$("org.dsi.ifc.picturestore.DSIPictureViewer")) : class$org$dsi$ifc$picturestore$DSIPictureViewer).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPictureViewerProxy(this.instance, (DSIPictureViewerReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void initializeViewer(int n, int n2) {
         try {
             this.proxy.initializeViewer(n, n2);
@@ -57,7 +52,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void deinitializeViewer() {
         try {
             this.proxy.deinitializeViewer();
@@ -67,7 +61,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setSelectionMode(int n) {
         try {
             this.proxy.setSelectionMode(n);
@@ -77,7 +70,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void startRendering() {
         try {
             this.proxy.startRendering();
@@ -87,7 +79,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void stopRendering() {
         try {
             this.proxy.stopRendering();
@@ -97,7 +88,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setScrollMode(int n) {
         try {
             this.proxy.setScrollMode(n);
@@ -107,7 +97,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void scrollTicks(long l) {
         try {
             this.proxy.scrollTicks(l);
@@ -117,7 +106,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void moveFocus(long l, int n) {
         try {
             this.proxy.moveFocus(l, n);
@@ -127,7 +115,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void getPictureInfo(long l) {
         try {
             this.proxy.getPictureInfo(l);
@@ -137,7 +124,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void changeFolder(long l) {
         try {
             this.proxy.changeFolder(l);
@@ -147,7 +133,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void togglePictureSelection(long l) {
         try {
             this.proxy.togglePictureSelection(l);
@@ -157,7 +142,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void toggleAllPicturesSelection() {
         try {
             this.proxy.toggleAllPicturesSelection();
@@ -167,7 +151,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void clearAllPicturesSelection() {
         try {
             this.proxy.clearAllPicturesSelection();
@@ -177,7 +160,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void triggerAnimation(int n, long l) {
         try {
             this.proxy.triggerAnimation(n, l);
@@ -187,7 +169,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setFilterSetId(int n) {
         try {
             this.proxy.setFilterSetId(n);
@@ -197,7 +178,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void moveFocusByResourceLocator(ResourceLocator resourceLocator, int n) {
         try {
             this.proxy.moveFocusByResourceLocator(resourceLocator, n);
@@ -207,7 +187,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setSortingDirection(int n) {
         try {
             this.proxy.setSortingDirection(n);
@@ -217,7 +196,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -227,7 +205,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -237,7 +214,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -247,7 +223,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -257,7 +232,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -267,7 +241,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -277,7 +250,6 @@ implements DSIPictureViewer {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

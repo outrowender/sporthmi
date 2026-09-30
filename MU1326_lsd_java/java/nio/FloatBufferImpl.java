@@ -35,7 +35,6 @@ implements BufferUtil {
         this.byteOffset = n2;
     }
 
-    @Override
     public float get() {
         if (this.position() >= this.limit()) {
             throw new BufferUnderflowException();
@@ -53,7 +52,6 @@ implements BufferUtil {
         return f2;
     }
 
-    @Override
     public float get(int n) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -70,12 +68,10 @@ implements BufferUtil {
         return f2;
     }
 
-    @Override
     public boolean isDirect() {
         return this.byteBuf != null ? this.byteBuf.isDirect() : false;
     }
 
-    @Override
     public FloatBuffer put(float f2) {
         if (this.position() >= this.limit()) {
             throw new BufferOverflowException();
@@ -92,7 +88,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public FloatBuffer put(int n, float f2) {
         if (n < 0 || n >= this.limit()) {
             throw new IndexOutOfBoundsException("index is out of bounds");
@@ -108,7 +103,6 @@ implements BufferUtil {
         return this;
     }
 
-    @Override
     public FloatBuffer slice() {
         if (this.isDirect()) {
             return new FloatBufferImpl(this.byteBuf, this.remaining(), this.byteOffset + this.position() * 4);
@@ -119,7 +113,6 @@ implements BufferUtil {
         return new FloatBufferImpl(this.byteBuf, this.byteArray, this.remaining(), this.byteOffset + this.position() * 4);
     }
 
-    @Override
     public int getDirectPointer() {
         return this.isDirect() ? this.byteBuf.getDirectPointer(this.byteOffset + this.position() * 4) : 0;
     }
@@ -154,7 +147,6 @@ implements BufferUtil {
         this.position(this.position() + n2);
     }
 
-    @Override
     public ByteOrder order() {
         if (this.byteBuf != null) {
             return this.byteBuf.order();

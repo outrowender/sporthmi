@@ -29,28 +29,23 @@ implements DSITelephone {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$telephone$DSITelephone == null ? (class$org$dsi$ifc$telephone$DSITelephone = DSITelephoneProvider.class$("org.dsi.ifc.telephone.DSITelephone")) : class$org$dsi$ifc$telephone$DSITelephone).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITelephoneProxy(this.instance, (DSITelephoneReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void acceptCall(int n) {
         try {
             this.proxy.acceptCall(n);
@@ -60,7 +55,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void hangupCall(int n) {
         try {
             this.proxy.hangupCall(n);
@@ -70,7 +64,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void swapCalls() {
         try {
             this.proxy.swapCalls();
@@ -80,7 +73,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void splitCall(short s) {
         try {
             this.proxy.splitCall(s);
@@ -90,7 +82,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void joinCalls() {
         try {
             this.proxy.joinCalls();
@@ -100,7 +91,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void dialNumber(String string) {
         try {
             this.proxy.dialNumber(string);
@@ -110,7 +100,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void dialOperator(int n, String string) {
         try {
             this.proxy.dialOperator(n, string);
@@ -120,7 +109,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2) {
         try {
             this.proxy.dialNumberFromDBEntry(string, l, string2, s, s2, resourceLocator, n, n2);
@@ -130,7 +118,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void sendDTMF(String string) {
         try {
             this.proxy.sendDTMF(string);
@@ -140,7 +127,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestNetworkRegistration(String string, int n) {
         try {
             this.proxy.requestNetworkRegistration(string, n);
@@ -150,7 +136,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestAbortNetworkRegistration() {
         try {
             this.proxy.requestAbortNetworkRegistration();
@@ -160,7 +145,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestNetworkSearch() {
         try {
             this.proxy.requestNetworkSearch();
@@ -170,7 +154,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestAbortNetworkSearch() {
         try {
             this.proxy.requestAbortNetworkSearch();
@@ -180,7 +163,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestCallForward(CFRequestData[] cFRequestDataArray) {
         try {
             this.proxy.requestCallForward(cFRequestDataArray);
@@ -190,7 +172,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestCallWaiting(int n) {
         try {
             this.proxy.requestCallWaiting(n);
@@ -200,7 +181,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestCLIR(int n) {
         try {
             this.proxy.requestCLIR(n);
@@ -210,7 +190,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestServiceCodeAbort() {
         try {
             this.proxy.requestServiceCodeAbort();
@@ -220,7 +199,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetAutomaticPinEntryActive(boolean bl) {
         try {
             this.proxy.requestSetAutomaticPinEntryActive(bl);
@@ -230,7 +208,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetAutomaticRedialActive(boolean bl) {
         try {
             this.proxy.requestSetAutomaticRedialActive(bl);
@@ -240,7 +217,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetCDMAThreeWayCallingSetting(boolean bl) {
         try {
             this.proxy.requestSetCDMAThreeWayCallingSetting(bl);
@@ -250,7 +226,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetAutomaticEmergencyCallActive(boolean bl) {
         try {
             this.proxy.requestSetAutomaticEmergencyCallActive(bl);
@@ -260,7 +235,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetEnhancedPrivacyMode(boolean bl) {
         try {
             this.proxy.requestSetEnhancedPrivacyMode(bl);
@@ -270,7 +244,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray) {
         try {
             this.proxy.requestSetMailboxContent(mailboxDialingNumberArray);
@@ -280,7 +253,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetPrivacyMode(boolean bl) {
         try {
             this.proxy.requestSetPrivacyMode(bl);
@@ -290,7 +262,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestTelPower(int n) {
         try {
             this.proxy.requestTelPower(n);
@@ -300,7 +271,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestUnlockSIM(int n, String string, String string2) {
         try {
             this.proxy.requestUnlockSIM(n, string, string2);
@@ -310,7 +280,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestCheckSIMPINCode(String string) {
         try {
             this.proxy.requestCheckSIMPINCode(string);
@@ -320,7 +289,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestChangeSIMCode(int n, String string, String string2) {
         try {
             this.proxy.requestChangeSIMCode(n, string, string2);
@@ -330,7 +298,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetHandsFreeMode(int n) {
         try {
             this.proxy.requestSetHandsFreeMode(n);
@@ -340,7 +307,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetMICMuteState(int n) {
         try {
             this.proxy.requestSetMICMuteState(n);
@@ -350,7 +316,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetLanguage(String string) {
         try {
             this.proxy.requestSetLanguage(string);
@@ -360,7 +325,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSIMPINRequired(String string, boolean bl) {
         try {
             this.proxy.requestSIMPINRequired(string, bl);
@@ -370,7 +334,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void restoreFactorySettings() {
         try {
             this.proxy.restoreFactorySettings();
@@ -380,7 +343,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetMicGainLevel(int n) {
         try {
             this.proxy.requestSetMicGainLevel(n);
@@ -390,7 +352,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestDecreaseMicGainLevel(short s) {
         try {
             this.proxy.requestDecreaseMicGainLevel(s);
@@ -400,7 +361,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestIncreaseMicGainLevel(short s) {
         try {
             this.proxy.requestIncreaseMicGainLevel(s);
@@ -410,7 +370,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetOptimizationMode(int n) {
         try {
             this.proxy.requestSetOptimizationMode(n);
@@ -420,7 +379,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestUnlockOtherSIM(int n, String string) {
         try {
             this.proxy.requestUnlockOtherSIM(n, string);
@@ -430,7 +388,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetSIMAliases(String string, String string2) {
         try {
             this.proxy.requestSetSIMAliases(string, string2);
@@ -440,7 +397,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetNADMode(int n) {
         try {
             this.proxy.requestSetNADMode(n);
@@ -450,7 +406,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestRemoveOtherSIM() {
         try {
             this.proxy.requestRemoveOtherSIM();
@@ -460,7 +415,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestAbortAlternatePhoneActivity() {
         try {
             this.proxy.requestAbortAlternatePhoneActivity();
@@ -470,7 +424,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestTogglePrioritizedPhoneDevice() {
         try {
             this.proxy.requestTogglePrioritizedPhoneDevice();
@@ -480,7 +433,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetPhoneReminderSetting(boolean bl) {
         try {
             this.proxy.requestSetPhoneReminderSetting(bl);
@@ -490,7 +442,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetPrefixActivated(boolean bl) {
         try {
             this.proxy.requestSetPrefixActivated(bl);
@@ -500,7 +451,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetPrefixContent(String string) {
         try {
             this.proxy.requestSetPrefixContent(string);
@@ -510,7 +460,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetPhoneRingtone(int n, String string) {
         try {
             this.proxy.requestSetPhoneRingtone(n, string);
@@ -520,7 +469,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetFavorites(Favorite[] favoriteArray) {
         try {
             this.proxy.requestSetFavorites(favoriteArray);
@@ -530,7 +478,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetSIMName(String string) {
         try {
             this.proxy.requestSetSIMName(string);
@@ -540,7 +487,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void requestSetESIMActive(boolean bl) {
         try {
             this.proxy.requestSetESIMActive(bl);
@@ -550,7 +496,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -560,7 +505,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -570,7 +514,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -580,7 +523,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -590,7 +532,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -600,7 +541,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -610,7 +550,6 @@ implements DSITelephone {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

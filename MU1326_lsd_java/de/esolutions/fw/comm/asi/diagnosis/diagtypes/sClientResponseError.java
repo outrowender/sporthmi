@@ -42,7 +42,7 @@ public class sClientResponseError {
     }
 
     public String toString() {
-        return new StringBuffer("sClientResponseError{").append("msg_id=").append(this.msg_id).append(", client=").append(this.client).append(", err_type=").append(this.err_type).append("}").toString();
+        return "sClientResponseError{" + "msg_id=" + this.msg_id + ", client=" + this.client + ", err_type=" + this.err_type + "}";
     }
 }
 

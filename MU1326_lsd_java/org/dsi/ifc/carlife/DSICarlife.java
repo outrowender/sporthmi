@@ -11,134 +11,126 @@ import org.dsi.ifc.carlife.TouchEvent;
 
 public interface DSICarlife
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_CALLSTATE;
-    public static final int ATTR_NOWPLAYINGDATA;
-    public static final int ATTR_PLAYBACKSTATE;
-    public static final int ATTR_PLAYMODESTATE;
-    public static final int ATTR_PLAYPOSITION;
-    public static final int ATTR_COVERARTURL;
-    public static final int ATTR_NAVIGATIONNEXTTURNINFO;
-    public static final int ATTR_DEVICEINFO;
-    public static final int ATTR_VIDEOAVAILABLE;
-    public static final int RT_STARTSERVICE;
-    public static final int RT_POSTBUTTONEVENT;
-    public static final int RT_POSTTOUCHEVENT;
-    public static final int RT_POSTROTARYEVENT;
-    public static final int RT_SETMODE;
-    public static final int RT_REQUESTNIGHTMODE;
-    public static final int RT_POSTCHARACTEREVENT;
-    public static final int RT_RESPONSEMODECHANGE;
-    public static final int RP_RESPONSESETMODE;
-    public static final int IN_REQUESTMODECHANGE;
-    public static final int APPLICATIONID_UNKNOWN;
-    public static final int APPLICATIONID_NAVIGATION;
-    public static final int APPLICATIONID_SPEECH;
-    public static final int APPLICATIONOWNER_UNKNOWN;
-    public static final int APPLICATIONOWNER_MAINUNIT;
-    public static final int APPLICATIONOWNER_DEVICE;
-    public static final int CALLSTATE_DISCONNECTED;
-    public static final int CALLSTATE_ACTIVE;
-    public static final int CALLSTATE_HOLDING;
-    public static final int CALLSTATE_CONNECTING;
-    public static final int CALLDIRECTION_INCOMING;
-    public static final int CALLDIRECTION_OUTGOING;
-    public static final int CALLDIRECTION_UNKNOWN;
-    public static final int RESOURCE_UNKNOWN;
-    public static final int RESOURCE_VIDEO;
-    public static final int RESOURCE_AUDIO_MICROPHONE;
-    public static final int RESOURCE_AUDIO_MEDIA;
-    public static final int RESOURCE_AUDIO_TTS;
-    public static final int RESOURCEOWNER_UNKNOWN;
-    public static final int RESOURCEOWNER_MAINUNIT;
-    public static final int RESOURCEOWNER_DEVICE;
-    public static final int PLAYBACKSTATE_STOPPED;
-    public static final int PLAYBACKSTATE_PLAYING;
-    public static final int PLAYBACKSTATE_PAUSED;
-    public static final int PLAYBACKSTATE_SEEKFORWARD;
-    public static final int PLAYBACKSTATE_SEEKBACKWARD;
-    public static final int PLAYBACKMODESHUFFLE_OFF;
-    public static final int PLAYBACKMODESHUFFLE_SONGS;
-    public static final int PLAYBACKMODESHUFFLE_ALBUMS;
-    public static final int PLAYBACKMODEREPEAT_OFF;
-    public static final int PLAYBACKMODEREPEAT_ONE;
-    public static final int PLAYBACKMODEREPEAT_ALL;
-    public static final int BUTTON_UNKNOWN;
-    public static final int BUTTON_SELECT;
-    public static final int BUTTON_BACK;
-    public static final int BUTTON_JS_LEFT;
-    public static final int BUTTON_JS_RIGHT;
-    public static final int BUTTON_JS_UP;
-    public static final int BUTTON_JS_DOWN;
-    public static final int BUTTON_JS_SE;
-    public static final int BUTTON_JS_SW;
-    public static final int BUTTON_JS_NE;
-    public static final int BUTTON_JS_NW;
-    public static final int BUTTON_EAST;
-    public static final int BUTTON_WEST;
-    public static final int BUTTON_SKIP_FORWARD;
-    public static final int BUTTON_SKIP_BACKWARD;
-    public static final int BUTTON_SEEK_FORWARD;
-    public static final int BUTTON_SEEK_BACKWARD;
-    public static final int BUTTON_PLAY_PAUSE;
-    public static final int BUTTON_PLAY;
-    public static final int BUTTON_PAUSE;
-    public static final int BUTTON_START_SPEECH;
-    public static final int BUTTON_STOP_SPEECH;
-    public static final int BUTTONSTATE_PRESSED;
-    public static final int BUTTONSTATE_RELEASED;
-    public static final int TOUCHSOURCE_TOUCHPAD;
-    public static final int TOUCHSOURCE_TOUCHSCREEN;
-    public static final int POINTERACTION_UNKNOWN;
-    public static final int POINTERACTION_DOWN;
-    public static final int POINTERACTION_MOVE;
-    public static final int POINTERACTION_UP;
-    public static final int POINTERACTION_ROTATE;
-    public static final int POINTERACTION_GESTURE;
-    public static final int NAVIGATIONTURNSIDE_UNSPECIFIED;
-    public static final int NAVIGATIONTURNSIDE_LEFT;
-    public static final int NAVIGATIONTURNSIDE_RIGHT;
-    public static final int NAVIGATIONTURNEVENT_UNKNOWN;
-    public static final int NAVIGATIONTURNEVENT_DEPART;
-    public static final int NAVIGATIONTURNEVENT_NAME_CHANGE;
-    public static final int NAVIGATIONTURNEVENT_SLIGHT_TURN;
-    public static final int NAVIGATIONTURNEVENT_TURN;
-    public static final int NAVIGATIONTURNEVENT_SHARP_TURN;
-    public static final int NAVIGATIONTURNEVENT_U_TURN;
-    public static final int NAVIGATIONTURNEVENT_ON_RAMP;
-    public static final int NAVIGATIONTURNEVENT_OFF_RAMP;
-    public static final int NAVIGATIONTURNEVENT_FORK;
-    public static final int NAVIGATIONTURNEVENT_MERGE;
-    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_ENTER;
-    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_EXIT;
-    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_ENTER_AND_EXIT;
-    public static final int NAVIGATIONTURNEVENT_STRAIGHT;
-    public static final int NAVIGATIONTURNEVENT_FERRY_BOAT;
-    public static final int NAVIGATIONTURNEVENT_FERRY_TRAIN;
-    public static final int NAVIGATIONTURNEVENT_DESTINATION;
+    public static final String VERSION = "2.11.2";
+    public static final int ATTR_CALLSTATE = 1;
+    public static final int ATTR_NOWPLAYINGDATA = 2;
+    public static final int ATTR_PLAYBACKSTATE = 3;
+    public static final int ATTR_PLAYMODESTATE = 4;
+    public static final int ATTR_PLAYPOSITION = 5;
+    public static final int ATTR_COVERARTURL = 6;
+    public static final int ATTR_NAVIGATIONNEXTTURNINFO = 7;
+    public static final int ATTR_DEVICEINFO = 8;
+    public static final int ATTR_VIDEOAVAILABLE = 9;
+    public static final int RT_STARTSERVICE = 1000;
+    public static final int RT_POSTBUTTONEVENT = 1001;
+    public static final int RT_POSTTOUCHEVENT = 1002;
+    public static final int RT_POSTROTARYEVENT = 1003;
+    public static final int RT_SETMODE = 1004;
+    public static final int RT_REQUESTNIGHTMODE = 1005;
+    public static final int RT_POSTCHARACTEREVENT = 1006;
+    public static final int RT_RESPONSEMODECHANGE = 1007;
+    public static final int RP_RESPONSESETMODE = 2000;
+    public static final int IN_REQUESTMODECHANGE = 3000;
+    public static final int APPLICATIONID_UNKNOWN = 0;
+    public static final int APPLICATIONID_NAVIGATION = 1;
+    public static final int APPLICATIONID_SPEECH = 2;
+    public static final int APPLICATIONOWNER_UNKNOWN = 0;
+    public static final int APPLICATIONOWNER_MAINUNIT = 1;
+    public static final int APPLICATIONOWNER_DEVICE = 2;
+    public static final int CALLSTATE_DISCONNECTED = 0;
+    public static final int CALLSTATE_ACTIVE = 1;
+    public static final int CALLSTATE_HOLDING = 2;
+    public static final int CALLSTATE_CONNECTING = 3;
+    public static final int CALLDIRECTION_INCOMING = 0;
+    public static final int CALLDIRECTION_OUTGOING = 1;
+    public static final int CALLDIRECTION_UNKNOWN = 2;
+    public static final int RESOURCE_UNKNOWN = 0;
+    public static final int RESOURCE_VIDEO = 1;
+    public static final int RESOURCE_AUDIO_MICROPHONE = 2;
+    public static final int RESOURCE_AUDIO_MEDIA = 3;
+    public static final int RESOURCE_AUDIO_TTS = 4;
+    public static final int RESOURCEOWNER_UNKNOWN = 0;
+    public static final int RESOURCEOWNER_MAINUNIT = 1;
+    public static final int RESOURCEOWNER_DEVICE = 2;
+    public static final int PLAYBACKSTATE_STOPPED = 0;
+    public static final int PLAYBACKSTATE_PLAYING = 1;
+    public static final int PLAYBACKSTATE_PAUSED = 2;
+    public static final int PLAYBACKSTATE_SEEKFORWARD = 3;
+    public static final int PLAYBACKSTATE_SEEKBACKWARD = 4;
+    public static final int PLAYBACKMODESHUFFLE_OFF = 0;
+    public static final int PLAYBACKMODESHUFFLE_SONGS = 1;
+    public static final int PLAYBACKMODESHUFFLE_ALBUMS = 2;
+    public static final int PLAYBACKMODEREPEAT_OFF = 0;
+    public static final int PLAYBACKMODEREPEAT_ONE = 1;
+    public static final int PLAYBACKMODEREPEAT_ALL = 2;
+    public static final int BUTTON_UNKNOWN = 0;
+    public static final int BUTTON_SELECT = 1;
+    public static final int BUTTON_BACK = 2;
+    public static final int BUTTON_JS_LEFT = 3;
+    public static final int BUTTON_JS_RIGHT = 4;
+    public static final int BUTTON_JS_UP = 5;
+    public static final int BUTTON_JS_DOWN = 6;
+    public static final int BUTTON_JS_SE = 7;
+    public static final int BUTTON_JS_SW = 8;
+    public static final int BUTTON_JS_NE = 9;
+    public static final int BUTTON_JS_NW = 10;
+    public static final int BUTTON_EAST = 11;
+    public static final int BUTTON_WEST = 12;
+    public static final int BUTTON_SKIP_FORWARD = 13;
+    public static final int BUTTON_SKIP_BACKWARD = 14;
+    public static final int BUTTON_SEEK_FORWARD = 15;
+    public static final int BUTTON_SEEK_BACKWARD = 16;
+    public static final int BUTTON_PLAY_PAUSE = 17;
+    public static final int BUTTON_PLAY = 18;
+    public static final int BUTTON_PAUSE = 19;
+    public static final int BUTTON_START_SPEECH = 20;
+    public static final int BUTTON_STOP_SPEECH = 21;
+    public static final int BUTTONSTATE_PRESSED = 0;
+    public static final int BUTTONSTATE_RELEASED = 1;
+    public static final int TOUCHSOURCE_TOUCHPAD = 0;
+    public static final int TOUCHSOURCE_TOUCHSCREEN = 1;
+    public static final int POINTERACTION_UNKNOWN = 0;
+    public static final int POINTERACTION_DOWN = 1;
+    public static final int POINTERACTION_MOVE = 2;
+    public static final int POINTERACTION_UP = 3;
+    public static final int POINTERACTION_ROTATE = 4;
+    public static final int POINTERACTION_GESTURE = 5;
+    public static final int NAVIGATIONTURNSIDE_UNSPECIFIED = 0;
+    public static final int NAVIGATIONTURNSIDE_LEFT = 1;
+    public static final int NAVIGATIONTURNSIDE_RIGHT = 2;
+    public static final int NAVIGATIONTURNEVENT_UNKNOWN = 0;
+    public static final int NAVIGATIONTURNEVENT_DEPART = 1;
+    public static final int NAVIGATIONTURNEVENT_NAME_CHANGE = 2;
+    public static final int NAVIGATIONTURNEVENT_SLIGHT_TURN = 3;
+    public static final int NAVIGATIONTURNEVENT_TURN = 4;
+    public static final int NAVIGATIONTURNEVENT_SHARP_TURN = 5;
+    public static final int NAVIGATIONTURNEVENT_U_TURN = 6;
+    public static final int NAVIGATIONTURNEVENT_ON_RAMP = 7;
+    public static final int NAVIGATIONTURNEVENT_OFF_RAMP = 8;
+    public static final int NAVIGATIONTURNEVENT_FORK = 9;
+    public static final int NAVIGATIONTURNEVENT_MERGE = 10;
+    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_ENTER = 11;
+    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_EXIT = 12;
+    public static final int NAVIGATIONTURNEVENT_ROUNDABOUT_ENTER_AND_EXIT = 13;
+    public static final int NAVIGATIONTURNEVENT_STRAIGHT = 14;
+    public static final int NAVIGATIONTURNEVENT_FERRY_BOAT = 16;
+    public static final int NAVIGATIONTURNEVENT_FERRY_TRAIN = 17;
+    public static final int NAVIGATIONTURNEVENT_DESTINATION = 19;
 
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1);
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2);
 
-    default public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2) {
-    }
+    public void postTouchEvent(int var1, TouchEvent[] var2, int var3);
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1);
 
-    default public void postCharacterEvent(int n, String[] stringArray) {
-    }
+    public void postCharacterEvent(int var1, String[] var2);
 
-    default public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void setMode(Resource[] var1, AppState[] var2);
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1);
 
-    default public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseModeChange(Resource[] var1, AppState[] var2);
 }
 

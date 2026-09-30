@@ -99,7 +99,7 @@ public class BckSpaceGestureHandler {
                     }
                     break block8;
                 }
-                IWidgetLogChannel.tpLogChannelKeypanel.log(-2137614336, "BckSpaceGestureHandler#BackspaceGesture lock could not acquire");
+                IWidgetLogChannel.tpLogChannelKeypanel.log(10000000, "BckSpaceGestureHandler#BackspaceGesture lock could not acquire");
             }
             finally {
                 this.fastDeleteHelper.unlock();

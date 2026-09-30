@@ -30,8 +30,7 @@ PairingCodeValidatorC {
         return this.proxy;
     }
 
-    @Override
-    public void validatePairingCode(String string, String string2, int n, int n2) {
+    public void validatePairingCode(String string, String string2, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -45,8 +44,7 @@ PairingCodeValidatorC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void updateActiveProfile(int n, String string, String string2) {
+    public void updateActiveProfile(int n, String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);

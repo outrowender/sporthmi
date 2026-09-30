@@ -20,7 +20,6 @@ extends AbstractPRPRule {
         this.map = iCharacterMap;
     }
 
-    @Override
     public void execute(List list, Object object, boolean bl) {
         char[] cArray;
         if (list.isEmpty()) {
@@ -29,7 +28,7 @@ extends AbstractPRPRule {
         LogChannel logChannel = IWidgetLogChannel.logPRPEngine;
         RecognizerResult recognizerResult = (RecognizerResult)list.get(0);
         if (null != logChannel && this.mapType != 0 && this.mapType != 1 && this.mapType != 2) {
-            logChannel.log(-1601830656, "PRPEngine#WeirdRadicalMappingRule: using map type 1% is not defined in this rule", (long)this.mapType);
+            logChannel.log(100000, "PRPEngine#WeirdRadicalMappingRule: using map type 1% is not defined in this rule", (long)this.mapType);
         }
         if ((cArray = this.map.getMappedCharacters(recognizerResult.getCharacter(), this.mapType)).length > 0) {
             SimplifiedTraditionalMappingRule.replaceMappedCharacters(list, cArray, 0, recognizerResult.getConfidence());
@@ -48,7 +47,6 @@ extends AbstractPRPRule {
         }
     }
 
-    @Override
     public String getRuleName() {
         return "Simplified-traditional-mapping-rule";
     }

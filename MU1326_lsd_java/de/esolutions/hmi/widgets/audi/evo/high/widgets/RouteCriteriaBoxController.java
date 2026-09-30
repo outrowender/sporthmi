@@ -17,34 +17,32 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.IconController;
 
 public class RouteCriteriaBoxController
 extends AbstractRouteCriteriaBoxController {
-    private static final int ICON_HOV_LANES;
-    private static final int ICON_REROUTING;
-    private static final int ICON_AEA;
-    private static final int ICON_FERRY;
-    private static final int ICON_MOTORAIL;
-    private static final int ICON_TOLLROAD;
-    private static final int ICON_VIGNETTE;
-    private static final int ICON_SEASONALLY_RESTRICTED;
-    private static final int ICON_FREEWAY;
-    private static final int ICON_TIME_RESTRICTED;
-    private static final int NUM_ICONS;
-    private static final int MAX_ITEMS_VISIBLE;
+    private static final int ICON_HOV_LANES = 0;
+    private static final int ICON_REROUTING = 1;
+    private static final int ICON_AEA = 2;
+    private static final int ICON_FERRY = 3;
+    private static final int ICON_MOTORAIL = 4;
+    private static final int ICON_TOLLROAD = 5;
+    private static final int ICON_VIGNETTE = 6;
+    private static final int ICON_SEASONALLY_RESTRICTED = 7;
+    private static final int ICON_FREEWAY = 8;
+    private static final int ICON_TIME_RESTRICTED = 9;
+    private static final int NUM_ICONS = 10;
+    private static final int MAX_ITEMS_VISIBLE = 6;
     private int[] cachedItemStates;
 
-    @Override
     protected void printBoxInfo(LogChannel logChannel) {
         if (logChannel.isDebug()) {
             int n;
             for (n = 0; n < this.itemState.length; ++n) {
-                logChannel.log(-2137614336, "RouteCriteriaBoxController#printBoxInfo %1-th itemState: %2", (long)n, (long)this.itemState[n]);
+                logChannel.log(10000000, "RouteCriteriaBoxController#printBoxInfo %1-th itemState: %2", (long)n, (long)this.itemState[n]);
             }
             for (n = 0; n < this.icons.length; ++n) {
-                logChannel.log(-2137614336, "RouteCriteriaBoxController#printBoxInfo %2-th icon visible: %1", this.icons[n].isVisible(), (long)n);
+                logChannel.log(10000000, "RouteCriteriaBoxController#printBoxInfo %2-th icon visible: %1", this.icons[n].isVisible(), (long)n);
             }
         }
     }
 
-    @Override
     protected boolean isRegion(int n) {
         switch (n) {
             case 0: 
@@ -63,13 +61,11 @@ extends AbstractRouteCriteriaBoxController {
         return framework.isNar();
     }
 
-    @Override
     protected void setUpIndividualProperties() {
         this.itemState = new int[10];
         this.cachedItemStates = new int[10];
     }
 
-    @Override
     protected void setUpWidgets() {
         int[] nArray = this.getBitmapIndices();
         if (nArray == null) {
@@ -96,7 +92,6 @@ extends AbstractRouteCriteriaBoxController {
         this.icons[0].setVisible(false);
     }
 
-    @Override
     protected void setUpLayout() {
         IGridLayoutHints[] iGridLayoutHintsArray;
         int n;
@@ -150,7 +145,6 @@ extends AbstractRouteCriteriaBoxController {
         this.setLayoutManager(gridLayout);
     }
 
-    @Override
     protected void updateContent(Object object, int n) {
         int n2;
         int n3;
@@ -164,7 +158,7 @@ extends AbstractRouteCriteriaBoxController {
         int[] nArray = new int[10];
         RouteCriteriaBoxController.getRow(listCellArray, 0, new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, nArray);
         if (this.isInitialized() && !RouteCriteriaBoxController.arrayChanged(this.cachedItemStates, nArray)) {
-            mapOverlayLogCh.log(-2137614336, "RouteCriteriaBoxController#updateContent Content not changed.");
+            mapOverlayLogCh.log(10000000, "RouteCriteriaBoxController#updateContent Content not changed.");
             return;
         }
         this.cachedItemStates = nArray;

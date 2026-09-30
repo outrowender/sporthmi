@@ -6,13 +6,15 @@ package de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.EsoPosProviderFull;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.EsoPosProviderFullC;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.EsoPosProviderFullReply;
-import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.EsoPosProviderFullProxy$1;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.EsoPosProviderFullReplyService;
+import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.impl.sConfigSerializer;
 import de.esolutions.fw.comm.asi.navigation.esoposproviderfull.sConfig;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,8 +34,7 @@ EsoPosProviderFullC {
         return this.proxy;
     }
 
-    @Override
-    public void setActive(boolean bl) {
+    public void setActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -44,19 +45,21 @@ EsoPosProviderFullC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setConfig(sConfig sConfig2) {
-        EsoPosProviderFullProxy$1 esoPosProviderFullProxy$1 = new EsoPosProviderFullProxy$1(this, sConfig2);
-        this.proxy.remoteCallMethod((short)15, esoPosProviderFullProxy$1);
+    public void setConfig(final sConfig sConfig2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sConfigSerializer.putOptionalsConfig(iSerializer, sConfig2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)15, iSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void setNotification(long l) {
+    public void setNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -67,8 +70,7 @@ EsoPosProviderFullC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setNotification(long[] lArray) {
+    public void setNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);
@@ -79,13 +81,11 @@ EsoPosProviderFullC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void clearNotification(long l) {
+    public void clearNotification(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -96,8 +96,7 @@ EsoPosProviderFullC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(long[] lArray) {
+    public void clearNotification(long[] lArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalUInt32VarArray(lArray);

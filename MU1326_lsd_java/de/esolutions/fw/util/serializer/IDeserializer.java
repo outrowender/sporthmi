@@ -8,125 +8,87 @@ import de.esolutions.fw.util.serializer.IDeserializableArrayFactory;
 import de.esolutions.fw.util.serializer.IDeserializableFactory;
 import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.IStreamDeserializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import java.util.List;
 
 public interface IDeserializer
 extends IStreamDeserializer {
-    default public String getString() {
-    }
+    public String getString() throws SerializerException;
 
-    default public String getOptionalString() {
-    }
+    public String getOptionalString() throws SerializerException;
 
-    default public String[] getOptionalStringVarArray() {
-    }
+    public String[] getOptionalStringVarArray() throws SerializerException;
 
-    default public int getEnum() {
-    }
+    public int getEnum() throws SerializerException;
 
-    default public IDeserializable getObject(IDeserializableFactory iDeserializableFactory) {
-    }
+    public IDeserializable getObject(IDeserializableFactory var1) throws SerializerException;
 
-    default public IDeserializable getOptionalObject(IDeserializableFactory iDeserializableFactory) {
-    }
+    public IDeserializable getOptionalObject(IDeserializableFactory var1) throws SerializerException;
 
-    default public void getObjectArray(IDeserializableFactory iDeserializableFactory, IDeserializable[] iDeserializableArray) {
-    }
+    public void getObjectArray(IDeserializableFactory var1, IDeserializable[] var2) throws SerializerException;
 
-    default public IDeserializable[] getOptionalObjectArray(IDeserializableArrayFactory iDeserializableArrayFactory, int n) {
-    }
+    public IDeserializable[] getOptionalObjectArray(IDeserializableArrayFactory var1, int var2) throws SerializerException;
 
-    default public IDeserializable[] getObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) {
-    }
+    public IDeserializable[] getObjectVarArray(IDeserializableArrayFactory var1) throws SerializerException;
 
-    default public IDeserializable[] getOptionalObjectVarArray(IDeserializableArrayFactory iDeserializableArrayFactory) {
-    }
+    public IDeserializable[] getOptionalObjectVarArray(IDeserializableArrayFactory var1) throws SerializerException;
 
-    default public List getObjectVarList(IDeserializableFactory iDeserializableFactory) {
-    }
+    public List getObjectVarList(IDeserializableFactory var1) throws SerializerException;
 
-    default public List getOptionalObjectVarList(IDeserializableFactory iDeserializableFactory) {
-    }
+    public List getOptionalObjectVarList(IDeserializableFactory var1) throws SerializerException;
 
-    default public boolean[] getBoolVarArray() {
-    }
+    public boolean[] getBoolVarArray() throws SerializerException;
 
-    default public char[] getUChar16VarArray() {
-    }
+    public char[] getUChar16VarArray() throws SerializerException;
 
-    default public short[] getUInt8VarArray() {
-    }
+    public short[] getUInt8VarArray() throws SerializerException;
 
-    default public byte[] getInt8VarArray() {
-    }
+    public byte[] getInt8VarArray() throws SerializerException;
 
-    default public int[] getUInt16VarArray() {
-    }
+    public int[] getUInt16VarArray() throws SerializerException;
 
-    default public short[] getInt16VarArray() {
-    }
+    public short[] getInt16VarArray() throws SerializerException;
 
-    default public long[] getUInt32VarArray() {
-    }
+    public long[] getUInt32VarArray() throws SerializerException;
 
-    default public int[] getInt32VarArray() {
-    }
+    public int[] getInt32VarArray() throws SerializerException;
 
-    default public long[] getUInt64VarArray() {
-    }
+    public long[] getUInt64VarArray() throws SerializerException;
 
-    default public long[] getInt64VarArray() {
-    }
+    public long[] getInt64VarArray() throws SerializerException;
 
-    default public float[] getFloatVarArray() {
-    }
+    public float[] getFloatVarArray() throws SerializerException;
 
-    default public double[] getDoubleVarArray() {
-    }
+    public double[] getDoubleVarArray() throws SerializerException;
 
-    default public boolean[] getOptionalBoolVarArray() {
-    }
+    public boolean[] getOptionalBoolVarArray() throws SerializerException;
 
-    default public char[] getOptionalUChar16VarArray() {
-    }
+    public char[] getOptionalUChar16VarArray() throws SerializerException;
 
-    default public short[] getOptionalUInt8VarArray() {
-    }
+    public short[] getOptionalUInt8VarArray() throws SerializerException;
 
-    default public byte[] getOptionalInt8VarArray() {
-    }
+    public byte[] getOptionalInt8VarArray() throws SerializerException;
 
-    default public int[] getOptionalUInt16VarArray() {
-    }
+    public int[] getOptionalUInt16VarArray() throws SerializerException;
 
-    default public short[] getOptionalInt16VarArray() {
-    }
+    public short[] getOptionalInt16VarArray() throws SerializerException;
 
-    default public long[] getOptionalUInt32VarArray() {
-    }
+    public long[] getOptionalUInt32VarArray() throws SerializerException;
 
-    default public int[] getOptionalInt32VarArray() {
-    }
+    public int[] getOptionalInt32VarArray() throws SerializerException;
 
-    default public long[] getOptionalUInt64VarArray() {
-    }
+    public long[] getOptionalUInt64VarArray() throws SerializerException;
 
-    default public long[] getOptionalInt64VarArray() {
-    }
+    public long[] getOptionalInt64VarArray() throws SerializerException;
 
-    default public float[] getOptionalFloatVarArray() {
-    }
+    public float[] getOptionalFloatVarArray() throws SerializerException;
 
-    default public double[] getOptionalDoubleVarArray() {
-    }
+    public double[] getOptionalDoubleVarArray() throws SerializerException;
 
-    default public int[] getOptionalEnumVarArray() {
-    }
+    public int[] getOptionalEnumVarArray() throws SerializerException;
 
-    default public ISerializer createCompatibleSerializer() {
-    }
+    public ISerializer createCompatibleSerializer();
 
-    default public IDeserializer createCompatibleDeserializer() {
-    }
+    public IDeserializer createCompatibleDeserializer();
 }
 

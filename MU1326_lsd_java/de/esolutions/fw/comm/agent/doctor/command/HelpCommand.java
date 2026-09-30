@@ -11,22 +11,18 @@ import java.io.PrintStream;
 
 public class HelpCommand
 extends AbstractDoctorCommand {
-    @Override
     public String[] getNames() {
         return new String[]{"help", "?"};
     }
 
-    @Override
     public String getDescription() {
         return "give information on (all) command usage";
     }
 
-    @Override
     public String getUsage() {
         return "[command]";
     }
 
-    @Override
     public boolean handle(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         if (stringArray.length == 0) {
             doctorShell.showHelp(printStream);

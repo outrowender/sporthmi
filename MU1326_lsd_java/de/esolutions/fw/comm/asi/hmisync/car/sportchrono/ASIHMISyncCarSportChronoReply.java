@@ -9,71 +9,52 @@ import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCRefLapData;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCRefLapHeader;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.TransferState;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncCarSportChronoReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "38295c72-4d73-4857-919d-548f4e0abbdd";
+    public static final String IPL_COMM_INTERFACE_KEY = "98008024-b4e6-5a1f-8cf9-1c1a2dc9dad6";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.1.00";
+    public static final String IPL_COMM_MODULE_VERSION = "2.0.00";
 
-    default public void responseRecordData(SCData[] sCDataArray, int n) {
-    }
+    public void responseRecordData(SCData[] var1, int var2) throws MethodException;
 
-    default public void responseTrackData(int n, SCData[] sCDataArray, int n2) {
-    }
+    public void responseTrackData(int var1, SCData[] var2, int var3) throws MethodException;
 
-    default public void responseInitTrackTransfer(int n, int n2) {
-    }
+    public void responseInitTrackTransfer(int var1, int var2) throws MethodException;
 
-    default public void responseSetTrackData(int n, int n2) {
-    }
+    public void responseSetTrackData(int var1, int var2) throws MethodException;
 
-    default public void responseSetReferenceLap(int n, int n2) {
-    }
+    public void responseSetReferenceLap(int var1, int var2) throws MethodException;
 
-    default public void responseReferenceLapData(int n, SCRefLapData[] sCRefLapDataArray, int n2) {
-    }
+    public void responseReferenceLapData(int var1, SCRefLapData[] var2, int var3) throws MethodException;
 
-    default public void responseSaveReferenceLap(int n) {
-    }
+    public void responseSaveReferenceLap(int var1) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateSCVisibilityState(int n, boolean bl) {
-    }
+    public void updateSCVisibilityState(int var1, boolean var2) throws MethodException;
 
-    default public void updateActiveRecord(SCHeader sCHeader, boolean bl) {
-    }
+    public void updateActiveRecord(SCHeader var1, boolean var2) throws MethodException;
 
-    default public void updateActiveRecordData(SCData sCData, boolean bl) {
-    }
+    public void updateActiveRecordData(SCData var1, boolean var2) throws MethodException;
 
-    default public void updateRecordMode(int n, boolean bl) {
-    }
+    public void updateRecordMode(int var1, boolean var2) throws MethodException;
 
-    default public void updateTrackList(SCHeader[] sCHeaderArray, boolean bl) {
-    }
+    public void updateTrackList(SCHeader[] var1, boolean var2) throws MethodException;
 
-    default public void updateTransferState(TransferState transferState, boolean bl) {
-    }
+    public void updateTransferState(TransferState var1, boolean var2) throws MethodException;
 
-    default public void updateRecordingTime(long l, boolean bl) {
-    }
+    public void updateRecordingTime(long var1, boolean var3) throws MethodException;
 
-    default public void updateRecordingRange(RecordingRange recordingRange, boolean bl) {
-    }
+    public void updateRecordingRange(RecordingRange var1, boolean var2) throws MethodException;
 
-    default public void updateSelectedReferenceLapUid(int n, boolean bl) {
-    }
+    public void updateSelectedReferenceLapUid(int var1, boolean var2) throws MethodException;
 
-    default public void updateReferenceLapList(SCRefLapHeader[] sCRefLapHeaderArray, boolean bl) {
-    }
+    public void updateReferenceLapList(SCRefLapHeader[] var1, boolean var2) throws MethodException;
 }
 

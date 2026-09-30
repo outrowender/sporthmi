@@ -3,77 +3,55 @@
  */
 package de.esolutions.fw.comm.dsi.messaging;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.messaging.RecipientList;
 
 public interface DSIMessagingC {
-    default public void changeFolderRequest(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void changeFolderRequest(int var1, int var2, int var3, int var4, int var5) throws MethodException;
 
-    default public void listEntriesRequest(int n, int n2, int n3) {
-    }
+    public void listEntriesRequest(int var1, int var2, int var3) throws MethodException;
 
-    default public void getPositionOfMessageRequest(String string) {
-    }
+    public void getPositionOfMessageRequest(String var1) throws MethodException;
 
-    default public void getPositionOfFolderRequest(int n) {
-    }
+    public void getPositionOfFolderRequest(int var1) throws MethodException;
 
-    default public void deleteMessageRequest(String[] stringArray, boolean bl) {
-    }
+    public void deleteMessageRequest(String[] var1, boolean var2) throws MethodException;
 
-    default public void sendMessageRequest(int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
-    }
+    public void sendMessageRequest(int var1, int var2, RecipientList var3, String var4, String var5, AttachmentInformation[] var6, int var7) throws MethodException;
 
-    default public void getMessageContentsRequest(int n, String string, int n2) {
-    }
+    public void getMessageContentsRequest(int var1, String var2, int var3) throws MethodException;
 
-    default public void setMessageReadStatusRequest(String string, boolean bl) {
-    }
+    public void setMessageReadStatusRequest(String var1, boolean var2) throws MethodException;
 
-    default public void saveAsDraftRequest(String string, int n, RecipientList recipientList, String string2, String string3, int n2, AttachmentInformation[] attachmentInformationArray) {
-    }
+    public void saveAsDraftRequest(String var1, int var2, RecipientList var3, String var4, String var5, int var6, AttachmentInformation[] var7) throws MethodException;
 
-    default public void extractInformationRequest(String string) {
-    }
+    public void extractInformationRequest(String var1) throws MethodException;
 
-    default public void changeTemplateRequest(int n, String string) {
-    }
+    public void changeTemplateRequest(int var1, String var2) throws MethodException;
 
-    default public void getTemplateRequest(int n) {
-    }
+    public void getTemplateRequest(int var1) throws MethodException;
 
-    default public void getTemplatesRequest() {
-    }
+    public void getTemplatesRequest() throws MethodException;
 
-    default public void deleteTemplateRequest(int[] nArray) {
-    }
+    public void deleteTemplateRequest(int[] var1) throws MethodException;
 
-    default public void deleteSimCardMessagesRequest(int n, int n2) {
-    }
+    public void deleteSimCardMessagesRequest(int var1, int var2) throws MethodException;
 
-    default public void decodeAttachmentRequest(AttachmentInformation attachmentInformation) {
-    }
+    public void decodeAttachmentRequest(AttachmentInformation var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

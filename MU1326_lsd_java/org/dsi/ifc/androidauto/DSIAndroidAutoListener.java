@@ -16,37 +16,26 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIAndroidAutoListener
 extends DSIListener {
-    default public void setMode(Resource[] resourceArray, AppState[] appStateArray, int n) {
-    }
+    public void setMode(Resource[] var1, AppState[] var2, int var3);
 
-    default public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, int n) {
-    }
+    public void requestModeChange(ResourceRequest[] var1, AppStateRequest[] var2, int var3);
 
-    default public void updateCallState(CallState[] callStateArray, int n) {
-    }
+    public void updateCallState(CallState[] var1, int var2);
 
-    default public void updateTelephonyState(TelephonyState telephonyState, int n) {
-    }
+    public void updateTelephonyState(TelephonyState var1, int var2);
 
-    default public void updateNowPlayingData(TrackData trackData, int n) {
-    }
+    public void updateNowPlayingData(TrackData var1, int var2);
 
-    default public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
-    }
+    public void updatePlaybackState(PlaybackInfo var1, int var2);
 
-    default public void updatePlayposition(int n, int n2) {
-    }
+    public void updatePlayposition(int var1, int var2);
 
-    default public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
-    }
+    public void updateCoverArtUrl(ResourceLocator var1, int var2);
 
-    default public void updateNavigationNextTurnEvent(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void updateNavigationNextTurnEvent(String var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void updateNavigationNextTurnDistance(int n, int n2, int n3) {
-    }
+    public void updateNavigationNextTurnDistance(int var1, int var2, int var3);
 
-    default public void setExternalDestination(double d2, double d3, String string, String string2) {
-    }
+    public void setExternalDestination(double var1, double var3, String var5, String var6);
 }
 

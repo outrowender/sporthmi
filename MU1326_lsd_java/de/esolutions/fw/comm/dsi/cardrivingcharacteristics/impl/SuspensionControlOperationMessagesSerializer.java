@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlOperationMessages;
 
 public class SuspensionControlOperationMessagesSerializer {
-    public static void putOptionalSuspensionControlOperationMessages(ISerializer iSerializer, SuspensionControlOperationMessages suspensionControlOperationMessages) {
+    public static void putOptionalSuspensionControlOperationMessages(ISerializer iSerializer, SuspensionControlOperationMessages suspensionControlOperationMessages) throws SerializerException {
         boolean bl = suspensionControlOperationMessages == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SuspensionControlOperationMessagesSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlOperationMessagesVarArray(ISerializer iSerializer, SuspensionControlOperationMessages[] suspensionControlOperationMessagesArray) {
+    public static void putOptionalSuspensionControlOperationMessagesVarArray(ISerializer iSerializer, SuspensionControlOperationMessages[] suspensionControlOperationMessagesArray) throws SerializerException {
         boolean bl = suspensionControlOperationMessagesArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SuspensionControlOperationMessagesSerializer {
         }
     }
 
-    public static SuspensionControlOperationMessages getOptionalSuspensionControlOperationMessages(IDeserializer iDeserializer) {
+    public static SuspensionControlOperationMessages getOptionalSuspensionControlOperationMessages(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlOperationMessages suspensionControlOperationMessages = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SuspensionControlOperationMessagesSerializer {
         return suspensionControlOperationMessages;
     }
 
-    public static SuspensionControlOperationMessages[] getOptionalSuspensionControlOperationMessagesVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlOperationMessages[] getOptionalSuspensionControlOperationMessagesVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlOperationMessages[] suspensionControlOperationMessagesArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

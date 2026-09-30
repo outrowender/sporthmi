@@ -4,42 +4,31 @@
 package de.esolutions.fw.comm.asi.hmisync.tv;
 
 import de.esolutions.fw.comm.asi.hmisync.tv.ASIHMISyncTVReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncTVS {
-    default public void setActiveStation(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void setActiveStation(long var1, ASIHMISyncTVReply var3) throws MethodException;
 
-    default public void logonToTV(ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void logonToTV(ASIHMISyncTVReply var1) throws MethodException;
 
-    default public void logoffFromTV(ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void logoffFromTV(ASIHMISyncTVReply var1) throws MethodException;
 
-    default public void sendPressedPanelKey(byte by, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void sendPressedPanelKey(byte var1, ASIHMISyncTVReply var2) throws MethodException;
 
-    default public void searchChannel(byte by, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void searchChannel(byte var1, ASIHMISyncTVReply var2) throws MethodException;
 
-    default public void setTerminalMode(byte by, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void setTerminalMode(byte var1, ASIHMISyncTVReply var2) throws MethodException;
 
-    default public void setNotification(ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void setNotification(ASIHMISyncTVReply var1) throws MethodException;
 
-    default public void setNotification(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void setNotification(long var1, ASIHMISyncTVReply var3) throws MethodException;
 
-    default public void setNotification(long[] lArray, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void setNotification(long[] var1, ASIHMISyncTVReply var2) throws MethodException;
 
-    default public void clearNotification(ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void clearNotification(ASIHMISyncTVReply var1) throws MethodException;
 
-    default public void clearNotification(long l, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void clearNotification(long var1, ASIHMISyncTVReply var3) throws MethodException;
 
-    default public void clearNotification(long[] lArray, ASIHMISyncTVReply aSIHMISyncTVReply) {
-    }
+    public void clearNotification(long[] var1, ASIHMISyncTVReply var2) throws MethodException;
 }
 

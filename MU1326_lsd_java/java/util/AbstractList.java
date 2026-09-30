@@ -4,14 +4,12 @@
 package java.util;
 
 import java.util.AbstractCollection;
-import java.util.AbstractList$FullListIterator;
-import java.util.AbstractList$SimpleListIterator;
-import java.util.AbstractList$SubAbstractList;
-import java.util.AbstractList$SubAbstractListRandomAccess;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
 public abstract class AbstractList
@@ -22,18 +20,15 @@ implements List {
     protected AbstractList() {
     }
 
-    @Override
     public void add(int n, Object object) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public boolean add(Object object) {
         this.add(this.size(), object);
         return true;
     }
 
-    @Override
     public boolean addAll(int n, Collection collection) {
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
@@ -42,12 +37,10 @@ implements List {
         return !collection.isEmpty();
     }
 
-    @Override
     public void clear() {
         this.removeRange(0, this.size());
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -70,11 +63,8 @@ implements List {
         return false;
     }
 
-    @Override
-    public abstract Object get(int n) {
-    }
+    public abstract Object get(int var1);
 
-    @Override
     public int hashCode() {
         int n = 1;
         Iterator iterator = this.iterator();
@@ -88,7 +78,6 @@ implements List {
     /*
      * Unable to fully structure code
      */
-    @Override
     public int indexOf(Object var1_1) {
         block2: {
             var2_2 = this.listIterator();
@@ -113,15 +102,13 @@ lbl9:
         return -1;
     }
 
-    @Override
     public Iterator iterator() {
-        return new AbstractList$SimpleListIterator(this);
+        return new SimpleListIterator();
     }
 
     /*
      * Unable to fully structure code
      */
-    @Override
     public int lastIndexOf(Object var1_1) {
         block2: {
             var2_2 = this.listIterator(this.size());
@@ -146,17 +133,14 @@ lbl9:
         return -1;
     }
 
-    @Override
     public ListIterator listIterator() {
         return this.listIterator(0);
     }
 
-    @Override
     public ListIterator listIterator(int n) {
-        return new AbstractList$FullListIterator(this, n);
+        return new FullListIterator(n);
     }
 
-    @Override
     public Object remove(int n) {
         throw new UnsupportedOperationException();
     }
@@ -171,23 +155,332 @@ lbl9:
         }
     }
 
-    @Override
     public Object set(int n, Object object) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public List subList(int n, int n2) {
         if (n >= 0 && n2 <= this.size()) {
             if (n <= n2) {
                 if (this instanceof RandomAccess) {
-                    return new AbstractList$SubAbstractListRandomAccess(this, n, n2);
+                    return new SubAbstractListRandomAccess(this, n, n2);
                 }
-                return new AbstractList$SubAbstractList(this, n, n2);
+                return new SubAbstractList(this, n, n2);
             }
             throw new IllegalArgumentException();
         }
         throw new IndexOutOfBoundsException();
+    }
+
+    private static class SubAbstractList
+    extends AbstractList {
+        private final AbstractList fullList;
+        private int offset;
+        private int size;
+
+        SubAbstractList(AbstractList abstractList, int n, int n2) {
+            this.fullList = abstractList;
+            this.modCount = this.fullList.modCount;
+            this.offset = n;
+            this.size = n2 - n;
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        public void add(int n, Object object) {
+            if (this.modCount != this.fullList.modCount) throw new ConcurrentModificationException();
+            if (n < 0 || n > this.size) throw new IndexOutOfBoundsException();
+            this.fullList.add(n + this.offset, object);
+            ++this.size;
+            this.modCount = this.fullList.modCount;
+        }
+
+        public boolean addAll(int n, Collection collection) {
+            if (this.modCount == this.fullList.modCount) {
+                if (n >= 0 && n <= this.size) {
+                    boolean bl = this.fullList.addAll(n + this.offset, collection);
+                    if (bl) {
+                        this.size += collection.size();
+                        this.modCount = this.fullList.modCount;
+                    }
+                    return bl;
+                }
+                throw new IndexOutOfBoundsException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public boolean addAll(Collection collection) {
+            if (this.modCount == this.fullList.modCount) {
+                boolean bl = this.fullList.addAll(this.size, collection);
+                if (bl) {
+                    this.size += collection.size();
+                    this.modCount = this.fullList.modCount;
+                }
+                return bl;
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public Object get(int n) {
+            if (this.modCount == this.fullList.modCount) {
+                if (n >= 0 && n <= this.size) {
+                    return this.fullList.get(n + this.offset);
+                }
+                throw new IndexOutOfBoundsException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public Iterator iterator() {
+            return this.listIterator(0);
+        }
+
+        public ListIterator listIterator(int n) {
+            if (this.modCount == this.fullList.modCount) {
+                if (n >= 0 && n <= this.size) {
+                    return new SubAbstractListIterator(this.fullList.listIterator(n + this.offset), this, this.offset, this.size);
+                }
+                throw new IndexOutOfBoundsException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public Object remove(int n) {
+            if (this.modCount == this.fullList.modCount) {
+                if (n >= 0 && n <= this.size) {
+                    Object object = this.fullList.remove(n + this.offset);
+                    --this.size;
+                    this.modCount = this.fullList.modCount;
+                    return object;
+                }
+                throw new IndexOutOfBoundsException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        protected void removeRange(int n, int n2) {
+            if (n != n2) {
+                if (this.modCount == this.fullList.modCount) {
+                    this.fullList.removeRange(n + this.offset, n2 + this.offset);
+                    this.size -= n2 - n;
+                    this.modCount = this.fullList.modCount;
+                } else {
+                    throw new ConcurrentModificationException();
+                }
+            }
+        }
+
+        public Object set(int n, Object object) {
+            if (this.modCount == this.fullList.modCount) {
+                if (n >= 0 && n <= this.size) {
+                    return this.fullList.set(n + this.offset, object);
+                }
+                throw new IndexOutOfBoundsException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        void sizeChanged(boolean bl) {
+            this.size = bl ? ++this.size : --this.size;
+            this.modCount = this.fullList.modCount;
+        }
+
+        private static final class SubAbstractListIterator
+        implements ListIterator {
+            private final SubAbstractList subList;
+            private final ListIterator iterator;
+            private int start;
+            private int end;
+
+            SubAbstractListIterator(ListIterator listIterator, SubAbstractList subAbstractList, int n, int n2) {
+                this.iterator = listIterator;
+                this.subList = subAbstractList;
+                this.start = n;
+                this.end = this.start + n2;
+            }
+
+            public void add(Object object) {
+                this.iterator.add(object);
+                this.subList.sizeChanged(true);
+                ++this.end;
+            }
+
+            public boolean hasNext() {
+                return this.iterator.nextIndex() < this.end;
+            }
+
+            public boolean hasPrevious() {
+                return this.iterator.previousIndex() >= this.start;
+            }
+
+            public Object next() {
+                if (this.iterator.nextIndex() < this.end) {
+                    return this.iterator.next();
+                }
+                throw new NoSuchElementException();
+            }
+
+            public int nextIndex() {
+                return this.iterator.nextIndex() - this.start;
+            }
+
+            public Object previous() {
+                if (this.iterator.previousIndex() >= this.start) {
+                    return this.iterator.previous();
+                }
+                throw new NoSuchElementException();
+            }
+
+            public int previousIndex() {
+                int n = this.iterator.previousIndex();
+                if (n >= this.start) {
+                    return n - this.start;
+                }
+                return -1;
+            }
+
+            public void remove() {
+                this.iterator.remove();
+                this.subList.sizeChanged(false);
+                --this.end;
+            }
+
+            public void set(Object object) {
+                this.iterator.set(object);
+            }
+        }
+    }
+
+    private final class FullListIterator
+    extends SimpleListIterator
+    implements ListIterator {
+        FullListIterator(int n) {
+            if (n < 0 || n > AbstractList.this.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+            this.pos = n - 1;
+        }
+
+        public void add(Object object) {
+            if (this.expectedModCount == AbstractList.this.modCount) {
+                try {
+                    AbstractList.this.add(this.pos + 1, object);
+                }
+                catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw new NoSuchElementException();
+                }
+                ++this.pos;
+                this.lastPosition = -1;
+                if (AbstractList.this.modCount != this.expectedModCount) {
+                    ++this.expectedModCount;
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        public boolean hasPrevious() {
+            return this.pos >= 0;
+        }
+
+        public int nextIndex() {
+            return this.pos + 1;
+        }
+
+        public Object previous() {
+            if (this.expectedModCount == AbstractList.this.modCount) {
+                try {
+                    Object object = AbstractList.this.get(this.pos);
+                    this.lastPosition = this.pos--;
+                    return object;
+                }
+                catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw new NoSuchElementException();
+                }
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public int previousIndex() {
+            return this.pos;
+        }
+
+        public void set(Object object) {
+            if (this.expectedModCount == AbstractList.this.modCount) {
+                try {
+                    AbstractList.this.set(this.lastPosition, object);
+                }
+                catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw new IllegalStateException();
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+        }
+    }
+
+    private class SimpleListIterator
+    implements Iterator {
+        int pos = -1;
+        int expectedModCount;
+        int lastPosition = -1;
+
+        SimpleListIterator() {
+            this.expectedModCount = AbstractList.this.modCount;
+        }
+
+        public boolean hasNext() {
+            return this.pos + 1 < AbstractList.this.size();
+        }
+
+        public Object next() {
+            if (this.expectedModCount == AbstractList.this.modCount) {
+                try {
+                    Object object = AbstractList.this.get(this.pos + 1);
+                    this.lastPosition = ++this.pos;
+                    return object;
+                }
+                catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw new NoSuchElementException();
+                }
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        public void remove() {
+            if (this.expectedModCount == AbstractList.this.modCount) {
+                try {
+                    AbstractList.this.remove(this.lastPosition);
+                }
+                catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw new IllegalStateException();
+                }
+                if (AbstractList.this.modCount != this.expectedModCount) {
+                    ++this.expectedModCount;
+                }
+                if (this.pos == this.lastPosition) {
+                    --this.pos;
+                }
+            } else {
+                throw new ConcurrentModificationException();
+            }
+            this.lastPosition = -1;
+        }
+    }
+
+    private static final class SubAbstractListRandomAccess
+    extends SubAbstractList
+    implements RandomAccess {
+        SubAbstractListRandomAccess(AbstractList abstractList, int n, int n2) {
+            super(abstractList, n, n2);
+        }
     }
 }
 

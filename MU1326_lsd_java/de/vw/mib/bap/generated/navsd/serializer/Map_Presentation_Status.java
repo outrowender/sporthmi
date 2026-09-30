@@ -25,13 +25,11 @@ implements StatusProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.asg_Hmi_State.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         Map_Presentation_Status map_Presentation_Status = (Map_Presentation_Status)bAPEntity;
         return this.asg_Hmi_State.equalTo(map_Presentation_Status.asg_Hmi_State);
@@ -40,7 +38,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Map_Presentation_Status:");
@@ -49,18 +46,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.asg_Hmi_State.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.asg_Hmi_State.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.asg_Hmi_State.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements StatusProperty {
         return 54;
     }
 
-    @Override
     public int getFunctionId() {
         return Map_Presentation_Status.functionId();
     }

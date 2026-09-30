@@ -6,7 +6,6 @@ package java.net;
 import java.net.ContentHandler;
 
 public interface ContentHandlerFactory {
-    default public ContentHandler createContentHandler(String string) {
-    }
+    public ContentHandler createContentHandler(String var1);
 }
 

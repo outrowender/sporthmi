@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlPlug;
 
 public class BatteryControlPlugSerializer {
-    public static void putOptionalBatteryControlPlug(ISerializer iSerializer, BatteryControlPlug batteryControlPlug) {
+    public static void putOptionalBatteryControlPlug(ISerializer iSerializer, BatteryControlPlug batteryControlPlug) throws SerializerException {
         boolean bl = batteryControlPlug == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class BatteryControlPlugSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlPlugVarArray(ISerializer iSerializer, BatteryControlPlug[] batteryControlPlugArray) {
+    public static void putOptionalBatteryControlPlugVarArray(ISerializer iSerializer, BatteryControlPlug[] batteryControlPlugArray) throws SerializerException {
         boolean bl = batteryControlPlugArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class BatteryControlPlugSerializer {
         }
     }
 
-    public static BatteryControlPlug getOptionalBatteryControlPlug(IDeserializer iDeserializer) {
+    public static BatteryControlPlug getOptionalBatteryControlPlug(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPlug batteryControlPlug = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class BatteryControlPlugSerializer {
         return batteryControlPlug;
     }
 
-    public static BatteryControlPlug[] getOptionalBatteryControlPlugVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlPlug[] getOptionalBatteryControlPlugVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlPlug[] batteryControlPlugArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

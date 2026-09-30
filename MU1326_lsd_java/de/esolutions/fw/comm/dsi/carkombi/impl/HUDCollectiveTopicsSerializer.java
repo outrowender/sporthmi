@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.HUDCollectiveTopics;
 
 public class HUDCollectiveTopicsSerializer {
-    public static void putOptionalHUDCollectiveTopics(ISerializer iSerializer, HUDCollectiveTopics hUDCollectiveTopics) {
+    public static void putOptionalHUDCollectiveTopics(ISerializer iSerializer, HUDCollectiveTopics hUDCollectiveTopics) throws SerializerException {
         boolean bl = hUDCollectiveTopics == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class HUDCollectiveTopicsSerializer {
         }
     }
 
-    public static void putOptionalHUDCollectiveTopicsVarArray(ISerializer iSerializer, HUDCollectiveTopics[] hUDCollectiveTopicsArray) {
+    public static void putOptionalHUDCollectiveTopicsVarArray(ISerializer iSerializer, HUDCollectiveTopics[] hUDCollectiveTopicsArray) throws SerializerException {
         boolean bl = hUDCollectiveTopicsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class HUDCollectiveTopicsSerializer {
         }
     }
 
-    public static HUDCollectiveTopics getOptionalHUDCollectiveTopics(IDeserializer iDeserializer) {
+    public static HUDCollectiveTopics getOptionalHUDCollectiveTopics(IDeserializer iDeserializer) throws SerializerException {
         HUDCollectiveTopics hUDCollectiveTopics = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class HUDCollectiveTopicsSerializer {
         return hUDCollectiveTopics;
     }
 
-    public static HUDCollectiveTopics[] getOptionalHUDCollectiveTopicsVarArray(IDeserializer iDeserializer) {
+    public static HUDCollectiveTopics[] getOptionalHUDCollectiveTopicsVarArray(IDeserializer iDeserializer) throws SerializerException {
         HUDCollectiveTopics[] hUDCollectiveTopicsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

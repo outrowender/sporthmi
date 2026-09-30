@@ -74,7 +74,7 @@ public final class Slayer {
             try {
                 while (true) {
                     this.killMethod.invoke(this.osInstance, this.killArgs);
-                    Thread.sleep(0);
+                    Thread.sleep(1000L);
                 }
             }
             catch (Exception exception) {
@@ -92,7 +92,7 @@ public final class Slayer {
             try {
                 while (true) {
                     this.killMethod.invoke(this.osInstance, this.killArgs);
-                    Thread.sleep(0);
+                    Thread.sleep(1000L);
                 }
             }
             catch (Exception exception) {

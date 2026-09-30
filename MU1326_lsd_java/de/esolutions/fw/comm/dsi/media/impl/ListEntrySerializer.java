@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.media.impl;
 import de.esolutions.fw.comm.dsi.media.impl.ListEntryExtSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.ListEntry;
 import org.dsi.ifc.media.ListEntryExt;
 
 public class ListEntrySerializer {
-    public static void putOptionalListEntry(ISerializer iSerializer, ListEntry listEntry) {
+    public static void putOptionalListEntry(ISerializer iSerializer, ListEntry listEntry) throws SerializerException {
         boolean bl = listEntry == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class ListEntrySerializer {
         }
     }
 
-    public static void putOptionalListEntryVarArray(ISerializer iSerializer, ListEntry[] listEntryArray) {
+    public static void putOptionalListEntryVarArray(ISerializer iSerializer, ListEntry[] listEntryArray) throws SerializerException {
         boolean bl = listEntryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class ListEntrySerializer {
         }
     }
 
-    public static ListEntry getOptionalListEntry(IDeserializer iDeserializer) {
+    public static ListEntry getOptionalListEntry(IDeserializer iDeserializer) throws SerializerException {
         ListEntry listEntry = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -65,7 +66,7 @@ public class ListEntrySerializer {
         return listEntry;
     }
 
-    public static ListEntry[] getOptionalListEntryVarArray(IDeserializer iDeserializer) {
+    public static ListEntry[] getOptionalListEntryVarArray(IDeserializer iDeserializer) throws SerializerException {
         ListEntry[] listEntryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

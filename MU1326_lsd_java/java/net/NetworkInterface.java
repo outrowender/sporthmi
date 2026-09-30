@@ -5,22 +5,22 @@ package java.net;
 
 import com.ibm.oti.util.Msg;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Vector;
 
 public final class NetworkInterface {
-    private static final int CHECK_CONNECT_NO_PORT;
-    static final int NO_INTERFACE_INDEX;
-    static final int UNSET_INTERFACE_INDEX;
+    private static final int CHECK_CONNECT_NO_PORT = -1;
+    static final int NO_INTERFACE_INDEX = 0;
+    static final int UNSET_INTERFACE_INDEX = -1;
     private String name = null;
     private String displayName = null;
     private InetAddress[] addresses = null;
     private int interfaceIndex = 0;
     private int hashCode = 0;
 
-    private static native NetworkInterface[] getNetworkInterfacesImpl() {
-    }
+    private static native NetworkInterface[] getNetworkInterfacesImpl();
 
     NetworkInterface(String string, String string2, InetAddress[] inetAddressArray, int n) {
         this.name = string;
@@ -78,7 +78,7 @@ public final class NetworkInterface {
         return this.name;
     }
 
-    public static NetworkInterface getByName(String string) {
+    public static NetworkInterface getByName(String string) throws SocketException {
         if (string == null) {
             throw new NullPointerException(Msg.getString("K0330"));
         }
@@ -93,7 +93,7 @@ public final class NetworkInterface {
         return null;
     }
 
-    public static NetworkInterface getByInetAddress(InetAddress inetAddress) {
+    public static NetworkInterface getByInetAddress(InetAddress inetAddress) throws SocketException {
         if (inetAddress == null) {
             throw new NullPointerException(Msg.getString("K0331"));
         }
@@ -112,7 +112,7 @@ public final class NetworkInterface {
         return null;
     }
 
-    public static Enumeration getNetworkInterfaces() {
+    public static Enumeration getNetworkInterfaces() throws SocketException {
         Object[] objectArray = NetworkInterface.getNetworkInterfacesImpl();
         if (objectArray == null) {
             return null;
@@ -165,12 +165,12 @@ public final class NetworkInterface {
     }
 
     public String toString() {
-        StringBuffer stringBuffer = new StringBuffer(new StringBuffer("[").append(this.name).append("][").append(this.displayName).append("]").toString());
+        StringBuffer stringBuffer = new StringBuffer("[" + this.name + "][" + this.displayName + "]");
         Enumeration enumeration = this.getInetAddresses();
         if (enumeration != null) {
             while (enumeration.hasMoreElements()) {
                 InetAddress inetAddress = (InetAddress)enumeration.nextElement();
-                stringBuffer.append(new StringBuffer("[").append(inetAddress.toString()).append("]").toString());
+                stringBuffer.append("[" + inetAddress.toString() + "]");
             }
         }
         return stringBuffer.toString();

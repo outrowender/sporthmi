@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.DoorLockingUserListTransmittableElements;
 
 public class DoorLockingUserListTransmittableElementsSerializer {
-    public static void putOptionalDoorLockingUserListTransmittableElements(ISerializer iSerializer, DoorLockingUserListTransmittableElements doorLockingUserListTransmittableElements) {
+    public static void putOptionalDoorLockingUserListTransmittableElements(ISerializer iSerializer, DoorLockingUserListTransmittableElements doorLockingUserListTransmittableElements) throws SerializerException {
         boolean bl = doorLockingUserListTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class DoorLockingUserListTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalDoorLockingUserListTransmittableElementsVarArray(ISerializer iSerializer, DoorLockingUserListTransmittableElements[] doorLockingUserListTransmittableElementsArray) {
+    public static void putOptionalDoorLockingUserListTransmittableElementsVarArray(ISerializer iSerializer, DoorLockingUserListTransmittableElements[] doorLockingUserListTransmittableElementsArray) throws SerializerException {
         boolean bl = doorLockingUserListTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class DoorLockingUserListTransmittableElementsSerializer {
         }
     }
 
-    public static DoorLockingUserListTransmittableElements getOptionalDoorLockingUserListTransmittableElements(IDeserializer iDeserializer) {
+    public static DoorLockingUserListTransmittableElements getOptionalDoorLockingUserListTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListTransmittableElements doorLockingUserListTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class DoorLockingUserListTransmittableElementsSerializer {
         return doorLockingUserListTransmittableElements;
     }
 
-    public static DoorLockingUserListTransmittableElements[] getOptionalDoorLockingUserListTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static DoorLockingUserListTransmittableElements[] getOptionalDoorLockingUserListTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         DoorLockingUserListTransmittableElements[] doorLockingUserListTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

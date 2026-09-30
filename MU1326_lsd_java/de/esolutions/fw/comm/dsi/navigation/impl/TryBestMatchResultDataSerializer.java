@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.TryBestMatchResultData;
 
 public class TryBestMatchResultDataSerializer {
-    public static void putOptionalTryBestMatchResultData(ISerializer iSerializer, TryBestMatchResultData tryBestMatchResultData) {
+    public static void putOptionalTryBestMatchResultData(ISerializer iSerializer, TryBestMatchResultData tryBestMatchResultData) throws SerializerException {
         boolean bl = tryBestMatchResultData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TryBestMatchResultDataSerializer {
         }
     }
 
-    public static void putOptionalTryBestMatchResultDataVarArray(ISerializer iSerializer, TryBestMatchResultData[] tryBestMatchResultDataArray) {
+    public static void putOptionalTryBestMatchResultDataVarArray(ISerializer iSerializer, TryBestMatchResultData[] tryBestMatchResultDataArray) throws SerializerException {
         boolean bl = tryBestMatchResultDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TryBestMatchResultDataSerializer {
         }
     }
 
-    public static TryBestMatchResultData getOptionalTryBestMatchResultData(IDeserializer iDeserializer) {
+    public static TryBestMatchResultData getOptionalTryBestMatchResultData(IDeserializer iDeserializer) throws SerializerException {
         TryBestMatchResultData tryBestMatchResultData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -41,7 +42,7 @@ public class TryBestMatchResultDataSerializer {
         return tryBestMatchResultData;
     }
 
-    public static TryBestMatchResultData[] getOptionalTryBestMatchResultDataVarArray(IDeserializer iDeserializer) {
+    public static TryBestMatchResultData[] getOptionalTryBestMatchResultDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TryBestMatchResultData[] tryBestMatchResultDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.SIMAliasInformation;
 
 public class SIMAliasInformationSerializer {
-    public static void putOptionalSIMAliasInformation(ISerializer iSerializer, SIMAliasInformation sIMAliasInformation) {
+    public static void putOptionalSIMAliasInformation(ISerializer iSerializer, SIMAliasInformation sIMAliasInformation) throws SerializerException {
         boolean bl = sIMAliasInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class SIMAliasInformationSerializer {
         }
     }
 
-    public static void putOptionalSIMAliasInformationVarArray(ISerializer iSerializer, SIMAliasInformation[] sIMAliasInformationArray) {
+    public static void putOptionalSIMAliasInformationVarArray(ISerializer iSerializer, SIMAliasInformation[] sIMAliasInformationArray) throws SerializerException {
         boolean bl = sIMAliasInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class SIMAliasInformationSerializer {
         }
     }
 
-    public static SIMAliasInformation getOptionalSIMAliasInformation(IDeserializer iDeserializer) {
+    public static SIMAliasInformation getOptionalSIMAliasInformation(IDeserializer iDeserializer) throws SerializerException {
         SIMAliasInformation sIMAliasInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class SIMAliasInformationSerializer {
         return sIMAliasInformation;
     }
 
-    public static SIMAliasInformation[] getOptionalSIMAliasInformationVarArray(IDeserializer iDeserializer) {
+    public static SIMAliasInformation[] getOptionalSIMAliasInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIMAliasInformation[] sIMAliasInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

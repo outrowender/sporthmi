@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.albumbrowser;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.albumbrowser.DSIAlbumBrowserReply;
 import de.esolutions.fw.comm.dsi.albumbrowser.impl.DSIAlbumBrowserReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -23,13 +24,11 @@ implements DSIAlbumBrowserReply {
         super(n, (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener == null ? (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener = DSIAlbumBrowserDispatcher.class$("org.dsi.ifc.albumbrowser.DSIAlbumBrowserListener")) : class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateBrowserState(int n, int n2) {
+    public void updateBrowserState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -57,8 +56,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void updateFocusedEntry(AlbumEntryInfo albumEntryInfo, int n) {
+    public void updateFocusedEntry(AlbumEntryInfo albumEntryInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -86,8 +84,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void updateListPosition(long l, int n) {
+    public void updateListPosition(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(5);
@@ -115,8 +112,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void updateNumEntries(long l, int n) {
+    public void updateNumEntries(long l, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -144,8 +140,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void updateScrollMode(int n, int n2) {
+    public void updateScrollMode(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -173,8 +168,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void selectAlbum(long l) {
+    public void selectAlbum(long l) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -190,8 +184,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void albumIdxForFID(long l, long l2) {
+    public void albumIdxForFID(long l, long l2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -207,8 +200,7 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -224,14 +216,13 @@ implements DSIAlbumBrowserReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIAlbumBrowserListener dSIAlbumBrowserListener = (DSIAlbumBrowserListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAlbumBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAlbumBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIAlbumBrowserListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIAlbumBrowserDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIAlbumBrowserDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIAlbumBrowserListener, new Object[]{string, string2});
                     continue;
                 }

@@ -12,76 +12,52 @@ import org.dsi.ifc.navservicesapi.TrafficInfo;
 
 public interface DSINavAsiaBAPClusterInstrumentListener
 extends DSIListener {
-    default public void updateCompassInfo(int n, int n2, int n3) {
-    }
+    public void updateCompassInfo(int var1, int var2, int var3);
 
-    default public void updateRGStatus(int n, int n2) {
-    }
+    public void updateRGStatus(int var1, int var2);
 
-    default public void updateDistanceToNextManeuver(int n, int n2, boolean bl, int n3, int n4) {
-    }
+    public void updateDistanceToNextManeuver(int var1, int var2, boolean var3, int var4, int var5);
 
-    default public void updateCurrentPositionInfo(String string, int n) {
-    }
+    public void updateCurrentPositionInfo(String var1, int var2);
 
-    default public void updateTurnToInfo(String string, String string2, int n) {
-    }
+    public void updateTurnToInfo(String var1, String var2, int var3);
 
-    default public void updateDistanceToDestination(int n, int n2, int n3) {
-    }
+    public void updateDistanceToDestination(int var1, int var2, int var3);
 
-    default public void updateNavigationTimeInfoType(int n, int n2) {
-    }
+    public void updateNavigationTimeInfoType(int var1, int var2);
 
-    default public void updateRTT(long l, int n) {
-    }
+    public void updateRTT(long var1, int var3);
 
-    default public void updateETA(int n, long l, boolean bl, int n2) {
-    }
+    public void updateETA(int var1, long var2, boolean var4, int var5);
 
-    default public void updateCityName(String string, int n) {
-    }
+    public void updateCityName(String var1, int var2);
 
-    default public void updateSemiDynRoute(boolean bl, int n) {
-    }
+    public void updateSemiDynRoute(boolean var1, int var2);
 
-    default public void updateTrafficOffset(int n, short s, short s2, short s3, boolean bl, int n2) {
-    }
+    public void updateTrafficOffset(int var1, short var2, short var3, short var4, boolean var5, int var6);
 
-    default public void updateManeuverDescriptor(BapManeuverDescriptor[] bapManeuverDescriptorArray, int n) {
-    }
+    public void updateManeuverDescriptor(BapManeuverDescriptor[] var1, int var2);
 
-    default public void updateLaneGuidance(boolean bl, NavLaneGuidanceData[] navLaneGuidanceDataArray, int n) {
-    }
+    public void updateLaneGuidance(boolean var1, NavLaneGuidanceData[] var2, int var3);
 
-    default public void updateTrafficInformation(TrafficInfo[] trafficInfoArray, int n, int n2) {
-    }
+    public void updateTrafficInformation(TrafficInfo[] var1, int var2, int var3);
 
-    default public void updateDMLastDestinationsList(LDListElement[] lDListElementArray, int n) {
-    }
+    public void updateDMLastDestinationsList(LDListElement[] var1, int var2);
 
-    default public void dmLastDestinationsGetResult(int n, AddressData[] addressDataArray) {
-    }
+    public void dmLastDestinationsGetResult(int var1, AddressData[] var2);
 
-    default public void routeGuidanceActDeactResult(int n) {
-    }
+    public void routeGuidanceActDeactResult(int var1);
 
-    default public void repeatLastNavAnnouncementResult(int n) {
-    }
+    public void repeatLastNavAnnouncementResult(int var1);
 
-    default public void updateNavAnnouncementState(boolean bl, int n) {
-    }
+    public void updateNavAnnouncementState(boolean var1, int var2);
 
-    default public void updateVoiceGuidanceState(int n, int n2) {
-    }
+    public void updateVoiceGuidanceState(int var1, int var2);
 
-    default public void updateInfoStates(int n, int n2) {
-    }
+    public void updateInfoStates(int var1, int var2);
 
-    default public void setActiveRGTypeResult(int n) {
-    }
+    public void setActiveRGTypeResult(int var1);
 
-    default public void updateTrafficBlockIndication(int n, int n2) {
-    }
+    public void updateTrafficBlockIndication(int var1, int var2);
 }
 

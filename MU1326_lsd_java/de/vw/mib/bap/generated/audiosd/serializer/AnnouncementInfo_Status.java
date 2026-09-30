@@ -11,23 +11,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class AnnouncementInfo_Status
 implements StatusProperty {
     public int announcementType;
-    private static final int ANNOUNCEMENT_TYPE_BITSIZE;
-    public static final int ANNOUNCEMENT_TYPE_NO_MESSAGE_ANNOUNCEMENT_ACTIVE;
-    public static final int ANNOUNCEMENT_TYPE_RDS_PTY31_ANNOUNCEMENT_KATASTROPHENMELDUNG;
-    public static final int ANNOUNCEMENT_TYPE_TRAFFIC_ANNOUNCEMENT;
-    public static final int ANNOUNCEMENT_TYPE_TRANSPORT_FLASH;
-    public static final int ANNOUNCEMENT_TYPE_NEWS;
-    public static final int ANNOUNCEMENT_TYPE_AREA_WEATHER;
-    public static final int ANNOUNCEMENT_TYPE_EVENT_ANNOUNCEMENT;
-    public static final int ANNOUNCEMENT_TYPE_SPECIAL_EVENT;
-    public static final int ANNOUNCEMENT_TYPE_PROGRAMME_INFORMATION_RADIO_INFO;
-    public static final int ANNOUNCEMENT_TYPE_SPORT_REPORT;
-    public static final int ANNOUNCEMENT_TYPE_FINANCIAL_REPORT;
-    public static final int ANNOUNCEMENT_TYPE_EMERGENCY_INFORMATION_EMERGENCY_ANNOUNCEMENT;
-    public static final int ANNOUNCEMENT_TYPE_TMC_TTS_TMC_READING;
-    public static final int ANNOUNCEMENT_TYPE_WARNING_SERVICE;
+    private static final int ANNOUNCEMENT_TYPE_BITSIZE = 8;
+    public static final int ANNOUNCEMENT_TYPE_NO_MESSAGE_ANNOUNCEMENT_ACTIVE = 0;
+    public static final int ANNOUNCEMENT_TYPE_RDS_PTY31_ANNOUNCEMENT_KATASTROPHENMELDUNG = 1;
+    public static final int ANNOUNCEMENT_TYPE_TRAFFIC_ANNOUNCEMENT = 2;
+    public static final int ANNOUNCEMENT_TYPE_TRANSPORT_FLASH = 3;
+    public static final int ANNOUNCEMENT_TYPE_NEWS = 4;
+    public static final int ANNOUNCEMENT_TYPE_AREA_WEATHER = 5;
+    public static final int ANNOUNCEMENT_TYPE_EVENT_ANNOUNCEMENT = 6;
+    public static final int ANNOUNCEMENT_TYPE_SPECIAL_EVENT = 7;
+    public static final int ANNOUNCEMENT_TYPE_PROGRAMME_INFORMATION_RADIO_INFO = 8;
+    public static final int ANNOUNCEMENT_TYPE_SPORT_REPORT = 9;
+    public static final int ANNOUNCEMENT_TYPE_FINANCIAL_REPORT = 10;
+    public static final int ANNOUNCEMENT_TYPE_EMERGENCY_INFORMATION_EMERGENCY_ANNOUNCEMENT = 11;
+    public static final int ANNOUNCEMENT_TYPE_TMC_TTS_TMC_READING = 12;
+    public static final int ANNOUNCEMENT_TYPE_WARNING_SERVICE = 13;
     public final BAPString stationName = new BAPString(49);
-    private static final int MAX_STATION_NAME_LENGTH;
+    private static final int MAX_STATION_NAME_LENGTH = 49;
 
     public AnnouncementInfo_Status() {
         this.internalReset();
@@ -43,13 +43,11 @@ implements StatusProperty {
         this.announcementType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.stationName.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AnnouncementInfo_Status announcementInfo_Status = (AnnouncementInfo_Status)bAPEntity;
         return this.announcementType == announcementInfo_Status.announcementType && this.stationName.equalTo(announcementInfo_Status.stationName);
@@ -59,7 +57,6 @@ implements StatusProperty {
         this.stationName.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AnnouncementInfo_Status:");
@@ -130,20 +127,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += this.stationName.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.announcementType);
         this.stationName.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.announcementType = bitStream.popFrontByte();
         this.stationName.deserialize(bitStream);
@@ -153,7 +147,6 @@ implements StatusProperty {
         return 28;
     }
 
-    @Override
     public int getFunctionId() {
         return AnnouncementInfo_Status.functionId();
     }

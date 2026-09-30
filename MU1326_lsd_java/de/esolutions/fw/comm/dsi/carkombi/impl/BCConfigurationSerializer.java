@@ -8,13 +8,14 @@ import de.esolutions.fw.comm.dsi.carkombi.impl.BCFunctionSupportSerializer;
 import de.esolutions.fw.comm.dsi.carkombi.impl.BCTransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCConfiguration;
 import org.dsi.ifc.carkombi.BCFISAdditionalConfiguration;
 import org.dsi.ifc.carkombi.BCFunctionSupport;
 import org.dsi.ifc.carkombi.BCTransmittableElements;
 
 public class BCConfigurationSerializer {
-    public static void putOptionalBCConfiguration(ISerializer iSerializer, BCConfiguration bCConfiguration) {
+    public static void putOptionalBCConfiguration(ISerializer iSerializer, BCConfiguration bCConfiguration) throws SerializerException {
         boolean bl = bCConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class BCConfigurationSerializer {
         }
     }
 
-    public static void putOptionalBCConfigurationVarArray(ISerializer iSerializer, BCConfiguration[] bCConfigurationArray) {
+    public static void putOptionalBCConfigurationVarArray(ISerializer iSerializer, BCConfiguration[] bCConfigurationArray) throws SerializerException {
         boolean bl = bCConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class BCConfigurationSerializer {
         }
     }
 
-    public static BCConfiguration getOptionalBCConfiguration(IDeserializer iDeserializer) {
+    public static BCConfiguration getOptionalBCConfiguration(IDeserializer iDeserializer) throws SerializerException {
         BCConfiguration bCConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -61,7 +62,7 @@ public class BCConfigurationSerializer {
         return bCConfiguration;
     }
 
-    public static BCConfiguration[] getOptionalBCConfigurationVarArray(IDeserializer iDeserializer) {
+    public static BCConfiguration[] getOptionalBCConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCConfiguration[] bCConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

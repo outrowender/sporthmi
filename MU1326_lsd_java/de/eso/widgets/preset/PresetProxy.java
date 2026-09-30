@@ -15,12 +15,11 @@ public class PresetProxy
 extends AbstractWidgetController {
     private int executionType = 99;
 
-    @Override
     public IPresetPopupData getPresetPopupData() {
         if (this.modelID == -1) {
             return null;
         }
-        logPreset.log(1078071040, "PresetProxy#getPresetPopupData PresetProxy is used. model: %1, executionType: %2", (long)this.modelID, (long)this.executionType);
+        logPreset.log(1000000, "PresetProxy#getPresetPopupData PresetProxy is used. model: %1, executionType: %2", (long)this.modelID, (long)this.executionType);
         return new PresetPopupData(0, this.getColor(), new Preset(1, this.modelID, 0, null, null, this.executionType), null, null, -1, null);
     }
 
@@ -31,7 +30,7 @@ extends AbstractWidgetController {
             ScreenWidgetEVO screenWidgetEVO = (ScreenWidgetEVO)screen;
             n = this.getColor(screenWidgetEVO, n);
         }
-        logPreset.log(-2137614336, "PresetProxy#getColor color: %1", (long)n);
+        logPreset.log(10000000, "PresetProxy#getColor color: %1", (long)n);
         return n;
     }
 
@@ -48,7 +47,6 @@ extends AbstractWidgetController {
         this.executionType = n;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }

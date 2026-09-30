@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.BlockElement;
 
 public class BlockElementSerializer {
-    public static void putOptionalBlockElement(ISerializer iSerializer, BlockElement blockElement) {
+    public static void putOptionalBlockElement(ISerializer iSerializer, BlockElement blockElement) throws SerializerException {
         boolean bl = blockElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BlockElementSerializer {
         }
     }
 
-    public static void putOptionalBlockElementVarArray(ISerializer iSerializer, BlockElement[] blockElementArray) {
+    public static void putOptionalBlockElementVarArray(ISerializer iSerializer, BlockElement[] blockElementArray) throws SerializerException {
         boolean bl = blockElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BlockElementSerializer {
         }
     }
 
-    public static BlockElement getOptionalBlockElement(IDeserializer iDeserializer) {
+    public static BlockElement getOptionalBlockElement(IDeserializer iDeserializer) throws SerializerException {
         BlockElement blockElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -59,7 +60,7 @@ public class BlockElementSerializer {
         return blockElement;
     }
 
-    public static BlockElement[] getOptionalBlockElementVarArray(IDeserializer iDeserializer) {
+    public static BlockElement[] getOptionalBlockElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         BlockElement[] blockElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

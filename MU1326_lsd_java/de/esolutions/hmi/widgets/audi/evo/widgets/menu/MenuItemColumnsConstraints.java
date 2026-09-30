@@ -14,7 +14,6 @@ extends AxisConstraints {
         super(n);
     }
 
-    @Override
     public int getGap(int n) {
         int n2 = super.getGap(n);
         if (n == this.length) {
@@ -23,7 +22,6 @@ extends AxisConstraints {
         return n2;
     }
 
-    @Override
     protected String toStringGap(int n) {
         String string = super.toStringGap(n);
         if (n == this.length && this.rightOptionsIconSpace != 0) {

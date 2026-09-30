@@ -9,12 +9,12 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class FSG_Setup_Status
 implements StatusProperty {
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension1;
-    private static final int EXTENSION1_BITSIZE;
-    public static final int EXTENSION2_MIN;
+    private static final int EXTENSION1_BITSIZE = 8;
+    public static final int EXTENSION2_MIN = 0;
     public int extension2;
-    private static final int EXTENSION2_BITSIZE;
+    private static final int EXTENSION2_BITSIZE = 8;
 
     public FSG_Setup_Status() {
         this.internalReset();
@@ -31,12 +31,10 @@ implements StatusProperty {
         this.extension2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)bAPEntity;
         return this.extension1 == fSG_Setup_Status.extension1 && this.extension2 == fSG_Setup_Status.extension2;
@@ -45,7 +43,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_Setup_Status:");
@@ -56,20 +53,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.extension1);
         bitStream.pushByte((byte)this.extension2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.extension1 = bitStream.popFrontByte();
         this.extension2 = bitStream.popFrontByte();
@@ -79,7 +73,6 @@ implements StatusProperty {
         return 14;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_Setup_Status.functionId();
     }

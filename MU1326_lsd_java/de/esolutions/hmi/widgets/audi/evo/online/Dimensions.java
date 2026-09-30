@@ -8,15 +8,15 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 public class Dimensions {
     public static int STAGE_LARGE = 0;
     public static int STAGE_SMALL = 1;
-    public static final int DIMENSIONS_PER_STAGE;
-    public static final int X;
-    public static final int Y;
-    public static final int WIDTH;
-    public static final int HEIGHT;
-    public static final int FLAGS;
-    public static final int UNDEFINED;
-    public static final int[] STAGE_OFFSETS;
-    public static int DIMENSIONS_SIZE;
+    public static final int DIMENSIONS_PER_STAGE = 4;
+    public static final int X = 0;
+    public static final int Y = 1;
+    public static final int WIDTH = 2;
+    public static final int HEIGHT = 3;
+    public static final int FLAGS = 0;
+    public static final int UNDEFINED = -1;
+    public static final int[] STAGE_OFFSETS = new int[]{1, 5};
+    public static int DIMENSIONS_SIZE = STAGE_OFFSETS[STAGE_OFFSETS.length - 1] + 4;
 
     private Dimensions() {
     }
@@ -56,11 +56,6 @@ public class Dimensions {
             return nArray[STAGE_OFFSETS[n] + 3];
         }
         return abstractWidgetController.getHeight();
-    }
-
-    static {
-        STAGE_OFFSETS = new int[]{1, 5};
-        DIMENSIONS_SIZE = STAGE_OFFSETS[STAGE_OFFSETS.length - 1] + 4;
     }
 }
 

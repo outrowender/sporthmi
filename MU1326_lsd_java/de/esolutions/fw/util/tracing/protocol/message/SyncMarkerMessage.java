@@ -6,6 +6,7 @@ package de.esolutions.fw.util.tracing.protocol.message;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import de.esolutions.fw.util.tracing.protocol.message.AbstractMessage;
 import de.esolutions.fw.util.tracing.protocol.message.MessageType;
 import de.esolutions.fw.util.tracing.util.TraceTimeStamp;
@@ -26,15 +27,13 @@ extends AbstractMessage {
         super(MessageType.SYNC_MARKER);
     }
 
-    @Override
-    public void serializeElements(ISerializer iSerializer) {
+    public void serializeElements(ISerializer iSerializer) throws SerializerException {
         iSerializer.putRawBytes(this.magic);
         iSerializer.putInt32(this.seqNum);
         iSerializer.putInt64(this.timeStamp);
     }
 
-    @Override
-    public void deserializeElements(IDeserializer iDeserializer) {
+    public void deserializeElements(IDeserializer iDeserializer) throws SerializerException {
         iDeserializer.getRawBytes(this.magic);
         this.seqNum = iDeserializer.getInt32();
         this.timeStamp = iDeserializer.getInt64();
@@ -44,7 +43,6 @@ extends AbstractMessage {
         return this.seqNum;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timeStamp;
     }
@@ -53,7 +51,6 @@ extends AbstractMessage {
         return this.magic[0] == 101 && this.magic[1] == 53 && this.magic[2] == 48;
     }
 
-    @Override
     public void toStringBuffer(Buffer buffer) {
         buffer.append("SyncMarker: magic=");
         buffer.append(this.isMagicValid());

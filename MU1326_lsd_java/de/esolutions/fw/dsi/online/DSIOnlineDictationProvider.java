@@ -25,28 +25,23 @@ implements DSIOnlineDictation {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$online$DSIOnlineDictation == null ? (class$org$dsi$ifc$online$DSIOnlineDictation = DSIOnlineDictationProvider.class$("org.dsi.ifc.online.DSIOnlineDictation")) : class$org$dsi$ifc$online$DSIOnlineDictation).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIOnlineDictationProxy(this.instance, (DSIOnlineDictationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void stopDictation() {
         try {
             this.proxy.stopDictation();
@@ -56,7 +51,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void setFallbackLanguage(String string) {
         try {
             this.proxy.setFallbackLanguage(string);
@@ -66,7 +60,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void setLanguage(String string) {
         try {
             this.proxy.setLanguage(string);
@@ -76,7 +69,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void activateDictation() {
         try {
             this.proxy.activateDictation();
@@ -86,7 +78,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void startDictation(String string, String string2, String string3, String string4) {
         try {
             this.proxy.startDictation(string, string2, string3, string4);
@@ -96,7 +87,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void finishDictation() {
         try {
             this.proxy.finishDictation();
@@ -106,7 +96,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void rawVoiceDataAvailable(String string, int n) {
         try {
             this.proxy.rawVoiceDataAvailable(string, n);
@@ -116,7 +105,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -126,7 +114,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -136,7 +123,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -146,7 +132,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -156,7 +141,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -166,7 +150,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -176,7 +159,6 @@ implements DSIOnlineDictation {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

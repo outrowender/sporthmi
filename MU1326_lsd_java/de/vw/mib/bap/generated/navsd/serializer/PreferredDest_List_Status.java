@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class PreferredDest_List_Status
 implements StatusProperty {
     public int listType;
-    private static final int LIST_TYPE_BITSIZE;
-    public static final int LIST_TYPE_NO_LIST_PREFERRED_UNDEFINED;
-    public static final int LIST_TYPE_LAST_DESTINATIONS_LIST_FCT_0X1D;
-    public static final int LIST_TYPE_FAVORITE_DESTINATIONS_LIST_FCT_0X1E;
-    public static final int LIST_TYPE_NAV_BOOK_FCT_0X20;
+    private static final int LIST_TYPE_BITSIZE = 8;
+    public static final int LIST_TYPE_NO_LIST_PREFERRED_UNDEFINED = 0;
+    public static final int LIST_TYPE_LAST_DESTINATIONS_LIST_FCT_0X1D = 1;
+    public static final int LIST_TYPE_FAVORITE_DESTINATIONS_LIST_FCT_0X1E = 2;
+    public static final int LIST_TYPE_NAV_BOOK_FCT_0X20 = 3;
 
     public PreferredDest_List_Status() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StatusProperty {
         this.listType = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         PreferredDest_List_Status preferredDest_List_Status = (PreferredDest_List_Status)bAPEntity;
         return this.listType == preferredDest_List_Status.listType;
@@ -44,7 +42,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("PreferredDest_List_Status:");
@@ -73,18 +70,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.listType);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.listType = bitStream.popFrontByte();
     }
@@ -93,7 +87,6 @@ implements StatusProperty {
         return 31;
     }
 
-    @Override
     public int getFunctionId() {
         return PreferredDest_List_Status.functionId();
     }

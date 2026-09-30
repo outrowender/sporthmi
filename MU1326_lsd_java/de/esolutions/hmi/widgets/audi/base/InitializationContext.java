@@ -144,7 +144,7 @@ public class InitializationContext {
     }
 
     public String toString() {
-        return new StringBuffer().append("InitializationContext#toString screenID: ").append(this.screenID).toString();
+        return "InitializationContext#toString screenID: " + this.screenID;
     }
 
     public WidgetRegistry getWidgetRegistry() {

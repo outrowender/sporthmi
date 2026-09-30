@@ -20,32 +20,26 @@ implements IWrappedTexture {
         this.ealManager = eALManager;
     }
 
-    @Override
     public ITexture getTexture() {
         return this.texture;
     }
 
-    @Override
     public int getHeight() {
         return (int)this.texture.getHeight();
     }
 
-    @Override
     public int getWidth() {
         return (int)this.texture.getWidth();
     }
 
-    @Override
     public int getRawImageSize() {
         return this.getWidth() * this.getHeight() * this.description.getDepthsInByte();
     }
 
-    @Override
     public TextureDescription getDescription() {
         return this.description;
     }
 
-    @Override
     public EALManager getEALManager() {
         return this.ealManager;
     }
@@ -58,7 +52,6 @@ implements IWrappedTexture {
         return stringBuffer.toString();
     }
 
-    @Override
     public int releaseTexture(boolean bl, Object object) {
         int n = this.ealManager.releaseTexture(this, bl, object);
         return n;

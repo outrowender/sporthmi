@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlWindowheaterInstallation;
 
 public class BatteryControlWindowheaterInstallationSerializer {
-    public static void putOptionalBatteryControlWindowheaterInstallation(ISerializer iSerializer, BatteryControlWindowheaterInstallation batteryControlWindowheaterInstallation) {
+    public static void putOptionalBatteryControlWindowheaterInstallation(ISerializer iSerializer, BatteryControlWindowheaterInstallation batteryControlWindowheaterInstallation) throws SerializerException {
         boolean bl = batteryControlWindowheaterInstallation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BatteryControlWindowheaterInstallationSerializer {
         }
     }
 
-    public static void putOptionalBatteryControlWindowheaterInstallationVarArray(ISerializer iSerializer, BatteryControlWindowheaterInstallation[] batteryControlWindowheaterInstallationArray) {
+    public static void putOptionalBatteryControlWindowheaterInstallationVarArray(ISerializer iSerializer, BatteryControlWindowheaterInstallation[] batteryControlWindowheaterInstallationArray) throws SerializerException {
         boolean bl = batteryControlWindowheaterInstallationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BatteryControlWindowheaterInstallationSerializer {
         }
     }
 
-    public static BatteryControlWindowheaterInstallation getOptionalBatteryControlWindowheaterInstallation(IDeserializer iDeserializer) {
+    public static BatteryControlWindowheaterInstallation getOptionalBatteryControlWindowheaterInstallation(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWindowheaterInstallation batteryControlWindowheaterInstallation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BatteryControlWindowheaterInstallationSerializer {
         return batteryControlWindowheaterInstallation;
     }
 
-    public static BatteryControlWindowheaterInstallation[] getOptionalBatteryControlWindowheaterInstallationVarArray(IDeserializer iDeserializer) {
+    public static BatteryControlWindowheaterInstallation[] getOptionalBatteryControlWindowheaterInstallationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlWindowheaterInstallation[] batteryControlWindowheaterInstallationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

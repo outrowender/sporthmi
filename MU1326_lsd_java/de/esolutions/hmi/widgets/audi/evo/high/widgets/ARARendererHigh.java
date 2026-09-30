@@ -19,19 +19,19 @@ public class ARARendererHigh
 extends AbstractRendererHigh
 implements IKanziTemplateRenderer,
 IARARenderer {
-    private static final String ARA_OFFSCREEN_ROOT;
-    private static final String PROPERTY_HOLDER_NODE_NAME;
-    private static final String PROPERTY_NAME_MAX_ANGLE;
-    private static final String PROPERTY_NAME_MAX_ANGLE_VISIBLE;
-    private static final String PROPERTY_NAME_3D_TRAILER_ANGLE;
-    private static final String PROPERTY_NAME_CURRENT_ANGLE;
-    private static final String PROPERTY_NAME_CURRENT_HAZINESS;
-    private static final String PROPERTY_NAME_CURRENT_ANGLE_VISIBLE;
-    private static final String PROPERTY_NAME_TARGET_ANGLE;
-    private static final String PROPERTY_NAME_TARGET_HAZINESS;
-    private static final String PROPERTY_NAME_TARGET_ANGLE_VISIBLE;
-    private static final String PROPERTY_NAME_CLIP_ANGLE;
-    private static final String PROPERTY_NAME_CLIP_ANGLE_VISIBLE;
+    private static final String ARA_OFFSCREEN_ROOT = "ara_offscreen_root";
+    private static final String PROPERTY_HOLDER_NODE_NAME = "ara_controls";
+    private static final String PROPERTY_NAME_MAX_ANGLE = "ara_boundsAngle";
+    private static final String PROPERTY_NAME_MAX_ANGLE_VISIBLE = "ara_boundsAngle_visible";
+    private static final String PROPERTY_NAME_3D_TRAILER_ANGLE = "ara_trailerAngle";
+    private static final String PROPERTY_NAME_CURRENT_ANGLE = "ara_currentDirection";
+    private static final String PROPERTY_NAME_CURRENT_HAZINESS = "ara_currentAngle";
+    private static final String PROPERTY_NAME_CURRENT_ANGLE_VISIBLE = "ara_currentIndicator_visible";
+    private static final String PROPERTY_NAME_TARGET_ANGLE = "ara_targetDirection";
+    private static final String PROPERTY_NAME_TARGET_HAZINESS = "ara_targetAngle";
+    private static final String PROPERTY_NAME_TARGET_ANGLE_VISIBLE = "ara_targetIndicator_visible";
+    private static final String PROPERTY_NAME_CLIP_ANGLE = "ara_clipAngle";
+    private static final String PROPERTY_NAME_CLIP_ANGLE_VISIBLE = "ara_clipIndicator_visible";
     private final ARAController controller;
     private static INode2D mainNode;
     private static INode2D offscreenRoot;
@@ -66,7 +66,7 @@ IARARenderer {
         propertyTargetAngleVisible.set(this.controller.isTargetAngleAvailable() ? 1.0f : 0.0f);
         propertyClipAngle.set(this.controller.getClipAngle());
         propertyClipAngleVisible.set(this.controller.isClipAngleAvailable() ? 1.0f : 0.0f);
-        logChannelParking.log(-2137614336, "ARARendererHigh#applyProperties: properties applied");
+        logChannelParking.log(10000000, "ARARendererHigh#applyProperties: properties applied");
     }
 
     private IProperty getProperty(INode iNode, String string) {
@@ -118,30 +118,29 @@ IARARenderer {
             logChannelParking.log(10000, "ARARendererHigh#loadResources: could not get layer_ara_main from project");
             return;
         }
-        offscreenRoot = this.getNode2D("ara_offscreen_root");
+        offscreenRoot = this.getNode2D(ARA_OFFSCREEN_ROOT);
         if (offscreenRoot == null) {
             return;
         }
-        propertyHolderNode = this.getNode3D("ara_controls");
+        propertyHolderNode = this.getNode3D(PROPERTY_HOLDER_NODE_NAME);
         if (propertyHolderNode == null) {
             return;
         }
-        property3DTrailerAngle = this.getProperty(propertyHolderNode, "ara_trailerAngle");
-        propertyMaxAngle = this.getProperty(propertyHolderNode, "ara_boundsAngle");
-        propertyMaxAngleVisible = this.getProperty(propertyHolderNode, "ara_boundsAngle_visible");
-        propertyCurrentAngle = this.getProperty(propertyHolderNode, "ara_currentDirection");
-        propertyCurrentHaziness = this.getProperty(propertyHolderNode, "ara_currentAngle");
-        propertyCurrentAngleVisible = this.getProperty(propertyHolderNode, "ara_currentIndicator_visible");
-        propertyTargetAngle = this.getProperty(propertyHolderNode, "ara_targetDirection");
-        propertyTargetHaziness = this.getProperty(propertyHolderNode, "ara_targetAngle");
-        propertyTargetAngleVisible = this.getProperty(propertyHolderNode, "ara_targetIndicator_visible");
-        propertyClipAngle = this.getProperty(propertyHolderNode, "ara_clipAngle");
-        propertyClipAngleVisible = this.getProperty(propertyHolderNode, "ara_clipIndicator_visible");
+        property3DTrailerAngle = this.getProperty(propertyHolderNode, PROPERTY_NAME_3D_TRAILER_ANGLE);
+        propertyMaxAngle = this.getProperty(propertyHolderNode, PROPERTY_NAME_MAX_ANGLE);
+        propertyMaxAngleVisible = this.getProperty(propertyHolderNode, PROPERTY_NAME_MAX_ANGLE_VISIBLE);
+        propertyCurrentAngle = this.getProperty(propertyHolderNode, PROPERTY_NAME_CURRENT_ANGLE);
+        propertyCurrentHaziness = this.getProperty(propertyHolderNode, PROPERTY_NAME_CURRENT_HAZINESS);
+        propertyCurrentAngleVisible = this.getProperty(propertyHolderNode, PROPERTY_NAME_CURRENT_ANGLE_VISIBLE);
+        propertyTargetAngle = this.getProperty(propertyHolderNode, PROPERTY_NAME_TARGET_ANGLE);
+        propertyTargetHaziness = this.getProperty(propertyHolderNode, PROPERTY_NAME_TARGET_HAZINESS);
+        propertyTargetAngleVisible = this.getProperty(propertyHolderNode, PROPERTY_NAME_TARGET_ANGLE_VISIBLE);
+        propertyClipAngle = this.getProperty(propertyHolderNode, PROPERTY_NAME_CLIP_ANGLE);
+        propertyClipAngleVisible = this.getProperty(propertyHolderNode, PROPERTY_NAME_CLIP_ANGLE_VISIBLE);
         resourcesLoaded = true;
-        logChannelParking.log(-2137614336, "ARARendererHigh#loadResources: resources loaded");
+        logChannelParking.log(10000000, "ARARendererHigh#loadResources: resources loaded");
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.isVisible() || !this.controller.isOnScreen()) {
             return;
@@ -155,16 +154,13 @@ IARARenderer {
         this.applyProperties();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (resourcesLoaded) {
             propertyHolderNode.setVisible(bl);

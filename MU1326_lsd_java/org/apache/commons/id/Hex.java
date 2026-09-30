@@ -9,7 +9,7 @@ import org.apache.commons.id.EncoderException;
 public class Hex {
     private static final char[] DIGITS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-    public static byte[] decodeHex(char[] cArray) {
+    public static byte[] decodeHex(char[] cArray) throws DecoderException {
         int n = cArray.length;
         if ((n & 1) != 0) {
             throw new DecoderException("Odd number of characters.");
@@ -27,10 +27,10 @@ public class Hex {
         return byArray;
     }
 
-    protected static int toDigit(char c2, int n) {
+    protected static int toDigit(char c2, int n) throws DecoderException {
         int n2 = Character.digit(c2, 16);
         if (n2 == -1) {
-            throw new DecoderException(new StringBuffer().append("Illegal hexadecimal charcter ").append(c2).append(" at index ").append(n).toString());
+            throw new DecoderException("Illegal hexadecimal charcter " + c2 + " at index " + n);
         }
         return n2;
     }
@@ -46,11 +46,11 @@ public class Hex {
         return cArray;
     }
 
-    public byte[] decode(byte[] byArray) {
+    public byte[] decode(byte[] byArray) throws DecoderException {
         return Hex.decodeHex(new String(byArray).toCharArray());
     }
 
-    public Object decode(Object object) {
+    public Object decode(Object object) throws DecoderException {
         try {
             char[] cArray = object instanceof String ? ((String)object).toCharArray() : (char[])object;
             return Hex.decodeHex(cArray);
@@ -64,7 +64,7 @@ public class Hex {
         return new String(Hex.encodeHex(byArray)).getBytes();
     }
 
-    public Object encode(Object object) {
+    public Object encode(Object object) throws EncoderException {
         try {
             byte[] byArray = object instanceof String ? ((String)object).getBytes() : (byte[])object;
             return Hex.encodeHex(byArray);

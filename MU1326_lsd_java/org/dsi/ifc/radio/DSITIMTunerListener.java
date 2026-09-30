@@ -10,19 +10,14 @@ import org.dsi.ifc.radio.TIMStatus;
 
 public interface DSITIMTunerListener
 extends DSIListener {
-    default public void updateTIMMessageList(TIMMessage[] tIMMessageArray, int n) {
-    }
+    public void updateTIMMessageList(TIMMessage[] var1, int var2);
 
-    default public void updateTIMStatus(TIMStatus tIMStatus, int n) {
-    }
+    public void updateTIMStatus(TIMStatus var1, int var2);
 
-    default public void updateTIMMemoUsage(TIMMemoUsage tIMMemoUsage, int n) {
-    }
+    public void updateTIMMemoUsage(TIMMemoUsage var1, int var2);
 
-    default public void updateTIMAvailable(int n, int n2) {
-    }
+    public void updateTIMAvailable(int var1, int var2);
 
-    default public void playback(int n) {
-    }
+    public void playback(int var1);
 }
 

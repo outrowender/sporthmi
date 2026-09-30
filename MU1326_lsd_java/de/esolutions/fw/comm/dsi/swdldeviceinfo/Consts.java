@@ -4,6 +4,6 @@
 package de.esolutions.fw.comm.dsi.swdldeviceinfo;
 
 public class Consts {
-    public static final int ATTRIBUTE_ID_DSISWDLDEVICEINFO_SUMMARYCHANGED;
+    public static final int ATTRIBUTE_ID_DSISWDLDEVICEINFO_SUMMARYCHANGED = 1;
 }
 

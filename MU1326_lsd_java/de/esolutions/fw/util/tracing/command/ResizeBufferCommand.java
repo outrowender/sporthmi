@@ -14,7 +14,6 @@ implements ITraceCommand {
         this.newCapacity = n;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.resizeBuffer(this.newCapacity);
         return false;

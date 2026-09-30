@@ -7,16 +7,13 @@ import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.comm.dsi.kombipictureserver.DSIKombiPictureServer;
 import de.esolutions.fw.comm.dsi.kombipictureserver.DSIKombiPictureServerC;
 import de.esolutions.fw.comm.dsi.kombipictureserver.DSIKombiPictureServerReply;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$1;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$2;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$3;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$4;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$5;
-import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerProxy$6;
 import de.esolutions.fw.comm.dsi.kombipictureserver.impl.DSIKombiPictureServerReplyService;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
@@ -37,49 +34,90 @@ DSIKombiPictureServerC {
         return this.proxy;
     }
 
-    @Override
-    public void setKombiHmiReady() {
+    public void setKombiHmiReady() throws MethodException {
         this.proxy.remoteCallMethod((short)15, null);
     }
 
-    @Override
-    public void responseCoverArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$1 dSIKombiPictureServerProxy$1 = new DSIKombiPictureServerProxy$1(this, l, n, n2, n3, resourceLocator);
-        this.proxy.remoteCallMethod((short)27, dSIKombiPictureServerProxy$1);
+    public void responseCoverArt(final long l, final int n, final int n2, final int n3, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void responseStationArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$2 dSIKombiPictureServerProxy$2 = new DSIKombiPictureServerProxy$2(this, l, n, n2, n3, resourceLocator);
-        this.proxy.remoteCallMethod((short)29, dSIKombiPictureServerProxy$2);
+    public void responseStationArt(final long l, final int n, final int n2, final int n3, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)29, iSerializable);
     }
 
-    @Override
-    public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$3 dSIKombiPictureServerProxy$3 = new DSIKombiPictureServerProxy$3(this, n, n2, resourceLocator);
-        this.proxy.remoteCallMethod((short)10, dSIKombiPictureServerProxy$3);
+    public void responseActiveCallPicture(final int n, final int n2, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)10, iSerializable);
     }
 
-    @Override
-    public void responseActiveCallPictureInstance(int n, int n2, int n3, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$4 dSIKombiPictureServerProxy$4 = new DSIKombiPictureServerProxy$4(this, n, n2, n3, resourceLocator);
-        this.proxy.remoteCallMethod((short)36, dSIKombiPictureServerProxy$4);
+    public void responseActiveCallPictureInstance(final int n, final int n2, final int n3, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putInt32(n3);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void responseDynamicIcon(int n, int n2, boolean bl, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$5 dSIKombiPictureServerProxy$5 = new DSIKombiPictureServerProxy$5(this, n, n2, bl, resourceLocator);
-        this.proxy.remoteCallMethod((short)37, dSIKombiPictureServerProxy$5);
+    public void responseDynamicIcon(final int n, final int n2, final boolean bl, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                iSerializer.putBool(bl);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)37, iSerializable);
     }
 
-    @Override
-    public void responseAdbContactPicture(long l, int n, int n2, ResourceLocator resourceLocator) {
-        DSIKombiPictureServerProxy$6 dSIKombiPictureServerProxy$6 = new DSIKombiPictureServerProxy$6(this, l, n, n2, resourceLocator);
-        this.proxy.remoteCallMethod((short)26, dSIKombiPictureServerProxy$6);
+    public void responseAdbContactPicture(final long l, final int n, final int n2, final ResourceLocator resourceLocator) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt64(l);
+                iSerializer.putInt32(n);
+                iSerializer.putInt32(n2);
+                ResourceLocatorSerializer.putOptionalResourceLocator(iSerializer, resourceLocator);
+            }
+        };
+        this.proxy.remoteCallMethod((short)26, iSerializable);
     }
 
-    @Override
-    public void responseInternalAddressID(long l, int n, int n2) {
+    public void responseInternalAddressID(long l, int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -92,8 +130,7 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void responsePictureServerAbilities(int n) {
+    public void responsePictureServerAbilities(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -104,8 +141,7 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void responsePictureStream(int n, short s, short s2, int n2, int n3, byte[] byArray) {
+    public void responsePictureStream(int n, short s, short s2, int n2, int n3, byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -121,8 +157,7 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -133,8 +168,7 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -145,13 +179,11 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -162,8 +194,7 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -174,13 +205,11 @@ DSIKombiPictureServerC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

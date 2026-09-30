@@ -10,15 +10,14 @@ import de.vw.mib.bap.stream.BitStream;
 public final class CCJoin_Result
 implements ResultMethod {
     public int ccjoin_Result;
-    private static final int CC_JOIN_RESULT_BITSIZE;
-    public static final int CC_JOIN_RESULT_SUCCESSFUL;
-    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL;
-    public static final int CC_JOIN_RESULT_ABORT_SUCCESSFUL;
-    public static final int CC_JOIN_RESULT_ABORT_NOT_SUCCESSFUL;
-    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK;
-    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL_MAXIMUM_NUMBER_OF_MEMBERS_OF_CONFERENCE_REACHED;
+    private static final int CC_JOIN_RESULT_BITSIZE = 8;
+    public static final int CC_JOIN_RESULT_SUCCESSFUL = 0;
+    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL = 1;
+    public static final int CC_JOIN_RESULT_ABORT_SUCCESSFUL = 2;
+    public static final int CC_JOIN_RESULT_ABORT_NOT_SUCCESSFUL = 3;
+    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL_NOT_SUPPORTED_BY_NETWORK = 6;
+    public static final int CC_JOIN_RESULT_NOT_SUCCESSFUL_MAXIMUM_NUMBER_OF_MEMBERS_OF_CONFERENCE_REACHED = 7;
 
-    @Override
     public int getResultCode() {
         return this.ccjoin_Result;
     }
@@ -37,12 +36,10 @@ implements ResultMethod {
         this.ccjoin_Result = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         CCJoin_Result cCJoin_Result = (CCJoin_Result)bAPEntity;
         return this.ccjoin_Result == cCJoin_Result.ccjoin_Result;
@@ -51,7 +48,6 @@ implements ResultMethod {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("CCJoin_Result:");
@@ -88,18 +84,15 @@ implements ResultMethod {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.ccjoin_Result);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.ccjoin_Result = bitStream.popFrontByte();
     }
@@ -108,7 +101,6 @@ implements ResultMethod {
         return 40;
     }
 
-    @Override
     public int getFunctionId() {
         return CCJoin_Result.functionId();
     }

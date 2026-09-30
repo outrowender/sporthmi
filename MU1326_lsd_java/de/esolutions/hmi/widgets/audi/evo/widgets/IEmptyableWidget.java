@@ -4,7 +4,6 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface IEmptyableWidget {
-    default public boolean hasContent() {
-    }
+    public boolean hasContent();
 }
 

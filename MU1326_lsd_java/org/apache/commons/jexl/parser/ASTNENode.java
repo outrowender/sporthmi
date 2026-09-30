@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package org.apache.commons.jexl.parser;
 
@@ -22,13 +19,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object value(JexlContext jexlContext) {
+    public Object value(JexlContext jexlContext) throws Exception {
         Object object = ((SimpleNode)this.jjtGetChild(0)).value(jexlContext);
         Object object2 = ((SimpleNode)this.jjtGetChild(1)).value(jexlContext);
         if (object == null && object2 == null) {
@@ -41,7 +36,7 @@ extends SimpleNode {
             return object.equals(object2) ? Boolean.FALSE : Boolean.TRUE;
         }
         if (object instanceof Float || object instanceof Double || object2 instanceof Float || object2 instanceof Double) {
-            return Coercion.coerceDouble(object).equals((Object)Coercion.coerceDouble(object2)) ? Boolean.FALSE : Boolean.TRUE;
+            return Coercion.coerceDouble(object).equals(Coercion.coerceDouble(object2)) ? Boolean.FALSE : Boolean.TRUE;
         }
         if (object instanceof Number || object2 instanceof Number || object instanceof Character || object2 instanceof Character) {
             return Coercion.coerceLong(object).equals(Coercion.coerceLong(object2)) ? Boolean.FALSE : Boolean.TRUE;

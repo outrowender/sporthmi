@@ -18,9 +18,9 @@ import de.esolutions.hmi.widgets.audi.evo.high.widgets.MeccaCompassController;
 
 public class MeccaCompassRendererHigh
 extends AbstractRendererHigh {
-    private static final String MECCA_ANGEL;
-    private static final String MECCA_CONTROL;
-    private static final String MECCA_FBO;
+    private static final String MECCA_ANGEL = "mc_angle";
+    private static final String MECCA_CONTROL = "mekka_controls";
+    private static final String MECCA_FBO = "mekka_FBO";
     private final EALPropertyCache propertyCache = new EALPropertyCache();
     private final MeccaCompassController controller;
     private INode2D mekkaControlNode;
@@ -32,7 +32,6 @@ extends AbstractRendererHigh {
         this.controller = meccaCompassController;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         if (this.getAbstractController().shouldRender()) {
@@ -54,7 +53,7 @@ extends AbstractRendererHigh {
 
     private void loadResources(RedrawContextHigh redrawContextHigh) {
         Object object;
-        this.mekkaControlNode = this.getEALManager().getShortcutNode2D("mekka_controls");
+        this.mekkaControlNode = this.getEALManager().getShortcutNode2D(MECCA_CONTROL);
         if (this.mekkaControlNode == null) {
             object = this.getEALManager().mergeProject(11, 0, this.getInitContext().getScreenID());
             if (object == null) {
@@ -62,7 +61,7 @@ extends AbstractRendererHigh {
                 return;
             }
             ((INode2D)object).dispose();
-            this.mekkaControlNode = this.getEALManager().getShortcutNode2D("mekka_controls");
+            this.mekkaControlNode = this.getEALManager().getShortcutNode2D(MECCA_CONTROL);
             if (this.mekkaControlNode == null) {
                 logChannel.log(10000, "MeccaCompassRendererHigh#loadResources: no resources for Mecca Controller found");
                 return;
@@ -70,7 +69,7 @@ extends AbstractRendererHigh {
         }
         if (this.imageNode == null) {
             if (this.textureFBO == null) {
-                this.textureFBO = this.getEALManager().getShortcutTexture("mekka_FBO");
+                this.textureFBO = this.getEALManager().getShortcutTexture(MECCA_FBO);
             }
             if (this.textureFBO != null) {
                 object = new TextureDescriptionDummy(this.textureFBO, this.getEALManager());
@@ -85,7 +84,7 @@ extends AbstractRendererHigh {
         if (this.imageNode != null) {
             this.imageNode.setPosition(this.controller.getX(), this.controller.getY(), 0.0f);
         }
-        this.propertyCache.setProperty((INode)this.mekkaControlNode, "mc_angle", f2);
+        this.propertyCache.setProperty((INode)this.mekkaControlNode, MECCA_ANGEL, f2);
         this.invalidatePartialRendering();
     }
 
@@ -121,13 +120,11 @@ extends AbstractRendererHigh {
         this.resourcesLoaded = false;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNodes();
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }

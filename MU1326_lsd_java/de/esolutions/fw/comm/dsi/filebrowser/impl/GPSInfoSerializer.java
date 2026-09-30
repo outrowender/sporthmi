@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.filebrowser.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.filebrowser.GPSInfo;
 
 public class GPSInfoSerializer {
-    public static void putOptionalGPSInfo(ISerializer iSerializer, GPSInfo gPSInfo) {
+    public static void putOptionalGPSInfo(ISerializer iSerializer, GPSInfo gPSInfo) throws SerializerException {
         boolean bl = gPSInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class GPSInfoSerializer {
         }
     }
 
-    public static void putOptionalGPSInfoVarArray(ISerializer iSerializer, GPSInfo[] gPSInfoArray) {
+    public static void putOptionalGPSInfoVarArray(ISerializer iSerializer, GPSInfo[] gPSInfoArray) throws SerializerException {
         boolean bl = gPSInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class GPSInfoSerializer {
         }
     }
 
-    public static GPSInfo getOptionalGPSInfo(IDeserializer iDeserializer) {
+    public static GPSInfo getOptionalGPSInfo(IDeserializer iDeserializer) throws SerializerException {
         GPSInfo gPSInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class GPSInfoSerializer {
         return gPSInfo;
     }
 
-    public static GPSInfo[] getOptionalGPSInfoVarArray(IDeserializer iDeserializer) {
+    public static GPSInfo[] getOptionalGPSInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         GPSInfo[] gPSInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

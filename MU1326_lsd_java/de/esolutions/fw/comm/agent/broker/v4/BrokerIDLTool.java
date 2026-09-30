@@ -23,7 +23,7 @@ public class BrokerIDLTool {
             sArray2[n] = (short)(byArray2[n] & 0xFF);
         }
         n = serviceInstanceID.getHandle();
-        long l = (long)n & 0;
+        long l = (long)n & 0xFFFFFFFFL;
         UUID844412Blob uUID844412Blob = new UUID844412Blob(sArray);
         UUID844412Blob uUID844412Blob2 = new UUID844412Blob(sArray2);
         return new InstanceID(uUID844412Blob, l, uUID844412Blob2);
@@ -48,11 +48,11 @@ public class BrokerIDLTool {
     }
 
     public static void main(String[] stringArray) {
-        int n = 41943424;
+        int n = -2147385342;
         ServiceInstanceID serviceInstanceID = new ServiceInstanceID(new ServiceUUID("8d4f7cec-be0c-49b7-b1b6-1e3e4c26b847"), n, new ServiceUUID("8935d19b-313a-5d23-bf1f-64bc869ad545"));
         System.out.println(serviceInstanceID);
         InstanceID instanceID = BrokerIDLTool.convertInstanceIDToIDL(serviceInstanceID);
-        System.out.println(new StringBuffer().append("handle ").append(Long.toHexString(instanceID.getHandle())).toString());
+        System.out.println("handle " + Long.toHexString(instanceID.getHandle()));
         ServiceInstanceID serviceInstanceID2 = BrokerIDLTool.convertInstanceIDFromIDL(instanceID);
         System.out.println(serviceInstanceID2);
     }

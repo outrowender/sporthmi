@@ -23,12 +23,10 @@ extends INode2D {
         return iNode2DLink == null ? 0L : iNode2DLink.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -40,7 +38,6 @@ extends INode2D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -61,7 +58,6 @@ extends INode2D {
         return ealswigJNI.eal_api_INode2DLink_unsetScene(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode2DLink_dispose(this.swigCPtr, this);
     }

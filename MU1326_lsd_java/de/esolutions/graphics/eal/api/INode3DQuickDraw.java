@@ -23,12 +23,10 @@ extends INode3D {
         return iNode3DQuickDraw == null ? 0L : iNode3DQuickDraw.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -40,7 +38,6 @@ extends INode3D {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -65,7 +62,6 @@ extends INode3D {
         this(ealswigJNI.new_eal_api_INode3DQuickDraw__SWIG_4(IProject.getCPtr(iProject), iProject, string, l, l2, bl, bl2, ealMultisample_t2.swigValue(), bl3), true);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_INode3DQuickDraw_dispose(this.swigCPtr, this);
     }

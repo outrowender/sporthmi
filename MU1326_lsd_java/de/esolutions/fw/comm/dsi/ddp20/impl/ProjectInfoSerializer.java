@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.ddp20.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.ddp20.ProjectInfo;
 
 public class ProjectInfoSerializer {
-    public static void putOptionalProjectInfo(ISerializer iSerializer, ProjectInfo projectInfo) {
+    public static void putOptionalProjectInfo(ISerializer iSerializer, ProjectInfo projectInfo) throws SerializerException {
         boolean bl = projectInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ProjectInfoSerializer {
         }
     }
 
-    public static void putOptionalProjectInfoVarArray(ISerializer iSerializer, ProjectInfo[] projectInfoArray) {
+    public static void putOptionalProjectInfoVarArray(ISerializer iSerializer, ProjectInfo[] projectInfoArray) throws SerializerException {
         boolean bl = projectInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ProjectInfoSerializer {
         }
     }
 
-    public static ProjectInfo getOptionalProjectInfo(IDeserializer iDeserializer) {
+    public static ProjectInfo getOptionalProjectInfo(IDeserializer iDeserializer) throws SerializerException {
         ProjectInfo projectInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class ProjectInfoSerializer {
         return projectInfo;
     }
 
-    public static ProjectInfo[] getOptionalProjectInfoVarArray(IDeserializer iDeserializer) {
+    public static ProjectInfo[] getOptionalProjectInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         ProjectInfo[] projectInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

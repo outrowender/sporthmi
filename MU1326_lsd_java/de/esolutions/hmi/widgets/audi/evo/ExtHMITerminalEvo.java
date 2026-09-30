@@ -9,10 +9,8 @@ import de.esolutions.hmi.widgets.audi.evo.IRendererFactory;
 
 public interface ExtHMITerminalEvo
 extends HMITerminalEvo {
-    default public IRendererFactory getRendererFactory() {
-    }
+    public IRendererFactory getRendererFactory();
 
-    default public IViewSizeManager getViewSizeManager() {
-    }
+    public IViewSizeManager getViewSizeManager();
 }
 

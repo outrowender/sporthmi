@@ -3,93 +3,66 @@
  */
 package de.esolutions.fw.comm.dsi.cartimeunitslanguage;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.cartimeunitslanguage.ClockDate;
 import org.dsi.ifc.cartimeunitslanguage.ClockGPSSyncData;
 import org.dsi.ifc.cartimeunitslanguage.ClockSummerTimeData;
 
 public interface DSICarTimeUnitsLanguageC {
-    default public void setMenuLanguage(int n) {
-    }
+    public void setMenuLanguage(int var1) throws MethodException;
 
-    default public void setPressureUnit(int n) {
-    }
+    public void setPressureUnit(int var1) throws MethodException;
 
-    default public void setVolumeUnit(int n) {
-    }
+    public void setVolumeUnit(int var1) throws MethodException;
 
-    default public void setTemperatureUnit(int n) {
-    }
+    public void setTemperatureUnit(int var1) throws MethodException;
 
-    default public void setDistanceUnit(int n) {
-    }
+    public void setDistanceUnit(int var1) throws MethodException;
 
-    default public void setSpeedUnit(int n) {
-    }
+    public void setSpeedUnit(int var1) throws MethodException;
 
-    default public void setConsumptionPetrolUnit(int n) {
-    }
+    public void setConsumptionPetrolUnit(int var1) throws MethodException;
 
-    default public void setConsumptionGasUnit(int n) {
-    }
+    public void setConsumptionGasUnit(int var1) throws MethodException;
 
-    default public void setConsumptionElectricUnit(int n) {
-    }
+    public void setConsumptionElectricUnit(int var1) throws MethodException;
 
-    default public void setClockFormat(int n) {
-    }
+    public void setClockFormat(int var1) throws MethodException;
 
-    default public void setDateFormat(int n) {
-    }
+    public void setDateFormat(int var1) throws MethodException;
 
-    default public void setClockDate(ClockDate clockDate) {
-    }
+    public void setClockDate(ClockDate var1) throws MethodException;
 
-    default public void setClockTime(byte by, byte by2, byte by3) {
-    }
+    public void setClockTime(byte var1, byte var2, byte var3) throws MethodException;
 
-    default public void setClockSource(int n) {
-    }
+    public void setClockSource(int var1) throws MethodException;
 
-    default public void setClockDayLightSaving(boolean bl) {
-    }
+    public void setClockDayLightSaving(boolean var1) throws MethodException;
 
-    default public void setClockTimeZoneOffset(float f2) {
-    }
+    public void setClockTimeZoneOffset(float var1) throws MethodException;
 
-    default public void setClockGPSSyncData(ClockGPSSyncData clockGPSSyncData) {
-    }
+    public void setClockGPSSyncData(ClockGPSSyncData var1) throws MethodException;
 
-    default public void setClockSummerTimeData(ClockSummerTimeData clockSummerTimeData) {
-    }
+    public void setClockSummerTimeData(ClockSummerTimeData var1) throws MethodException;
 
-    default public void setUmSetFactoryDefault() {
-    }
+    public void setUmSetFactoryDefault() throws MethodException;
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1) throws MethodException;
 
-    default public void setWeightUnit(int n) {
-    }
+    public void setWeightUnit(int var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

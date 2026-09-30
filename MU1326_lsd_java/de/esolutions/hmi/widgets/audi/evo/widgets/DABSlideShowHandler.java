@@ -54,7 +54,7 @@ IWidgetLogChannel {
             if (object instanceof IconCell) {
                 return this.isSlsMinDurationChanged(((IconCell)object).getResourceLocator());
             }
-            logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#isUpdateEventProccessable given model has no MinDisplayDuration - cancel timerJob");
+            logChannelCoverStack.log(10000000, "DABSlideShowHandler#isUpdateEventProccessable given model has no MinDisplayDuration - cancel timerJob");
             this.cancelSlsTimer();
         }
         return true;
@@ -62,11 +62,11 @@ IWidgetLogChannel {
 
     private boolean isSlsMinDurationChanged(HMIResourceLocator hMIResourceLocator) {
         if (this.currentMinDisplayDuration != (long)hMIResourceLocator.getMinDisplayDuration()) {
-            logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#isSlsMinDurationChanged new duration differs - cancel timerJob");
+            logChannelCoverStack.log(10000000, "DABSlideShowHandler#isSlsMinDurationChanged new duration differs - cancel timerJob");
             this.cancelSlsTimer();
             return true;
         }
-        logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#isSlsMinDurationChanged block event");
+        logChannelCoverStack.log(10000000, "DABSlideShowHandler#isSlsMinDurationChanged block event");
         this.blockedUpdateEvent = true;
         return false;
     }
@@ -77,7 +77,7 @@ IWidgetLogChannel {
         }
         this.cancelSlsTimer();
         this.currentMinDisplayDuration = hMIResourceLocator.getMinDisplayDuration();
-        logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#startSlsTimer with timeout: %1", this.currentMinDisplayDuration);
+        logChannelCoverStack.log(10000000, "DABSlideShowHandler#startSlsTimer with timeout: %1", this.currentMinDisplayDuration);
         this.timerJob = AbstractWidget.hmiService.getEventDispatcher().postEvent(this.timerEvent, this.currentMinDisplayDuration);
         return 0;
     }
@@ -86,29 +86,28 @@ IWidgetLogChannel {
         if (this.timerJob != null && !this.timerJob.isCanceled()) {
             this.timerJob.cancel();
             this.timerJob = null;
-            logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#cancelSlsTimer cancel timer");
+            logChannelCoverStack.log(10000000, "DABSlideShowHandler#cancelSlsTimer cancel timer");
         }
         this.blockedUpdateEvent = false;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.equals(this.timerEvent)) {
             this.timerJob = null;
             if (this.blockedUpdateEvent) {
                 if (this.coverStackController != null) {
-                    logChannelCoverStack.log(1078071040, "DABSlideShowHandler#processEvent timer expired, CoverStackController.menuLayouted() called");
+                    logChannelCoverStack.log(1000000, "DABSlideShowHandler#processEvent timer expired, CoverStackController.menuLayouted() called");
                     this.coverStackController.menuLayouted();
                 } else if (this.iconCrossFadeController != null) {
-                    logChannelCoverStack.log(1078071040, "DABSlideShowHandler#processEvent timer expired, IconCrossFadeController.updateContent() called");
+                    logChannelCoverStack.log(1000000, "DABSlideShowHandler#processEvent timer expired, IconCrossFadeController.updateContent() called");
                     this.iconCrossFadeController.updateContent(this.modelUpdateEvent);
                 }
                 this.blockedUpdateEvent = false;
             } else {
-                logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#processEvent timer expired, but no action was blocked.");
+                logChannelCoverStack.log(10000000, "DABSlideShowHandler#processEvent timer expired, but no action was blocked.");
             }
         } else {
-            logChannelCoverStack.log(-2137614336, "DABSlideShowHandler#processEvent is called with unexpected timerEvent: %1, expected timerEvent: %2", (Object)aTIPEvent, (Object)this.timerEvent);
+            logChannelCoverStack.log(10000000, "DABSlideShowHandler#processEvent is called with unexpected timerEvent: %1, expected timerEvent: %2", (Object)aTIPEvent, (Object)this.timerEvent);
         }
     }
 }

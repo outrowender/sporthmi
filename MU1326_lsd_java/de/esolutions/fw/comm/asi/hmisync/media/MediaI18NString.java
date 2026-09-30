@@ -32,7 +32,7 @@ public class MediaI18NString {
     }
 
     public String toString() {
-        return new StringBuffer("MediaI18NString{").append("i18nKey=").append(this.i18nKey).append(", name=").append(this.name).append("}").toString();
+        return "MediaI18NString{" + "i18nKey=" + this.i18nKey + ", name=" + this.name + "}";
     }
 }
 

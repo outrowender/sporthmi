@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carseat;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carseat.MassageData;
 import org.dsi.ifc.carseat.RestSeatStatus;
 import org.dsi.ifc.carseat.SeatAdjustment;
@@ -15,243 +16,165 @@ import org.dsi.ifc.carseat.SwitcherDataBackForward;
 import org.dsi.ifc.carseat.SwitcherDataUpDown;
 
 public interface DSICarSeatReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "21b97a0b-812b-5d11-a709-028b7bf33cd2";
+    public static final String IPL_COMM_INTERFACE_KEY = "b7b75143-6736-5b96-9460-67acad1509d9";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.11";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.11";
 
-    default public void updateSeatViewOptions(SeatViewOptions seatViewOptions, int n) {
-    }
+    public void updateSeatViewOptions(SeatViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSeatRadioKeyAutomatic(boolean bl, int n) {
-    }
+    public void updateSeatRadioKeyAutomatic(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition, int n) {
-    }
+    public void updateSeatSpecialPosition(SeatSpecialPosition var1, int var2) throws MethodException;
 
-    default public void updateSeatSpecialPositionRearCoDriver(SeatSpecialPosition seatSpecialPosition, int n) {
-    }
+    public void updateSeatSpecialPositionRearCoDriver(SeatSpecialPosition var1, int var2) throws MethodException;
 
-    default public void updateSeatFrontLeftStopButton(boolean bl, int n) {
-    }
+    public void updateSeatFrontLeftStopButton(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatFrontRightStopButton(boolean bl, int n) {
-    }
+    public void updateSeatFrontRightStopButton(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatRearLeftStopButton(boolean bl, int n) {
-    }
+    public void updateSeatRearLeftStopButton(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatRearRightStopButton(boolean bl, int n) {
-    }
+    public void updateSeatRearRightStopButton(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatCodriverSettingsFromDriver(boolean bl, int n) {
-    }
+    public void updateSeatCodriverSettingsFromDriver(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatCodriverSettingsFromRear(boolean bl, int n) {
-    }
+    public void updateSeatCodriverSettingsFromRear(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageData1RL(MassageData massageData, int n) {
-    }
+    public void updateSeatMassageData1RL(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageData1RR(MassageData massageData, int n) {
-    }
+    public void updateSeatMassageData1RR(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageData2RL(MassageData massageData, int n) {
-    }
+    public void updateSeatMassageData2RL(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageData2RR(MassageData massageData, int n) {
-    }
+    public void updateSeatMassageData2RR(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataUp1RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataDown1RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataForward1RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataBack1RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataUp1RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataDown1RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataForward1RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataBack1RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataUp2RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataUp2RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataDown2RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataDown2RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataForward2RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataForward2RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataBack2RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataBack2RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataUp2RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataUp2RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataDown2RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatSwitcherDataDown2RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataForward2RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataForward2RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatSwitcherDataBack2RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatSwitcherDataBack2RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatContent(SeatContent seatContent, int n) {
-    }
+    public void updateSeatContent(SeatContent var1, int var2) throws MethodException;
 
-    default public void updateSeatEasyEntryFrontLeft(boolean bl, int n) {
-    }
+    public void updateSeatEasyEntryFrontLeft(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatEasyEntryFrontRight(boolean bl, int n) {
-    }
+    public void updateSeatEasyEntryFrontRight(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatEasyEntryRearLeft(boolean bl, int n) {
-    }
+    public void updateSeatEasyEntryRearLeft(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatEasyEntryRearRight(boolean bl, int n) {
-    }
+    public void updateSeatEasyEntryRearRight(boolean var1, int var2) throws MethodException;
 
-    default public void requestSeatPopup(SeatContent seatContent) {
-    }
+    public void requestSeatPopup(SeatContent var1) throws MethodException;
 
-    default public void acknowledgeSeatPopup(SeatContent seatContent) {
-    }
+    public void acknowledgeSeatPopup(SeatContent var1) throws MethodException;
 
-    default public void updateSeatPneumaticViewOptions(SeatPneumaticViewOptions seatPneumaticViewOptions, int n) {
-    }
+    public void updateSeatPneumaticViewOptions(SeatPneumaticViewOptions var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticCodriverSettingsFromDriver(boolean bl, int n) {
-    }
+    public void updateSeatPneumaticCodriverSettingsFromDriver(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticMassageData1RL(MassageData massageData, int n) {
-    }
+    public void updateSeatPneumaticMassageData1RL(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticMassageData1RR(MassageData massageData, int n) {
-    }
+    public void updateSeatPneumaticMassageData1RR(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataUp1RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataDown1RL(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataDown1RL(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataForward1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataForward1RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataBack1RL(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataBack1RL(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataUp1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataUp1RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataDown1RR(SwitcherDataUpDown switcherDataUpDown, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataDown1RR(SwitcherDataUpDown var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataForward1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataForward1RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticSwitcherDataBack1RR(SwitcherDataBackForward switcherDataBackForward, int n) {
-    }
+    public void updateSeatPneumaticSwitcherDataBack1RR(SwitcherDataBackForward var1, int var2) throws MethodException;
 
-    default public void updateSeatPneumaticContent(SeatPneumaticContent seatPneumaticContent, int n) {
-    }
+    public void updateSeatPneumaticContent(SeatPneumaticContent var1, int var2) throws MethodException;
 
-    default public void requestSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void requestSeatPneumaticPopup(SeatPneumaticContent var1) throws MethodException;
 
-    default public void acknowledgeSeatPneumaticPopup(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void acknowledgeSeatPneumaticPopup(SeatPneumaticContent var1) throws MethodException;
 
-    default public void acknowledgeSeatSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeSeatSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void acknowledgeSeatPneumaticSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeSeatPneumaticSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void acknowledgeSeatDeleteSpecialPosition(boolean bl) {
-    }
+    public void acknowledgeSeatDeleteSpecialPosition(boolean var1) throws MethodException;
 
-    default public void acknowledgeSeatMoveRearSeatDisplay(boolean bl) {
-    }
+    public void acknowledgeSeatMoveRearSeatDisplay(boolean var1) throws MethodException;
 
-    default public void updateSeatAdjustment1RL(SeatAdjustment seatAdjustment, int n) {
-    }
+    public void updateSeatAdjustment1RL(SeatAdjustment var1, int var2) throws MethodException;
 
-    default public void updateSeatAdjustment1RR(SeatAdjustment seatAdjustment, int n) {
-    }
+    public void updateSeatAdjustment1RR(SeatAdjustment var1, int var2) throws MethodException;
 
-    default public void updateSeatAdjustment2RL(SeatAdjustment seatAdjustment, int n) {
-    }
+    public void updateSeatAdjustment2RL(SeatAdjustment var1, int var2) throws MethodException;
 
-    default public void updateSeatAdjustment2RR(SeatAdjustment seatAdjustment, int n) {
-    }
+    public void updateSeatAdjustment2RR(SeatAdjustment var1, int var2) throws MethodException;
 
-    default public void updateSeatCoDriverSettingsFromRearActivation(boolean bl, int n) {
-    }
+    public void updateSeatCoDriverSettingsFromRearActivation(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatRestSeatStatus(RestSeatStatus restSeatStatus, int n) {
-    }
+    public void updateSeatRestSeatStatus(RestSeatStatus var1, int var2) throws MethodException;
 
-    default public void updateSeatFoldHeadRestRearDriver(boolean bl, int n) {
-    }
+    public void updateSeatFoldHeadRestRearDriver(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatFoldHeadRestRearCoDriver(boolean bl, int n) {
-    }
+    public void updateSeatFoldHeadRestRearCoDriver(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageData1RL(MassageData massageData, int n) {
-    }
+    public void updateSeatPremiumMassageData1RL(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageData1RR(MassageData massageData, int n) {
-    }
+    public void updateSeatPremiumMassageData1RR(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageData2RL(MassageData massageData, int n) {
-    }
+    public void updateSeatPremiumMassageData2RL(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageData2RR(MassageData massageData, int n) {
-    }
+    public void updateSeatPremiumMassageData2RR(MassageData var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageSwitcher1RL(boolean bl, int n) {
-    }
+    public void updateSeatPremiumMassageSwitcher1RL(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageSwitcher1RR(boolean bl, int n) {
-    }
+    public void updateSeatPremiumMassageSwitcher1RR(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageSwitcher2RL(boolean bl, int n) {
-    }
+    public void updateSeatPremiumMassageSwitcher2RL(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatPremiumMassageSwitcher2RR(boolean bl, int n) {
-    }
+    public void updateSeatPremiumMassageSwitcher2RR(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageSwitcher1RL(boolean bl, int n) {
-    }
+    public void updateSeatMassageSwitcher1RL(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageSwitcher1RR(boolean bl, int n) {
-    }
+    public void updateSeatMassageSwitcher1RR(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageSwitcher2RL(boolean bl, int n) {
-    }
+    public void updateSeatMassageSwitcher2RL(boolean var1, int var2) throws MethodException;
 
-    default public void updateSeatMassageSwitcher2RR(boolean bl, int n) {
-    }
+    public void updateSeatMassageSwitcher2RR(boolean var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

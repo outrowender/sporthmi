@@ -8,36 +8,30 @@ import org.dsi.ifc.map.Point;
 
 public interface DSIMapViewerRouteBlock
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_RBINFOOFSELECTEDSEGMENTS;
-    public static final int RT_RBMARKNEXTSEGMENT;
-    public static final int RT_RBMARKPREVIOUSSEGMENT;
-    public static final int RT_RBSETSEGMENTSCALES;
-    public static final int RT_RBSTARTOFSELECTION;
-    public static final int RT_PICKSEGMENTUIDSINSCREENSPACE;
-    public static final int RT_HIGHLIGHTSEGMENTUIDSINMAP;
-    public static final int RP_PICKSEGMENTUIDSINSCREENSPACERESULT;
-    public static final int RP_HIGHLIGHTSEGMENTUIDSINMAPRESULT;
-    public static final int RP_RBSTARTOFSELECTIONRESULT;
-    public static final int RP_RBMARKNEXTSEGMENTRESULT;
-    public static final int RP_RBMARKPREVIOUSSEGMENTRESULT;
+    public static final String VERSION = "2.11.62";
+    public static final int ATTR_RBINFOOFSELECTEDSEGMENTS = 1;
+    public static final int RT_RBMARKNEXTSEGMENT = 1001;
+    public static final int RT_RBMARKPREVIOUSSEGMENT = 1002;
+    public static final int RT_RBSETSEGMENTSCALES = 1003;
+    public static final int RT_RBSTARTOFSELECTION = 1005;
+    public static final int RT_PICKSEGMENTUIDSINSCREENSPACE = 1006;
+    public static final int RT_HIGHLIGHTSEGMENTUIDSINMAP = 1007;
+    public static final int RP_PICKSEGMENTUIDSINSCREENSPACERESULT = 2000;
+    public static final int RP_HIGHLIGHTSEGMENTUIDSINMAPRESULT = 2001;
+    public static final int RP_RBSTARTOFSELECTIONRESULT = 2002;
+    public static final int RP_RBMARKNEXTSEGMENTRESULT = 2003;
+    public static final int RP_RBMARKPREVIOUSSEGMENTRESULT = 2004;
 
-    default public void rBMarkNextSegment() {
-    }
+    public void rBMarkNextSegment();
 
-    default public void rBMarkPreviousSegment() {
-    }
+    public void rBMarkPreviousSegment();
 
-    default public void rBSetSegmentScales(long l, long l2) {
-    }
+    public void rBSetSegmentScales(long var1, long var3);
 
-    default public void rBStartOfSelection() {
-    }
+    public void rBStartOfSelection();
 
-    default public void pickSegmentUidsInScreenSpace(Point point, int n) {
-    }
+    public void pickSegmentUidsInScreenSpace(Point var1, int var2);
 
-    default public void highLightSegmentUidsInMap(long[] lArray, boolean bl) {
-    }
+    public void highLightSegmentUidsInMap(long[] var1, boolean var2);
 }
 

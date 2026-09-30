@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCSpeedWarningSettings;
 
 public class BCSpeedWarningSettingsSerializer {
-    public static void putOptionalBCSpeedWarningSettings(ISerializer iSerializer, BCSpeedWarningSettings bCSpeedWarningSettings) {
+    public static void putOptionalBCSpeedWarningSettings(ISerializer iSerializer, BCSpeedWarningSettings bCSpeedWarningSettings) throws SerializerException {
         boolean bl = bCSpeedWarningSettings == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class BCSpeedWarningSettingsSerializer {
         }
     }
 
-    public static void putOptionalBCSpeedWarningSettingsVarArray(ISerializer iSerializer, BCSpeedWarningSettings[] bCSpeedWarningSettingsArray) {
+    public static void putOptionalBCSpeedWarningSettingsVarArray(ISerializer iSerializer, BCSpeedWarningSettings[] bCSpeedWarningSettingsArray) throws SerializerException {
         boolean bl = bCSpeedWarningSettingsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class BCSpeedWarningSettingsSerializer {
         }
     }
 
-    public static BCSpeedWarningSettings getOptionalBCSpeedWarningSettings(IDeserializer iDeserializer) {
+    public static BCSpeedWarningSettings getOptionalBCSpeedWarningSettings(IDeserializer iDeserializer) throws SerializerException {
         BCSpeedWarningSettings bCSpeedWarningSettings = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class BCSpeedWarningSettingsSerializer {
         return bCSpeedWarningSettings;
     }
 
-    public static BCSpeedWarningSettings[] getOptionalBCSpeedWarningSettingsVarArray(IDeserializer iDeserializer) {
+    public static BCSpeedWarningSettings[] getOptionalBCSpeedWarningSettingsVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCSpeedWarningSettings[] bCSpeedWarningSettingsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

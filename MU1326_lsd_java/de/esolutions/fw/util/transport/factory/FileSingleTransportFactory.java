@@ -18,7 +18,6 @@ implements ISingleTransportFactory {
         this.fileName = string;
     }
 
-    @Override
     public ITransport createTransport() {
         FileByteTransport fileByteTransport = new FileByteTransport(this.fileName);
         ITransport iTransport = new PacketTransport(fileByteTransport);
@@ -26,9 +25,8 @@ implements ISingleTransportFactory {
         return iTransport;
     }
 
-    @Override
     public String getDescription() {
-        return new StringBuffer().append("[File:").append(this.fileName).append("]").toString();
+        return "[File:" + this.fileName + "]";
     }
 }
 

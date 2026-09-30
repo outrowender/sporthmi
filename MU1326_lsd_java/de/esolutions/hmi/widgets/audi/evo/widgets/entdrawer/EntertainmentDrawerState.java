@@ -9,7 +9,7 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.EntertainmentDrawerContentCont
 import de.esolutions.hmi.widgets.audi.evo.widgets.anim.AnimUtils;
 
 public class EntertainmentDrawerState {
-    public static final int NONE;
+    public static final int NONE = -1;
     private int yScreenOffset;
     private float yTranslation;
     private int height;
@@ -248,40 +248,40 @@ public class EntertainmentDrawerState {
         Buffer buffer = new Buffer("");
         if (entertainmentDrawerState != null) {
             if (this.yScreenOffset != entertainmentDrawerState.getYScreenOffset()) {
-                buffer.append(new StringBuffer().append("yScreenOffset:\t\t\t\t\t\t").append(this.yScreenOffset).append(" --> ").append(entertainmentDrawerState.getYScreenOffset()).append("\n").toString());
+                buffer.append("yScreenOffset:\t\t\t\t\t\t" + this.yScreenOffset + " --> " + entertainmentDrawerState.getYScreenOffset() + "\n");
             }
             if (this.yTranslation != entertainmentDrawerState.getYTranslation()) {
-                buffer.append(new StringBuffer().append("yTranslation:\t\t\t\t\t\t").append(this.yTranslation).append(" --> ").append(entertainmentDrawerState.getYTranslation()).append("\n").toString());
+                buffer.append("yTranslation:\t\t\t\t\t\t" + this.yTranslation + " --> " + entertainmentDrawerState.getYTranslation() + "\n");
             }
             if (this.width != entertainmentDrawerState.getWidth()) {
-                buffer.append(new StringBuffer().append("width:\t\t\t\t\t\t\t\t").append(this.width).append(" --> ").append(entertainmentDrawerState.getWidth()).append("\n").toString());
+                buffer.append("width:\t\t\t\t\t\t\t\t" + this.width + " --> " + entertainmentDrawerState.getWidth() + "\n");
             }
             if (this.height != entertainmentDrawerState.getHeight()) {
-                buffer.append(new StringBuffer().append("height:\t\t\t\t\t\t\t\t").append(this.height).append(" --> ").append(entertainmentDrawerState.getHeight()).append("\n").toString());
+                buffer.append("height:\t\t\t\t\t\t\t\t" + this.height + " --> " + entertainmentDrawerState.getHeight() + "\n");
             }
             if (this.opacity != entertainmentDrawerState.getOpacity()) {
-                buffer.append(new StringBuffer().append("opacity:\t\t\t\t\t\t\t").append(this.opacity).append(" --> ").append(entertainmentDrawerState.getOpacity()).append("\n").toString());
+                buffer.append("opacity:\t\t\t\t\t\t\t" + this.opacity + " --> " + entertainmentDrawerState.getOpacity() + "\n");
             }
             if (this.gapHeight != entertainmentDrawerState.getGapHeight()) {
-                buffer.append(new StringBuffer().append("gapHeight:\t\t\t\t\t\t\t").append(this.gapHeight).append(" --> ").append(entertainmentDrawerState.getGapHeight()).append("\n").toString());
+                buffer.append("gapHeight:\t\t\t\t\t\t\t" + this.gapHeight + " --> " + entertainmentDrawerState.getGapHeight() + "\n");
             }
             if (this.drawerState != entertainmentDrawerState.getDrawerState()) {
-                buffer.append(new StringBuffer().append("drawerState:\t\t\t\t\t\t").append(AnimUtils.valueToString(this.drawerState, IDrawer.DRAWER_STATE_TO_STRING)).append(" --> ").append(AnimUtils.valueToString(entertainmentDrawerState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING)).append("\n").toString());
+                buffer.append("drawerState:\t\t\t\t\t\t" + AnimUtils.valueToString(this.drawerState, IDrawer.DRAWER_STATE_TO_STRING) + " --> " + AnimUtils.valueToString(entertainmentDrawerState.getDrawerState(), IDrawer.DRAWER_STATE_TO_STRING) + "\n");
             }
             if (this.animateDrawerStateChange != entertainmentDrawerState.isAnimateDrawerStateChange()) {
-                buffer.append(new StringBuffer().append("animateDrawerStateChange:\t\t\t").append(this.animateDrawerStateChange).append(" --> ").append(entertainmentDrawerState.isAnimateDrawerStateChange()).append("\n").toString());
+                buffer.append("animateDrawerStateChange:\t\t\t" + this.animateDrawerStateChange + " --> " + entertainmentDrawerState.isAnimateDrawerStateChange() + "\n");
             }
             if (this.audioSource != entertainmentDrawerState.getAudioSource()) {
-                buffer.append(new StringBuffer().append("audioSource:\t\t\t\t\t\t").append(this.audioSource).append(" --> ").append(entertainmentDrawerState.getAudioSource()).append("\n").toString());
+                buffer.append("audioSource:\t\t\t\t\t\t" + this.audioSource + " --> " + entertainmentDrawerState.getAudioSource() + "\n");
             }
             if (this.isVisible != entertainmentDrawerState.isVisible()) {
-                buffer.append(new StringBuffer().append("isVisible:\t\t\t\t\t\t\t").append(this.isVisible).append(" --> ").append(entertainmentDrawerState.isVisible()).append("\n").toString());
+                buffer.append("isVisible:\t\t\t\t\t\t\t" + this.isVisible + " --> " + entertainmentDrawerState.isVisible() + "\n");
             }
             if (this.isHeaderVisible != entertainmentDrawerState.isHeaderVisible()) {
-                buffer.append(new StringBuffer().append("isHeaderVisible:\t\t\t\t\t").append(this.isHeaderVisible).append(" --> ").append(entertainmentDrawerState.isHeaderVisible()).append("\n").toString());
+                buffer.append("isHeaderVisible:\t\t\t\t\t" + this.isHeaderVisible + " --> " + entertainmentDrawerState.isHeaderVisible() + "\n");
             }
             if (this.content != null && !this.content.equals(entertainmentDrawerState.getContent())) {
-                buffer.append(new StringBuffer().append("content:\t\t\t\t\t\t\t").append(this.content).append("\n\t\t\t\t\t\t\t\t\t--> ").append(entertainmentDrawerState.getContent()).append("\n").toString());
+                buffer.append("content:\t\t\t\t\t\t\t" + this.content + "\n\t\t\t\t\t\t\t\t\t--> " + entertainmentDrawerState.getContent() + "\n");
             }
         }
         return buffer.toString();

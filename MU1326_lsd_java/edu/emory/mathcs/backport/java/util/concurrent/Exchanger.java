@@ -12,7 +12,7 @@ public class Exchanger {
     private Object item;
     private int arrivalCount;
 
-    private Object doExchange(Object object, boolean bl, long l) {
+    private Object doExchange(Object object, boolean bl, long l) throws InterruptedException, TimeoutException {
         Object object2 = this.lock;
         synchronized (object2) {
             int n;
@@ -73,7 +73,7 @@ public class Exchanger {
         }
     }
 
-    public Object exchange(Object object) {
+    public Object exchange(Object object) throws InterruptedException {
         try {
             return this.doExchange(object, false, 0L);
         }
@@ -82,7 +82,7 @@ public class Exchanger {
         }
     }
 
-    public Object exchange(Object object, long l, TimeUnit timeUnit) {
+    public Object exchange(Object object, long l, TimeUnit timeUnit) throws InterruptedException, TimeoutException {
         return this.doExchange(object, true, timeUnit.toNanos(l));
     }
 }

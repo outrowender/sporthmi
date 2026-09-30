@@ -27,7 +27,7 @@ extends AbstractTraceBackend {
     private String curFileName;
     private String outputDirectory;
     private String suffix;
-    private static final String chn;
+    private static final String chn = "FileBackend";
 
     public FileBackend() {
         super("File");
@@ -48,7 +48,6 @@ extends AbstractTraceBackend {
         this.formatter = iTraceMessageFormatter;
     }
 
-    @Override
     public void init(short s, ITraceBackendListener iTraceBackendListener, TraceConfigBackend traceConfigBackend) {
         super.init(s, iTraceBackendListener, traceConfigBackend);
         String string = null;
@@ -58,7 +57,7 @@ extends AbstractTraceBackend {
             this.outputDirectory = traceConfigBackend.getOutputDirectory("");
             this.suffix = iConfigQuery.getStringValue("logfileSuffix", ".log");
             this.fileName = traceConfigBackend.getFileName(this.fileName, this.suffix);
-            this.fileName = new StringBuffer().append(this.outputDirectory).append(this.fileName).toString();
+            this.fileName = this.outputDirectory + this.fileName;
             this.curFileName = this.appendSession(this.fileName);
         }
         if (this.formatter == null) {
@@ -73,14 +72,13 @@ extends AbstractTraceBackend {
         }
         int n = string.lastIndexOf(46);
         if (n == -1) {
-            return new StringBuffer().append(string).append("_s").append(this.session).toString();
+            return string + "_s" + this.session;
         }
-        return new StringBuffer().append(string.substring(0, n)).append("_s").append(this.session).append(string.substring(n)).toString();
+        return string.substring(0, n) + "_s" + this.session + string.substring(n);
     }
 
-    @Override
     public boolean connect() {
-        TraceMe.msg(TraceMe.DEBUG, "FileBackend", "open log at %1", this.curFileName);
+        TraceMe.msg(TraceMe.DEBUG, chn, "open log at %1", this.curFileName);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(this.curFileName);
             this.fileWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
@@ -88,11 +86,11 @@ extends AbstractTraceBackend {
             return true;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "failed open with %1", iOException);
+            TraceMe.msg(TraceMe.ERROR, chn, "failed open with %1", iOException);
             return false;
         }
         catch (Exception exception) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "can't write to %1: %2", this.curFileName, exception);
+            TraceMe.msg(TraceMe.ERROR, chn, "can't write to %1: %2", this.curFileName, exception);
             return false;
         }
     }
@@ -101,7 +99,6 @@ extends AbstractTraceBackend {
         return this.curFileName;
     }
 
-    @Override
     public void disconnect() {
         try {
             ++this.session;
@@ -111,14 +108,13 @@ extends AbstractTraceBackend {
             this.fileWriter = null;
         }
         catch (IOException iOException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "error close with ", iOException);
+            TraceMe.msg(TraceMe.ERROR, chn, "error close with ", iOException);
         }
         catch (NullPointerException nullPointerException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "NullPointerException catched ");
+            TraceMe.msg(TraceMe.ERROR, chn, "NullPointerException catched ");
         }
     }
 
-    @Override
     public boolean log(ITraceMessage iTraceMessage) {
         try {
             String[] stringArray = this.formatter.formatMessage(iTraceMessage, this.resolver);
@@ -134,16 +130,15 @@ extends AbstractTraceBackend {
             return false;
         }
         catch (NullPointerException nullPointerException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "NullPointerException catched ");
+            TraceMe.msg(TraceMe.ERROR, chn, "NullPointerException catched ");
             return false;
         }
         return true;
     }
 
-    @Override
     public boolean droppedMessages(int n) {
         try {
-            this.fileWriter.write(new StringBuffer().append("DROPPED ").append(n).append(" MESSAGES\n").toString());
+            this.fileWriter.write("DROPPED " + n + " MESSAGES\n");
         }
         catch (IOException iOException) {
             this.fileWriter = null;
@@ -151,18 +146,17 @@ extends AbstractTraceBackend {
             return false;
         }
         catch (NullPointerException nullPointerException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "NullPointerException catched ");
+            TraceMe.msg(TraceMe.ERROR, chn, "NullPointerException catched ");
             return false;
         }
         return true;
     }
 
-    @Override
     public boolean updateTimeZone(int n, long l, long l2) {
         String string = this.listener.getTimeZoneName(n);
         TraceTimeStamp traceTimeStamp = new TraceTimeStamp(l);
         TraceTimeStamp traceTimeStamp2 = new TraceTimeStamp(l2);
-        String string2 = new StringBuffer().append(traceTimeStamp2.toUTCTimeString(false)).append("  time zone  ").append(string).append("  ").append(traceTimeStamp.toUTCTimeString(false)).toString();
+        String string2 = traceTimeStamp2.toUTCTimeString(false) + "  time zone  " + string + "  " + traceTimeStamp.toUTCTimeString(false);
         try {
             this.fileWriter.write(string2);
         }
@@ -172,7 +166,7 @@ extends AbstractTraceBackend {
             return false;
         }
         catch (NullPointerException nullPointerException) {
-            TraceMe.msg(TraceMe.ERROR, "FileBackend", "NullPointerException catched ");
+            TraceMe.msg(TraceMe.ERROR, chn, "NullPointerException catched ");
             return false;
         }
         return true;

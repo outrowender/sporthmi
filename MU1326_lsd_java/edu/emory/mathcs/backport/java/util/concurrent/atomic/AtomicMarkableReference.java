@@ -3,54 +3,63 @@
  */
 package edu.emory.mathcs.backport.java.util.concurrent.atomic;
 
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicMarkableReference$ReferenceBooleanPair;
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicReference;
 
 public class AtomicMarkableReference {
     private final AtomicReference atomicRef;
 
     public AtomicMarkableReference(Object object, boolean bl) {
-        this.atomicRef = new AtomicReference(new AtomicMarkableReference$ReferenceBooleanPair(object, bl));
+        this.atomicRef = new AtomicReference(new ReferenceBooleanPair(object, bl));
     }
 
-    private AtomicMarkableReference$ReferenceBooleanPair getPair() {
-        return (AtomicMarkableReference$ReferenceBooleanPair)this.atomicRef.get();
+    private ReferenceBooleanPair getPair() {
+        return (ReferenceBooleanPair)this.atomicRef.get();
     }
 
     public Object getReference() {
-        return AtomicMarkableReference$ReferenceBooleanPair.access$000(this.getPair());
+        return this.getPair().reference;
     }
 
     public boolean isMarked() {
-        return AtomicMarkableReference$ReferenceBooleanPair.access$100(this.getPair());
+        return this.getPair().bit;
     }
 
     public Object get(boolean[] blArray) {
-        AtomicMarkableReference$ReferenceBooleanPair atomicMarkableReference$ReferenceBooleanPair = this.getPair();
-        blArray[0] = AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair);
-        return AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair);
+        ReferenceBooleanPair referenceBooleanPair = this.getPair();
+        blArray[0] = referenceBooleanPair.bit;
+        return referenceBooleanPair.reference;
     }
 
     public boolean weakCompareAndSet(Object object, Object object2, boolean bl, boolean bl2) {
-        AtomicMarkableReference$ReferenceBooleanPair atomicMarkableReference$ReferenceBooleanPair = this.getPair();
-        return object == AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) && bl == AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair) && (object2 == AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) && bl2 == AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair) || this.atomicRef.weakCompareAndSet(atomicMarkableReference$ReferenceBooleanPair, new AtomicMarkableReference$ReferenceBooleanPair(object2, bl2)));
+        ReferenceBooleanPair referenceBooleanPair = this.getPair();
+        return object == referenceBooleanPair.reference && bl == referenceBooleanPair.bit && (object2 == referenceBooleanPair.reference && bl2 == referenceBooleanPair.bit || this.atomicRef.weakCompareAndSet(referenceBooleanPair, new ReferenceBooleanPair(object2, bl2)));
     }
 
     public boolean compareAndSet(Object object, Object object2, boolean bl, boolean bl2) {
-        AtomicMarkableReference$ReferenceBooleanPair atomicMarkableReference$ReferenceBooleanPair = this.getPair();
-        return object == AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) && bl == AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair) && (object2 == AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) && bl2 == AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair) || this.atomicRef.compareAndSet(atomicMarkableReference$ReferenceBooleanPair, new AtomicMarkableReference$ReferenceBooleanPair(object2, bl2)));
+        ReferenceBooleanPair referenceBooleanPair = this.getPair();
+        return object == referenceBooleanPair.reference && bl == referenceBooleanPair.bit && (object2 == referenceBooleanPair.reference && bl2 == referenceBooleanPair.bit || this.atomicRef.compareAndSet(referenceBooleanPair, new ReferenceBooleanPair(object2, bl2)));
     }
 
     public void set(Object object, boolean bl) {
-        AtomicMarkableReference$ReferenceBooleanPair atomicMarkableReference$ReferenceBooleanPair = this.getPair();
-        if (object != AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) || bl != AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair)) {
-            this.atomicRef.set(new AtomicMarkableReference$ReferenceBooleanPair(object, bl));
+        ReferenceBooleanPair referenceBooleanPair = this.getPair();
+        if (object != referenceBooleanPair.reference || bl != referenceBooleanPair.bit) {
+            this.atomicRef.set(new ReferenceBooleanPair(object, bl));
         }
     }
 
     public boolean attemptMark(Object object, boolean bl) {
-        AtomicMarkableReference$ReferenceBooleanPair atomicMarkableReference$ReferenceBooleanPair = this.getPair();
-        return object == AtomicMarkableReference$ReferenceBooleanPair.access$000(atomicMarkableReference$ReferenceBooleanPair) && (bl == AtomicMarkableReference$ReferenceBooleanPair.access$100(atomicMarkableReference$ReferenceBooleanPair) || this.atomicRef.compareAndSet(atomicMarkableReference$ReferenceBooleanPair, new AtomicMarkableReference$ReferenceBooleanPair(object, bl)));
+        ReferenceBooleanPair referenceBooleanPair = this.getPair();
+        return object == referenceBooleanPair.reference && (bl == referenceBooleanPair.bit || this.atomicRef.compareAndSet(referenceBooleanPair, new ReferenceBooleanPair(object, bl)));
+    }
+
+    private static class ReferenceBooleanPair {
+        private final Object reference;
+        private final boolean bit;
+
+        ReferenceBooleanPair(Object object, boolean bl) {
+            this.reference = object;
+            this.bit = bl;
+        }
     }
 }
 

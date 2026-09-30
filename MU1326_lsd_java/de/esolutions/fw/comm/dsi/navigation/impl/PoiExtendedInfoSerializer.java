@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.navigation.PoiExtendedInfo;
 
 public class PoiExtendedInfoSerializer {
-    public static void putOptionalPoiExtendedInfo(ISerializer iSerializer, PoiExtendedInfo poiExtendedInfo) {
+    public static void putOptionalPoiExtendedInfo(ISerializer iSerializer, PoiExtendedInfo poiExtendedInfo) throws SerializerException {
         boolean bl = poiExtendedInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class PoiExtendedInfoSerializer {
         }
     }
 
-    public static void putOptionalPoiExtendedInfoVarArray(ISerializer iSerializer, PoiExtendedInfo[] poiExtendedInfoArray) {
+    public static void putOptionalPoiExtendedInfoVarArray(ISerializer iSerializer, PoiExtendedInfo[] poiExtendedInfoArray) throws SerializerException {
         boolean bl = poiExtendedInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class PoiExtendedInfoSerializer {
         }
     }
 
-    public static PoiExtendedInfo getOptionalPoiExtendedInfo(IDeserializer iDeserializer) {
+    public static PoiExtendedInfo getOptionalPoiExtendedInfo(IDeserializer iDeserializer) throws SerializerException {
         PoiExtendedInfo poiExtendedInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class PoiExtendedInfoSerializer {
         return poiExtendedInfo;
     }
 
-    public static PoiExtendedInfo[] getOptionalPoiExtendedInfoVarArray(IDeserializer iDeserializer) {
+    public static PoiExtendedInfo[] getOptionalPoiExtendedInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         PoiExtendedInfo[] poiExtendedInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

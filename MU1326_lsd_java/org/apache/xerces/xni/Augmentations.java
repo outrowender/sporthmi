@@ -6,19 +6,14 @@ package org.apache.xerces.xni;
 import java.util.Enumeration;
 
 public interface Augmentations {
-    default public Object putItem(String string, Object object) {
-    }
+    public Object putItem(String var1, Object var2);
 
-    default public Object getItem(String string) {
-    }
+    public Object getItem(String var1);
 
-    default public Object removeItem(String string) {
-    }
+    public Object removeItem(String var1);
 
-    default public Enumeration keys() {
-    }
+    public Enumeration keys();
 
-    default public void removeAllItems() {
-    }
+    public void removeAllItems();
 }
 

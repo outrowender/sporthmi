@@ -4,16 +4,13 @@
 package java.lang.reflect;
 
 public interface Member {
-    public static final int PUBLIC;
-    public static final int DECLARED;
+    public static final int PUBLIC = 0;
+    public static final int DECLARED = 1;
 
-    default public Class getDeclaringClass() {
-    }
+    public Class getDeclaringClass();
 
-    default public int getModifiers() {
-    }
+    public int getModifiers();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

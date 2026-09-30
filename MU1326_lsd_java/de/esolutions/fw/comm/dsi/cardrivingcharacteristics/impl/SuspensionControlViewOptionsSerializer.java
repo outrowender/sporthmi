@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl.SuspensionContro
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlConfiguration;
 import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class SuspensionControlViewOptionsSerializer {
-    public static void putOptionalSuspensionControlViewOptions(ISerializer iSerializer, SuspensionControlViewOptions suspensionControlViewOptions) {
+    public static void putOptionalSuspensionControlViewOptions(ISerializer iSerializer, SuspensionControlViewOptions suspensionControlViewOptions) throws SerializerException {
         boolean bl = suspensionControlViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -83,7 +84,7 @@ public class SuspensionControlViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalSuspensionControlViewOptionsVarArray(ISerializer iSerializer, SuspensionControlViewOptions[] suspensionControlViewOptionsArray) {
+    public static void putOptionalSuspensionControlViewOptionsVarArray(ISerializer iSerializer, SuspensionControlViewOptions[] suspensionControlViewOptionsArray) throws SerializerException {
         boolean bl = suspensionControlViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -94,7 +95,7 @@ public class SuspensionControlViewOptionsSerializer {
         }
     }
 
-    public static SuspensionControlViewOptions getOptionalSuspensionControlViewOptions(IDeserializer iDeserializer) {
+    public static SuspensionControlViewOptions getOptionalSuspensionControlViewOptions(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlViewOptions suspensionControlViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -167,7 +168,7 @@ public class SuspensionControlViewOptionsSerializer {
         return suspensionControlViewOptions;
     }
 
-    public static SuspensionControlViewOptions[] getOptionalSuspensionControlViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static SuspensionControlViewOptions[] getOptionalSuspensionControlViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         SuspensionControlViewOptions[] suspensionControlViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

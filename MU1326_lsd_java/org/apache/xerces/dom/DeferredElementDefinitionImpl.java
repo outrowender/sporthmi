@@ -11,7 +11,7 @@ import org.apache.xerces.dom.NamedNodeMapImpl;
 public class DeferredElementDefinitionImpl
 extends ElementDefinitionImpl
 implements DeferredNode {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 6703238199538041591L;
     protected transient int fNodeIndex;
 
     DeferredElementDefinitionImpl(DeferredDocumentImpl deferredDocumentImpl, int n) {
@@ -21,19 +21,16 @@ implements DeferredNode {
         this.needsSyncChildren(true);
     }
 
-    @Override
     public int getNodeIndex() {
         return this.fNodeIndex;
     }
 
-    @Override
     protected void synchronizeData() {
         this.needsSyncData(false);
         DeferredDocumentImpl deferredDocumentImpl = (DeferredDocumentImpl)this.ownerDocument;
         this.name = deferredDocumentImpl.getNodeName(this.fNodeIndex);
     }
 
-    @Override
     protected void synchronizeChildren() {
         boolean bl = this.ownerDocument.getMutationEvents();
         this.ownerDocument.setMutationEvents(false);

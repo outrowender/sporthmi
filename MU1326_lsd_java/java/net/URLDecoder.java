@@ -6,13 +6,14 @@ package java.net;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.Util;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class URLDecoder {
     public static String decode(String string) {
         return Util.decode(string, true);
     }
 
-    public static String decode(String string, String string2) {
+    public static String decode(String string, String string2) throws UnsupportedEncodingException {
         if (string2 == null) {
             throw new NullPointerException();
         }

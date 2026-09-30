@@ -20,12 +20,10 @@ extends IObject {
         return iTextLayoutResult == null ? 0L : iTextLayoutResult.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -37,12 +35,10 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_ITextLayoutResult_isValid(this.swigCPtr, this);
     }
@@ -83,7 +79,6 @@ extends IObject {
         return ealswigJNI.eal_api_ITextLayoutResult_getLineCount(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_ITextLayoutResult_dispose(this.swigCPtr, this);
     }

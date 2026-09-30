@@ -4,7 +4,9 @@
 package java.io;
 
 import com.ibm.oti.util.Msg;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class ByteArrayOutputStream
 extends OutputStream {
@@ -22,8 +24,7 @@ extends OutputStream {
         this.buf = new byte[n];
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         super.close();
     }
 
@@ -51,7 +52,7 @@ extends OutputStream {
         return new String(this.buf, 0, this.count);
     }
 
-    public String toString(String string) {
+    public String toString(String string) throws UnsupportedEncodingException {
         return new String(this.buf, 0, this.count, string);
     }
 
@@ -59,7 +60,6 @@ extends OutputStream {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
     public synchronized void write(byte[] byArray, int n, int n2) {
         if (this.buf == null) {
             return;
@@ -73,7 +73,6 @@ extends OutputStream {
         this.count += n2;
     }
 
-    @Override
     public synchronized void write(int n) {
         if (this.count >= this.buf.length) {
             this.expand(1);
@@ -81,7 +80,7 @@ extends OutputStream {
         this.buf[this.count++] = (byte)n;
     }
 
-    public void writeTo(OutputStream outputStream) {
+    public void writeTo(OutputStream outputStream) throws IOException {
         outputStream.write(this.buf, 0, this.count);
     }
 }

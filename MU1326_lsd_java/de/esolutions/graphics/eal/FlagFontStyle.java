@@ -3,7 +3,7 @@
  */
 package de.esolutions.graphics.eal;
 
-import de.esolutions.graphics.eal.api.ITextLayoutSection$style_t;
+import de.esolutions.graphics.eal.api.ITextLayoutSection;
 import de.esolutions.graphics.ealswigJNI;
 
 public class FlagFontStyle {
@@ -41,8 +41,8 @@ public class FlagFontStyle {
         this(ealswigJNI.new_eal_FlagFontStyle__SWIG_0(), true);
     }
 
-    public FlagFontStyle(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        this(ealswigJNI.new_eal_FlagFontStyle__SWIG_1(iTextLayoutSection$style_t.swigValue()), true);
+    public FlagFontStyle(ITextLayoutSection.style_t style_t2) {
+        this(ealswigJNI.new_eal_FlagFontStyle__SWIG_1(style_t2.swigValue()), true);
     }
 
     public FlagFontStyle(long l) {
@@ -53,12 +53,12 @@ public class FlagFontStyle {
         return ealswigJNI.eal_FlagFontStyle_getFlagValue(this.swigCPtr, this);
     }
 
-    public void setFlag(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        ealswigJNI.eal_FlagFontStyle_setFlag(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public void setFlag(ITextLayoutSection.style_t style_t2) {
+        ealswigJNI.eal_FlagFontStyle_setFlag(this.swigCPtr, this, style_t2.swigValue());
     }
 
-    public boolean isFlag(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        return ealswigJNI.eal_FlagFontStyle_isFlag(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public boolean isFlag(ITextLayoutSection.style_t style_t2) {
+        return ealswigJNI.eal_FlagFontStyle_isFlag(this.swigCPtr, this, style_t2.swigValue());
     }
 
     public void reset() {
@@ -69,8 +69,8 @@ public class FlagFontStyle {
         ealswigJNI.eal_FlagFontStyle_resetPos(this.swigCPtr, this, l);
     }
 
-    public void unsetFlag(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        ealswigJNI.eal_FlagFontStyle_unsetFlag(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public void unsetFlag(ITextLayoutSection.style_t style_t2) {
+        ealswigJNI.eal_FlagFontStyle_unsetFlag(this.swigCPtr, this, style_t2.swigValue());
     }
 
     public void setFlagValue(long l) {
@@ -93,20 +93,20 @@ public class FlagFontStyle {
         return ealswigJNI.eal_FlagFontStyle_equal__SWIG_0(this.swigCPtr, this, l);
     }
 
-    public boolean equal(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        return ealswigJNI.eal_FlagFontStyle_equal__SWIG_1(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public boolean equal(ITextLayoutSection.style_t style_t2) {
+        return ealswigJNI.eal_FlagFontStyle_equal__SWIG_1(this.swigCPtr, this, style_t2.swigValue());
     }
 
     public boolean unequal(long l) {
         return ealswigJNI.eal_FlagFontStyle_unequal__SWIG_0(this.swigCPtr, this, l);
     }
 
-    public boolean unequal(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        return ealswigJNI.eal_FlagFontStyle_unequal__SWIG_1(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public boolean unequal(ITextLayoutSection.style_t style_t2) {
+        return ealswigJNI.eal_FlagFontStyle_unequal__SWIG_1(this.swigCPtr, this, style_t2.swigValue());
     }
 
-    public boolean contains(ITextLayoutSection$style_t iTextLayoutSection$style_t) {
-        return ealswigJNI.eal_FlagFontStyle_contains__SWIG_0(this.swigCPtr, this, iTextLayoutSection$style_t.swigValue());
+    public boolean contains(ITextLayoutSection.style_t style_t2) {
+        return ealswigJNI.eal_FlagFontStyle_contains__SWIG_0(this.swigCPtr, this, style_t2.swigValue());
     }
 
     public boolean contains(FlagFontStyle flagFontStyle) {

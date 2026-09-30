@@ -6,64 +6,44 @@ package de.esolutions.fw.util.tracing.filetransfer.file;
 import de.esolutions.fw.util.tracing.filetransfer.FileTransferError;
 
 public interface IFile {
-    default public boolean open(boolean bl) {
-    }
+    public boolean open(boolean var1);
 
-    default public boolean write(byte[] byArray) {
-    }
+    public boolean write(byte[] var1);
 
-    default public boolean close() {
-    }
+    public boolean close();
 
-    default public byte[] read(int n) {
-    }
+    public byte[] read(int var1);
 
-    default public String getLocalPath() {
-    }
+    public String getLocalPath();
 
-    default public String getRemotePath() {
-    }
+    public String getRemotePath();
 
-    default public boolean isHashValid() {
-    }
+    public boolean isHashValid();
 
-    default public boolean isAvailable() {
-    }
+    public boolean isAvailable();
 
-    default public boolean isFile() {
-    }
+    public boolean isFile();
 
-    default public boolean isUpload() {
-    }
+    public boolean isUpload();
 
-    default public boolean isReadable() {
-    }
+    public boolean isReadable();
 
-    default public boolean hasError() {
-    }
+    public boolean hasError();
 
-    default public FileTransferError getError() {
-    }
+    public FileTransferError getError();
 
-    default public String getFilename() {
-    }
+    public String getFilename();
 
-    default public long getTimestamp() {
-    }
+    public long getTimestamp();
 
-    default public long getSize() {
-    }
+    public long getSize();
 
-    default public long getCompleteSize() {
-    }
+    public long getCompleteSize();
 
-    default public long getOffset() {
-    }
+    public long getOffset();
 
-    default public byte[] getFileHash() {
-    }
+    public byte[] getFileHash();
 
-    default public long getId() {
-    }
+    public long getId();
 }
 

@@ -13,8 +13,8 @@ import org.apache.xerces.util.MessageFormatter;
 
 public class UTF8Reader
 extends Reader {
-    public static final int DEFAULT_BUFFER_SIZE;
-    private static final boolean DEBUG_READ;
+    public static final int DEFAULT_BUFFER_SIZE = 2048;
+    private static final boolean DEBUG_READ = false;
     protected final InputStream fInputStream;
     protected final byte[] fBuffer;
     protected int fOffset;
@@ -41,8 +41,7 @@ extends Reader {
         this.fLocale = locale;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.fSurrogate;
         if (this.fSurrogate == -1) {
             int n2;
@@ -80,7 +79,7 @@ extends Reader {
                 if ((n7 & 0xC0) != 128) {
                     this.invalidByte(3, 3, n7);
                 }
-                n = n2 << 12 & 0xF00000 | n8 << 6 & 0xFC0 | n7 & 0x3F;
+                n = n2 << 12 & 0xF000 | n8 << 6 & 0xFC0 | n7 & 0x3F;
             } else if ((n2 & 0xF8) == 240) {
                 int n11;
                 int n12;
@@ -111,8 +110,8 @@ extends Reader {
                     this.invalidSurrogate(n11);
                 }
                 int n18 = n11 - 1;
-                int n19 = 0xD80000 | n18 << 6 & 0x3C0 | n14 << 2 & 0x3C | n13 >> 4 & 3;
-                int n20 = 0xDC0000 | n13 << 6 & 0x3C0 | n12 & 0x3F;
+                int n19 = 0xD800 | n18 << 6 & 0x3C0 | n14 << 2 & 0x3C | n13 >> 4 & 3;
+                int n20 = 0xDC00 | n13 << 6 & 0x3C0 | n12 & 0x3F;
                 n = n19;
                 this.fSurrogate = n20;
             } else {
@@ -124,8 +123,7 @@ extends Reader {
         return n;
     }
 
-    @Override
-    public int read(char[] cArray, int n, int n2) {
+    public int read(char[] cArray, int n, int n2) throws IOException {
         byte by;
         int n3;
         int n4 = n;
@@ -240,7 +238,7 @@ extends Reader {
                         }
                         this.invalidByte(3, 3, n8);
                     }
-                    n7 = n10 << 12 & 0xF00000 | n9 << 6 & 0xFC0 | n8 & 0x3F;
+                    n7 = n10 << 12 & 0xF000 | n9 << 6 & 0xFC0 | n8 & 0x3F;
                     cArray[n4++] = (char)n7;
                     n5 -= 2;
                 } else if ((n10 & 0xF8) == 240) {
@@ -330,8 +328,8 @@ extends Reader {
                     int n13 = n9 & 0xF;
                     int n14 = n8 & 0x3F;
                     int n15 = n7 & 0x3F;
-                    int n16 = 0xD80000 | n12 << 6 & 0x3C0 | n13 << 2 | n14 >> 4;
-                    int n17 = 0xDC0000 | n14 << 6 & 0x3C0 | n15;
+                    int n16 = 0xD800 | n12 << 6 & 0x3C0 | n13 << 2 | n14 >> 4;
+                    int n17 = 0xDC00 | n14 << 6 & 0x3C0 | n15;
                     cArray[n4++] = (char)n16;
                     cArray[n4++] = (char)n17;
                     n5 -= 2;
@@ -349,8 +347,7 @@ extends Reader {
         return n5;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         int n;
         int n2;
         long l2 = l;
@@ -361,41 +358,36 @@ extends Reader {
         return l3;
     }
 
-    @Override
-    public boolean ready() {
+    public boolean ready() throws IOException {
         return false;
     }
 
-    @Override
     public boolean markSupported() {
         return false;
     }
 
-    @Override
-    public void mark(int n) {
+    public void mark(int n) throws IOException {
         throw new IOException(this.fFormatter.formatMessage(this.fLocale, "OperationNotSupported", new Object[]{"mark()", "UTF-8"}));
     }
 
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         this.fOffset = 0;
         this.fSurrogate = -1;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.fInputStream.close();
     }
 
-    private void expectedByte(int n, int n2) {
+    private void expectedByte(int n, int n2) throws MalformedByteSequenceException {
         throw new MalformedByteSequenceException(this.fFormatter, this.fLocale, "http://www.w3.org/TR/1998/REC-xml-19980210", "ExpectedByte", new Object[]{Integer.toString(n), Integer.toString(n2)});
     }
 
-    private void invalidByte(int n, int n2, int n3) {
+    private void invalidByte(int n, int n2, int n3) throws MalformedByteSequenceException {
         throw new MalformedByteSequenceException(this.fFormatter, this.fLocale, "http://www.w3.org/TR/1998/REC-xml-19980210", "InvalidByte", new Object[]{Integer.toString(n), Integer.toString(n2)});
     }
 
-    private void invalidSurrogate(int n) {
+    private void invalidSurrogate(int n) throws MalformedByteSequenceException {
         throw new MalformedByteSequenceException(this.fFormatter, this.fLocale, "http://www.w3.org/TR/1998/REC-xml-19980210", "InvalidHighSurrogate", new Object[]{Integer.toHexString(n)});
     }
 }

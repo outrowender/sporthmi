@@ -13,48 +13,35 @@ import de.esolutions.fw.comm.asi.diagnosis.telephone.sSimState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneAntennaState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneNetworkState;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneTemperature;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2TelephoneDiagServiceS {
-    default public void responseErrorTelephone(sClientResponseError sClientResponseError2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseErrorTelephone(sClientResponseError var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseSimState(sSimState sSimState2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseSimState(sSimState var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseNadIMEI(sNadIMEI sNadIMEI2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseNadIMEI(sNadIMEI var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseTelephoneAntennaState(sTelephoneAntennaState sTelephoneAntennaState2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseTelephoneAntennaState(sTelephoneAntennaState var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseConnectedBtHandset(sConnectedBtHandset sConnectedBtHandset2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseConnectedBtHandset(sConnectedBtHandset var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseNumberHandsetsHUCs(sNumberHandsetsHUCs sNumberHandsetsHUCs2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseNumberHandsetsHUCs(sNumberHandsetsHUCs var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseTelephoneNetworkState(sTelephoneNetworkState sTelephoneNetworkState2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseTelephoneNetworkState(sTelephoneNetworkState var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseTelephoneTemperature(sTelephoneTemperature sTelephoneTemperature2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseTelephoneTemperature(sTelephoneTemperature var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseDeleteMemory(sRoutineResponse sRoutineResponse2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseDeleteMemory(sRoutineResponse var1, MMX2TelephoneDiagServiceReply var2) throws MethodException;
 
-    default public void responseNetworkName(long l, String string, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseNetworkName(long var1, String var3, MMX2TelephoneDiagServiceReply var4) throws MethodException;
 
-    default public void responseNetworkType(long l, int n, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseNetworkType(long var1, int var3, MMX2TelephoneDiagServiceReply var4) throws MethodException;
 
-    default public void responseDialNumber(long l, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseDialNumber(long var1, MMX2TelephoneDiagServiceReply var3) throws MethodException;
 
-    default public void responseCallStatus(long l, boolean bl, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseCallStatus(long var1, boolean var3, MMX2TelephoneDiagServiceReply var4) throws MethodException;
 
-    default public void responseInternalSimIdentification(long l, String string, String string2, MMX2TelephoneDiagServiceReply mMX2TelephoneDiagServiceReply) {
-    }
+    public void responseInternalSimIdentification(long var1, String var3, String var4, MMX2TelephoneDiagServiceReply var5) throws MethodException;
 }
 

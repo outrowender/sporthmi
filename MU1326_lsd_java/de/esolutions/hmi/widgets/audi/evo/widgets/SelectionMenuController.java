@@ -10,6 +10,7 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.event.WheelButtonEvent;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.hmi.model.update.ModelUpdateData;
+import de.audi.atip.hmi.view.AnimationListener;
 import de.audi.atip.hmi.view.IKzbMergeListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.mmicombi.IViewSizeManager;
@@ -17,23 +18,15 @@ import de.audi.atip.util.Util;
 import de.audi.tghu.hmi.evo.DrawerAnimationListener;
 import de.audi.tghu.hmi.evo.HMITerminalEvo;
 import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem;
-import de.audi.tghu.hmi.evo.ScreenChangeAnimationItem$Helper;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.InitializationContext;
 import de.esolutions.hmi.widgets.audi.base.RectangleParameters;
 import de.esolutions.hmi.widgets.audi.base.animation.AbstractAnimation;
-import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager$Helper;
+import de.esolutions.hmi.widgets.audi.evo.DrawerAnimationManager;
 import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$AnimatedFloatProperty;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Cursor;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$PlaceholderItemEntry;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$PlaceholderSubItemEntry;
-import de.esolutions.hmi.widgets.audi.evo.widgets.AbstractPlaceholderMenuController$Slot;
 import de.esolutions.hmi.widgets.audi.evo.widgets.DrawerMain;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PlaceholderMenuMultiItem;
 import de.esolutions.hmi.widgets.audi.evo.widgets.SelectionDrawerPreviewIconController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SelectionMenuController$1;
-import de.esolutions.hmi.widgets.audi.evo.widgets.SelectionMenuController$Gap;
 import de.esolutions.hmi.widgets.audi.evo.widgets.menu.SelectionMenuIdleTimerController;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,37 +40,37 @@ implements DrawerMain,
 ScreenChangeAnimationItem,
 DrawerAnimationListener,
 IKzbMergeListener {
-    private static final int MAIN_SLOT_COUNT;
-    private static final int SUB_SLOT_COUNT;
-    public static final int LINE_COUNT;
-    private static final float MAX_POSITION;
-    private static final float MAX_SUB_POSITION;
-    private static final float MIN_CURSOR_POSITION;
-    private static final float MAX_CURSOR_POSITION;
-    private static final float MIN_SUB_CURSOR_POSITION;
-    private static final float MAX_SUB_CURSOR_POSITION;
-    private static final float MIN_ITEM_POSITION;
-    private static final float MAX_ITEM_POSITION;
-    private static final float MIN_SUB_ITEM_POSITION;
-    private static final float MAX_SUB_ITEM_POSITION;
-    private static final int VIEWPORT_SCROLL_ANIMATION_TYPE;
-    private static final int FOCUS_CURSOR_ANIMATION_TYPE;
+    private static final int MAIN_SLOT_COUNT = 6;
+    private static final int SUB_SLOT_COUNT = 5;
+    public static final int LINE_COUNT = 5;
+    private static final float MAX_POSITION = 6.0f;
+    private static final float MAX_SUB_POSITION = 6.0f;
+    private static final float MIN_CURSOR_POSITION = 1.0f;
+    private static final float MAX_CURSOR_POSITION = 5.0f;
+    private static final float MIN_SUB_CURSOR_POSITION = 1.0f;
+    private static final float MAX_SUB_CURSOR_POSITION = 4.0f;
+    private static final float MIN_ITEM_POSITION = 1.0f;
+    private static final float MAX_ITEM_POSITION = 5.0f;
+    private static final float MIN_SUB_ITEM_POSITION = 1.0f;
+    private static final float MAX_SUB_ITEM_POSITION = 4.0f;
+    private static final int VIEWPORT_SCROLL_ANIMATION_TYPE = 84;
+    private static final int FOCUS_CURSOR_ANIMATION_TYPE = 85;
     private int mmiCombiSyncMode = 1;
     private static final LogChannel lc;
-    protected final SelectionMenuController$Gap gap = new SelectionMenuController$Gap(this);
+    protected final Gap gap = new Gap();
     protected final List subAllSlots;
     protected final LinkedList subSlotPool = new LinkedList();
     protected final LinkedList subUsedSlots = new LinkedList();
-    protected final AbstractPlaceholderMenuController$AnimatedFloatProperty subViewportPosition = new AbstractPlaceholderMenuController$AnimatedFloatProperty(0.0f);
-    protected final AbstractPlaceholderMenuController$Cursor subSelectionCursor = new AbstractPlaceholderMenuController$Cursor(this, -1, false, true);
-    protected final AbstractPlaceholderMenuController$Cursor subFocusCursor;
+    protected final AbstractPlaceholderMenuController.AnimatedFloatProperty subViewportPosition = new AbstractPlaceholderMenuController.AnimatedFloatProperty(0.0f);
+    protected final AbstractPlaceholderMenuController.Cursor subSelectionCursor = new AbstractPlaceholderMenuController.Cursor(this, -1, false, true);
+    protected final AbstractPlaceholderMenuController.Cursor subFocusCursor;
     private AbstractAnimation subViewportScrollAnimation;
     private float subScrollbarPosition;
     private float subScrollbarLength;
     private float subTotalHeight;
     private boolean sublistOpened;
     private boolean sublistClosing = false;
-    private AbstractPlaceholderMenuController$PlaceholderItemEntry mainItemEntryForVisibleSublist;
+    private AbstractPlaceholderMenuController.PlaceholderItemEntry mainItemEntryForVisibleSublist;
     private boolean mergeCursorWhenOpening = true;
     protected float stagePosition = 0.0f;
     protected float screenChangePosition = 0.0f;
@@ -85,7 +78,7 @@ IKzbMergeListener {
     private int drawerAnimationMask = 8321;
     private float desaturation = 0.0f;
     private float darkening = 0.0f;
-    private static final float DARKENING_MULTIPLICATOR;
+    private static final float DARKENING_MULTIPLICATOR = 0.3f;
     private boolean entriesChanged = true;
     private SelectionMenuIdleTimerController idleTimer;
     private int maxMainListTextWidthSmallStage = -1;
@@ -98,15 +91,15 @@ IKzbMergeListener {
         super(6, lc);
         this.subAllSlots = new ArrayList(5);
         for (int i2 = 0; i2 < 5; ++i2) {
-            AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = new AbstractPlaceholderMenuController$Slot(this);
-            this.subAllSlots.add(abstractPlaceholderMenuController$Slot);
-            this.subSlotPool.add(abstractPlaceholderMenuController$Slot);
+            AbstractPlaceholderMenuController.Slot slot = new AbstractPlaceholderMenuController.Slot(this);
+            this.subAllSlots.add(slot);
+            this.subSlotPool.add(slot);
         }
         this.subViewportPosition.setUnanimatedValue(0.0f);
-        this.subFocusCursor = new AbstractPlaceholderMenuController$Cursor(this, this.getFocusCursorAnimationType(), true, true);
+        this.subFocusCursor = new AbstractPlaceholderMenuController.Cursor(this, this.getFocusCursorAnimationType(), true, true);
         this.idleTimer = new SelectionMenuIdleTimerController(lc);
         this.add(this.idleTimer);
-        this.bounceCursorMaxDeflection = 32830;
+        this.bounceCursorMaxDeflection = 0.25f;
     }
 
     public float getDarkening() {
@@ -122,30 +115,26 @@ IKzbMergeListener {
         this.desaturation = 0.0f;
     }
 
-    private void clearSubItems(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        lc.log(-2137614336, "SelectionMenuController#clearSubItems item=%1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    private void clearSubItems(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        lc.log(10000000, "SelectionMenuController#clearSubItems item=%1", (Object)placeholderItemEntry);
+        if (placeholderItemEntry == null) {
             return;
         }
-        abstractPlaceholderMenuController$PlaceholderItemEntry.clearSubItems();
+        placeholderItemEntry.clearSubItems();
     }
 
-    @Override
     protected boolean inViewport(float f2, float f3) {
-        return f2 >= 0.0f && f2 < 49216;
+        return f2 >= 0.0f && f2 < 6.0f;
     }
 
-    @Override
     protected boolean inSubViewport(float f2) {
-        return f2 >= 0.0f && f2 < 49216;
+        return f2 >= 0.0f && f2 < 6.0f;
     }
 
-    @Override
     protected int getViewportAnimationType() {
         return 84;
     }
 
-    @Override
     protected int getFocusCursorAnimationType() {
         return 85;
     }
@@ -157,36 +146,36 @@ IKzbMergeListener {
     }
 
     protected void updateSubPositions() {
-        lc.log(-2137614336, "SelectionMenuController#updateSubPositions");
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getFirstSubItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+        lc.log(10000000, "SelectionMenuController#updateSubPositions");
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getFirstSubItemEntry();
+        if (placeholderItemEntry == null) {
             this.subTotalHeight = 0.0f;
-            lc.log(-2137614336, "SelectionMenuController#updateSubPositions No sub items");
+            lc.log(10000000, "SelectionMenuController#updateSubPositions No sub items");
             return;
         }
-        Iterator iterator = this.getItemEntryIterator(abstractPlaceholderMenuController$PlaceholderItemEntry, true);
+        Iterator iterator = this.getItemEntryIterator(placeholderItemEntry, true);
         float f2 = 0.0f;
         while (iterator.hasNext()) {
-            AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = (AbstractPlaceholderMenuController$PlaceholderItemEntry)iterator.next();
-            if (abstractPlaceholderMenuController$PlaceholderItemEntry2.isVisible()) {
-                abstractPlaceholderMenuController$PlaceholderItemEntry2.setPosition(f2);
-                lc.log(-2137614336, "SelectionMenuController#updateSubPositions Position %1: %2", (Object)String.valueOf(f2), (Object)abstractPlaceholderMenuController$PlaceholderItemEntry2);
-                f2 += abstractPlaceholderMenuController$PlaceholderItemEntry2.getAnimatedHeight().getCurrent();
+            AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = (AbstractPlaceholderMenuController.PlaceholderItemEntry)iterator.next();
+            if (placeholderItemEntry2.isVisible()) {
+                placeholderItemEntry2.setPosition(f2);
+                lc.log(10000000, "SelectionMenuController#updateSubPositions Position %1: %2", (Object)String.valueOf(f2), (Object)placeholderItemEntry2);
+                f2 += placeholderItemEntry2.getAnimatedHeight().getCurrent();
                 continue;
             }
-            lc.log(-2137614336, "SelectionMenuController#updatePositions Not showing %1:", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry2);
+            lc.log(10000000, "SelectionMenuController#updatePositions Not showing %1:", (Object)placeholderItemEntry2);
         }
         this.subTotalHeight = f2;
     }
 
-    private AbstractPlaceholderMenuController$PlaceholderItemEntry getFirstSubItemEntry() {
+    private AbstractPlaceholderMenuController.PlaceholderItemEntry getFirstSubItemEntry() {
         if (this.mainItemEntryForVisibleSublist == null) {
             return null;
         }
         return this.mainItemEntryForVisibleSublist.getFirstSubItem();
     }
 
-    private AbstractPlaceholderMenuController$PlaceholderItemEntry getLastSubItemEntry() {
+    private AbstractPlaceholderMenuController.PlaceholderItemEntry getLastSubItemEntry() {
         if (this.mainItemEntryForVisibleSublist == null) {
             return null;
         }
@@ -194,79 +183,77 @@ IKzbMergeListener {
     }
 
     protected void assignSubSlots() {
-        lc.log(-2137614336, "SelectionMenuController#assignSubSlots");
+        lc.log(10000000, "SelectionMenuController#assignSubSlots");
         this.clearSubSlots();
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getFirstSubItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
-            lc.log(-2137614336, "SelectionMenuController#assignSubSlots no subitems");
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getFirstSubItemEntry();
+        if (placeholderItemEntry == null) {
+            lc.log(10000000, "SelectionMenuController#assignSubSlots no subitems");
         }
         float f2 = this.subViewportPosition.getCurrent();
-        lc.log(-2137614336, "SelectionMenuController#assignSubSlots currentSubViewportPortPosition=%1", (double)f2);
-        Iterator iterator = this.getItemEntryIterator(abstractPlaceholderMenuController$PlaceholderItemEntry, true);
+        lc.log(10000000, "SelectionMenuController#assignSubSlots currentSubViewportPortPosition=%1", (double)f2);
+        Iterator iterator = this.getItemEntryIterator(placeholderItemEntry, true);
         while (iterator.hasNext() && !this.subSlotPool.isEmpty()) {
-            AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = (AbstractPlaceholderMenuController$PlaceholderItemEntry)iterator.next();
-            float f3 = abstractPlaceholderMenuController$PlaceholderItemEntry2.getPosition() - f2;
+            AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = (AbstractPlaceholderMenuController.PlaceholderItemEntry)iterator.next();
+            float f3 = placeholderItemEntry2.getPosition() - f2;
             if (lc.isDebug()) {
-                lc.log(-2137614336, "SelectionMenuController#assignSubSlots position of %1 in viewport: %2", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry2, (Object)new Float(f3));
+                lc.log(10000000, "SelectionMenuController#assignSubSlots position of %1 in viewport: %2", (Object)placeholderItemEntry2, (Object)new Float(f3));
             }
-            if (f3 > 0.0f && f3 < 41024 && abstractPlaceholderMenuController$PlaceholderItemEntry2.isVisible()) {
-                AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = abstractPlaceholderMenuController$PlaceholderItemEntry2.getSlot();
-                if (abstractPlaceholderMenuController$Slot == null || abstractPlaceholderMenuController$Slot.enabled || !abstractPlaceholderMenuController$PlaceholderItemEntry2.equals(abstractPlaceholderMenuController$Slot.getItemEntry())) {
-                    AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot2 = this.getSubSlotFromPool();
-                    abstractPlaceholderMenuController$PlaceholderItemEntry2.setSlot(abstractPlaceholderMenuController$Slot2);
-                    abstractPlaceholderMenuController$Slot2.setItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry2);
+            if (f3 > 0.0f && f3 < 5.0f && placeholderItemEntry2.isVisible()) {
+                AbstractPlaceholderMenuController.Slot slot = placeholderItemEntry2.getSlot();
+                if (slot == null || slot.enabled || !placeholderItemEntry2.equals(slot.getItemEntry())) {
+                    AbstractPlaceholderMenuController.Slot slot2 = this.getSubSlotFromPool();
+                    placeholderItemEntry2.setSlot(slot2);
+                    slot2.setItemEntry(placeholderItemEntry2);
                 } else {
-                    this.subSlotPool.remove(abstractPlaceholderMenuController$Slot);
-                    this.subUsedSlots.add(abstractPlaceholderMenuController$Slot);
-                    abstractPlaceholderMenuController$Slot.enabled = true;
+                    this.subSlotPool.remove(slot);
+                    this.subUsedSlots.add(slot);
+                    slot.enabled = true;
                 }
-                lc.log(-2137614336, "SelectionMenuController#assignSubSlots in viewport");
+                lc.log(10000000, "SelectionMenuController#assignSubSlots in viewport");
                 continue;
             }
-            lc.log(-2137614336, "SelectionMenuController#assignSubSlots not in viewport");
+            lc.log(10000000, "SelectionMenuController#assignSubSlots not in viewport");
         }
     }
 
-    private AbstractPlaceholderMenuController$Slot getSubSlotFromPool() {
+    private AbstractPlaceholderMenuController.Slot getSubSlotFromPool() {
         if (this.subSlotPool.isEmpty()) {
             return null;
         }
-        AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = (AbstractPlaceholderMenuController$Slot)this.subSlotPool.removeFirst();
-        abstractPlaceholderMenuController$Slot.enabled = true;
-        this.subUsedSlots.addLast(abstractPlaceholderMenuController$Slot);
-        return abstractPlaceholderMenuController$Slot;
+        AbstractPlaceholderMenuController.Slot slot = (AbstractPlaceholderMenuController.Slot)this.subSlotPool.removeFirst();
+        slot.enabled = true;
+        this.subUsedSlots.addLast(slot);
+        return slot;
     }
 
     private void clearSubSlots() {
         while (!this.subUsedSlots.isEmpty()) {
-            AbstractPlaceholderMenuController$Slot abstractPlaceholderMenuController$Slot = (AbstractPlaceholderMenuController$Slot)this.subUsedSlots.removeFirst();
-            this.subSlotPool.addFirst(abstractPlaceholderMenuController$Slot);
-            abstractPlaceholderMenuController$Slot.enabled = false;
+            AbstractPlaceholderMenuController.Slot slot = (AbstractPlaceholderMenuController.Slot)this.subUsedSlots.removeFirst();
+            this.subSlotPool.addFirst(slot);
+            slot.enabled = false;
         }
     }
 
-    @Override
     public void showDrawerItem(boolean bl, boolean bl2) {
-        lc.log(-1601830656, "SelectionMenuController#showDrawerItem animate=%1", bl);
+        lc.log(100000, "SelectionMenuController#showDrawerItem animate=%1", bl);
     }
 
-    @Override
     public void hideDrawerItem(boolean bl, boolean bl2) {
-        lc.log(-1601830656, "SelectionMenuController#hideDrawerItem animate=%1", bl);
+        lc.log(100000, "SelectionMenuController#hideDrawerItem animate=%1", bl);
     }
 
     private void setDrawerPosition(float f2, float f3, float f4) {
         if (lc.isDebug()) {
-            lc.log(-2137614336, "SelectionMenuController#setDrawerPosition position=%1, stage=%2, screenChangePosition=%3", (Object)new Float(f2), (Object)new Float(f3), (Object)new Float(f4));
+            lc.log(10000000, "SelectionMenuController#setDrawerPosition position=%1, stage=%2, screenChangePosition=%3", (Object)new Float(f2), (Object)new Float(f3), (Object)new Float(f4));
         }
         if (f2 <= 0.0f) {
             if (!this.mergeCursorWhenOpening) {
-                lc.log(-2137614336, "SelectionMenuController#setDrawerPosition drawer closed, merging cursor when opening");
+                lc.log(10000000, "SelectionMenuController#setDrawerPosition drawer closed, merging cursor when opening");
                 this.mergeCursorWhenOpening = true;
                 this.openSubList(false);
             }
         } else if (this.mergeCursorWhenOpening) {
-            lc.log(-2137614336, "SelectionMenuController#setDrawerPosition opening drawer, merging cursor");
+            lc.log(10000000, "SelectionMenuController#setDrawerPosition opening drawer, merging cursor");
             this.joinCursor(false);
             this.mergeCursorWhenOpening = false;
         }
@@ -276,18 +263,17 @@ IKzbMergeListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     protected void joinCursor(boolean bl) {
-        lc.log(-2137614336, "SelectionMenuController#joinCursor");
+        lc.log(10000000, "SelectionMenuController#joinCursor");
         super.joinCursor(bl);
         this.joinSubCursor(bl);
     }
 
     protected void joinSubCursor(boolean bl) {
-        lc.log(-2137614336, "SelectionMenuController#joinSubCursor");
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.subSelectionCursor.getTargetItemEntry() == null ? (bl ? null : this.getFirstSubItemEntry()) : this.subSelectionCursor.getTargetItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry != null) {
-            this.subFocusCursor.setTargetItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, 0.0f, bl);
+        lc.log(10000000, "SelectionMenuController#joinSubCursor");
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.subSelectionCursor.getTargetItemEntry() == null ? (bl ? null : this.getFirstSubItemEntry()) : this.subSelectionCursor.getTargetItemEntry();
+        if (placeholderItemEntry != null) {
+            this.subFocusCursor.setTargetItemEntry(placeholderItemEntry, 0.0f, bl);
             this.adjustSubViewport(true);
         }
     }
@@ -296,61 +282,52 @@ IKzbMergeListener {
         return this.gap.getSubPosition();
     }
 
-    @Override
     protected float getMaxCursorPosition() {
-        return 41024;
+        return 5.0f;
     }
 
-    @Override
     protected float getMinCursorPosition() {
         return 1.0f;
     }
 
-    @Override
     protected float getMaxItemPosition() {
-        return 41024;
+        return 5.0f;
     }
 
-    @Override
     protected float getMinItemPosition() {
         return 1.0f;
     }
 
-    @Override
-    protected void setSelection(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry, boolean bl) {
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry != null && abstractPlaceholderMenuController$PlaceholderItemEntry.isSubItem()) {
-            this.subSelectionCursor.setTargetItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, 0.0f, false);
+    protected void setSelection(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry, boolean bl) {
+        if (placeholderItemEntry != null && placeholderItemEntry.isSubItem()) {
+            this.subSelectionCursor.setTargetItemEntry(placeholderItemEntry, 0.0f, false);
             return;
         }
-        this.selectionCursor.setTargetItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, 0.0f, false);
+        this.selectionCursor.setTargetItemEntry(placeholderItemEntry, 0.0f, false);
         this.mainItemEntriesChanged();
     }
 
-    @Override
     public void destroyWidget() {
         super.destroyWidget();
-        AbstractAnimation abstractAnimation = SelectionMenuController$Gap.access$600(this.gap);
+        AbstractAnimation abstractAnimation = this.gap.gapAanimation;
         if (abstractAnimation != null && abstractAnimation.isAnimating()) {
             abstractAnimation.stopAnimation();
         }
-        SelectionMenuController$Gap.access$602(this.gap, null);
+        this.gap.gapAanimation = null;
         this.inOutPosition.setUnanimatedValue(0.0f);
         this.renderer.inOutPositionChanged();
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
         if (lc.isDebug()) {
-            lc.log(-2137614336, "SelectionMenuController#setScreenChangeTarget this=%1, target=%2", (Object)this, (Object)ScreenChangeAnimationItem$Helper.getText(n));
+            lc.log(10000000, "SelectionMenuController#setScreenChangeTarget this=%1, target=%2", (Object)this, (Object)ScreenChangeAnimationItem.Helper.getText(n));
         }
         this.listenForScreenChange(n != 24);
     }
 
-    @Override
     public void screenChangeFinished() {
         this.inOutPosition.setProgress(1.0f);
         this.stagePosition = 1.0f;
@@ -359,82 +336,77 @@ IKzbMergeListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public boolean hasIdleTimer() {
         return true;
     }
 
-    @Override
     public void setAnimationType(int n) {
     }
 
-    @Override
     public void setMMICombiSyncMode(int n) {
         this.mmiCombiSyncMode = n;
     }
 
-    @Override
     public int getMMICombiSyncMode() {
         return this.mmiCombiSyncMode;
     }
 
-    @Override
     public void subListModelChanged(PlaceholderMenuMultiItem placeholderMenuMultiItem, PlaceholderMenuMultiItem placeholderMenuMultiItem2, ModelUpdateEvent modelUpdateEvent) {
-        lc.log(-2137614336, "SelectionMenuController#subListModelChanged mainItem=%1, subItem=%2, event=%3", (Object)placeholderMenuMultiItem, (Object)placeholderMenuMultiItem2, (Object)modelUpdateEvent);
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getItemEntry(placeholderMenuMultiItem);
-        lc.log(-2137614336, "SelectionMenuController#subListModelChanged itemEntry of mainItem: %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
+        lc.log(10000000, "SelectionMenuController#subListModelChanged mainItem=%1, subItem=%2, event=%3", (Object)placeholderMenuMultiItem, (Object)placeholderMenuMultiItem2, (Object)modelUpdateEvent);
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getItemEntry(placeholderMenuMultiItem);
+        lc.log(10000000, "SelectionMenuController#subListModelChanged itemEntry of mainItem: %1", (Object)placeholderItemEntry);
         int n = modelUpdateEvent.getUpdateType();
         if (n == 16) {
             int n2 = modelUpdateEvent.getClientData1();
-            lc.log(-2137614336, "SelectionMenuController#subListModelChanged transaction finished, statusflags=%1", (long)n2);
+            lc.log(10000000, "SelectionMenuController#subListModelChanged transaction finished, statusflags=%1", (long)n2);
             if ((n2 & 7) != 0) {
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = this.getMainItemEntry(this.selectionCursor.getTargetItemEntry());
-                lc.log(-2137614336, "SelectionMenuController#subListModelChanged data changed, old main selection: %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry2);
-                this.updateSubEntries(abstractPlaceholderMenuController$PlaceholderItemEntry);
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry3 = this.selectionCursor.getTargetItemEntry();
-                lc.log(-2137614336, "SelectionMenuController#subListModelChanged selectedItemEntry=%1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry3);
-                if (abstractPlaceholderMenuController$PlaceholderItemEntry3 != null) {
-                    lc.log(-2137614336, "SelectionMenuController#subListModelChanged selectedItemEntry: isSubItem=%1, subItemCount=%2,", abstractPlaceholderMenuController$PlaceholderItemEntry3.isSubItem(), (long)abstractPlaceholderMenuController$PlaceholderItemEntry3.getSubItemCount());
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = this.getMainItemEntry(this.selectionCursor.getTargetItemEntry());
+                lc.log(10000000, "SelectionMenuController#subListModelChanged data changed, old main selection: %1", (Object)placeholderItemEntry2);
+                this.updateSubEntries(placeholderItemEntry);
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry3 = this.selectionCursor.getTargetItemEntry();
+                lc.log(10000000, "SelectionMenuController#subListModelChanged selectedItemEntry=%1", (Object)placeholderItemEntry3);
+                if (placeholderItemEntry3 != null) {
+                    lc.log(10000000, "SelectionMenuController#subListModelChanged selectedItemEntry: isSubItem=%1, subItemCount=%2,", placeholderItemEntry3.isSubItem(), (long)placeholderItemEntry3.getSubItemCount());
                 }
-                if (abstractPlaceholderMenuController$PlaceholderItemEntry3 != null && !abstractPlaceholderMenuController$PlaceholderItemEntry3.isSubItem() && abstractPlaceholderMenuController$PlaceholderItemEntry3.getSubItemCount() == 0) {
-                    lc.log(-2137614336, "SelectionMenuController#subListModelChanged closing drawer");
+                if (placeholderItemEntry3 != null && !placeholderItemEntry3.isSubItem() && placeholderItemEntry3.getSubItemCount() == 0) {
+                    lc.log(10000000, "SelectionMenuController#subListModelChanged closing drawer");
                     this.closeSelectionDrawer();
                 } else {
-                    lc.log(-2137614336, "SelectionMenuController#subListModelChanged not closing drawer");
+                    lc.log(10000000, "SelectionMenuController#subListModelChanged not closing drawer");
                 }
             }
         } else if (n == 7 || n == 8 || n == 9 || n == 5 || n == 6 || n == 20 || n == 21) {
-            AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry4 = this.getMainItemEntry(this.selectionCursor.getTargetItemEntry());
-            lc.log(-2137614336, "SelectionMenuController#subListModelChanged data changed, old main selection: %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry4);
-            this.updateSubEntries(abstractPlaceholderMenuController$PlaceholderItemEntry);
+            AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry4 = this.getMainItemEntry(this.selectionCursor.getTargetItemEntry());
+            lc.log(10000000, "SelectionMenuController#subListModelChanged data changed, old main selection: %1", (Object)placeholderItemEntry4);
+            this.updateSubEntries(placeholderItemEntry);
             this.updateGap(this.selectionCursor.getTargetItemEntry());
         } else if (n == 22) {
-            lc.log(-2137614336, "SelectionMenuController#subListModelChanged selection changed");
+            lc.log(10000000, "SelectionMenuController#subListModelChanged selection changed");
             this.updateSubSelection();
         } else if (n == 19) {
             ModelUpdateData modelUpdateData = modelUpdateEvent.getClientData3();
             if (ModelTrigger.CLOSE_SELECTION_DRAWER.equals(modelUpdateData)) {
-                lc.log(-2137614336, "SelectionMenuController#subListModelChanged trigger close selection drawer");
+                lc.log(10000000, "SelectionMenuController#subListModelChanged trigger close selection drawer");
                 this.closeSelectionDrawer();
             } else {
-                lc.log(-1601830656, "SelectionMenuController#subListModelChanged unknown trigger %1", (Object)modelUpdateData);
+                lc.log(100000, "SelectionMenuController#subListModelChanged unknown trigger %1", (Object)modelUpdateData);
             }
         } else {
-            lc.log(-1601830656, "SelectionMenuController#subListModelChanged unsupported update type %1", (long)n);
-            this.updateSubEntries(abstractPlaceholderMenuController$PlaceholderItemEntry);
+            lc.log(100000, "SelectionMenuController#subListModelChanged unsupported update type %1", (long)n);
+            this.updateSubEntries(placeholderItemEntry);
             return;
         }
     }
 
-    private AbstractPlaceholderMenuController$PlaceholderItemEntry getMainItemEntry(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    private AbstractPlaceholderMenuController.PlaceholderItemEntry getMainItemEntry(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        if (placeholderItemEntry == null) {
             return null;
         }
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry.isSubItem()) {
-            AbstractPlaceholderMenuController$PlaceholderSubItemEntry abstractPlaceholderMenuController$PlaceholderSubItemEntry = (AbstractPlaceholderMenuController$PlaceholderSubItemEntry)abstractPlaceholderMenuController$PlaceholderItemEntry;
-            return abstractPlaceholderMenuController$PlaceholderSubItemEntry.mainItemEntry;
+        if (placeholderItemEntry.isSubItem()) {
+            AbstractPlaceholderMenuController.PlaceholderSubItemEntry placeholderSubItemEntry = (AbstractPlaceholderMenuController.PlaceholderSubItemEntry)placeholderItemEntry;
+            return placeholderSubItemEntry.mainItemEntry;
         }
-        return abstractPlaceholderMenuController$PlaceholderItemEntry;
+        return placeholderItemEntry;
     }
 
     public boolean haveEntriesChanged() {
@@ -445,29 +417,26 @@ IKzbMergeListener {
         this.entriesChanged = false;
     }
 
-    @Override
     public float getInOutPosition() {
         float f2 = super.getInOutPosition();
         float f3 = this.getMMICombiSyncMode() == 2 ? 0.0f : f2;
         float f4 = f3 * (1.0f - this.screenChangePosition);
-        lc.log(1078071040, "SelectionMenuController#getInOutPosition ioPos=%1, controllerpos=%2, screenChangePosition=%3", (double)f3, (double)f2, (double)this.screenChangePosition);
+        lc.log(1000000, "SelectionMenuController#getInOutPosition ioPos=%1, controllerpos=%2, screenChangePosition=%3", (double)f3, (double)f2, (double)this.screenChangePosition);
         return f4;
     }
 
-    @Override
     protected void updateEntries() {
         super.updateEntries();
         this.entriesChanged = true;
     }
 
-    @Override
-    protected void updateSubEntries(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        lc.log(-2137614336, "SelectionMenuController#updateSubEntries of %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
+    protected void updateSubEntries(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        lc.log(10000000, "SelectionMenuController#updateSubEntries of %1", (Object)placeholderItemEntry);
         float f2 = this.subFocusCursor.getCurrentPosition();
-        lc.log(-2137614336, "SelectionMenuController#updateSubEntries current focus position %1", (double)f2);
+        lc.log(10000000, "SelectionMenuController#updateSubEntries current focus position %1", (double)f2);
         this.subSelectionCursor.setTargetItemEntry(null);
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry != null) {
-            abstractPlaceholderMenuController$PlaceholderItemEntry.initialize();
+        if (placeholderItemEntry != null) {
+            placeholderItemEntry.initialize();
         }
         this.updateSubSelection();
         if (this.subFocusCursor.getTargetItemEntry() == null || !this.subFocusCursor.getTargetItemEntry().isVisible() || !this.subFocusCursor.getTargetItemEntry().isConnected()) {
@@ -491,91 +460,88 @@ IKzbMergeListener {
         this.setCompositesDirty(true);
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry updateSelection() {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = super.updateSelection();
-        lc.log(-2137614336, "SelectionMenuController#updateSelection selection=%1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry updateSelection() {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = super.updateSelection();
+        lc.log(10000000, "SelectionMenuController#updateSelection selection=%1", (Object)placeholderItemEntry);
         if (this.menuEnterWasPressed) {
             this.menuEnterWasPressed = false;
             this.joinCursor(false);
-            this.updateGap(abstractPlaceholderMenuController$PlaceholderItemEntry);
+            this.updateGap(placeholderItemEntry);
         }
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry != null && this.isSubListOpened() && (!abstractPlaceholderMenuController$PlaceholderItemEntry.isEnabled() || abstractPlaceholderMenuController$PlaceholderItemEntry.getSubItemCount() == 0)) {
+        if (placeholderItemEntry != null && this.isSubListOpened() && (!placeholderItemEntry.isEnabled() || placeholderItemEntry.getSubItemCount() == 0)) {
             this.closeSubList(true);
         }
-        return abstractPlaceholderMenuController$PlaceholderItemEntry;
+        return placeholderItemEntry;
     }
 
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry updateSubSelection() {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.subSelectionCursor.getTargetItemEntry();
-        lc.log(-2137614336, "SelectionMenuController#updateSubSelection old selection %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = null;
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry3 = this.getFirstSubItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry3 == null) {
-            lc.log(-2137614336, "SelectionMenuController#updateSubSelection no sublist available");
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry updateSubSelection() {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.subSelectionCursor.getTargetItemEntry();
+        lc.log(10000000, "SelectionMenuController#updateSubSelection old selection %1", (Object)placeholderItemEntry);
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = null;
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry3 = this.getFirstSubItemEntry();
+        if (placeholderItemEntry3 == null) {
+            lc.log(10000000, "SelectionMenuController#updateSubSelection no sublist available");
         } else {
-            Iterator iterator = this.getItemEntryIterator(abstractPlaceholderMenuController$PlaceholderItemEntry3, true);
+            Iterator iterator = this.getItemEntryIterator(placeholderItemEntry3, true);
             while (iterator.hasNext()) {
-                AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry4 = (AbstractPlaceholderMenuController$PlaceholderItemEntry)iterator.next();
-                if (!abstractPlaceholderMenuController$PlaceholderItemEntry4.isVisible() || !abstractPlaceholderMenuController$PlaceholderItemEntry4.isSelected()) continue;
-                abstractPlaceholderMenuController$PlaceholderItemEntry2 = abstractPlaceholderMenuController$PlaceholderItemEntry4;
+                AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry4 = (AbstractPlaceholderMenuController.PlaceholderItemEntry)iterator.next();
+                if (!placeholderItemEntry4.isVisible() || !placeholderItemEntry4.isSelected()) continue;
+                placeholderItemEntry2 = placeholderItemEntry4;
             }
         }
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry2 != null && !Util.equals(abstractPlaceholderMenuController$PlaceholderItemEntry, abstractPlaceholderMenuController$PlaceholderItemEntry2)) {
-            this.subSelectionCursor.setTargetItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry2, 0.0f, false);
+        if (placeholderItemEntry2 != null && !Util.equals(placeholderItemEntry, placeholderItemEntry2)) {
+            this.subSelectionCursor.setTargetItemEntry(placeholderItemEntry2, 0.0f, false);
             this.setCompositesDirty(true);
         }
-        lc.log(-2137614336, "SelectionMenuController#updateSubSelection new selection %1", (Object)this.subSelectionCursor.getTargetItemEntry());
+        lc.log(10000000, "SelectionMenuController#updateSubSelection new selection %1", (Object)this.subSelectionCursor.getTargetItemEntry());
         return this.subSelectionCursor.getTargetItemEntry();
     }
 
-    private void updateGap(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
+    private void updateGap(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
         boolean bl;
-        lc.log(-2137614336, "SelectionMenuController#updateGap selection=%1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = this.getMainItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry);
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry2 == null) {
+        lc.log(10000000, "SelectionMenuController#updateGap selection=%1", (Object)placeholderItemEntry);
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = this.getMainItemEntry(placeholderItemEntry);
+        if (placeholderItemEntry2 == null) {
             bl = false;
         } else {
-            int n = this.getConnectedSubItems(abstractPlaceholderMenuController$PlaceholderItemEntry2);
-            lc.log(-2137614336, "SelectionMenuController#updateGap connected subitems: ", (long)n);
+            int n = this.getConnectedSubItems(placeholderItemEntry2);
+            lc.log(10000000, "SelectionMenuController#updateGap connected subitems: ", (long)n);
             bl = n > 0;
         }
-        this.gap.setMainItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry2, true, bl, true);
+        this.gap.setMainItemEntry(placeholderItemEntry2, true, bl, true);
     }
 
-    @Override
     protected boolean openSubList(boolean bl) {
-        lc.log(-2137614336, "SelectionMenuController#openSubList");
+        lc.log(10000000, "SelectionMenuController#openSubList");
         if (this.isSubListOpened()) {
-            lc.log(-2137614336, "SelectionMenuController#openSubList sublist already opened");
+            lc.log(10000000, "SelectionMenuController#openSubList sublist already opened");
             return false;
         }
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.selectionCursor.getTargetItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
-            lc.log(-2137614336, "SelectionMenuController#openSubList no main item selected");
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.selectionCursor.getTargetItemEntry();
+        if (placeholderItemEntry == null) {
+            lc.log(10000000, "SelectionMenuController#openSubList no main item selected");
             return false;
         }
-        if (this.getConnectedSubItems(abstractPlaceholderMenuController$PlaceholderItemEntry) > 0) {
+        if (this.getConnectedSubItems(placeholderItemEntry) > 0) {
             this.joinCursor(true);
-            lc.log(-2137614336, "SelectionMenuController#openSubList opening sublist for %1", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
-            this.gap.setMainItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, true, true, bl);
+            lc.log(10000000, "SelectionMenuController#openSubList opening sublist for %1", (Object)placeholderItemEntry);
+            this.gap.setMainItemEntry(placeholderItemEntry, true, true, bl);
             this.requestLargeViewSizeIfNeeded();
             return true;
         }
-        lc.log(-2137614336, "SelectionMenuController#openSubList main item %1 has no sublist", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry);
+        lc.log(10000000, "SelectionMenuController#openSubList main item %1 has no sublist", (Object)placeholderItemEntry);
         return false;
     }
 
-    @Override
     public boolean closeSubList(boolean bl) {
-        lc.log(-2137614336, "SelectionMenuController#closeSubList");
+        lc.log(10000000, "SelectionMenuController#closeSubList");
         if (this.isSubListOpened()) {
             this.idleTimer.cancelTimer();
             this.gap.setMainItemEntry(null, bl, false, false);
             this.sublistClosing = true;
             return true;
         }
-        lc.log(-2137614336, "SelectionMenuController#openSubList sublist already closed");
+        lc.log(10000000, "SelectionMenuController#openSubList sublist already closed");
         return false;
     }
 
@@ -587,90 +553,84 @@ IKzbMergeListener {
         return this.sublistClosing;
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$Cursor getCurrentFocusCursor() {
+    protected AbstractPlaceholderMenuController.Cursor getCurrentFocusCursor() {
         boolean bl = this.isSubListOpened();
-        lc.log(-2137614336, "SelectionMenuController#getCurrentFocusCursor sublist focused: %1", bl);
+        lc.log(10000000, "SelectionMenuController#getCurrentFocusCursor sublist focused: %1", bl);
         if (bl) {
-            lc.log(-2137614336, "SelectionMenuController#getCurrentFocusCursor returning subFocusCursor", (Object)this.subFocusCursor);
+            lc.log(10000000, "SelectionMenuController#getCurrentFocusCursor returning subFocusCursor", (Object)this.subFocusCursor);
             return this.subFocusCursor;
         }
         return super.getCurrentFocusCursor();
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$Cursor getCurrentSelectionCursor() {
+    protected AbstractPlaceholderMenuController.Cursor getCurrentSelectionCursor() {
         if (this.isSubListOpened()) {
             return this.subSelectionCursor;
         }
         return super.getCurrentSelectionCursor();
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry findCurrentFirstVisibleItemEntry() {
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry findCurrentFirstVisibleItemEntry() {
         if (this.isSubListOpened()) {
             return this.findFirstVisibleSubItemEntry();
         }
         return super.findCurrentFirstVisibleItemEntry();
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry findCurrentLastVisibleItemEntry() {
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry findCurrentLastVisibleItemEntry() {
         if (this.isSubListOpened()) {
             return this.findLastVisibleSubItemEntry();
         }
         return super.findCurrentLastVisibleItemEntry();
     }
 
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry findFirstVisibleSubItemEntry() {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getFirstSubItemEntry();
-        return this.findVisibleSubItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, true);
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry findFirstVisibleSubItemEntry() {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getFirstSubItemEntry();
+        return this.findVisibleSubItemEntry(placeholderItemEntry, true);
     }
 
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry findLastVisibleSubItemEntry() {
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getLastSubItemEntry();
-        return this.findVisibleSubItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, false);
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry findLastVisibleSubItemEntry() {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getLastSubItemEntry();
+        return this.findVisibleSubItemEntry(placeholderItemEntry, false);
     }
 
-    protected AbstractPlaceholderMenuController$PlaceholderItemEntry findVisibleSubItemEntry(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry, boolean bl) {
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    protected AbstractPlaceholderMenuController.PlaceholderItemEntry findVisibleSubItemEntry(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry, boolean bl) {
+        if (placeholderItemEntry == null) {
             return null;
         }
-        Iterator iterator = this.getItemEntryIterator(abstractPlaceholderMenuController$PlaceholderItemEntry, bl);
+        Iterator iterator = this.getItemEntryIterator(placeholderItemEntry, bl);
         while (iterator.hasNext()) {
-            AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = (AbstractPlaceholderMenuController$PlaceholderItemEntry)iterator.next();
-            if (!abstractPlaceholderMenuController$PlaceholderItemEntry2.isVisible()) continue;
-            return abstractPlaceholderMenuController$PlaceholderItemEntry2;
+            AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = (AbstractPlaceholderMenuController.PlaceholderItemEntry)iterator.next();
+            if (!placeholderItemEntry2.isVisible()) continue;
+            return placeholderItemEntry2;
         }
         return null;
     }
 
-    @Override
-    protected void setFocus(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry, float f2, boolean bl) {
-        lc.log(-2137614336, "SelectionMenuController#setFocus Focusing %1, animate=%2", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry, (Object)String.valueOf(bl));
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+    protected void setFocus(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry, float f2, boolean bl) {
+        lc.log(10000000, "SelectionMenuController#setFocus Focusing %1, animate=%2", (Object)placeholderItemEntry, (Object)String.valueOf(bl));
+        if (placeholderItemEntry == null) {
             if (!this.isSubListOpened()) {
-                lc.log(-2137614336, "SelectionMenuController#setFocus sublist not focused");
-                super.setFocus(abstractPlaceholderMenuController$PlaceholderItemEntry, f2, bl);
+                lc.log(10000000, "SelectionMenuController#setFocus sublist not focused");
+                super.setFocus(placeholderItemEntry, f2, bl);
                 return;
             }
-        } else if (!abstractPlaceholderMenuController$PlaceholderItemEntry.isSubItem()) {
-            lc.log(-2137614336, "SelectionMenuController#setFocus not a sublist item");
-            super.setFocus(abstractPlaceholderMenuController$PlaceholderItemEntry, f2, bl);
+        } else if (!placeholderItemEntry.isSubItem()) {
+            lc.log(10000000, "SelectionMenuController#setFocus not a sublist item");
+            super.setFocus(placeholderItemEntry, f2, bl);
             return;
         }
         AbstractAnimation abstractAnimation = this.getSubViewportScrollAnimation();
         if (!bl && abstractAnimation.isAnimating()) {
             abstractAnimation.stopAnimation();
         }
-        this.subFocusCursor.setTargetItemEntry(abstractPlaceholderMenuController$PlaceholderItemEntry, f2, bl);
-        if (null != abstractPlaceholderMenuController$PlaceholderItemEntry) {
-            lc.log(-2137614336, "SelectionMenuController#setFocus current target viewportPosition=%1, targetPosition=%2, focusedItemPosition=%3", (double)this.subViewportPosition.getTarget(), (double)(abstractPlaceholderMenuController$PlaceholderItemEntry.getPosition() - this.subViewportPosition.getTarget()), (double)abstractPlaceholderMenuController$PlaceholderItemEntry.getPosition());
+        this.subFocusCursor.setTargetItemEntry(placeholderItemEntry, f2, bl);
+        if (null != placeholderItemEntry) {
+            lc.log(10000000, "SelectionMenuController#setFocus current target viewportPosition=%1, targetPosition=%2, focusedItemPosition=%3", (double)this.subViewportPosition.getTarget(), (double)(placeholderItemEntry.getPosition() - this.subViewportPosition.getTarget()), (double)placeholderItemEntry.getPosition());
         }
         this.adjustSubViewport(bl);
     }
 
-    @Override
     protected void resetHddsOffset() {
         super.resetHddsOffset();
         this.subFocusCursor.hddsSubticksChanged(0.0f);
@@ -678,28 +638,28 @@ IKzbMergeListener {
 
     protected void adjustSubViewport(boolean bl) {
         float f2;
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.subFocusCursor.getTargetItemEntry();
-        lc.log(-2137614336, "SelectionMenuController#adjustSubViewport Focusing %1, animate=%2", (Object)abstractPlaceholderMenuController$PlaceholderItemEntry, (Object)String.valueOf(bl));
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.subFocusCursor.getTargetItemEntry();
+        lc.log(10000000, "SelectionMenuController#adjustSubViewport Focusing %1, animate=%2", (Object)placeholderItemEntry, (Object)String.valueOf(bl));
         AbstractAnimation abstractAnimation = this.getSubViewportScrollAnimation();
         if (!bl && abstractAnimation.isAnimating()) {
             abstractAnimation.stopAnimation();
             this.subViewportPosition.setProgress(1.0f);
         }
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+        if (placeholderItemEntry == null) {
             return;
         }
-        float f3 = abstractPlaceholderMenuController$PlaceholderItemEntry.getPosition() - this.subViewportPosition.getTarget();
-        lc.log(-2137614336, "SelectionMenuController#adjustSubViewport current target viewportPosition=%1, targetPosition=%2", (Object)String.valueOf(this.subViewportPosition.getTarget()), (Object)String.valueOf(f3));
+        float f3 = placeholderItemEntry.getPosition() - this.subViewportPosition.getTarget();
+        lc.log(10000000, "SelectionMenuController#adjustSubViewport current target viewportPosition=%1, targetPosition=%2", (Object)String.valueOf(this.subViewportPosition.getTarget()), (Object)String.valueOf(f3));
         if (f3 < 1.0f) {
-            f2 = abstractPlaceholderMenuController$PlaceholderItemEntry.getPosition() - 1.0f;
-            lc.log(-2137614336, "SelectionMenuController#adjustSubViewport targetPosition too small, scrolledTargetPosition=%1", (Object)String.valueOf(f2));
+            f2 = placeholderItemEntry.getPosition() - 1.0f;
+            lc.log(10000000, "SelectionMenuController#adjustSubViewport targetPosition too small, scrolledTargetPosition=%1", (Object)String.valueOf(f2));
         } else {
-            if (f3 <= 32832) {
-                lc.log(-2137614336, "SelectionMenuController#adjustSubViewport targetPosition ok viewport target needs no change");
+            if (f3 <= 4.0f) {
+                lc.log(10000000, "SelectionMenuController#adjustSubViewport targetPosition ok viewport target needs no change");
                 return;
             }
-            f2 = abstractPlaceholderMenuController$PlaceholderItemEntry.getPosition() - 32832;
-            lc.log(-2137614336, "SelectionMenuController#adjustSubViewport targetPosition too big, scrolledTargetPosition=%1", (Object)String.valueOf(f2));
+            f2 = placeholderItemEntry.getPosition() - 4.0f;
+            lc.log(10000000, "SelectionMenuController#adjustSubViewport targetPosition too big, scrolledTargetPosition=%1", (Object)String.valueOf(f2));
         }
         if (!bl) {
             this.subViewportPosition.setUnanimatedValue(f2);
@@ -708,9 +668,9 @@ IKzbMergeListener {
         }
         this.subViewportPosition.updateTarget(f2);
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, this.getViewportAnimationType(), false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, this.getViewportAnimationType(), false, this);
         }
     }
 
@@ -719,31 +679,48 @@ IKzbMergeListener {
             return this.subViewportScrollAnimation;
         }
         this.subViewportScrollAnimation = (AbstractAnimation)this.getAnimationController().getIAnimation(this.getViewportAnimationType());
-        this.subViewportScrollAnimation.addListener(new SelectionMenuController$1(this));
+        this.subViewportScrollAnimation.addListener(new AnimationListener(){
+
+            public void animate(int n, float f2, int n2) {
+                float f3 = SelectionMenuController.this.subViewportScrollAnimation.getProgress();
+                SelectionMenuController.this.subViewportPosition.setProgress(f3);
+                SelectionMenuController.this.assignSubSlots();
+                SelectionMenuController.this.updateSubScrollbar();
+                SelectionMenuController.this.setCompositesDirty(true);
+            }
+
+            public void animationStarted(int n, int n2) {
+            }
+
+            public void animationFinished(int n, int n2) {
+                SelectionMenuController.this.subViewportPosition.setProgress(1.0f);
+                SelectionMenuController.this.assignSubSlots();
+                SelectionMenuController.this.updateSubScrollbar();
+                SelectionMenuController.this.setCompositesDirty(true);
+            }
+        });
         return this.subViewportScrollAnimation;
     }
 
     protected void updateSubScrollbar() {
-        lc.log(-2137614336, "SelectionMenuController#updateSubScrollbar totalHeight=%1", (double)this.subTotalHeight);
+        lc.log(10000000, "SelectionMenuController#updateSubScrollbar totalHeight=%1", (double)this.subTotalHeight);
         if (this.subTotalHeight <= 0.0f) {
             this.subScrollbarPosition = 0.0f;
             this.subScrollbarLength = 0.0f;
             return;
         }
         this.subScrollbarPosition = (this.subViewportPosition.getCurrent() + 1.0f) / this.subTotalHeight;
-        this.subScrollbarLength = 32832 / this.subTotalHeight;
+        this.subScrollbarLength = 4.0f / this.subTotalHeight;
         if (lc.isDebug()) {
-            lc.log(-2137614336, "SelectionMenuController#updateSubScrollbar viewportPosition=%1, scrollbarPosition=%2, scrollbarLength=%3", (Object)new Float(this.subViewportPosition.getCurrent()), (Object)new Float(this.subScrollbarPosition), (Object)new Float(this.subScrollbarLength));
+            lc.log(10000000, "SelectionMenuController#updateSubScrollbar viewportPosition=%1, scrollbarPosition=%2, scrollbarLength=%3", (Object)new Float(this.subViewportPosition.getCurrent()), (Object)new Float(this.subScrollbarPosition), (Object)new Float(this.subScrollbarLength));
         }
     }
 
-    @Override
-    public AbstractPlaceholderMenuController$Cursor getSubSelectionCursor() {
+    public AbstractPlaceholderMenuController.Cursor getSubSelectionCursor() {
         return this.subSelectionCursor;
     }
 
-    @Override
-    public AbstractPlaceholderMenuController$Cursor getSubFocusCursor() {
+    public AbstractPlaceholderMenuController.Cursor getSubFocusCursor() {
         return this.subFocusCursor;
     }
 
@@ -755,23 +732,19 @@ IKzbMergeListener {
         return this.stagePosition;
     }
 
-    @Override
     protected float getCurrentSubViewportPosition() {
         return this.subViewportPosition.getCurrent();
     }
 
-    @Override
     protected float getMinSubCursorPosition() {
         return 1.0f;
     }
 
-    @Override
     protected float getMaxSubCursorPosition() {
-        return 32832;
+        return 4.0f;
     }
 
-    @Override
-    protected AbstractPlaceholderMenuController$AnimatedFloatProperty getSubViewportPosition() {
+    protected AbstractPlaceholderMenuController.AnimatedFloatProperty getSubViewportPosition() {
         return this.subViewportPosition;
     }
 
@@ -783,12 +756,10 @@ IKzbMergeListener {
         return this.subScrollbarLength;
     }
 
-    @Override
     public RectangleParameters getRectangleParameters() {
         return null;
     }
 
-    @Override
     public void initializeScreenChangeAnimation() {
     }
 
@@ -796,47 +767,42 @@ IKzbMergeListener {
         this.selectionDrawerPreviewIconController = selectionDrawerPreviewIconController;
     }
 
-    @Override
     protected void mainItemEntriesChanged() {
         if (this.selectionDrawerPreviewIconController == null) {
             return;
         }
-        AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry = this.getFirstItemEntry();
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry == null) {
+        AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry = this.getFirstItemEntry();
+        if (placeholderItemEntry == null) {
             this.selectionDrawerPreviewIconController.setPreviewIcons(null, Collections.EMPTY_LIST);
             return;
         }
         ArrayList arrayList = new ArrayList();
-        Iterator iterator = this.getItemEntryIterator(abstractPlaceholderMenuController$PlaceholderItemEntry, true);
+        Iterator iterator = this.getItemEntryIterator(placeholderItemEntry, true);
         while (iterator.hasNext()) {
-            AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry2 = (AbstractPlaceholderMenuController$PlaceholderItemEntry)iterator.next();
-            if (!abstractPlaceholderMenuController$PlaceholderItemEntry2.isVisible() || !abstractPlaceholderMenuController$PlaceholderItemEntry2.isEnabled()) continue;
-            arrayList.add(abstractPlaceholderMenuController$PlaceholderItemEntry2);
+            AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry2 = (AbstractPlaceholderMenuController.PlaceholderItemEntry)iterator.next();
+            if (!placeholderItemEntry2.isVisible() || !placeholderItemEntry2.isEnabled()) continue;
+            arrayList.add(placeholderItemEntry2);
         }
         this.selectionDrawerPreviewIconController.setPreviewIcons(this.selectionCursor.getTargetItemEntry(), arrayList);
     }
 
-    @Override
-    protected void textUpdated(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        super.textUpdated(abstractPlaceholderMenuController$PlaceholderItemEntry);
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry.equals(this.subSelectionCursor.getTargetItemEntry())) {
+    protected void textUpdated(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        super.textUpdated(placeholderItemEntry);
+        if (placeholderItemEntry.equals(this.subSelectionCursor.getTargetItemEntry())) {
             this.subSelectionCursor.invalidateTargetWidth();
         }
-        if (abstractPlaceholderMenuController$PlaceholderItemEntry.equals(this.subFocusCursor.getTargetItemEntry())) {
+        if (placeholderItemEntry.equals(this.subFocusCursor.getTargetItemEntry())) {
             this.subFocusCursor.invalidateTargetWidth();
         }
-        abstractPlaceholderMenuController$PlaceholderItemEntry.cachedText = !abstractPlaceholderMenuController$PlaceholderItemEntry.isSubItem() ? this.renderer.getStringUtility().abbreviateTextEllipsis(abstractPlaceholderMenuController$PlaceholderItemEntry.cachedText, this.getMaxMainListTextWidth(), false) : this.renderer.getStringUtility().abbreviateTextEllipsis(abstractPlaceholderMenuController$PlaceholderItemEntry.cachedText, this.getMaxSubListTextWidth(), false);
+        placeholderItemEntry.cachedText = !placeholderItemEntry.isSubItem() ? this.renderer.getStringUtility().abbreviateTextEllipsis(placeholderItemEntry.cachedText, this.getMaxMainListTextWidth(), false) : this.renderer.getStringUtility().abbreviateTextEllipsis(placeholderItemEntry.cachedText, this.getMaxSubListTextWidth(), false);
     }
 
-    @Override
     public void setDrawerAnimationMask(int n) {
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
         this.setDrawerAnimation(fArray, fArray2, n);
     }
@@ -849,30 +815,26 @@ IKzbMergeListener {
         }
     }
 
-    @Override
     public boolean canOpen() {
         return this.findFirstVisibleItemEntry() != null;
     }
 
-    @Override
     public boolean canClose() {
         return true;
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return this.drawerAnimationMask;
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
         float f2;
-        if (DrawerAnimationManager$Helper.hasFlag(n, 12)) {
+        if (DrawerAnimationManager.Helper.hasFlag(n, 12)) {
             f2 = fArray[12];
-            lc.log(-2137614336, "SelectionMenuController#setDrawerAnimation using screen change progress, screenChangePosition=%1", (double)f2);
+            lc.log(10000000, "SelectionMenuController#setDrawerAnimation using screen change progress, screenChangePosition=%1", (double)f2);
         } else {
             f2 = this.screenChangePosition;
-            lc.log(-2137614336, "SelectionMenuController#setDrawerAnimation using old screenChangePosition: %1", (double)f2);
+            lc.log(10000000, "SelectionMenuController#setDrawerAnimation using old screenChangePosition: %1", (double)f2);
         }
         float f3 = fArray[0];
         float f4 = 1.0f - fArray[7];
@@ -880,9 +842,9 @@ IKzbMergeListener {
         if (!this.isConnected()) {
             this.renderer.inOutPositionChanged();
         }
-        if (DrawerAnimationManager$Helper.hasFlag(n, 13)) {
+        if (DrawerAnimationManager.Helper.hasFlag(n, 13)) {
             this.desaturation = fArray[13];
-            this.darkening = this.desaturation * -1701209794;
+            this.darkening = this.desaturation * 0.3f;
         }
         this.setCompositesDirty(true);
         this.focusCursor.setCursorWidthInitialized(false);
@@ -895,16 +857,13 @@ IKzbMergeListener {
         }
     }
 
-    @Override
     public void setTransitionForward(boolean bl) {
     }
 
-    @Override
     public boolean isTransitionForward() {
         return false;
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
         float f2;
         float f3;
@@ -929,7 +888,6 @@ IKzbMergeListener {
         return n == 11;
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         super.keyReleased(keyEvent);
         if (this.isSelectionDrawerKey(keyEvent.getKeyCode()) && this.isSubListOpened() && !this.isSubListClosing()) {
@@ -937,7 +895,6 @@ IKzbMergeListener {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.isSubListOpened()) {
             this.idleTimer.cancelTimer();
@@ -945,7 +902,6 @@ IKzbMergeListener {
         super.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (this.isSubListOpened()) {
             this.idleTimer.cancelTimer();
@@ -953,7 +909,6 @@ IKzbMergeListener {
         super.keyPressed(keyEvent);
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         if (joystickEvent.getDirection() == 0 && this.isSubListOpened() && !this.isSubListClosing()) {
             this.requestLargeViewSizeIfNeeded();
@@ -972,15 +927,12 @@ IKzbMergeListener {
     public void setInitialState(int n) {
     }
 
-    @Override
     public void hideDrawerItem() {
     }
 
-    @Override
     public void setDrawerAnimationType(int n) {
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         this.terminal.getDrawerFocusManager().initializeDrawerAnimation(this);
@@ -997,11 +949,9 @@ IKzbMergeListener {
         }
     }
 
-    @Override
     public void restartIdleTimer() {
     }
 
-    @Override
     public void cancelIdleTimer() {
     }
 
@@ -1019,8 +969,8 @@ IKzbMergeListener {
         return this.maxSubListTextWidthBigStage == -1 ? this.width : this.maxSubListTextWidthBigStage;
     }
 
-    public void setMainItemEntryForVisibleSublist(AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        this.mainItemEntryForVisibleSublist = abstractPlaceholderMenuController$PlaceholderItemEntry;
+    public void setMainItemEntryForVisibleSublist(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry) {
+        this.mainItemEntryForVisibleSublist = placeholderItemEntry;
     }
 
     public void setMaxMainListTextWidthSmallStage(int n) {
@@ -1043,49 +993,15 @@ IKzbMergeListener {
         return this.screenChangePosition;
     }
 
-    @Override
     public String getWidgetName() {
         return this.getClassName();
     }
 
-    @Override
     public void mergeFinished(String string) {
         this.setCompositesDirty(true);
     }
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
-    }
-
-    static /* synthetic */ LogChannel access$000() {
-        return lc;
-    }
-
-    static /* synthetic */ AbstractPlaceholderMenuController$PlaceholderItemEntry access$102(SelectionMenuController selectionMenuController, AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        selectionMenuController.mainItemEntryForVisibleSublist = abstractPlaceholderMenuController$PlaceholderItemEntry;
-        return selectionMenuController.mainItemEntryForVisibleSublist;
-    }
-
-    static /* synthetic */ boolean access$202(SelectionMenuController selectionMenuController, boolean bl) {
-        selectionMenuController.sublistOpened = bl;
-        return selectionMenuController.sublistOpened;
-    }
-
-    static /* synthetic */ boolean access$302(SelectionMenuController selectionMenuController, boolean bl) {
-        selectionMenuController.sublistClosing = bl;
-        return selectionMenuController.sublistClosing;
-    }
-
-    static /* synthetic */ SelectionMenuIdleTimerController access$400(SelectionMenuController selectionMenuController) {
-        return selectionMenuController.idleTimer;
-    }
-
-    static /* synthetic */ void access$500(SelectionMenuController selectionMenuController, AbstractPlaceholderMenuController$PlaceholderItemEntry abstractPlaceholderMenuController$PlaceholderItemEntry) {
-        selectionMenuController.clearSubItems(abstractPlaceholderMenuController$PlaceholderItemEntry);
-    }
-
-    static /* synthetic */ AbstractAnimation access$700(SelectionMenuController selectionMenuController) {
-        return selectionMenuController.subViewportScrollAnimation;
     }
 
     static {
@@ -1094,6 +1010,185 @@ IKzbMergeListener {
         } else {
             lc = null;
             System.err.println("SelectionMenuController: Warning: no framework available");
+        }
+    }
+
+    protected class Gap
+    implements AnimationListener {
+        private static final float SUB_POS_OPEN = 1.0f;
+        private static final float SUB_POS_CLOSE = 0.0f;
+        private float subPos;
+        private static final int ANIMATION_TYPE = 88;
+        private AbstractAnimation gapAanimation;
+        private AbstractPlaceholderMenuController.PlaceholderItemEntry currentItemEntry;
+        private AbstractPlaceholderMenuController.PlaceholderItemEntry nextItemEntry;
+
+        protected Gap() {
+        }
+
+        protected AbstractAnimation getGapAnimation() {
+            if (this.gapAanimation != null) {
+                return this.gapAanimation;
+            }
+            this.gapAanimation = (AbstractAnimation)SelectionMenuController.this.getAnimationController().getIAnimation(88);
+            this.gapAanimation.addListener(this);
+            return this.gapAanimation;
+        }
+
+        public void setMainItemEntry(AbstractPlaceholderMenuController.PlaceholderItemEntry placeholderItemEntry, boolean bl, boolean bl2, boolean bl3) {
+            float f2;
+            float f3;
+            int n;
+            lc.log(1000000, "SelectionMenuController#setMainItemEntry current=%1, itemEntry=%2, animate=%3, open=%4", (Object)this.currentItemEntry, (Object)placeholderItemEntry, (Object)bl, (Object)bl2);
+            boolean bl4 = placeholderItemEntry == null ? false : (!bl2 ? false : (n = SelectionMenuController.this.getConnectedSubItems(placeholderItemEntry)) > 0);
+            lc.log(10000000, "SelectionMenuController#setMainItemEntry targetSubistFocused=%1", bl4);
+            float f4 = f3 = bl4 ? 1.0f : 0.0f;
+            if (bl4) {
+                if (SelectionMenuController.this.subSelectionCursor.getTargetItemEntry() == null) {
+                    SelectionMenuController.this.subFocusCursor.setTargetItemEntry(placeholderItemEntry.getFirstSubItem(), 0.0f, bl);
+                } else {
+                    SelectionMenuController.this.subFocusCursor.setTargetItemEntry(SelectionMenuController.this.subSelectionCursor.getTargetItemEntry(), 0.0f, bl);
+                }
+            } else {
+                SelectionMenuController.this.subFocusCursor.setTargetItemEntry(null, 0.0f, false);
+            }
+            AbstractAnimation abstractAnimation = this.getGapAnimation();
+            if (!bl) {
+                if (abstractAnimation.isAnimating()) {
+                    abstractAnimation.stopAnimation();
+                }
+                lc.log(10000000, "SelectionMenuController#setMainItemEntry not animating -> setting currentItemEntry to %1", (Object)placeholderItemEntry);
+                this.currentItemEntry = placeholderItemEntry;
+                SelectionMenuController.this.mainItemEntryForVisibleSublist = placeholderItemEntry;
+                this.nextItemEntry = null;
+                this.subPos = f3;
+                SelectionMenuController.this.sublistOpened = bl4;
+                SelectionMenuController.this.sublistClosing = false;
+                this.updateAnimationValues(this.subPos);
+                if (bl4) {
+                    SelectionMenuController.this.joinSubCursor(false);
+                }
+                this.currentItemEntry = null;
+                return;
+            }
+            if (this.currentItemEntry == null) {
+                lc.log(10000000, "SelectionMenuController#setMainItemEntry currentItemEntry not set -> setting currentItemEntry to %1", (Object)placeholderItemEntry);
+                this.subPos = 0.0f;
+                this.nextItemEntry = null;
+                if (abstractAnimation.isAnimating()) {
+                    lc.log(100000, "SelectionMenuController#setMainItemEntry currentItemEntry not set but animating");
+                    abstractAnimation.stopAnimation();
+                }
+                if (!bl2 || placeholderItemEntry == null) {
+                    lc.log(10000000, "SelectionMenuController#setMainItemEntry already closed");
+                    SelectionMenuController.this.sublistOpened = false;
+                    SelectionMenuController.this.mainItemEntryForVisibleSublist = null;
+                    return;
+                }
+                this.currentItemEntry = placeholderItemEntry;
+                SelectionMenuController.this.mainItemEntryForVisibleSublist = placeholderItemEntry;
+                SelectionMenuController.this.sublistOpened = true;
+                SelectionMenuController.this.joinCursor(false);
+                lc.log(1000000, "SelectionMenuController#setMainItemEntry opening sublist");
+                abstractAnimation.startDynamicAnimation(0.0f, 1.0f, 88, true, SelectionMenuController.this);
+                if (bl3) {
+                    SelectionMenuController.this.idleTimer.restartTimer();
+                }
+                return;
+            }
+            if (this.currentItemEntry.equals(placeholderItemEntry)) {
+                f2 = f3;
+                this.nextItemEntry = null;
+            } else {
+                f2 = 0.0f;
+                this.nextItemEntry = placeholderItemEntry;
+            }
+            if (abstractAnimation.isAnimating()) {
+                if (f2 == abstractAnimation.getTarget()) {
+                    lc.log(1000000, "SelectionMenuController#setMainItemEntry keeping sublist animation target %1, current value %2", (Object)String.valueOf(f2), (Object)String.valueOf(abstractAnimation.getValue()));
+                } else {
+                    lc.log(1000000, "SelectionMenuController#setMainItemEntry changing sublist animation target from %1 to %2, current value %3", (double)abstractAnimation.getTarget(), (double)f2, (double)abstractAnimation.getValue());
+                    abstractAnimation.setTarget(f2);
+                }
+            } else {
+                lc.log(1000000, "SelectionMenuController#setMainItemEntry starting sublist animation from %1 to %2", (Object)String.valueOf(this.subPos), (Object)String.valueOf(f2));
+                abstractAnimation.startDynamicAnimation(this.subPos, f2, 88, true, SelectionMenuController.this);
+                if (this.subPos == 1.0f && f2 == 0.0f) {
+                    SelectionMenuController.this.idleTimer.cancelTimer();
+                }
+            }
+        }
+
+        public float getSubPosition() {
+            return this.subPos;
+        }
+
+        public void animate(int n, float f2, int n2) {
+            if (lc.isDebug()) {
+                lc.log(10000000, "SelectionMenuController#Gap#animate value=%1, type=%2", (Object)new Float(f2), (long)n);
+            }
+            this.updateAnimationValues(f2);
+        }
+
+        private void updateAnimationValues(float f2) {
+            lc.log(10000000, "SelectionMenuController#updateAnimationValues value=%1", (double)f2);
+            if (this.currentItemEntry == null) {
+                lc.log(10000000, "SelectionMenuController#updateAnimationValues currentItemEntry is null");
+                this.subPos = 0.0f;
+            } else {
+                this.subPos = f2;
+            }
+            SelectionMenuController.this.updateSubPositions();
+            SelectionMenuController.this.adjustSubViewport(true);
+            SelectionMenuController.this.assignSubSlots();
+            SelectionMenuController.this.setCompositesDirty(true);
+        }
+
+        public void animationStarted(int n, int n2) {
+        }
+
+        public void animationFinished(int n, int n2) {
+            lc.log(10000000, "SelectionMenuController#Gap#animationFinished current=%1, target=%2", (Object)this.currentItemEntry, (Object)this.nextItemEntry);
+            AbstractAnimation abstractAnimation = this.getGapAnimation();
+            if (this.nextItemEntry == null) {
+                float f2 = abstractAnimation.getTarget();
+                lc.log(10000000, "SelectionMenuController#Gap#animationFinished animation target: %1", (Object)String.valueOf(f2));
+                if (f2 == 0.0f) {
+                    if (this.currentItemEntry != null && !this.currentItemEntry.isSelected()) {
+                        lc.log(10000000, "SelectionMenuController#Gap#animationFinished sublist closed, removing subitems");
+                        SelectionMenuController.this.clearSubItems(this.currentItemEntry);
+                    }
+                    lc.log(10000000, "SelectionMenuController#Gap#animationFinished sublist closed and no nextItemEntry -> setting currentItemEntry to null");
+                    this.currentItemEntry = null;
+                    SelectionMenuController.this.mainItemEntryForVisibleSublist = null;
+                    SelectionMenuController.this.sublistOpened = false;
+                    SelectionMenuController.this.sublistClosing = false;
+                    this.updateAnimationValues(0.0f);
+                } else {
+                    lc.log(10000000, "SelectionMenuController#Gap#animationFinished sublist opened");
+                    this.updateAnimationValues(f2);
+                }
+            } else {
+                if (this.currentItemEntry != null && !this.currentItemEntry.isSelected()) {
+                    SelectionMenuController.this.clearSubItems(this.currentItemEntry);
+                }
+                int n3 = SelectionMenuController.this.getConnectedSubItems(this.nextItemEntry);
+                lc.log(10000000, "SelectionMenuController#Gap#animationFinished sublist closed and nextItemEntry set -> setting currentItemEntry %1, subitems=%2", (Object)this.nextItemEntry, (long)n3);
+                if (n3 > 0) {
+                    lc.log(10000000, "SelectionMenuController#Gap#animationFinished opening sublist");
+                    this.currentItemEntry = this.nextItemEntry;
+                    SelectionMenuController.this.mainItemEntryForVisibleSublist = this.currentItemEntry;
+                    this.nextItemEntry = null;
+                    SelectionMenuController.this.sublistOpened = true;
+                    abstractAnimation.startDynamicAnimation(0.0f, 1.0f, 88, true, SelectionMenuController.this);
+                } else {
+                    this.nextItemEntry = null;
+                    this.currentItemEntry = null;
+                    SelectionMenuController.this.mainItemEntryForVisibleSublist = null;
+                    SelectionMenuController.this.sublistOpened = false;
+                }
+            }
+            SelectionMenuController.this.setCompositesDirty(true);
         }
     }
 }

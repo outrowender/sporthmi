@@ -26,28 +26,23 @@ implements DSIMapViewerRouteBlock {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$map$DSIMapViewerRouteBlock == null ? (class$org$dsi$ifc$map$DSIMapViewerRouteBlock = DSIMapViewerRouteBlockProvider.class$("org.dsi.ifc.map.DSIMapViewerRouteBlock")) : class$org$dsi$ifc$map$DSIMapViewerRouteBlock).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMapViewerRouteBlockProxy(this.instance, (DSIMapViewerRouteBlockReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void rBMarkNextSegment() {
         try {
             this.proxy.rBMarkNextSegment();
@@ -57,7 +52,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void rBMarkPreviousSegment() {
         try {
             this.proxy.rBMarkPreviousSegment();
@@ -67,7 +61,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void rBSetSegmentScales(long l, long l2) {
         try {
             this.proxy.rBSetSegmentScales(l, l2);
@@ -77,7 +70,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void rBStartOfSelection() {
         try {
             this.proxy.rBStartOfSelection();
@@ -87,7 +79,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void pickSegmentUidsInScreenSpace(Point point, int n) {
         try {
             this.proxy.pickSegmentUidsInScreenSpace(point, n);
@@ -97,7 +88,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void highLightSegmentUidsInMap(long[] lArray, boolean bl) {
         try {
             this.proxy.highLightSegmentUidsInMap(lArray, bl);
@@ -107,7 +97,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -117,7 +106,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -127,7 +115,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -137,7 +124,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -147,7 +133,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -157,7 +142,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -167,7 +151,6 @@ implements DSIMapViewerRouteBlock {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

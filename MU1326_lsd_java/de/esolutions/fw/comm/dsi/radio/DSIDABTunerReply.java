@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.radio;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.radio.AudioStatus;
 import org.dsi.ifc.radio.ComponentInfo;
@@ -19,138 +20,95 @@ import org.dsi.ifc.radio.IntellitextMenu;
 import org.dsi.ifc.radio.ServiceInfo;
 
 public interface DSIDABTunerReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "3fbfdf95-fc8b-5629-8f28-b325d5f820f4";
+    public static final String IPL_COMM_INTERFACE_KEY = "61784239-985b-53d5-a461-2d04f297b9d6";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.36";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.36";
 
-    default public void updateSelectedEnsemble(EnsembleInfo ensembleInfo, int n) {
-    }
+    public void updateSelectedEnsemble(EnsembleInfo var1, int var2) throws MethodException;
 
-    default public void updateSelectedService(ServiceInfo serviceInfo, int n) {
-    }
+    public void updateSelectedService(ServiceInfo var1, int var2) throws MethodException;
 
-    default public void updateSelectedComponent(ComponentInfo componentInfo, int n) {
-    }
+    public void updateSelectedComponent(ComponentInfo var1, int var2) throws MethodException;
 
-    default public void updateSelectedFrequency(FrequencyInfo frequencyInfo, int n) {
-    }
+    public void updateSelectedFrequency(FrequencyInfo var1, int var2) throws MethodException;
 
-    default public void updateEnsembleList(EnsembleInfo[] ensembleInfoArray, int n) {
-    }
+    public void updateEnsembleList(EnsembleInfo[] var1, int var2) throws MethodException;
 
-    default public void updateServiceList(ServiceInfo[] serviceInfoArray, int n) {
-    }
+    public void updateServiceList(ServiceInfo[] var1, int var2) throws MethodException;
 
-    default public void updateComponentList(ComponentInfo[] componentInfoArray, int n) {
-    }
+    public void updateComponentList(ComponentInfo[] var1, int var2) throws MethodException;
 
-    default public void updateDataServiceList(DataServiceInfo[] dataServiceInfoArray, int n) {
-    }
+    public void updateDataServiceList(DataServiceInfo[] var1, int var2) throws MethodException;
 
-    default public void updateFrequencyList(FrequencyInfo[] frequencyInfoArray, int n) {
-    }
+    public void updateFrequencyList(FrequencyInfo[] var1, int var2) throws MethodException;
 
-    default public void updateRadioText(DABRadioText dABRadioText, int n) {
-    }
+    public void updateRadioText(DABRadioText var1, int var2) throws MethodException;
 
-    default public void updateSyncStatus(int n, int n2) {
-    }
+    public void updateSyncStatus(int var1, int var2) throws MethodException;
 
-    default public void updateQuality(short s, int n) {
-    }
+    public void updateQuality(short var1, int var2) throws MethodException;
 
-    default public void updateDRCSwitchStatus(boolean bl, int n) {
-    }
+    public void updateDRCSwitchStatus(boolean var1, int var2) throws MethodException;
 
-    default public void updateLinkingSwitchStatus(int n, int n2) {
-    }
+    public void updateLinkingSwitchStatus(int var1, int var2) throws MethodException;
 
-    default public void updateFrequencyTableSwitchStatus(int n, int n2) {
-    }
+    public void updateFrequencyTableSwitchStatus(int var1, int var2) throws MethodException;
 
-    default public void updateLinkingStatus(int n, int n2) {
-    }
+    public void updateLinkingStatus(int var1, int var2) throws MethodException;
 
-    default public void updateLinkingUsageStatus(int n, int n2) {
-    }
+    public void updateLinkingUsageStatus(int var1, int var2) throws MethodException;
 
-    default public void updateAudioStatus(AudioStatus audioStatus, int n) {
-    }
+    public void updateAudioStatus(AudioStatus var1, int var2) throws MethodException;
 
-    default public void updateDetectedDevice(int n, int n2) {
-    }
+    public void updateDetectedDevice(int var1, int var2) throws MethodException;
 
-    default public void updateQualityInfo(String string, int n) {
-    }
+    public void updateQualityInfo(String var1, int var2) throws MethodException;
 
-    default public void selectServiceStatus(int n) {
-    }
+    public void selectServiceStatus(int var1) throws MethodException;
 
-    default public void seekServiceStatus(int n) {
-    }
+    public void seekServiceStatus(int var1) throws MethodException;
 
-    default public void tuneEnsembleStatus(int n) {
-    }
+    public void tuneEnsembleStatus(int var1) throws MethodException;
 
-    default public void selectDataServiceStatus(int n) {
-    }
+    public void selectDataServiceStatus(int var1) throws MethodException;
 
-    default public void updateRadioTextPlusInfo(DABRadioTextPlusInfo dABRadioTextPlusInfo, int n) {
-    }
+    public void updateRadioTextPlusInfo(DABRadioTextPlusInfo var1, int var2) throws MethodException;
 
-    default public void updateDecodedDataService(DataServiceInfo dataServiceInfo, boolean bl, String string, int n) {
-    }
+    public void updateDecodedDataService(DataServiceInfo var1, boolean var2, String var3, int var4) throws MethodException;
 
-    default public void forceLMUpdateStatus(int n) {
-    }
+    public void forceLMUpdateStatus(int var1) throws MethodException;
 
-    default public void prepareTuningStatus(int n) {
-    }
+    public void prepareTuningStatus(int var1) throws MethodException;
 
-    default public void updateEpgLogo(int[] nArray, ResourceLocator[] resourceLocatorArray, int n) {
-    }
+    public void updateEpgLogo(int[] var1, ResourceLocator[] var2, int var3) throws MethodException;
 
-    default public void updateEpgLogoList(EPGLogo[] ePGLogoArray, int n) {
-    }
+    public void updateEpgLogoList(EPGLogo[] var1, int var2) throws MethodException;
 
-    default public void updateSlideShowInfo(DABSlideShowInfo dABSlideShowInfo, int n) {
-    }
+    public void updateSlideShowInfo(DABSlideShowInfo var1, int var2) throws MethodException;
 
-    default public void updateAvailability(int n, int n2) {
-    }
+    public void updateAvailability(int var1, int var2) throws MethodException;
 
-    default public void updateIntellitext(IntellitextMenu[] intellitextMenuArray, int n) {
-    }
+    public void updateIntellitext(IntellitextMenu[] var1, int var2) throws MethodException;
 
-    default public void updateEPGMode(int n, int n2) {
-    }
+    public void updateEPGMode(int var1, int var2) throws MethodException;
 
-    default public void updateEPGListData(EPGShortInfo[] ePGShortInfoArray, int n) {
-    }
+    public void updateEPGListData(EPGShortInfo[] var1, int var2) throws MethodException;
 
-    default public void updateEPGDetailData(EPGFullInfo ePGFullInfo, int n) {
-    }
+    public void updateEPGDetailData(EPGFullInfo var1, int var2) throws MethodException;
 
-    default public void updateProfileState(int n, int n2, int n3) {
-    }
+    public void updateProfileState(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileChanged(int n, int n2) {
-    }
+    public void profileChanged(int var1, int var2) throws MethodException;
 
-    default public void profileCopied(int n, int n2, int n3) {
-    }
+    public void profileCopied(int var1, int var2, int var3) throws MethodException;
 
-    default public void profileReset(int n, int n2) {
-    }
+    public void profileReset(int var1, int var2) throws MethodException;
 
-    default public void profileResetAll(int n) {
-    }
+    public void profileResetAll(int var1) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCAverageRecoveredEnergy;
 
 public class BCAverageRecoveredEnergySerializer {
-    public static void putOptionalBCAverageRecoveredEnergy(ISerializer iSerializer, BCAverageRecoveredEnergy bCAverageRecoveredEnergy) {
+    public static void putOptionalBCAverageRecoveredEnergy(ISerializer iSerializer, BCAverageRecoveredEnergy bCAverageRecoveredEnergy) throws SerializerException {
         boolean bl = bCAverageRecoveredEnergy == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCAverageRecoveredEnergySerializer {
         }
     }
 
-    public static void putOptionalBCAverageRecoveredEnergyVarArray(ISerializer iSerializer, BCAverageRecoveredEnergy[] bCAverageRecoveredEnergyArray) {
+    public static void putOptionalBCAverageRecoveredEnergyVarArray(ISerializer iSerializer, BCAverageRecoveredEnergy[] bCAverageRecoveredEnergyArray) throws SerializerException {
         boolean bl = bCAverageRecoveredEnergyArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCAverageRecoveredEnergySerializer {
         }
     }
 
-    public static BCAverageRecoveredEnergy getOptionalBCAverageRecoveredEnergy(IDeserializer iDeserializer) {
+    public static BCAverageRecoveredEnergy getOptionalBCAverageRecoveredEnergy(IDeserializer iDeserializer) throws SerializerException {
         BCAverageRecoveredEnergy bCAverageRecoveredEnergy = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCAverageRecoveredEnergySerializer {
         return bCAverageRecoveredEnergy;
     }
 
-    public static BCAverageRecoveredEnergy[] getOptionalBCAverageRecoveredEnergyVarArray(IDeserializer iDeserializer) {
+    public static BCAverageRecoveredEnergy[] getOptionalBCAverageRecoveredEnergyVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCAverageRecoveredEnergy[] bCAverageRecoveredEnergyArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

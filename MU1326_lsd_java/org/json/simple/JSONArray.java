@@ -3,6 +3,7 @@
  */
 package org.json.simple;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,9 +17,9 @@ extends ArrayList
 implements List,
 JSONAware,
 JSONStreamAware {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 3957988303675231981L;
 
-    public static void writeJSONString(List list, Writer writer) {
+    public static void writeJSONString(List list, Writer writer) throws IOException {
         if (list == null) {
             writer.write("null");
             return;
@@ -42,8 +43,7 @@ JSONStreamAware {
         writer.write(93);
     }
 
-    @Override
-    public void writeJSONString(Writer writer) {
+    public void writeJSONString(Writer writer) throws IOException {
         JSONArray.writeJSONString(this, writer);
     }
 
@@ -72,12 +72,10 @@ JSONStreamAware {
         return stringBuffer.toString();
     }
 
-    @Override
     public String toJSONString() {
         return JSONArray.toJSONString(this);
     }
 
-    @Override
     public String toString() {
         return this.toJSONString();
     }

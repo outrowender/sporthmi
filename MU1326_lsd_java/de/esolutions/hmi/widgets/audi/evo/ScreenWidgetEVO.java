@@ -5,7 +5,7 @@ package de.esolutions.hmi.widgets.audi.evo;
 
 import de.audi.atip.hmi.view.IPopupKeyConsuptionStrategy;
 import de.audi.atip.hmi.view.IScreenData;
-import de.audi.atip.interapp.SDSService$ScreenConnectedSDSData;
+import de.audi.atip.interapp.SDSService;
 import de.audi.atip.mmicombi.IMMICombiScreen;
 import de.audi.atip.mmicombi.IViewSizeManager;
 import de.audi.tghu.hmi.evo.IDrawerFocusManagerEvo;
@@ -31,7 +31,7 @@ extends AbstractScreenWidget
 implements IMMICombiScreen {
     public static final float[] BIG_STAGE = new float[]{0.0f};
     public static final float[] SMALL_STAGE = new float[]{1.0f};
-    private static final int SDS_MODULE_ID;
+    private static final int SDS_MODULE_ID = 14;
     private int mmiCombiContextID = 0;
     private boolean hMIScreen = true;
     private boolean selectionDrawerVisible = true;
@@ -48,7 +48,6 @@ implements IMMICombiScreen {
         super(n);
     }
 
-    @Override
     public void add(AbstractWidget abstractWidget) {
         super.add(abstractWidget);
         if (abstractWidget instanceof IOptionIconPositionController) {
@@ -69,7 +68,6 @@ implements IMMICombiScreen {
         }
     }
 
-    @Override
     public void connected(InitializationContext initializationContext) {
         super.connected(initializationContext);
         if (this.getViewSizeAnimationManager() != null) {
@@ -89,15 +87,15 @@ implements IMMICombiScreen {
             return;
         }
         if (AbstractWidget.sdsService == null) {
-            screenLogChannel.log(-1601830656, "ScreenWidgetEVO#notifySdsOnConnect: SDS Service is null (%1)", (Object)this);
+            screenLogChannel.log(100000, "ScreenWidgetEVO#notifySdsOnConnect: SDS Service is null (%1)", (Object)this);
             return;
         }
         int n = this.terminal.getTerminalID();
         int n2 = this.getScreenId();
-        SDSService$ScreenConnectedSDSData sDSService$ScreenConnectedSDSData = new SDSService$ScreenConnectedSDSData();
-        sDSService$ScreenConnectedSDSData.setSmallStageType(this.getSmallStageType());
-        screenLogChannel.log(-2137614336, "ScreenWidgetEVO#notifySdsOnConnect: screen ID: %1, terminal ID: %2, sdsData: %3", (Object)sDSService$ScreenConnectedSDSData, (long)n2, (long)n);
-        AbstractWidget.sdsService.screenConnectedWithSDSData(n2, n, sDSService$ScreenConnectedSDSData);
+        SDSService.ScreenConnectedSDSData screenConnectedSDSData = new SDSService.ScreenConnectedSDSData();
+        screenConnectedSDSData.setSmallStageType(this.getSmallStageType());
+        screenLogChannel.log(10000000, "ScreenWidgetEVO#notifySdsOnConnect: screen ID: %1, terminal ID: %2, sdsData: %3", (Object)screenConnectedSDSData, (long)n2, (long)n);
+        AbstractWidget.sdsService.screenConnectedWithSDSData(n2, n, screenConnectedSDSData);
     }
 
     public boolean isNotifySdsForVisibility() {
@@ -147,11 +145,10 @@ implements IMMICombiScreen {
             return false;
         }
         int n = drawerController.getID();
-        int n2 = n / -1601830656;
+        int n2 = n / 100000;
         return n2 == 6;
     }
 
-    @Override
     public int getEventID(int n) {
         int n2 = -1;
         if (this.terminal != null) {
@@ -177,18 +174,15 @@ implements IMMICombiScreen {
         return n2;
     }
 
-    @Override
     public int getMmiCombiContextID() {
         return this.mmiCombiContextID;
     }
 
-    @Override
     public void setMmiCombiContextID(int n, boolean bl) {
         this.mmiCombiContextID = n;
         this.hMIScreen = bl;
     }
 
-    @Override
     protected AbstractWidget getCurrentMenu() {
         return this.getCurrentMenu(this);
     }
@@ -210,12 +204,10 @@ implements IMMICombiScreen {
         return null;
     }
 
-    @Override
     public void setSelectionDrawerVisible(boolean bl) {
         this.selectionDrawerVisible = bl;
     }
 
-    @Override
     public void disconnecting() {
         if (this.getViewSizeAnimationManager() != null) {
             this.getViewSizeAnimationManager().removeScreen(this);
@@ -223,7 +215,6 @@ implements IMMICombiScreen {
         super.disconnecting();
     }
 
-    @Override
     public boolean isHMIScreen() {
         return this.hMIScreen;
     }
@@ -244,7 +235,6 @@ implements IMMICombiScreen {
         this.hardKeyToConsumeOnOpenDrawer = n;
     }
 
-    @Override
     public void requestLargeViewSizeIfNeeded() {
         if (this.isHMIScreen()) {
             IViewSizeManager iViewSizeManager;
@@ -264,7 +254,6 @@ implements IMMICombiScreen {
         }
     }
 
-    @Override
     protected void unrequestLargeViewSizeIfNeeded() {
         if (this.isHMIScreen()) {
             IViewSizeManager iViewSizeManager;
@@ -285,7 +274,6 @@ implements IMMICombiScreen {
         }
     }
 
-    @Override
     protected void afterConnect() {
         IViewSizeManager iViewSizeManager;
         super.afterConnect();
@@ -294,12 +282,10 @@ implements IMMICombiScreen {
         }
     }
 
-    @Override
     public boolean isLargeViewSizeNeeded() {
         return super.isLargeViewSizeNeeded() && !this.isHMIFullscreenPopup();
     }
 
-    @Override
     protected boolean isHMIFullscreenPopup() {
         boolean bl = this.mmiCombiContextID == 1000;
         return bl &= !this.isLargeViewSizePreferred();
@@ -309,7 +295,6 @@ implements IMMICombiScreen {
         return this.mmiCombiContextID == 1001;
     }
 
-    @Override
     public void setOptionIconVisible(boolean bl) {
         if (bl != this.isOptionIconVisible()) {
             DrawerAnimationManager drawerAnimationManager;
@@ -321,7 +306,6 @@ implements IMMICombiScreen {
         }
     }
 
-    @Override
     public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
         this.keyConsumptionStrategy = iPopupKeyConsuptionStrategy;
         this.notifyDrawerAnimationManager();
@@ -346,7 +330,6 @@ implements IMMICombiScreen {
         return this.optionIconPositionControllerAvailable;
     }
 
-    @Override
     public void updateDrawers(IScreenData iScreenData) {
         super.updateDrawers(iScreenData);
         this.initCombiSync();

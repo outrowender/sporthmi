@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavRmRouteListData;
 
 public class NavRmRouteListDataSerializer {
-    public static void putOptionalNavRmRouteListData(ISerializer iSerializer, NavRmRouteListData navRmRouteListData) {
+    public static void putOptionalNavRmRouteListData(ISerializer iSerializer, NavRmRouteListData navRmRouteListData) throws SerializerException {
         boolean bl = navRmRouteListData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavRmRouteListDataSerializer {
         }
     }
 
-    public static void putOptionalNavRmRouteListDataVarArray(ISerializer iSerializer, NavRmRouteListData[] navRmRouteListDataArray) {
+    public static void putOptionalNavRmRouteListDataVarArray(ISerializer iSerializer, NavRmRouteListData[] navRmRouteListDataArray) throws SerializerException {
         boolean bl = navRmRouteListDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavRmRouteListDataSerializer {
         }
     }
 
-    public static NavRmRouteListData getOptionalNavRmRouteListData(IDeserializer iDeserializer) {
+    public static NavRmRouteListData getOptionalNavRmRouteListData(IDeserializer iDeserializer) throws SerializerException {
         NavRmRouteListData navRmRouteListData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavRmRouteListDataSerializer {
         return navRmRouteListData;
     }
 
-    public static NavRmRouteListData[] getOptionalNavRmRouteListDataVarArray(IDeserializer iDeserializer) {
+    public static NavRmRouteListData[] getOptionalNavRmRouteListDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavRmRouteListData[] navRmRouteListDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

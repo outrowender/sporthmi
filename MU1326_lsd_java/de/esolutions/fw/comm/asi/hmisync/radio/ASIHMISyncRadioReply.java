@@ -6,41 +6,32 @@ package de.esolutions.fw.comm.asi.hmisync.radio;
 import de.esolutions.fw.comm.asi.hmisync.radio.CurrentStation;
 import de.esolutions.fw.comm.asi.hmisync.radio.StationInfo;
 import de.esolutions.fw.comm.asi.hmisync.radio.WavebandInfo;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface ASIHMISyncRadioReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "c43514a0-a79e-4e4d-905c-816fe72baa19";
+    public static final String IPL_COMM_INTERFACE_KEY = "5825259e-363b-5404-81a4-012a1205c9db";
+    public static final String IPL_COMM_INTERFACE_VERSION = "3.3.11";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.00";
 
-    default public void stationDetailsUpdated(CurrentStation[] currentStationArray) {
-    }
+    public void stationDetailsUpdated(CurrentStation[] var1) throws MethodException;
 
-    default public void updateASIVersion(String string, boolean bl) {
-    }
+    public void updateASIVersion(String var1, boolean var2) throws MethodException;
 
-    default public void updateRequestIDs(short[] sArray, boolean bl) {
-    }
+    public void updateRequestIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateReplyIDs(short[] sArray, boolean bl) {
-    }
+    public void updateReplyIDs(short[] var1, boolean var2) throws MethodException;
 
-    default public void updateBandList(int[] nArray, boolean bl) {
-    }
+    public void updateBandList(int[] var1, boolean var2) throws MethodException;
 
-    default public void updateActiveBand(int n, boolean bl) {
-    }
+    public void updateActiveBand(int var1, boolean var2) throws MethodException;
 
-    default public void updateRadioStationList(StationInfo[] stationInfoArray, boolean bl) {
-    }
+    public void updateRadioStationList(StationInfo[] var1, boolean var2) throws MethodException;
 
-    default public void updateActiveStation(CurrentStation currentStation, boolean bl) {
-    }
+    public void updateActiveStation(CurrentStation var1, boolean var2) throws MethodException;
 
-    default public void updateSeekStatus(int n, boolean bl) {
-    }
+    public void updateSeekStatus(int var1, boolean var2) throws MethodException;
 
-    default public void updateWavebands(WavebandInfo[] wavebandInfoArray, boolean bl) {
-    }
+    public void updateWavebands(WavebandInfo[] var1, boolean var2) throws MethodException;
 }
 

@@ -8,19 +8,14 @@ import org.dsi.ifc.has.HASDataContainer;
 
 public interface DSIHASListener
 extends DSIListener {
-    default public void actionRequest(int n, int n2, HASDataContainer[] hASDataContainerArray) {
-    }
+    public void actionRequest(int var1, int var2, HASDataContainer[] var3);
 
-    default public void subscribeRequest(int n, int n2) {
-    }
+    public void subscribeRequest(int var1, int var2);
 
-    default public void unsubscribeRequest(int n) {
-    }
+    public void unsubscribeRequest(int var1);
 
-    default public void unsubscribeAllRequest() {
-    }
+    public void unsubscribeAllRequest();
 
-    default public void getPropertyRequest(int n) {
-    }
+    public void getPropertyRequest(int var1);
 }
 

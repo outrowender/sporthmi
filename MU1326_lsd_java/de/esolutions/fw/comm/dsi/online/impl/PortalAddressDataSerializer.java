@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.online.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.PortalAddressData;
 
 public class PortalAddressDataSerializer {
-    public static void putOptionalPortalAddressData(ISerializer iSerializer, PortalAddressData portalAddressData) {
+    public static void putOptionalPortalAddressData(ISerializer iSerializer, PortalAddressData portalAddressData) throws SerializerException {
         boolean bl = portalAddressData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class PortalAddressDataSerializer {
         }
     }
 
-    public static void putOptionalPortalAddressDataVarArray(ISerializer iSerializer, PortalAddressData[] portalAddressDataArray) {
+    public static void putOptionalPortalAddressDataVarArray(ISerializer iSerializer, PortalAddressData[] portalAddressDataArray) throws SerializerException {
         boolean bl = portalAddressDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class PortalAddressDataSerializer {
         }
     }
 
-    public static PortalAddressData getOptionalPortalAddressData(IDeserializer iDeserializer) {
+    public static PortalAddressData getOptionalPortalAddressData(IDeserializer iDeserializer) throws SerializerException {
         PortalAddressData portalAddressData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class PortalAddressDataSerializer {
         return portalAddressData;
     }
 
-    public static PortalAddressData[] getOptionalPortalAddressDataVarArray(IDeserializer iDeserializer) {
+    public static PortalAddressData[] getOptionalPortalAddressDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         PortalAddressData[] portalAddressDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carplay.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carplay.TouchEvent;
 
 public class TouchEventSerializer {
-    public static void putOptionalTouchEvent(ISerializer iSerializer, TouchEvent touchEvent) {
+    public static void putOptionalTouchEvent(ISerializer iSerializer, TouchEvent touchEvent) throws SerializerException {
         boolean bl = touchEvent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class TouchEventSerializer {
         }
     }
 
-    public static void putOptionalTouchEventVarArray(ISerializer iSerializer, TouchEvent[] touchEventArray) {
+    public static void putOptionalTouchEventVarArray(ISerializer iSerializer, TouchEvent[] touchEventArray) throws SerializerException {
         boolean bl = touchEventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class TouchEventSerializer {
         }
     }
 
-    public static TouchEvent getOptionalTouchEvent(IDeserializer iDeserializer) {
+    public static TouchEvent getOptionalTouchEvent(IDeserializer iDeserializer) throws SerializerException {
         TouchEvent touchEvent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class TouchEventSerializer {
         return touchEvent;
     }
 
-    public static TouchEvent[] getOptionalTouchEventVarArray(IDeserializer iDeserializer) {
+    public static TouchEvent[] getOptionalTouchEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         TouchEvent[] touchEventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -10,22 +10,22 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MagnetFieldZone_Status
 implements StatusProperty {
     public int zone;
-    private static final int ZONE_BITSIZE;
-    public static final int ZONE_ZONE_1;
-    public static final int ZONE_ZONE_2;
-    public static final int ZONE_ZONE_3;
-    public static final int ZONE_ZONE_4;
-    public static final int ZONE_ZONE_5;
-    public static final int ZONE_ZONE_6;
-    public static final int ZONE_ZONE_7;
-    public static final int ZONE_ZONE_8;
-    public static final int ZONE_ZONE_9;
-    public static final int ZONE_ZONE_10;
-    public static final int ZONE_ZONE_11;
-    public static final int ZONE_ZONE_12;
-    public static final int ZONE_ZONE_13;
-    public static final int ZONE_ZONE_14;
-    public static final int ZONE_ZONE_15;
+    private static final int ZONE_BITSIZE = 8;
+    public static final int ZONE_ZONE_1 = 1;
+    public static final int ZONE_ZONE_2 = 2;
+    public static final int ZONE_ZONE_3 = 3;
+    public static final int ZONE_ZONE_4 = 4;
+    public static final int ZONE_ZONE_5 = 5;
+    public static final int ZONE_ZONE_6 = 6;
+    public static final int ZONE_ZONE_7 = 7;
+    public static final int ZONE_ZONE_8 = 8;
+    public static final int ZONE_ZONE_9 = 9;
+    public static final int ZONE_ZONE_10 = 10;
+    public static final int ZONE_ZONE_11 = 11;
+    public static final int ZONE_ZONE_12 = 12;
+    public static final int ZONE_ZONE_13 = 13;
+    public static final int ZONE_ZONE_14 = 14;
+    public static final int ZONE_ZONE_15 = 15;
 
     public MagnetFieldZone_Status() {
         this.internalReset();
@@ -41,12 +41,10 @@ implements StatusProperty {
         this.zone = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MagnetFieldZone_Status magnetFieldZone_Status = (MagnetFieldZone_Status)bAPEntity;
         return this.zone == magnetFieldZone_Status.zone;
@@ -55,7 +53,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MagnetFieldZone_Status:");
@@ -128,18 +125,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.zone);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.zone = bitStream.popFrontByte();
     }
@@ -148,7 +142,6 @@ implements StatusProperty {
         return 26;
     }
 
-    @Override
     public int getFunctionId() {
         return MagnetFieldZone_Status.functionId();
     }

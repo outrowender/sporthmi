@@ -26,28 +26,23 @@ implements DSIPredictiveNavigation {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigation == null ? (class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigation = DSIPredictiveNavigationProvider.class$("org.dsi.ifc.predictivenavigation.DSIPredictiveNavigation")) : class$org$dsi$ifc$predictivenavigation$DSIPredictiveNavigation).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPredictiveNavigationProxy(this.instance, (DSIPredictiveNavigationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setOperationMode(int n) {
         try {
             this.proxy.setOperationMode(n);
@@ -57,7 +52,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void setMaxPredictions(int n) {
         try {
             this.proxy.setMaxPredictions(n);
@@ -67,7 +61,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearCache() {
         try {
             this.proxy.clearCache();
@@ -77,7 +70,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearCacheByDestination(NavLocation navLocation, int n) {
         try {
             this.proxy.clearCacheByDestination(navLocation, n);
@@ -87,7 +79,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearCacheByAge(long l) {
         try {
             this.proxy.clearCacheByAge(l);
@@ -97,7 +88,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -107,7 +97,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -117,7 +106,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -127,7 +115,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -137,7 +124,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -147,7 +133,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -157,7 +142,6 @@ implements DSIPredictiveNavigation {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

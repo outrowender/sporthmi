@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoSCR;
 
 public class DynamicVehicleInfoSCRSerializer {
-    public static void putOptionalDynamicVehicleInfoSCR(ISerializer iSerializer, DynamicVehicleInfoSCR dynamicVehicleInfoSCR) {
+    public static void putOptionalDynamicVehicleInfoSCR(ISerializer iSerializer, DynamicVehicleInfoSCR dynamicVehicleInfoSCR) throws SerializerException {
         boolean bl = dynamicVehicleInfoSCR == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -31,7 +32,7 @@ public class DynamicVehicleInfoSCRSerializer {
         }
     }
 
-    public static void putOptionalDynamicVehicleInfoSCRVarArray(ISerializer iSerializer, DynamicVehicleInfoSCR[] dynamicVehicleInfoSCRArray) {
+    public static void putOptionalDynamicVehicleInfoSCRVarArray(ISerializer iSerializer, DynamicVehicleInfoSCR[] dynamicVehicleInfoSCRArray) throws SerializerException {
         boolean bl = dynamicVehicleInfoSCRArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -42,7 +43,7 @@ public class DynamicVehicleInfoSCRSerializer {
         }
     }
 
-    public static DynamicVehicleInfoSCR getOptionalDynamicVehicleInfoSCR(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoSCR getOptionalDynamicVehicleInfoSCR(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoSCR dynamicVehicleInfoSCR = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class DynamicVehicleInfoSCRSerializer {
         return dynamicVehicleInfoSCR;
     }
 
-    public static DynamicVehicleInfoSCR[] getOptionalDynamicVehicleInfoSCRVarArray(IDeserializer iDeserializer) {
+    public static DynamicVehicleInfoSCR[] getOptionalDynamicVehicleInfoSCRVarArray(IDeserializer iDeserializer) throws SerializerException {
         DynamicVehicleInfoSCR[] dynamicVehicleInfoSCRArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

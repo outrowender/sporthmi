@@ -3,7 +3,7 @@
  */
 package de.esolutions.fw.comm.agent.osgi;
 
-import de.esolutions.fw.comm.agent.osgi.AgentDumpInfoProvider$DumperRunnable;
+import de.esolutions.fw.comm.agent.Agent;
 import de.esolutions.fw.comm.agent.osgi.MuteableOutputStream;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 import java.io.PrintStream;
@@ -31,14 +31,13 @@ implements DumpInfoProvider {
     }
 
     public AgentDumpInfoProvider() {
-        this.dumperThread = new Thread(new AgentDumpInfoProvider$DumperRunnable(this, null), "commAgentDumpInfoProvider");
+        this.dumperThread = new Thread(new DumperRunnable(), "commAgentDumpInfoProvider");
         this.dumperThread.start();
         this.timeout = this.readTimeoutFromProperty();
         this.doDump = false;
         this.doDumpReady = false;
     }
 
-    @Override
     public String getName() {
         return "commAgent";
     }
@@ -46,7 +45,6 @@ implements DumpInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dump(PrintStream printStream, String string) {
         MuteableOutputStream muteableOutputStream;
         Object object = this.syncWaitForDump;
@@ -74,30 +72,41 @@ implements DumpInfoProvider {
         }
     }
 
-    static /* synthetic */ Object access$100(AgentDumpInfoProvider agentDumpInfoProvider) {
-        return agentDumpInfoProvider.syncWaitForDump;
-    }
+    private class DumperRunnable
+    implements Runnable {
+        private DumperRunnable() {
+        }
 
-    static /* synthetic */ boolean access$200(AgentDumpInfoProvider agentDumpInfoProvider) {
-        return agentDumpInfoProvider.doDump;
-    }
-
-    static /* synthetic */ PrintStream access$300(AgentDumpInfoProvider agentDumpInfoProvider) {
-        return agentDumpInfoProvider.printStream;
-    }
-
-    static /* synthetic */ Object access$400(AgentDumpInfoProvider agentDumpInfoProvider) {
-        return agentDumpInfoProvider.syncWaitForDumpReady;
-    }
-
-    static /* synthetic */ boolean access$502(AgentDumpInfoProvider agentDumpInfoProvider, boolean bl) {
-        agentDumpInfoProvider.doDumpReady = bl;
-        return agentDumpInfoProvider.doDumpReady;
-    }
-
-    static /* synthetic */ boolean access$202(AgentDumpInfoProvider agentDumpInfoProvider, boolean bl) {
-        agentDumpInfoProvider.doDump = bl;
-        return agentDumpInfoProvider.doDump;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            while (true) {
+                Object object = AgentDumpInfoProvider.this.syncWaitForDump;
+                synchronized (object) {
+                    while (!AgentDumpInfoProvider.this.doDump) {
+                        try {
+                            AgentDumpInfoProvider.this.syncWaitForDump.wait();
+                        }
+                        catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                }
+                object = Agent.getAgent();
+                if (object == null) {
+                    AgentDumpInfoProvider.this.printStream.println("FATAL: No Agent found!");
+                } else {
+                    ((Agent)object).writeDiagnosisReport(AgentDumpInfoProvider.this.printStream);
+                }
+                Object object2 = AgentDumpInfoProvider.this.syncWaitForDumpReady;
+                synchronized (object2) {
+                    AgentDumpInfoProvider.this.doDumpReady = true;
+                    AgentDumpInfoProvider.this.doDump = false;
+                    AgentDumpInfoProvider.this.syncWaitForDumpReady.notifyAll();
+                }
+            }
+        }
     }
 }
 

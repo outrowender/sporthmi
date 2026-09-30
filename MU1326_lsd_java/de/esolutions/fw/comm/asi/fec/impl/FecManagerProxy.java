@@ -30,8 +30,7 @@ FecManagerC {
         return this.proxy;
     }
 
-    @Override
-    public void checkDataSignature(String string, short[] sArray, short[] sArray2) {
+    public void checkDataSignature(String string, short[] sArray, short[] sArray2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -44,8 +43,7 @@ FecManagerC {
         this.proxy.remoteCallMethod((short)0, genericSerializable);
     }
 
-    @Override
-    public void fecDetails(long l, long l2) {
+    public void fecDetails(long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -57,8 +55,7 @@ FecManagerC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void importFecs(int n) {
+    public void importFecs(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -69,8 +66,7 @@ FecManagerC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void exportCCD(int n) {
+    public void exportCCD(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -81,13 +77,11 @@ FecManagerC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void getHistory() {
+    public void getHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void encryptFile(String string, String string2, byte[] byArray) {
+    public void encryptFile(String string, String string2, byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -100,8 +94,7 @@ FecManagerC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void decryptFile(String string, String string2, byte[] byArray) {
+    public void decryptFile(String string, String string2, byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

@@ -19,13 +19,11 @@ extends SimpleNode {
         super(parser, n);
     }
 
-    @Override
     public Object jjtAccept(ParserVisitor parserVisitor, Object object) {
         return parserVisitor.visit(this, object);
     }
 
-    @Override
-    public Object execute(Object object, JexlContext jexlContext) {
+    public Object execute(Object object, JexlContext jexlContext) throws Exception {
         return new Integer(ASTSizeFunction.sizeOf(object));
     }
 }

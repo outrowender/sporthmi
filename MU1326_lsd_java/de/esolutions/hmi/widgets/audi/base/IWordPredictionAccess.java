@@ -8,31 +8,22 @@ import de.esolutions.hmi.widgets.audi.base.NullWordPredictionAccess;
 public interface IWordPredictionAccess {
     public static final IWordPredictionAccess NULL = new NullWordPredictionAccess();
 
-    default public void spellerConnected(int n, String[] stringArray) {
-    }
+    public void spellerConnected(int var1, String[] var2);
 
-    default public void convertedAllCharactersInternally() {
-    }
+    public void convertedAllCharactersInternally();
 
-    default public void spellerDisconnected() {
-    }
+    public void spellerDisconnected();
 
-    default public void unconvertedTextChanged(String string, String string2, int n) {
-    }
+    public void unconvertedTextChanged(String var1, String var2, int var3);
 
-    default public void startContextBasedPrediction(String string, String string2, int n) {
-    }
+    public void startContextBasedPrediction(String var1, String var2, int var3);
 
-    default public void selectedCandidate(String string, int n, String string2, int n2) {
-    }
+    public void selectedCandidate(String var1, int var2, String var3, int var4);
 
-    default public void getCandidates(int n) {
-    }
+    public void getCandidates(int var1);
 
-    default public void addToUserPreference(String string, String string2) {
-    }
+    public void addToUserPreference(String var1, String var2);
 
-    default public void getConversionAndSpellingImmediately(String string, int n) {
-    }
+    public void getConversionAndSpellingImmediately(String var1, int var2);
 }
 

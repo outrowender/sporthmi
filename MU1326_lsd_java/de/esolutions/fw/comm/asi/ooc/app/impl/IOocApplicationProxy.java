@@ -30,8 +30,7 @@ IOocApplicationC {
         return this.proxy;
     }
 
-    @Override
-    public void setCarWakeup(boolean bl) {
+    public void setCarWakeup(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -42,8 +41,7 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setCallActive(boolean bl) {
+    public void setCallActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -54,8 +52,7 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void setPhonePowerDelay(boolean bl) {
+    public void setPhonePowerDelay(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -66,8 +63,7 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void setNavigationPowerDelay(boolean bl) {
+    public void setNavigationPowerDelay(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -78,8 +74,7 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void setApplicationState(int n, int n2) {
+    public void setApplicationState(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -91,8 +86,7 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void setZrActive(boolean bl) {
+    public void setZrActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -103,13 +97,11 @@ IOocApplicationC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void registerPowerEventListener() {
+    public void registerPowerEventListener() throws MethodException {
         this.proxy.remoteCallMethod((short)0, null);
     }
 
-    @Override
-    public void shutdownResponseFinal(int n) {
+    public void shutdownResponseFinal(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);

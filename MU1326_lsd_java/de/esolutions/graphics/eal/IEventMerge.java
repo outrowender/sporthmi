@@ -19,12 +19,10 @@ extends IEvent {
         return iEventMerge == null ? 0L : iEventMerge.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {

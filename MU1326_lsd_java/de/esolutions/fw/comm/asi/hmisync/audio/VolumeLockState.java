@@ -32,7 +32,7 @@ public class VolumeLockState {
     }
 
     public String toString() {
-        return new StringBuffer("VolumeLockState{").append("audioContext=").append(this.audioContext).append(", state=").append(this.state).append("}").toString();
+        return "VolumeLockState{" + "audioContext=" + this.audioContext + ", state=" + this.state + "}";
     }
 }
 

@@ -3,10 +3,10 @@
  */
 package java.util;
 
-import java.util.Map$Entry;
+import java.util.Map;
 
 class MapEntry
-implements Map$Entry,
+implements Map.Entry,
 Cloneable {
     Object key;
     Object value;
@@ -29,38 +29,37 @@ Cloneable {
         }
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
         }
-        if (object instanceof Map$Entry) {
-            Map$Entry map$Entry = (Map$Entry)object;
-            return (this.key == null ? map$Entry.getKey() == null : this.key.equals(map$Entry.getKey())) && (this.value == null ? map$Entry.getValue() == null : this.value.equals(map$Entry.getValue()));
+        if (object instanceof Map.Entry) {
+            Map.Entry entry = (Map.Entry)object;
+            return (this.key == null ? entry.getKey() == null : this.key.equals(entry.getKey())) && (this.value == null ? entry.getValue() == null : this.value.equals(entry.getValue()));
         }
         return false;
     }
 
-    @Override
     public Object getKey() {
         return this.key;
     }
 
-    @Override
     public Object getValue() {
         return this.value;
     }
 
-    @Override
     public int hashCode() {
         return (this.key == null ? 0 : this.key.hashCode()) ^ (this.value == null ? 0 : this.value.hashCode());
     }
 
-    @Override
     public Object setValue(Object object) {
         Object object2 = this.value;
         this.value = object;
         return object2;
+    }
+
+    static interface Type {
+        public Object get(MapEntry var1);
     }
 }
 

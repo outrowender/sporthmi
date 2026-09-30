@@ -10,16 +10,16 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.search.DSISearch;
 import de.esolutions.fw.comm.dsi.search.DSISearchC;
 import de.esolutions.fw.comm.dsi.search.DSISearchReply;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$1;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$2;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$3;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$4;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$5;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$6;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$7;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$8;
-import de.esolutions.fw.comm.dsi.search.impl.DSISearchProxy$9;
+import de.esolutions.fw.comm.dsi.search.impl.CarFunctionSerializer;
 import de.esolutions.fw.comm.dsi.search.impl.DSISearchReplyService;
+import de.esolutions.fw.comm.dsi.search.impl.EnvironmentSerializer;
+import de.esolutions.fw.comm.dsi.search.impl.NavPositionSerializer;
+import de.esolutions.fw.comm.dsi.search.impl.RadioStationSerializer;
+import de.esolutions.fw.comm.dsi.search.impl.SearchFilterSerializer;
+import de.esolutions.fw.comm.dsi.search.impl.SearchQuerySerializer;
+import de.esolutions.fw.comm.dsi.search.impl.SearchResultSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.search.CarFunction;
@@ -46,13 +46,11 @@ DSISearchC {
         return this.proxy;
     }
 
-    @Override
-    public void requestSupportedCountries() {
+    public void requestSupportedCountries() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void setActiveSearchCountries(String[] stringArray) {
+    public void setActiveSearchCountries(String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalStringVarArray(stringArray);
@@ -63,26 +61,37 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void search(SearchQuery searchQuery) {
-        DSISearchProxy$1 dSISearchProxy$1 = new DSISearchProxy$1(this, searchQuery);
-        this.proxy.remoteCallMethod((short)92, dSISearchProxy$1);
+    public void search(final SearchQuery searchQuery) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SearchQuerySerializer.putOptionalSearchQuery(iSerializer, searchQuery);
+            }
+        };
+        this.proxy.remoteCallMethod((short)92, iSerializable);
     }
 
-    @Override
-    public void addToHistory(SearchResult searchResult) {
-        DSISearchProxy$2 dSISearchProxy$2 = new DSISearchProxy$2(this, searchResult);
-        this.proxy.remoteCallMethod((short)96, dSISearchProxy$2);
+    public void addToHistory(final SearchResult searchResult) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SearchResultSerializer.putOptionalSearchResult(iSerializer, searchResult);
+            }
+        };
+        this.proxy.remoteCallMethod((short)96, iSerializable);
     }
 
-    @Override
-    public void requestSuggestion(SearchQuery searchQuery) {
-        DSISearchProxy$3 dSISearchProxy$3 = new DSISearchProxy$3(this, searchQuery);
-        this.proxy.remoteCallMethod((short)91, dSISearchProxy$3);
+    public void requestSuggestion(final SearchQuery searchQuery) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                SearchQuerySerializer.putOptionalSearchQuery(iSerializer, searchQuery);
+            }
+        };
+        this.proxy.remoteCallMethod((short)91, iSerializable);
     }
 
-    @Override
-    public void cancelQuery(int n) {
+    public void cancelQuery(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -93,20 +102,27 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void setCurrentPosition(NavPosition navPosition) {
-        DSISearchProxy$4 dSISearchProxy$4 = new DSISearchProxy$4(this, navPosition);
-        this.proxy.remoteCallMethod((short)42, dSISearchProxy$4);
+    public void setCurrentPosition(final NavPosition navPosition) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavPositionSerializer.putOptionalNavPosition(iSerializer, navPosition);
+            }
+        };
+        this.proxy.remoteCallMethod((short)42, iSerializable);
     }
 
-    @Override
-    public void setRoutePoints(NavPosition[] navPositionArray) {
-        DSISearchProxy$5 dSISearchProxy$5 = new DSISearchProxy$5(this, navPositionArray);
-        this.proxy.remoteCallMethod((short)43, dSISearchProxy$5);
+    public void setRoutePoints(final NavPosition[] navPositionArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                NavPositionSerializer.putOptionalNavPositionVarArray(iSerializer, navPositionArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)43, iSerializable);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -117,8 +133,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)22, genericSerializable);
     }
 
-    @Override
-    public void setActiveProfile(int n) {
+    public void setActiveProfile(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -129,26 +144,39 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void setCarFunctionStates(CarFunction[] carFunctionArray) {
-        DSISearchProxy$6 dSISearchProxy$6 = new DSISearchProxy$6(this, carFunctionArray);
-        this.proxy.remoteCallMethod((short)18, dSISearchProxy$6);
+    public void setCarFunctionStates(final CarFunction[] carFunctionArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                CarFunctionSerializer.putOptionalCarFunctionVarArray(iSerializer, carFunctionArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)18, iSerializable);
     }
 
-    @Override
-    public void setRadioStations(int n, RadioStation[] radioStationArray) {
-        DSISearchProxy$7 dSISearchProxy$7 = new DSISearchProxy$7(this, n, radioStationArray);
-        this.proxy.remoteCallMethod((short)59, dSISearchProxy$7);
+    public void setRadioStations(final int n, final RadioStation[] radioStationArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                RadioStationSerializer.putOptionalRadioStationVarArray(iSerializer, radioStationArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)59, iSerializable);
     }
 
-    @Override
-    public void setSearchFilter(int n, SearchFilter searchFilter) {
-        DSISearchProxy$8 dSISearchProxy$8 = new DSISearchProxy$8(this, n, searchFilter);
-        this.proxy.remoteCallMethod((short)107, dSISearchProxy$8);
+    public void setSearchFilter(final int n, final SearchFilter searchFilter) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt32(n);
+                SearchFilterSerializer.putOptionalSearchFilter(iSerializer, searchFilter);
+            }
+        };
+        this.proxy.remoteCallMethod((short)107, iSerializable);
     }
 
-    @Override
-    public void prepareSources(int[] nArray) {
+    public void prepareSources(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -159,13 +187,11 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void resetToFactorySettings() {
+    public void resetToFactorySettings() throws MethodException {
         this.proxy.remoteCallMethod((short)37, null);
     }
 
-    @Override
-    public void removeFromHistory(long l) {
+    public void removeFromHistory(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt64(l);
@@ -176,13 +202,11 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)50, genericSerializable);
     }
 
-    @Override
-    public void removeAllFromHistory() {
+    public void removeAllFromHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)61, null);
     }
 
-    @Override
-    public void removeAllFromHistoryBySource(int n) {
+    public void removeAllFromHistoryBySource(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -193,8 +217,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)93, genericSerializable);
     }
 
-    @Override
-    public void resetAutocompletion(int n) {
+    public void resetAutocompletion(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -205,8 +228,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)53, genericSerializable);
     }
 
-    @Override
-    public void createBackupFile(String string) {
+    public void createBackupFile(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -217,8 +239,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void importBackupFile(String string) {
+    public void importBackupFile(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -229,14 +250,17 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)65, genericSerializable);
     }
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        DSISearchProxy$9 dSISearchProxy$9 = new DSISearchProxy$9(this, environment);
-        this.proxy.remoteCallMethod((short)95, dSISearchProxy$9);
+    public void setEnvironment(final Environment environment) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                EnvironmentSerializer.putOptionalEnvironment(iSerializer, environment);
+            }
+        };
+        this.proxy.remoteCallMethod((short)95, iSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -247,8 +271,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)98, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -260,8 +283,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)101, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -272,13 +294,11 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)102, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)104, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -289,8 +309,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -301,13 +320,11 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)24, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -318,8 +335,7 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -330,13 +346,11 @@ DSISearchC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

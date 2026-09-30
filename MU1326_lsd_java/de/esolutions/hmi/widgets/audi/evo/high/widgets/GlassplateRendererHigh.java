@@ -31,11 +31,11 @@ implements GlassplateRenderer,
 I3DCarListener {
     public static final int OFFSCREEN_TEXTURE_WIDTH = GlassplateRendererHigh.getOffscreenWidth();
     public static final int OFFSCREEN_TEXTURE_HEIGHT = GlassplateRendererHigh.getOffscreenHeight();
-    private static final String EAL_NODE_NAME;
-    private static final String EAL_NODE_NAME_SEPARATOR;
-    private static final String SPORTSKIN_PROPERTY;
-    private static final String texture_translation;
-    private static final float CAR_DARKENING_FACTOR;
+    private static final String EAL_NODE_NAME = "glassPlate";
+    private static final String EAL_NODE_NAME_SEPARATOR = "glassplate_separator";
+    private static final String SPORTSKIN_PROPERTY = "gp_stageBig";
+    private static final String texture_translation = "gp_gridOffsetX";
+    private static final float CAR_DARKENING_FACTOR = 0.5f;
     private static IWrappedTexture emptyTexture;
     private static IWrappedTexture blackBackgroundTexture;
     private final GlassplateController controller;
@@ -49,7 +49,6 @@ I3DCarListener {
         this.controller = glassplateController;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float f2;
         int n;
@@ -63,7 +62,7 @@ I3DCarListener {
         this.node.setPosition(n2 - n6, n3, 0.0f);
         this.propertyCache.setProperty(this.node, "gp_contentFBOwidth", (float)GlassplateRendererHigh.getOffscreenWidth());
         this.propertyCache.setProperty(this.node, "gp_contentFBOheight", (float)GlassplateRendererHigh.getOffscreenHeight());
-        logChannel.log(-2137614336, "GlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)GlassplateRendererHigh.getOffscreenWidth(), (long)GlassplateRendererHigh.getOffscreenHeight());
+        logChannel.log(10000000, "GlassplateRendererHigh#applyProperties set offscreenFBOSize width: %1, height: %2", (long)GlassplateRendererHigh.getOffscreenWidth(), (long)GlassplateRendererHigh.getOffscreenHeight());
         this.propertyCache.setProperty(this.node, "gp_SDS_column_width", (float)this.controller.getActiveSdsNumbersWidth());
         this.propertyCache.setProperty(this.node, "gp_width", (float)n4);
         this.propertyCache.setProperty(this.node, "gp_height", (float)n5);
@@ -87,8 +86,8 @@ I3DCarListener {
         if (this.controller.getSCDText() != null) {
             if (this.scdTextNode == null) {
                 this.scdTextNode = this.getEALManager().createText3D(this.node, "SCDTextNode", this.controller.getSCDText(), this.getInheritedFont());
-                float f4 = this.scdTextNode.getScaleX() * 1899850303;
-                f2 = this.scdTextNode.getScaleY() * 1899850303;
+                float f4 = this.scdTextNode.getScaleX() * 0.915f;
+                f2 = this.scdTextNode.getScaleY() * 0.915f;
                 float f5 = this.scdTextNode.getScaleZ();
                 this.scdTextNode.setScale(f4, f2, f5);
             } else {
@@ -98,7 +97,7 @@ I3DCarListener {
             if (this.controller.getSdsNumbersVisible() > 0.0f) {
                 n += this.controller.getActiveSdsNumbersWidth();
             }
-            this.scdTextNode.setPosition(n, 8425283, 0.0f);
+            this.scdTextNode.setPosition(n, 287.0f, 0.0f);
             this.scdTextNode.setVisible(true);
             this.scdTextColor = EALManager.createColorCode(-1);
             this.scdTextNode.getInterfaceText().setColor(this.scdTextColor);
@@ -153,7 +152,7 @@ I3DCarListener {
             f2 = car3DResourceHandler.getGridPosition();
         }
         if (!this.controller.isOptionGlassPlate() && car3DResourceHandler != null && car3DResourceHandler.isVisible()) {
-            this.propertyCache.setProperty(this.node, "gp_unknownBG", (float)63);
+            this.propertyCache.setProperty(this.node, "gp_unknownBG", 0.5f);
             if (car3DResourceHandler.getMode() == 0) {
                 this.propertyCache.setProperty(this.node, "background", emptyTexture.getTexture());
             }
@@ -172,14 +171,14 @@ I3DCarListener {
             this.propertyCache.setProperty(this.node, "screenWidth", (float)this.getTerminal().getLayout().getDistance(1));
             this.propertyCache.setProperty(this.node, "screenHeight", (float)this.getTerminal().getLayout().getDistance(2));
             this.propertyCache.setProperty(this.node, "gp_gridSizeX", (float)this.getTerminal().getLayout().getDistance(228));
-            if (EALPropertyCache.isPropertyAvailable(this.node.getNode(), "gp_gridOffsetX")) {
-                this.propertyCache.setProperty(this.node, "gp_gridOffsetX", f2);
+            if (EALPropertyCache.isPropertyAvailable(this.node.getNode(), texture_translation)) {
+                this.propertyCache.setProperty(this.node, texture_translation, f2);
             }
         }
         if (this.isSportskinSmallStage()) {
-            this.propertyCache.setProperty(this.node, "gp_stageBig", 0.0f);
+            this.propertyCache.setProperty(this.node, SPORTSKIN_PROPERTY, 0.0f);
         } else {
-            this.propertyCache.setProperty(this.node, "gp_stageBig", 1.0f);
+            this.propertyCache.setProperty(this.node, SPORTSKIN_PROPERTY, 1.0f);
         }
     }
 
@@ -207,12 +206,11 @@ I3DCarListener {
             this.propertyCache.setProperty(this.node, "gp_textureOffset_Y", car3DResourceHandler.getLayerPosY());
             this.propertyCache.setProperty(this.node, "gp_textureSize_X", car3DResourceHandler.getLayerWidth());
             this.propertyCache.setProperty(this.node, "gp_textureSize_Y", car3DResourceHandler.getLayerHeight());
-            this.propertyCache.setProperty(this.node, "gp_unknownBG", 1.0f - 63 * car3DResourceHandler.getOpacity());
-            this.propertyCache.setProperty(this.node, "gp_gridOffsetX", f2);
+            this.propertyCache.setProperty(this.node, "gp_unknownBG", 1.0f - 0.5f * car3DResourceHandler.getOpacity());
+            this.propertyCache.setProperty(this.node, texture_translation, f2);
         }
     }
 
-    @Override
     public void contentChanged() {
         if (this.node != null) {
             this.setPropertyWithoutChangeCheck("gp_invalidate", true);
@@ -221,7 +219,7 @@ I3DCarListener {
     }
 
     private IWrappedTexture getBackgroundTexture() {
-        if (this.controller.getPropertyOpacity() == 16448) {
+        if (this.controller.getPropertyOpacity() == 3.0f) {
             return this.getBlackBackgroundTexture();
         }
         return this.getEALManager().getBackgroundTexture();
@@ -239,7 +237,6 @@ I3DCarListener {
         return blackBackgroundTexture;
     }
 
-    @Override
     protected String getTemplateNodePath() {
         if (this.controller.isOptionGlassPlate()) {
             return "Prefabs/generic_glassPlate_optionsDrawer";
@@ -247,21 +244,18 @@ I3DCarListener {
         return "Prefabs/generic_glassPlate";
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     protected String getEALNodeName() {
-        return "glassPlate";
+        return EAL_NODE_NAME;
     }
 
     private IWrappedNode3D createSeparatorNode(IWrappedNode3D iWrappedNode3D) {
-        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName("glassplate_separator", this), 0.0f, 0.0f, this.getKzbConstant(), "Prefabs/generic_glassPlate_separator", this.getInitContext().getScreenID());
+        return this.getEALManager().createTemplateInstanceNode(iWrappedNode3D, EALManager.createNodeName(EAL_NODE_NAME_SEPARATOR, this), 0.0f, 0.0f, this.getKzbConstant(), "Prefabs/generic_glassPlate_separator", this.getInitContext().getScreenID());
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         Car3DResourceHandler car3DResourceHandler;
         super.connect(initializationContext);
@@ -270,7 +264,6 @@ I3DCarListener {
         }
     }
 
-    @Override
     public void disconnect() {
         Car3DResourceHandler car3DResourceHandler = this.getEALManager().getCar3DResourceHandler();
         if (car3DResourceHandler != null) {
@@ -297,12 +290,10 @@ I3DCarListener {
         return this.controller.getTerminalImpl().getViewSizeManager().isSportskinSmallStage();
     }
 
-    @Override
     protected int getKzbConstant() {
         return 6;
     }
 
-    @Override
     public void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         RedrawContextHigh redrawContextHigh = (RedrawContextHigh)redrawContext;
         redrawContextHigh.parentNode = this.node;

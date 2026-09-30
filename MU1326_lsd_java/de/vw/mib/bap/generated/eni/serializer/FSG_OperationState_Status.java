@@ -10,11 +10,11 @@ import de.vw.mib.bap.stream.BitStream;
 public final class FSG_OperationState_Status
 implements StatusProperty {
     public int op_State;
-    public static final int OP_STATE_DEFECTIVE;
-    public static final int OP_STATE_NORMAL_OPERATION_PRIVACY_MODE_DF3_5;
-    public static final int OP_STATE_INITIALISING;
-    public static final int OP_STATE_OFF_STAND_BY;
-    public static final int OP_STATE_NORMAL_OPERATION;
+    public static final int OP_STATE_DEFECTIVE = 15;
+    public static final int OP_STATE_NORMAL_OPERATION_PRIVACY_MODE_DF3_5 = 4;
+    public static final int OP_STATE_INITIALISING = 3;
+    public static final int OP_STATE_OFF_STAND_BY = 1;
+    public static final int OP_STATE_NORMAL_OPERATION = 0;
 
     public FSG_OperationState_Status() {
         this.internalReset();
@@ -30,12 +30,10 @@ implements StatusProperty {
         this.op_State = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)bAPEntity;
         return this.op_State == fSG_OperationState_Status.op_State;
@@ -44,25 +42,21 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("FSG_OperationState_Status");
-        stringBuffer.append(new StringBuffer().append("\n - op_State:").append(this.op_State).toString());
+        stringBuffer.append("\n - op_State:" + this.op_State);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.op_State);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.op_State = bitStream.popFrontByte();
     }
@@ -71,7 +65,6 @@ implements StatusProperty {
         return 15;
     }
 
-    @Override
     public int getFunctionId() {
         return FSG_OperationState_Status.functionId();
     }

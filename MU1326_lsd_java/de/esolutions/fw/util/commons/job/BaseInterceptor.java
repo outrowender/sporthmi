@@ -15,22 +15,18 @@ implements IInterceptor {
         this.setNext(null);
     }
 
-    @Override
     public void execute(Job job) {
         this.next.execute(job);
     }
 
-    @Override
     public final IInterceptor getNext() {
         return this.next;
     }
 
-    @Override
     public final void setNext(IInterceptor iInterceptor) {
         this.next = iInterceptor;
     }
 
-    @Override
     public void dump(PrintStream printStream) {
         if (printStream != null && this.getNext() != null) {
             this.getNext().dump(printStream);

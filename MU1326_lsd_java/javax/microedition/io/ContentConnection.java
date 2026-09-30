@@ -7,13 +7,10 @@ import javax.microedition.io.StreamConnection;
 
 public interface ContentConnection
 extends StreamConnection {
-    default public String getEncoding() {
-    }
+    public String getEncoding();
 
-    default public long getLength() {
-    }
+    public long getLength();
 
-    default public String getType() {
-    }
+    public String getType();
 }
 

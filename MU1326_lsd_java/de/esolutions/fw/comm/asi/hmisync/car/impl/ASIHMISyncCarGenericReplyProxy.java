@@ -4,19 +4,20 @@
 package de.esolutions.fw.comm.asi.hmisync.car.impl;
 
 import de.esolutions.fw.comm.asi.hmisync.car.ASIHMISyncCarGenericReply;
-import de.esolutions.fw.comm.asi.hmisync.car.impl.ASIHMISyncCarGenericReplyProxy$1;
-import de.esolutions.fw.comm.asi.hmisync.car.impl.ASIHMISyncCarGenericReplyProxy$2;
-import de.esolutions.fw.comm.asi.hmisync.car.impl.ASIHMISyncCarGenericReplyProxy$3;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ASIHMISyncCarGenericReplyProxy
 implements ASIHMISyncCarGenericReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.hmisync.car.ASIHMISyncCarGeneric");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public ASIHMISyncCarGenericReplyProxy() {
@@ -24,27 +25,41 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
-        ASIHMISyncCarGenericReplyProxy$1 aSIHMISyncCarGenericReplyProxy$1 = new ASIHMISyncCarGenericReplyProxy$1(this, string, bl);
-        this.proxy.remoteCallMethod((short)6, aSIHMISyncCarGenericReplyProxy$1);
+    public void updateASIVersion(final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)6, iSerializable);
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
-        ASIHMISyncCarGenericReplyProxy$2 aSIHMISyncCarGenericReplyProxy$2 = new ASIHMISyncCarGenericReplyProxy$2(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)8, aSIHMISyncCarGenericReplyProxy$2);
+    public void updateRequestIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)8, iSerializable);
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
-        ASIHMISyncCarGenericReplyProxy$3 aSIHMISyncCarGenericReplyProxy$3 = new ASIHMISyncCarGenericReplyProxy$3(this, sArray, bl);
-        this.proxy.remoteCallMethod((short)7, aSIHMISyncCarGenericReplyProxy$3);
+    public void updateReplyIDs(final short[] sArray, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalInt16VarArray(sArray);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)7, iSerializable);
     }
 }
 

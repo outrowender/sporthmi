@@ -7,6 +7,7 @@ import com.ibm.oti.util.Msg;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 
 public final class DatagramPacket {
     byte[] data;
@@ -80,18 +81,18 @@ public final class DatagramPacket {
     }
 
     public synchronized void setPort(int n) {
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0325", n));
         }
         this.port = n;
     }
 
-    public DatagramPacket(byte[] byArray, int n, SocketAddress socketAddress) {
+    public DatagramPacket(byte[] byArray, int n, SocketAddress socketAddress) throws SocketException {
         this(byArray, 0, n);
         this.setSocketAddress(socketAddress);
     }
 
-    public DatagramPacket(byte[] byArray, int n, int n2, SocketAddress socketAddress) {
+    public DatagramPacket(byte[] byArray, int n, int n2, SocketAddress socketAddress) throws SocketException {
         this(byArray, n, n2);
         this.setSocketAddress(socketAddress);
     }
@@ -102,7 +103,7 @@ public final class DatagramPacket {
 
     public void setSocketAddress(SocketAddress socketAddress) {
         if (!(socketAddress instanceof InetSocketAddress)) {
-            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress == null ? null : super.getClass()));
+            throw new IllegalArgumentException(Msg.getString("K0316", socketAddress == null ? null : socketAddress.getClass()));
         }
         InetSocketAddress inetSocketAddress = (InetSocketAddress)socketAddress;
         this.port = inetSocketAddress.getPort();

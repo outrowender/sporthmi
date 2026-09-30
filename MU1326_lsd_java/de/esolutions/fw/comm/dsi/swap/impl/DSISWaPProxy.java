@@ -30,8 +30,7 @@ DSISWaPC {
         return this.proxy;
     }
 
-    @Override
-    public void encryptFile(String string, String string2, byte[] byArray) {
+    public void encryptFile(String string, String string2, byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -44,8 +43,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void checkSignature(String string, short[] sArray, int n, long l) {
+    public void checkSignature(String string, short[] sArray, int n, long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -59,13 +57,11 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void getPublicKey() {
+    public void getPublicKey() throws MethodException {
         this.proxy.remoteCallMethod((short)19, null);
     }
 
-    @Override
-    public void checkSingleFsc(int n) {
+    public void checkSingleFsc(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -76,8 +72,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void decryptFile(String string, String string2, byte[] byArray) {
+    public void decryptFile(String string, String string2, byte[] byArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -90,8 +85,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void getFscDetails(int n, int n2, int n3) {
+    public void getFscDetails(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -104,13 +98,11 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void triggerSoftwareEnabling() {
+    public void triggerSoftwareEnabling() throws MethodException {
         this.proxy.remoteCallMethod((short)27, null);
     }
 
-    @Override
-    public void importFSCs(int n) {
+    public void importFSCs(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -121,8 +113,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void exportCCD(int n) {
+    public void exportCCD(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -133,13 +124,11 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void getHistory() {
+    public void getHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)16, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -150,8 +139,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -162,13 +150,11 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)24, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -179,8 +165,7 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -191,13 +176,11 @@ DSISWaPC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)5, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

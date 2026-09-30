@@ -3,37 +3,28 @@
  */
 package de.esolutions.fw.comm.dsi.generalvehiclestates;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.generalvehiclestates.TLOInfoElement;
 
 public interface DSIGeneralVehicleStatesC {
-    default public void setDSSSKombiWarning(int n) {
-    }
+    public void setDSSSKombiWarning(int var1) throws MethodException;
 
-    default public void setTLOData(int n, int n2, TLOInfoElement[] tLOInfoElementArray) {
-    }
+    public void setTLOData(int var1, int var2, TLOInfoElement[] var3) throws MethodException;
 
-    default public void setAppConnectState(boolean bl) {
-    }
+    public void setAppConnectState(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

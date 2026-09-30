@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.cartimeunitslanguage;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.cartimeunitslanguage.ClockDate;
 import org.dsi.ifc.cartimeunitslanguage.ClockDayLightSavingData;
 import org.dsi.ifc.cartimeunitslanguage.ClockGPSSyncData;
@@ -13,90 +14,63 @@ import org.dsi.ifc.cartimeunitslanguage.UTCOffset;
 import org.dsi.ifc.cartimeunitslanguage.UnitmasterViewOptions;
 
 public interface DSICarTimeUnitsLanguageReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "01263cc4-0929-5a81-a342-f8319d605c3a";
+    public static final String IPL_COMM_INTERFACE_KEY = "52c43d02-c9d9-5770-917f-6a23f69a2ac8";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.26";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.26";
 
-    default public void updateUnitmasterViewOptions(UnitmasterViewOptions unitmasterViewOptions, int n) {
-    }
+    public void updateUnitmasterViewOptions(UnitmasterViewOptions var1, int var2) throws MethodException;
 
-    default public void updateMenuLanguage(int n, int n2) {
-    }
+    public void updateMenuLanguage(int var1, int var2) throws MethodException;
 
-    default public void updateTemperatureUnit(int n, int n2) {
-    }
+    public void updateTemperatureUnit(int var1, int var2) throws MethodException;
 
-    default public void updateDistanceUnit(int n, int n2) {
-    }
+    public void updateDistanceUnit(int var1, int var2) throws MethodException;
 
-    default public void updateSpeedUnit(int n, int n2) {
-    }
+    public void updateSpeedUnit(int var1, int var2) throws MethodException;
 
-    default public void updatePressureUnit(int n, int n2) {
-    }
+    public void updatePressureUnit(int var1, int var2) throws MethodException;
 
-    default public void updateVolumeUnit(int n, int n2) {
-    }
+    public void updateVolumeUnit(int var1, int var2) throws MethodException;
 
-    default public void updateConsumptionPetrolUnit(int n, int n2) {
-    }
+    public void updateConsumptionPetrolUnit(int var1, int var2) throws MethodException;
 
-    default public void updateConsumptionGasUnit(int n, int n2) {
-    }
+    public void updateConsumptionGasUnit(int var1, int var2) throws MethodException;
 
-    default public void updateConsumptionElectricUnit(int n, int n2) {
-    }
+    public void updateConsumptionElectricUnit(int var1, int var2) throws MethodException;
 
-    default public void updateClockFormat(int n, int n2) {
-    }
+    public void updateClockFormat(int var1, int var2) throws MethodException;
 
-    default public void updateDateFormat(int n, int n2) {
-    }
+    public void updateDateFormat(int var1, int var2) throws MethodException;
 
-    default public void updateClockViewOptions(ClockViewOptions clockViewOptions, int n) {
-    }
+    public void updateClockViewOptions(ClockViewOptions var1, int var2) throws MethodException;
 
-    default public void updateClockDate(ClockDate clockDate, int n) {
-    }
+    public void updateClockDate(ClockDate var1, int var2) throws MethodException;
 
-    default public void updateClockTime(ClockTime clockTime, int n) {
-    }
+    public void updateClockTime(ClockTime var1, int var2) throws MethodException;
 
-    default public void updateClockSource(int n, int n2) {
-    }
+    public void updateClockSource(int var1, int var2) throws MethodException;
 
-    default public void updateClockDayLightSaving(boolean bl, int n) {
-    }
+    public void updateClockDayLightSaving(boolean var1, int var2) throws MethodException;
 
-    default public void updateClockDayLightSavingData(ClockDayLightSavingData clockDayLightSavingData, int n) {
-    }
+    public void updateClockDayLightSavingData(ClockDayLightSavingData var1, int var2) throws MethodException;
 
-    default public void updateClockTimeZoneOffset(float f2, int n) {
-    }
+    public void updateClockTimeZoneOffset(float var1, int var2) throws MethodException;
 
-    default public void updateClockTimeSourcesAvailable(ClockSources clockSources, int n) {
-    }
+    public void updateClockTimeSourcesAvailable(ClockSources var1, int var2) throws MethodException;
 
-    default public void updateClockGPSSyncData(ClockGPSSyncData clockGPSSyncData, int n) {
-    }
+    public void updateClockGPSSyncData(ClockGPSSyncData var1, int var2) throws MethodException;
 
-    default public void acknowledgeUmSetFactoryDefault(boolean bl) {
-    }
+    public void acknowledgeUmSetFactoryDefault(boolean var1) throws MethodException;
 
-    default public void updateUTCOffset(UTCOffset uTCOffset, int n) {
-    }
+    public void updateUTCOffset(UTCOffset var1, int var2) throws MethodException;
 
-    default public void updateSkin(int n, int n2) {
-    }
+    public void updateSkin(int var1, int var2) throws MethodException;
 
-    default public void updateWeightUnit(int n, int n2) {
-    }
+    public void updateWeightUnit(int var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

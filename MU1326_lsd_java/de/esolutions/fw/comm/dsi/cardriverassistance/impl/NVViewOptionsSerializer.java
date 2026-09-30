@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cardriverassistance.impl.NVConfigurationSeriali
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.NVConfiguration;
 import org.dsi.ifc.cardriverassistance.NVViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class NVViewOptionsSerializer {
-    public static void putOptionalNVViewOptions(ISerializer iSerializer, NVViewOptions nVViewOptions) {
+    public static void putOptionalNVViewOptions(ISerializer iSerializer, NVViewOptions nVViewOptions) throws SerializerException {
         boolean bl = nVViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -47,7 +48,7 @@ public class NVViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalNVViewOptionsVarArray(ISerializer iSerializer, NVViewOptions[] nVViewOptionsArray) {
+    public static void putOptionalNVViewOptionsVarArray(ISerializer iSerializer, NVViewOptions[] nVViewOptionsArray) throws SerializerException {
         boolean bl = nVViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -58,7 +59,7 @@ public class NVViewOptionsSerializer {
         }
     }
 
-    public static NVViewOptions getOptionalNVViewOptions(IDeserializer iDeserializer) {
+    public static NVViewOptions getOptionalNVViewOptions(IDeserializer iDeserializer) throws SerializerException {
         NVViewOptions nVViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -95,7 +96,7 @@ public class NVViewOptionsSerializer {
         return nVViewOptions;
     }
 
-    public static NVViewOptions[] getOptionalNVViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static NVViewOptions[] getOptionalNVViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         NVViewOptions[] nVViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

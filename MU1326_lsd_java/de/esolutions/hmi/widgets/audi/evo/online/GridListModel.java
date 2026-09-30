@@ -8,11 +8,12 @@ import de.audi.atip.hmi.model.list.BaseListModelListener;
 import de.audi.atip.hmi.model.menu.MenuModel;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
-import de.esolutions.hmi.widgets.audi.evo.online.GridListModel$RowSubrowIterator;
 import de.esolutions.hmi.widgets.audi.evo.online.GridListRow;
 import de.esolutions.hmi.widgets.audi.evo.online.IInfiniteListModelAccess;
 import de.esolutions.hmi.widgets.audi.evo.online.RowInfo;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class GridListModel
 extends BaseListModel {
@@ -35,16 +36,16 @@ extends BaseListModel {
         return this.listener;
     }
 
-    public GridListModel$RowSubrowIterator rowSubrowIterator() {
-        return new GridListModel$RowSubrowIterator(this, -1, -1);
+    public RowSubrowIterator rowSubrowIterator() {
+        return new RowSubrowIterator(-1, -1);
     }
 
-    public GridListModel$RowSubrowIterator rowSubrowIterator(int n, int n2) {
-        return new GridListModel$RowSubrowIterator(this, n, n2);
+    public RowSubrowIterator rowSubrowIterator(int n, int n2) {
+        return new RowSubrowIterator(n, n2);
     }
 
-    public GridListModel$RowSubrowIterator rowSubrowIterator(RowInfo rowInfo) {
-        return new GridListModel$RowSubrowIterator(this, rowInfo.getIndex(), rowInfo.getSubindex());
+    public RowSubrowIterator rowSubrowIterator(RowInfo rowInfo) {
+        return new RowSubrowIterator(rowInfo.getIndex(), rowInfo.getSubindex());
     }
 
     public GridListRow getRowAt(int n, int n2) {
@@ -70,7 +71,7 @@ extends BaseListModel {
         GridListRow gridListRow2 = this.getRowAt(n, -1);
         GridListRow gridListRow3 = gridListRow = n2 == -1 ? gridListRow2 : this.getRowAt(n, n2);
         if (gridListRow == null || gridListRow2 == null) {
-            String string = new StringBuffer().append("GridListModel.getRowInfo: null row detected, list structure corrupt: index=").append(n).append(", subindex=").append(n2).append(", row=").append(gridListRow).append(", parent=").append(gridListRow2).toString();
+            String string = "GridListModel.getRowInfo: null row detected, list structure corrupt: index=" + n + ", subindex=" + n2 + ", row=" + gridListRow + ", parent=" + gridListRow2;
             throw new IllegalStateException(string);
         }
         return new RowInfo(n, n2, gridListRow2, gridListRow);
@@ -159,7 +160,6 @@ extends BaseListModel {
         this.modelAccess = iInfiniteListModelAccess;
     }
 
-    @Override
     public void itemFocused(long l, int n, int n2) {
         if (this.modelAccess != null && (this.modelAccess.isResolvingRows() || this.modelAccess.isResetting())) {
             this.oldUniqueID = l;
@@ -175,7 +175,7 @@ extends BaseListModel {
 
     public void notifyResolvingRowsAndResettingFinished() {
         if (this.oldUniqueID != -1L) {
-            log.log(1078071040, "GridListModel#notifyResolvingRowsAndResettingFinished: setting focused item to cached unique ID %1. (absolute index=%2)", this.oldUniqueID, this.oldUniqueID % (long)this.getID());
+            log.log(1000000, "GridListModel#notifyResolvingRowsAndResettingFinished: setting focused item to cached unique ID %1. (absolute index=%2)", this.oldUniqueID, this.oldUniqueID % (long)this.getID());
             super.itemFocused(this.oldUniqueID, this.oldCol, this.oldTerminal);
             this.clearCacheForFocusedItem();
             this.modelAccess.checkDelayedTasks();
@@ -184,6 +184,74 @@ extends BaseListModel {
 
     public void clearCacheForFocusedItem() {
         this.oldUniqueID = -1L;
+    }
+
+    public class RowSubrowIterator
+    implements ListIterator {
+        private int currentIndex;
+        private int currentSubindex;
+
+        public RowSubrowIterator(int n, int n2) {
+            this.currentIndex = n;
+            this.currentSubindex = n2;
+        }
+
+        public boolean hasNext() {
+            return GridListModel.this.getRowInfoAfter(this.currentIndex, this.currentSubindex).getRow() != null;
+        }
+
+        public Object next() {
+            RowInfo rowInfo = GridListModel.this.getRowInfoAfter(this.currentIndex, this.currentSubindex);
+            if (rowInfo.getRow() == null) {
+                throw new NoSuchElementException();
+            }
+            this.currentIndex = rowInfo.getIndex();
+            this.currentSubindex = rowInfo.getSubindex();
+            return rowInfo.getRow();
+        }
+
+        public boolean hasPrevious() {
+            return GridListModel.this.getRowAt(this.currentIndex, this.currentSubindex) != null;
+        }
+
+        public Object previous() {
+            GridListRow gridListRow = GridListModel.this.getRowAt(this.currentIndex, this.currentSubindex);
+            if (gridListRow == null) {
+                throw new NoSuchElementException();
+            }
+            RowInfo rowInfo = GridListModel.this.getRowInfoBefore(this.currentIndex, this.currentSubindex);
+            this.currentIndex = rowInfo.getIndex();
+            this.currentSubindex = rowInfo.getSubindex();
+            return gridListRow;
+        }
+
+        public RowInfo nextRowInfo() {
+            return GridListModel.this.getRowInfoAfter(this.currentIndex, this.currentSubindex);
+        }
+
+        public RowInfo previousRowInfo() {
+            return GridListModel.this.getRowInfo(this.currentIndex, this.currentSubindex);
+        }
+
+        public int nextIndex() {
+            throw new UnsupportedOperationException("nextIndex");
+        }
+
+        public int previousIndex() {
+            throw new UnsupportedOperationException("previousIndex");
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("remove");
+        }
+
+        public void add(Object object) {
+            throw new UnsupportedOperationException("add");
+        }
+
+        public void set(Object object) {
+            throw new UnsupportedOperationException("set");
+        }
     }
 }
 

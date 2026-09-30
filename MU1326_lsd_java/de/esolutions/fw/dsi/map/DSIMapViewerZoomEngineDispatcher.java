@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.map;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerZoomEngineReply;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerZoomEngineReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -22,13 +23,11 @@ implements DSIMapViewerZoomEngineReply {
         super(n, (class$org$dsi$ifc$map$DSIMapViewerZoomEngineListener == null ? (class$org$dsi$ifc$map$DSIMapViewerZoomEngineListener = DSIMapViewerZoomEngineDispatcher.class$("org.dsi.ifc.map.DSIMapViewerZoomEngineListener")) : class$org$dsi$ifc$map$DSIMapViewerZoomEngineListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateAutoZoomEnabled(boolean bl, int n) {
+    public void updateAutoZoomEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -56,8 +55,7 @@ implements DSIMapViewerZoomEngineReply {
         }
     }
 
-    @Override
-    public void updateManoeuvreZoomEnabled(boolean bl, int n) {
+    public void updateManoeuvreZoomEnabled(boolean bl, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -85,8 +83,7 @@ implements DSIMapViewerZoomEngineReply {
         }
     }
 
-    @Override
-    public void updateRecommendedZoom(float f2, int n) {
+    public void updateRecommendedZoom(float f2, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(3);
@@ -114,8 +111,7 @@ implements DSIMapViewerZoomEngineReply {
         }
     }
 
-    @Override
-    public void updateZoomEngineState(int n, int n2) {
+    public void updateZoomEngineState(int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(4);
@@ -143,8 +139,7 @@ implements DSIMapViewerZoomEngineReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -160,14 +155,13 @@ implements DSIMapViewerZoomEngineReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMapViewerZoomEngineListener dSIMapViewerZoomEngineListener = (DSIMapViewerZoomEngineListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerZoomEngineDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerZoomEngineDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMapViewerZoomEngineListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerZoomEngineDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerZoomEngineDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMapViewerZoomEngineListener, new Object[]{string, string2});
                     continue;
                 }

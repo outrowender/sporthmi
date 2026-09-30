@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carcomfort.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carcomfort.UGDOTransmittableElements;
 
 public class UGDOTransmittableElementsSerializer {
-    public static void putOptionalUGDOTransmittableElements(ISerializer iSerializer, UGDOTransmittableElements uGDOTransmittableElements) {
+    public static void putOptionalUGDOTransmittableElements(ISerializer iSerializer, UGDOTransmittableElements uGDOTransmittableElements) throws SerializerException {
         boolean bl = uGDOTransmittableElements == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class UGDOTransmittableElementsSerializer {
         }
     }
 
-    public static void putOptionalUGDOTransmittableElementsVarArray(ISerializer iSerializer, UGDOTransmittableElements[] uGDOTransmittableElementsArray) {
+    public static void putOptionalUGDOTransmittableElementsVarArray(ISerializer iSerializer, UGDOTransmittableElements[] uGDOTransmittableElementsArray) throws SerializerException {
         boolean bl = uGDOTransmittableElementsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class UGDOTransmittableElementsSerializer {
         }
     }
 
-    public static UGDOTransmittableElements getOptionalUGDOTransmittableElements(IDeserializer iDeserializer) {
+    public static UGDOTransmittableElements getOptionalUGDOTransmittableElements(IDeserializer iDeserializer) throws SerializerException {
         UGDOTransmittableElements uGDOTransmittableElements = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class UGDOTransmittableElementsSerializer {
         return uGDOTransmittableElements;
     }
 
-    public static UGDOTransmittableElements[] getOptionalUGDOTransmittableElementsVarArray(IDeserializer iDeserializer) {
+    public static UGDOTransmittableElements[] getOptionalUGDOTransmittableElementsVarArray(IDeserializer iDeserializer) throws SerializerException {
         UGDOTransmittableElements[] uGDOTransmittableElementsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

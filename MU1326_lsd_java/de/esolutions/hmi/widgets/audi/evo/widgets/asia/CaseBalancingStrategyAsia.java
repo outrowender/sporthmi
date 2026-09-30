@@ -16,7 +16,6 @@ extends CaseBalancingStrategyEU
 implements ICaseBalancingStrategy {
     protected static final char[] WORD_SEPERATORS_ASIA = new char[]{' ', '!', '\'', '(', ')', '+', ',', '-', '.', '/', ':', ';', '?', '_', '\u00a1', '\u00bf', '\u3002', '\u300a', '\u300b'};
 
-    @Override
     public String refreshForDisplayCaseBalancingText(int n, int n2, IntList intList, List list) {
         Buffer buffer = new Buffer(n2 - n);
         for (int i2 = n; i2 < n2; ++i2) {
@@ -63,13 +62,11 @@ implements ICaseBalancingStrategy {
         return 2;
     }
 
-    @Override
     public boolean isWordSeparator(char c2) {
         boolean bl = Arrays.binarySearch(WORD_SEPERATORS_ASIA, c2) >= 0;
         return bl |= StringUtility.isAsiaCharacter(c2);
     }
 
-    @Override
     public boolean needRefreshDisplayTextAfterTextChange() {
         return this.isHandwrittenActive;
     }

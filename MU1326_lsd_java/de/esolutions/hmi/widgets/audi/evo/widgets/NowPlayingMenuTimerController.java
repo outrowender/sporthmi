@@ -21,7 +21,6 @@ extends AbstractMenuIdleTimerController {
         this.idleTime = 10000;
     }
 
-    @Override
     protected void timerFired() {
         if (this.isFireEventTemporarilyDisabled) {
             return;
@@ -32,7 +31,6 @@ extends AbstractMenuIdleTimerController {
         }
     }
 
-    @Override
     public void setEnabled(boolean bl) {
         super.setEnabled(bl);
         if (!this.isEnabled()) {

@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.telephone.impl;
 import de.esolutions.fw.comm.asi.diagnosis.telephone.sTelephoneTemperature;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sTelephoneTemperatureSerializer {
-    public static void putOptionalsTelephoneTemperature(ISerializer iSerializer, sTelephoneTemperature sTelephoneTemperature2) {
+    public static void putOptionalsTelephoneTemperature(ISerializer iSerializer, sTelephoneTemperature sTelephoneTemperature2) throws SerializerException {
         boolean bl = sTelephoneTemperature2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class sTelephoneTemperatureSerializer {
         }
     }
 
-    public static void putOptionalsTelephoneTemperatureVarArray(ISerializer iSerializer, sTelephoneTemperature[] sTelephoneTemperatureArray) {
+    public static void putOptionalsTelephoneTemperatureVarArray(ISerializer iSerializer, sTelephoneTemperature[] sTelephoneTemperatureArray) throws SerializerException {
         boolean bl = sTelephoneTemperatureArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class sTelephoneTemperatureSerializer {
         }
     }
 
-    public static sTelephoneTemperature getOptionalsTelephoneTemperature(IDeserializer iDeserializer) {
+    public static sTelephoneTemperature getOptionalsTelephoneTemperature(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneTemperature sTelephoneTemperature2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class sTelephoneTemperatureSerializer {
         return sTelephoneTemperature2;
     }
 
-    public static sTelephoneTemperature[] getOptionalsTelephoneTemperatureVarArray(IDeserializer iDeserializer) {
+    public static sTelephoneTemperature[] getOptionalsTelephoneTemperatureVarArray(IDeserializer iDeserializer) throws SerializerException {
         sTelephoneTemperature[] sTelephoneTemperatureArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

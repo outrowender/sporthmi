@@ -20,22 +20,18 @@ implements IExternalTraceEntity {
         this.parentUri = traceEntityURI2;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public TraceEntityURI getURI() {
         return this.uri;
     }
 
-    @Override
     public short getFilterLevel() {
         return this.filter;
     }
 
-    @Override
     public TraceEntityURI getParentURI() {
         return this.parentUri;
     }

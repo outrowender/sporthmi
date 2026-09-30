@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.StartStopViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class StartStopViewOptionsSerializer {
-    public static void putOptionalStartStopViewOptions(ISerializer iSerializer, StartStopViewOptions startStopViewOptions) {
+    public static void putOptionalStartStopViewOptions(ISerializer iSerializer, StartStopViewOptions startStopViewOptions) throws SerializerException {
         boolean bl = startStopViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class StartStopViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalStartStopViewOptionsVarArray(ISerializer iSerializer, StartStopViewOptions[] startStopViewOptionsArray) {
+    public static void putOptionalStartStopViewOptionsVarArray(ISerializer iSerializer, StartStopViewOptions[] startStopViewOptionsArray) throws SerializerException {
         boolean bl = startStopViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class StartStopViewOptionsSerializer {
         }
     }
 
-    public static StartStopViewOptions getOptionalStartStopViewOptions(IDeserializer iDeserializer) {
+    public static StartStopViewOptions getOptionalStartStopViewOptions(IDeserializer iDeserializer) throws SerializerException {
         StartStopViewOptions startStopViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class StartStopViewOptionsSerializer {
         return startStopViewOptions;
     }
 
-    public static StartStopViewOptions[] getOptionalStartStopViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static StartStopViewOptions[] getOptionalStartStopViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         StartStopViewOptions[] startStopViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

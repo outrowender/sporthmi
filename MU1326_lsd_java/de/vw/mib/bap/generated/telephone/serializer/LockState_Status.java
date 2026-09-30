@@ -10,23 +10,23 @@ import de.vw.mib.bap.stream.BitStream;
 public final class LockState_Status
 implements StatusProperty {
     public int lockState;
-    private static final int LOCK_STATE_BITSIZE;
-    public static final int LOCK_STATE_NO_LOCK;
-    public static final int LOCK_STATE_REQUIRE_PIN;
-    public static final int LOCK_STATE_REQUIRE_PIN2;
-    public static final int LOCK_STATE_PI_NBLOCKED_REQUIRE_PUK;
-    public static final int LOCK_STATE_PIN2BLOCKED_REQUIRE_PUK2;
-    public static final int LOCK_STATE_PU_KBLOCKED;
-    public static final int LOCK_STATE_PUK2BLOCKED;
-    public static final int LOCK_STATE_KEYPAD_BLOCKED;
-    public static final int LOCK_STATE_SIM_NOT_AVAILABLE_NOT_PLUGGED_IN;
-    public static final int LOCK_STATE_PI_NINVALID;
-    public static final int LOCK_STATE_PIN2INVALID;
-    public static final int LOCK_STATE_SI_MNOT_FUNCTIONAL_NOT_READABLE_OR_NOT_FUNCTIONAL;
-    public static final int LOCK_STATE_SI_MNOT_READY_CHECKING_SIM_CARD;
-    public static final int LOCK_STATE_REQUIRE_LOCK_CODE_CDMA_TDMA;
-    public static final int LOCK_STATE_REQUIRE_SECURITY_CODE;
-    public static final int LOCK_STATE_SECURITY_CODE_BLOCKED;
+    private static final int LOCK_STATE_BITSIZE = 8;
+    public static final int LOCK_STATE_NO_LOCK = 0;
+    public static final int LOCK_STATE_REQUIRE_PIN = 1;
+    public static final int LOCK_STATE_REQUIRE_PIN2 = 2;
+    public static final int LOCK_STATE_PI_NBLOCKED_REQUIRE_PUK = 3;
+    public static final int LOCK_STATE_PIN2BLOCKED_REQUIRE_PUK2 = 4;
+    public static final int LOCK_STATE_PU_KBLOCKED = 5;
+    public static final int LOCK_STATE_PUK2BLOCKED = 6;
+    public static final int LOCK_STATE_KEYPAD_BLOCKED = 7;
+    public static final int LOCK_STATE_SIM_NOT_AVAILABLE_NOT_PLUGGED_IN = 8;
+    public static final int LOCK_STATE_PI_NINVALID = 9;
+    public static final int LOCK_STATE_PIN2INVALID = 10;
+    public static final int LOCK_STATE_SI_MNOT_FUNCTIONAL_NOT_READABLE_OR_NOT_FUNCTIONAL = 11;
+    public static final int LOCK_STATE_SI_MNOT_READY_CHECKING_SIM_CARD = 12;
+    public static final int LOCK_STATE_REQUIRE_LOCK_CODE_CDMA_TDMA = 13;
+    public static final int LOCK_STATE_REQUIRE_SECURITY_CODE = 14;
+    public static final int LOCK_STATE_SECURITY_CODE_BLOCKED = 15;
 
     public LockState_Status() {
         this.internalReset();
@@ -42,12 +42,10 @@ implements StatusProperty {
         this.lockState = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         LockState_Status lockState_Status = (LockState_Status)bAPEntity;
         return this.lockState == lockState_Status.lockState;
@@ -56,7 +54,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("LockState_Status:");
@@ -133,18 +130,15 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += 8;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.lockState);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.lockState = bitStream.popFrontByte();
     }
@@ -153,7 +147,6 @@ implements StatusProperty {
         return 19;
     }
 
-    @Override
     public int getFunctionId() {
         return LockState_Status.functionId();
     }

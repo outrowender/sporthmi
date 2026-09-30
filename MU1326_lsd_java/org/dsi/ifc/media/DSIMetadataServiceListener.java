@@ -8,10 +8,8 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIMetadataServiceListener
 extends DSIListener {
-    default public void updateOnlineLookupStatus(int n, int n2) {
-    }
+    public void updateOnlineLookupStatus(int var1, int var2);
 
-    default public void responseCoverArt(int n, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArt(int var1, ResourceLocator var2);
 }
 

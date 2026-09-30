@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.IntLightMembersIlluminationSet;
 
 public class IntLightMembersIlluminationSetSerializer {
-    public static void putOptionalIntLightMembersIlluminationSet(ISerializer iSerializer, IntLightMembersIlluminationSet intLightMembersIlluminationSet) {
+    public static void putOptionalIntLightMembersIlluminationSet(ISerializer iSerializer, IntLightMembersIlluminationSet intLightMembersIlluminationSet) throws SerializerException {
         boolean bl = intLightMembersIlluminationSet == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class IntLightMembersIlluminationSetSerializer {
         }
     }
 
-    public static void putOptionalIntLightMembersIlluminationSetVarArray(ISerializer iSerializer, IntLightMembersIlluminationSet[] intLightMembersIlluminationSetArray) {
+    public static void putOptionalIntLightMembersIlluminationSetVarArray(ISerializer iSerializer, IntLightMembersIlluminationSet[] intLightMembersIlluminationSetArray) throws SerializerException {
         boolean bl = intLightMembersIlluminationSetArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class IntLightMembersIlluminationSetSerializer {
         }
     }
 
-    public static IntLightMembersIlluminationSet getOptionalIntLightMembersIlluminationSet(IDeserializer iDeserializer) {
+    public static IntLightMembersIlluminationSet getOptionalIntLightMembersIlluminationSet(IDeserializer iDeserializer) throws SerializerException {
         IntLightMembersIlluminationSet intLightMembersIlluminationSet = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -127,7 +128,7 @@ public class IntLightMembersIlluminationSetSerializer {
         return intLightMembersIlluminationSet;
     }
 
-    public static IntLightMembersIlluminationSet[] getOptionalIntLightMembersIlluminationSetVarArray(IDeserializer iDeserializer) {
+    public static IntLightMembersIlluminationSet[] getOptionalIntLightMembersIlluminationSetVarArray(IDeserializer iDeserializer) throws SerializerException {
         IntLightMembersIlluminationSet[] intLightMembersIlluminationSetArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

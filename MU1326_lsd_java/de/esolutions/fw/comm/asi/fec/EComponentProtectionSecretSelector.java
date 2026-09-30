@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface EComponentProtectionSecretSelector
 extends IEnum {
-    public static final int eFecSecretConstant1;
-    public static final int eFecSecretConstant2;
-    public static final int eFecNoConstant;
+    public static final int eFecSecretConstant1 = 0;
+    public static final int eFecSecretConstant2 = 1;
+    public static final int eFecNoConstant = 2;
 }
 

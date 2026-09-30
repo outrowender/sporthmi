@@ -32,7 +32,7 @@ public class AgentUpdateEvent {
     }
 
     public String toString() {
-        return new StringBuffer("AgentUpdateEvent{").append("agent_id=").append(this.agent_id).append(", agent_epoch=").append(this.agent_epoch).append("}").toString();
+        return "AgentUpdateEvent{" + "agent_id=" + this.agent_id + ", agent_epoch=" + this.agent_epoch + "}";
     }
 }
 

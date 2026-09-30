@@ -6,11 +6,11 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.StringUtility;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.CharacterMap$InternalCharacterMap;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.prpframework.ICharacterMap;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public final class CharacterMap
 implements ICharacterMap {
@@ -18,12 +18,12 @@ implements ICharacterMap {
     protected static final String RESOURCE_PATH_WEIRD_RADICAL_SIMPLIFIED = StringUtility.concatenate(System.getProperty("SpellerCharacterSetPath"), "/Weird_Radicals_mapping_simplified.txt");
     protected static final String RESOURCE_PATH_WEIRD_RADICAL_TRADITIONAL = StringUtility.concatenate(System.getProperty("SpellerCharacterSetPath"), "/Weird_Radicals_mapping_traditional.txt");
     private static CharacterMap instance;
-    private static CharacterMap$InternalCharacterMap characterSimplifiedTraditionalMap;
-    private static CharacterMap$InternalCharacterMap characterWeirdRadicalSimplifiedMap;
-    private static CharacterMap$InternalCharacterMap characterWeirdRadicalTraditionalMap;
-    public static final int MAP_SIMPLIFIED_TRADITIONAL;
-    public static final int MAP_WEIRD_RADICAL_SIMPLIFIED;
-    public static final int MAP_WEIRD_RADICAL_TRADITIONAL;
+    private static InternalCharacterMap characterSimplifiedTraditionalMap;
+    private static InternalCharacterMap characterWeirdRadicalSimplifiedMap;
+    private static InternalCharacterMap characterWeirdRadicalTraditionalMap;
+    public static final int MAP_SIMPLIFIED_TRADITIONAL = 0;
+    public static final int MAP_WEIRD_RADICAL_SIMPLIFIED = 1;
+    public static final int MAP_WEIRD_RADICAL_TRADITIONAL = 2;
 
     private CharacterMap() {
     }
@@ -35,37 +35,36 @@ implements ICharacterMap {
         return instance;
     }
 
-    @Override
     public char[] getMappedCharacters(char c2, int n) {
-        CharacterMap$InternalCharacterMap characterMap$InternalCharacterMap = null;
+        InternalCharacterMap internalCharacterMap = null;
         switch (n) {
             case 0: {
-                characterMap$InternalCharacterMap = characterSimplifiedTraditionalMap;
+                internalCharacterMap = characterSimplifiedTraditionalMap;
                 break;
             }
             case 1: {
-                characterMap$InternalCharacterMap = characterWeirdRadicalSimplifiedMap;
+                internalCharacterMap = characterWeirdRadicalSimplifiedMap;
                 break;
             }
             case 2: {
-                characterMap$InternalCharacterMap = characterWeirdRadicalTraditionalMap;
+                internalCharacterMap = characterWeirdRadicalTraditionalMap;
                 break;
             }
             default: {
-                IWidgetLogChannel.logPRPEngine.log(14808325, "CharactersMap#getMappedCharacters the required map type is wrong. 1% is not defined! Return Empty Array", (long)n);
+                IWidgetLogChannel.logPRPEngine.log(100000000, "CharactersMap#getMappedCharacters the required map type is wrong. 1% is not defined! Return Empty Array", (long)n);
                 return WidgetConstants.EMPTY_CHAR_ARRAY;
             }
         }
-        if (characterMap$InternalCharacterMap == null) {
-            characterMap$InternalCharacterMap = this.createCharacterMap(n);
+        if (internalCharacterMap == null) {
+            internalCharacterMap = this.createCharacterMap(n);
         }
-        if (characterMap$InternalCharacterMap != null) {
-            return CharacterMap$InternalCharacterMap.access$000(characterMap$InternalCharacterMap, c2);
+        if (internalCharacterMap != null) {
+            return internalCharacterMap.getMappedCharacters(c2);
         }
         return WidgetConstants.EMPTY_CHAR_ARRAY;
     }
 
-    private CharacterMap$InternalCharacterMap createCharacterMap(int n) {
+    private InternalCharacterMap createCharacterMap(int n) {
         switch (n) {
             case 0: {
                 return CharacterMap.parseMappingsFromResourceFile(RESOURCE_PATH_SIMPLIFILED_TRADITIONAL_MAP);
@@ -77,14 +76,14 @@ implements ICharacterMap {
                 return CharacterMap.parseMappingsFromResourceFile(RESOURCE_PATH_WEIRD_RADICAL_TRADITIONAL);
             }
         }
-        IWidgetLogChannel.logPRPEngine.log(14808325, "CharactersMap#createCharacterMap the required map type is wrong. 1% is not defined! Return Empty Array", (long)n);
+        IWidgetLogChannel.logPRPEngine.log(100000000, "CharactersMap#createCharacterMap the required map type is wrong. 1% is not defined! Return Empty Array", (long)n);
         return null;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    protected static CharacterMap$InternalCharacterMap parseMappingsFromResourceFile(String string) {
+    protected static InternalCharacterMap parseMappingsFromResourceFile(String string) {
         BufferedReader bufferedReader = null;
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(string), "UTF-8"));
@@ -102,16 +101,16 @@ implements ICharacterMap {
                 System.arraycopy((Object)string2.toCharArray(), 1, (Object)cArrayArray[i2], 0, n2);
                 string2 = bufferedReader.readLine();
             }
-            CharacterMap$InternalCharacterMap characterMap$InternalCharacterMap = new CharacterMap$InternalCharacterMap(cArray, cArrayArray, null);
-            return characterMap$InternalCharacterMap;
+            InternalCharacterMap internalCharacterMap = new InternalCharacterMap(cArray, cArrayArray);
+            return internalCharacterMap;
         }
         catch (Exception exception) {
             IWidgetLogChannel.tpLogChannelInternal.log(10000, "SimplifiedTraditionalMap#parseMappingsFromResourceFile: Could not read resource file %1.", (Object)string);
             if (IWidgetLogChannel.tpLogChannelInternal.isDebug()) {
-                IWidgetLogChannel.tpLogChannelInternal.log(-2137614336, "", (Throwable)exception);
+                IWidgetLogChannel.tpLogChannelInternal.log(10000000, "", (Throwable)exception);
             }
-            CharacterMap$InternalCharacterMap characterMap$InternalCharacterMap = null;
-            return characterMap$InternalCharacterMap;
+            InternalCharacterMap internalCharacterMap = null;
+            return internalCharacterMap;
         }
         finally {
             try {
@@ -120,7 +119,7 @@ implements ICharacterMap {
                 }
             }
             catch (Exception exception) {
-                IWidgetLogChannel.tpLogChannelInternal.log(-1601830656, "SimplifiedTraditionalMap#parseMappingsFromResourceFile: Could not close BufferedReader. Error message: %1", (Object)exception.getMessage());
+                IWidgetLogChannel.tpLogChannelInternal.log(100000, "SimplifiedTraditionalMap#parseMappingsFromResourceFile: Could not close BufferedReader. Error message: %1", (Object)exception.getMessage());
             }
         }
     }
@@ -129,6 +128,24 @@ implements ICharacterMap {
         characterSimplifiedTraditionalMap = null;
         characterWeirdRadicalSimplifiedMap = null;
         characterWeirdRadicalTraditionalMap = null;
+    }
+
+    protected static class InternalCharacterMap {
+        protected final char[] simplifiedCharacters;
+        private final char[][] mappedCharacters;
+
+        private InternalCharacterMap(char[] cArray, char[][] cArray2) {
+            this.simplifiedCharacters = cArray;
+            this.mappedCharacters = cArray2;
+        }
+
+        private char[] getMappedCharacters(char c2) {
+            int n = Arrays.binarySearch(this.simplifiedCharacters, c2);
+            if (n < 0) {
+                return WidgetConstants.EMPTY_CHAR_ARRAY;
+            }
+            return this.mappedCharacters[n];
+        }
     }
 }
 

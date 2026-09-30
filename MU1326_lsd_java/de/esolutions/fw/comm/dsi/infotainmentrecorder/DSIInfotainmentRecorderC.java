@@ -3,41 +3,31 @@
  */
 package de.esolutions.fw.comm.dsi.infotainmentrecorder;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIInfotainmentRecorderC {
-    default public void logPanelName(String string) {
-    }
+    public void logPanelName(String var1) throws MethodException;
 
-    default public void logKeyEvent(int n, int n2, int n3) {
-    }
+    public void logKeyEvent(int var1, int var2, int var3) throws MethodException;
 
-    default public void backupTrigger(int n) {
-    }
+    public void backupTrigger(int var1) throws MethodException;
 
-    default public void enableTrigger(boolean bl, int n) {
-    }
+    public void enableTrigger(boolean var1, int var2) throws MethodException;
 
-    default public void logInit() {
-    }
+    public void logInit() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

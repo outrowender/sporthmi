@@ -10,13 +10,10 @@ import org.apache.xerces.xs.XSObjectList;
 
 public interface XSModelGroupDefinition
 extends XSObject {
-    default public XSModelGroup getModelGroup() {
-    }
+    public XSModelGroup getModelGroup();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

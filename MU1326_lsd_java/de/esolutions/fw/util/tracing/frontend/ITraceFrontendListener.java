@@ -6,13 +6,10 @@ package de.esolutions.fw.util.tracing.frontend;
 import de.esolutions.fw.util.tracing.entity.TraceEntityURI;
 
 public interface ITraceFrontendListener {
-    default public void executeCallback(int n, byte[] byArray) {
-    }
+    public void executeCallback(int var1, byte[] var2);
 
-    default public void requestFilterLevel(TraceEntityURI traceEntityURI, short s) {
-    }
+    public void requestFilterLevel(TraceEntityURI var1, short var2);
 
-    default public void requestQuit() {
-    }
+    public void requestQuit();
 }
 

@@ -35,7 +35,7 @@ IConnectionFrontendListener {
     private final List listeners;
     private int cid;
     private int tid;
-    private static final String chn;
+    private static final String chn = "RemoteListenFrontend";
 
     public RemoteListenFrontend(GenericSpawnConnectionFactory genericSpawnConnectionFactory, TraceFrontend traceFrontend) {
         super(traceFrontend);
@@ -46,12 +46,11 @@ IConnectionFrontendListener {
         this.listeners = new ArrayList();
     }
 
-    @Override
     public boolean start() {
         if (!super.start()) {
             return false;
         }
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "start");
+        TraceMe.msg(TraceMe.INFO, chn, "start");
         TraceEntityURIWithLevel traceEntityURIWithLevel = this.frontend.createEntity((short)1, "server", (short)7, null);
         TraceEntityURIWithLevel traceEntityURIWithLevel2 = this.frontend.createEntity((short)3, "clients", (short)7, traceEntityURIWithLevel);
         if (traceEntityURIWithLevel2 == null) {
@@ -72,10 +71,9 @@ IConnectionFrontendListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stop() {
         HashMap hashMap;
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "stop");
+        TraceMe.msg(TraceMe.INFO, chn, "stop");
         this.factory.disableSpawning();
         Object object = this.workers;
         synchronized (object) {
@@ -84,7 +82,7 @@ IConnectionFrontendListener {
         object = hashMap.values().iterator();
         while (object.hasNext()) {
             ConnectionFrontendOneShotWorker connectionFrontendOneShotWorker = (ConnectionFrontendOneShotWorker)object.next();
-            TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "stopping worker %1", connectionFrontendOneShotWorker);
+            TraceMe.msg(TraceMe.INFO, chn, "stopping worker %1", connectionFrontendOneShotWorker);
             connectionFrontendOneShotWorker.stop();
         }
         super.stop();
@@ -101,9 +99,8 @@ IConnectionFrontendListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void spawnedConnection(Connection connection) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "spawned connection: %1", connection.getDescription());
+        TraceMe.msg(TraceMe.INFO, chn, "spawned connection: %1", connection.getDescription());
         String string = SystemConfig.getInstance().getMyProcName();
         ConnectionFrontendOneShotWorker connectionFrontendOneShotWorker = new ConnectionFrontendOneShotWorker(string, connection, this.frontend);
         AbstractConnectionFrontendListener abstractConnectionFrontendListener = new AbstractConnectionFrontendListener();
@@ -117,20 +114,17 @@ IConnectionFrontendListener {
         }
     }
 
-    @Override
     public boolean spawningRetry(ISpawnConnectionFactory iSpawnConnectionFactory, IOException iOException, int n) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "%1 retry spawning: %2", iSpawnConnectionFactory.getDescription(), iOException);
+        TraceMe.msg(TraceMe.INFO, chn, "%1 retry spawning: %2", iSpawnConnectionFactory.getDescription(), iOException);
         return true;
     }
 
-    @Override
     public void spawningEnabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "%1 enabeld", iSpawnConnectionFactory.getDescription());
+        TraceMe.msg(TraceMe.INFO, chn, "%1 enabeld", iSpawnConnectionFactory.getDescription());
     }
 
-    @Override
     public void spawningDisabled(ISpawnConnectionFactory iSpawnConnectionFactory) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", "%1 disabled", iSpawnConnectionFactory.getDescription());
+        TraceMe.msg(TraceMe.INFO, chn, "%1 disabled", iSpawnConnectionFactory.getDescription());
     }
 
     public void log(String string) {
@@ -142,10 +136,9 @@ IConnectionFrontendListener {
         this.frontend.log(traceMessage);
     }
 
-    @Override
     public void registerConnection(ConnectionFrontendHandler connectionFrontendHandler) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", new StringBuffer().append("connected: ").append(connectionFrontendHandler).toString());
-        this.log(new StringBuffer().append("[").append(connectionFrontendHandler.getPeerName()).append("] connected").toString());
+        TraceMe.msg(TraceMe.INFO, chn, "connected: " + connectionFrontendHandler);
+        this.log("[" + connectionFrontendHandler.getPeerName() + "] connected");
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {
             IConnectionFrontendListener iConnectionFrontendListener = (IConnectionFrontendListener)iterator.next();
@@ -156,10 +149,9 @@ IConnectionFrontendListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterConnection(ConnectionFrontendHandler connectionFrontendHandler) {
-        TraceMe.msg(TraceMe.INFO, "RemoteListenFrontend", new StringBuffer().append("disconnected: ").append(connectionFrontendHandler).toString());
-        this.log(new StringBuffer().append("[").append(connectionFrontendHandler.getPeerName()).append("] disconnected").toString());
+        TraceMe.msg(TraceMe.INFO, chn, "disconnected: " + connectionFrontendHandler);
+        this.log("[" + connectionFrontendHandler.getPeerName() + "] disconnected");
         Connection connection = connectionFrontendHandler.getConnection();
         Object object = this.workers;
         synchronized (object) {
@@ -172,12 +164,10 @@ IConnectionFrontendListener {
         }
     }
 
-    @Override
     public void configureHandler(ConnectionFrontendHandler connectionFrontendHandler) {
         connectionFrontendHandler.setIsMaster(false);
     }
 
-    @Override
     public void handleMessage(ConnectionFrontendHandler connectionFrontendHandler, AbstractMessage abstractMessage) {
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {

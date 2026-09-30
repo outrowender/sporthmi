@@ -4,27 +4,21 @@
 package org.apache.xerces.xni.parser;
 
 import org.apache.xerces.xni.parser.XMLComponentManager;
+import org.apache.xerces.xni.parser.XMLConfigurationException;
 
 public interface XMLComponent {
-    default public void reset(XMLComponentManager xMLComponentManager) {
-    }
+    public void reset(XMLComponentManager var1) throws XMLConfigurationException;
 
-    default public String[] getRecognizedFeatures() {
-    }
+    public String[] getRecognizedFeatures();
 
-    default public void setFeature(String string, boolean bl) {
-    }
+    public void setFeature(String var1, boolean var2) throws XMLConfigurationException;
 
-    default public String[] getRecognizedProperties() {
-    }
+    public String[] getRecognizedProperties();
 
-    default public void setProperty(String string, Object object) {
-    }
+    public void setProperty(String var1, Object var2) throws XMLConfigurationException;
 
-    default public Boolean getFeatureDefault(String string) {
-    }
+    public Boolean getFeatureDefault(String var1);
 
-    default public Object getPropertyDefault(String string) {
-    }
+    public Object getPropertyDefault(String var1);
 }
 

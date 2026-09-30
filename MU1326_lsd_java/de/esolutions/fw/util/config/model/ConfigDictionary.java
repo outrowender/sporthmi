@@ -5,6 +5,7 @@ package de.esolutions.fw.util.config.model;
 
 import de.esolutions.fw.util.config.ConfigValue;
 import de.esolutions.fw.util.config.writer.IConfigExporter;
+import de.esolutions.fw.util.config.writer.WriteConfigException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,37 +23,30 @@ extends ConfigValue {
         this.dict.remove(string);
     }
 
-    @Override
     public boolean isArray() {
         return false;
     }
 
-    @Override
     public boolean isDictionary() {
         return true;
     }
 
-    @Override
     public boolean isNull() {
         return false;
     }
 
-    @Override
     public boolean isScalar() {
         return false;
     }
 
-    @Override
     public boolean hasDictValue(String string) {
         return this.dict.containsKey(string);
     }
 
-    @Override
     public ConfigValue getDictValue(String string) {
         return (ConfigValue)this.dict.get(string);
     }
 
-    @Override
     public String[] getAllDictKeys() {
         Set set = this.dict.keySet();
         int n = set.size();
@@ -64,7 +58,6 @@ extends ConfigValue {
         return stringArray;
     }
 
-    @Override
     public ConfigValue[] getAllDictValues() {
         Collection collection = this.dict.values();
         int n = collection.size();
@@ -120,8 +113,7 @@ extends ConfigValue {
         return n;
     }
 
-    @Override
-    public void export(IConfigExporter iConfigExporter) {
+    public void export(IConfigExporter iConfigExporter) throws WriteConfigException {
         iConfigExporter.beginDictionary(this, this.dict.size());
         Iterator iterator = this.dict.keySet().iterator();
         int n = 0;

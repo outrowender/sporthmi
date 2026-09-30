@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.trafficregulation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.trafficregulation.RoadClassSpeedInfo;
 
 public class RoadClassSpeedInfoSerializer {
-    public static void putOptionalRoadClassSpeedInfo(ISerializer iSerializer, RoadClassSpeedInfo roadClassSpeedInfo) {
+    public static void putOptionalRoadClassSpeedInfo(ISerializer iSerializer, RoadClassSpeedInfo roadClassSpeedInfo) throws SerializerException {
         boolean bl = roadClassSpeedInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class RoadClassSpeedInfoSerializer {
         }
     }
 
-    public static void putOptionalRoadClassSpeedInfoVarArray(ISerializer iSerializer, RoadClassSpeedInfo[] roadClassSpeedInfoArray) {
+    public static void putOptionalRoadClassSpeedInfoVarArray(ISerializer iSerializer, RoadClassSpeedInfo[] roadClassSpeedInfoArray) throws SerializerException {
         boolean bl = roadClassSpeedInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class RoadClassSpeedInfoSerializer {
         }
     }
 
-    public static RoadClassSpeedInfo getOptionalRoadClassSpeedInfo(IDeserializer iDeserializer) {
+    public static RoadClassSpeedInfo getOptionalRoadClassSpeedInfo(IDeserializer iDeserializer) throws SerializerException {
         RoadClassSpeedInfo roadClassSpeedInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class RoadClassSpeedInfoSerializer {
         return roadClassSpeedInfo;
     }
 
-    public static RoadClassSpeedInfo[] getOptionalRoadClassSpeedInfoVarArray(IDeserializer iDeserializer) {
+    public static RoadClassSpeedInfo[] getOptionalRoadClassSpeedInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RoadClassSpeedInfo[] roadClassSpeedInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

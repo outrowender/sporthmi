@@ -13,40 +13,28 @@ import org.dsi.ifc.tpegservices.WeatherInfo;
 
 public interface DSITPEGServicesListener
 extends DSIListener {
-    default public void updateTPEGContentAvailability(int[] nArray, int n) {
-    }
+    public void updateTPEGContentAvailability(int[] var1, int var2);
 
-    default public void updateSimpleMapsBookmarks(SimpleMapData[] simpleMapDataArray, int n) {
-    }
+    public void updateSimpleMapsBookmarks(SimpleMapData[] var1, int var2);
 
-    default public void requestLocationDetailsResponse(NavLocation navLocation) {
-    }
+    public void requestLocationDetailsResponse(NavLocation var1);
 
-    default public void requestFuelPriceInformationResponse(FuelPriceInformation[] fuelPriceInformationArray) {
-    }
+    public void requestFuelPriceInformationResponse(FuelPriceInformation[] var1);
 
-    default public void requestNewsInformationResponse(NewsCategory newsCategory) {
-    }
+    public void requestNewsInformationResponse(NewsCategory var1);
 
-    default public void requestSimpleMapListResponse(int n, int n2, SimpleMapData[] simpleMapDataArray) {
-    }
+    public void requestSimpleMapListResponse(int var1, int var2, SimpleMapData[] var3);
 
-    default public void addSimpleMapBookmarkResult(int n, int n2) {
-    }
+    public void addSimpleMapBookmarkResult(int var1, int var2);
 
-    default public void deleteSimpleMapBookmarkResult(int n, int n2) {
-    }
+    public void deleteSimpleMapBookmarkResult(int var1, int var2);
 
-    default public void deleteAllSimpleMapBookmarksResult(int n) {
-    }
+    public void deleteAllSimpleMapBookmarksResult(int var1);
 
-    default public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
-    }
+    public void requestResourceInformationResponse(int var1, ResourceInformation var2);
 
-    default public void setLanguageResponse(boolean bl) {
-    }
+    public void setLanguageResponse(boolean var1);
 
-    default public void requestWeatherInfoResult(WeatherInfo weatherInfo, int n) {
-    }
+    public void requestWeatherInfoResult(WeatherInfo var1, int var2);
 }
 

@@ -4,6 +4,7 @@
 package org.apache.commons.id.uuid;
 
 import java.io.DataInput;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 import org.apache.commons.id.DecoderException;
@@ -34,14 +35,14 @@ Comparable {
         this.rawBytes = uUID.getRawBytes();
     }
 
-    public UUID(byte[] byArray) {
+    public UUID(byte[] byArray) throws IllegalArgumentException {
         if (byArray.length != 16) {
             throw new IllegalArgumentException("UUID must be contructed using a 16 byte array.");
         }
         System.arraycopy((Object)byArray, 0, (Object)this.rawBytes, 0, 16);
     }
 
-    public UUID(DataInput dataInput) {
+    public UUID(DataInput dataInput) throws IOException {
         dataInput.readFully(this.rawBytes, 0, 16);
     }
 
@@ -49,11 +50,11 @@ Comparable {
         this.rawBytes = Bytes.append(Bytes.toBytes(l), Bytes.toBytes(l2));
     }
 
-    public UUID(String string) {
+    public UUID(String string) throws UUIDFormatException {
         this(UUID.fromString(string));
     }
 
-    public static UUID fromString(String string) {
+    public static UUID fromString(String string) throws UUIDFormatException {
         String string2 = string.toLowerCase();
         UUID uUID = null;
         int n = string.lastIndexOf(":");
@@ -82,7 +83,7 @@ Comparable {
             uUID = new UUID(Hex.decodeHex(cArray));
         }
         catch (DecoderException decoderException) {
-            throw new UUIDFormatException(new StringBuffer().append(string).append(": ").append(decoderException.getMessage()).toString());
+            throw new UUIDFormatException(string + ": " + decoderException.getMessage());
         }
         return uUID;
     }
@@ -104,7 +105,7 @@ Comparable {
     }
 
     public String toUrn() {
-        return new StringBuffer().append("urn:uuid:").append(this.toString()).toString();
+        return "urn:uuid:" + this.toString();
     }
 
     public boolean equals(Object object) {
@@ -123,15 +124,14 @@ Comparable {
         return n2;
     }
 
-    @Override
-    public int compareTo(Object object) {
+    public int compareTo(Object object) throws ClassCastException {
         if (!(object instanceof UUID)) {
             throw new ClassCastException();
         }
         return Bytes.compareTo(this.rawBytes, ((UUID)object).getRawBytes());
     }
 
-    public int clockSequence() {
+    public int clockSequence() throws UnsupportedOperationException {
         if (this.variant() != 2 || this.version() != 1) {
             throw new UnsupportedOperationException("Not a ietf variant 2 or version 1 (time-based UUID)");
         }
@@ -156,7 +156,7 @@ Comparable {
         return this.variant;
     }
 
-    public long node() {
+    public long node() throws UnsupportedOperationException {
         if (this.variant() != 2 || this.version() != 1) {
             throw new UnsupportedOperationException("Not a ietf variant 2 or version 1 (time-based UUID)");
         }
@@ -168,7 +168,7 @@ Comparable {
         return this.node;
     }
 
-    public long timestamp() {
+    public long timestamp() throws UnsupportedOperationException {
         if (this.variant() != 2 || this.version() != 1) {
             throw new UnsupportedOperationException("Not a ietf variant 2 or version 1 (time-based UUID)");
         }
@@ -222,7 +222,7 @@ Comparable {
             byArray3 = new byte[16];
             System.arraycopy((Object)byArray4, 0, (Object)byArray3, 0, 16);
         } else {
-            throw new RuntimeException(new StringBuffer().append("Unsupported encoding ").append(string2).toString());
+            throw new RuntimeException("Unsupported encoding " + string2);
         }
         byArray3[6] = (byte)(byArray3[6] & 0xF);
         byArray3[6] = (byte)(byArray3[6] | 0x30);

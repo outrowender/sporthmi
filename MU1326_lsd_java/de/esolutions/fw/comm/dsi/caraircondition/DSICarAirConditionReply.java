@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.caraircondition;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.caraircondition.AirconAirDistribution;
 import org.dsi.ifc.caraircondition.AirconAirQuality;
 import org.dsi.ifc.caraircondition.AirconAirVolume;
@@ -21,471 +22,317 @@ import org.dsi.ifc.caraircondition.AirconTemp;
 import org.dsi.ifc.global.CarArrayListUpdateInfo;
 
 public interface DSICarAirConditionReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "c791e146-d96d-50ac-96cd-5519a0a20ef4";
+    public static final String IPL_COMM_INTERFACE_KEY = "30c8a0e9-7f16-5069-b300-aec7e607644e";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.15";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.15";
 
-    default public void requestAirconPopup(AirconContent airconContent) {
-    }
+    public void requestAirconPopup(AirconContent var1) throws MethodException;
 
-    default public void acknowlegdeAirconPopup(AirconContent airconContent) {
-    }
+    public void acknowlegdeAirconPopup(AirconContent var1) throws MethodException;
 
-    default public void updateAirconContent(AirconContent airconContent, int n) {
-    }
+    public void updateAirconContent(AirconContent var1, int var2) throws MethodException;
 
-    default public void updateAirconAirCirculationMan(boolean bl, int n) {
-    }
+    public void updateAirconAirCirculationMan(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconAirCirculationAuto(boolean bl, int n) {
-    }
+    public void updateAirconAirCirculationAuto(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconAirCirculationSensitivity(int n, int n2) {
-    }
+    public void updateAirconAirCirculationSensitivity(int var1, int var2) throws MethodException;
 
-    default public void updateAirconAirCirculationMiddleExhaustion(int n, int n2) {
-    }
+    public void updateAirconAirCirculationMiddleExhaustion(int var1, int var2) throws MethodException;
 
-    default public void updateAirconRearWindowHeater(boolean bl, int n) {
-    }
+    public void updateAirconRearWindowHeater(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndirectVentilation(boolean bl, int n) {
-    }
+    public void updateAirconIndirectVentilation(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconPopupTime(int n, int n2) {
-    }
+    public void updateAirconPopupTime(int var1, int var2) throws MethodException;
 
-    default public void updateAirconHeater(boolean bl, int n) {
-    }
+    public void updateAirconHeater(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconRearAuxHeater(boolean bl, int n) {
-    }
+    public void updateAirconRearAuxHeater(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconFrontWindowHeater(boolean bl, int n) {
-    }
+    public void updateAirconFrontWindowHeater(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconDefrost(boolean bl, int n) {
-    }
+    public void updateAirconDefrost(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconMaxDefrost(boolean bl, int n) {
-    }
+    public void updateAirconMaxDefrost(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconSolar(boolean bl, int n) {
-    }
+    public void updateAirconSolar(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconAC(boolean bl, int n) {
-    }
+    public void updateAirconAC(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconMaxAC(boolean bl, int n) {
-    }
+    public void updateAirconMaxAC(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconEcoAC(boolean bl, int n) {
-    }
+    public void updateAirconEcoAC(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconRearControl(boolean bl, int n) {
-    }
+    public void updateAirconRearControl(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconRearControlFondPlus(boolean bl, int n) {
-    }
+    public void updateAirconRearControlFondPlus(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater, int n) {
-    }
+    public void updateAirconSteeringWheelHeater(AirconSteeringWheelHeater var1, int var2) throws MethodException;
 
-    default public void updateAirconFrontWindowHeaterAuto(boolean bl, int n) {
-    }
+    public void updateAirconFrontWindowHeaterAuto(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconBlowerCompensation(AirconBlowerCompensation airconBlowerCompensation, int n) {
-    }
+    public void updateAirconBlowerCompensation(AirconBlowerCompensation var1, int var2) throws MethodException;
 
-    default public void updateAirconSynchronisation(AirconSynchronisation airconSynchronisation, int n) {
-    }
+    public void updateAirconSynchronisation(AirconSynchronisation var1, int var2) throws MethodException;
 
-    default public void updateAirconSuppressVisualisation(boolean bl, int n) {
-    }
+    public void updateAirconSuppressVisualisation(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconResidualHeat(boolean bl, int n) {
-    }
+    public void updateAirconResidualHeat(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconSystemOnOffRow1(boolean bl, int n) {
-    }
+    public void updateAirconSystemOnOffRow1(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconSystemOnOffRow2(boolean bl, int n) {
-    }
+    public void updateAirconSystemOnOffRow2(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconSystemOnOffRow3(boolean bl, int n) {
-    }
+    public void updateAirconSystemOnOffRow3(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconTempZone1(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone1(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone1(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone1(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone1(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone1(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone1(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone1(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone1(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone1(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone1(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempZone2(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone2(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone2(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone2(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone2(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone2(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone2(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone2(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone2(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone2(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone2(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempZone3(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone3(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone3(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone3(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone3(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone3(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone3(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone3(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone3(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone3(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone3(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempZone4(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone4(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone4(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone4(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone4(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone4(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone4(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone4(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone4(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone4(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone4(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempZone5(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone5(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone5(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone5(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone5(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone5(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone5(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone5(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone5(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone5(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone5(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempZone6(AirconTemp airconTemp, int n) {
-    }
+    public void updateAirconTempZone6(AirconTemp var1, int var2) throws MethodException;
 
-    default public void updateAirconAirVolumeZone6(AirconAirVolume airconAirVolume, int n) {
-    }
+    public void updateAirconAirVolumeZone6(AirconAirVolume var1, int var2) throws MethodException;
 
-    default public void updateAirconAirDistributionZone6(AirconAirDistribution airconAirDistribution, int n) {
-    }
+    public void updateAirconAirDistributionZone6(AirconAirDistribution var1, int var2) throws MethodException;
 
-    default public void updateAirconFootwellTempZone6(int n, int n2) {
-    }
+    public void updateAirconFootwellTempZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterZone6(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatHeaterZone6(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatVentilationZone6(int n, int n2, int n3) {
-    }
+    public void updateAirconSeatVentilationZone6(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone1(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone2(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone3(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone4(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone5(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatHeaterDistributionZone6(int n, int n2) {
-    }
+    public void updateAirconSeatHeaterDistributionZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone1(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone2(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone3(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone4(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone5(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatVentilationDistributionZone6(int n, int n2) {
-    }
+    public void updateAirconSeatVentilationDistributionZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconTempStepZone1(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone1(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempStepZone2(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone2(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempStepZone3(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone3(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempStepZone4(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone4(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempStepZone5(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone5(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconTempStepZone6(int n, int n2, int n3) {
-    }
+    public void updateAirconTempStepZone6(int var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) {
-    }
+    public void updateAirconViewOptionsMaster(AirconMasterViewOptions var1, int var2) throws MethodException;
 
-    default public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) {
-    }
+    public void updateAirconViewOptionsRow1(AirconRowViewOptions var1, int var2) throws MethodException;
 
-    default public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) {
-    }
+    public void updateAirconViewOptionsRow2(AirconRowViewOptions var1, int var2) throws MethodException;
 
-    default public void updateAirconViewOptionsRow3(AirconRowViewOptions airconRowViewOptions, int n) {
-    }
+    public void updateAirconViewOptionsRow3(AirconRowViewOptions var1, int var2) throws MethodException;
 
-    default public void acknowledgeAirconSetFactoryDefaultMaster(boolean bl) {
-    }
+    public void acknowledgeAirconSetFactoryDefaultMaster(boolean var1) throws MethodException;
 
-    default public void acknowledgeAirconSetFactoryDefaultRow(int n, boolean bl) {
-    }
+    public void acknowledgeAirconSetFactoryDefaultRow(int var1, boolean var2) throws MethodException;
 
-    default public void acknowledgeAirconNozzleControlRow1(boolean bl, boolean bl2) {
-    }
+    public void acknowledgeAirconNozzleControlRow1(boolean var1, boolean var2) throws MethodException;
 
-    default public void acknowledgeAirconNozzleControlRow2(boolean bl, boolean bl2) {
-    }
+    public void acknowledgeAirconNozzleControlRow2(boolean var1, boolean var2) throws MethodException;
 
-    default public void acknowledgeAirconNozzleControlRow3(boolean bl, boolean bl2) {
-    }
+    public void acknowledgeAirconNozzleControlRow3(boolean var1, boolean var2) throws MethodException;
 
-    default public void responseAirconNozzleListRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
-    }
+    public void responseAirconNozzleListRow1(CarArrayListUpdateInfo var1, AirconNozzleListRecord[] var2) throws MethodException;
 
-    default public void responseAirconNozzleListRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
-    }
+    public void responseAirconNozzleListRow2(CarArrayListUpdateInfo var1, AirconNozzleListRecord[] var2) throws MethodException;
 
-    default public void responseAirconNozzleListRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
-    }
+    public void responseAirconNozzleListRow3(CarArrayListUpdateInfo var1, AirconNozzleListRecord[] var2) throws MethodException;
 
-    default public void updateAirconNozzleListUpdateInfoRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateAirconNozzleListUpdateInfoRow1(CarArrayListUpdateInfo var1, int[] var2, int var3) throws MethodException;
 
-    default public void updateAirconNozzleListUpdateInfoRow2(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateAirconNozzleListUpdateInfoRow2(CarArrayListUpdateInfo var1, int[] var2, int var3) throws MethodException;
 
-    default public void updateAirconNozzleListUpdateInfoRow3(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
-    }
+    public void updateAirconNozzleListUpdateInfoRow3(CarArrayListUpdateInfo var1, int[] var2, int var3) throws MethodException;
 
-    default public void updateAirconNozzleListTotalNumberOfElementsRow1(int n, int n2) {
-    }
+    public void updateAirconNozzleListTotalNumberOfElementsRow1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconNozzleListTotalNumberOfElementsRow2(int n, int n2) {
-    }
+    public void updateAirconNozzleListTotalNumberOfElementsRow2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconNozzleListTotalNumberOfElementsRow3(int n, int n2) {
-    }
+    public void updateAirconNozzleListTotalNumberOfElementsRow3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSideWindowDefrost(boolean bl, int n) {
-    }
+    public void updateAirconSideWindowDefrost(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconPureAir(AirconPureAirSetup airconPureAirSetup, int n, int n2) {
-    }
+    public void updateAirconPureAir(AirconPureAirSetup var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconFreshAirState(AirconFreshAirCartridge airconFreshAirCartridge, AirconFreshAirCartridge airconFreshAirCartridge2, int n) {
-    }
+    public void updateAirconFreshAirState(AirconFreshAirCartridge var1, AirconFreshAirCartridge var2, int var3) throws MethodException;
 
-    default public void updateAirconFreshAirConfig(AirconFreshAirConfiguration airconFreshAirConfiguration, int n) {
-    }
+    public void updateAirconFreshAirConfig(AirconFreshAirConfiguration var1, int var2) throws MethodException;
 
-    default public void updateAirconAirQuality(AirconAirQuality airconAirQuality, int n) {
-    }
+    public void updateAirconAirQuality(AirconAirQuality var1, int var2) throws MethodException;
 
-    default public void updateAirconNozzleStatusRow1(boolean bl, int n) {
-    }
+    public void updateAirconNozzleStatusRow1(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconNozzleStatusRow2(boolean bl, int n) {
-    }
+    public void updateAirconNozzleStatusRow2(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconNozzleStatusRow3(boolean bl, int n) {
-    }
+    public void updateAirconNozzleStatusRow3(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone1(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone2(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone3(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone4(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone5(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStyleZone6(int n, int n2) {
-    }
+    public void updateAirconClimateStyleZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone1(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone2(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone3(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone4(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone5(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconClimateStateZone6(int n, int n2) {
-    }
+    public void updateAirconClimateStateZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone1(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone1(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone2(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone2(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone3(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone3(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone4(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone4(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone5(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone5(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatNeckHeaterZone6(boolean bl, int n, int n2) {
-    }
+    public void updateAirconSeatNeckHeaterZone6(boolean var1, int var2, int var3) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone1(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone1(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone2(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone2(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone3(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone3(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone4(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone4(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone5(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone5(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconSeatSurfaceHeaterZone6(boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void updateAirconSeatSurfaceHeaterZone6(boolean var1, boolean var2, int var3, int var4) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone1(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone1(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone2(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone2(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone3(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone3(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone4(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone4(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone5(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone5(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIndividualClimatisationZone6(boolean bl, int n) {
-    }
+    public void updateAirconIndividualClimatisationZone6(boolean var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone1(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone1(int var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone2(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone2(int var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone3(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone3(int var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone4(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone4(int var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone5(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone5(int var1, int var2) throws MethodException;
 
-    default public void updateAirconIonisatorZone6(int n, int n2) {
-    }
+    public void updateAirconIonisatorZone6(int var1, int var2) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone1(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone1(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone2(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone2(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone3(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone3(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone4(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone4(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone5(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone5(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void updateAirconBodyCloseMeasuresZone6(boolean bl, AirconBCMeasuresConfiguration airconBCMeasuresConfiguration, int n) {
-    }
+    public void updateAirconBodyCloseMeasuresZone6(boolean var1, AirconBCMeasuresConfiguration var2, int var3) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

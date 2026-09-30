@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.Profile;
 
 public class ProfileSerializer {
-    public static void putOptionalProfile(ISerializer iSerializer, Profile profile) {
+    public static void putOptionalProfile(ISerializer iSerializer, Profile profile) throws SerializerException {
         boolean bl = profile == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class ProfileSerializer {
         }
     }
 
-    public static void putOptionalProfileVarArray(ISerializer iSerializer, Profile[] profileArray) {
+    public static void putOptionalProfileVarArray(ISerializer iSerializer, Profile[] profileArray) throws SerializerException {
         boolean bl = profileArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class ProfileSerializer {
         }
     }
 
-    public static Profile getOptionalProfile(IDeserializer iDeserializer) {
+    public static Profile getOptionalProfile(IDeserializer iDeserializer) throws SerializerException {
         Profile profile = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class ProfileSerializer {
         return profile;
     }
 
-    public static Profile[] getOptionalProfileVarArray(IDeserializer iDeserializer) {
+    public static Profile[] getOptionalProfileVarArray(IDeserializer iDeserializer) throws SerializerException {
         Profile[] profileArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

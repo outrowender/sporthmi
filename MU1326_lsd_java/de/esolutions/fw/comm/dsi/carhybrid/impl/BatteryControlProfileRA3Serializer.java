@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.BatteryControlProfileRA3;
 
 public class BatteryControlProfileRA3Serializer {
-    public static void putOptionalBatteryControlProfileRA3(ISerializer iSerializer, BatteryControlProfileRA3 batteryControlProfileRA3) {
+    public static void putOptionalBatteryControlProfileRA3(ISerializer iSerializer, BatteryControlProfileRA3 batteryControlProfileRA3) throws SerializerException {
         boolean bl = batteryControlProfileRA3 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BatteryControlProfileRA3Serializer {
         }
     }
 
-    public static void putOptionalBatteryControlProfileRA3VarArray(ISerializer iSerializer, BatteryControlProfileRA3[] batteryControlProfileRA3Array) {
+    public static void putOptionalBatteryControlProfileRA3VarArray(ISerializer iSerializer, BatteryControlProfileRA3[] batteryControlProfileRA3Array) throws SerializerException {
         boolean bl = batteryControlProfileRA3Array == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BatteryControlProfileRA3Serializer {
         }
     }
 
-    public static BatteryControlProfileRA3 getOptionalBatteryControlProfileRA3(IDeserializer iDeserializer) {
+    public static BatteryControlProfileRA3 getOptionalBatteryControlProfileRA3(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlProfileRA3 batteryControlProfileRA3 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BatteryControlProfileRA3Serializer {
         return batteryControlProfileRA3;
     }
 
-    public static BatteryControlProfileRA3[] getOptionalBatteryControlProfileRA3VarArray(IDeserializer iDeserializer) {
+    public static BatteryControlProfileRA3[] getOptionalBatteryControlProfileRA3VarArray(IDeserializer iDeserializer) throws SerializerException {
         BatteryControlProfileRA3[] batteryControlProfileRA3Array = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

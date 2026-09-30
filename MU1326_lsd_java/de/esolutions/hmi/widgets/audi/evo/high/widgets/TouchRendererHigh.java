@@ -31,24 +31,24 @@ import de.esolutions.hmi.widgets.audi.evo.widgets.TouchControllerArabia;
 public class TouchRendererHigh
 extends AbstractKanziTemplateRenderer
 implements ITouchRenderer {
-    public static final String NODE_NAME_INPUT_FIELD;
-    protected static final int EAL_MAX_TEXT_ELEMENT_WIDTH;
-    protected static final int END_INDEX_OF_EMPTY_TEXT_SECTION;
-    private static final int NUMBER_OF_TEXT_SECTIONS;
-    protected static final int OFFSET_TEXT_LEFT;
-    public static final int OFFSET_CURSOR_LEFT;
-    private static final int OFFSET_INITIAL_TEXT_LEFT;
-    protected static final int OFFSET_INITIAL_CURSOR_LEFT;
-    public static final int OFFSET_FIELD_LEFT;
-    public static int OffsetInfolineTextTop;
-    public static final int OFFSET_INFOLINE_ICON_LEFT;
-    public static final int OFFSET_INFOLINE_TEXT_LEFT;
-    protected static final float SPACE_FOR_FINGERTRACE;
-    public static final int OFFSET_TEXT_TO_RIGHT_BORDER;
-    public static final int OFFSET_TEXT_TO_RIGHT_BORDER_SCALE_AND_STD;
-    public static final int OFFSET_TEXT_TO_RIGHT_BORDER_SMALLSTAGE;
-    private static final int FONT_INFOLINE;
-    private static final int EXTRA_SPELLER_HEIGHT;
+    public static final String NODE_NAME_INPUT_FIELD = "inputField";
+    protected static final int EAL_MAX_TEXT_ELEMENT_WIDTH = 1000;
+    protected static final int END_INDEX_OF_EMPTY_TEXT_SECTION = -1;
+    private static final int NUMBER_OF_TEXT_SECTIONS = 2;
+    protected static final int OFFSET_TEXT_LEFT = 22;
+    public static final int OFFSET_CURSOR_LEFT = 10;
+    private static final int OFFSET_INITIAL_TEXT_LEFT = 65;
+    protected static final int OFFSET_INITIAL_CURSOR_LEFT = 48;
+    public static final int OFFSET_FIELD_LEFT = 13;
+    public static int OffsetInfolineTextTop = -1;
+    public static final int OFFSET_INFOLINE_ICON_LEFT = 52;
+    public static final int OFFSET_INFOLINE_TEXT_LEFT = 104;
+    protected static final float SPACE_FOR_FINGERTRACE = 0.0f;
+    public static final int OFFSET_TEXT_TO_RIGHT_BORDER = 21;
+    public static final int OFFSET_TEXT_TO_RIGHT_BORDER_SCALE_AND_STD = 13;
+    public static final int OFFSET_TEXT_TO_RIGHT_BORDER_SMALLSTAGE = 9;
+    private static final int FONT_INFOLINE = 1;
+    private static final int EXTRA_SPELLER_HEIGHT = 8;
     private IWrappedNode3D textClipping;
     protected IWrappedNode3DTextMultiSection textNode;
     private IWrappedNode3DText textNodeInfo;
@@ -77,11 +77,11 @@ implements ITouchRenderer {
     protected float suggestionX = 0.0f;
     protected final float SUGGESTIONY;
     protected float suggestionW = 0.0f;
-    protected float suggestionH = 4162;
+    protected float suggestionH = 36.0f;
 
     public TouchRendererHigh(TouchController touchController) {
         this.TOP_IMAGE_TEXT_LABEL_X_ICON_OFFSET = 115;
-        this.SUGGESTIONY = 16449;
+        this.SUGGESTIONY = 12.0f;
         this.controller = touchController;
     }
 
@@ -102,7 +102,6 @@ implements ITouchRenderer {
         this.textNodeTopImageText = null;
     }
 
-    @Override
     protected void applyProperties(RedrawContextHigh redrawContextHigh) {
         float f2;
         this.setRedrawContext(redrawContextHigh);
@@ -118,9 +117,9 @@ implements ITouchRenderer {
         float f4 = 1.0f - f3;
         float f5 = 0.0f;
         if (AbstractWidget.isScreenResolution1440()) {
-            f5 = 32960;
+            f5 = -4.0f;
         }
-        float f6 = (float)(this.controller.getY() - 1) - f3 * (65 + f5);
+        float f6 = (float)(this.controller.getY() - 1) - f3 * (8.0f + f5);
         this.node.setPosition(n4 - 13, f6, 0.0f);
         this.setProperty("if_inputWidth", this.controller.getWidth() - n3);
         this.setProperty("if_inputHeight", this.controller.getTouchInputFieldHeight());
@@ -133,7 +132,7 @@ implements ITouchRenderer {
         if (this.controller.isVisibleOnCurrentStage()) {
             this.setProperty("if_infoline", f7);
         }
-        this.setProperty("if_infoIconPosX", 20546);
+        this.setProperty("if_infoIconPosX", 52.0f);
         this.setProperty("if_fieldActive", 0.0f);
         this.setProperty("if_spellerActive", f3);
         this.setProperty("if_height", this.getTerminal().getLayout().getIntegerConstant(12));
@@ -168,7 +167,7 @@ implements ITouchRenderer {
         }
         this.updateInputDataTextSections(redrawContextHigh);
         boolean bl2 = this.controller.isCursorVisible();
-        int n9 = 45121;
+        float f9 = 22.0f;
         if (bl2) {
             this.setProperty("if_cursorActive", this.controller.getCursorOpacity());
             f2 = this.calculateTextCursorXPosition(redrawContextHigh.getCurrentFont());
@@ -180,25 +179,25 @@ implements ITouchRenderer {
                 this.textNode.setPosition(0.0f, n2, 0.0f);
             }
             this.setProperty("if_cursorPosX", f2);
-            n9 = (int)(f2 + (float)n3);
+            f9 = f2 + (float)n3;
         } else {
             f2 = this.textNode.getX();
             this.textNode.setPosition(f2, n2, 0.0f);
             this.setProperty("if_cursorActive", 0.0f);
         }
-        int n10 = n2;
+        int n9 = n2;
         if (this.controller.getTopImageIndex() != -1) {
             this.cleanUpTopImage();
             this.createTopImage();
-            n10 = (int)((float)n2 - this.topImageClipping.getHeight());
+            n9 = (int)((float)n2 - this.topImageClipping.getHeight());
         } else {
             this.hideTopImage();
         }
         this.showSuggestionBackground(false);
         this.updateInputDataTextSections(redrawContextHigh);
         boolean bl = this.controller.showIcon();
-        this.renderInitialTextAndIcon(redrawContextHigh, n10, bl, f4, this.controller.getWidth() - n3);
-        this.controller.setFingerTracePlatePosition(n9, (int)(f6 + (float)this.controller.getSpellerHeight() * f3));
+        this.renderInitialTextAndIcon(redrawContextHigh, n9, bl, f4, this.controller.getWidth() - n3);
+        this.controller.setFingerTracePlatePosition((int)f9, (int)(f6 + (float)this.controller.getSpellerHeight() * f3));
         this.renderInfoLineText(redrawContextHigh, f7, this.controller.getWidth() - n3);
         if (f3 > 0.0f) {
             IWrappedNode3D iWrappedNode3D = redrawContextHigh.parentNodeSecondary;
@@ -244,7 +243,7 @@ implements ITouchRenderer {
 
     protected void createInputDataTextNode(int n) {
         this.textClipping = this.getEALManager().createNode3D(this.node, EALManager.createNodeName("touchTextClipping", this), n, this.getControllerHeight() + this.controller.getSpellerHeight());
-        this.textClipping.setPosition(45121, 0.0f, 0.0f);
+        this.textClipping.setPosition(22.0f, 0.0f, 0.0f);
         this.textClipping.setClippingInheritance(17);
         this.textClipping.setClipping(true);
         this.textNode = this.getEALManager().createText3DMultiSection(this.textClipping, EALManager.createNodeName("textNode", this), this.getAbbreviatedTextToRender(), this.rc.getCurrentFont(), 1);
@@ -364,8 +363,8 @@ implements ITouchRenderer {
     protected void showSuggestionBackground(boolean bl) {
         if (bl) {
             float f2 = this.getTerminal() != null ? (float)this.getTerminal().getLayout().getIntegerConstant(116) : 0.0f;
-            int n = 16449 - f2;
-            this.suggestionBackground.setPosition(this.suggestionX, n, 0.0f);
+            float f3 = 12.0f - f2;
+            this.suggestionBackground.setPosition(this.suggestionX, f3, 0.0f);
             this.suggestionBackground.setScale(this.suggestionW, this.suggestionH, 0.0f);
             bl &= this.controller.isSpellerClosed();
         }
@@ -455,19 +454,19 @@ implements ITouchRenderer {
     }
 
     protected float calculateTextCursorXPosition(IWrappedFont iWrappedFont) {
-        int n = this.controller.isCursorAtInitialPosition() ? 16450 : 8257;
+        float f2 = this.controller.isCursorAtInitialPosition() ? 48.0f : 10.0f;
         String string = this.getAbbreviatedTextToRender();
         if (string != null && string.length() > 0) {
-            int n2;
-            int n3 = this.controller.getCursorPosition();
-            int n4 = n2 = this.isCursorAtTheEndOfText(n3) ? 1 : 0;
+            int n;
+            int n2 = this.controller.getCursorPosition();
+            int n3 = n = this.isCursorAtTheEndOfText(n2) ? 1 : 0;
             if (this.isSuggestionVisible()) {
-                n3 = this.controller.getCursorPosition() - 1;
-                n2 = 1;
+                n2 = this.controller.getCursorPosition() - 1;
+                n = 1;
             }
-            n = (int)((float)(this.textNode.getOnScreenCharPosition(n3)[n2] + 10));
+            f2 = this.textNode.getOnScreenCharPosition(n2)[n] + 10;
         }
-        return n;
+        return f2;
     }
 
     protected boolean isSuggestionVisible() {
@@ -510,7 +509,7 @@ implements ITouchRenderer {
             if (OffsetInfolineTextTop == -1) {
                 OffsetInfolineTextTop = this.getTerminal().getLayout().getIntegerConstant(94);
             }
-            this.textNodeInfo.setPosition(53314, this.controller.getTouchInputFieldHeight() + OffsetInfolineTextTop, 0.0f);
+            this.textNodeInfo.setPosition(104.0f, this.controller.getTouchInputFieldHeight() + OffsetInfolineTextTop, 0.0f);
         }
         if (this.textNodeInfo != null) {
             this.textNodeInfo.setVisible(f2 > 0.0f);
@@ -545,7 +544,7 @@ implements ITouchRenderer {
         }
         if (this.textNodeInitialText == null) {
             this.textNodeInitialText = this.getEALManager().createText3D(this.node, EALManager.createNodeName("touchTextNodeInitial", this), string, redrawContextHigh.getCurrentFont());
-            this.textNodeInitialText.setPosition(33346, n, 0.0f);
+            this.textNodeInitialText.setPosition(65.0f, n, 0.0f);
         } else {
             this.textNodeInitialText.setText(string, redrawContextHigh.getCurrentFont());
         }
@@ -556,7 +555,7 @@ implements ITouchRenderer {
         }
         if (this.controller.isTouchpadKeypanelWithActiveStatus()) {
             if (this.textNodeInitialText != null) {
-                this.textNodeInitialText.setPosition(33346, n, 0.0f);
+                this.textNodeInitialText.setPosition(65.0f, n, 0.0f);
             }
             if (bl) {
                 this.setProperty("if_iconVisible", f2);
@@ -572,7 +571,7 @@ implements ITouchRenderer {
             }
         } else {
             if (this.textNodeInitialText != null) {
-                this.textNodeInitialText.setPosition(45121, n, 0.0f);
+                this.textNodeInitialText.setPosition(22.0f, n, 0.0f);
                 this.textNodeInitialText.setOpacity(f2);
                 this.textNodeInitialText.setVisible(bl);
             }
@@ -581,7 +580,6 @@ implements ITouchRenderer {
         this.setProperty("if_ddsArrowState", this.controller.showJumpDownToListArrow() ? 1.0f : 0.0f);
     }
 
-    @Override
     public final void render(RedrawContext redrawContext) {
         if (this.dirty) {
             super.render(redrawContext);
@@ -600,7 +598,6 @@ implements ITouchRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         this.destroyTextNodes();
         if (this.textClipping != null) {
@@ -625,27 +622,22 @@ implements ITouchRenderer {
         super.disconnect();
     }
 
-    @Override
     protected final String getTemplateNodePath() {
         return "Prefabs/generic_inputField";
     }
 
-    @Override
     protected final String getEALNodeName() {
-        return "inputField";
+        return NODE_NAME_INPUT_FIELD;
     }
 
-    @Override
     public final AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public final void prepareRedrawContextForChildren(RedrawContext redrawContext, AbstractWidget abstractWidget) {
         super.prepareRedrawContextForChildren(redrawContext, abstractWidget);
     }
 
-    @Override
     public void setCompositeDirty(int n) {
         if (n == 0) {
             this.blinkCursorDirty = true;
@@ -656,12 +648,10 @@ implements ITouchRenderer {
         }
     }
 
-    @Override
     public boolean areCompositesDirty() {
         return this.dirty || this.blinkCursorDirty || this.touchIndicatorIconDirty;
     }
 
-    @Override
     public void setCompositesDirty(boolean bl) {
         super.setCompositesDirty(bl);
         this.blinkCursorDirty = bl;
@@ -712,7 +702,7 @@ implements ITouchRenderer {
     protected final IWrappedNode3DImage createSuggestionBackground(IWrappedNode3D iWrappedNode3D, int n) {
         IWrappedNode3DImage iWrappedNode3DImage = null;
         TextureDescription textureDescription = this.getEALManager().createTextureDescription(HMIImageConstantsSystem.white_pixel, false, this.getInitContext().getScreenID());
-        iWrappedNode3DImage = this.getEALManager().createImage3D(iWrappedNode3D, new StringBuffer().append("Suggestion-Background").append(n).toString(), textureDescription, iWrappedNode3D.getNodeIndex() - 1, true, (Object)this);
+        iWrappedNode3DImage = this.getEALManager().createImage3D(iWrappedNode3D, "Suggestion-Background" + n, textureDescription, iWrappedNode3D.getNodeIndex() - 1, true, (Object)this);
         iWrappedNode3DImage.setModulateColor(n);
         return iWrappedNode3DImage;
     }
@@ -736,8 +726,8 @@ implements ITouchRenderer {
         float f3 = this.node.getX();
         float f4 = this.node.getY();
         this.node.setPosition(f3, f4 + f2, 0.0f);
-        this.topImageClipping.setPosition(20545, -f2, 0.0f);
-        this.topImageClipping.setClippingRectangle(this.node.getX(), f4 - 16449, this.controller.getWidth(), f2 += (float)this.controller.getExtraClippingHeight());
+        this.topImageClipping.setPosition(13.0f, -f2, 0.0f);
+        this.topImageClipping.setClippingRectangle(this.node.getX(), f4 - 12.0f, this.controller.getWidth(), f2 += (float)this.controller.getExtraClippingHeight());
         this.topImageClipping.useClippingRectangle(true);
         this.topImageClipping.setClipping(true);
         this.topImageClipping.setVisible(true);
@@ -762,11 +752,11 @@ implements ITouchRenderer {
             this.textNodeTopImageText.setText(string, this.rc.getCurrentFont());
         }
         int n3 = n - this.getEALManager().getTextWidth(string, this.rc.getCurrentFont()) + 13;
-        int n4 = 10306;
-        int n5 = this.rc.getColor(0);
-        int n6 = EALManager.createColorCode(n5);
-        this.textNodeTopImageText.setColor(n6);
-        this.textNodeTopImageText.setPosition(n3, n4, 1.0f);
+        float f2 = 42.0f;
+        int n4 = this.rc.getColor(0);
+        int n5 = EALManager.createColorCode(n4);
+        this.textNodeTopImageText.setColor(n5);
+        this.textNodeTopImageText.setPosition(n3, f2, 1.0f);
         this.textNodeTopImageText.setVisible(true);
     }
 
@@ -849,7 +839,6 @@ implements ITouchRenderer {
         }
     }
 
-    @Override
     public int getTextureHeight(int n) {
         int n2 = 0;
         IWrappedTexture iWrappedTexture = this.getEALManager().createTextureDescription(n, false, this.getInitContext().getScreenID()).getTexture(this);
@@ -861,13 +850,8 @@ implements ITouchRenderer {
         return n2;
     }
 
-    @Override
     protected int getKzbConstant() {
         return 18;
-    }
-
-    static {
-        OffsetInfolineTextTop = -1;
     }
 }
 

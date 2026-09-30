@@ -5,56 +5,54 @@ package de.esolutions.hmi.widgets.audi.evo.gridlayout;
 
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
 import de.esolutions.hmi.widgets.audi.base.WidgetConstants;
-import de.esolutions.hmi.widgets.audi.evo.gridlayout.AbstractGridLayout$AxisActualSizes;
-import de.esolutions.hmi.widgets.audi.evo.gridlayout.AbstractGridLayout$AxisPreferredSizes;
-import de.esolutions.hmi.widgets.audi.evo.gridlayout.AbstractGridLayout$LayoutData;
-import de.esolutions.hmi.widgets.audi.evo.gridlayout.AbstractGridLayout$SpanData;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.IAxisConstraints;
 import de.esolutions.hmi.widgets.audi.evo.gridlayout.IGridLayoutHints;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractGridLayout
 implements WidgetConstants {
-    public static final int HUGE_SIZE;
-    private static final int[] EMPTY_ARRAY;
-    private static final int ARRAY_ELEMENTS_PER_TABULATOR;
-    public static final int HIDEMODE_INVISIBLE_WIDGETS_LEAVE_CELL_EMPTY;
-    public static final int HIDEMODE_USE_PREFERRED_SIZE;
-    public static final int HIDEMODE_INVISIBLE_OR_EMPTY_WIDGETS_LEAVE_CELL_EMPTY;
+    public static final int HUGE_SIZE = 1000000;
+    private static final int[] EMPTY_ARRAY = new int[0];
+    private static final int ARRAY_ELEMENTS_PER_TABULATOR = 2;
+    public static final int HIDEMODE_INVISIBLE_WIDGETS_LEAVE_CELL_EMPTY = 0;
+    public static final int HIDEMODE_USE_PREFERRED_SIZE = 1;
+    public static final int HIDEMODE_INVISIBLE_OR_EMPTY_WIDGETS_LEAVE_CELL_EMPTY = 2;
     protected IAxisConstraints columnConstraints;
     protected IAxisConstraints rowConstraints;
     protected Object[] widgets;
     protected IGridLayoutHints[] widgetConstraints;
-    private AbstractGridLayout$LayoutData[] cachedLayouts;
+    private LayoutData[] cachedLayouts;
     private Boolean cachedHasDynamicHeight;
     private int[] tabulators = EMPTY_ARRAY;
     protected int state = 2;
 
-    private int[] getAxisBounds(boolean bl, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
+    private int[] getAxisBounds(boolean bl, LayoutData layoutData) {
         IAxisConstraints iAxisConstraints = bl ? this.columnConstraints : this.rowConstraints;
-        AbstractGridLayout$AxisPreferredSizes axisPreferredSizes = bl ? abstractGridLayout$LayoutData.columnsPref : abstractGridLayout$LayoutData.rowsPref;
-        AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes = bl ? abstractGridLayout$LayoutData.columnsActual : abstractGridLayout$LayoutData.rowsActual;
+        AxisPreferredSizes axisPreferredSizes = bl ? layoutData.columnsPref : layoutData.rowsPref;
+        AxisActualSizes axisActualSizes = bl ? layoutData.columnsActual : layoutData.rowsActual;
         int[] nArray = new int[iAxisConstraints.getLength() * 2];
         int n = 0;
         for (int i2 = 0; i2 < iAxisConstraints.getLength(); ++i2) {
             nArray[i2 * 2] = n += AbstractGridLayout.getGap(i2, axisPreferredSizes, iAxisConstraints);
-            nArray[i2 * 2 + 1] = (n += abstractGridLayout$AxisActualSizes.actual[i2]) - 1;
+            nArray[i2 * 2 + 1] = (n += axisActualSizes.actual[i2]) - 1;
         }
         return nArray;
     }
 
-    protected int[][] setChildrenBounds(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, boolean bl, boolean bl2) {
+    protected int[][] setChildrenBounds(LayoutData layoutData, boolean bl, boolean bl2) {
         ArrayList arrayList = null;
         if (bl) {
             arrayList = new ArrayList(this.widgets.length);
         }
         for (int i2 = 0; i2 < this.widgets.length; ++i2) {
             IGridLayoutHints iGridLayoutHints = this.widgetConstraints[i2];
-            if (this.shouldSetChildrenBounds(this.widgets[i2], iGridLayoutHints, abstractGridLayout$LayoutData.state, bl)) {
-                this.setChildBounds(this.widgets[i2], iGridLayoutHints, abstractGridLayout$LayoutData, arrayList, bl2);
+            if (this.shouldSetChildrenBounds(this.widgets[i2], iGridLayoutHints, layoutData.state, bl)) {
+                this.setChildBounds(this.widgets[i2], iGridLayoutHints, layoutData, arrayList, bl2);
                 continue;
             }
             this.hideWidget(this.widgets[i2], arrayList);
@@ -83,17 +81,17 @@ implements WidgetConstants {
         }
     }
 
-    private void setChildBounds(Object object, IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, List list, boolean bl) {
-        int n = this.getChildAreaX(iGridLayoutHints, abstractGridLayout$LayoutData);
-        int n2 = this.getChildAreaWidth(iGridLayoutHints, abstractGridLayout$LayoutData);
-        int n3 = this.getChildAreaY(iGridLayoutHints, abstractGridLayout$LayoutData);
-        int n4 = this.getChildAreaHeight(iGridLayoutHints, abstractGridLayout$LayoutData);
+    private void setChildBounds(Object object, IGridLayoutHints iGridLayoutHints, LayoutData layoutData, List list, boolean bl) {
+        int n = this.getChildAreaX(iGridLayoutHints, layoutData);
+        int n2 = this.getChildAreaWidth(iGridLayoutHints, layoutData);
+        int n3 = this.getChildAreaY(iGridLayoutHints, layoutData);
+        int n4 = this.getChildAreaHeight(iGridLayoutHints, layoutData);
         int n5 = this.getChildAlignment(iGridLayoutHints.getAlignmentHoriz(), iGridLayoutHints.getColumn(), this.columnConstraints);
         int n6 = this.getChildAlignment(iGridLayoutHints.getAlignmentVert(), iGridLayoutHints.getRow(), this.rowConstraints);
-        this.setChildBoundsInCell(object, n, n3, n2, n4, n5, n6, iGridLayoutHints, abstractGridLayout$LayoutData, list, bl);
+        this.setChildBoundsInCell(object, n, n3, n2, n4, n5, n6, iGridLayoutHints, layoutData, list, bl);
     }
 
-    private void setChildBoundsInCell(Object object, int n, int n2, int n3, int n4, int n5, int n6, IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, List list, boolean bl) {
+    private void setChildBoundsInCell(Object object, int n, int n2, int n3, int n4, int n5, int n6, IGridLayoutHints iGridLayoutHints, LayoutData layoutData, List list, boolean bl) {
         int n7;
         int n8;
         int n9;
@@ -156,17 +154,17 @@ implements WidgetConstants {
                 int n14;
                 int n15;
                 if (iGridLayoutHints.getRowSpan() == 1) {
-                    n15 = abstractGridLayout$LayoutData.rowsPref.baseline[iGridLayoutHints.getRow()];
+                    n15 = layoutData.rowsPref.baseline[iGridLayoutHints.getRow()];
                     n14 = this.getBaseline(object);
                     n13 += n15 - n14;
                 } else {
-                    this.log(-1601830656, "AbstractGridLayout#setChildBoundsInCell: baseline layout is not supported for spanning widgets. Cell: %1 / %2, row span: %3", iGridLayoutHints.getRow(), iGridLayoutHints.getColumn(), iGridLayoutHints.getRowSpan());
+                    this.log(100000, "AbstractGridLayout#setChildBoundsInCell: baseline layout is not supported for spanning widgets. Cell: %1 / %2, row span: %3", iGridLayoutHints.getRow(), iGridLayoutHints.getColumn(), iGridLayoutHints.getRowSpan());
                 }
                 n15 = this.getPreferredHeight(object, n10);
                 n7 = Math.min(n15, n4);
                 if (n13 + n7 <= n2 + n4) break;
                 n14 = n13 + n7 - (n2 + n4);
-                this.log(-1601830656, "AbstractGridLayout#setChildBoundsInCell: widget descent extends row height. Cell: %1 / %2, out of cell: %3", iGridLayoutHints.getRow(), iGridLayoutHints.getColumn(), n14);
+                this.log(100000, "AbstractGridLayout#setChildBoundsInCell: widget descent extends row height. Cell: %1 / %2, out of cell: %3", iGridLayoutHints.getRow(), iGridLayoutHints.getColumn(), n14);
                 break;
             }
             default: {
@@ -192,44 +190,44 @@ implements WidgetConstants {
         return iAxisConstraints.getAlignment(n2);
     }
 
-    private int getChildAreaX(IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
+    private int getChildAreaX(IGridLayoutHints iGridLayoutHints, LayoutData layoutData) {
         int n = 0;
         for (int i2 = 0; i2 < iGridLayoutHints.getColumn(); ++i2) {
-            n += abstractGridLayout$LayoutData.columnsActual.actual[i2] + AbstractGridLayout.getGap(i2, abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n += layoutData.columnsActual.actual[i2] + AbstractGridLayout.getGap(i2, layoutData.columnsPref, this.columnConstraints);
         }
         if (!this.hasFlag(iGridLayoutHints.getOverlapGaps(), 4)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn(), abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn(), layoutData.columnsPref, this.columnConstraints);
         }
         return n;
     }
 
-    private int getChildAreaY(IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        if (abstractGridLayout$LayoutData.rowsActual.actual == null) {
+    private int getChildAreaY(IGridLayoutHints iGridLayoutHints, LayoutData layoutData) {
+        if (layoutData.rowsActual.actual == null) {
             return 0;
         }
         int n = 0;
         for (int i2 = 0; i2 < iGridLayoutHints.getRow(); ++i2) {
-            n += abstractGridLayout$LayoutData.rowsActual.actual[i2] + AbstractGridLayout.getGap(i2, abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += layoutData.rowsActual.actual[i2] + AbstractGridLayout.getGap(i2, layoutData.rowsPref, this.rowConstraints);
         }
         if (!this.hasFlag(iGridLayoutHints.getOverlapGaps(), 1)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow(), abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow(), layoutData.rowsPref, this.rowConstraints);
         }
         return n;
     }
 
-    private int getChildAreaWidth(IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
+    private int getChildAreaWidth(IGridLayoutHints iGridLayoutHints, LayoutData layoutData) {
         int n = 0;
         for (int i2 = 0; i2 < iGridLayoutHints.getColumnSpan(); ++i2) {
             int n2 = iGridLayoutHints.getColumn() + i2;
-            n += abstractGridLayout$LayoutData.columnsActual.actual[n2];
+            n += layoutData.columnsActual.actual[n2];
             if (i2 <= 0) continue;
-            n += AbstractGridLayout.getGap(n2, abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n += AbstractGridLayout.getGap(n2, layoutData.columnsPref, this.columnConstraints);
         }
         if (this.hasFlag(iGridLayoutHints.getOverlapGaps(), 4)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn(), abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn(), layoutData.columnsPref, this.columnConstraints);
         }
         if (this.hasFlag(iGridLayoutHints.getOverlapGaps(), 8)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn() + iGridLayoutHints.getColumnSpan(), abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getColumn() + iGridLayoutHints.getColumnSpan(), layoutData.columnsPref, this.columnConstraints);
         }
         if (iGridLayoutHints.getWidthMax() != -1) {
             n = Math.min(n, iGridLayoutHints.getWidthMax());
@@ -240,22 +238,22 @@ implements WidgetConstants {
         return n;
     }
 
-    private int getChildAreaHeight(IGridLayoutHints iGridLayoutHints, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        if (abstractGridLayout$LayoutData.rowsActual.actual == null) {
+    private int getChildAreaHeight(IGridLayoutHints iGridLayoutHints, LayoutData layoutData) {
+        if (layoutData.rowsActual.actual == null) {
             return 0;
         }
         int n = 0;
         for (int i2 = 0; i2 < iGridLayoutHints.getRowSpan(); ++i2) {
             int n2 = iGridLayoutHints.getRow() + i2;
-            n += abstractGridLayout$LayoutData.rowsActual.actual[n2];
+            n += layoutData.rowsActual.actual[n2];
             if (i2 <= 0) continue;
-            n += AbstractGridLayout.getGap(n2, abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += AbstractGridLayout.getGap(n2, layoutData.rowsPref, this.rowConstraints);
         }
         if (this.hasFlag(iGridLayoutHints.getOverlapGaps(), 1)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow(), abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow(), layoutData.rowsPref, this.rowConstraints);
         }
         if (this.hasFlag(iGridLayoutHints.getOverlapGaps(), 2)) {
-            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow() + iGridLayoutHints.getRowSpan(), abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += AbstractGridLayout.getGap(iGridLayoutHints.getRow() + iGridLayoutHints.getRowSpan(), layoutData.rowsPref, this.rowConstraints);
         }
         if (iGridLayoutHints.getHeightMax() != -1) {
             n = Math.min(n, iGridLayoutHints.getHeightMax());
@@ -266,36 +264,36 @@ implements WidgetConstants {
         return n;
     }
 
-    protected int[] calculatePreferredSizeFromCachedData(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
+    protected int[] calculatePreferredSizeFromCachedData(LayoutData layoutData) {
         int n;
         int n2 = 0;
         for (n = 0; n < this.columnConstraints.getLength(); ++n) {
-            n2 += abstractGridLayout$LayoutData.columnsPref.pref[n] + AbstractGridLayout.getGap(n, abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n2 += layoutData.columnsPref.pref[n] + AbstractGridLayout.getGap(n, layoutData.columnsPref, this.columnConstraints);
         }
         if (this.columnConstraints.getLength() > 0) {
-            n2 += AbstractGridLayout.getGap(this.columnConstraints.getLength(), abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n2 += AbstractGridLayout.getGap(this.columnConstraints.getLength(), layoutData.columnsPref, this.columnConstraints);
         }
         n = 0;
         for (int i2 = 0; i2 < this.rowConstraints.getLength(); ++i2) {
-            n += abstractGridLayout$LayoutData.rowsPref.pref[i2] + AbstractGridLayout.getGap(i2, abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += layoutData.rowsPref.pref[i2] + AbstractGridLayout.getGap(i2, layoutData.rowsPref, this.rowConstraints);
         }
         if (this.rowConstraints.getLength() > 0) {
-            n += AbstractGridLayout.getGap(this.rowConstraints.getLength(), abstractGridLayout$LayoutData.rowsPref, this.rowConstraints);
+            n += AbstractGridLayout.getGap(this.rowConstraints.getLength(), layoutData.rowsPref, this.rowConstraints);
         }
         return new int[]{n2, n};
     }
 
-    protected int calculateTabulatorFromCachedData(int n, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
+    protected int calculateTabulatorFromCachedData(int n, LayoutData layoutData) {
         int n2 = 0;
         for (int i2 = 0; i2 < this.columnConstraints.getLength() + 1; ++i2) {
-            n2 += AbstractGridLayout.getGap(i2, abstractGridLayout$LayoutData.columnsPref, this.columnConstraints);
+            n2 += AbstractGridLayout.getGap(i2, layoutData.columnsPref, this.columnConstraints);
             if (this.columnConstraints.getTabulatorID(i2) == n) {
                 return n2;
             }
             if (i2 >= this.columnConstraints.getLength()) continue;
-            n2 += abstractGridLayout$LayoutData.columnsActual.actualWithoutTabulator[i2];
+            n2 += layoutData.columnsActual.actualWithoutTabulator[i2];
         }
-        this.log(-1601830656, "AbstractGridLayout#calculateTabulator: tabulator %1 not defined", n);
+        this.log(100000, "AbstractGridLayout#calculateTabulator: tabulator %1 not defined", n);
         return -1;
     }
 
@@ -367,111 +365,111 @@ implements WidgetConstants {
     }
 
     protected void layoutInternal(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.checkCacheActualSize(n, n2, true, this.state);
-        this.setChildrenBounds(abstractGridLayout$LayoutData, false, false);
+        LayoutData layoutData = this.checkCacheActualSize(n, n2, true, this.state);
+        this.setChildrenBounds(layoutData, false, false);
     }
 
     protected int[][] simulateLayoutInternal(int n, int n2, boolean bl) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.getLayoutData(this.state, n);
-        if (!this.isCachedPreferredSize(abstractGridLayout$LayoutData)) {
-            this.calculatePreferredSize(abstractGridLayout$LayoutData);
+        LayoutData layoutData = this.getLayoutData(this.state, n);
+        if (!this.isCachedPreferredSize(layoutData)) {
+            this.calculatePreferredSize(layoutData);
         }
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData2 = new AbstractGridLayout$LayoutData(this.state, n);
-        abstractGridLayout$LayoutData2.columnsPref = abstractGridLayout$LayoutData.columnsPref;
-        abstractGridLayout$LayoutData2.rowsPref = abstractGridLayout$LayoutData.rowsPref;
-        abstractGridLayout$LayoutData2.columnsActual = new AbstractGridLayout$AxisActualSizes(n);
-        abstractGridLayout$LayoutData2.rowsActual = new AbstractGridLayout$AxisActualSizes(n2);
-        this.calculateActualSizeGrid(n, n2, true, abstractGridLayout$LayoutData2);
-        return this.setChildrenBounds(abstractGridLayout$LayoutData2, true, bl);
+        LayoutData layoutData2 = new LayoutData(this.state, n);
+        layoutData2.columnsPref = layoutData.columnsPref;
+        layoutData2.rowsPref = layoutData.rowsPref;
+        layoutData2.columnsActual = new AxisActualSizes(n);
+        layoutData2.rowsActual = new AxisActualSizes(n2);
+        this.calculateActualSizeGrid(n, n2, true, layoutData2);
+        return this.setChildrenBounds(layoutData2, true, bl);
     }
 
     protected int[] calculateRows(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.checkCacheActualSize(n, n2, true, this.state);
-        return this.getAxisBounds(false, abstractGridLayout$LayoutData);
+        LayoutData layoutData = this.checkCacheActualSize(n, n2, true, this.state);
+        return this.getAxisBounds(false, layoutData);
     }
 
     protected int[] calculateColumns(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.checkCacheActualSize(n, n2, true, this.state);
-        return this.getAxisBounds(true, abstractGridLayout$LayoutData);
+        LayoutData layoutData = this.checkCacheActualSize(n, n2, true, this.state);
+        return this.getAxisBounds(true, layoutData);
     }
 
     protected int[] calculateSizeInternal(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.checkCachePreferredSize(n, n2);
-        return this.calculatePreferredSizeFromCachedData(abstractGridLayout$LayoutData);
+        LayoutData layoutData = this.checkCachePreferredSize(n, n2);
+        return this.calculatePreferredSizeFromCachedData(layoutData);
     }
 
     protected int calculateTabulatorInternal(int n, int n2, int n3) {
         if (!this.columnConstraints.hasTabulatorIDs()) {
-            this.log(-1601830656, "AbstractGridLayout#calculateTabulator: no tabulators defined. tabulatorID: %1", n3);
+            this.log(100000, "AbstractGridLayout#calculateTabulator: no tabulators defined. tabulatorID: %1", n3);
             return -1;
         }
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.checkCacheActualSize(n, n2, false, this.state);
-        return this.calculateTabulatorFromCachedData(n3, abstractGridLayout$LayoutData);
+        LayoutData layoutData = this.checkCacheActualSize(n, n2, false, this.state);
+        return this.calculateTabulatorFromCachedData(n3, layoutData);
     }
 
-    protected AbstractGridLayout$LayoutData checkCachePreferredSize(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.getLayoutData(n, n2);
-        if (!this.isCachedPreferredSize(abstractGridLayout$LayoutData)) {
-            this.calculatePreferredSize(abstractGridLayout$LayoutData);
+    protected LayoutData checkCachePreferredSize(int n, int n2) {
+        LayoutData layoutData = this.getLayoutData(n, n2);
+        if (!this.isCachedPreferredSize(layoutData)) {
+            this.calculatePreferredSize(layoutData);
         }
-        return abstractGridLayout$LayoutData;
+        return layoutData;
     }
 
-    protected AbstractGridLayout$LayoutData checkCacheActualSize(int n, int n2, boolean bl, int n3) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData = this.getLayoutData(n3, n);
-        if (!this.isCachedPreferredSize(abstractGridLayout$LayoutData)) {
-            this.calculatePreferredSize(abstractGridLayout$LayoutData);
+    protected LayoutData checkCacheActualSize(int n, int n2, boolean bl, int n3) {
+        LayoutData layoutData = this.getLayoutData(n3, n);
+        if (!this.isCachedPreferredSize(layoutData)) {
+            this.calculatePreferredSize(layoutData);
         }
-        if (!this.isCachedActualSize(abstractGridLayout$LayoutData, n, n2, bl)) {
-            abstractGridLayout$LayoutData.columnsActual = new AbstractGridLayout$AxisActualSizes(n);
-            abstractGridLayout$LayoutData.rowsActual = new AbstractGridLayout$AxisActualSizes(n2);
-            this.calculateActualSizeGrid(n, n2, bl, abstractGridLayout$LayoutData);
+        if (!this.isCachedActualSize(layoutData, n, n2, bl)) {
+            layoutData.columnsActual = new AxisActualSizes(n);
+            layoutData.rowsActual = new AxisActualSizes(n2);
+            this.calculateActualSizeGrid(n, n2, bl, layoutData);
         }
-        return abstractGridLayout$LayoutData;
+        return layoutData;
     }
 
-    private AbstractGridLayout$LayoutData getLayoutData(int n, int n2) {
-        AbstractGridLayout$LayoutData abstractGridLayout$LayoutData;
+    private LayoutData getLayoutData(int n, int n2) {
+        LayoutData layoutData;
         int n3 = this.cachedLayouts == null ? 0 : this.cachedLayouts.length;
         for (int i2 = 0; i2 < n3; ++i2) {
-            abstractGridLayout$LayoutData = this.cachedLayouts[i2];
-            if (!this.isCachedForState(abstractGridLayout$LayoutData, n, n2)) continue;
-            return abstractGridLayout$LayoutData;
+            layoutData = this.cachedLayouts[i2];
+            if (!this.isCachedForState(layoutData, n, n2)) continue;
+            return layoutData;
         }
-        AbstractGridLayout$LayoutData[] abstractGridLayout$LayoutDataArray = new AbstractGridLayout$LayoutData[n3 + 1];
+        LayoutData[] layoutDataArray = new LayoutData[n3 + 1];
         if (this.cachedLayouts != null) {
-            System.arraycopy((Object)this.cachedLayouts, 0, (Object)abstractGridLayout$LayoutDataArray, 0, n3);
+            System.arraycopy((Object)this.cachedLayouts, 0, (Object)layoutDataArray, 0, n3);
         }
-        abstractGridLayout$LayoutDataArray[n3] = abstractGridLayout$LayoutData = new AbstractGridLayout$LayoutData(n, n2);
-        this.cachedLayouts = abstractGridLayout$LayoutDataArray;
-        return abstractGridLayout$LayoutData;
+        layoutDataArray[n3] = layoutData = new LayoutData(n, n2);
+        this.cachedLayouts = layoutDataArray;
+        return layoutData;
     }
 
-    private boolean isCachedForState(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, int n, int n2) {
-        if (abstractGridLayout$LayoutData.state != n) {
+    private boolean isCachedForState(LayoutData layoutData, int n, int n2) {
+        if (layoutData.state != n) {
             return false;
         }
         if (this.hasDynamicHeight()) {
-            return abstractGridLayout$LayoutData.widthHint == n2;
+            return layoutData.widthHint == n2;
         }
         return true;
     }
 
-    private boolean isCachedPreferredSize(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        if (!abstractGridLayout$LayoutData.hasPreferredSizes()) {
+    private boolean isCachedPreferredSize(LayoutData layoutData) {
+        if (!layoutData.hasPreferredSizes()) {
             return false;
         }
-        return abstractGridLayout$LayoutData.columnsPref.pref != null;
+        return layoutData.columnsPref.pref != null;
     }
 
-    private boolean isCachedActualSize(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, int n, int n2, boolean bl) {
-        if (!abstractGridLayout$LayoutData.hasActualSizes()) {
+    private boolean isCachedActualSize(LayoutData layoutData, int n, int n2, boolean bl) {
+        if (!layoutData.hasActualSizes()) {
             return false;
         }
-        if (abstractGridLayout$LayoutData.columnsActual.containerSize != n || abstractGridLayout$LayoutData.rowsActual.containerSize != n2) {
+        if (layoutData.columnsActual.containerSize != n || layoutData.rowsActual.containerSize != n2) {
             return false;
         }
-        int[] nArray = bl ? abstractGridLayout$LayoutData.columnsActual.actual : abstractGridLayout$LayoutData.columnsActual.actualWithoutTabulator;
+        int[] nArray = bl ? layoutData.columnsActual.actual : layoutData.columnsActual.actualWithoutTabulator;
         return nArray != null;
     }
 
@@ -480,40 +478,40 @@ implements WidgetConstants {
         this.cachedHasDynamicHeight = null;
     }
 
-    protected void calculateActualSizeGrid(int n, int n2, boolean bl, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        this.calculateActualSizeAxis(n, true, bl, abstractGridLayout$LayoutData);
-        this.calculateActualSizeAxis(n2, false, bl, abstractGridLayout$LayoutData);
+    protected void calculateActualSizeGrid(int n, int n2, boolean bl, LayoutData layoutData) {
+        this.calculateActualSizeAxis(n, true, bl, layoutData);
+        this.calculateActualSizeAxis(n2, false, bl, layoutData);
     }
 
-    protected void calculateActualSizeAxis(int n, boolean bl, boolean bl2, AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes;
+    protected void calculateActualSizeAxis(int n, boolean bl, boolean bl2, LayoutData layoutData) {
+        AxisActualSizes axisActualSizes;
         IAxisConstraints iAxisConstraints = bl ? this.columnConstraints : this.rowConstraints;
-        AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes = bl ? abstractGridLayout$LayoutData.columnsPref : abstractGridLayout$LayoutData.rowsPref;
-        AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes2 = abstractGridLayout$AxisActualSizes = bl ? abstractGridLayout$LayoutData.columnsActual : abstractGridLayout$LayoutData.rowsActual;
+        AxisPreferredSizes axisPreferredSizes = bl ? layoutData.columnsPref : layoutData.rowsPref;
+        AxisActualSizes axisActualSizes2 = axisActualSizes = bl ? layoutData.columnsActual : layoutData.rowsActual;
         if (bl && bl2 && this.hasTabulators() && iAxisConstraints.hasTabulatorIDs()) {
-            this.applyTabulators(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints);
+            this.applyTabulators(axisPreferredSizes, axisActualSizes, iAxisConstraints);
         } else {
-            this.applyShrinkGrow(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n, bl2);
+            this.applyShrinkGrow(axisPreferredSizes, axisActualSizes, iAxisConstraints, n, bl2);
         }
-        this.clonePrefToActual(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, bl2);
+        this.clonePrefToActual(axisPreferredSizes, axisActualSizes, bl2);
     }
 
-    protected void calculatePreferredSize(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData) {
-        abstractGridLayout$LayoutData.columnsPref = this.createAxisLayoutData(this.columnConstraints);
-        abstractGridLayout$LayoutData.rowsPref = this.createAxisLayoutData(this.rowConstraints);
-        this.calculatePreferredAxisSize(abstractGridLayout$LayoutData, true, null);
+    protected void calculatePreferredSize(LayoutData layoutData) {
+        layoutData.columnsPref = this.createAxisLayoutData(this.columnConstraints);
+        layoutData.rowsPref = this.createAxisLayoutData(this.rowConstraints);
+        this.calculatePreferredAxisSize(layoutData, true, null);
         int[][] nArray = null;
-        if (this.hasDynamicHeight() && abstractGridLayout$LayoutData.widthHint != -1) {
-            AbstractGridLayout$LayoutData abstractGridLayout$LayoutData2 = new AbstractGridLayout$LayoutData(this.state, abstractGridLayout$LayoutData.widthHint);
-            abstractGridLayout$LayoutData2.columnsPref = abstractGridLayout$LayoutData.columnsPref;
-            abstractGridLayout$LayoutData2.rowsPref = this.createAxisLayoutData(this.rowConstraints);
-            abstractGridLayout$LayoutData2.rowsPref.baseline = new int[this.rowConstraints.getLength()];
-            abstractGridLayout$LayoutData2.columnsActual = new AbstractGridLayout$AxisActualSizes(abstractGridLayout$LayoutData.widthHint);
-            abstractGridLayout$LayoutData2.rowsActual = new AbstractGridLayout$AxisActualSizes(0);
-            this.calculateActualSizeAxis(abstractGridLayout$LayoutData2.widthHint, true, true, abstractGridLayout$LayoutData2);
-            nArray = this.setChildrenBounds(abstractGridLayout$LayoutData2, true, false);
+        if (this.hasDynamicHeight() && layoutData.widthHint != -1) {
+            LayoutData layoutData2 = new LayoutData(this.state, layoutData.widthHint);
+            layoutData2.columnsPref = layoutData.columnsPref;
+            layoutData2.rowsPref = this.createAxisLayoutData(this.rowConstraints);
+            layoutData2.rowsPref.baseline = new int[this.rowConstraints.getLength()];
+            layoutData2.columnsActual = new AxisActualSizes(layoutData.widthHint);
+            layoutData2.rowsActual = new AxisActualSizes(0);
+            this.calculateActualSizeAxis(layoutData2.widthHint, true, true, layoutData2);
+            nArray = this.setChildrenBounds(layoutData2, true, false);
         }
-        this.calculatePreferredAxisSize(abstractGridLayout$LayoutData, false, nArray);
+        this.calculatePreferredAxisSize(layoutData, false, nArray);
     }
 
     public boolean hasDynamicHeight() {
@@ -531,38 +529,38 @@ implements WidgetConstants {
         return false;
     }
 
-    private AbstractGridLayout$AxisPreferredSizes createAxisLayoutData(IAxisConstraints iAxisConstraints) {
-        AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes = new AbstractGridLayout$AxisPreferredSizes(iAxisConstraints.getLength());
+    private AxisPreferredSizes createAxisLayoutData(IAxisConstraints iAxisConstraints) {
+        AxisPreferredSizes axisPreferredSizes = new AxisPreferredSizes(iAxisConstraints.getLength());
         for (int i2 = 0; i2 < iAxisConstraints.getLength(); ++i2) {
             int n = iAxisConstraints.getSize(i2);
             int n2 = iAxisConstraints.getMin(i2);
             int n3 = iAxisConstraints.getMax(i2);
-            abstractGridLayout$AxisPreferredSizes.pref[i2] = n != -1 ? n : 0;
-            abstractGridLayout$AxisPreferredSizes.min[i2] = n2 != -1 ? n2 : 0;
-            abstractGridLayout$AxisPreferredSizes.max[i2] = n3 != -1 ? n3 : 1078071040;
+            axisPreferredSizes.pref[i2] = n != -1 ? n : 0;
+            axisPreferredSizes.min[i2] = n2 != -1 ? n2 : 0;
+            axisPreferredSizes.max[i2] = n3 != -1 ? n3 : 1000000;
         }
-        return abstractGridLayout$AxisPreferredSizes;
+        return axisPreferredSizes;
     }
 
-    protected void calculatePreferredAxisSize(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, boolean bl, int[][] nArray) {
+    protected void calculatePreferredAxisSize(LayoutData layoutData, boolean bl, int[][] nArray) {
         IAxisConstraints iAxisConstraints = bl ? this.columnConstraints : this.rowConstraints;
-        AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes = bl ? abstractGridLayout$LayoutData.columnsPref : abstractGridLayout$LayoutData.rowsPref;
+        AxisPreferredSizes axisPreferredSizes = bl ? layoutData.columnsPref : layoutData.rowsPref;
         boolean[] blArray = new boolean[iAxisConstraints.getLength()];
-        this.collectWidgetSizes(abstractGridLayout$LayoutData, blArray, bl, nArray);
-        this.collectGaps(abstractGridLayout$AxisPreferredSizes, iAxisConstraints, blArray);
-        this.applyMinMax(abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
-        this.applySpanData(abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+        this.collectWidgetSizes(layoutData, blArray, bl, nArray);
+        this.collectGaps(axisPreferredSizes, iAxisConstraints, blArray);
+        this.applyMinMax(axisPreferredSizes, iAxisConstraints);
+        this.applySpanData(axisPreferredSizes, iAxisConstraints);
     }
 
-    private void collectWidgetSizes(AbstractGridLayout$LayoutData abstractGridLayout$LayoutData, boolean[] blArray, boolean bl, int[][] nArray) {
+    private void collectWidgetSizes(LayoutData layoutData, boolean[] blArray, boolean bl, int[][] nArray) {
         IAxisConstraints iAxisConstraints = bl ? this.columnConstraints : this.rowConstraints;
-        AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes = bl ? abstractGridLayout$LayoutData.columnsPref : abstractGridLayout$LayoutData.rowsPref;
+        AxisPreferredSizes axisPreferredSizes = bl ? layoutData.columnsPref : layoutData.rowsPref;
         for (int i2 = 0; i2 < this.widgetConstraints.length; ++i2) {
             int n;
             int n2;
             IGridLayoutHints iGridLayoutHints = this.widgetConstraints[i2];
             Object object = this.widgets[i2];
-            if (iGridLayoutHints.isIgnoreForCellSizes() || !this.shouldShowForState(iGridLayoutHints, abstractGridLayout$LayoutData.state)) continue;
+            if (iGridLayoutHints.isIgnoreForCellSizes() || !this.shouldShowForState(iGridLayoutHints, layoutData.state)) continue;
             int n3 = bl ? iGridLayoutHints.getColumn() : iGridLayoutHints.getRow();
             int n4 = bl ? iGridLayoutHints.getColumnSpan() : iGridLayoutHints.getRowSpan();
             int n5 = bl ? iGridLayoutHints.getWidthMin() : iGridLayoutHints.getHeightMin();
@@ -576,14 +574,14 @@ implements WidgetConstants {
                 n = this.getPreferredHeight(object);
             }
             if (this.shouldShowForHidemode(object, iGridLayoutHints, bl)) {
-                this.collectWidgetSize(abstractGridLayout$AxisPreferredSizes, iAxisConstraints, blArray, n3, n4, n, n5, n2);
+                this.collectWidgetSize(axisPreferredSizes, iAxisConstraints, blArray, n3, n4, n, n5, n2);
             }
             if (bl) continue;
-            this.collectBaseline(object, iGridLayoutHints, abstractGridLayout$AxisPreferredSizes);
+            this.collectBaseline(object, iGridLayoutHints, axisPreferredSizes);
         }
     }
 
-    private void collectBaseline(Object object, IGridLayoutHints iGridLayoutHints, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes) {
+    private void collectBaseline(Object object, IGridLayoutHints iGridLayoutHints, AxisPreferredSizes axisPreferredSizes) {
         boolean bl;
         if (iGridLayoutHints.getRowSpan() != 1) {
             return;
@@ -592,15 +590,15 @@ implements WidgetConstants {
         boolean bl2 = this.rowConstraints.hasAlignment(n) && this.rowConstraints.getAlignment(n) == 7;
         boolean bl3 = bl = iGridLayoutHints.getAlignmentVert() == 7;
         if (bl2 || bl) {
-            if (abstractGridLayout$AxisPreferredSizes.baseline == null) {
-                abstractGridLayout$AxisPreferredSizes.baseline = new int[this.rowConstraints.getLength()];
+            if (axisPreferredSizes.baseline == null) {
+                axisPreferredSizes.baseline = new int[this.rowConstraints.getLength()];
             }
             int n2 = this.getBaseline(object);
-            abstractGridLayout$AxisPreferredSizes.baseline[n] = Math.max(abstractGridLayout$AxisPreferredSizes.baseline[n], n2);
+            axisPreferredSizes.baseline[n] = Math.max(axisPreferredSizes.baseline[n], n2);
         }
     }
 
-    private void collectGaps(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints, boolean[] blArray) {
+    private void collectGaps(AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints, boolean[] blArray) {
         int n;
         boolean bl = true;
         int n2 = -1;
@@ -616,20 +614,20 @@ implements WidgetConstants {
         if (bl) {
             return;
         }
-        abstractGridLayout$AxisPreferredSizes.gaps = new int[iAxisConstraints.getLength() + 1];
+        axisPreferredSizes.gaps = new int[iAxisConstraints.getLength() + 1];
         n = 0;
         boolean bl2 = true;
         for (int i2 = 0; i2 < iAxisConstraints.getLength() + 1; ++i2) {
             boolean bl3 = i2 == iAxisConstraints.getLength() || blArray[i2];
             int n4 = iAxisConstraints.getGap(i2);
             if (i2 == 0 || i2 == iAxisConstraints.getLength()) {
-                abstractGridLayout$AxisPreferredSizes.gaps[i2] = n4;
+                axisPreferredSizes.gaps[i2] = n4;
                 continue;
             }
             if (n2 >= i2 || i2 > n3) continue;
             if (bl2 || bl3) {
                 int n5;
-                abstractGridLayout$AxisPreferredSizes.gaps[i2] = n5 = bl2 ? n4 : Math.max(n4, n) - n;
+                axisPreferredSizes.gaps[i2] = n5 = bl2 ? n4 : Math.max(n4, n) - n;
                 n = n5;
             }
             bl2 = bl3;
@@ -658,11 +656,11 @@ implements WidgetConstants {
         return bl ? this.columnConstraints.getHidemode(iGridLayoutHints.getColumn()) : this.rowConstraints.getHidemode(iGridLayoutHints.getRow());
     }
 
-    private void collectWidgetSize(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints, boolean[] blArray, int n, int n2, int n3, int n4, int n5) {
+    private void collectWidgetSize(AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints, boolean[] blArray, int n, int n2, int n3, int n4, int n5) {
         if (n2 == 1) {
             if (!iAxisConstraints.hasFixedSize(n)) {
                 if (n3 == -1) {
-                    n3 = abstractGridLayout$AxisPreferredSizes.pref[n];
+                    n3 = axisPreferredSizes.pref[n];
                 }
                 if (n5 != -1) {
                     n3 = Math.min(n3, n5);
@@ -670,73 +668,73 @@ implements WidgetConstants {
                 if (n4 != -1) {
                     n3 = Math.max(n3, n4);
                 }
-                abstractGridLayout$AxisPreferredSizes.pref[n] = Math.max(abstractGridLayout$AxisPreferredSizes.pref[n], n3);
+                axisPreferredSizes.pref[n] = Math.max(axisPreferredSizes.pref[n], n3);
             }
         } else {
-            AbstractGridLayout$SpanData abstractGridLayout$SpanData = abstractGridLayout$AxisPreferredSizes.createSpanData();
-            abstractGridLayout$SpanData.start = n;
-            abstractGridLayout$SpanData.span = n2;
-            abstractGridLayout$SpanData.pref = n3;
-            abstractGridLayout$SpanData.min = n4 != -1 ? n4 : 0;
-            abstractGridLayout$SpanData.max = n5 != -1 ? n5 : 1078071040;
+            SpanData spanData = axisPreferredSizes.createSpanData();
+            spanData.start = n;
+            spanData.span = n2;
+            spanData.pref = n3;
+            spanData.min = n4 != -1 ? n4 : 0;
+            spanData.max = n5 != -1 ? n5 : 1000000;
         }
         for (int i2 = 0; i2 < n2; ++i2) {
             blArray[n + i2] = true;
         }
     }
 
-    private void applyMinMax(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
+    private void applyMinMax(AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
         int n;
         for (n = 0; n < iAxisConstraints.getLength(); ++n) {
             if (iAxisConstraints.hasFixedSize(n)) continue;
-            abstractGridLayout$AxisPreferredSizes.pref[n] = Math.min(abstractGridLayout$AxisPreferredSizes.pref[n], abstractGridLayout$AxisPreferredSizes.max[n]);
+            axisPreferredSizes.pref[n] = Math.min(axisPreferredSizes.pref[n], axisPreferredSizes.max[n]);
         }
         for (n = 0; n < iAxisConstraints.getLength(); ++n) {
             if (iAxisConstraints.hasFixedSize(n)) continue;
-            abstractGridLayout$AxisPreferredSizes.pref[n] = Math.max(abstractGridLayout$AxisPreferredSizes.pref[n], abstractGridLayout$AxisPreferredSizes.min[n]);
+            axisPreferredSizes.pref[n] = Math.max(axisPreferredSizes.pref[n], axisPreferredSizes.min[n]);
         }
     }
 
-    private void applySpanData(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
-        abstractGridLayout$AxisPreferredSizes.sortSpanData();
-        Iterator iterator = abstractGridLayout$AxisPreferredSizes.spanData.iterator();
+    private void applySpanData(AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
+        axisPreferredSizes.sortSpanData();
+        Iterator iterator = axisPreferredSizes.spanData.iterator();
         while (iterator.hasNext()) {
-            AbstractGridLayout$SpanData abstractGridLayout$SpanData = (AbstractGridLayout$SpanData)iterator.next();
-            this.applySpanData(abstractGridLayout$SpanData, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+            SpanData spanData = (SpanData)iterator.next();
+            this.applySpanData(spanData, axisPreferredSizes, iAxisConstraints);
         }
     }
 
-    private void applySpanData(AbstractGridLayout$SpanData abstractGridLayout$SpanData, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
-        int n = this.calculateRequiredSpanAdjustment(abstractGridLayout$SpanData, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+    private void applySpanData(SpanData spanData, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
+        int n = this.calculateRequiredSpanAdjustment(spanData, axisPreferredSizes, iAxisConstraints);
         if (n <= 0) {
             return;
         }
-        int[] nArray = this.calculateTabulatorsInSpanArea(abstractGridLayout$SpanData, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
-        int n2 = abstractGridLayout$SpanData.start;
+        int[] nArray = this.calculateTabulatorsInSpanArea(spanData, axisPreferredSizes, iAxisConstraints);
+        int n2 = spanData.start;
         for (int i2 = 0; i2 < nArray.length; i2 += 2) {
             int n3 = nArray[i2] - 1;
             int n4 = nArray[i2 + 1];
             if (n4 > 0) {
                 int n5 = Math.min(n, n4);
-                n -= this.adjustSizeShrinkGrow(n2, n3, n5, true, abstractGridLayout$AxisPreferredSizes.pref, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
-                if ((n -= this.adjustSize(n2, n3, n5, true, abstractGridLayout$AxisPreferredSizes.pref, abstractGridLayout$AxisPreferredSizes, iAxisConstraints)) == 0) {
+                n -= this.adjustSizeShrinkGrow(n2, n3, n5, true, axisPreferredSizes.pref, axisPreferredSizes, iAxisConstraints);
+                if ((n -= this.adjustSize(n2, n3, n5, true, axisPreferredSizes.pref, axisPreferredSizes, iAxisConstraints)) == 0) {
                     return;
                 }
             }
             n2 = n3;
         }
-        n -= this.adjustSizeShrinkGrow(n2, abstractGridLayout$SpanData.getEnd(), n, true, abstractGridLayout$AxisPreferredSizes.pref, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
-        n -= this.adjustSize(n2, abstractGridLayout$SpanData.getEnd(), n, true, abstractGridLayout$AxisPreferredSizes.pref, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+        n -= this.adjustSizeShrinkGrow(n2, spanData.getEnd(), n, true, axisPreferredSizes.pref, axisPreferredSizes, iAxisConstraints);
+        n -= this.adjustSize(n2, spanData.getEnd(), n, true, axisPreferredSizes.pref, axisPreferredSizes, iAxisConstraints);
     }
 
-    private int adjustSize(int n, int n2, int n3, boolean bl, int[] nArray, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
+    private int adjustSize(int n, int n2, int n3, boolean bl, int[] nArray, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
         if (n3 == 0) {
             return 0;
         }
         int n4 = n3;
         for (int i2 = n2; i2 >= n; --i2) {
             if (iAxisConstraints.hasFixedSize(i2)) continue;
-            int n5 = this.getCellChange(i2, nArray[i2], n4, bl, abstractGridLayout$AxisPreferredSizes);
+            int n5 = this.getCellChange(i2, nArray[i2], n4, bl, axisPreferredSizes);
             int n6 = i2;
             nArray[n6] = nArray[n6] + n5;
             if ((n4 -= n5) <= 0) break;
@@ -744,7 +742,7 @@ implements WidgetConstants {
         return n3 - n4;
     }
 
-    private int[] calculateTabulatorsInSpanArea(AbstractGridLayout$SpanData abstractGridLayout$SpanData, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
+    private int[] calculateTabulatorsInSpanArea(SpanData spanData, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
         if (!this.hasTabulators() || !iAxisConstraints.hasTabulatorIDs()) {
             return EMPTY_ARRAY;
         }
@@ -752,11 +750,11 @@ implements WidgetConstants {
         int n = 0;
         int n2 = 0;
         int n3 = 0;
-        for (int i2 = 0; i2 <= abstractGridLayout$SpanData.getEnd(); ++i2) {
+        for (int i2 = 0; i2 <= spanData.getEnd(); ++i2) {
             int n4;
-            n3 += AbstractGridLayout.getGap(i2, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+            n3 += AbstractGridLayout.getGap(i2, axisPreferredSizes, iAxisConstraints);
             if (iAxisConstraints.getTabulatorID(i2) != -1 && (n4 = this.getTabulator(iAxisConstraints.getTabulatorID(i2))) != -1) {
-                if (i2 > abstractGridLayout$SpanData.start) {
+                if (i2 > spanData.start) {
                     int n5;
                     nArray[n] = i2;
                     nArray[n + 1] = n5 = n4 - n3;
@@ -765,88 +763,88 @@ implements WidgetConstants {
                 }
                 n3 = n4;
             }
-            n3 += abstractGridLayout$AxisPreferredSizes.pref[i2];
+            n3 += axisPreferredSizes.pref[i2];
         }
         int[] nArray2 = new int[n2 * 2];
         System.arraycopy((Object)nArray, 0, (Object)nArray2, 0, nArray2.length);
         return nArray2;
     }
 
-    private int calculateRequiredSpanAdjustment(AbstractGridLayout$SpanData abstractGridLayout$SpanData, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
-        int n = Math.max(abstractGridLayout$SpanData.min, abstractGridLayout$SpanData.pref);
-        int n2 = n = Math.min(abstractGridLayout$SpanData.max, n);
-        for (int i2 = abstractGridLayout$SpanData.start; i2 <= abstractGridLayout$SpanData.getEnd(); ++i2) {
-            n2 -= abstractGridLayout$AxisPreferredSizes.pref[i2];
-            if (i2 <= abstractGridLayout$SpanData.start) continue;
-            n2 -= AbstractGridLayout.getGap(i2, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+    private int calculateRequiredSpanAdjustment(SpanData spanData, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
+        int n = Math.max(spanData.min, spanData.pref);
+        int n2 = n = Math.min(spanData.max, n);
+        for (int i2 = spanData.start; i2 <= spanData.getEnd(); ++i2) {
+            n2 -= axisPreferredSizes.pref[i2];
+            if (i2 <= spanData.start) continue;
+            n2 -= AbstractGridLayout.getGap(i2, axisPreferredSizes, iAxisConstraints);
         }
         return n2;
     }
 
-    private void applyTabulators(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints) {
+    private void applyTabulators(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints) {
         if (!iAxisConstraints.hasTabulatorIDs()) {
             return;
         }
         int n = 0;
         int n2 = 0;
         for (int i2 = 0; i2 < iAxisConstraints.getLength() + 1; ++i2) {
-            int n3 = this.applyTabulator(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n2, i2, n += AbstractGridLayout.getGap(i2, abstractGridLayout$AxisPreferredSizes, iAxisConstraints));
+            int n3 = this.applyTabulator(axisPreferredSizes, axisActualSizes, iAxisConstraints, n2, i2, n += AbstractGridLayout.getGap(i2, axisPreferredSizes, iAxisConstraints));
             n += n3;
             if (i2 < iAxisConstraints.getLength()) {
-                n += this.getCellSizeBeforeGrowShrink(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, i2, true);
+                n += this.getCellSizeBeforeGrowShrink(axisPreferredSizes, axisActualSizes, i2, true);
             }
             if (iAxisConstraints.getTabulatorID(i2) == -1) continue;
             n2 = i2;
         }
     }
 
-    private int applyTabulator(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints, int n, int n2, int n3) {
+    private int applyTabulator(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints, int n, int n2, int n3) {
         int n4;
         int n5 = this.getTabulatorOffset(iAxisConstraints, n2, n3);
         if (n5 == 0) {
             return 0;
         }
-        if ((n5 -= (n4 = this.adjustColumnsForTabulator(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n, n2, n5, true))) != 0) {
-            this.log(-1601830656, "AbstractGridLayout#applyTabulator: must break min/max constraints for tabulator %1, remaining space: %2", iAxisConstraints.getTabulatorID(n2), n5);
-            n4 += this.adjustColumnsForTabulator(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n, n2, n5, false);
+        if ((n5 -= (n4 = this.adjustColumnsForTabulator(axisPreferredSizes, axisActualSizes, iAxisConstraints, n, n2, n5, true))) != 0) {
+            this.log(100000, "AbstractGridLayout#applyTabulator: must break min/max constraints for tabulator %1, remaining space: %2", iAxisConstraints.getTabulatorID(n2), n5);
+            n4 += this.adjustColumnsForTabulator(axisPreferredSizes, axisActualSizes, iAxisConstraints, n, n2, n5, false);
         }
         if (n4 != 0) {
-            this.adaptSpanAfterTabulator(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n2);
+            this.adaptSpanAfterTabulator(axisPreferredSizes, axisActualSizes, iAxisConstraints, n2);
         }
         return n4;
     }
 
-    private void adaptSpanAfterTabulator(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints, int n) {
-        Iterator iterator = abstractGridLayout$AxisPreferredSizes.spanData.iterator();
+    private void adaptSpanAfterTabulator(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints, int n) {
+        Iterator iterator = axisPreferredSizes.spanData.iterator();
         while (iterator.hasNext()) {
             int n2;
-            AbstractGridLayout$SpanData abstractGridLayout$SpanData = (AbstractGridLayout$SpanData)iterator.next();
-            if (!abstractGridLayout$SpanData.contains(n)) continue;
+            SpanData spanData = (SpanData)iterator.next();
+            if (!spanData.contains(n)) continue;
             int n3 = 0;
-            for (n2 = abstractGridLayout$SpanData.start; n2 <= abstractGridLayout$SpanData.getEnd(); ++n2) {
-                int n4 = abstractGridLayout$AxisPreferredSizes.pref[n2] - abstractGridLayout$AxisActualSizes.actual[n2];
+            for (n2 = spanData.start; n2 <= spanData.getEnd(); ++n2) {
+                int n4 = axisPreferredSizes.pref[n2] - axisActualSizes.actual[n2];
                 n3 += n4;
             }
-            n2 = this.adjustSizeShrinkGrow(n, abstractGridLayout$SpanData.getEnd(), n3, true, abstractGridLayout$AxisActualSizes.actual, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+            n2 = this.adjustSizeShrinkGrow(n, spanData.getEnd(), n3, true, axisActualSizes.actual, axisPreferredSizes, iAxisConstraints);
             n3 -= n2;
-            n2 += this.adjustSize(n, abstractGridLayout$SpanData.getEnd(), n3, true, abstractGridLayout$AxisActualSizes.actual, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+            n2 += this.adjustSize(n, spanData.getEnd(), n3, true, axisActualSizes.actual, axisPreferredSizes, iAxisConstraints);
         }
     }
 
-    private int adjustColumnsForTabulator(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints, int n, int n2, int n3, boolean bl) {
-        this.initializeActualSizes(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, true);
-        int n4 = this.adjustSizeShrinkGrow(n, n2 - 1, n3, bl, abstractGridLayout$AxisActualSizes.actual, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+    private int adjustColumnsForTabulator(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints, int n, int n2, int n3, boolean bl) {
+        this.initializeActualSizes(axisPreferredSizes, axisActualSizes, true);
+        int n4 = this.adjustSizeShrinkGrow(n, n2 - 1, n3, bl, axisActualSizes.actual, axisPreferredSizes, iAxisConstraints);
         n3 -= n4;
-        return n4 += this.adjustSize(n, n2 - 1, n3, bl, abstractGridLayout$AxisActualSizes.actual, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+        return n4 += this.adjustSize(n, n2 - 1, n3, bl, axisActualSizes.actual, axisPreferredSizes, iAxisConstraints);
     }
 
-    private int getCellChange(int n, int n2, int n3, boolean bl, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes) {
+    private int getCellChange(int n, int n2, int n3, boolean bl, AxisPreferredSizes axisPreferredSizes) {
         if (n3 > 0) {
-            int n4 = bl ? abstractGridLayout$AxisPreferredSizes.max[n] : 1078071040;
+            int n4 = bl ? axisPreferredSizes.max[n] : 1000000;
             int n5 = n4 - n2;
             return Math.min(n5, n3);
         }
-        int n6 = bl ? abstractGridLayout$AxisPreferredSizes.min[n] : 0;
+        int n6 = bl ? axisPreferredSizes.min[n] : 0;
         int n7 = n6 - n2;
         return Math.max(n7, n3);
     }
@@ -861,13 +859,13 @@ implements WidgetConstants {
             return 0;
         }
         if (n == 0) {
-            this.log(-1601830656, "AbstractGridLayout#applyTabulators: can not set tabulator for first column. tabID: %1, value: %2", n3, n4);
+            this.log(100000, "AbstractGridLayout#applyTabulators: can not set tabulator for first column. tabID: %1, value: %2", n3, n4);
             return 0;
         }
         return n4 - n2;
     }
 
-    private int adjustSizeShrinkGrow(int n, int n2, int n3, boolean bl, int[] nArray, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
+    private int adjustSizeShrinkGrow(int n, int n2, int n3, boolean bl, int[] nArray, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
         if (n3 == 0) {
             return 0;
         }
@@ -888,20 +886,20 @@ implements WidgetConstants {
             int n9 = 0;
             f3 = 0.0f;
             if (!bl2) {
-                int n10 = 0x1000000;
+                float f4 = Float.MIN_VALUE;
                 for (n8 = n; n8 <= n2; ++n8) {
-                    if (!((float)nArray[n8] > n10) || !(iAxisConstraints.getShrinkWeight(n8) > 0.0f)) continue;
-                    n10 = (int)((float)nArray[n8]);
+                    if (!((float)nArray[n8] > f4) || !(iAxisConstraints.getShrinkWeight(n8) > 0.0f)) continue;
+                    f4 = nArray[n8];
                 }
-                float f4 = 0.0f;
-                int n11 = -32897;
+                float f5 = 0.0f;
+                float f6 = Float.MAX_VALUE;
                 for (n7 = n; n7 <= n2; ++n7) {
-                    int n12 = n10 - (float)nArray[n7];
-                    if (!(n12 > 0.0f) || !(n12 < n11) || !(iAxisConstraints.getShrinkWeight(n7) > 0.0f)) continue;
-                    n11 = n12;
-                    f4 = nArray[n7];
+                    float f7 = f4 - (float)nArray[n7];
+                    if (!(f7 > 0.0f) || !(f7 < f6) || !(iAxisConstraints.getShrinkWeight(n7) > 0.0f)) continue;
+                    f6 = f7;
+                    f5 = nArray[n7];
                 }
-                nArray2 = this.calculatSizeForShrinkedCells(n, n2, n3, nArray, f4, iAxisConstraints, bl);
+                nArray2 = this.calculatSizeForShrinkedCells(n, n2, n3, nArray, f5, iAxisConstraints, bl);
             } else {
                 nArray2 = this.calculateAdjustShrinkGrowBeforeMinMax(n, n2, n3, f2, blArray, iAxisConstraints);
             }
@@ -915,29 +913,29 @@ implements WidgetConstants {
                 return n5;
             }
             for (n8 = 0; n8 < nArray2.length; ++n8) {
-                int n13 = nArray2[n8];
+                int n10 = nArray2[n8];
                 n7 = n8 + n;
-                if (n13 != 0 && n3 != 0) {
-                    int n14 = this.getCellChange(n7, nArray[n7], n13, bl, abstractGridLayout$AxisPreferredSizes);
-                    int n15 = n7;
-                    nArray[n15] = nArray[n15] + n14;
-                    n5 += n14;
+                if (n10 != 0 && n3 != 0) {
+                    int n11 = this.getCellChange(n7, nArray[n7], n10, bl, axisPreferredSizes);
+                    int n12 = n7;
+                    nArray[n12] = nArray[n12] + n11;
+                    n5 += n11;
                     if (!bl2) {
-                        n3 -= n14;
+                        n3 -= n11;
                     }
-                    if (n14 == n13) {
-                        float f5 = iAxisConstraints.getResizeWeight(bl2, n7);
-                        f3 += f5;
+                    if (n11 == n10) {
+                        float f8 = iAxisConstraints.getResizeWeight(bl2, n7);
+                        f3 += f8;
                         continue;
                     }
-                    int n16 = n13 - n14;
-                    n9 += n16;
+                    int n13 = n10 - n11;
+                    n9 += n13;
                     blArray[n8] = true;
                     continue;
                 }
                 if (blArray[n8]) continue;
-                float f6 = iAxisConstraints.getResizeWeight(bl2, n7);
-                f3 += f6;
+                float f9 = iAxisConstraints.getResizeWeight(bl2, n7);
+                f3 += f9;
             }
             if (!bl2) {
                 n8 = 1;
@@ -948,7 +946,7 @@ implements WidgetConstants {
                 }
                 if (n3 == 0 || n8 != 0) {
                     if (n8 != 0) {
-                        this.log(-1601830656, "AbstractGridLayout#adjustSizeShrinkGrow: No more space to shrink cells, remainingAdditionalSpace: %1 ", n9);
+                        this.log(100000, "AbstractGridLayout#adjustSizeShrinkGrow: No more space to shrink cells, remainingAdditionalSpace: %1 ", n9);
                     }
                     return n5;
                 }
@@ -956,7 +954,7 @@ implements WidgetConstants {
                 return n5;
             }
             if (f3 == 0.0f) {
-                this.log(-1601830656, "AbstractGridLayout#adjustSizeShrinkGrow: Can't distribute all the required space due to min/max constraints. From: %1, To: %2, remainingAdditionalSpace: %3 ", n, n2, n9);
+                this.log(100000, "AbstractGridLayout#adjustSizeShrinkGrow: Can't distribute all the required space due to min/max constraints. From: %1, To: %2, remainingAdditionalSpace: %3 ", n, n2, n9);
                 return n5;
             }
             if (bl2) {
@@ -1076,65 +1074,65 @@ implements WidgetConstants {
         }
     }
 
-    private void applyShrinkGrow(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints, int n, boolean bl) {
-        int n2 = this.getShrinkGrowSpace(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, iAxisConstraints, n, bl);
+    private void applyShrinkGrow(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints, int n, boolean bl) {
+        int n2 = this.getShrinkGrowSpace(axisPreferredSizes, axisActualSizes, iAxisConstraints, n, bl);
         if (n2 == 0) {
             return;
         }
-        int[] nArray = this.initializeActualSizes(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, bl);
-        this.adjustSizeShrinkGrow(0, iAxisConstraints.getLength() - 1, n2, true, nArray, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+        int[] nArray = this.initializeActualSizes(axisPreferredSizes, axisActualSizes, bl);
+        this.adjustSizeShrinkGrow(0, iAxisConstraints.getLength() - 1, n2, true, nArray, axisPreferredSizes, iAxisConstraints);
     }
 
-    private int getShrinkGrowSpace(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, IAxisConstraints iAxisConstraints, int n, boolean bl) {
+    private int getShrinkGrowSpace(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, IAxisConstraints iAxisConstraints, int n, boolean bl) {
         int n2 = 0;
         for (int i2 = 0; i2 < iAxisConstraints.getLength(); ++i2) {
-            int n3 = this.getCellSizeBeforeGrowShrink(abstractGridLayout$AxisPreferredSizes, abstractGridLayout$AxisActualSizes, i2, bl);
-            n2 += n3 + AbstractGridLayout.getGap(i2, abstractGridLayout$AxisPreferredSizes, iAxisConstraints);
+            int n3 = this.getCellSizeBeforeGrowShrink(axisPreferredSizes, axisActualSizes, i2, bl);
+            n2 += n3 + AbstractGridLayout.getGap(i2, axisPreferredSizes, iAxisConstraints);
         }
-        return n - (n2 += AbstractGridLayout.getGap(iAxisConstraints.getLength(), abstractGridLayout$AxisPreferredSizes, iAxisConstraints));
+        return n - (n2 += AbstractGridLayout.getGap(iAxisConstraints.getLength(), axisPreferredSizes, iAxisConstraints));
     }
 
-    public static int getGap(int n, AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, IAxisConstraints iAxisConstraints) {
-        if (abstractGridLayout$AxisPreferredSizes.gaps != null) {
-            return abstractGridLayout$AxisPreferredSizes.gaps[n];
+    public static int getGap(int n, AxisPreferredSizes axisPreferredSizes, IAxisConstraints iAxisConstraints) {
+        if (axisPreferredSizes.gaps != null) {
+            return axisPreferredSizes.gaps[n];
         }
         return iAxisConstraints.getGap(n);
     }
 
-    private int getCellSizeBeforeGrowShrink(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, int n, boolean bl) {
-        if (bl && abstractGridLayout$AxisActualSizes.actual != null) {
-            return abstractGridLayout$AxisActualSizes.actual[n];
+    private int getCellSizeBeforeGrowShrink(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, int n, boolean bl) {
+        if (bl && axisActualSizes.actual != null) {
+            return axisActualSizes.actual[n];
         }
-        return abstractGridLayout$AxisPreferredSizes.pref[n];
+        return axisPreferredSizes.pref[n];
     }
 
-    private int[] initializeActualSizes(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, boolean bl) {
+    private int[] initializeActualSizes(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, boolean bl) {
         int[] nArray;
-        int[] nArray2 = nArray = bl ? abstractGridLayout$AxisActualSizes.actual : abstractGridLayout$AxisActualSizes.actualWithoutTabulator;
+        int[] nArray2 = nArray = bl ? axisActualSizes.actual : axisActualSizes.actualWithoutTabulator;
         if (nArray != null) {
             return nArray;
         }
-        int[] nArray3 = new int[abstractGridLayout$AxisPreferredSizes.pref.length];
-        System.arraycopy((Object)abstractGridLayout$AxisPreferredSizes.pref, 0, (Object)nArray3, 0, abstractGridLayout$AxisPreferredSizes.pref.length);
+        int[] nArray3 = new int[axisPreferredSizes.pref.length];
+        System.arraycopy((Object)axisPreferredSizes.pref, 0, (Object)nArray3, 0, axisPreferredSizes.pref.length);
         if (bl) {
-            abstractGridLayout$AxisActualSizes.actual = nArray3;
-            return abstractGridLayout$AxisActualSizes.actual;
+            axisActualSizes.actual = nArray3;
+            return axisActualSizes.actual;
         }
-        abstractGridLayout$AxisActualSizes.actualWithoutTabulator = nArray3;
-        return abstractGridLayout$AxisActualSizes.actualWithoutTabulator;
+        axisActualSizes.actualWithoutTabulator = nArray3;
+        return axisActualSizes.actualWithoutTabulator;
     }
 
-    private void clonePrefToActual(AbstractGridLayout$AxisPreferredSizes abstractGridLayout$AxisPreferredSizes, AbstractGridLayout$AxisActualSizes abstractGridLayout$AxisActualSizes, boolean bl) {
+    private void clonePrefToActual(AxisPreferredSizes axisPreferredSizes, AxisActualSizes axisActualSizes, boolean bl) {
         if (bl) {
-            if (abstractGridLayout$AxisActualSizes.actual != null) {
+            if (axisActualSizes.actual != null) {
                 return;
             }
-            abstractGridLayout$AxisActualSizes.actual = abstractGridLayout$AxisPreferredSizes.pref;
+            axisActualSizes.actual = axisPreferredSizes.pref;
         } else {
-            if (abstractGridLayout$AxisActualSizes.actualWithoutTabulator != null) {
+            if (axisActualSizes.actualWithoutTabulator != null) {
                 return;
             }
-            abstractGridLayout$AxisActualSizes.actualWithoutTabulator = abstractGridLayout$AxisPreferredSizes.pref;
+            axisActualSizes.actualWithoutTabulator = axisPreferredSizes.pref;
         }
     }
 
@@ -1184,38 +1182,27 @@ implements WidgetConstants {
         return this.state;
     }
 
-    protected abstract int getPreferredWidth(Object object) {
-    }
+    protected abstract int getPreferredWidth(Object var1);
 
-    protected abstract int getPreferredHeight(Object object) {
-    }
+    protected abstract int getPreferredHeight(Object var1);
 
-    protected abstract boolean hasDynamicHeight(Object object) {
-    }
+    protected abstract boolean hasDynamicHeight(Object var1);
 
-    protected abstract int getPreferredHeight(Object object, int n) {
-    }
+    protected abstract int getPreferredHeight(Object var1, int var2);
 
-    protected abstract int getBaseline(Object object) {
-    }
+    protected abstract int getBaseline(Object var1);
 
-    protected abstract boolean isWidgetVisible(Object object) {
-    }
+    protected abstract boolean isWidgetVisible(Object var1);
 
-    protected abstract boolean widgetHasContent(Object object) {
-    }
+    protected abstract boolean widgetHasContent(Object var1);
 
-    protected abstract void setBounds(Object object, int n, int n2, int n3, int n4) {
-    }
+    protected abstract void setBounds(Object var1, int var2, int var3, int var4, int var5);
 
-    protected abstract void simulateSetBounds(Object object, int n, int n2, int n3, int n4, List list, boolean bl) {
-    }
+    protected abstract void simulateSetBounds(Object var1, int var2, int var3, int var4, int var5, List var6, boolean var7);
 
-    protected abstract void hideWidget(Object object) {
-    }
+    protected abstract void hideWidget(Object var1);
 
-    protected abstract void simulateHideWidgets(Object object, List list) {
-    }
+    protected abstract void simulateHideWidgets(Object var1, List var2);
 
     protected void log(int n, String string, double d2, double d3, double d4) {
         IWidgetLogChannel.logLayout.log(n, string, d2, d3, d4);
@@ -1242,13 +1229,117 @@ implements WidgetConstants {
 
     private String toStringAxis(String string, IAxisConstraints iAxisConstraints) {
         if (iAxisConstraints == null) {
-            return new StringBuffer().append(string).append(": null").toString();
+            return string + ": null";
         }
-        return new StringBuffer().append(iAxisConstraints.getLength()).append(" ").append(string).append(": \"").append(iAxisConstraints).append("\"").toString();
+        return iAxisConstraints.getLength() + " " + string + ": \"" + iAxisConstraints + "\"";
     }
 
-    static {
-        EMPTY_ARRAY = new int[0];
+    public static class SpanData {
+        public int start;
+        public int span;
+        public int pref;
+        public int min;
+        public int max;
+
+        public int getEnd() {
+            return this.start + this.span - 1;
+        }
+
+        public boolean contains(int n) {
+            return this.start <= n && this.getEnd() >= n;
+        }
+    }
+
+    public static class LayoutData {
+        public int state;
+        public int widthHint = -1;
+        public AxisPreferredSizes columnsPref;
+        public AxisPreferredSizes rowsPref;
+        public AxisActualSizes columnsActual;
+        public AxisActualSizes rowsActual;
+
+        public LayoutData(int n, int n2) {
+            this.state = n;
+            this.widthHint = n2;
+        }
+
+        public boolean hasPreferredSizes() {
+            return this.columnsPref != null && this.rowsPref != null;
+        }
+
+        public boolean hasActualSizes() {
+            return this.columnsActual != null && this.rowsActual != null;
+        }
+    }
+
+    public static class AxisActualSizes {
+        public int containerSize = -1;
+        public int[] actual;
+        public int[] actualWithoutTabulator;
+
+        public AxisActualSizes(int n) {
+            this.containerSize = n;
+        }
+    }
+
+    public static class AxisPreferredSizes {
+        public int[] pref;
+        public int[] min;
+        public int[] max;
+        public int[] gaps;
+        public List spanData = Collections.EMPTY_LIST;
+        public int[] baseline;
+
+        public AxisPreferredSizes(int n) {
+            this.pref = new int[n];
+            this.min = new int[n];
+            this.max = new int[n];
+        }
+
+        public boolean hasMax() {
+            if (this.max == null) {
+                return false;
+            }
+            for (int i2 = 0; i2 < this.max.length; ++i2) {
+                if (this.max[i2] >= 1000000) continue;
+                return true;
+            }
+            return false;
+        }
+
+        public boolean hasMin() {
+            if (this.min == null) {
+                return false;
+            }
+            for (int i2 = 0; i2 < this.min.length; ++i2) {
+                if (this.min[i2] <= 0) continue;
+                return true;
+            }
+            return false;
+        }
+
+        public SpanData createSpanData() {
+            if (this.spanData.isEmpty()) {
+                this.spanData = new ArrayList(3);
+            }
+            SpanData spanData = new SpanData();
+            this.spanData.add(spanData);
+            return spanData;
+        }
+
+        public void sortSpanData() {
+            if (this.spanData.isEmpty()) {
+                return;
+            }
+            Collections.sort(this.spanData, new Comparator(){
+
+                public int compare(Object object, Object object2) {
+                    SpanData spanData = (SpanData)object;
+                    SpanData spanData2 = (SpanData)object2;
+                    return spanData.span - spanData2.span;
+                }
+            });
+        }
     }
 }
 

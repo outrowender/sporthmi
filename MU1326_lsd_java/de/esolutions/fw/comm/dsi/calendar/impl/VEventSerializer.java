@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.calendar.impl.VAlarmSerializer;
 import de.esolutions.fw.comm.dsi.calendar.impl.VAttendeeSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.calendar.VAlarm;
 import org.dsi.ifc.calendar.VAttendee;
 import org.dsi.ifc.calendar.VEvent;
 
 public class VEventSerializer {
-    public static void putOptionalVEvent(ISerializer iSerializer, VEvent vEvent) {
+    public static void putOptionalVEvent(ISerializer iSerializer, VEvent vEvent) throws SerializerException {
         boolean bl = vEvent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -61,7 +62,7 @@ public class VEventSerializer {
         }
     }
 
-    public static void putOptionalVEventVarArray(ISerializer iSerializer, VEvent[] vEventArray) {
+    public static void putOptionalVEventVarArray(ISerializer iSerializer, VEvent[] vEventArray) throws SerializerException {
         boolean bl = vEventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -72,7 +73,7 @@ public class VEventSerializer {
         }
     }
 
-    public static VEvent getOptionalVEvent(IDeserializer iDeserializer) {
+    public static VEvent getOptionalVEvent(IDeserializer iDeserializer) throws SerializerException {
         VEvent vEvent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -123,7 +124,7 @@ public class VEventSerializer {
         return vEvent;
     }
 
-    public static VEvent[] getOptionalVEventVarArray(IDeserializer iDeserializer) {
+    public static VEvent[] getOptionalVEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         VEvent[] vEventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

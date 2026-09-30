@@ -5,39 +5,31 @@ package de.esolutions.fw.comm.asi.navigation.rdvdataprovider;
 
 import de.esolutions.fw.comm.asi.navigation.rdvdataprovider.RouteProviderSetting;
 import de.esolutions.fw.comm.asi.navigation.rdvtypes.RdvRouteOptions;
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.NavLocationWgs84;
 
 public interface RdvDataProviderReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "3ee92857-84ba-4dfa-9faf-1d67977f4b5d";
+    public static final String IPL_COMM_INTERFACE_KEY = "0b921357-9ff8-587c-9c54-67ccfc58e880";
+    public static final String IPL_COMM_INTERFACE_VERSION = "1.0.6";
+    public static final String IPL_COMM_MODULE_VERSION = "1.0.6";
 
-    default public void registerForDataUpdateResult(int n) {
-    }
+    public void registerForDataUpdateResult(int var1) throws MethodException;
 
-    default public void unregisterForDataUpdateResult(int n) {
-    }
+    public void unregisterForDataUpdateResult(int var1) throws MethodException;
 
-    default public void updateDemoModeStatus(boolean bl) {
-    }
+    public void updateDemoModeStatus(boolean var1) throws MethodException;
 
-    default public void updateRouteGuidanceStatus(boolean bl) {
-    }
+    public void updateRouteGuidanceStatus(boolean var1) throws MethodException;
 
-    default public void updateCurrentRouteOptions(RdvRouteOptions rdvRouteOptions) {
-    }
+    public void updateCurrentRouteOptions(RdvRouteOptions var1) throws MethodException;
 
-    default public void updateCurrentRoute(NavLocationWgs84[] navLocationWgs84Array) {
-    }
+    public void updateCurrentRoute(NavLocationWgs84[] var1) throws MethodException;
 
-    default public void updateStopovers(NavLocationWgs84[] navLocationWgs84Array) {
-    }
+    public void updateStopovers(NavLocationWgs84[] var1) throws MethodException;
 
-    default public void setRouteProviderSettingResult(RouteProviderSetting routeProviderSetting, int n) {
-    }
+    public void setRouteProviderSettingResult(RouteProviderSetting var1, int var2) throws MethodException;
 
-    default public void getCurrentPositionResult(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void getCurrentPositionResult(NavLocationWgs84 var1) throws MethodException;
 }
 

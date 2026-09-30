@@ -11,71 +11,71 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MediaPath_Status
 implements StatusProperty {
     public int folder_Type;
-    private static final int FOLDER_TYPE_BITSIZE;
-    public static final int FOLDER_TYPE_ANY_TYPE_UNKNOWN;
-    public static final int FOLDER_TYPE_FOLDER;
-    public static final int FOLDER_TYPE_PLAYLIST_FOLDER;
-    public static final int FOLDER_TYPE_AUDIO_FOLDER;
-    public static final int FOLDER_TYPE_VIDEO_FOLDER;
-    public static final int FOLDER_TYPE_IMAGE_FOLDER;
-    public static final int FOLDER_TYPE_VOICEMEMO_FOLDER;
-    public static final int FOLDER_TYPE_CATEGORY_GENRE;
-    public static final int FOLDER_TYPE_CATEGORY_GENRES;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_GENRE;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_GENRES;
-    public static final int FOLDER_TYPE_CATEGORY_ARTIST;
-    public static final int FOLDER_TYPE_CATEGORY_ARTISTS;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ARTIST;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ARTISTS;
-    public static final int FOLDER_TYPE_CATEGORY_COMPOSER;
-    public static final int FOLDER_TYPE_CATEGORY_COMPOSERS;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMPOSER;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMPOSERS;
-    public static final int FOLDER_TYPE_CATEGORY_YEAR;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_YEAR;
-    public static final int FOLDER_TYPE_CATEGORY_COMMENT;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMMENT;
-    public static final int FOLDER_TYPE_CATEGORY_ALBUM;
-    public static final int FOLDER_TYPE_CATEGORY_ALBUMS;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ALBUM;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ALBUMS;
-    public static final int FOLDER_TYPE_CATEGORY_SONG;
-    public static final int FOLDER_TYPE_CATEGORY_SONGS;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_SONG;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_SONGS;
-    public static final int FOLDER_TYPE_CATEGORY_AUDIOBOOK;
-    public static final int FOLDER_TYPE_CATEGORY_AUDIOBOOKS;
-    public static final int FOLDER_TYPE_CATEGORY_ALL;
-    public static final int FOLDER_TYPE_CATEGORY_PODCAST;
-    public static final int FOLDER_TYPE_CATEGORY_PODCASTS;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO;
-    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLISTS;
-    public static final int FOLDER_TYPE_CATEGORY_MOVIES_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_FAVORITES_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1;
-    public static final int FOLDER_TYPE_DVD_MAIN_MENUE;
-    public static final int FOLDER_TYPE_DVD_CHAPTER;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_MOOD_DF4_1;
-    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1;
-    public static final int FOLDER_TYPE_NOT_SUPPORTED;
+    private static final int FOLDER_TYPE_BITSIZE = 8;
+    public static final int FOLDER_TYPE_ANY_TYPE_UNKNOWN = 0;
+    public static final int FOLDER_TYPE_FOLDER = 1;
+    public static final int FOLDER_TYPE_PLAYLIST_FOLDER = 4;
+    public static final int FOLDER_TYPE_AUDIO_FOLDER = 12;
+    public static final int FOLDER_TYPE_VIDEO_FOLDER = 13;
+    public static final int FOLDER_TYPE_IMAGE_FOLDER = 14;
+    public static final int FOLDER_TYPE_VOICEMEMO_FOLDER = 15;
+    public static final int FOLDER_TYPE_CATEGORY_GENRE = 16;
+    public static final int FOLDER_TYPE_CATEGORY_GENRES = 17;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_GENRE = 18;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_GENRES = 19;
+    public static final int FOLDER_TYPE_CATEGORY_ARTIST = 20;
+    public static final int FOLDER_TYPE_CATEGORY_ARTISTS = 21;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ARTIST = 22;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ARTISTS = 23;
+    public static final int FOLDER_TYPE_CATEGORY_COMPOSER = 24;
+    public static final int FOLDER_TYPE_CATEGORY_COMPOSERS = 25;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMPOSER = 26;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMPOSERS = 27;
+    public static final int FOLDER_TYPE_CATEGORY_YEAR = 28;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_YEAR = 29;
+    public static final int FOLDER_TYPE_CATEGORY_COMMENT = 30;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_COMMENT = 31;
+    public static final int FOLDER_TYPE_CATEGORY_ALBUM = 32;
+    public static final int FOLDER_TYPE_CATEGORY_ALBUMS = 33;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ALBUM = 34;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_ALBUMS = 35;
+    public static final int FOLDER_TYPE_CATEGORY_SONG = 36;
+    public static final int FOLDER_TYPE_CATEGORY_SONGS = 37;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_SONG = 38;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_SONGS = 39;
+    public static final int FOLDER_TYPE_CATEGORY_AUDIOBOOK = 40;
+    public static final int FOLDER_TYPE_CATEGORY_AUDIOBOOKS = 41;
+    public static final int FOLDER_TYPE_CATEGORY_ALL = 42;
+    public static final int FOLDER_TYPE_CATEGORY_PODCAST = 43;
+    public static final int FOLDER_TYPE_CATEGORY_PODCASTS = 44;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED = 45;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR = 46;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS = 47;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS = 48;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS = 49;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS = 50;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED = 51;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED = 52;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO = 53;
+    public static final int FOLDER_TYPE_CATEGORY_DYNAMIC_PLAYLISTS = 54;
+    public static final int FOLDER_TYPE_CATEGORY_MOVIES_DF4_1 = 55;
+    public static final int FOLDER_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1 = 56;
+    public static final int FOLDER_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1 = 57;
+    public static final int FOLDER_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1 = 58;
+    public static final int FOLDER_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1 = 59;
+    public static final int FOLDER_TYPE_CATEGORY_FAVORITES_DF4_1 = 60;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1 = 61;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1 = 62;
+    public static final int FOLDER_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1 = 63;
+    public static final int FOLDER_TYPE_DVD_MAIN_MENUE = 64;
+    public static final int FOLDER_TYPE_DVD_CHAPTER = 65;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1 = 81;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1 = 82;
+    public static final int FOLDER_TYPE_CATEGORY_MOOD_DF4_1 = 83;
+    public static final int FOLDER_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1 = 84;
+    public static final int FOLDER_TYPE_NOT_SUPPORTED = 255;
     public final BAPString path = new BAPString(152);
-    private static final int MAX_PATH_LENGTH;
+    private static final int MAX_PATH_LENGTH = 152;
 
     public MediaPath_Status() {
         this.internalReset();
@@ -91,13 +91,11 @@ implements StatusProperty {
         this.folder_Type = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.path.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MediaPath_Status mediaPath_Status = (MediaPath_Status)bAPEntity;
         return this.folder_Type == mediaPath_Status.folder_Type && this.path.equalTo(mediaPath_Status.path);
@@ -107,7 +105,6 @@ implements StatusProperty {
         this.path.setLimitingLengthByCharacters();
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MediaPath_Status:");
@@ -370,20 +367,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 8;
         return n += this.path.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.folder_Type);
         this.path.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.folder_Type = bitStream.popFrontByte();
         this.path.deserialize(bitStream);
@@ -393,7 +387,6 @@ implements StatusProperty {
         return 37;
     }
 
-    @Override
     public int getFunctionId() {
         return MediaPath_Status.functionId();
     }

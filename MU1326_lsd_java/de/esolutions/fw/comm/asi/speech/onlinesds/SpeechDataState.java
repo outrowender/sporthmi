@@ -7,8 +7,8 @@ import de.esolutions.fw.comm.core.IEnum;
 
 public interface SpeechDataState
 extends IEnum {
-    public static final int SD_STATE_IDLE;
-    public static final int SD_STATE_IN_PROGRESS;
-    public static final int SD_STATE_FINISHED;
+    public static final int SD_STATE_IDLE = 0;
+    public static final int SD_STATE_IN_PROGRESS = 1;
+    public static final int SD_STATE_FINISHED = 2;
 }
 

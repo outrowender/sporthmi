@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothState;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class sBluetoothStateSerializer {
-    public static void putOptionalsBluetoothState(ISerializer iSerializer, sBluetoothState sBluetoothState2) {
+    public static void putOptionalsBluetoothState(ISerializer iSerializer, sBluetoothState sBluetoothState2) throws SerializerException {
         boolean bl = sBluetoothState2 == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class sBluetoothStateSerializer {
         }
     }
 
-    public static void putOptionalsBluetoothStateVarArray(ISerializer iSerializer, sBluetoothState[] sBluetoothStateArray) {
+    public static void putOptionalsBluetoothStateVarArray(ISerializer iSerializer, sBluetoothState[] sBluetoothStateArray) throws SerializerException {
         boolean bl = sBluetoothStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class sBluetoothStateSerializer {
         }
     }
 
-    public static sBluetoothState getOptionalsBluetoothState(IDeserializer iDeserializer) {
+    public static sBluetoothState getOptionalsBluetoothState(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothState sBluetoothState2 = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class sBluetoothStateSerializer {
         return sBluetoothState2;
     }
 
-    public static sBluetoothState[] getOptionalsBluetoothStateVarArray(IDeserializer iDeserializer) {
+    public static sBluetoothState[] getOptionalsBluetoothStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         sBluetoothState[] sBluetoothStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

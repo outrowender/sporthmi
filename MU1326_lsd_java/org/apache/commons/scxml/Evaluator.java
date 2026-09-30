@@ -4,19 +4,16 @@
 package org.apache.commons.scxml;
 
 import org.apache.commons.scxml.Context;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.w3c.dom.Node;
 
 public interface Evaluator {
-    default public Object eval(Context context, String string) {
-    }
+    public Object eval(Context var1, String var2) throws SCXMLExpressionException;
 
-    default public Boolean evalCond(Context context, String string) {
-    }
+    public Boolean evalCond(Context var1, String var2) throws SCXMLExpressionException;
 
-    default public Node evalLocation(Context context, String string) {
-    }
+    public Node evalLocation(Context var1, String var2) throws SCXMLExpressionException;
 
-    default public Context newContext(Context context) {
-    }
+    public Context newContext(Context var1);
 }
 

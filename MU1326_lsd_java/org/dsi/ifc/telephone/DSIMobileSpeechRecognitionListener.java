@@ -7,19 +7,14 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface DSIMobileSpeechRecognitionListener
 extends DSIListener {
-    default public void updateSpeechRecognitionAvailable(int n, int n2) {
-    }
+    public void updateSpeechRecognitionAvailable(int var1, int var2);
 
-    default public void updateSpeechRecognitionActive(int n, int n2) {
-    }
+    public void updateSpeechRecognitionActive(int var1, int var2);
 
-    default public void updateSpeechRecognitionType(int n, int n2) {
-    }
+    public void updateSpeechRecognitionType(int var1, int var2);
 
-    default public void responseStartSpeechRecognition(int n) {
-    }
+    public void responseStartSpeechRecognition(int var1);
 
-    default public void responseStopSpeechRecognition(int n) {
-    }
+    public void responseStopSpeechRecognition(int var1);
 }
 

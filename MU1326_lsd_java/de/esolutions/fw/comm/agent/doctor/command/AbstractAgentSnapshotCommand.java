@@ -16,7 +16,6 @@ extends AbstractAgentDiagnosisCommand {
         return this.snapshot;
     }
 
-    @Override
     protected void handleWithAgentDiagnosis(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
         this.snapshot = doctorShell.getState().ensureSnapshot(this.getDiagnosis());
         if (this.snapshot != null) {
@@ -26,7 +25,6 @@ extends AbstractAgentDiagnosisCommand {
         }
     }
 
-    protected abstract void handleWithAgentSnapshot(DoctorShell doctorShell, String[] stringArray, PrintStream printStream) {
-    }
+    protected abstract void handleWithAgentSnapshot(DoctorShell var1, String[] var2, PrintStream var3);
 }
 

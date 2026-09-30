@@ -19,12 +19,10 @@ extends IObject {
         return iFontGroupFontHandle == null ? 0L : iFontGroupFontHandle.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -36,17 +34,14 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IFontGroupFontHandle_isValid(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IFontGroupFontHandle_dispose(this.swigCPtr, this);
     }

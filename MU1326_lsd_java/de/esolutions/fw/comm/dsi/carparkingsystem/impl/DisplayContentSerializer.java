@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carparkingsystem.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
 
 public class DisplayContentSerializer {
-    public static void putOptionalDisplayContent(ISerializer iSerializer, DisplayContent displayContent) {
+    public static void putOptionalDisplayContent(ISerializer iSerializer, DisplayContent displayContent) throws SerializerException {
         boolean bl = displayContent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DisplayContentSerializer {
         }
     }
 
-    public static void putOptionalDisplayContentVarArray(ISerializer iSerializer, DisplayContent[] displayContentArray) {
+    public static void putOptionalDisplayContentVarArray(ISerializer iSerializer, DisplayContent[] displayContentArray) throws SerializerException {
         boolean bl = displayContentArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DisplayContentSerializer {
         }
     }
 
-    public static DisplayContent getOptionalDisplayContent(IDeserializer iDeserializer) {
+    public static DisplayContent getOptionalDisplayContent(IDeserializer iDeserializer) throws SerializerException {
         DisplayContent displayContent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DisplayContentSerializer {
         return displayContent;
     }
 
-    public static DisplayContent[] getOptionalDisplayContentVarArray(IDeserializer iDeserializer) {
+    public static DisplayContent[] getOptionalDisplayContentVarArray(IDeserializer iDeserializer) throws SerializerException {
         DisplayContent[] displayContentArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

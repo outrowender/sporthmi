@@ -17,57 +17,41 @@ import de.esolutions.fw.comm.asi.diagnosis.media.sMediaTypeOpticalDrive;
 import de.esolutions.fw.comm.asi.diagnosis.media.sPmlState;
 import de.esolutions.fw.comm.asi.diagnosis.media.sUsbOvercurrent;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2MediaDiagServiceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public interface MMX2MediaDiagServiceS {
-    default public void responseErrorMedia(sClientResponseError sClientResponseError2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseErrorMedia(sClientResponseError var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseSubsystemState(sSubsystemState sSubsystemState2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseSubsystemState(sSubsystemState var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseMediaDBVersion(sMediaDBVersion sMediaDBVersion2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseMediaDBVersion(sMediaDBVersion var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseActiveMediaSourceState(sActiveMediaSourceState sActiveMediaSourceState2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseActiveMediaSourceState(sActiveMediaSourceState var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseMediaRegionCodes(sMediaRegionCodes sMediaRegionCodes2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseMediaRegionCodes(sMediaRegionCodes var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseMediaTypeOpticalDrive(sMediaTypeOpticalDrive sMediaTypeOpticalDrive2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseMediaTypeOpticalDrive(sMediaTypeOpticalDrive var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseUsbOvercurrent(sUsbOvercurrent sUsbOvercurrent2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseUsbOvercurrent(sUsbOvercurrent var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responsePmlState(sPmlState sPmlState2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responsePmlState(sPmlState var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseSparePartNumberMediaDB(sSparePartNumber sSparePartNumber2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseSparePartNumberMediaDB(sSparePartNumber var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseApplicationSoftwareVersionNumberMediaDB(sApplicationSoftwareVersionNumber sApplicationSoftwareVersionNumber2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseApplicationSoftwareVersionNumberMediaDB(sApplicationSoftwareVersionNumber var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseSerialNumberMediaDB(sSerialNumber sSerialNumber2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseSerialNumberMediaDB(sSerialNumber var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseSystemNameMediaDB(sSystemName sSystemName2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseSystemNameMediaDB(sSystemName var1, MMX2MediaDiagServiceReply var2) throws MethodException;
 
-    default public void responseStatusUSBCommunication(long l, int n, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseStatusUSBCommunication(long var1, int var3, MMX2MediaDiagServiceReply var4) throws MethodException;
 
-    default public void responseUSBHubIdentification(long l, short[] sArray, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseUSBHubIdentification(long var1, short[] var3, MMX2MediaDiagServiceReply var4) throws MethodException;
 
-    default public void responseDTCPEncryptionState(long l, sDTCPState[] sDTCPStateArray, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseDTCPEncryptionState(long var1, sDTCPState[] var3, MMX2MediaDiagServiceReply var4) throws MethodException;
 
-    default public void responseDTCPKeytypeMMX(long l, int n, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseDTCPKeytypeMMX(long var1, int var3, MMX2MediaDiagServiceReply var4) throws MethodException;
 
-    default public void responseDTCPSRMInfo(long l, short s, int n, int n2, MMX2MediaDiagServiceReply mMX2MediaDiagServiceReply) {
-    }
+    public void responseDTCPSRMInfo(long var1, short var3, int var4, int var5, MMX2MediaDiagServiceReply var6) throws MethodException;
 }
 

@@ -8,13 +8,10 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 
 public interface ScreenWidgetRenderer
 extends IRenderer {
-    default public void handlePaintError(Exception exception) {
-    }
+    public void handlePaintError(Exception var1);
 
-    default public RedrawContext createRedrawContextRoot() {
-    }
+    public RedrawContext createRedrawContextRoot();
 
-    default public void invalidateViewPort() {
-    }
+    public void invalidateViewPort();
 }
 

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardriverassistance.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardriverassistance.AWVEmergencyBrake;
 
 public class AWVEmergencyBrakeSerializer {
-    public static void putOptionalAWVEmergencyBrake(ISerializer iSerializer, AWVEmergencyBrake aWVEmergencyBrake) {
+    public static void putOptionalAWVEmergencyBrake(ISerializer iSerializer, AWVEmergencyBrake aWVEmergencyBrake) throws SerializerException {
         boolean bl = aWVEmergencyBrake == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AWVEmergencyBrakeSerializer {
         }
     }
 
-    public static void putOptionalAWVEmergencyBrakeVarArray(ISerializer iSerializer, AWVEmergencyBrake[] aWVEmergencyBrakeArray) {
+    public static void putOptionalAWVEmergencyBrakeVarArray(ISerializer iSerializer, AWVEmergencyBrake[] aWVEmergencyBrakeArray) throws SerializerException {
         boolean bl = aWVEmergencyBrakeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AWVEmergencyBrakeSerializer {
         }
     }
 
-    public static AWVEmergencyBrake getOptionalAWVEmergencyBrake(IDeserializer iDeserializer) {
+    public static AWVEmergencyBrake getOptionalAWVEmergencyBrake(IDeserializer iDeserializer) throws SerializerException {
         AWVEmergencyBrake aWVEmergencyBrake = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AWVEmergencyBrakeSerializer {
         return aWVEmergencyBrake;
     }
 
-    public static AWVEmergencyBrake[] getOptionalAWVEmergencyBrakeVarArray(IDeserializer iDeserializer) {
+    public static AWVEmergencyBrake[] getOptionalAWVEmergencyBrakeVarArray(IDeserializer iDeserializer) throws SerializerException {
         AWVEmergencyBrake[] aWVEmergencyBrakeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

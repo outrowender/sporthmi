@@ -8,17 +8,18 @@ import de.esolutions.fw.comm.asi.hmisync.radio.ASIHMISyncRadioS;
 import de.esolutions.fw.comm.asi.hmisync.radio.CurrentStation;
 import de.esolutions.fw.comm.asi.hmisync.radio.StationInfo;
 import de.esolutions.fw.comm.asi.hmisync.radio.WavebandInfo;
-import de.esolutions.fw.comm.asi.hmisync.radio.impl.ASIHMISyncRadioAbstractBaseService$AttributesBitMapProvider;
 import de.esolutions.fw.comm.attributes.AttributesBaseService;
+import de.esolutions.fw.comm.attributes.IAttributeBitMapProvider;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.method.MethodException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public abstract class ASIHMISyncRadioAbstractBaseService
 implements ASIHMISyncRadioS {
     private static final CallContext context = CallContext.getContext("ABSTRACTBASESERVICE.asi.hmisync.radio.ASIHMISyncRadio");
-    private static final int attributesCount;
+    private static final int attributesCount = 9;
     private String ASIVersion;
     private boolean ASIVersion_valid = false;
     private short[] RequestIDs;
@@ -96,39 +97,33 @@ implements ASIHMISyncRadioS {
     }
 
     public ASIHMISyncRadioAbstractBaseService() {
-        ASIHMISyncRadioAbstractBaseService$AttributesBitMapProvider aSIHMISyncRadioAbstractBaseService$AttributesBitMapProvider = new ASIHMISyncRadioAbstractBaseService$AttributesBitMapProvider();
-        this.baseService = new AttributesBaseService("ASIHMISyncRadio", aSIHMISyncRadioAbstractBaseService$AttributesBitMapProvider);
+        AttributesBitMapProvider attributesBitMapProvider = new AttributesBitMapProvider();
+        this.baseService = new AttributesBaseService("ASIHMISyncRadio", attributesBitMapProvider);
     }
 
-    @Override
     public synchronized void setNotification(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.setNotification(l, (Object)aSIHMISyncRadioReply);
         this.sendAttributeUpdate(l, aSIHMISyncRadioReply);
     }
 
-    @Override
     public synchronized void setNotification(ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.setNotification(aSIHMISyncRadioReply);
         this.sendAttributeUpdate(aSIHMISyncRadioReply);
     }
 
-    @Override
     public synchronized void setNotification(long[] lArray, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.setNotification(lArray, (Object)aSIHMISyncRadioReply);
         this.sendAttributeUpdate(lArray, aSIHMISyncRadioReply);
     }
 
-    @Override
     public synchronized void clearNotification(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.clearNotification(l, (Object)aSIHMISyncRadioReply);
     }
 
-    @Override
     public synchronized void clearNotification(ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.clearNotification(aSIHMISyncRadioReply);
     }
 
-    @Override
     public synchronized void clearNotification(long[] lArray, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         this.baseService.clearNotification(lArray, (Object)aSIHMISyncRadioReply);
     }
@@ -158,23 +153,23 @@ implements ASIHMISyncRadioS {
 
     private void sendAttributeUpdate(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
         try {
-            if (l == 0) {
+            if (l == 11L) {
                 aSIHMISyncRadioReply.updateASIVersion(this.ASIVersion, this.ASIVersion_valid);
-            } else if (l == 0) {
+            } else if (l == 18L) {
                 aSIHMISyncRadioReply.updateRequestIDs(this.RequestIDs, this.RequestIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 17L) {
                 aSIHMISyncRadioReply.updateReplyIDs(this.ReplyIDs, this.ReplyIDs_valid);
-            } else if (l == 0) {
+            } else if (l == 14L) {
                 aSIHMISyncRadioReply.updateBandList(this.BandList, this.BandList_valid);
-            } else if (l == 0) {
+            } else if (l == 12L) {
                 aSIHMISyncRadioReply.updateActiveBand(this.ActiveBand, this.ActiveBand_valid);
-            } else if (l == 0) {
+            } else if (l == 22L) {
                 aSIHMISyncRadioReply.updateRadioStationList(this.RadioStationList, this.RadioStationList_valid);
-            } else if (l == 0) {
+            } else if (l == 21L) {
                 aSIHMISyncRadioReply.updateActiveStation(this.ActiveStation, this.ActiveStation_valid);
-            } else if (l == 0) {
+            } else if (l == 16L) {
                 aSIHMISyncRadioReply.updateSeekStatus(this.SeekStatus, this.SeekStatus_valid);
-            } else if (l == 0) {
+            } else if (l == 19L) {
                 aSIHMISyncRadioReply.updateWavebands(this.Wavebands, this.Wavebands_valid);
             } else {
                 System.out.println("unexpected");
@@ -185,11 +180,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateASIVersion(String string) {
+    public void updateASIVersion(String string) throws MethodException {
         this.updateASIVersion(string, true);
     }
 
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.ASIVersion = ASIHMISyncRadioAbstractBaseService.copyString(string);
         this.ASIVersion_valid = bl;
         List list = this.baseService.getNotifications(11);
@@ -203,11 +198,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateRequestIDs(short[] sArray) {
+    public void updateRequestIDs(short[] sArray) throws MethodException {
         this.updateRequestIDs(sArray, true);
     }
 
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.RequestIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.RequestIDs, 0, sArray.length);
@@ -226,11 +221,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateReplyIDs(short[] sArray) {
+    public void updateReplyIDs(short[] sArray) throws MethodException {
         this.updateReplyIDs(sArray, true);
     }
 
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         if (sArray != null) {
             this.ReplyIDs = new short[sArray.length];
             System.arraycopy((Object)sArray, 0, (Object)this.ReplyIDs, 0, sArray.length);
@@ -249,11 +244,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateBandList(int[] nArray) {
+    public void updateBandList(int[] nArray) throws MethodException {
         this.updateBandList(nArray, true);
     }
 
-    public void updateBandList(int[] nArray, boolean bl) {
+    public void updateBandList(int[] nArray, boolean bl) throws MethodException {
         if (nArray != null) {
             this.BandList = new int[nArray.length];
             System.arraycopy((Object)nArray, 0, (Object)this.BandList, 0, nArray.length);
@@ -272,11 +267,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateActiveBand(int n) {
+    public void updateActiveBand(int n) throws MethodException {
         this.updateActiveBand(n, true);
     }
 
-    public void updateActiveBand(int n, boolean bl) {
+    public void updateActiveBand(int n, boolean bl) throws MethodException {
         this.ActiveBand = n;
         this.ActiveBand_valid = bl;
         List list = this.baseService.getNotifications(12);
@@ -290,11 +285,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateRadioStationList(StationInfo[] stationInfoArray) {
+    public void updateRadioStationList(StationInfo[] stationInfoArray) throws MethodException {
         this.updateRadioStationList(stationInfoArray, true);
     }
 
-    public void updateRadioStationList(StationInfo[] stationInfoArray, boolean bl) {
+    public void updateRadioStationList(StationInfo[] stationInfoArray, boolean bl) throws MethodException {
         if (stationInfoArray != null) {
             this.RadioStationList = new StationInfo[stationInfoArray.length];
             for (int i2 = 0; i2 < stationInfoArray.length; ++i2) {
@@ -315,11 +310,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateActiveStation(CurrentStation currentStation) {
+    public void updateActiveStation(CurrentStation currentStation) throws MethodException {
         this.updateActiveStation(currentStation, true);
     }
 
-    public void updateActiveStation(CurrentStation currentStation, boolean bl) {
+    public void updateActiveStation(CurrentStation currentStation, boolean bl) throws MethodException {
         this.ActiveStation = ASIHMISyncRadioAbstractBaseService.copyCurrentStation(currentStation);
         this.ActiveStation_valid = bl;
         List list = this.baseService.getNotifications(21);
@@ -333,11 +328,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateSeekStatus(int n) {
+    public void updateSeekStatus(int n) throws MethodException {
         this.updateSeekStatus(n, true);
     }
 
-    public void updateSeekStatus(int n, boolean bl) {
+    public void updateSeekStatus(int n, boolean bl) throws MethodException {
         this.SeekStatus = n;
         this.SeekStatus_valid = bl;
         List list = this.baseService.getNotifications(16);
@@ -351,11 +346,11 @@ implements ASIHMISyncRadioS {
         }
     }
 
-    public void updateWavebands(WavebandInfo[] wavebandInfoArray) {
+    public void updateWavebands(WavebandInfo[] wavebandInfoArray) throws MethodException {
         this.updateWavebands(wavebandInfoArray, true);
     }
 
-    public void updateWavebands(WavebandInfo[] wavebandInfoArray, boolean bl) {
+    public void updateWavebands(WavebandInfo[] wavebandInfoArray, boolean bl) throws MethodException {
         if (wavebandInfoArray != null) {
             this.Wavebands = new WavebandInfo[wavebandInfoArray.length];
             for (int i2 = 0; i2 < wavebandInfoArray.length; ++i2) {
@@ -373,6 +368,32 @@ implements ASIHMISyncRadioS {
                 aSIHMISyncRadioReply.updateWavebands(wavebandInfoArray, bl);
             }
             catch (MethodException methodException) {}
+        }
+    }
+
+    private static class AttributesBitMapProvider
+    implements IAttributeBitMapProvider {
+        private final HashMap map = new HashMap();
+
+        public AttributesBitMapProvider() {
+            this.map.put(new Long(11L), new Integer(0));
+            this.map.put(new Long(18L), new Integer(1));
+            this.map.put(new Long(17L), new Integer(2));
+            this.map.put(new Long(14L), new Integer(3));
+            this.map.put(new Long(12L), new Integer(4));
+            this.map.put(new Long(22L), new Integer(5));
+            this.map.put(new Long(21L), new Integer(6));
+            this.map.put(new Long(16L), new Integer(7));
+            this.map.put(new Long(19L), new Integer(8));
+        }
+
+        public int getAttributeBit(long l) {
+            Integer n = (Integer)this.map.get(new Long(l));
+            return n;
+        }
+
+        public int getAttributesCount() {
+            return 9;
         }
     }
 }

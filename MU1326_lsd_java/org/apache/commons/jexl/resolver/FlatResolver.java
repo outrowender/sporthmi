@@ -17,7 +17,6 @@ implements JexlExprResolver {
         this.noValOnNull = bl;
     }
 
-    @Override
     public Object evaluate(JexlContext jexlContext, String string) {
         Object object = jexlContext.getVars().get(string);
         if (object == null && this.noValOnNull) {

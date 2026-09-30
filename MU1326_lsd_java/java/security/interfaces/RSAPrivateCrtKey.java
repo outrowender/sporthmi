@@ -8,22 +8,16 @@ import java.security.interfaces.RSAPrivateKey;
 
 public interface RSAPrivateCrtKey
 extends RSAPrivateKey {
-    default public BigInteger getPublicExponent() {
-    }
+    public BigInteger getPublicExponent();
 
-    default public BigInteger getPrimeP() {
-    }
+    public BigInteger getPrimeP();
 
-    default public BigInteger getPrimeQ() {
-    }
+    public BigInteger getPrimeQ();
 
-    default public BigInteger getPrimeExponentP() {
-    }
+    public BigInteger getPrimeExponentP();
 
-    default public BigInteger getPrimeExponentQ() {
-    }
+    public BigInteger getPrimeExponentQ();
 
-    default public BigInteger getCrtCoefficient() {
-    }
+    public BigInteger getCrtCoefficient();
 }
 

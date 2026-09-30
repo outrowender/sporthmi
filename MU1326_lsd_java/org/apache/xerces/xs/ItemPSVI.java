@@ -5,51 +5,40 @@ package org.apache.xerces.xs;
 
 import org.apache.xerces.xs.ShortList;
 import org.apache.xerces.xs.StringList;
+import org.apache.xerces.xs.XSException;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.apache.xerces.xs.XSTypeDefinition;
 
 public interface ItemPSVI {
-    public static final short VALIDITY_NOTKNOWN;
-    public static final short VALIDITY_INVALID;
-    public static final short VALIDITY_VALID;
-    public static final short VALIDATION_NONE;
-    public static final short VALIDATION_PARTIAL;
-    public static final short VALIDATION_FULL;
+    public static final short VALIDITY_NOTKNOWN = 0;
+    public static final short VALIDITY_INVALID = 1;
+    public static final short VALIDITY_VALID = 2;
+    public static final short VALIDATION_NONE = 0;
+    public static final short VALIDATION_PARTIAL = 1;
+    public static final short VALIDATION_FULL = 2;
 
-    default public String getValidationContext() {
-    }
+    public String getValidationContext();
 
-    default public short getValidity() {
-    }
+    public short getValidity();
 
-    default public short getValidationAttempted() {
-    }
+    public short getValidationAttempted();
 
-    default public StringList getErrorCodes() {
-    }
+    public StringList getErrorCodes();
 
-    default public String getSchemaNormalizedValue() {
-    }
+    public String getSchemaNormalizedValue();
 
-    default public Object getActualNormalizedValue() {
-    }
+    public Object getActualNormalizedValue() throws XSException;
 
-    default public short getActualNormalizedValueType() {
-    }
+    public short getActualNormalizedValueType() throws XSException;
 
-    default public ShortList getItemValueTypes() {
-    }
+    public ShortList getItemValueTypes() throws XSException;
 
-    default public XSTypeDefinition getTypeDefinition() {
-    }
+    public XSTypeDefinition getTypeDefinition();
 
-    default public XSSimpleTypeDefinition getMemberTypeDefinition() {
-    }
+    public XSSimpleTypeDefinition getMemberTypeDefinition();
 
-    default public String getSchemaDefault() {
-    }
+    public String getSchemaDefault();
 
-    default public boolean getIsSchemaSpecified() {
-    }
+    public boolean getIsSchemaSpecified();
 }
 

@@ -10,7 +10,7 @@ import de.esolutions.fw.util.commons.timeout.ITimeSource;
 public class MemWatch {
     private int lowMemMarkerKiB = 200;
     private int criticalMemMarkerKiB = 50;
-    private int maxMemKiB = (int)(Runtime.getRuntime().totalMemory() / 0);
+    private int maxMemKiB = (int)(Runtime.getRuntime().totalMemory() / 1024L);
     private int minDurationSec = 10;
     private final ITimeSource monoTime;
     private long criticalStart;
@@ -43,7 +43,7 @@ public class MemWatch {
     public void check() {
         int n;
         long l = Runtime.getRuntime().freeMemory();
-        int n2 = (int)(l / 0);
+        int n2 = (int)(l / 1024L);
         long l2 = this.monoTime.getCurrentTime();
         boolean bl = false;
         if (n2 <= this.criticalMemMarkerKiB) {
@@ -54,7 +54,7 @@ public class MemWatch {
                 if (n2 < this.criticalMin) {
                     this.criticalMin = n2;
                 }
-                if ((n = (int)((l2 - this.criticalStart) / 0)) >= this.minDurationSec) {
+                if ((n = (int)((l2 - this.criticalStart) / 1000L)) >= this.minDurationSec) {
                     this.reportCritical(this.criticalMin, n);
                     bl = true;
                 }
@@ -73,7 +73,7 @@ public class MemWatch {
                 if (n2 < this.lowMin) {
                     this.lowMin = n2;
                 }
-                if ((n = (int)((l2 - this.lowStart) / 0)) >= this.minDurationSec && !bl) {
+                if ((n = (int)((l2 - this.lowStart) / 1000L)) >= this.minDurationSec && !bl) {
                     this.reportLow(this.lowMin, n);
                     bl = true;
                 }

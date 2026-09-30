@@ -37,7 +37,6 @@ extends HMITerminalImpl {
         super(n, bundleContext, iFrameworkAccess);
     }
 
-    @Override
     public IGUIManager getGUIManager() {
         return null;
     }
@@ -46,47 +45,38 @@ extends HMITerminalImpl {
         return null;
     }
 
-    @Override
     protected StringUtility generateStringUtility() {
         return null;
     }
 
-    @Override
     protected IDrawerFocusManagerEvo generateDrawerFocusManager() {
         return null;
     }
 
-    @Override
     protected IDrawerManager generateDrawerManager() {
         return null;
     }
 
-    @Override
     protected IViewSizeManager generateViewSizeManager() {
         return null;
     }
 
-    @Override
     protected IDrawerConditionEngine generateDrawerConditionEngine(BundleContext bundleContext) {
         return null;
     }
 
-    @Override
     protected ITouchInputManager generateTouchInputManager() {
         return null;
     }
 
-    @Override
     protected void initializeGraphics() {
     }
 
-    @Override
     protected void initializeBins() {
     }
 
-    @Override
     protected Screen createFallbackScreen() {
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-129);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(Integer.MAX_VALUE);
         screenWidgetEVO.setRenderer(new ScreenRendererHigh(screenWidgetEVO));
         screenWidgetEVO.setTerminal(this);
         screenWidgetEVO.setColorPalettes(new int[][]{{-1, -1, -1, -1}});
@@ -94,78 +84,62 @@ extends HMITerminalImpl {
         return screenWidgetEVO;
     }
 
-    @Override
     protected DumpInfoProvider createRenderInfoProvider() {
         return null;
     }
 
-    @Override
     protected void disposeGraphics() {
     }
 
-    @Override
     protected Layout generateLayout() {
         return null;
     }
 
-    @Override
     protected IAnimationController generateAnimationController() {
         return new AnimationControllerMIB2High(109);
     }
 
-    @Override
     protected IImageLoader generateImageLoader() {
         return null;
     }
 
-    @Override
     protected IFontLoader generateFontLoader() {
         return null;
     }
 
-    @Override
     protected IPartialPopupManagerEvo generatePartialPopupManagerEvo() {
         return null;
     }
 
-    @Override
     protected IPresetInputHandler generatePresetPopupHandler() {
         return null;
     }
 
-    @Override
     protected IPhoneKeyHandler generatePhoneKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
         return null;
     }
 
-    @Override
     protected void setJointTerminalFocus(int n) {
     }
 
-    @Override
     protected void initializeOSGi() {
     }
 
-    @Override
     protected void initializeApplicationModels() {
     }
 
-    @Override
     public IUserHintHandler getUserHintHandler() {
         return null;
     }
 
-    @Override
     protected ILongpressKeyHandler generateLongpressKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
         return null;
     }
 
-    @Override
     protected ICarCodingHelper generateCarCodingHelper() {
         return null;
     }
 
-    @Override
     protected IKzbMappingHelper generateKzbMappingHelper(ICarCodingHelper iCarCodingHelper) {
         return null;
     }

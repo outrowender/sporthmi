@@ -3,53 +3,39 @@
  */
 package de.esolutions.fw.comm.dsi.organizer;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIAdbSetupC {
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1) throws MethodException;
 
-    default public void setSortOrder(int n) {
-    }
+    public void setSortOrder(int var1) throws MethodException;
 
-    default public void setPublicProfileVisibility(boolean bl) {
-    }
+    public void setPublicProfileVisibility(boolean var1) throws MethodException;
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings() throws MethodException;
 
-    default public void resetTopDestination() {
-    }
+    public void resetTopDestination() throws MethodException;
 
-    default public void createBackupFile(String string) {
-    }
+    public void createBackupFile(String var1) throws MethodException;
 
-    default public void importBackupFile(String string) {
-    }
+    public void importBackupFile(String var1) throws MethodException;
 
-    default public void setPictureVisibility(boolean bl) {
-    }
+    public void setPictureVisibility(boolean var1) throws MethodException;
 
-    default public void setContextSpecificVisibility(boolean bl) {
-    }
+    public void setContextSpecificVisibility(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

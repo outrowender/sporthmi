@@ -8,13 +8,10 @@ import org.dsi.ifc.global.CarBCSpeed;
 
 public interface DSIOnlineTrafficLightInfoListener
 extends DSIListener {
-    default public void updateTrafficLightInfo(int n, int n2, int[] nArray, int n3, int n4, int n5) {
-    }
+    public void updateTrafficLightInfo(int var1, int var2, int[] var3, int var4, int var5, int var6);
 
-    default public void updateTrafficLightSpeed(CarBCSpeed carBCSpeed, int n) {
-    }
+    public void updateTrafficLightSpeed(CarBCSpeed var1, int var2);
 
-    default public void updateTrafficLightTime(int n, int n2, int n3) {
-    }
+    public void updateTrafficLightTime(int var1, int var2, int var3);
 }
 

@@ -3,33 +3,27 @@
  */
 package de.esolutions.fw.comm.dsi.kombifastlist;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public interface DSIFastListScrollingAudioReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "97acfc92-c952-5fc4-91b8-cf398b82e563";
+    public static final String IPL_COMM_INTERFACE_KEY = "f7381f54-95fb-5d0f-ae7c-8848533e7e3f";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.1";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.1";
 
-    default public void indicationMediaBrowser(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void indicationMediaBrowser(int var1, int var2, int var3, int var4, long var5, int var7, int var8, int var9, int var10, int var11, int var12) throws MethodException;
 
-    default public void indicationNotifyCommonListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCommonListPUSH(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationNotifyReceptionListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyReceptionListPUSH(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationNotifyCurrentListSizeAudio(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCurrentListSizeAudio(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationMediaBrowserJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
-    }
+    public void indicationMediaBrowserJobs(int var1, int var2, int var3, ArrayHeader[] var4) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

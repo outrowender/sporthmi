@@ -30,8 +30,7 @@ DSISoundC {
         return this.proxy;
     }
 
-    @Override
-    public void getVolume(int n, int n2) {
+    public void getVolume(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -43,8 +42,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void setVolume(int n, int n2, short s) {
+    public void setVolume(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -57,8 +55,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)75, genericSerializable);
     }
 
-    @Override
-    public void decreaseVolume(int n, int n2, short s) {
+    public void decreaseVolume(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -71,8 +68,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)18, genericSerializable);
     }
 
-    @Override
-    public void increaseVolume(int n, int n2, short s) {
+    public void increaseVolume(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -85,8 +81,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void getBalance(int n, int n2) {
+    public void getBalance(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -98,8 +93,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)20, genericSerializable);
     }
 
-    @Override
-    public void setBalance(int n, int n2, short s) {
+    public void setBalance(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -112,8 +106,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)57, genericSerializable);
     }
 
-    @Override
-    public void decreaseBalance(int n, int n2, short s) {
+    public void decreaseBalance(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -126,8 +119,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void increaseBalance(int n, int n2, short s) {
+    public void increaseBalance(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -140,8 +132,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void getBass(int n, int n2) {
+    public void getBass(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -153,8 +144,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)21, genericSerializable);
     }
 
-    @Override
-    public void setBass(int n, int n2, short s) {
+    public void setBass(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -167,8 +157,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void decreaseBass(int n, int n2, short s) {
+    public void decreaseBass(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -181,8 +170,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void increaseBass(int n, int n2, short s) {
+    public void increaseBass(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -195,8 +183,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void getTreble(int n, int n2) {
+    public void getTreble(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -208,8 +195,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)34, genericSerializable);
     }
 
-    @Override
-    public void setTreble(int n, int n2, short s) {
+    public void setTreble(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -222,8 +208,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)74, genericSerializable);
     }
 
-    @Override
-    public void decreaseTreble(int n, int n2, short s) {
+    public void decreaseTreble(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -236,8 +221,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)17, genericSerializable);
     }
 
-    @Override
-    public void increaseTreble(int n, int n2, short s) {
+    public void increaseTreble(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -250,8 +234,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)50, genericSerializable);
     }
 
-    @Override
-    public void getFader(int n, int n2) {
+    public void getFader(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -263,8 +246,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void setFader(int n, int n2, short s) {
+    public void setFader(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -277,8 +259,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)61, genericSerializable);
     }
 
-    @Override
-    public void decreaseFader(int n, int n2, short s) {
+    public void decreaseFader(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -291,8 +272,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void increaseFader(int n, int n2, short s) {
+    public void increaseFader(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -305,8 +285,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)42, genericSerializable);
     }
 
-    @Override
-    public void getSubwoofer(int n, int n2) {
+    public void getSubwoofer(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -318,8 +297,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void setSubwoofer(int n, int n2, short s) {
+    public void setSubwoofer(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -332,8 +310,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)71, genericSerializable);
     }
 
-    @Override
-    public void getInputGainOffset(int n, int n2) {
+    public void getInputGainOffset(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -345,8 +322,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)25, genericSerializable);
     }
 
-    @Override
-    public void setInputGainOffset(int n, int n2, short s) {
+    public void setInputGainOffset(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -359,8 +335,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)62, genericSerializable);
     }
 
-    @Override
-    public void getInputGainOffsetRange(int n, int n2) {
+    public void getInputGainOffsetRange(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -372,8 +347,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)26, genericSerializable);
     }
 
-    @Override
-    public void getLoweringEntertainment(int n, int n2, int n3) {
+    public void getLoweringEntertainment(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -386,8 +360,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)27, genericSerializable);
     }
 
-    @Override
-    public void setLoweringEntertainment(int n, int n2, int n3, short s) {
+    public void setLoweringEntertainment(int n, int n2, int n3, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -401,8 +374,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)63, genericSerializable);
     }
 
-    @Override
-    public void getMenuVolEntRange(int n) {
+    public void getMenuVolEntRange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -413,8 +385,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)28, genericSerializable);
     }
 
-    @Override
-    public void getMenuVolumeRange(int n, int n2) {
+    public void getMenuVolumeRange(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -426,8 +397,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)29, genericSerializable);
     }
 
-    @Override
-    public void getVolumeRange(int n, int n2) {
+    public void getVolumeRange(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -439,8 +409,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)152, genericSerializable);
     }
 
-    @Override
-    public void getSurroundLevel(int n, int n2) {
+    public void getSurroundLevel(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -452,8 +421,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void setSurroundLevel(int n, int n2, short s) {
+    public void setSurroundLevel(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -466,8 +434,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)72, genericSerializable);
     }
 
-    @Override
-    public void setSurroundOnOff(int n, int n2, boolean bl) {
+    public void setSurroundOnOff(int n, int n2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -480,8 +447,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)73, genericSerializable);
     }
 
-    @Override
-    public void revertToFactorySettings(int n, int n2) {
+    public void revertToFactorySettings(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -493,8 +459,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)56, genericSerializable);
     }
 
-    @Override
-    public void createExportFile(String string, int n) {
+    public void createExportFile(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -506,8 +471,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void importFile(String string, int n) {
+    public void importFile(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -519,8 +483,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void getMiddle(int n, int n2) {
+    public void getMiddle(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -532,8 +495,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void setMiddle(int n, int n2, short s) {
+    public void setMiddle(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -546,8 +508,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)65, genericSerializable);
     }
 
-    @Override
-    public void decreaseMiddle(int n, int n2, short s) {
+    public void decreaseMiddle(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -560,8 +521,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void increaseMiddle(int n, int n2, short s) {
+    public void increaseMiddle(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -574,8 +534,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void setEqualizer(int n, int n2, int n3, int n4) {
+    public void setEqualizer(int n, int n2, int n3, int n4) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -589,8 +548,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void increaseEqualizer(int n, int n2, int n3, short s) {
+    public void increaseEqualizer(int n, int n2, int n3, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -604,8 +562,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)41, genericSerializable);
     }
 
-    @Override
-    public void decreaseEqualizer(int n, int n2, int n3, short s) {
+    public void decreaseEqualizer(int n, int n2, int n3, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -619,8 +576,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void getEqualizer(int n, int n2) {
+    public void getEqualizer(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -632,8 +588,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)23, genericSerializable);
     }
 
-    @Override
-    public void setOnVolumeLimit(int n) {
+    public void setOnVolumeLimit(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -644,8 +599,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)69, genericSerializable);
     }
 
-    @Override
-    public void increaseOnVolumeLimit(short s) {
+    public void increaseOnVolumeLimit(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -656,8 +610,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)47, genericSerializable);
     }
 
-    @Override
-    public void decreaseOnVolumeLimit(short s) {
+    public void decreaseOnVolumeLimit(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -668,8 +621,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void decreaseSubwoofer(int n, int n2, short s) {
+    public void decreaseSubwoofer(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -682,8 +634,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)15, genericSerializable);
     }
 
-    @Override
-    public void increaseSubwoofer(int n, int n2, short s) {
+    public void increaseSubwoofer(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -696,8 +647,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void decreaseInputGainOffset(int n, int n2, short s) {
+    public void decreaseInputGainOffset(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -710,8 +660,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)10, genericSerializable);
     }
 
-    @Override
-    public void increaseInputGainOffset(int n, int n2, short s) {
+    public void increaseInputGainOffset(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -724,8 +673,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void decreaseLoweringEntertainment(int n, int n2, int n3, short s) {
+    public void decreaseLoweringEntertainment(int n, int n2, int n3, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -739,8 +687,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void increaseLoweringEntertainment(int n, int n2, int n3, short s) {
+    public void increaseLoweringEntertainment(int n, int n2, int n3, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -754,8 +701,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)44, genericSerializable);
     }
 
-    @Override
-    public void decreaseSurroundLevel(int n, int n2, short s) {
+    public void decreaseSurroundLevel(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -768,8 +714,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void increaseSurroundLevel(int n, int n2, short s) {
+    public void increaseSurroundLevel(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -782,8 +727,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)49, genericSerializable);
     }
 
-    @Override
-    public void setMicGainLevel(int n) {
+    public void setMicGainLevel(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -794,8 +738,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)64, genericSerializable);
     }
 
-    @Override
-    public void decreaseMicGainLevel(short s) {
+    public void decreaseMicGainLevel(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -806,8 +749,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)12, genericSerializable);
     }
 
-    @Override
-    public void increaseMicGainLevel(short s) {
+    public void increaseMicGainLevel(short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -818,8 +760,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void getNoiseCompensation(int n, int n2) {
+    public void getNoiseCompensation(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -831,8 +772,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)116, genericSerializable);
     }
 
-    @Override
-    public void setNoiseCompensation(int n, int n2, short s) {
+    public void setNoiseCompensation(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -845,8 +785,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)140, genericSerializable);
     }
 
-    @Override
-    public void increaseNoiseCompensation(int n, int n2, short s) {
+    public void increaseNoiseCompensation(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -859,8 +798,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)120, genericSerializable);
     }
 
-    @Override
-    public void decreaseNoiseCompensation(int n, int n2, short s) {
+    public void decreaseNoiseCompensation(int n, int n2, short s) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -873,8 +811,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)114, genericSerializable);
     }
 
-    @Override
-    public void getPresetEQ(int n, int n2) {
+    public void getPresetEQ(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -886,8 +823,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)117, genericSerializable);
     }
 
-    @Override
-    public void setPresetEQ(int n, int n2, int n3) {
+    public void setPresetEQ(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -900,8 +836,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)123, genericSerializable);
     }
 
-    @Override
-    public void getPresetPosition(int n, int n2) {
+    public void getPresetPosition(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -913,8 +848,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)118, genericSerializable);
     }
 
-    @Override
-    public void setPresetPosition(int n, int n2, int n3) {
+    public void setPresetPosition(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -927,8 +861,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)124, genericSerializable);
     }
 
-    @Override
-    public void get3DMode(int n, int n2) {
+    public void get3DMode(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -940,8 +873,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)138, genericSerializable);
     }
 
-    @Override
-    public void set3DMode(int n, int n2, int n3) {
+    public void set3DMode(int n, int n2, int n3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -954,8 +886,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)139, genericSerializable);
     }
 
-    @Override
-    public void setSubwooferActivity(int n, int n2, boolean bl) {
+    public void setSubwooferActivity(int n, int n2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -968,8 +899,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)125, genericSerializable);
     }
 
-    @Override
-    public void setWidebandSpeech(int n, boolean bl) {
+    public void setWidebandSpeech(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -981,8 +911,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)147, genericSerializable);
     }
 
-    @Override
-    public void setDuration(int n, int n2) {
+    public void setDuration(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -994,13 +923,11 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)150, genericSerializable);
     }
 
-    @Override
-    public void getSoundShapeActive() {
+    public void getSoundShapeActive() throws MethodException {
         this.proxy.remoteCallMethod((short)155, null);
     }
 
-    @Override
-    public void setSoundShapeActive(boolean bl) {
+    public void setSoundShapeActive(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -1011,13 +938,11 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)165, genericSerializable);
     }
 
-    @Override
-    public void getSoundShape() {
+    public void getSoundShape() throws MethodException {
         this.proxy.remoteCallMethod((short)154, null);
     }
 
-    @Override
-    public void setSoundShape(short s, short s2, short s3) {
+    public void setSoundShape(short s, short s2, short s3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt16(s);
@@ -1030,8 +955,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)164, genericSerializable);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1042,8 +966,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)156, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1055,8 +978,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)159, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1067,13 +989,11 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)160, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)162, null);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1084,8 +1004,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)67, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1096,13 +1015,11 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)68, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)66, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -1113,8 +1030,7 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -1125,13 +1041,11 @@ DSISoundC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

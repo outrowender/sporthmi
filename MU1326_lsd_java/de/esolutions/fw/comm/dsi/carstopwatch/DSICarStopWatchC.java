@@ -3,46 +3,34 @@
  */
 package de.esolutions.fw.comm.dsi.carstopwatch;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carstopwatch.StopWatchTime;
 
 public interface DSICarStopWatchC {
-    default public void setStopWatchFastestLapTime(StopWatchTime stopWatchTime) {
-    }
+    public void setStopWatchFastestLapTime(StopWatchTime var1) throws MethodException;
 
-    default public void setStopWatchLapRating(int n) {
-    }
+    public void setStopWatchLapRating(int var1) throws MethodException;
 
-    default public void setStopWatchLapProgress(float f2) {
-    }
+    public void setStopWatchLapProgress(float var1) throws MethodException;
 
-    default public void setStopWatchLapGPSTrigger() {
-    }
+    public void setStopWatchLapGPSTrigger() throws MethodException;
 
-    default public void setStopWatchControl(int n) {
-    }
+    public void setStopWatchControl(int var1) throws MethodException;
 
-    default public void setStopWatchSlowestLapTime(StopWatchTime stopWatchTime) {
-    }
+    public void setStopWatchSlowestLapTime(StopWatchTime var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

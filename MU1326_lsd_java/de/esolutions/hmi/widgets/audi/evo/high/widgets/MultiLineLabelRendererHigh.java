@@ -57,7 +57,6 @@ PreferredDynamicHeight {
     private String[] cashedDisplayData;
     protected boolean hasCachedNumberOfRowsChanged;
 
-    @Override
     public String calculateDisplayData(String string, boolean bl) {
         return string;
     }
@@ -66,7 +65,6 @@ PreferredDynamicHeight {
         this.controller = labelController;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -212,7 +210,6 @@ PreferredDynamicHeight {
         return !Util.equals(string, this.cachedText2);
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
         if (this.lineHeight == -1) {
@@ -297,19 +294,16 @@ PreferredDynamicHeight {
         return n3;
     }
 
-    @Override
     public void disconnect() {
         this.destroyNode();
         this.firstVisibleLine = 0;
         super.disconnect();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public int getPreferredWidth() {
         String string = this.controller.getText();
         if (this.changedPreferredWidthParams(string)) {
@@ -330,7 +324,6 @@ PreferredDynamicHeight {
         return this.cachedPreferredWidth;
     }
 
-    @Override
     public int getNumberOfRows(int n) {
         String string = this.controller.getText();
         if (this.changedNumberOfRows(string, n)) {
@@ -364,27 +357,22 @@ PreferredDynamicHeight {
         return this.cachedPreferredHeight;
     }
 
-    @Override
     public int getPreferredHeight(int n) {
         return this.getPreferredHeightInternal(n, this.autoWrap);
     }
 
-    @Override
     public int getPreferredHeight() {
         return this.getPreferredHeightInternal(0, -1);
     }
 
-    @Override
     public int getPreferredLineHeight() {
         return this.lineHeight;
     }
 
-    @Override
     public int getFontHeight() {
         return EALManager.getFontHeightUppercase(this.getInheritedFont());
     }
 
-    @Override
     public String getText() {
         if (this.texts == null) {
             return "";
@@ -398,29 +386,24 @@ PreferredDynamicHeight {
         return buffer.toString();
     }
 
-    @Override
     public void setAutoWrap(int n) {
         this.autoWrap = n;
     }
 
-    @Override
     public void setAlignment(int n, int n2) {
         this.hAlign = n;
         this.vAlign = n2;
     }
 
-    @Override
     public int getBaseline() {
         return this.getFontHeight();
     }
 
-    @Override
     public boolean hasContent() {
         String string = this.controller.getText();
         return string != null && string.length() > 0;
     }
 
-    @Override
     public boolean isTextDescriptorSupported() {
         return false;
     }
@@ -429,17 +412,14 @@ PreferredDynamicHeight {
         return this.firstVisibleLine;
     }
 
-    @Override
     public void setFirstVisibleLine(int n) {
         this.firstVisibleLine = n;
     }
 
-    @Override
     public int getLineHeight() {
         return this.lineHeight;
     }
 
-    @Override
     public void setLineHeight(int n) {
         this.lineHeight = n;
     }
@@ -448,7 +428,6 @@ PreferredDynamicHeight {
         return this.autoWrap;
     }
 
-    @Override
     public boolean isHeightDependentFromWidth() {
         return this.autoWrap != -1;
     }

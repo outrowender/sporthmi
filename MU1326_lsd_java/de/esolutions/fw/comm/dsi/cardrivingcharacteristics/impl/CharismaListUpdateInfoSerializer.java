@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.cardrivingcharacteristics.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaListUpdateInfo;
 
 public class CharismaListUpdateInfoSerializer {
-    public static void putOptionalCharismaListUpdateInfo(ISerializer iSerializer, CharismaListUpdateInfo charismaListUpdateInfo) {
+    public static void putOptionalCharismaListUpdateInfo(ISerializer iSerializer, CharismaListUpdateInfo charismaListUpdateInfo) throws SerializerException {
         boolean bl = charismaListUpdateInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class CharismaListUpdateInfoSerializer {
         }
     }
 
-    public static void putOptionalCharismaListUpdateInfoVarArray(ISerializer iSerializer, CharismaListUpdateInfo[] charismaListUpdateInfoArray) {
+    public static void putOptionalCharismaListUpdateInfoVarArray(ISerializer iSerializer, CharismaListUpdateInfo[] charismaListUpdateInfoArray) throws SerializerException {
         boolean bl = charismaListUpdateInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class CharismaListUpdateInfoSerializer {
         }
     }
 
-    public static CharismaListUpdateInfo getOptionalCharismaListUpdateInfo(IDeserializer iDeserializer) {
+    public static CharismaListUpdateInfo getOptionalCharismaListUpdateInfo(IDeserializer iDeserializer) throws SerializerException {
         CharismaListUpdateInfo charismaListUpdateInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class CharismaListUpdateInfoSerializer {
         return charismaListUpdateInfo;
     }
 
-    public static CharismaListUpdateInfo[] getOptionalCharismaListUpdateInfoVarArray(IDeserializer iDeserializer) {
+    public static CharismaListUpdateInfo[] getOptionalCharismaListUpdateInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         CharismaListUpdateInfo[] charismaListUpdateInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

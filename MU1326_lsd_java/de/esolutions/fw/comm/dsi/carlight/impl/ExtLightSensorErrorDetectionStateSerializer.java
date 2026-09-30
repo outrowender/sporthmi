@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carlight.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carlight.ExtLightSensorErrorDetectionState;
 
 public class ExtLightSensorErrorDetectionStateSerializer {
-    public static void putOptionalExtLightSensorErrorDetectionState(ISerializer iSerializer, ExtLightSensorErrorDetectionState extLightSensorErrorDetectionState) {
+    public static void putOptionalExtLightSensorErrorDetectionState(ISerializer iSerializer, ExtLightSensorErrorDetectionState extLightSensorErrorDetectionState) throws SerializerException {
         boolean bl = extLightSensorErrorDetectionState == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class ExtLightSensorErrorDetectionStateSerializer {
         }
     }
 
-    public static void putOptionalExtLightSensorErrorDetectionStateVarArray(ISerializer iSerializer, ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray) {
+    public static void putOptionalExtLightSensorErrorDetectionStateVarArray(ISerializer iSerializer, ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray) throws SerializerException {
         boolean bl = extLightSensorErrorDetectionStateArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class ExtLightSensorErrorDetectionStateSerializer {
         }
     }
 
-    public static ExtLightSensorErrorDetectionState getOptionalExtLightSensorErrorDetectionState(IDeserializer iDeserializer) {
+    public static ExtLightSensorErrorDetectionState getOptionalExtLightSensorErrorDetectionState(IDeserializer iDeserializer) throws SerializerException {
         ExtLightSensorErrorDetectionState extLightSensorErrorDetectionState = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class ExtLightSensorErrorDetectionStateSerializer {
         return extLightSensorErrorDetectionState;
     }
 
-    public static ExtLightSensorErrorDetectionState[] getOptionalExtLightSensorErrorDetectionStateVarArray(IDeserializer iDeserializer) {
+    public static ExtLightSensorErrorDetectionState[] getOptionalExtLightSensorErrorDetectionStateVarArray(IDeserializer iDeserializer) throws SerializerException {
         ExtLightSensorErrorDetectionState[] extLightSensorErrorDetectionStateArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -42,11 +42,10 @@ implements IInputTextInfoProvider {
         return extHMITerminalEvo.getRendererFactory();
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         if (DirectWritingController.isAsia()) {
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#initializeWidget: Asian system detected, direct writing is disabled");
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#initializeWidget: Asian system detected, direct writing is disabled");
             return;
         }
         if (this.terminal != null) {
@@ -58,7 +57,6 @@ implements IInputTextInfoProvider {
         }
     }
 
-    @Override
     protected void initConnect(InitializationContext initializationContext) {
         super.initConnect(initializationContext);
         if (DirectWritingController.isAsia()) {
@@ -109,12 +107,10 @@ implements IInputTextInfoProvider {
         return n;
     }
 
-    @Override
     public IRenderer getRenderer() {
         return null;
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         if (!(this.model instanceof SpellerModelGUI) || DirectWritingController.isAsia()) {
             return;
@@ -122,15 +118,15 @@ implements IInputTextInfoProvider {
         String string = touchEvent.getRecognizedCharacters();
         char c2 = '\u0000';
         if (this.fingerTraceWidget == null || !this.fingerTraceWidget.exceededMinStrokeLength()) {
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadCharactersRecognized Did not exceed min stroke Length");
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadCharactersRecognized Did not exceed min stroke Length");
         } else if (!this.isEnabled()) {
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadCharactersRecognized Not enabled.");
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadCharactersRecognized Not enabled.");
         } else if (string == null || string.length() == 0) {
             this.touchUtil.speakCharWithNegativeTone(null);
         } else if (this.parent != null && this.parent.isEnabled() && this.parent.isActive()) {
             this.prp.process(string, touchEvent.getCharacterConfidence(), true);
             String string2 = this.prp.getResult();
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadCharactersRecognized: result after PRP", (Object)string2);
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadCharactersRecognized: result after PRP", (Object)string2);
             if (string2 != null && string2.length() > 0) {
                 c2 = this.prp.getResult().charAt(0);
                 if (this.isStartOfText() && c2 == '\b') {
@@ -141,10 +137,10 @@ implements IInputTextInfoProvider {
                 }
             }
             if (c2 == '\u0000') {
-                tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadCharactersRecognized: no valid char recognized (after PRP)");
+                tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadCharactersRecognized: no valid char recognized (after PRP)");
                 this.touchUtil.speakCharWithNegativeTone(null);
             } else {
-                tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadCharactersRecognized: write char: %1 to model (modelID: %2)", (long)c2, (long)this.modelID);
+                tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadCharactersRecognized: write char: %1 to model (modelID: %2)", (long)c2, (long)this.modelID);
                 ((SpellerModelGUI)this.model).textChanged(String.valueOf(c2), c2, this.terminal.getTerminalID());
             }
             this.fingerTraceWidget.characterRecognized(c2);
@@ -161,34 +157,30 @@ implements IInputTextInfoProvider {
         return this.isPassWordField() || this.touchMode == 81;
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         if (this.fingerTraceWidget != null && this.isEnabled()) {
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadPressed: X=%1 / Y=%2 / fingerCount=%3", (long)touchEvent.getX(), (long)touchEvent.getY(), (long)touchEvent.getFingerCount());
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadPressed: X=%1 / Y=%2 / fingerCount=%3", (long)touchEvent.getX(), (long)touchEvent.getY(), (long)touchEvent.getFingerCount());
             this.setFingerTracePos();
             this.fingerTraceWidget.touchPadPressed(touchEvent);
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         if (this.fingerTraceWidget != null && this.isEnabled()) {
             this.fingerTraceWidget.touchPadReleased(touchEvent);
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         if (!this.fingertracePositionIsSet) {
             return;
         }
         if (this.fingerTraceWidget != null && this.isEnabled()) {
-            tpLogChannelKeypanel.log(1078071040, "DirectWritingController#touchPadMoved: X=%1 / Y=%2 / fingerCount=%3", (long)touchEvent.getX(), (long)touchEvent.getY(), (long)touchEvent.getFingerCount());
+            tpLogChannelKeypanel.log(1000000, "DirectWritingController#touchPadMoved: X=%1 / Y=%2 / fingerCount=%3", (long)touchEvent.getX(), (long)touchEvent.getY(), (long)touchEvent.getFingerCount());
             this.fingerTraceWidget.touchPadPositionMoved(touchEvent);
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.fingerTraceWidget != null && wheelButtonEvent.getClickCount() != 0 && this.isEnabled()) {
             this.fingerTraceWidget.hideFingerTrace();
@@ -196,7 +188,6 @@ implements IInputTextInfoProvider {
         super.keyTurned(wheelButtonEvent);
     }
 
-    @Override
     public boolean isFocused() {
         if (this.parent != null) {
             return this.parent.isFocused();
@@ -208,42 +199,34 @@ implements IInputTextInfoProvider {
         this.touchMode = n;
     }
 
-    @Override
     public String getCurrentWord() {
         return "";
     }
 
-    @Override
     public String getCurrentText() {
         return "";
     }
 
-    @Override
     public boolean isStartOfText() {
         return true;
     }
 
-    @Override
     public boolean isStartOfWord() {
         return true;
     }
 
-    @Override
     public int getKeyboardType() {
         return this.terminal.getKbdService().getCurrentKeyboardType();
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public String getCurrentDisplayString() {
         return this.getCurrentText();
     }
 
-    @Override
     public int getTextLength() {
         return 0;
     }

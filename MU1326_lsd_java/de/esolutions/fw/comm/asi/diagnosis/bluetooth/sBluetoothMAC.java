@@ -32,7 +32,7 @@ public class sBluetoothMAC {
     }
 
     public String toString() {
-        return new StringBuffer("sBluetoothMAC{").append("msg_id=").append(this.msg_id).append(", mac=").append(this.mac).append("}").toString();
+        return "sBluetoothMAC{" + "msg_id=" + this.msg_id + ", mac=" + this.mac + "}";
     }
 }
 

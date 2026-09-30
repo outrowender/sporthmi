@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCZeroEmissionAbsoluteTime;
 
 public class BCZeroEmissionAbsoluteTimeSerializer {
-    public static void putOptionalBCZeroEmissionAbsoluteTime(ISerializer iSerializer, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime) {
+    public static void putOptionalBCZeroEmissionAbsoluteTime(ISerializer iSerializer, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime) throws SerializerException {
         boolean bl = bCZeroEmissionAbsoluteTime == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCZeroEmissionAbsoluteTimeSerializer {
         }
     }
 
-    public static void putOptionalBCZeroEmissionAbsoluteTimeVarArray(ISerializer iSerializer, BCZeroEmissionAbsoluteTime[] bCZeroEmissionAbsoluteTimeArray) {
+    public static void putOptionalBCZeroEmissionAbsoluteTimeVarArray(ISerializer iSerializer, BCZeroEmissionAbsoluteTime[] bCZeroEmissionAbsoluteTimeArray) throws SerializerException {
         boolean bl = bCZeroEmissionAbsoluteTimeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCZeroEmissionAbsoluteTimeSerializer {
         }
     }
 
-    public static BCZeroEmissionAbsoluteTime getOptionalBCZeroEmissionAbsoluteTime(IDeserializer iDeserializer) {
+    public static BCZeroEmissionAbsoluteTime getOptionalBCZeroEmissionAbsoluteTime(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCZeroEmissionAbsoluteTimeSerializer {
         return bCZeroEmissionAbsoluteTime;
     }
 
-    public static BCZeroEmissionAbsoluteTime[] getOptionalBCZeroEmissionAbsoluteTimeVarArray(IDeserializer iDeserializer) {
+    public static BCZeroEmissionAbsoluteTime[] getOptionalBCZeroEmissionAbsoluteTimeVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCZeroEmissionAbsoluteTime[] bCZeroEmissionAbsoluteTimeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

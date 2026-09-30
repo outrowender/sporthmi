@@ -14,12 +14,11 @@ import org.apache.commons.scxml.model.TransitionTarget;
 final class TransitionTargetComparator
 implements Comparator,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     TransitionTargetComparator() {
     }
 
-    @Override
     public int compare(Object object, Object object2) {
         TransitionTarget transitionTarget = (TransitionTarget)object;
         TransitionTarget transitionTarget2 = (TransitionTarget)object2;

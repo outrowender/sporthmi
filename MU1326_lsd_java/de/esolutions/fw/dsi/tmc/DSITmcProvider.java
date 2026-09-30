@@ -25,28 +25,23 @@ implements DSITmc {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$tmc$DSITmc == null ? (class$org$dsi$ifc$tmc$DSITmc = DSITmcProvider.class$("org.dsi.ifc.tmc.DSITmc")) : class$org$dsi$ifc$tmc$DSITmc).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSITmcProxy(this.instance, (DSITmcReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void requestTmcWindow(int n, int n2, int n3, int[] nArray, int n4) {
         try {
             this.proxy.requestTmcWindow(n, n2, n3, nArray, n4);
@@ -56,7 +51,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void setMessageFilter(int n, int n2) {
         try {
             this.proxy.setMessageFilter(n, n2);
@@ -66,7 +60,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void getMessageIdsForListElement(long l) {
         try {
             this.proxy.getMessageIdsForListElement(l);
@@ -76,7 +69,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void getBoundingRectangleForTrafficMessages(long[] lArray) {
         try {
             this.proxy.getBoundingRectangleForTrafficMessages(lArray);
@@ -86,7 +78,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void enableAreaWarnings(boolean bl) {
         try {
             this.proxy.enableAreaWarnings(bl);
@@ -96,7 +87,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void enableTrafficFlowStatistics(boolean bl) {
         try {
             this.proxy.enableTrafficFlowStatistics(bl);
@@ -106,7 +96,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -116,7 +105,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -126,7 +114,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -136,7 +123,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -146,7 +132,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -156,7 +141,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -166,7 +150,6 @@ implements DSITmc {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -6,25 +6,20 @@ package java.lang;
 public final class Integer
 extends Number
 implements Comparable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1360826667806852920L;
     final int value;
-    public static final int MAX_VALUE;
-    public static final int MIN_VALUE;
-    public static final Class TYPE;
-
-    static {
-        TYPE = super.getClass().getComponentType();
-    }
+    public static final int MAX_VALUE = 0x7FFFFFFF;
+    public static final int MIN_VALUE = -2147483648;
+    public static final Class TYPE = new int[0].getClass().getComponentType();
 
     public Integer(int n) {
         this.value = n;
     }
 
-    public Integer(String string) {
+    public Integer(String string) throws NumberFormatException {
         this(Integer.parseInt(string));
     }
 
-    @Override
     public byte byteValue() {
         return (byte)this.value;
     }
@@ -33,12 +28,11 @@ implements Comparable {
         return this.value > n.value ? 1 : (this.value < n.value ? -1 : 0);
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.compareTo((Integer)object);
     }
 
-    public static Integer decode(String string) {
+    public static Integer decode(String string) throws NumberFormatException {
         boolean bl;
         int n = string.length();
         int n2 = 0;
@@ -79,7 +73,6 @@ implements Comparable {
         return new Integer(n4);
     }
 
-    @Override
     public double doubleValue() {
         return this.value;
     }
@@ -88,7 +81,6 @@ implements Comparable {
         return object == this || object instanceof Integer && this.value == ((Integer)object).value;
     }
 
-    @Override
     public float floatValue() {
         return this.value;
     }
@@ -145,21 +137,19 @@ implements Comparable {
         return this.value;
     }
 
-    @Override
     public int intValue() {
         return this.value;
     }
 
-    @Override
     public long longValue() {
         return this.value;
     }
 
-    public static int parseInt(String string) {
+    public static int parseInt(String string) throws NumberFormatException {
         return Integer.parseInt(string, 10);
     }
 
-    public static int parseInt(String string, int n) {
+    public static int parseInt(String string, int n) throws NumberFormatException {
         boolean bl;
         if (string == null || n < 2 || n > 36) {
             throw new NumberFormatException();
@@ -176,8 +166,8 @@ implements Comparable {
         return Integer.parse(string, n3, n, bl);
     }
 
-    private static int parse(String string, int n, int n2, boolean bl) {
-        int n3 = 128 / n2;
+    private static int parse(String string, int n, int n2, boolean bl) throws NumberFormatException {
+        int n3 = Integer.MIN_VALUE / n2;
         int n4 = 0;
         int n5 = string.length();
         while (n < n5) {
@@ -200,7 +190,6 @@ implements Comparable {
         return n4;
     }
 
-    @Override
     public short shortValue() {
         return (short)this.value;
     }
@@ -331,11 +320,11 @@ lbl7:
         return new String(0, cArray.length, cArray);
     }
 
-    public static Integer valueOf(String string) {
+    public static Integer valueOf(String string) throws NumberFormatException {
         return new Integer(Integer.parseInt(string));
     }
 
-    public static Integer valueOf(String string, int n) {
+    public static Integer valueOf(String string, int n) throws NumberFormatException {
         return new Integer(Integer.parseInt(string, n));
     }
 }

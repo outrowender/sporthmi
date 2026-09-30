@@ -10,58 +10,40 @@ import de.esolutions.hmi.widgets.audi.base.eal.IWrappedTexture;
 import java.util.List;
 
 public interface IWrappedViewport {
-    default public IWrappedTexture enableOffscreen() {
-    }
+    public IWrappedTexture enableOffscreen();
 
-    default public IWrappedTexture enableOffscreen(int n, int n2) {
-    }
+    public IWrappedTexture enableOffscreen(int var1, int var2);
 
-    default public void disableOffscreen() {
-    }
+    public void disableOffscreen();
 
-    default public INode2DLink getLink() {
-    }
+    public INode2DLink getLink();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public INode3DScene getScene() {
-    }
+    public INode3DScene getScene();
 
-    default public int getWidth() {
-    }
+    public int getWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public void destroyTexture() {
-    }
+    public void destroyTexture();
 
-    default public IWrappedTexture getTexture() {
-    }
+    public IWrappedTexture getTexture();
 
-    default public boolean isAutomaticallyCreated() {
-    }
+    public boolean isAutomaticallyCreated();
 
-    default public int getLayerCount() {
-    }
+    public int getLayerCount();
 
-    default public void removeLayer(IWrappedLayer iWrappedLayer) {
-    }
+    public void removeLayer(IWrappedLayer var1);
 
-    default public void addLayer(IWrappedLayer iWrappedLayer) {
-    }
+    public void addLayer(IWrappedLayer var1);
 
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public List getLayers() {
-    }
+    public List getLayers();
 
-    default public void setForceInvisible(boolean bl) {
-    }
+    public void setForceInvisible(boolean var1);
 }
 

@@ -4,10 +4,8 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 
 public interface IInputLocker {
-    default public void setInputLock(boolean bl) {
-    }
+    public void setInputLock(boolean var1);
 
-    default public boolean isInputLocked() {
-    }
+    public boolean isInputLocked();
 }
 

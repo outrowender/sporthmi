@@ -3,16 +3,18 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SSEDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SSEDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2SSEDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SSEDiagServiceProxy$1;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2SSEDiagServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,14 +34,17 @@ MMX2SSEDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorSSE(sClientResponseError sClientResponseError2) {
-        MMX2SSEDiagServiceProxy$1 mMX2SSEDiagServiceProxy$1 = new MMX2SSEDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)2, mMX2SSEDiagServiceProxy$1);
+    public void responseErrorSSE(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void responseClippingCounterMic1(long l, long l2) {
+    public void responseClippingCounterMic1(long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);

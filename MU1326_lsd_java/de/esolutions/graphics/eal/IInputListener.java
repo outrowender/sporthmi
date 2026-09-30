@@ -60,7 +60,7 @@ public class IInputListener {
     }
 
     public void mouseEvent(ealMouseState_t ealMouseState_t2, int n, int n2) {
-        if (super.getClass() == (class$de$esolutions$graphics$eal$IInputListener == null ? (class$de$esolutions$graphics$eal$IInputListener = IInputListener.class$("de.esolutions.graphics.eal.IInputListener")) : class$de$esolutions$graphics$eal$IInputListener)) {
+        if (this.getClass() == (class$de$esolutions$graphics$eal$IInputListener == null ? (class$de$esolutions$graphics$eal$IInputListener = IInputListener.class$("de.esolutions.graphics.eal.IInputListener")) : class$de$esolutions$graphics$eal$IInputListener)) {
             ealswigJNI.eal_IInputListener_mouseEvent(this.swigCPtr, this, ealMouseState_t2.swigValue(), n, n2);
         } else {
             ealswigJNI.eal_IInputListener_mouseEventSwigExplicitIInputListener(this.swigCPtr, this, ealMouseState_t2.swigValue(), n, n2);

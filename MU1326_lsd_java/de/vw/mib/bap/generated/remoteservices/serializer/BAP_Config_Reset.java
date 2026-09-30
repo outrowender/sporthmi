@@ -9,17 +9,17 @@ import de.vw.mib.bap.stream.BitStream;
 public final class BAP_Config_Reset
 implements BAPEntity {
     public int bap_Version_major;
-    public static final int BAP_VERSION_MAJOR_MIN;
+    public static final int BAP_VERSION_MAJOR_MIN = 3;
     public int bap_Version_minor;
-    public static final int BAP_VERSION_MINOR_MIN;
+    public static final int BAP_VERSION_MINOR_MIN = 0;
     public int lsg_Class;
-    public static final int LSG_CLASS_MIN;
+    public static final int LSG_CLASS_MIN = 78;
     public int lsg_Sub_Class;
-    public static final int LSG_SUB_CLASS_MIN;
+    public static final int LSG_SUB_CLASS_MIN = 0;
     public int lsg_Version_major;
-    public static final int LSG_VERSION_MAJOR_MIN;
+    public static final int LSG_VERSION_MAJOR_MIN = 3;
     public int lsg_Version_minor;
-    public static final int LSG_VERSION_MINOR_MIN;
+    public static final int LSG_VERSION_MINOR_MIN = 1;
 
     public BAP_Config_Reset() {
         this.internalReset();
@@ -40,12 +40,10 @@ implements BAPEntity {
         this.lsg_Version_minor = 1;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         BAP_Config_Reset bAP_Config_Reset = (BAP_Config_Reset)bAPEntity;
         return this.bap_Version_major == bAP_Config_Reset.bap_Version_major && this.bap_Version_minor == bAP_Config_Reset.bap_Version_minor && this.lsg_Class == bAP_Config_Reset.lsg_Class && this.lsg_Sub_Class == bAP_Config_Reset.lsg_Sub_Class && this.lsg_Version_major == bAP_Config_Reset.lsg_Version_major && this.lsg_Version_minor == bAP_Config_Reset.lsg_Version_minor;
@@ -54,7 +52,6 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("BAP_Config_Reset");
@@ -67,12 +64,10 @@ implements BAPEntity {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.bap_Version_major);
         bitStream.pushByte((byte)this.bap_Version_minor);
@@ -82,7 +77,6 @@ implements BAPEntity {
         bitStream.pushByte((byte)this.lsg_Version_minor);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.bap_Version_major = bitStream.popFrontByte();
         this.bap_Version_minor = bitStream.popFrontByte();

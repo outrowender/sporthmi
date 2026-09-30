@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.navigation.impl.NavRmRouteListDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.NavRmRouteListArrayData;
 import org.dsi.ifc.navigation.NavRmRouteListData;
 
 public class NavRmRouteListArrayDataSerializer {
-    public static void putOptionalNavRmRouteListArrayData(ISerializer iSerializer, NavRmRouteListArrayData navRmRouteListArrayData) {
+    public static void putOptionalNavRmRouteListArrayData(ISerializer iSerializer, NavRmRouteListArrayData navRmRouteListArrayData) throws SerializerException {
         boolean bl = navRmRouteListArrayData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class NavRmRouteListArrayDataSerializer {
         }
     }
 
-    public static void putOptionalNavRmRouteListArrayDataVarArray(ISerializer iSerializer, NavRmRouteListArrayData[] navRmRouteListArrayDataArray) {
+    public static void putOptionalNavRmRouteListArrayDataVarArray(ISerializer iSerializer, NavRmRouteListArrayData[] navRmRouteListArrayDataArray) throws SerializerException {
         boolean bl = navRmRouteListArrayDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class NavRmRouteListArrayDataSerializer {
         }
     }
 
-    public static NavRmRouteListArrayData getOptionalNavRmRouteListArrayData(IDeserializer iDeserializer) {
+    public static NavRmRouteListArrayData getOptionalNavRmRouteListArrayData(IDeserializer iDeserializer) throws SerializerException {
         NavRmRouteListArrayData navRmRouteListArrayData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -49,7 +50,7 @@ public class NavRmRouteListArrayDataSerializer {
         return navRmRouteListArrayData;
     }
 
-    public static NavRmRouteListArrayData[] getOptionalNavRmRouteListArrayDataVarArray(IDeserializer iDeserializer) {
+    public static NavRmRouteListArrayData[] getOptionalNavRmRouteListArrayDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavRmRouteListArrayData[] navRmRouteListArrayDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.EAViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class EAViewOptionsSerializer {
-    public static void putOptionalEAViewOptions(ISerializer iSerializer, EAViewOptions eAViewOptions) {
+    public static void putOptionalEAViewOptions(ISerializer iSerializer, EAViewOptions eAViewOptions) throws SerializerException {
         boolean bl = eAViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class EAViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalEAViewOptionsVarArray(ISerializer iSerializer, EAViewOptions[] eAViewOptionsArray) {
+    public static void putOptionalEAViewOptionsVarArray(ISerializer iSerializer, EAViewOptions[] eAViewOptionsArray) throws SerializerException {
         boolean bl = eAViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class EAViewOptionsSerializer {
         }
     }
 
-    public static EAViewOptions getOptionalEAViewOptions(IDeserializer iDeserializer) {
+    public static EAViewOptions getOptionalEAViewOptions(IDeserializer iDeserializer) throws SerializerException {
         EAViewOptions eAViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class EAViewOptionsSerializer {
         return eAViewOptions;
     }
 
-    public static EAViewOptions[] getOptionalEAViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static EAViewOptions[] getOptionalEAViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         EAViewOptions[] eAViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

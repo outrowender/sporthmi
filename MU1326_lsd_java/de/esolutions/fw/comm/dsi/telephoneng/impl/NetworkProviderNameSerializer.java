@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.telephoneng.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.telephoneng.NetworkProviderName;
 
 public class NetworkProviderNameSerializer {
-    public static void putOptionalNetworkProviderName(ISerializer iSerializer, NetworkProviderName networkProviderName) {
+    public static void putOptionalNetworkProviderName(ISerializer iSerializer, NetworkProviderName networkProviderName) throws SerializerException {
         boolean bl = networkProviderName == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class NetworkProviderNameSerializer {
         }
     }
 
-    public static void putOptionalNetworkProviderNameVarArray(ISerializer iSerializer, NetworkProviderName[] networkProviderNameArray) {
+    public static void putOptionalNetworkProviderNameVarArray(ISerializer iSerializer, NetworkProviderName[] networkProviderNameArray) throws SerializerException {
         boolean bl = networkProviderNameArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class NetworkProviderNameSerializer {
         }
     }
 
-    public static NetworkProviderName getOptionalNetworkProviderName(IDeserializer iDeserializer) {
+    public static NetworkProviderName getOptionalNetworkProviderName(IDeserializer iDeserializer) throws SerializerException {
         NetworkProviderName networkProviderName = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class NetworkProviderNameSerializer {
         return networkProviderName;
     }
 
-    public static NetworkProviderName[] getOptionalNetworkProviderNameVarArray(IDeserializer iDeserializer) {
+    public static NetworkProviderName[] getOptionalNetworkProviderNameVarArray(IDeserializer iDeserializer) throws SerializerException {
         NetworkProviderName[] networkProviderNameArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridTargetRange;
 
 public class HybridTargetRangeSerializer {
-    public static void putOptionalHybridTargetRange(ISerializer iSerializer, HybridTargetRange hybridTargetRange) {
+    public static void putOptionalHybridTargetRange(ISerializer iSerializer, HybridTargetRange hybridTargetRange) throws SerializerException {
         boolean bl = hybridTargetRange == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class HybridTargetRangeSerializer {
         }
     }
 
-    public static void putOptionalHybridTargetRangeVarArray(ISerializer iSerializer, HybridTargetRange[] hybridTargetRangeArray) {
+    public static void putOptionalHybridTargetRangeVarArray(ISerializer iSerializer, HybridTargetRange[] hybridTargetRangeArray) throws SerializerException {
         boolean bl = hybridTargetRangeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class HybridTargetRangeSerializer {
         }
     }
 
-    public static HybridTargetRange getOptionalHybridTargetRange(IDeserializer iDeserializer) {
+    public static HybridTargetRange getOptionalHybridTargetRange(IDeserializer iDeserializer) throws SerializerException {
         HybridTargetRange hybridTargetRange = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class HybridTargetRangeSerializer {
         return hybridTargetRange;
     }
 
-    public static HybridTargetRange[] getOptionalHybridTargetRangeVarArray(IDeserializer iDeserializer) {
+    public static HybridTargetRange[] getOptionalHybridTargetRangeVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridTargetRange[] hybridTargetRangeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

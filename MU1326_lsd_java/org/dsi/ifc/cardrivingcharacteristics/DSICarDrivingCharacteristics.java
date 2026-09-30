@@ -11,457 +11,423 @@ import org.dsi.ifc.cardrivingcharacteristics.TADMaxMinAngleReset;
 
 public interface DSICarDrivingCharacteristics
 extends DSIBase {
-    public static final String VERSION;
-    public static final int ATTR_SUSPENSIONCONTROLVIEWOPTIONS;
-    public static final int ATTR_SUSPENSIONCONTROLLIFTMODE;
-    public static final int ATTR_SUSPENSIONCONTROLCARJACKMODE;
-    public static final int ATTR_SUSPENSIONCONTROLTRAILERMODE;
-    public static final int ATTR_SUSPENSIONCONTROLLOADINGMODE;
-    public static final int ATTR_SUSPENSIONCONTROLACTIVEPROFILE;
-    public static final int ATTR_SUSPENSIONCONTROLACCESSIBLEAIRPROFILES;
-    public static final int ATTR_SUSPENSIONCONTROLACCESSIBLEDRCPROFILES;
-    public static final int ATTR_SUSPENSIONCONTROLVEHICLESTATUS;
-    public static final int ATTR_SUSPENSIONCONTROLACTIVEMODE;
-    public static final int ATTR_EABCEASYENTRY;
-    public static final int ATTR_EABCPITCHCONTROL;
-    public static final int ATTR_EABCSPECIALPOSITION;
-    public static final int ATTR_EABCPREVIEW;
-    public static final int ATTR_EABCPREVIEWSTATE;
-    public static final int ATTR_SUSPENSIONCONTROLACTUATORINFO;
-    public static final int ATTR_CHARISMAVIEWOPTIONS;
-    public static final int ATTR_CHARISMAACTIVEPROFILE;
-    public static final int ATTR_CHARISMALISTUPDATEINFO;
-    public static final int ATTR_CHARISMACONTENT;
-    public static final int ATTR_CHARISMATRAILERDETECTION;
-    public static final int ATTR_CHARISMATRAILERSETTING;
-    public static final int ATTR_CHARISMAPROGBUTTON;
-    public static final int ATTR_CHARISMASOUND;
-    public static final int ATTR_TADVIEWOPTIONS;
-    public static final int ATTR_TADCONTENT;
-    public static final int ATTR_TADVEHICLEINFO;
-    public static final int ATTR_TADCURRENTROLLANGLE;
-    public static final int ATTR_TADCURRENTPITCHANGLE;
-    public static final int ATTR_TADPOSMAXROLLANGLE;
-    public static final int ATTR_TADNEGMAXROLLANGLE;
-    public static final int ATTR_TADPOSMAXPITCHANGLE;
-    public static final int ATTR_TADNEGMAXPITCHANGLE;
-    public static final int ATTR_CHARISMAACTIVEOPERATIONMODE;
-    public static final int ATTR_SUSPENSIONCONTROLCURRENTLEVEL;
-    public static final int ATTR_SUSPENSIONCONTROLTARGETLEVEL;
-    public static final int ATTR_SUSPENSIONCONTROLHEIGHTINFO;
-    public static final int ATTR_SUSPENSIONCONTROLOPERATIONMESSAGES;
-    public static final int ATTR_SPOILERVIEWOPTIONS;
-    public static final int ATTR_SPOILERPOSITIONSELECTION;
-    public static final int ATTR_SPOILERSTATE;
-    public static final int ATTR_SPOILERACTUATION;
-    public static final int ATTR_SPOILERMESSAGES;
-    public static final int ATTR_SPOILERSYSTEMONOFF;
-    public static final int ATTR_SUSPENSIONCONTROLSNOWCHAINMODE;
-    public static final int ATTR_SUSPENSIONCONTROLVEHICLESTATECONTROL;
-    public static final int ATTR_SOUNDVIEWOPTIONS;
-    public static final int ATTR_SOUNDSYSTEMONOFF;
-    public static final int ATTR_SOUNDONOFF;
-    public static final int ATTR_SOUNDSTYLE;
-    public static final int RT_SETSUSPENSIONCONTROLLIFTMODE;
-    public static final int RT_SETSUSPENSIONCONTROLCARJACKMODE;
-    public static final int RT_SETSUSPENSIONCONTROLTRAILERMODE;
-    public static final int RT_SETSUSPENSIONCONTROLLOADINGMODE;
-    public static final int RT_SETSUSPENSIONCONTROLACTIVEPROFILE;
-    public static final int RT_SETSUSPENSIONCONTROLACTIVEMODE;
-    public static final int RT_SETEABCEASYENTRY;
-    public static final int RT_SETEABCPITCHCONTROL;
-    public static final int RT_SETEABCSPECIALPOSITION;
-    public static final int RT_SETEABCPREVIEW;
-    public static final int RT_SETCHARISMAACTIVEPROFILE;
-    public static final int RT_REQUESTCHARISMAPROFILEFUNCTION;
-    public static final int RT_REQUESTCHARISMALIST;
-    public static final int RT_SHOWCHARISMAPOPUP;
-    public static final int RT_CANCELCHARISMAPOPUP;
-    public static final int RT_SETCHARISMATRAILERSETTING;
-    public static final int RT_SETCHARISMAPROGBUTTON;
-    public static final int RT_SETCHARISMASETFACTORYDEFAULT;
-    public static final int RT_SETCHARISMASOUND;
-    public static final int RT_SHOWTADPOPUP;
-    public static final int RT_CANCELTADPOPUP;
-    public static final int RT_SETTADSETFACTORYDEFAULT;
-    public static final int RT_SETTADMAXMINANGLERESET;
-    public static final int RT_SETCHARISMAACTIVEOPERATIONMODE;
-    public static final int RT_SETHMIISREADY;
-    public static final int RT_SETSPOILERSETFACTORYDEFAULT;
-    public static final int RT_SETSPOILERPOSITIONSELECTION;
-    public static final int RT_SETSPOILERACTUATION;
-    public static final int RT_SETSPOILERSYSTEMONOFF;
-    public static final int RT_SETSUSPENSIONCONTROLSNOWCHAINMODE;
-    public static final int RT_SETSOUNDSETFACTORYDEFAULT;
-    public static final int RT_SETSOUNDSYSTEMONOFF;
-    public static final int RT_SETSOUNDONOFF;
-    public static final int RT_SETSOUNDSTYLE;
-    public static final int RP_ACKNOWLEDGECHARISMAPOPUP;
-    public static final int RP_ACKNOWLEDGECHARISMASETFACTORYDEFAULT;
-    public static final int RP_ACKNOWLEDGETADMAXMINANGLERESET;
-    public static final int RP_ACKNOWLEDGETADPOPUP;
-    public static final int RP_ACKNOWLEDGETADSETFACTORYDEFAULT;
-    public static final int RP_ACKNOWLEDGESPOILERSETFACTORYDEFAULT;
-    public static final int RP_ACKNOWLEDGESOUNDSETFACTORYDEFAULT;
-    public static final int IN_REQUESTCHARISMAPOPUP;
-    public static final int IN_RESPONSECHARISMALISTWITHOPTIONMASK;
-    public static final int IN_RESPONSECHARISMALISTWITHOUTOPTIONMASK;
-    public static final int IN_REQUESTTADPOPUP;
-    public static final int SUSPENSIONDEVICETYPE_AIRSUSPENSION;
-    public static final int SUSPENSIONDEVICETYPE_DRC;
-    public static final int SUSPENSIONDEVICETYPE_EABC;
-    public static final int SUSPENSIONMODELTYPE_NORMAL;
-    public static final int SUSPENSIONMODELTYPE_SPORT;
-    public static final int SUSPENSIONMODELTYPE_SUV;
-    public static final int SUSPENSIONMODELTYPE_ALLROAD;
-    public static final int SUSPENSIONMODELTYPE_SPORT2;
-    public static final int SUSPENSIONMODELTYPE_SPORT3;
-    public static final int SUSPENSIONMODELTYPE_SHIELDED;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_NOOBSTACLE;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL1;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL2;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL3;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_INIT;
-    public static final int SUSPENSIONEABCOBSTACLELEVEL_ERROR;
-    public static final int SUSPENSIONEABCPREVIEWLEVEL_INACTIVE;
-    public static final int SUSPENSIONEABCPREVIEWLEVEL_LEVEL1;
-    public static final int SUSPENSIONEABCPREVIEWLEVEL_LEVEL2;
-    public static final int SUSPENSIONCONTROLPROFILE_NOPROFILE;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE01;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE02;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE03;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE04;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE05;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE06;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE07;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE08;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE09;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE10;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE11;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE12;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE13;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE14;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE15;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE16;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE17;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE18;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE19;
-    public static final int SUSPENSIONCONTROLPROFILE_PROFILE20;
-    public static final int SUSPENSIONCONTROLMODE_MODE0;
-    public static final int SUSPENSIONCONTROLMODE_MODE1;
-    public static final int SUSPENSIONCONTROLMODE_MODE2;
-    public static final int SUSPENSIONCONTROLMODE_MODE3;
-    public static final int SUSPENSIONCONTROLMODE_MODE4;
-    public static final int SUSPENSIONCONTROLMODE_MODE5;
-    public static final int SUSPENSIONCONTROLMODE_MODE6;
-    public static final int SUSPENSIONCONTROLMODE_MODE7;
-    public static final int SUSPENSIONCONTROLMODE_MODE8;
-    public static final int SUSPENSIONCONTROLMODE_MODE9;
-    public static final int SUSPENSIONCONTROLMODE_MODE10;
-    public static final int SUSPENSIONCONTROLMODE_MODE11;
-    public static final int SUSPENSIONCONTROLMODE_MODE12;
-    public static final int SUSPENSIONCONTROLMODE_MODE13;
-    public static final int SUSPENSIONCONTROLMODE_MODE14;
-    public static final int SUSPENSIONCONTROLMODE_MODE15;
-    public static final int SUSPENSIONCONTROLVEHICLESTATUS_INACTIVE;
-    public static final int SUSPENSIONCONTROLVEHICLESTATUS_SINK_VEHICLE;
-    public static final int SUSPENSIONCONTROLVEHICLESTATUS_LIFT_VEHICLE;
-    public static final int SUSPENSIONCONTROLVEHICLESTATUS_HOLD_LEVEL;
-    public static final int SUSPENSIONCONTROLLEVEL_NOLEVEL;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL1;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL2;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL3;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL4;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL5;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL6;
-    public static final int SUSPENSIONCONTROLLEVEL_LEVEL7;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_NONEGCONFIRMATION;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_VELOCITYTOOHIGH;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_SYSTEMNOTAVAILABLE;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_ADJUSTMENTNOTPOSSIBLE;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_ADJUSTMENTNOTALLOWED;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_REARAXLEADJUSTMENTNOTALLOWED;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_INCORRECT_RIDE_HEIGHT;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_INCORRECT_DRIVESELECT_MODE;
-    public static final int SUSPENSIONCONTROLFAILUREREASON_VELOCITY_TO_HIGH;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_NOCONFIRMATION;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION1;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION2;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION3;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION4;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION5;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION6;
-    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION7;
-    public static final int SUSPENSIONCONTROLATTAINMENT_NOATTAINMENT;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION1;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION2;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION3;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION4;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION5;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION6;
-    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION7;
-    public static final int SUSPENSIONCONTROLREGULATION_NOREGULATION;
-    public static final int SUSPENSIONCONTROLREGULATION_ACTIVE;
-    public static final int SUSPENSIONCONTROLREGULATION_INACTIVE;
-    public static final int CHARISMAPROFILES_COMFORT;
-    public static final int CHARISMAPROFILES_AUTO_NORMAL;
-    public static final int CHARISMAPROFILES_DYNAMIC;
-    public static final int CHARISMAPROFILES_OFFROAD_ALLROAD;
-    public static final int CHARISMAPROFILES_EFFICIENCY;
-    public static final int CHARISMAPROFILES_SPORT_RACE;
-    public static final int CHARISMAPROFILES_INDIVIDUAL;
-    public static final int CHARISMAPROFILES_RANGE;
-    public static final int CHARISMAPROFILES_LIFT;
-    public static final int CHARISMAPROFILES_OFFROADLEVEL2;
-    public static final int CHARISMAPROFILES_OFFROADLEVEL3;
-    public static final int CHARISMAPROFILES_OFFROADLEVEL4;
-    public static final int CHARISMAPROFILES_NOPROFILE_INIT;
-    public static final int CHARISMAFUNCTIONS_ENGINEPOWER;
-    public static final int CHARISMAFUNCTIONS_ENGINESTARTSTOP;
-    public static final int CHARISMAFUNCTIONS_GEARBOXDRIVINGPOSITION;
-    public static final int CHARISMAFUNCTIONS_REARAXLEDIFFERENTIAL;
-    public static final int CHARISMAFUNCTIONS_POWERSTEERINGASSIST;
-    public static final int CHARISMAFUNCTIONS_SUPERPOSITIONSTEERING;
-    public static final int CHARISMAFUNCTIONS_DAMPER;
-    public static final int CHARISMAFUNCTIONS_CLIMATECONTROL;
-    public static final int CHARISMAFUNCTIONS_ADAPTIVECRUISECONTROL;
-    public static final int CHARISMAFUNCTIONS_SOUNDACTUATOR;
-    public static final int CHARISMAFUNCTIONS_STEERABLEBEAM;
-    public static final int CHARISMAFUNCTIONS_INTERIORLIGHT;
-    public static final int CHARISMAFUNCTIONS_AIRSUSPENSION;
-    public static final int CHARISMAFUNCTIONS_PRETENSIONER;
-    public static final int CHARISMAFUNCTIONS_SEATSIDEBOLSTERADJUSTMENT;
-    public static final int CHARISMAFUNCTIONS_NAVIGATION1;
-    public static final int CHARISMAFUNCTIONS_NAVIGATION2;
-    public static final int CHARISMAFUNCTIONS_FREEROLLING;
-    public static final int CHARISMAFUNCTIONS_ECOLIVETIPS;
-    public static final int CHARISMAFUNCTIONS_ACTIVEEXHAUSTSYSTEMSOUNDCONTROL;
-    public static final int CHARISMAFUNCTIONS_FRONTAXLEDIFFERENTIAL;
-    public static final int CHARISMAFUNCTIONS_CENTREDIFFERENTIAL;
-    public static final int CHARISMAFUNCTIONS_CENTREANDREARAXLEDIFFERENTIAL;
-    public static final int CHARISMAFUNCTIONS_ELECTRICTORQUEVECTORING;
-    public static final int CHARISMAFUNCTIONS_ANTISLIPCONTROL;
-    public static final int CHARISMAFUNCTIONS_MATRIXBEAM;
-    public static final int CHARISMAFUNCTIONS_REARSPOILER;
-    public static final int CHARISMAFUNCTIONS_BRAKECONTROLSYSTEM;
-    public static final int CHARISMAFUNCTIONS_REARAXLESTEERINGSYSTEM;
-    public static final int CHARISMAFUNCTIONS_ACTIVEANTIROLLBAR;
-    public static final int CHARISMAFUNCTIONS_CURVEASSIST;
-    public static final int CHARISMAFUNCTIONS_HYBRIDCOMPONENTS;
-    public static final int CHARISMAFUNCTIONS_DRIVETRAIN;
-    public static final int CHARISMAFUNCTIONS_CHASSIS;
-    public static final int CHARISMAFUNCTIONS_EXHAUSTFLAP;
-    public static final int CHARISMAFUNCTIONS_SOUNDCOMPONENTS;
-    public static final int CHARISMAFUNCTIONS_PASSENGERCABIN;
-    public static final int CHARISMAFUNCTIONS_DRIVESEAT;
-    public static final int CHARISMAFUNCTIONS_TIREPRESSUREMONITORING;
-    public static final int CHARISMAFUNCTIONS_LANEASSIST;
-    public static final int CHARISMAFUNCTIONS_DYNENGINEMOUNT;
-    public static final int CHARISMAFUNCTIONS_MAGNETICRIDE;
-    public static final int CHARISMAFUNCTIONS_SWITCHABLEDAMPER;
-    public static final int CHARISMAFUNCTIONS_HILLSTEPDOWNASSIST;
-    public static final int CHARISMAFUNCTIONS_DRIVERASSIST_1;
-    public static final int CHARISMAFUNCTIONS_DRIVERASSIST_2;
-    public static final int CHARISMAFUNCTIONS_DISPLAYSETUP_1;
-    public static final int CHARISMAFUNCTIONS_DISPLAYSETUP_2;
-    public static final int CHARISMAFUNCTIONS_ENERGODISPLAYSETUP;
-    public static final int CHARISMAFUNCTIONS_ENERGO_ACC;
-    public static final int CHARISMAFUNCTIONS_ESOUND;
-    public static final int CHARISMAFUNCTIONS_EABC;
-    public static final int CHARISMAFUNCTIONS_DRIVEMODE;
-    public static final int CHARISMAFUNCTIONS_EBKV;
-    public static final int CHARISMAFUNCTIONS_DRIVEMODE2;
-    public static final int CHARISMAFUNCTIONS_DRIVEMODE3;
-    public static final int CHARISMAFUNCTIONS_NONE;
-    public static final int CHARISMASETTINGS_STEP1;
-    public static final int CHARISMASETTINGS_STEP2;
-    public static final int CHARISMASETTINGS_STEP3;
-    public static final int CHARISMASETTINGS_STEP4;
-    public static final int CHARISMASETTINGS_STEP5;
-    public static final int CHARISMASETTINGS_STEP6;
-    public static final int CHARISMASETTINGS_STEP7;
-    public static final int CHARISMASETTINGS_STEP8;
-    public static final int CHARISMASETTINGS_STEP9;
-    public static final int CHARISMASETTINGS_STEP10;
-    public static final int CHARISMASETTINGS_STEP11;
-    public static final int CHARISMASETTINGS_STEP12;
-    public static final int CHARISMASETTINGS_STEP13;
-    public static final int CHARISMASETTINGS_STEP14;
-    public static final int CHARISMASETTINGS_STEP15;
-    public static final int CHARISMASETTINGS_STEP16;
-    public static final int CHARISMAMASK_STEP1;
-    public static final int CHARISMAMASK_STEP2;
-    public static final int CHARISMAMASK_STEP3;
-    public static final int CHARISMAMASK_STEP4;
-    public static final int CHARISMAMASK_STEP5;
-    public static final int CHARISMAMASK_STEP6;
-    public static final int CHARISMAMASK_STEP7;
-    public static final int CHARISMAMASK_STEP8;
-    public static final int CHARISMAMASK_STEP9;
-    public static final int CHARISMAMASK_STEP10;
-    public static final int CHARISMAMASK_STEP11;
-    public static final int CHARISMAMASK_STEP12;
-    public static final int CHARISMAMASK_STEP13;
-    public static final int CHARISMAMASK_STEP14;
-    public static final int CHARISMAMASK_STEP15;
-    public static final int CHARISMAMASK_STEP16;
-    public static final int CHARISMAARRAYCONTENT_NONE;
-    public static final int CHARISMAARRAYCONTENT_ALL;
-    public static final int CHARISMAARRAYCONTENT_ONLY_CHANGES;
-    public static final int CHARISMARECORDCONTENT_NONE;
-    public static final int CHARISMARECORDCONTENT_WITHOPTIONMASK;
-    public static final int CHARISMARECORDCONTENT_WITHOUTOPTIONMASK;
-    public static final int CHARISMACONTENT_NONE;
-    public static final int CHARISMACONTENT_PROFILEDCC;
-    public static final int CHARISMACONTENT_PROFILE;
-    public static final int CHARISMACONTENT_DCC;
-    public static final int CHARISMACONTENT_AIRSUSPENSION;
-    public static final int CHARISMACONTENT_HYBRID;
-    public static final int CHARISMACONTENT_OFFROAD;
-    public static final int CHARISMASYSTEMTYPE_FPA;
-    public static final int CHARISMASYSTEMTYPE_FREEWHEEL;
-    public static final int CHARISMASYSTEMTYPE_DCC;
-    public static final int CHARISMAOPERATIONMODE_EVMODE;
-    public static final int CHARISMAOPERATIONMODE_HYBRIDMODE;
-    public static final int CHARISMAOPERATIONMODE_SUSTAININGMODE;
-    public static final int CHARISMAOPERATIONMODE_CHARGINGMODE;
-    public static final int CHARISMAOPERATIONMODE_SOCCONTROLMODE;
-    public static final int CHARISMAOPERATIONMODE_HYBRIDSPORTMODE;
-    public static final int CHARISMAOPERATIONMODE_NOMODE_INIT;
-    public static final int TADCONTENT_NONE;
-    public static final int TADCONTENT_ROLLPITCHANGLE;
-    public static final int SPOILERPOSITION_POSITION0;
-    public static final int SPOILERPOSITION_POSITION1;
-    public static final int SPOILERPOSITION_POSITION2;
-    public static final int SPOILERPOSITION_POSITION3;
-    public static final int SPOILERPOSITION_POSITION4;
-    public static final int SPOILERPOSITION_POSITION5;
-    public static final int SPOILERSTATE_SPOILERRETRACTED;
-    public static final int SPOILERSTATE_SPOILEREXTENDED;
-    public static final int SPOILERSTATE_ERRORDIAGNOSTIC;
-    public static final int SPOILERSTATE_SPOILERMOVING;
-    public static final int SPOILERMESSAGES_NOMESSAGE;
-    public static final int SPOILERMESSAGES_SPOILEREXTENDING;
-    public static final int SPOILERMESSAGES_SPOILEREXTENDINGHOLDBUTTON;
-    public static final int SPOILERMESSAGES_SPOIERRETRACTING;
-    public static final int SPOILERMESSAGES_SPOILERRETRACTINGHOLDBUTTON;
-    public static final int SPOILERMESSAGES_SPOILEREXTENDED;
-    public static final int SPOILERMESSAGES_SPOILERRETRACTED;
-    public static final int SPOILERMESSAGES_EXTENDINGSPOILERNOTPOSSIBLE;
-    public static final int SPOILERMESSAGES_RETRACTINGSPOILERNOTPOSSIBLE;
-    public static final int SPOILERMESSAGES_SPOILERNOTAVAILABLE;
-    public static final int SPOILERMESSAGES_THERMALPROTECTION;
-    public static final int SPOILERMESSAGES_PROTECTIONAGAINSTMISUSE;
-    public static final int SPOILERMESSAGES_INTERMEDIATEPOSITION;
-    public static final int SOUNDSTYLE_STYLE1;
-    public static final int SOUNDSTYLE_STYLE2;
-    public static final int SOUNDSTYLE_STYLE3;
-    public static final int SOUNDSTYLE_STYLE4;
-    public static final int SOUNDSTYLE_STYLE5;
-    public static final int SOUNDSTYLE_STYLE6;
-    public static final int SOUNDSTYLE_STYLE7;
-    public static final int SOUNDSTYLE_STYLE8;
+    public static final String VERSION = "2.11.21";
+    public static final int ATTR_SUSPENSIONCONTROLVIEWOPTIONS = 1;
+    public static final int ATTR_SUSPENSIONCONTROLLIFTMODE = 2;
+    public static final int ATTR_SUSPENSIONCONTROLCARJACKMODE = 3;
+    public static final int ATTR_SUSPENSIONCONTROLTRAILERMODE = 4;
+    public static final int ATTR_SUSPENSIONCONTROLLOADINGMODE = 5;
+    public static final int ATTR_SUSPENSIONCONTROLACTIVEPROFILE = 6;
+    public static final int ATTR_SUSPENSIONCONTROLACCESSIBLEAIRPROFILES = 7;
+    public static final int ATTR_SUSPENSIONCONTROLACCESSIBLEDRCPROFILES = 8;
+    public static final int ATTR_SUSPENSIONCONTROLVEHICLESTATUS = 9;
+    public static final int ATTR_SUSPENSIONCONTROLACTIVEMODE = 46;
+    public static final int ATTR_EABCEASYENTRY = 47;
+    public static final int ATTR_EABCPITCHCONTROL = 48;
+    public static final int ATTR_EABCSPECIALPOSITION = 49;
+    public static final int ATTR_EABCPREVIEW = 50;
+    public static final int ATTR_EABCPREVIEWSTATE = 51;
+    public static final int ATTR_SUSPENSIONCONTROLACTUATORINFO = 52;
+    public static final int ATTR_CHARISMAVIEWOPTIONS = 12;
+    public static final int ATTR_CHARISMAACTIVEPROFILE = 13;
+    public static final int ATTR_CHARISMALISTUPDATEINFO = 14;
+    public static final int ATTR_CHARISMACONTENT = 15;
+    public static final int ATTR_CHARISMATRAILERDETECTION = 16;
+    public static final int ATTR_CHARISMATRAILERSETTING = 17;
+    public static final int ATTR_CHARISMAPROGBUTTON = 18;
+    public static final int ATTR_CHARISMASOUND = 45;
+    public static final int ATTR_TADVIEWOPTIONS = 19;
+    public static final int ATTR_TADCONTENT = 20;
+    public static final int ATTR_TADVEHICLEINFO = 21;
+    public static final int ATTR_TADCURRENTROLLANGLE = 22;
+    public static final int ATTR_TADCURRENTPITCHANGLE = 23;
+    public static final int ATTR_TADPOSMAXROLLANGLE = 24;
+    public static final int ATTR_TADNEGMAXROLLANGLE = 25;
+    public static final int ATTR_TADPOSMAXPITCHANGLE = 26;
+    public static final int ATTR_TADNEGMAXPITCHANGLE = 27;
+    public static final int ATTR_CHARISMAACTIVEOPERATIONMODE = 28;
+    public static final int ATTR_SUSPENSIONCONTROLCURRENTLEVEL = 29;
+    public static final int ATTR_SUSPENSIONCONTROLTARGETLEVEL = 30;
+    public static final int ATTR_SUSPENSIONCONTROLHEIGHTINFO = 31;
+    public static final int ATTR_SUSPENSIONCONTROLOPERATIONMESSAGES = 32;
+    public static final int ATTR_SPOILERVIEWOPTIONS = 33;
+    public static final int ATTR_SPOILERPOSITIONSELECTION = 34;
+    public static final int ATTR_SPOILERSTATE = 35;
+    public static final int ATTR_SPOILERACTUATION = 36;
+    public static final int ATTR_SPOILERMESSAGES = 37;
+    public static final int ATTR_SPOILERSYSTEMONOFF = 38;
+    public static final int ATTR_SUSPENSIONCONTROLSNOWCHAINMODE = 39;
+    public static final int ATTR_SUSPENSIONCONTROLVEHICLESTATECONTROL = 40;
+    public static final int ATTR_SOUNDVIEWOPTIONS = 41;
+    public static final int ATTR_SOUNDSYSTEMONOFF = 42;
+    public static final int ATTR_SOUNDONOFF = 43;
+    public static final int ATTR_SOUNDSTYLE = 44;
+    public static final int RT_SETSUSPENSIONCONTROLLIFTMODE = 1000;
+    public static final int RT_SETSUSPENSIONCONTROLCARJACKMODE = 1001;
+    public static final int RT_SETSUSPENSIONCONTROLTRAILERMODE = 1002;
+    public static final int RT_SETSUSPENSIONCONTROLLOADINGMODE = 1003;
+    public static final int RT_SETSUSPENSIONCONTROLACTIVEPROFILE = 1004;
+    public static final int RT_SETSUSPENSIONCONTROLACTIVEMODE = 1030;
+    public static final int RT_SETEABCEASYENTRY = 1031;
+    public static final int RT_SETEABCPITCHCONTROL = 1032;
+    public static final int RT_SETEABCSPECIALPOSITION = 1033;
+    public static final int RT_SETEABCPREVIEW = 1034;
+    public static final int RT_SETCHARISMAACTIVEPROFILE = 1005;
+    public static final int RT_REQUESTCHARISMAPROFILEFUNCTION = 1006;
+    public static final int RT_REQUESTCHARISMALIST = 1007;
+    public static final int RT_SHOWCHARISMAPOPUP = 1008;
+    public static final int RT_CANCELCHARISMAPOPUP = 1009;
+    public static final int RT_SETCHARISMATRAILERSETTING = 1010;
+    public static final int RT_SETCHARISMAPROGBUTTON = 1011;
+    public static final int RT_SETCHARISMASETFACTORYDEFAULT = 1013;
+    public static final int RT_SETCHARISMASOUND = 1029;
+    public static final int RT_SHOWTADPOPUP = 1014;
+    public static final int RT_CANCELTADPOPUP = 1015;
+    public static final int RT_SETTADSETFACTORYDEFAULT = 1016;
+    public static final int RT_SETTADMAXMINANGLERESET = 1017;
+    public static final int RT_SETCHARISMAACTIVEOPERATIONMODE = 1018;
+    public static final int RT_SETHMIISREADY = 1019;
+    public static final int RT_SETSPOILERSETFACTORYDEFAULT = 1020;
+    public static final int RT_SETSPOILERPOSITIONSELECTION = 1021;
+    public static final int RT_SETSPOILERACTUATION = 1022;
+    public static final int RT_SETSPOILERSYSTEMONOFF = 1023;
+    public static final int RT_SETSUSPENSIONCONTROLSNOWCHAINMODE = 1024;
+    public static final int RT_SETSOUNDSETFACTORYDEFAULT = 1025;
+    public static final int RT_SETSOUNDSYSTEMONOFF = 1026;
+    public static final int RT_SETSOUNDONOFF = 1027;
+    public static final int RT_SETSOUNDSTYLE = 1028;
+    public static final int RP_ACKNOWLEDGECHARISMAPOPUP = 2003;
+    public static final int RP_ACKNOWLEDGECHARISMASETFACTORYDEFAULT = 2005;
+    public static final int RP_ACKNOWLEDGETADMAXMINANGLERESET = 2006;
+    public static final int RP_ACKNOWLEDGETADPOPUP = 2007;
+    public static final int RP_ACKNOWLEDGETADSETFACTORYDEFAULT = 2008;
+    public static final int RP_ACKNOWLEDGESPOILERSETFACTORYDEFAULT = 2009;
+    public static final int RP_ACKNOWLEDGESOUNDSETFACTORYDEFAULT = 2010;
+    public static final int IN_REQUESTCHARISMAPOPUP = 3000;
+    public static final int IN_RESPONSECHARISMALISTWITHOPTIONMASK = 3001;
+    public static final int IN_RESPONSECHARISMALISTWITHOUTOPTIONMASK = 3002;
+    public static final int IN_REQUESTTADPOPUP = 3003;
+    public static final int SUSPENSIONDEVICETYPE_AIRSUSPENSION = 0;
+    public static final int SUSPENSIONDEVICETYPE_DRC = 1;
+    public static final int SUSPENSIONDEVICETYPE_EABC = 2;
+    public static final int SUSPENSIONMODELTYPE_NORMAL = 0;
+    public static final int SUSPENSIONMODELTYPE_SPORT = 1;
+    public static final int SUSPENSIONMODELTYPE_SUV = 2;
+    public static final int SUSPENSIONMODELTYPE_ALLROAD = 3;
+    public static final int SUSPENSIONMODELTYPE_SPORT2 = 4;
+    public static final int SUSPENSIONMODELTYPE_SPORT3 = 5;
+    public static final int SUSPENSIONMODELTYPE_SHIELDED = 6;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_NOOBSTACLE = 0;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL1 = 1;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL2 = 2;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_LEVEL3 = 3;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_INIT = 254;
+    public static final int SUSPENSIONEABCOBSTACLELEVEL_ERROR = 255;
+    public static final int SUSPENSIONEABCPREVIEWLEVEL_INACTIVE = 0;
+    public static final int SUSPENSIONEABCPREVIEWLEVEL_LEVEL1 = 1;
+    public static final int SUSPENSIONEABCPREVIEWLEVEL_LEVEL2 = 2;
+    public static final int SUSPENSIONCONTROLPROFILE_NOPROFILE = 0;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE01 = 1;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE02 = 2;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE03 = 3;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE04 = 4;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE05 = 5;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE06 = 6;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE07 = 7;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE08 = 8;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE09 = 9;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE10 = 10;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE11 = 11;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE12 = 12;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE13 = 13;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE14 = 14;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE15 = 15;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE16 = 16;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE17 = 17;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE18 = 18;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE19 = 19;
+    public static final int SUSPENSIONCONTROLPROFILE_PROFILE20 = 20;
+    public static final int SUSPENSIONCONTROLMODE_MODE0 = 0;
+    public static final int SUSPENSIONCONTROLMODE_MODE1 = 1;
+    public static final int SUSPENSIONCONTROLMODE_MODE2 = 2;
+    public static final int SUSPENSIONCONTROLMODE_MODE3 = 3;
+    public static final int SUSPENSIONCONTROLMODE_MODE4 = 4;
+    public static final int SUSPENSIONCONTROLMODE_MODE5 = 5;
+    public static final int SUSPENSIONCONTROLMODE_MODE6 = 6;
+    public static final int SUSPENSIONCONTROLMODE_MODE7 = 7;
+    public static final int SUSPENSIONCONTROLMODE_MODE8 = 8;
+    public static final int SUSPENSIONCONTROLMODE_MODE9 = 9;
+    public static final int SUSPENSIONCONTROLMODE_MODE10 = 10;
+    public static final int SUSPENSIONCONTROLMODE_MODE11 = 11;
+    public static final int SUSPENSIONCONTROLMODE_MODE12 = 12;
+    public static final int SUSPENSIONCONTROLMODE_MODE13 = 13;
+    public static final int SUSPENSIONCONTROLMODE_MODE14 = 14;
+    public static final int SUSPENSIONCONTROLMODE_MODE15 = 15;
+    public static final int SUSPENSIONCONTROLVEHICLESTATUS_INACTIVE = 0;
+    public static final int SUSPENSIONCONTROLVEHICLESTATUS_SINK_VEHICLE = 1;
+    public static final int SUSPENSIONCONTROLVEHICLESTATUS_LIFT_VEHICLE = 2;
+    public static final int SUSPENSIONCONTROLVEHICLESTATUS_HOLD_LEVEL = 3;
+    public static final int SUSPENSIONCONTROLLEVEL_NOLEVEL = 0;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL1 = 1;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL2 = 2;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL3 = 3;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL4 = 4;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL5 = 5;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL6 = 6;
+    public static final int SUSPENSIONCONTROLLEVEL_LEVEL7 = 7;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_NONEGCONFIRMATION = 0;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_VELOCITYTOOHIGH = 1;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_SYSTEMNOTAVAILABLE = 2;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_ADJUSTMENTNOTPOSSIBLE = 3;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_ADJUSTMENTNOTALLOWED = 4;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_REARAXLEADJUSTMENTNOTALLOWED = 5;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_INCORRECT_RIDE_HEIGHT = 6;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_INCORRECT_DRIVESELECT_MODE = 7;
+    public static final int SUSPENSIONCONTROLFAILUREREASON_VELOCITY_TO_HIGH = 8;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_NOCONFIRMATION = 0;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION1 = 1;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION2 = 2;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION3 = 3;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION4 = 4;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION5 = 5;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION6 = 6;
+    public static final int SUSPENSIONCONTROLCONFIRMATION_CONFIRMATION7 = 7;
+    public static final int SUSPENSIONCONTROLATTAINMENT_NOATTAINMENT = 0;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION1 = 1;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION2 = 2;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION3 = 3;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION4 = 4;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION5 = 5;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION6 = 6;
+    public static final int SUSPENSIONCONTROLATTAINMENT_SELECTION7 = 7;
+    public static final int SUSPENSIONCONTROLREGULATION_NOREGULATION = 0;
+    public static final int SUSPENSIONCONTROLREGULATION_ACTIVE = 1;
+    public static final int SUSPENSIONCONTROLREGULATION_INACTIVE = 2;
+    public static final int CHARISMAPROFILES_COMFORT = 1;
+    public static final int CHARISMAPROFILES_AUTO_NORMAL = 2;
+    public static final int CHARISMAPROFILES_DYNAMIC = 3;
+    public static final int CHARISMAPROFILES_OFFROAD_ALLROAD = 4;
+    public static final int CHARISMAPROFILES_EFFICIENCY = 5;
+    public static final int CHARISMAPROFILES_SPORT_RACE = 6;
+    public static final int CHARISMAPROFILES_INDIVIDUAL = 7;
+    public static final int CHARISMAPROFILES_RANGE = 8;
+    public static final int CHARISMAPROFILES_LIFT = 9;
+    public static final int CHARISMAPROFILES_OFFROADLEVEL2 = 10;
+    public static final int CHARISMAPROFILES_OFFROADLEVEL3 = 11;
+    public static final int CHARISMAPROFILES_OFFROADLEVEL4 = 12;
+    public static final int CHARISMAPROFILES_NOPROFILE_INIT = 255;
+    public static final int CHARISMAFUNCTIONS_ENGINEPOWER = 1;
+    public static final int CHARISMAFUNCTIONS_ENGINESTARTSTOP = 2;
+    public static final int CHARISMAFUNCTIONS_GEARBOXDRIVINGPOSITION = 3;
+    public static final int CHARISMAFUNCTIONS_REARAXLEDIFFERENTIAL = 4;
+    public static final int CHARISMAFUNCTIONS_POWERSTEERINGASSIST = 5;
+    public static final int CHARISMAFUNCTIONS_SUPERPOSITIONSTEERING = 6;
+    public static final int CHARISMAFUNCTIONS_DAMPER = 7;
+    public static final int CHARISMAFUNCTIONS_CLIMATECONTROL = 8;
+    public static final int CHARISMAFUNCTIONS_ADAPTIVECRUISECONTROL = 9;
+    public static final int CHARISMAFUNCTIONS_SOUNDACTUATOR = 10;
+    public static final int CHARISMAFUNCTIONS_STEERABLEBEAM = 11;
+    public static final int CHARISMAFUNCTIONS_INTERIORLIGHT = 12;
+    public static final int CHARISMAFUNCTIONS_AIRSUSPENSION = 13;
+    public static final int CHARISMAFUNCTIONS_PRETENSIONER = 14;
+    public static final int CHARISMAFUNCTIONS_SEATSIDEBOLSTERADJUSTMENT = 15;
+    public static final int CHARISMAFUNCTIONS_NAVIGATION1 = 16;
+    public static final int CHARISMAFUNCTIONS_NAVIGATION2 = 17;
+    public static final int CHARISMAFUNCTIONS_FREEROLLING = 18;
+    public static final int CHARISMAFUNCTIONS_ECOLIVETIPS = 19;
+    public static final int CHARISMAFUNCTIONS_ACTIVEEXHAUSTSYSTEMSOUNDCONTROL = 20;
+    public static final int CHARISMAFUNCTIONS_FRONTAXLEDIFFERENTIAL = 21;
+    public static final int CHARISMAFUNCTIONS_CENTREDIFFERENTIAL = 22;
+    public static final int CHARISMAFUNCTIONS_CENTREANDREARAXLEDIFFERENTIAL = 23;
+    public static final int CHARISMAFUNCTIONS_ELECTRICTORQUEVECTORING = 24;
+    public static final int CHARISMAFUNCTIONS_ANTISLIPCONTROL = 25;
+    public static final int CHARISMAFUNCTIONS_MATRIXBEAM = 26;
+    public static final int CHARISMAFUNCTIONS_REARSPOILER = 27;
+    public static final int CHARISMAFUNCTIONS_BRAKECONTROLSYSTEM = 28;
+    public static final int CHARISMAFUNCTIONS_REARAXLESTEERINGSYSTEM = 29;
+    public static final int CHARISMAFUNCTIONS_ACTIVEANTIROLLBAR = 30;
+    public static final int CHARISMAFUNCTIONS_CURVEASSIST = 31;
+    public static final int CHARISMAFUNCTIONS_HYBRIDCOMPONENTS = 32;
+    public static final int CHARISMAFUNCTIONS_DRIVETRAIN = 33;
+    public static final int CHARISMAFUNCTIONS_CHASSIS = 34;
+    public static final int CHARISMAFUNCTIONS_EXHAUSTFLAP = 35;
+    public static final int CHARISMAFUNCTIONS_SOUNDCOMPONENTS = 36;
+    public static final int CHARISMAFUNCTIONS_PASSENGERCABIN = 37;
+    public static final int CHARISMAFUNCTIONS_DRIVESEAT = 38;
+    public static final int CHARISMAFUNCTIONS_TIREPRESSUREMONITORING = 39;
+    public static final int CHARISMAFUNCTIONS_LANEASSIST = 40;
+    public static final int CHARISMAFUNCTIONS_DYNENGINEMOUNT = 41;
+    public static final int CHARISMAFUNCTIONS_MAGNETICRIDE = 42;
+    public static final int CHARISMAFUNCTIONS_SWITCHABLEDAMPER = 43;
+    public static final int CHARISMAFUNCTIONS_HILLSTEPDOWNASSIST = 44;
+    public static final int CHARISMAFUNCTIONS_DRIVERASSIST_1 = 45;
+    public static final int CHARISMAFUNCTIONS_DRIVERASSIST_2 = 46;
+    public static final int CHARISMAFUNCTIONS_DISPLAYSETUP_1 = 47;
+    public static final int CHARISMAFUNCTIONS_DISPLAYSETUP_2 = 48;
+    public static final int CHARISMAFUNCTIONS_ENERGODISPLAYSETUP = 49;
+    public static final int CHARISMAFUNCTIONS_ENERGO_ACC = 50;
+    public static final int CHARISMAFUNCTIONS_ESOUND = 51;
+    public static final int CHARISMAFUNCTIONS_EABC = 52;
+    public static final int CHARISMAFUNCTIONS_DRIVEMODE = 53;
+    public static final int CHARISMAFUNCTIONS_EBKV = 54;
+    public static final int CHARISMAFUNCTIONS_DRIVEMODE2 = 55;
+    public static final int CHARISMAFUNCTIONS_DRIVEMODE3 = 56;
+    public static final int CHARISMAFUNCTIONS_NONE = 255;
+    public static final int CHARISMASETTINGS_STEP1 = 1;
+    public static final int CHARISMASETTINGS_STEP2 = 2;
+    public static final int CHARISMASETTINGS_STEP3 = 3;
+    public static final int CHARISMASETTINGS_STEP4 = 4;
+    public static final int CHARISMASETTINGS_STEP5 = 5;
+    public static final int CHARISMASETTINGS_STEP6 = 6;
+    public static final int CHARISMASETTINGS_STEP7 = 7;
+    public static final int CHARISMASETTINGS_STEP8 = 8;
+    public static final int CHARISMASETTINGS_STEP9 = 9;
+    public static final int CHARISMASETTINGS_STEP10 = 10;
+    public static final int CHARISMASETTINGS_STEP11 = 11;
+    public static final int CHARISMASETTINGS_STEP12 = 12;
+    public static final int CHARISMASETTINGS_STEP13 = 13;
+    public static final int CHARISMASETTINGS_STEP14 = 14;
+    public static final int CHARISMASETTINGS_STEP15 = 15;
+    public static final int CHARISMASETTINGS_STEP16 = 16;
+    public static final int CHARISMAMASK_STEP1 = 2;
+    public static final int CHARISMAMASK_STEP2 = 4;
+    public static final int CHARISMAMASK_STEP3 = 8;
+    public static final int CHARISMAMASK_STEP4 = 16;
+    public static final int CHARISMAMASK_STEP5 = 32;
+    public static final int CHARISMAMASK_STEP6 = 64;
+    public static final int CHARISMAMASK_STEP7 = 128;
+    public static final int CHARISMAMASK_STEP8 = 256;
+    public static final int CHARISMAMASK_STEP9 = 512;
+    public static final int CHARISMAMASK_STEP10 = 1024;
+    public static final int CHARISMAMASK_STEP11 = 2048;
+    public static final int CHARISMAMASK_STEP12 = 4096;
+    public static final int CHARISMAMASK_STEP13 = 8192;
+    public static final int CHARISMAMASK_STEP14 = 16384;
+    public static final int CHARISMAMASK_STEP15 = 32768;
+    public static final int CHARISMAMASK_STEP16 = 65536;
+    public static final int CHARISMAARRAYCONTENT_NONE = 0;
+    public static final int CHARISMAARRAYCONTENT_ALL = 1;
+    public static final int CHARISMAARRAYCONTENT_ONLY_CHANGES = 2;
+    public static final int CHARISMARECORDCONTENT_NONE = 0;
+    public static final int CHARISMARECORDCONTENT_WITHOPTIONMASK = 1;
+    public static final int CHARISMARECORDCONTENT_WITHOUTOPTIONMASK = 2;
+    public static final int CHARISMACONTENT_NONE = 0;
+    public static final int CHARISMACONTENT_PROFILEDCC = 1;
+    public static final int CHARISMACONTENT_PROFILE = 2;
+    public static final int CHARISMACONTENT_DCC = 3;
+    public static final int CHARISMACONTENT_AIRSUSPENSION = 4;
+    public static final int CHARISMACONTENT_HYBRID = 5;
+    public static final int CHARISMACONTENT_OFFROAD = 6;
+    public static final int CHARISMASYSTEMTYPE_FPA = 0;
+    public static final int CHARISMASYSTEMTYPE_FREEWHEEL = 1;
+    public static final int CHARISMASYSTEMTYPE_DCC = 2;
+    public static final int CHARISMAOPERATIONMODE_EVMODE = 1;
+    public static final int CHARISMAOPERATIONMODE_HYBRIDMODE = 2;
+    public static final int CHARISMAOPERATIONMODE_SUSTAININGMODE = 3;
+    public static final int CHARISMAOPERATIONMODE_CHARGINGMODE = 4;
+    public static final int CHARISMAOPERATIONMODE_SOCCONTROLMODE = 5;
+    public static final int CHARISMAOPERATIONMODE_HYBRIDSPORTMODE = 6;
+    public static final int CHARISMAOPERATIONMODE_NOMODE_INIT = 255;
+    public static final int TADCONTENT_NONE = 0;
+    public static final int TADCONTENT_ROLLPITCHANGLE = 1;
+    public static final int SPOILERPOSITION_POSITION0 = 0;
+    public static final int SPOILERPOSITION_POSITION1 = 1;
+    public static final int SPOILERPOSITION_POSITION2 = 2;
+    public static final int SPOILERPOSITION_POSITION3 = 3;
+    public static final int SPOILERPOSITION_POSITION4 = 4;
+    public static final int SPOILERPOSITION_POSITION5 = 5;
+    public static final int SPOILERSTATE_SPOILERRETRACTED = 0;
+    public static final int SPOILERSTATE_SPOILEREXTENDED = 1;
+    public static final int SPOILERSTATE_ERRORDIAGNOSTIC = 2;
+    public static final int SPOILERSTATE_SPOILERMOVING = 3;
+    public static final int SPOILERMESSAGES_NOMESSAGE = 0;
+    public static final int SPOILERMESSAGES_SPOILEREXTENDING = 1;
+    public static final int SPOILERMESSAGES_SPOILEREXTENDINGHOLDBUTTON = 2;
+    public static final int SPOILERMESSAGES_SPOIERRETRACTING = 3;
+    public static final int SPOILERMESSAGES_SPOILERRETRACTINGHOLDBUTTON = 4;
+    public static final int SPOILERMESSAGES_SPOILEREXTENDED = 5;
+    public static final int SPOILERMESSAGES_SPOILERRETRACTED = 6;
+    public static final int SPOILERMESSAGES_EXTENDINGSPOILERNOTPOSSIBLE = 7;
+    public static final int SPOILERMESSAGES_RETRACTINGSPOILERNOTPOSSIBLE = 8;
+    public static final int SPOILERMESSAGES_SPOILERNOTAVAILABLE = 9;
+    public static final int SPOILERMESSAGES_THERMALPROTECTION = 10;
+    public static final int SPOILERMESSAGES_PROTECTIONAGAINSTMISUSE = 11;
+    public static final int SPOILERMESSAGES_INTERMEDIATEPOSITION = 12;
+    public static final int SOUNDSTYLE_STYLE1 = 1;
+    public static final int SOUNDSTYLE_STYLE2 = 2;
+    public static final int SOUNDSTYLE_STYLE3 = 3;
+    public static final int SOUNDSTYLE_STYLE4 = 4;
+    public static final int SOUNDSTYLE_STYLE5 = 5;
+    public static final int SOUNDSTYLE_STYLE6 = 6;
+    public static final int SOUNDSTYLE_STYLE7 = 7;
+    public static final int SOUNDSTYLE_STYLE8 = 8;
 
-    default public void setSuspensionControlLiftMode(boolean bl) {
-    }
+    public void setSuspensionControlLiftMode(boolean var1);
 
-    default public void setSuspensionControlCarJackMode(boolean bl) {
-    }
+    public void setSuspensionControlCarJackMode(boolean var1);
 
-    default public void setSuspensionControlTrailerMode(boolean bl) {
-    }
+    public void setSuspensionControlTrailerMode(boolean var1);
 
-    default public void setSuspensionControlLoadingMode(boolean bl) {
-    }
+    public void setSuspensionControlLoadingMode(boolean var1);
 
-    default public void setSuspensionControlActiveProfile(int n) {
-    }
+    public void setSuspensionControlActiveProfile(int var1);
 
-    default public void setSuspensionControlSnowChainMode(boolean bl) {
-    }
+    public void setSuspensionControlSnowChainMode(boolean var1);
 
-    default public void setSuspensionControlActiveMode(int n) {
-    }
+    public void setSuspensionControlActiveMode(int var1);
 
-    default public void seteABCEasyEntry(boolean bl) {
-    }
+    public void seteABCEasyEntry(boolean var1);
 
-    default public void seteABCPitchControl(boolean bl) {
-    }
+    public void seteABCPitchControl(boolean var1);
 
-    default public void seteABCSpecialPosition(boolean bl) {
-    }
+    public void seteABCSpecialPosition(boolean var1);
 
-    default public void seteABCPreview(int n) {
-    }
+    public void seteABCPreview(int var1);
 
-    default public void setCharismaActiveProfile(int n) {
-    }
+    public void setCharismaActiveProfile(int var1);
 
-    default public void setCharismaActiveOperationMode(int n) {
-    }
+    public void setCharismaActiveOperationMode(int var1);
 
-    default public void setCharismaTrailerSetting(boolean bl) {
-    }
+    public void setCharismaTrailerSetting(boolean var1);
 
-    default public void setCharismaProgButton(CharismaProgButton charismaProgButton) {
-    }
+    public void setCharismaProgButton(CharismaProgButton var1);
 
-    default public void requestCharismaProfileFunction(int n, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
-    }
+    public void requestCharismaProfileFunction(int var1, CharismaSetupTableWithoutOptionMask[] var2);
 
-    default public void requestCharismaList(CharismaListUpdateInfo charismaListUpdateInfo) {
-    }
+    public void requestCharismaList(CharismaListUpdateInfo var1);
 
-    default public void showCharismaPopup(int n, int n2) {
-    }
+    public void showCharismaPopup(int var1, int var2);
 
-    default public void cancelCharismaPopup(int n, int n2) {
-    }
+    public void cancelCharismaPopup(int var1, int var2);
 
-    default public void setCharismaSetFactoryDefault() {
-    }
+    public void setCharismaSetFactoryDefault();
 
-    default public void setCharismaSound(boolean bl) {
-    }
+    public void setCharismaSound(boolean var1);
 
-    default public void showTADPopup(int n, int n2) {
-    }
+    public void showTADPopup(int var1, int var2);
 
-    default public void cancelTADPopup(int n, int n2) {
-    }
+    public void cancelTADPopup(int var1, int var2);
 
-    default public void setTADSetFactoryDefault() {
-    }
+    public void setTADSetFactoryDefault();
 
-    default public void setTADMaxMinAngleReset(TADMaxMinAngleReset tADMaxMinAngleReset) {
-    }
+    public void setTADMaxMinAngleReset(TADMaxMinAngleReset var1);
 
-    default public void setHMIIsReady(boolean bl) {
-    }
+    public void setHMIIsReady(boolean var1);
 
-    default public void setSpoilerSetFactoryDefault() {
-    }
+    public void setSpoilerSetFactoryDefault();
 
-    default public void setSpoilerPositionSelection(int n) {
-    }
+    public void setSpoilerPositionSelection(int var1);
 
-    default public void setSpoilerActuation(boolean bl) {
-    }
+    public void setSpoilerActuation(boolean var1);
 
-    default public void setSpoilerSystemOnOff(boolean bl) {
-    }
+    public void setSpoilerSystemOnOff(boolean var1);
 
-    default public void setSoundSetFactoryDefault() {
-    }
+    public void setSoundSetFactoryDefault();
 
-    default public void setSoundStyle(int n) {
-    }
+    public void setSoundStyle(int var1);
 
-    default public void setSoundSystemOnOff(boolean bl) {
-    }
+    public void setSoundSystemOnOff(boolean var1);
 
-    default public void setSoundOnOff(boolean bl) {
-    }
+    public void setSoundOnOff(boolean var1);
 }
 

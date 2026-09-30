@@ -25,28 +25,23 @@ implements DSIPowerManagement {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$powermanagement$DSIPowerManagement == null ? (class$org$dsi$ifc$powermanagement$DSIPowerManagement = DSIPowerManagementProvider.class$("org.dsi.ifc.powermanagement.DSIPowerManagement")) : class$org$dsi$ifc$powermanagement$DSIPowerManagement).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIPowerManagementProxy(this.instance, (DSIPowerManagementReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setHMIReady() {
         try {
             this.proxy.setHMIReady();
@@ -56,7 +51,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void rebootSystem() {
         try {
             this.proxy.rebootSystem();
@@ -66,7 +60,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void displayReady() {
         try {
             this.proxy.displayReady();
@@ -76,7 +69,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void rebootSystemCritical() {
         try {
             this.proxy.rebootSystemCritical();
@@ -86,7 +78,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void setChildLockRSE(int n) {
         try {
             this.proxy.setChildLockRSE(n);
@@ -96,7 +87,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void setLastOn(int n) {
         try {
             this.proxy.setLastOn(n);
@@ -106,7 +96,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -116,7 +105,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -126,7 +114,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -136,7 +123,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -146,7 +132,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -156,7 +141,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -166,7 +150,6 @@ implements DSIPowerManagement {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

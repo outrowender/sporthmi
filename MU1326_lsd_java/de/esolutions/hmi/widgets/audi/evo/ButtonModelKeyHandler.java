@@ -16,7 +16,6 @@ implements IWidgetKeyHandler,
 IWidgetLogChannel {
     public static final ButtonModelKeyHandler BUTTON_MODEL_KEY_HANDLER_INSTANCE = new ButtonModelKeyHandler();
 
-    @Override
     public void keyPressed(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         int n = keyEvent.getKeyCode();
         if (n != 17) {
@@ -27,13 +26,12 @@ IWidgetLogChannel {
             return;
         }
         int n2 = abstractWidgetController.getTerminalImpl().getTerminalID();
-        menuItemLogCh.log(1078071040, "ButtonModelKeyHandler#keyPressed: call model. modelID: %1, keyCode: %2", (long)buttonModelGUI.getID(), (long)n);
+        menuItemLogCh.log(1000000, "ButtonModelKeyHandler#keyPressed: call model. modelID: %1, keyCode: %2", (long)buttonModelGUI.getID(), (long)n);
         buttonModelGUI.keyPressed(n, n2);
         buttonModelGUI.keyTyped(n, n2);
         keyEvent.consume(false);
     }
 
-    @Override
     public void keyReleased(AbstractWidgetController abstractWidgetController, KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() != 17) {
             return;
@@ -43,7 +41,7 @@ IWidgetLogChannel {
             return;
         }
         int n = abstractWidgetController.getTerminalImpl().getTerminalID();
-        menuItemLogCh.log(1078071040, "ButtonModelKeyHandler#keyReleased: call model. modelID: %1", (long)buttonModelGUI.getID());
+        menuItemLogCh.log(1000000, "ButtonModelKeyHandler#keyReleased: call model. modelID: %1", (long)buttonModelGUI.getID());
         buttonModelGUI.keyReleased(0, n);
     }
 
@@ -60,11 +58,9 @@ IWidgetLogChannel {
         return null;
     }
 
-    @Override
     public void keyTurned(AbstractWidgetController abstractWidgetController, WheelButtonEvent wheelButtonEvent) {
     }
 
-    @Override
     public void keyMoved(AbstractWidgetController abstractWidgetController, JoystickEvent joystickEvent) {
     }
 }

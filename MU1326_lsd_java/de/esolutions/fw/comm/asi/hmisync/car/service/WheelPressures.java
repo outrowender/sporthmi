@@ -72,7 +72,7 @@ public class WheelPressures {
     }
 
     public String toString() {
-        return new StringBuffer("WheelPressures{").append("pressureUnit=").append(this.pressureUnit).append(", frontLeft=").append(this.frontLeft).append(", frontRight=").append(this.frontRight).append(", rearLeft=").append(this.rearLeft).append(", rearRight=").append(this.rearRight).append(", spareWheel=").append(this.spareWheel).append("}").toString();
+        return "WheelPressures{" + "pressureUnit=" + this.pressureUnit + ", frontLeft=" + this.frontLeft + ", frontRight=" + this.frontRight + ", rearLeft=" + this.rearLeft + ", rearRight=" + this.rearRight + ", spareWheel=" + this.spareWheel + "}";
     }
 }
 

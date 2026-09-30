@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.androidauto2.impl;
 import de.esolutions.fw.comm.dsi.androidauto2.impl.BluetoothServiceAnnouncementSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.androidauto2.BluetoothServiceAnnouncement;
 import org.dsi.ifc.androidauto2.ServiceConfiguration;
 
 public class ServiceConfigurationSerializer {
-    public static void putOptionalServiceConfiguration(ISerializer iSerializer, ServiceConfiguration serviceConfiguration) {
+    public static void putOptionalServiceConfiguration(ISerializer iSerializer, ServiceConfiguration serviceConfiguration) throws SerializerException {
         boolean bl = serviceConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -53,7 +54,7 @@ public class ServiceConfigurationSerializer {
         }
     }
 
-    public static void putOptionalServiceConfigurationVarArray(ISerializer iSerializer, ServiceConfiguration[] serviceConfigurationArray) {
+    public static void putOptionalServiceConfigurationVarArray(ISerializer iSerializer, ServiceConfiguration[] serviceConfigurationArray) throws SerializerException {
         boolean bl = serviceConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -64,7 +65,7 @@ public class ServiceConfigurationSerializer {
         }
     }
 
-    public static ServiceConfiguration getOptionalServiceConfiguration(IDeserializer iDeserializer) {
+    public static ServiceConfiguration getOptionalServiceConfiguration(IDeserializer iDeserializer) throws SerializerException {
         ServiceConfiguration serviceConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -109,7 +110,7 @@ public class ServiceConfigurationSerializer {
         return serviceConfiguration;
     }
 
-    public static ServiceConfiguration[] getOptionalServiceConfigurationVarArray(IDeserializer iDeserializer) {
+    public static ServiceConfiguration[] getOptionalServiceConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         ServiceConfiguration[] serviceConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

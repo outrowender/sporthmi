@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.map;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.map.DSIMapViewerRouteBlockReply;
 import de.esolutions.fw.comm.dsi.map.impl.DSIMapViewerRouteBlockReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -24,13 +25,11 @@ implements DSIMapViewerRouteBlockReply {
         super(n, (class$org$dsi$ifc$map$DSIMapViewerRouteBlockListener == null ? (class$org$dsi$ifc$map$DSIMapViewerRouteBlockListener = DSIMapViewerRouteBlockDispatcher.class$("org.dsi.ifc.map.DSIMapViewerRouteBlockListener")) : class$org$dsi$ifc$map$DSIMapViewerRouteBlockListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateRBInfoOfSelectedSegments(RouteBrowserInfo routeBrowserInfo, int n) {
+    public void updateRBInfoOfSelectedSegments(RouteBrowserInfo routeBrowserInfo, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -58,8 +57,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void pickSegmentUidsInScreenSpaceResult(Point point, int n, long[] lArray, int n2) {
+    public void pickSegmentUidsInScreenSpaceResult(Point point, int n, long[] lArray, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -75,8 +73,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void highLightSegmentUidsInMapResult(long[] lArray, boolean bl, int n) {
+    public void highLightSegmentUidsInMapResult(long[] lArray, boolean bl, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -92,8 +89,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void rBStartOfSelectionResult(long l, int n) {
+    public void rBStartOfSelectionResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -109,8 +105,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void rBMarkNextSegmentResult(long l, int n) {
+    public void rBMarkNextSegmentResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -126,8 +121,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void rBMarkPreviousSegmentResult(long l, int n) {
+    public void rBMarkPreviousSegmentResult(long l, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -143,8 +137,7 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -160,14 +153,13 @@ implements DSIMapViewerRouteBlockReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIMapViewerRouteBlockListener dSIMapViewerRouteBlockListener = (DSIMapViewerRouteBlockListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerRouteBlockDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerRouteBlockDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIMapViewerRouteBlockListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIMapViewerRouteBlockDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIMapViewerRouteBlockDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIMapViewerRouteBlockListener, new Object[]{string, string2});
                     continue;
                 }

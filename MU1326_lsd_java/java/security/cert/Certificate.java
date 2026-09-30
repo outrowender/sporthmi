@@ -3,17 +3,25 @@
  */
 package java.security.cert;
 
+import java.io.ByteArrayInputStream;
+import java.io.InvalidObjectException;
 import java.io.NotSerializableException;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PublicKey;
-import java.security.cert.Certificate$CertificateRep;
+import java.security.SignatureException;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
 public abstract class Certificate
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -6751606818319535583L;
     private String type;
 
     protected Certificate(String string) {
@@ -39,11 +47,9 @@ implements Serializable {
         }
     }
 
-    public abstract byte[] getEncoded() {
-    }
+    public abstract byte[] getEncoded() throws CertificateEncodingException;
 
-    public abstract PublicKey getPublicKey() {
-    }
+    public abstract PublicKey getPublicKey();
 
     public final String getType() {
         return this.type;
@@ -60,16 +66,13 @@ implements Serializable {
         }
     }
 
-    public abstract String toString() {
-    }
+    public abstract String toString();
 
-    public abstract void verify(PublicKey publicKey) {
-    }
+    public abstract void verify(PublicKey var1) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException;
 
-    public abstract void verify(PublicKey publicKey, String string) {
-    }
+    public abstract void verify(PublicKey var1, String var2) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException;
 
-    protected Object writeReplace() {
+    protected Object writeReplace() throws ObjectStreamException {
         byte[] byArray = null;
         try {
             byArray = this.getEncoded();
@@ -77,7 +80,30 @@ implements Serializable {
         catch (CertificateEncodingException certificateEncodingException) {
             throw new NotSerializableException(certificateEncodingException.toString());
         }
-        return new Certificate$CertificateRep(this.type, byArray);
+        return new CertificateRep(this.type, byArray);
+    }
+
+    protected static class CertificateRep
+    implements Serializable {
+        static final long serialVersionUID = -8563758940495660020L;
+        String type;
+        byte[] data;
+
+        protected CertificateRep(String string, byte[] byArray) {
+            this.type = string;
+            this.data = byArray;
+        }
+
+        protected Object readResolve() throws ObjectStreamException {
+            try {
+                CertificateFactory certificateFactory = CertificateFactory.getInstance(this.type);
+                Certificate certificate = certificateFactory.generateCertificate(new ByteArrayInputStream(this.data));
+                return certificate;
+            }
+            catch (CertificateException certificateException) {
+                throw new InvalidObjectException(certificateException.toString());
+            }
+        }
     }
 }
 

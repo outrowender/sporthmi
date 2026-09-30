@@ -3,61 +3,44 @@
  */
 package de.esolutions.fw.comm.dsi.networking;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.networking.Profile;
 
 public interface DSIWLANC {
-    default public void factoryReset() {
-    }
+    public void factoryReset() throws MethodException;
 
-    default public void setRole(int n) {
-    }
+    public void setRole(int var1) throws MethodException;
 
-    default public void setRFActive(boolean bl) {
-    }
+    public void setRFActive(boolean var1) throws MethodException;
 
-    default public void setProfile(Profile profile) {
-    }
+    public void setProfile(Profile var1) throws MethodException;
 
-    default public void requestNetworkSearch(int n, int n2) {
-    }
+    public void requestNetworkSearch(int var1, int var2) throws MethodException;
 
-    default public void requestAbortSearch() {
-    }
+    public void requestAbortSearch() throws MethodException;
 
-    default public void requestConnectNetwork(String string, String string2, String string3, int n) {
-    }
+    public void requestConnectNetwork(String var1, String var2, String var3, int var4) throws MethodException;
 
-    default public void requestDisconnectNetwork(String string, String string2) {
-    }
+    public void requestDisconnectNetwork(String var1, String var2) throws MethodException;
 
-    default public void requestDeleteTrustedNetwork(String string, String string2) {
-    }
+    public void requestDeleteTrustedNetwork(String var1, String var2) throws MethodException;
 
-    default public void requestActivateWps(int n, int n2, int n3) {
-    }
+    public void requestActivateWps(int var1, int var2, int var3) throws MethodException;
 
-    default public void requestCancelWPS() {
-    }
+    public void requestCancelWPS() throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

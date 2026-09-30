@@ -8,9 +8,10 @@ import de.esolutions.fw.comm.asi.imageserver.ImageInfo;
 import de.esolutions.fw.comm.asi.imageserver.impl.ImageInfoSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class ImageSerializer {
-    public static void putOptionalImage(ISerializer iSerializer, Image image) {
+    public static void putOptionalImage(ISerializer iSerializer, Image image) throws SerializerException {
         boolean bl = image == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class ImageSerializer {
         }
     }
 
-    public static void putOptionalImageVarArray(ISerializer iSerializer, Image[] imageArray) {
+    public static void putOptionalImageVarArray(ISerializer iSerializer, Image[] imageArray) throws SerializerException {
         boolean bl = imageArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class ImageSerializer {
         }
     }
 
-    public static Image getOptionalImage(IDeserializer iDeserializer) {
+    public static Image getOptionalImage(IDeserializer iDeserializer) throws SerializerException {
         Image image = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -53,7 +54,7 @@ public class ImageSerializer {
         return image;
     }
 
-    public static Image[] getOptionalImageVarArray(IDeserializer iDeserializer) {
+    public static Image[] getOptionalImageVarArray(IDeserializer iDeserializer) throws SerializerException {
         Image[] imageArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

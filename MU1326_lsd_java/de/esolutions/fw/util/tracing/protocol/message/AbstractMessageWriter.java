@@ -21,7 +21,6 @@ implements IWriter {
         this.message = abstractMessage;
     }
 
-    @Override
     public final int size() {
         try {
             this.serializer.beginSizeCalc();
@@ -33,24 +32,21 @@ implements IWriter {
         }
     }
 
-    @Override
-    public final void write(IWriteable iWriteable) {
+    public final void write(IWriteable iWriteable) throws TransportException {
         try {
             this.serializer.attachBuffer(iWriteable);
             this.message.serialize(this.serializer);
             this.serializer.detachBuffer();
         }
         catch (SerializerException serializerException) {
-            throw new TransportException(new StringBuffer().append("Serializer failed with: ").append(serializerException).toString());
+            throw new TransportException("Serializer failed with: " + serializerException);
         }
     }
 
-    @Override
     public final void setDebugTag(Object object) {
         this.debugTag = object;
     }
 
-    @Override
     public final Object getDebugTag() {
         return this.debugTag;
     }

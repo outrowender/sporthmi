@@ -8,16 +8,12 @@ import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface BAPArrayElement
 extends BAPEntity {
-    default public int getPos() {
-    }
+    public int getPos();
 
-    default public void setPos(int n) {
-    }
+    public void setPos(int var1);
 
-    default public void setArrayHeader(ArrayHeader arrayHeader) {
-    }
+    public void setArrayHeader(ArrayHeader var1);
 
-    default public ArrayHeader getArrayHeader() {
-    }
+    public ArrayHeader getArrayHeader();
 }
 

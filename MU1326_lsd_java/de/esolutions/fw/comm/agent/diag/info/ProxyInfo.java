@@ -26,11 +26,11 @@ extends AbstractInfoBase {
     public String errorTimeStamp;
     public final int callsTotal;
     public final int callsError;
-    private static final int DEFAULT_ERROR_CODE;
-    private static final int DEFAULT_STATE;
-    private static final int DEFAULT_PEER_AGENT_ID;
-    private static final int DEFAULT_STUB_ID;
-    private static final int DEFAULT_REPLY_STUB_ID;
+    private static final int DEFAULT_ERROR_CODE = 0;
+    private static final int DEFAULT_STATE = 1;
+    private static final int DEFAULT_PEER_AGENT_ID = -1;
+    private static final int DEFAULT_STUB_ID = -1;
+    private static final int DEFAULT_REPLY_STUB_ID = -1;
 
     public ProxyInfo(Proxy proxy) {
         super(proxy.getProxyID());
@@ -47,7 +47,7 @@ extends AbstractInfoBase {
         IReplyService iReplyService = proxy.getReplyService();
         if (iReplyService != null) {
             this.replySvcID = iReplyService.getInstanceID();
-            this.replySvcClass = super.getClass().getName();
+            this.replySvcClass = iReplyService.getClass().getName();
         } else {
             this.replySvcID = null;
             this.replySvcClass = null;
@@ -61,8 +61,7 @@ extends AbstractInfoBase {
         }
     }
 
-    @Override
-    protected Object fieldValueToObject(Field field) {
+    protected Object fieldValueToObject(Field field) throws IllegalArgumentException, IllegalAccessException {
         if (field == null) {
             return null;
         }
@@ -73,7 +72,6 @@ extends AbstractInfoBase {
         return super.fieldValueToObject(field);
     }
 
-    @Override
     public ServiceInstanceID getServiceInstanceID() {
         return this.svcID;
     }

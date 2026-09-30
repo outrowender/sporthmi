@@ -8,7 +8,7 @@ import de.vw.mib.bap.stream.BitStream;
 
 public final class OLBSettings_Olb_AvailableFunctions
 implements BAPEntity {
-    private static final int RESERVED_BIT_2__7_BITSIZE;
+    private static final int RESERVED_BIT_2__7_BITSIZE = 6;
     public boolean driverAuthentificationPopupForOlbCanBeModified;
     public boolean olbTripReminderPopupReminderCanBeModified;
 
@@ -27,12 +27,10 @@ implements BAPEntity {
         this.olbTripReminderPopupReminderCanBeModified = false;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         OLBSettings_Olb_AvailableFunctions oLBSettings_Olb_AvailableFunctions = (OLBSettings_Olb_AvailableFunctions)bAPEntity;
         return this.driverAuthentificationPopupForOlbCanBeModified == oLBSettings_Olb_AvailableFunctions.driverAuthentificationPopupForOlbCanBeModified && this.olbTripReminderPopupReminderCanBeModified == oLBSettings_Olb_AvailableFunctions.olbTripReminderPopupReminderCanBeModified;
@@ -41,28 +39,24 @@ implements BAPEntity {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("OLBSettings_Olb_AvailableFunctions");
-        stringBuffer.append(new StringBuffer().append("\n - driverAuthentificationPopupForOlbCanBeModified:").append(this.driverAuthentificationPopupForOlbCanBeModified).toString());
-        stringBuffer.append(new StringBuffer().append("\n - olbTripReminderPopupReminderCanBeModified:").append(this.olbTripReminderPopupReminderCanBeModified).toString());
+        stringBuffer.append("\n - driverAuthentificationPopupForOlbCanBeModified:" + this.driverAuthentificationPopupForOlbCanBeModified);
+        stringBuffer.append("\n - olbTripReminderPopupReminderCanBeModified:" + this.olbTripReminderPopupReminderCanBeModified);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.resetBits(6);
         bitStream.pushBoolean(this.driverAuthentificationPopupForOlbCanBeModified);
         bitStream.pushBoolean(this.olbTripReminderPopupReminderCanBeModified);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         bitStream.discardBits(6);
         this.driverAuthentificationPopupForOlbCanBeModified = bitStream.popFrontBoolean();

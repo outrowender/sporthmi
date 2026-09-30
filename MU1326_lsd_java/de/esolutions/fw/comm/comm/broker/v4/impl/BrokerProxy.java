@@ -5,13 +5,14 @@ package de.esolutions.fw.comm.comm.broker.v4.impl;
 
 import de.esolutions.fw.comm.comm.broker.v4.Broker;
 import de.esolutions.fw.comm.comm.broker.v4.InstanceID;
-import de.esolutions.fw.comm.comm.broker.v4.impl.BrokerProxy$1;
-import de.esolutions.fw.comm.comm.broker.v4.impl.BrokerProxy$2;
-import de.esolutions.fw.comm.comm.broker.v4.impl.BrokerProxy$3;
-import de.esolutions.fw.comm.comm.broker.v4.impl.BrokerProxy$4;
+import de.esolutions.fw.comm.comm.broker.v4.impl.InstanceIDSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class BrokerProxy
 implements Broker {
@@ -27,28 +28,47 @@ implements Broker {
         return this.proxy;
     }
 
-    @Override
-    public void announce(InstanceID instanceID) {
-        BrokerProxy$1 brokerProxy$1 = new BrokerProxy$1(this, instanceID);
-        this.proxy.remoteCallMethod((short)0, brokerProxy$1);
+    public void announce(final InstanceID instanceID) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                InstanceIDSerializer.putOptionalInstanceID(iSerializer, instanceID);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void registerService(InstanceID instanceID, int n) {
-        BrokerProxy$2 brokerProxy$2 = new BrokerProxy$2(this, instanceID, n);
-        this.proxy.remoteCallMethod((short)2, brokerProxy$2);
+    public void registerService(final InstanceID instanceID, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                InstanceIDSerializer.putOptionalInstanceID(iSerializer, instanceID);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void unregisterService(InstanceID instanceID, int n) {
-        BrokerProxy$3 brokerProxy$3 = new BrokerProxy$3(this, instanceID, n);
-        this.proxy.remoteCallMethod((short)3, brokerProxy$3);
+    public void unregisterService(final InstanceID instanceID, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                InstanceIDSerializer.putOptionalInstanceID(iSerializer, instanceID);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)3, iSerializable);
     }
 
-    @Override
-    public void lookupService(InstanceID instanceID, int n) {
-        BrokerProxy$4 brokerProxy$4 = new BrokerProxy$4(this, instanceID, n);
-        this.proxy.remoteCallMethod((short)1, brokerProxy$4);
+    public void lookupService(final InstanceID instanceID, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                InstanceIDSerializer.putOptionalInstanceID(iSerializer, instanceID);
+                iSerializer.putUInt16(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 }
 

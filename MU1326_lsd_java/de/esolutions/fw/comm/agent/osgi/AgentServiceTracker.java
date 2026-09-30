@@ -33,7 +33,6 @@ implements ServiceTrackerCustomizer {
         this.tracker.close();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IService) {
@@ -50,11 +49,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.bundleContext.ungetService(serviceReference);
         if (object instanceof IService) {

@@ -25,28 +25,23 @@ implements DSIMediaOnline {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$media$DSIMediaOnline == null ? (class$org$dsi$ifc$media$DSIMediaOnline = DSIMediaOnlineProvider.class$("org.dsi.ifc.media.DSIMediaOnline")) : class$org$dsi$ifc$media$DSIMediaOnline).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMediaOnlineProxy(this.instance, (DSIMediaOnlineReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -56,7 +51,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -66,7 +60,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -76,7 +69,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -86,7 +78,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -96,7 +87,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -106,7 +96,6 @@ implements DSIMediaOnline {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

@@ -4,16 +4,12 @@
 package de.esolutions.hmi.widgets.audi.evo.widgets;
 
 public interface IStatusbarChild {
-    default public int getModelValue() {
-    }
+    public int getModelValue();
 
-    default public int getModelMin() {
-    }
+    public int getModelMin();
 
-    default public int getModelMax() {
-    }
+    public int getModelMax();
 
-    default public int getModelStatus() {
-    }
+    public int getModelStatus();
 }
 

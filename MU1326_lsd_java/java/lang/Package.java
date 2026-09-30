@@ -66,7 +66,7 @@ public class Package {
         return this.name.hashCode();
     }
 
-    public boolean isCompatibleWith(String string) {
+    public boolean isCompatibleWith(String string) throws NumberFormatException {
         int n;
         int n2;
         if (this.specificationVersion == null || string == null || this.specificationVersion.length() == 0 || string.length() == 0) {

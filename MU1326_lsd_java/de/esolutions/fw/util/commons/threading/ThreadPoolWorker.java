@@ -4,7 +4,6 @@
 package de.esolutions.fw.util.commons.threading;
 
 import de.esolutions.fw.util.commons.threading.ObjectQueue;
-import de.esolutions.fw.util.commons.threading.ThreadPoolWorker$1;
 import java.util.Map;
 
 public class ThreadPoolWorker {
@@ -22,8 +21,18 @@ public class ThreadPoolWorker {
         this.workerID = ThreadPoolWorker.getNextWorkerID();
         this.jobQueue = new ObjectQueue(10);
         this.noStopRequested = true;
-        ThreadPoolWorker$1 threadPoolWorker$1 = new ThreadPoolWorker$1(this);
-        this.internalThread = new Thread(threadPoolWorker$1, new StringBuffer().append("adapter:poolName[").append(string).append("]:threadID[").append(String.valueOf(this.workerID)).append("]").toString());
+        Runnable runnable = new Runnable(){
+
+            public void run() {
+                try {
+                    ThreadPoolWorker.this.runWork();
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        };
+        this.internalThread = new Thread(runnable, new StringBuffer().append("adapter:poolName[").append(string).append("]:threadID[").append(String.valueOf(this.workerID)).append("]").toString());
         this.internalThread.start();
     }
 
@@ -32,7 +41,7 @@ public class ThreadPoolWorker {
         return n;
     }
 
-    public void process(Runnable runnable) {
+    public void process(Runnable runnable) throws InterruptedException {
         this.jobQueue.add(runnable);
     }
 
@@ -74,10 +83,6 @@ public class ThreadPoolWorker {
 
     public boolean isAlive() {
         return this.internalThread.isAlive();
-    }
-
-    static /* synthetic */ void access$000(ThreadPoolWorker threadPoolWorker) {
-        threadPoolWorker.runWork();
     }
 }
 

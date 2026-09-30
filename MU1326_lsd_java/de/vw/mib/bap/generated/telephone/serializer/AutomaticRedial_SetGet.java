@@ -25,13 +25,11 @@ implements SetGetProperty {
     private void internalReset() {
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.automaticRedialState.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         AutomaticRedial_SetGet automaticRedial_SetGet = (AutomaticRedial_SetGet)bAPEntity;
         return this.automaticRedialState.equalTo(automaticRedial_SetGet.automaticRedialState);
@@ -40,7 +38,6 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AutomaticRedial_SetGet:");
@@ -49,18 +46,15 @@ implements SetGetProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         return n += this.automaticRedialState.bitSize();
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.automaticRedialState.serialize(bitStream);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.automaticRedialState.deserialize(bitStream);
     }
@@ -69,7 +63,6 @@ implements SetGetProperty {
         return 57;
     }
 
-    @Override
     public int getFunctionId() {
         return AutomaticRedial_SetGet.functionId();
     }

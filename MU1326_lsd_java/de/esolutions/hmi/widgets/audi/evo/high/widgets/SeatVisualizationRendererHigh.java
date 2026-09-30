@@ -26,35 +26,34 @@ public class SeatVisualizationRendererHigh
 extends AbstractRendererHigh
 implements IKanziTemplateRenderer,
 ISeatRenderer {
-    private static final float ICON_OPACITY_DISABLED;
-    private static final float ICON_OPACITY_ENABLED;
-    private static final float ICON_OPACITY_ACTIVATED;
-    private static final float ICON_OPACITY_HIGHLIGHTED;
-    private static final String[] PROPERTY_HOLDER_NODE_NAMES;
-    private static final String[] TEXTURE_NAMES;
-    private static final int PROPERTY_SEAT_FUNCTION_ID;
-    private static final int PROPERTY_MASSAGE_PROGRAM;
-    private static final int PROPERTY_MASSAGE_DIGIT;
-    private static final int PROPERTY_MASSAGE_SETTING_ACTIVE;
-    private static final int PROPERTY_ARROW_UP_STATUS;
-    private static final int PROPERTY_ARROW_DOWN_STATUS;
-    private static final int PROPERTY_ARROW_FORWARD_STATUS;
-    private static final int PROPERTY_ARROW_BACKWARD_STATUS;
-    private static final String[] PROPERTY_NAMES;
+    private static final float ICON_OPACITY_DISABLED = 0.0f;
+    private static final float ICON_OPACITY_ENABLED = 1.0f;
+    private static final float ICON_OPACITY_ACTIVATED = 2.0f;
+    private static final float ICON_OPACITY_HIGHLIGHTED = 3.0f;
+    private static final String[] PROPERTY_HOLDER_NODE_NAMES = new String[]{"seat_left", "seat_right"};
+    private static final String[] TEXTURE_NAMES = new String[]{"seats_left_FBO", "seats_right_FBO"};
+    private static final int PROPERTY_SEAT_FUNCTION_ID = 6;
+    private static final int PROPERTY_MASSAGE_PROGRAM = 7;
+    private static final int PROPERTY_MASSAGE_DIGIT = 8;
+    private static final int PROPERTY_MASSAGE_SETTING_ACTIVE = 9;
+    private static final int PROPERTY_ARROW_UP_STATUS = 10;
+    private static final int PROPERTY_ARROW_DOWN_STATUS = 11;
+    private static final int PROPERTY_ARROW_FORWARD_STATUS = 12;
+    private static final int PROPERTY_ARROW_BACKWARD_STATUS = 13;
+    private static final String[] PROPERTY_NAMES = new String[]{"seat_function_Massage_status", "seat_function_Gurthoehe_status", "seat_function_Lehnenkopf_status", "seat_function_Lordose_status", "seat_function_Seitenwangen_status", "seat_function_Sitztiefe_status", "seat_function_ID", "seat_massage_ID", "seat_massage_cursor_digit", "seat_massage_cursor_settings_active", "seat_rotator_up_status", "seat_rotator_down_status", "seat_rotator_forward_status", "seat_rotator_backward_status"};
     private final SeatVisualizationController controller;
     private IWrappedTexture wrappedTexture;
     private IWrappedNode3DImage imageNode;
     private INode2D propertyHolderNode;
     private boolean resourcesLoaded;
     protected final EALPropertyCache propertyCache = new EALPropertyCache();
-    private static boolean projectMerged;
+    private static boolean projectMerged = false;
     private boolean nodeAdded;
 
     public SeatVisualizationRendererHigh(SeatVisualizationController seatVisualizationController) {
         this.controller = seatVisualizationController;
     }
 
-    @Override
     public void connect(InitializationContext initializationContext) {
         super.connect(initializationContext);
     }
@@ -75,16 +74,13 @@ ISeatRenderer {
         this.imageNode.invalidateObject();
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private void updateFunctionIconsAndCursorOpacity() {
         int n;
         int n2 = this.controller.getSelectedSeatFunction();
         for (n = 0; n < 6; ++n) {
             float f2 = 0.0f;
             if (this.controller.isSeatFunctionAvailable(n)) {
-                f2 = n2 == n ? 16448 : (int)2.0f;
+                f2 = n2 == n ? 3.0f : 2.0f;
             }
             this.propertyCache.setProperty((INode)this.propertyHolderNode, PROPERTY_NAMES[n], f2);
         }
@@ -118,14 +114,14 @@ ISeatRenderer {
                 break;
             }
             default: {
-                logChannel.log(-1601830656, "SeatVisualizationRendererHigh#updateArrowOpacity state %1 is not supported; using the default opacity: %2", (Object)String.valueOf(n), (Object)String.valueOf(f2));
+                logChannel.log(100000, "SeatVisualizationRendererHigh#updateArrowOpacity state %1 is not supported; using the default opacity: %2", (Object)String.valueOf(n), (Object)String.valueOf(f2));
             }
         }
         this.propertyCache.setProperty((INode)this.propertyHolderNode, PROPERTY_NAMES[n2], f2);
     }
 
     private INode2D getNode2D(String string) {
-        logChannel.log(-2137614336, "SeatVisualizationRendererHigh#getNode2D: getting node '%1'", (Object)string);
+        logChannel.log(10000000, "SeatVisualizationRendererHigh#getNode2D: getting node '%1'", (Object)string);
         INode2D iNode2D = this.getEALManager().getProject().getNode2D(string);
         if (!iNode2D.isValid()) {
             logChannel.log(10000, "SeatVisualizationRendererHigh#getNode2D: Could not get node '%1'", (Object)string);
@@ -202,9 +198,9 @@ ISeatRenderer {
                 }
                 iNode2D.dispose();
             } else {
-                logChannel.log(-1601830656, "SeatVisualizationRendererHigh#mergeProject KZB %1 seems to have been loaded already; no need to load it anymore", (long)n);
+                logChannel.log(100000, "SeatVisualizationRendererHigh#mergeProject KZB %1 seems to have been loaded already; no need to load it anymore", (long)n);
             }
-            logChannel.log(-2137614336, "SeatVisualizationRendererHigh#mergeProject the seat KZB has been merged successfully");
+            logChannel.log(10000000, "SeatVisualizationRendererHigh#mergeProject the seat KZB has been merged successfully");
             projectMerged = true;
             return projectMerged;
         }
@@ -214,7 +210,6 @@ ISeatRenderer {
         return projectMerged;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.controller.shouldRender()) {
             if (this.imageNode != null) {
@@ -242,16 +237,13 @@ ISeatRenderer {
         this.applyProperties();
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void setKzbIDs(int[] nArray) {
     }
 
-    @Override
     public void setVisible(boolean bl) {
         if (this.resourcesLoaded) {
             this.imageNode.setVisible(bl);
@@ -259,7 +251,6 @@ ISeatRenderer {
         }
     }
 
-    @Override
     public void disconnect() {
         super.disconnect();
         this.nodeAdded = false;
@@ -285,13 +276,6 @@ ISeatRenderer {
             return;
         }
         iNode.dispose();
-    }
-
-    static {
-        PROPERTY_HOLDER_NODE_NAMES = new String[]{"seat_left", "seat_right"};
-        TEXTURE_NAMES = new String[]{"seats_left_FBO", "seats_right_FBO"};
-        PROPERTY_NAMES = new String[]{"seat_function_Massage_status", "seat_function_Gurthoehe_status", "seat_function_Lehnenkopf_status", "seat_function_Lordose_status", "seat_function_Seitenwangen_status", "seat_function_Sitztiefe_status", "seat_function_ID", "seat_massage_ID", "seat_massage_cursor_digit", "seat_massage_cursor_settings_active", "seat_rotator_up_status", "seat_rotator_down_status", "seat_rotator_forward_status", "seat_rotator_backward_status"};
-        projectMerged = false;
     }
 }
 

@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.tpegservices.impl.WeatherDataSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.tpegservices.WeatherData;
 import org.dsi.ifc.tpegservices.WeatherInfo;
 
 public class WeatherInfoSerializer {
-    public static void putOptionalWeatherInfo(ISerializer iSerializer, WeatherInfo weatherInfo) {
+    public static void putOptionalWeatherInfo(ISerializer iSerializer, WeatherInfo weatherInfo) throws SerializerException {
         boolean bl = weatherInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class WeatherInfoSerializer {
         }
     }
 
-    public static void putOptionalWeatherInfoVarArray(ISerializer iSerializer, WeatherInfo[] weatherInfoArray) {
+    public static void putOptionalWeatherInfoVarArray(ISerializer iSerializer, WeatherInfo[] weatherInfoArray) throws SerializerException {
         boolean bl = weatherInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class WeatherInfoSerializer {
         }
     }
 
-    public static WeatherInfo getOptionalWeatherInfo(IDeserializer iDeserializer) {
+    public static WeatherInfo getOptionalWeatherInfo(IDeserializer iDeserializer) throws SerializerException {
         WeatherInfo weatherInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class WeatherInfoSerializer {
         return weatherInfo;
     }
 
-    public static WeatherInfo[] getOptionalWeatherInfoVarArray(IDeserializer iDeserializer) {
+    public static WeatherInfo[] getOptionalWeatherInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         WeatherInfo[] weatherInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

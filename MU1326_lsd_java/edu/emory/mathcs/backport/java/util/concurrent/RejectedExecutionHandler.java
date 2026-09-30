@@ -6,7 +6,6 @@ package edu.emory.mathcs.backport.java.util.concurrent;
 import edu.emory.mathcs.backport.java.util.concurrent.ThreadPoolExecutor;
 
 public interface RejectedExecutionHandler {
-    default public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPoolExecutor) {
-    }
+    public void rejectedExecution(Runnable var1, ThreadPoolExecutor var2);
 }
 

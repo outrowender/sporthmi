@@ -20,14 +20,14 @@ Cloneable {
     int time = -1;
     int modDate = -1;
     byte[] extra;
-    public static final int DEFLATED;
-    public static final int STORED;
+    public static final int DEFLATED = 8;
+    public static final int STORED = 0;
 
     public ZipEntry(String string) {
         if (string == null) {
             throw new NullPointerException();
         }
-        if (string.length() > -65536) {
+        if (string.length() > 65535) {
             throw new IllegalArgumentException();
         }
         this.name = string;
@@ -80,7 +80,7 @@ Cloneable {
     }
 
     public void setComment(String string) {
-        if (string != null && string.length() > -65536) {
+        if (string != null && string.length() > 65535) {
             throw new IllegalArgumentException();
         }
         this.comment = string;
@@ -91,14 +91,14 @@ Cloneable {
     }
 
     public void setCrc(long l) {
-        if (l < 0L || l > 0) {
+        if (l < 0L || l > 0xFFFFFFFFL) {
             throw new IllegalArgumentException();
         }
         this.crc = l;
     }
 
     public void setExtra(byte[] byArray) {
-        if (byArray != null && byArray.length > -65536) {
+        if (byArray != null && byArray.length > 65535) {
             throw new IllegalArgumentException();
         }
         this.extra = byArray;
@@ -120,7 +120,7 @@ Cloneable {
     }
 
     public void setSize(long l) {
-        if (l < 0L || l > 0) {
+        if (l < 0L || l > 0xFFFFFFFFL) {
             throw new IllegalArgumentException();
         }
         this.size = l;

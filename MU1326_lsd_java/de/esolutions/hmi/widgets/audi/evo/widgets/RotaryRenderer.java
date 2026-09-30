@@ -10,10 +10,8 @@ import de.esolutions.hmi.widgets.audi.base.widgets.IRenderer;
 public interface RotaryRenderer
 extends IRenderer,
 PreferredSize {
-    default public int getPreferredWidth(HMITerminalImpl hMITerminalImpl) {
-    }
+    public int getPreferredWidth(HMITerminalImpl var1);
 
-    default public int getPreferredHeight(HMITerminalImpl hMITerminalImpl) {
-    }
+    public int getPreferredHeight(HMITerminalImpl var1);
 }
 

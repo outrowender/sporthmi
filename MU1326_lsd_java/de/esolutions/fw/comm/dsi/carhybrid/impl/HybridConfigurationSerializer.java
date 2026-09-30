@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carhybrid.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carhybrid.HybridConfiguration;
 
 public class HybridConfigurationSerializer {
-    public static void putOptionalHybridConfiguration(ISerializer iSerializer, HybridConfiguration hybridConfiguration) {
+    public static void putOptionalHybridConfiguration(ISerializer iSerializer, HybridConfiguration hybridConfiguration) throws SerializerException {
         boolean bl = hybridConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class HybridConfigurationSerializer {
         }
     }
 
-    public static void putOptionalHybridConfigurationVarArray(ISerializer iSerializer, HybridConfiguration[] hybridConfigurationArray) {
+    public static void putOptionalHybridConfigurationVarArray(ISerializer iSerializer, HybridConfiguration[] hybridConfigurationArray) throws SerializerException {
         boolean bl = hybridConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class HybridConfigurationSerializer {
         }
     }
 
-    public static HybridConfiguration getOptionalHybridConfiguration(IDeserializer iDeserializer) {
+    public static HybridConfiguration getOptionalHybridConfiguration(IDeserializer iDeserializer) throws SerializerException {
         HybridConfiguration hybridConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class HybridConfigurationSerializer {
         return hybridConfiguration;
     }
 
-    public static HybridConfiguration[] getOptionalHybridConfigurationVarArray(IDeserializer iDeserializer) {
+    public static HybridConfiguration[] getOptionalHybridConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         HybridConfiguration[] hybridConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

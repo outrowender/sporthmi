@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCVolume;
 
 public class CarBCVolumeSerializer {
-    public static void putOptionalCarBCVolume(ISerializer iSerializer, CarBCVolume carBCVolume) {
+    public static void putOptionalCarBCVolume(ISerializer iSerializer, CarBCVolume carBCVolume) throws SerializerException {
         boolean bl = carBCVolume == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCVolumeSerializer {
         }
     }
 
-    public static void putOptionalCarBCVolumeVarArray(ISerializer iSerializer, CarBCVolume[] carBCVolumeArray) {
+    public static void putOptionalCarBCVolumeVarArray(ISerializer iSerializer, CarBCVolume[] carBCVolumeArray) throws SerializerException {
         boolean bl = carBCVolumeArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCVolumeSerializer {
         }
     }
 
-    public static CarBCVolume getOptionalCarBCVolume(IDeserializer iDeserializer) {
+    public static CarBCVolume getOptionalCarBCVolume(IDeserializer iDeserializer) throws SerializerException {
         CarBCVolume carBCVolume = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCVolumeSerializer {
         return carBCVolume;
     }
 
-    public static CarBCVolume[] getOptionalCarBCVolumeVarArray(IDeserializer iDeserializer) {
+    public static CarBCVolume[] getOptionalCarBCVolumeVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCVolume[] carBCVolumeArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

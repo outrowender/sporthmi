@@ -14,6 +14,7 @@ import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.event.LanguageChangedEvent;
 import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.event.RegisterPartialPopupsEvent;
+import de.audi.atip.hmi.event.RunnableEvent;
 import de.audi.atip.hmi.event.SDSEvent;
 import de.audi.atip.hmi.event.ScreenDebugInfoEvent;
 import de.audi.atip.hmi.event.TouchEvent;
@@ -34,8 +35,6 @@ import de.audi.tghu.hmi.evo.IPartialPopupManagerEvo;
 import de.audi.tghu.hmi.evo.IPartialPopupStub;
 import de.audi.tghu.hmi.evo.IScreenEvo;
 import de.esolutions.fw.util.commons.Buffer;
-import de.esolutions.hmi.widgets.audi.base.AbstractPartialPopupManager$1;
-import de.esolutions.hmi.widgets.audi.base.AbstractPartialPopupManager$2;
 import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 import de.esolutions.hmi.widgets.audi.base.IWidgetLogChannel;
@@ -50,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -57,8 +57,8 @@ public abstract class AbstractPartialPopupManager
 implements IPartialPopupManagerEvo,
 ATIPEventListener {
     private static final boolean SHOW_ONSCREEN_DEBUG_INFOS = Boolean.getBoolean("showPartialPopupDebugInfos");
-    private static final int VOLUME_POPUP_TIMEOUT_DEFAULT;
-    private static final int VOLUME_POPUP_TIMEOUT_RVC;
+    private static final int VOLUME_POPUP_TIMEOUT_DEFAULT = 3000;
+    private static final int VOLUME_POPUP_TIMEOUT_RVC = 500;
     protected HMITerminalImpl terminal;
     protected IScreenManager screenManager;
     protected Map popups = new HashMap(180);
@@ -67,14 +67,14 @@ ATIPEventListener {
     private IPartialPopupControllerEvo lastShownPopup;
     protected IPartialPopupControllerEvo[] currentVisiblePopups;
     protected IPartialPopupControllerEvo[] currentAnimatingPopups;
-    private static final int[] SLOTS;
+    private static final int[] SLOTS = new int[]{0, 1, 2, 4, 6, 7, 8, 9, 11, 12, 13};
     protected Set blockedPopups = new HashSet();
     protected Screen currentConnectedScreen;
     private boolean partialPopupsGloballyEnabled = true;
     private boolean allPartialPopupsAllowedByScreen = true;
     private int lastScreentype = -1;
-    public static final LogChannel LOGPOPUPS;
-    public static final LogChannel LOGPERFORMANCE;
+    public static final LogChannel LOGPOPUPS = IWidgetLogChannel.logChannelPopups;
+    public static final LogChannel LOGPERFORMANCE = IWidgetLogChannel.logWidgetPerformance;
     protected BundleContext bundleContext;
     protected IModelConnectService connectingService;
     private EventDispatcher eventDispatcher;
@@ -96,7 +96,7 @@ ATIPEventListener {
     }
 
     public void startTrackingServices() {
-        IWidgetLogChannel.logChannelPopups.log(-2137614336, "PartialPopupManager#startTrackingServices");
+        IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupManager#startTrackingServices");
         this.initializePartialPopupListenerTracker();
         this.initializeUnboundPartialPopupTracker();
     }
@@ -105,16 +105,104 @@ ATIPEventListener {
     }
 
     private void initializePartialPopupListenerTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$view$IPartialPopupListener == null ? (class$de$audi$atip$hmi$view$IPartialPopupListener = AbstractPartialPopupManager.class$("de.audi.atip.hmi.view.IPartialPopupListener")) : class$de$audi$atip$hmi$view$IPartialPopupListener).getName(), (ServiceTrackerCustomizer)new AbstractPartialPopupManager$1(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$view$IPartialPopupListener == null ? (class$de$audi$atip$hmi$view$IPartialPopupListener = AbstractPartialPopupManager.class$("de.audi.atip.hmi.view.IPartialPopupListener")) : class$de$audi$atip$hmi$view$IPartialPopupListener).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                final IPartialPopupListener iPartialPopupListener = (IPartialPopupListener)AbstractPartialPopupManager.this.bundleContext.getService(serviceReference);
+                IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupManager#addingService reference: %1, ppListener: %2", (Object)serviceReference, (Object)iPartialPopupListener);
+                AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new Runnable(){
+
+                    public void run() {
+                        int[] nArray;
+                        if (iPartialPopupListener != null && (nArray = iPartialPopupListener.getPPIDsForCallbacks()) != null) {
+                            for (int i2 = 0; i2 < nArray.length; ++i2) {
+                                int n = nArray[i2];
+                                Integer n2 = new Integer(n);
+                                ArrayList arrayList = (ArrayList)AbstractPartialPopupManager.this.partialPopupListenerList.get(n2);
+                                if (arrayList == null) {
+                                    arrayList = new ArrayList(2);
+                                    AbstractPartialPopupManager.this.partialPopupListenerList.put(n2, arrayList);
+                                }
+                                if (arrayList.contains(iPartialPopupListener)) continue;
+                                IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupManager#addingService add(ppListener): %1", (Object)iPartialPopupListener);
+                                arrayList.add(iPartialPopupListener);
+                                iPartialPopupListener.partialPopupListenerRegistered(n, (this).AbstractPartialPopupManager.this.terminal.getTerminalID(), this.isPartialPopupVisible(n));
+                            }
+                        }
+                    }
+                }));
+                return iPartialPopupListener;
+            }
+
+            private boolean isPartialPopupVisible(int n) {
+                for (int i2 = 0; i2 < AbstractPartialPopupManager.this.currentVisiblePopups.length; ++i2) {
+                    IPartialPopupControllerEvo iPartialPopupControllerEvo = AbstractPartialPopupManager.this.currentVisiblePopups[i2];
+                    if (iPartialPopupControllerEvo == null || iPartialPopupControllerEvo.getID() != n) continue;
+                    return true;
+                }
+                return false;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                final IPartialPopupListener iPartialPopupListener = (IPartialPopupListener)AbstractPartialPopupManager.this.bundleContext.getService(serviceReference);
+                IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupManager#removedService reference: %1, ppListener: %2", (Object)serviceReference, (Object)iPartialPopupListener);
+                AbstractWidget.hmiService.getEventDispatcher().postEvent(new RunnableEvent(true, new Runnable(){
+
+                    public void run() {
+                        int[] nArray;
+                        if (iPartialPopupListener != null && (nArray = iPartialPopupListener.getPPIDsForCallbacks()) != null) {
+                            for (int i2 = 0; i2 < nArray.length; ++i2) {
+                                Integer n = new Integer(nArray[i2]);
+                                ArrayList arrayList = (ArrayList)AbstractPartialPopupManager.this.partialPopupListenerList.get(n);
+                                if (arrayList == null || !arrayList.contains(iPartialPopupListener)) continue;
+                                IWidgetLogChannel.logChannelPopups.log(10000000, "PartialPopupManager#removeService remove(ppListener): %1", (Object)iPartialPopupListener);
+                                arrayList.remove(iPartialPopupListener);
+                            }
+                        }
+                    }
+                }));
+            }
+        });
         serviceTracker.open();
     }
 
     private void initializeUnboundPartialPopupTracker() {
-        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = AbstractPartialPopupManager.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), (ServiceTrackerCustomizer)new AbstractPartialPopupManager$2(this));
+        ServiceTracker serviceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = AbstractPartialPopupManager.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                HMIBundle hMIBundle = (HMIBundle)AbstractPartialPopupManager.this.bundleContext.getService(serviceReference);
+                LOGPOPUPS.log(1000000, "PartialPopupManager#initializeUnboundPartialPopupTracker: addingService HMIBundle: service: %1", (Object)hMIBundle);
+                long l = AbstractPartialPopupManager.this.framework.getMonotonicTime();
+                IPartialPopupController[] iPartialPopupControllerArray = hMIBundle.getPartialPopupStubs(AbstractPartialPopupManager.this.terminal.getTerminalID());
+                if (LOGPERFORMANCE.isDebug()) {
+                    long l2 = AbstractPartialPopupManager.this.framework.getMonotonicTime();
+                    LOGPERFORMANCE.log(10000000, "PartialPopupManager#initializeUnboundPartialPopupTracker getting PartialPopupStubs from bundle %1 took %2ms", (long)hMIBundle.getId(), l2 - l);
+                }
+                AbstractWidget.hmiService.getEventDispatcher().postEvent(new RegisterPartialPopupsEvent(AbstractPartialPopupManager.this, iPartialPopupControllerArray, true, hMIBundle.getId()));
+                return hMIBundle;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+                LOGPOPUPS.log(10000000, "PartialPopupManager: modified HMIBundle: service: %1, ignored!", object);
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                LOGPOPUPS.log(1000000, "PartialPopupManager#initializeUnboundPartialPopupTracker: removedService HMIBundle: service: %1", object);
+                long l = AbstractPartialPopupManager.this.framework.getMonotonicTime();
+                IPartialPopupController[] iPartialPopupControllerArray = ((HMIBundle)object).getPartialPopupStubs(AbstractPartialPopupManager.this.terminal.getTerminalID());
+                if (LOGPERFORMANCE.isDebug()) {
+                    long l2 = AbstractPartialPopupManager.this.framework.getMonotonicTime();
+                    LOGPERFORMANCE.log(10000000, "PartialPopupManager#removedService getting PartialPopupStubs from bundle %1 took %2ms", (long)((HMIBundle)object).getId(), l2 - l);
+                }
+                AbstractWidget.hmiService.getEventDispatcher().postEvent(new RegisterPartialPopupsEvent(AbstractPartialPopupManager.this, iPartialPopupControllerArray, false, ((HMIBundle)object).getId()));
+            }
+        });
         serviceTracker.open();
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent instanceof RegisterPartialPopupsEvent) {
             RegisterPartialPopupsEvent registerPartialPopupsEvent = (RegisterPartialPopupsEvent)aTIPEvent;
@@ -122,19 +210,19 @@ ATIPEventListener {
             if (iPartialPopupControllerArray != null) {
                 if (registerPartialPopupsEvent.isServiceAdded()) {
                     long l = this.framework.getMonotonicTime();
-                    LOGPOPUPS.log(1078071040, "PartialPopupManager#processEvent -> connectNewUnboundPartialPopups for bundle %1", (long)registerPartialPopupsEvent.getBundleID());
+                    LOGPOPUPS.log(1000000, "PartialPopupManager#processEvent -> connectNewUnboundPartialPopups for bundle %1", (long)registerPartialPopupsEvent.getBundleID());
                     this.connectNewUnboundPartialPopups(iPartialPopupControllerArray);
                     if (LOGPERFORMANCE.isDebug()) {
                         long l2 = this.framework.getMonotonicTime();
-                        LOGPERFORMANCE.log(-2137614336, "PartialPopupManager#processEvent connecting partial popups from bundle %1 took %2ms", (long)registerPartialPopupsEvent.getBundleID(), l2 - l);
+                        LOGPERFORMANCE.log(10000000, "PartialPopupManager#processEvent connecting partial popups from bundle %1 took %2ms", (long)registerPartialPopupsEvent.getBundleID(), l2 - l);
                     }
                 } else {
-                    LOGPOPUPS.log(1078071040, "PartialPopupManager#processEvent -> disconnectOldUnboundPartialPopups for bundle %1", (long)registerPartialPopupsEvent.getBundleID());
+                    LOGPOPUPS.log(1000000, "PartialPopupManager#processEvent -> disconnectOldUnboundPartialPopups for bundle %1", (long)registerPartialPopupsEvent.getBundleID());
                     this.disconnectOldUnboundPartialPopups(iPartialPopupControllerArray);
                 }
             }
         } else {
-            LOGPOPUPS.log(-1601830656, "PartialPopupManager#processEvent: Unknown event: %1", (Object)aTIPEvent);
+            LOGPOPUPS.log(100000, "PartialPopupManager#processEvent: Unknown event: %1", (Object)aTIPEvent);
         }
     }
 
@@ -190,8 +278,7 @@ ATIPEventListener {
         return n2;
     }
 
-    public abstract String getPopupName(int n) {
-    }
+    public abstract String getPopupName(int var1);
 
     protected boolean checkIfPopupHasToBeBlocked(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
         if (iPartialPopupControllerEvo != null && !iPartialPopupControllerEvo.isPopupActive()) {
@@ -207,7 +294,7 @@ ATIPEventListener {
         if (this.currentConnectedScreen != null) {
             return this.currentConnectedScreen.isPartialPopupBlocked(iPartialPopupControllerEvo);
         }
-        LOGPOPUPS.log(-1601830656, "PartialPopupManager#checkIfPopupHasToBeBlocked currentConnectedScreen is null (has not been set correctly or no screen shown yet)");
+        LOGPOPUPS.log(100000, "PartialPopupManager#checkIfPopupHasToBeBlocked currentConnectedScreen is null (has not been set correctly or no screen shown yet)");
         return false;
     }
 
@@ -247,12 +334,11 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public int showPopup(int n, IPartialPopupListener iPartialPopupListener) {
         Integer n2;
         ArrayList arrayList;
         if (LOGPOPUPS.isInfo()) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup popup with id %1 is triggered by a PartialPopupActivatorWidget", (Object)this.getPopupName(n));
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup popup with id %1 is triggered by a PartialPopupActivatorWidget", (Object)this.getPopupName(n));
         }
         if ((arrayList = (ArrayList)this.partialPopupListenerList.get(n2 = new Integer(n))) == null) {
             arrayList = new ArrayList(2);
@@ -265,22 +351,20 @@ ATIPEventListener {
         return n3;
     }
 
-    @Override
     public int showPopupAndRepaintScreen(int n) {
         int n2 = this.showPopup(n);
-        IWidgetLogChannel.logRepaintCause.log(-2137614336, "PartialPopupManager#showPopupAndRepaintScreen: do checked repaint. popup: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
+        IWidgetLogChannel.logRepaintCause.log(10000000, "PartialPopupManager#showPopupAndRepaintScreen: do checked repaint. popup: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
         this.repaintScreen();
         return n2;
     }
 
-    protected abstract boolean isSDSPartialPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
-    }
+    protected abstract boolean isSDSPartialPopup(IPartialPopupControllerEvo var1);
 
     protected int doShowPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo, int n) {
-        LOGPOPUPS.log(-2137614336, "PartialPopupManager#doShowPopup style: %1, id: %2", (long)n, (long)iPartialPopupControllerEvo.getID());
+        LOGPOPUPS.log(10000000, "PartialPopupManager#doShowPopup style: %1, id: %2", (long)n, (long)iPartialPopupControllerEvo.getID());
         this.currentAnimatingPopups[iPartialPopupControllerEvo.getSlot()] = iPartialPopupControllerEvo;
         int n2 = iPartialPopupControllerEvo.show(n);
-        LOGPOPUPS.log(-2137614336, "PartialPopupManager#doShowPopup: result of popup.show(style) is: %1", (long)n2);
+        LOGPOPUPS.log(10000000, "PartialPopupManager#doShowPopup: result of popup.show(style) is: %1", (long)n2);
         if (n2 != 1) {
             this.currentAnimatingPopups[iPartialPopupControllerEvo.getSlot()] = null;
         }
@@ -292,8 +376,8 @@ ATIPEventListener {
     }
 
     private void getPartialPopupStubsForModule(int n) {
-        LOGPOPUPS.log(-2137614336, "PartialPopupManager#getPartialPopupStubsForModule: try to get all unbound partialPopups for moduleID %1", (long)n);
-        HMIBundle hMIBundle = AbstractWidget.hmiService.getHMIBundle(n * -1601830656);
+        LOGPOPUPS.log(10000000, "PartialPopupManager#getPartialPopupStubsForModule: try to get all unbound partialPopups for moduleID %1", (long)n);
+        HMIBundle hMIBundle = AbstractWidget.hmiService.getHMIBundle(n * 100000);
         if (hMIBundle == null) {
             LOGPOPUPS.log(10000, "PartialPopupManager#getPartialPopupStubsForModule: No HMIBundle for moduleID %1 available", (long)n);
         } else {
@@ -305,7 +389,7 @@ ATIPEventListener {
             }
             if (LOGPERFORMANCE.isDebug()) {
                 long l3 = this.framework.getMonotonicTime();
-                LOGPERFORMANCE.log(-2137614336, "PartialPopupManager#getUnboundPopupsForModule getting partial popups from module %1 took %2ms, connecting new popups took %3ms", (long)n, l2 - l, l3 - l2);
+                LOGPERFORMANCE.log(10000000, "PartialPopupManager#getUnboundPopupsForModule getting partial popups from module %1 took %2ms, connecting new popups took %3ms", (long)n, l2 - l, l3 - l2);
             }
         }
     }
@@ -313,7 +397,6 @@ ATIPEventListener {
     /*
      * Enabled aggressive block sorting
      */
-    @Override
     public int showPopup(int n) {
         Object object;
         int n2;
@@ -323,31 +406,31 @@ ATIPEventListener {
         block22: {
             string = this.getPopupName(n);
             if (!this.partialPopupsGloballyEnabled) {
-                LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup popup with id %1 can not be shown because partial popups have been disabled globally", (Object)string);
+                LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup popup with id %1 can not be shown because partial popups have been disabled globally", (Object)string);
                 this.blockedPopups.add(Util.createInteger(n));
                 return 2;
             }
             n3 = new Integer(n);
             if (!this.popups.containsKey(n3) && n != this.getPopupIdInvalid()) {
-                int n4 = n / -1601830656;
+                int n4 = n / 100000;
                 this.getPartialPopupStubsForModule(n4);
             }
             if (!this.popups.containsKey(n3)) {
                 if (n == this.getPopupIdInvalid()) return 2;
-                LOGPOPUPS.log(-1601830656, "PartialPopupManager#showPopup no popup with id %1 was registered", (Object)this.getPopupName(n3));
+                LOGPOPUPS.log(100000, "PartialPopupManager#showPopup no popup with id %1 was registered", (Object)this.getPopupName(n3));
                 return 3;
             }
             iPartialPopupControllerEvo = (IPartialPopupControllerEvo)this.popups.get(n3);
             if (this.checkIfPopupHasToBeBlocked(iPartialPopupControllerEvo)) {
                 return 2;
             }
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup try to show popup with id %1, prio %2", (Object)string, (long)iPartialPopupControllerEvo.getPriority());
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup try to show popup with id %1, prio %2", (Object)string, (long)iPartialPopupControllerEvo.getPriority());
             if (this.currentConnectedScreen == null && this.terminal.getRootWindow().getCurrentScreen() == null) {
                 if (!iPartialPopupControllerEvo.isFallbackScreenAllowed()) {
-                    LOGPOPUPS.log(-1601830656, "PartialPopupManager#showPopup popup with id %1 shall be shown but fallback screen is not allowed", (Object)string);
+                    LOGPOPUPS.log(100000, "PartialPopupManager#showPopup popup with id %1 shall be shown but fallback screen is not allowed", (Object)string);
                     return 2;
                 }
-                LOGPOPUPS.log(-1601830656, "PartialPopupManager#showPopup popup with id %1 shall be shown but no screen connected, try to show fallback screen", (Object)string);
+                LOGPOPUPS.log(100000, "PartialPopupManager#showPopup popup with id %1 shall be shown but no screen connected, try to show fallback screen", (Object)string);
                 AbstractWidget.hmiService.showFallbackScreen(this.terminal.getTerminalID());
                 if (this.currentConnectedScreen == null) {
                     LOGPOPUPS.log(1000, "PartialPopupManager#showPopup popup with id %1 shall cannot be shown because fallback screen could not be connected.", (Object)string);
@@ -360,27 +443,27 @@ ATIPEventListener {
                     this.waitingPopupsQueues[n2].remove(iPartialPopupControllerEvo);
                     break block22;
                 } else {
-                    LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup popup with id %1 is already visible or in waiting queue", (Object)string);
+                    LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup popup with id %1 is already visible or in waiting queue", (Object)string);
                     return 1;
                 }
             }
             if (this.currentAnimatingPopups[n2] != null && this.currentAnimatingPopups[n2] == iPartialPopupControllerEvo) {
                 this.currentAnimatingPopups[n2] = null;
-                LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup same popup is animating , removed doubled popup with id %1 ", (Object)string);
+                LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup same popup is animating , removed doubled popup with id %1 ", (Object)string);
             }
         }
         int n5 = this.insertIntoWaitingPopupQueue(iPartialPopupControllerEvo, n2);
         if (n5 > 0) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup there are other popups in the waiting queue with higher prio, index in queue is %1 (popupID = %2)", (long)n5, (long)n);
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup there are other popups in the waiting queue with higher prio, index in queue is %1 (popupID = %2)", (long)n5, (long)n);
             object = (IPartialPopupController)this.waitingPopupsQueues[n2].get(0);
             if (object != null) {
-                LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup current highest prio popup in slot %1 has id: %2", (long)n2, (long)object.getID());
+                LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup current highest prio popup in slot %1 has id: %2", (long)n2, (long)object.getID());
             } else {
                 LOGPOPUPS.log(10000, "PartialPopupManager#showPopup popup with id: %1 has not highest prio, but no higher prio partial popup available", (long)n);
             }
         }
         if (!this.isPopupAllowedOnScreen(iPartialPopupControllerEvo)) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup there are full screen popups with higher prio, index in queue is %1 (popupID = %2)", (long)n5, (long)n);
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup there are full screen popups with higher prio, index in queue is %1 (popupID = %2)", (long)n5, (long)n);
             object = (ArrayList)this.partialPopupListenerList.get(n3);
             if (object == null) return 2;
             int n6 = ((ArrayList)object).size();
@@ -393,7 +476,7 @@ ATIPEventListener {
             return 2;
         }
         if (this.isPopupSuppressedByOtherSlot(iPartialPopupControllerEvo)) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup  popup %1 in slot %2is not shown because popup in other slot suppresses popup", (long)n, (long)n2);
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup  popup %1 in slot %2is not shown because popup in other slot suppresses popup", (long)n, (long)n2);
             object = (ArrayList)this.partialPopupListenerList.get(n3);
             if (object == null) return 2;
             int n8 = ((ArrayList)object).size();
@@ -411,7 +494,7 @@ ATIPEventListener {
             int n10 = this.doShowPopup(iPartialPopupControllerEvo, iPartialPopupControllerEvo.getStyle());
             if (n10 != 1) {
                 this.waitingPopupsQueues[n2].remove(n5);
-                LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup IPartialPopup.show() returned SHOW_ERROR -> the popup has not been shown (popupID = %1)", (Object)string);
+                LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup IPartialPopup.show() returned SHOW_ERROR -> the popup has not been shown (popupID = %1)", (Object)string);
             }
             if (n10 != 1) return 3;
             return 1;
@@ -420,7 +503,7 @@ ATIPEventListener {
         object = null;
         object = null != this.currentVisiblePopups[n2] ? this.currentVisiblePopups[n2] : this.currentAnimatingPopups[n2];
         if (LOGPOPUPS.isInfo()) {
-            LOGPOPUPS.log(1078071040, "PartialPopupManager#showPopup popup with id %1 rules out popup with id %2", (Object)string, (Object)this.getPopupName(object.getID()));
+            LOGPOPUPS.log(1000000, "PartialPopupManager#showPopup popup with id %1 rules out popup with id %2", (Object)string, (Object)this.getPopupName(object.getID()));
         }
         int n11 = object.getStyle();
         if (iPartialPopupControllerEvo.getSlot() == 1 || iPartialPopupControllerEvo.getSlot() == 2) {
@@ -447,20 +530,17 @@ ATIPEventListener {
         return !(iPartialPopupControllerEvo.getSlot() != 1 && iPartialPopupControllerEvo.getSlot() != 2 || this.currentVisiblePopups[4] == null && this.currentAnimatingPopups[4] == null);
     }
 
-    @Override
     public int hidePopupAndRepaintScreen(int n) {
         int n2 = this.hidePopup(n);
-        IWidgetLogChannel.logRepaintCause.log(-2137614336, "PartialPopupManager#hidePopupAndRepaintScreen: do checked repaint. popup: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
+        IWidgetLogChannel.logRepaintCause.log(10000000, "PartialPopupManager#hidePopupAndRepaintScreen: do checked repaint. popup: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
         this.repaintScreen();
         return n2;
     }
 
-    @Override
     public int hidePopup(int n) {
         return this.hidePopup(n, true);
     }
 
-    @Override
     public int hidePopup(int n, boolean bl) {
         Integer n2 = new Integer(n);
         if (this.popups.containsKey(n2)) {
@@ -471,7 +551,7 @@ ATIPEventListener {
                 int n5;
                 this.waitingPopupsQueues[n3].remove(n4);
                 if (bl && (n5 = this.screenManager.removePartialPopupFromScreenData(this.currentConnectedScreen.getID(), n)) != 0) {
-                    LOGPOPUPS.log(1078071040, "PartialPopupManager#hidePopup popup with id %1 has been removed from screendata", (Object)this.getPopupName(n));
+                    LOGPOPUPS.log(1000000, "PartialPopupManager#hidePopup popup with id %1 has been removed from screendata", (Object)this.getPopupName(n));
                 }
                 this.blockedPopups.remove(Util.createInteger(iPartialPopupControllerEvo.getID()));
                 n5 = iPartialPopupControllerEvo.getStyle();
@@ -479,7 +559,7 @@ ATIPEventListener {
                     n5 = 2;
                 }
                 if (LOGPOPUPS.isInfo()) {
-                    LOGPOPUPS.log(1078071040, "PartialPopupManager#hidePopup try to hide popup with id %1", (Object)this.getPopupName(n));
+                    LOGPOPUPS.log(1000000, "PartialPopupManager#hidePopup try to hide popup with id %1", (Object)this.getPopupName(n));
                 }
                 if (this.waitingPopupsQueues[n3].size() <= 0) {
                     iPartialPopupControllerEvo.activateBackgroundGrayOut();
@@ -503,10 +583,9 @@ ATIPEventListener {
         return 2;
     }
 
-    @Override
     public int popupVisible(int n) {
         Object object;
-        LOGPOPUPS.log(-2137614336, "PartialPopupManager#popupVisible called with id: %1", (long)n);
+        LOGPOPUPS.log(10000000, "PartialPopupManager#popupVisible called with id: %1", (long)n);
         int n2 = 3;
         Integer n3 = new Integer(n);
         if (this.popups.containsKey(n3)) {
@@ -539,7 +618,7 @@ ATIPEventListener {
         }
         if (n2 == 1) {
             object = (ArrayList)this.partialPopupListenerList.get(n3);
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#popupVisible id: %2, listeners: %1", object, (long)n);
+            LOGPOPUPS.log(10000000, "PartialPopupManager#popupVisible id: %2, listeners: %1", object, (long)n);
             if (object != null) {
                 int n5 = ((ArrayList)object).size();
                 for (int i2 = 0; i2 < n5; ++i2) {
@@ -571,7 +650,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public int popupHidden(int n) {
         int n2;
         Object object;
@@ -593,7 +671,7 @@ ATIPEventListener {
                     if (this.isPopupAllowedOnScreen(iPartialPopupControllerEvo) && !this.isPopupSuppressedByOtherSlot(iPartialPopupControllerEvo)) {
                         int n5;
                         if (LOGPOPUPS.isInfo()) {
-                            LOGPOPUPS.log(1078071040, "PartialPopupManager#popupHidden popup with id %1 was hidden; try to show next popup in queue (id %2)", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
+                            LOGPOPUPS.log(1000000, "PartialPopupManager#popupHidden popup with id %1 was hidden; try to show next popup in queue (id %2)", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
                         }
                         int n6 = iPartialPopupControllerEvo.getStyle();
                         if (iPartialPopupControllerEvo.getSlot() == 1 || iPartialPopupControllerEvo.getSlot() == 2) {
@@ -601,15 +679,15 @@ ATIPEventListener {
                         }
                         if ((n5 = this.doShowPopup(iPartialPopupControllerEvo, n6)) != 1) {
                             if (LOGPOPUPS.isDebug()) {
-                                LOGPOPUPS.log(-2137614336, "PartialPopupManager#popupHidden popup with id %1 could not be shown", (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
+                                LOGPOPUPS.log(10000000, "PartialPopupManager#popupHidden popup with id %1 could not be shown", (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
                             }
                             this.currentVisiblePopups[n2] = null;
                         }
                     } else if (LOGPOPUPS.isInfo()) {
                         if (this.isPopupSuppressedByOtherSlot(iPartialPopupControllerEvo)) {
-                            LOGPOPUPS.log(1078071040, "PartialPopupManager#popupHidden popup with id %1 was hidden and shall not be shown directly again because it is suppressed by other popup in other slot", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
+                            LOGPOPUPS.log(1000000, "PartialPopupManager#popupHidden popup with id %1 was hidden and shall not be shown directly again because it is suppressed by other popup in other slot", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
                         } else {
-                            LOGPOPUPS.log(1078071040, "PartialPopupManager#popupHidden popup with id %1 was hidden; the next popup in queue (id %2) has lower priority than the current full screen popup", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
+                            LOGPOPUPS.log(1000000, "PartialPopupManager#popupHidden popup with id %1 was hidden; the next popup in queue (id %2) has lower priority than the current full screen popup", (Object)this.getPopupName(n), (Object)this.getPopupName(iPartialPopupControllerEvo.getID()));
                         }
                     }
                 } else {
@@ -618,7 +696,7 @@ ATIPEventListener {
             }
             n3 = 2;
         } else {
-            LOGPOPUPS.log(-1601830656, "PartialPopupManager#popupHidden no popup with id %1 was registered", (Object)this.getPopupName(n));
+            LOGPOPUPS.log(100000, "PartialPopupManager#popupHidden no popup with id %1 was registered", (Object)this.getPopupName(n));
             n3 = 3;
         }
         if (n3 == 2 && (object = (ArrayList)this.partialPopupListenerList.get(n4)) != null) {
@@ -660,8 +738,7 @@ ATIPEventListener {
         }
     }
 
-    protected abstract IPartialPopupListener getActivatorListener(List list) {
-    }
+    protected abstract IPartialPopupListener getActivatorListener(List var1);
 
     private int replacePopupStub(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
         Integer n = new Integer(iPartialPopupControllerEvo.getID());
@@ -670,7 +747,7 @@ ATIPEventListener {
             int n3;
             int n4;
             if (LOGPOPUPS.isDebug()) {
-                LOGPOPUPS.log(-2137614336, "PartialPopupManager#replacePopupStub with id %1", (Object)this.getPopupName(n));
+                LOGPOPUPS.log(10000000, "PartialPopupManager#replacePopupStub with id %1", (Object)this.getPopupName(n));
             }
             if ((n4 = iPartialPopupControllerEvo.getSlot()) < IPartialPopupManagerEvo.PARTIAL_POPUP_SLOT_DEPTHS.length) {
                 n3 = IPartialPopupManagerEvo.PARTIAL_POPUP_SLOT_DEPTHS[n4];
@@ -696,11 +773,10 @@ ATIPEventListener {
             }
             return 1;
         }
-        LOGPOPUPS.log(1078071040, "PartialPopupManager#replacePopup no popup with id %1 can be replaced", (Object)this.getPopupName(n));
+        LOGPOPUPS.log(1000000, "PartialPopupManager#replacePopup no popup with id %1 can be replaced", (Object)this.getPopupName(n));
         return 2;
     }
 
-    @Override
     public int registerPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
         int n;
         int n2;
@@ -713,7 +789,7 @@ ATIPEventListener {
             return 2;
         }
         if (LOGPOPUPS.isDebug()) {
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#registerPopup with id %1", (Object)this.getPopupName(n3));
+            LOGPOPUPS.log(10000000, "PartialPopupManager#registerPopup with id %1", (Object)this.getPopupName(n3));
         }
         if ((n2 = iPartialPopupControllerEvo.getSlot()) < IPartialPopupManagerEvo.PARTIAL_POPUP_SLOT_DEPTHS.length) {
             n = IPartialPopupManagerEvo.PARTIAL_POPUP_SLOT_DEPTHS[n2];
@@ -726,7 +802,6 @@ ATIPEventListener {
         return 1;
     }
 
-    @Override
     public int deregisterPopup(IPartialPopupControllerEvo iPartialPopupControllerEvo) {
         Integer n = new Integer(iPartialPopupControllerEvo.getID());
         if (this.popups.containsKey(n)) {
@@ -738,7 +813,7 @@ ATIPEventListener {
                 }
             }
             if (LOGPOPUPS.isDebug()) {
-                LOGPOPUPS.log(-2137614336, "PartialPopupManager#deregisterPopup with id %1", (Object)this.getPopupName(n));
+                LOGPOPUPS.log(10000000, "PartialPopupManager#deregisterPopup with id %1", (Object)this.getPopupName(n));
             }
             this.popups.remove(n);
             int n3 = this.waitingPopupsQueues[n2].indexOf(iPartialPopupControllerEvo);
@@ -747,7 +822,7 @@ ATIPEventListener {
             }
             return 1;
         }
-        LOGPOPUPS.log(-2137614336, "PartialPopupManager#deregisterPopup there is no popup registered with this id (%1)", (Object)this.getPopupName(n));
+        LOGPOPUPS.log(10000000, "PartialPopupManager#deregisterPopup there is no popup registered with this id (%1)", (Object)this.getPopupName(n));
         return 2;
     }
 
@@ -758,20 +833,19 @@ ATIPEventListener {
             IPartialPopupControllerEvo iPartialPopupControllerEvo = (IPartialPopupControllerEvo)this.getPartialPopup(this.getPopupIdVolume());
             if (iPartialPopupControllerEvo != null) {
                 if (n == 5) {
-                    LOGPOPUPS.log(-2137614336, "PartialPopupManager#updateVolumePopupTimeout to %1 for RVC", (long)0);
+                    LOGPOPUPS.log(10000000, "PartialPopupManager#updateVolumePopupTimeout to %1 for RVC", 500L);
                     iPartialPopupControllerEvo.setAutoHideTime(500);
                 } else {
-                    LOGPOPUPS.log(-2137614336, "PartialPopupManager#updateVolumePopupTimeout to %1", (long)0);
+                    LOGPOPUPS.log(10000000, "PartialPopupManager#updateVolumePopupTimeout to %1", 3000L);
                     iPartialPopupControllerEvo.setAutoHideTime(3000);
                 }
             }
         }
     }
 
-    @Override
     public void oldScreenDisconnecting(Screen screen) {
         if (screen != null) {
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#hideNotSurvivingPartialPopups screenID = %1", (long)screen.getID());
+            LOGPOPUPS.log(10000000, "PartialPopupManager#hideNotSurvivingPartialPopups screenID = %1", (long)screen.getID());
         }
         this.setUnboundPartialPopupsInvalid();
         for (int i2 = 0; i2 < this.waitingPopupsQueues.length; ++i2) {
@@ -788,10 +862,9 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void newScreenConnected(Screen screen) {
         if (screen != null) {
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#newScreenConnected screenID = %1", (long)screen.getID());
+            LOGPOPUPS.log(10000000, "PartialPopupManager#newScreenConnected screenID = %1", (long)screen.getID());
         }
         this.setUnboundPartialPopupsInvalid();
         this.currentConnectedScreen = screen;
@@ -820,26 +893,22 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void hideAllPopupsAndRepaintScreen(int n) {
         int n2;
         for (int i2 = n2 = this.waitingPopupsQueues[n].size() - 1; i2 >= 0; --i2) {
             IPartialPopupControllerEvo iPartialPopupControllerEvo = (IPartialPopupControllerEvo)this.waitingPopupsQueues[n].get(i2);
             this.hidePopup(iPartialPopupControllerEvo.getID());
         }
-        IWidgetLogChannel.logRepaintCause.log(-2137614336, "PartialPopupManager#hideAllPopupsAndRepaintScreen: do checked repaint. slot: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
+        IWidgetLogChannel.logRepaintCause.log(10000000, "PartialPopupManager#hideAllPopupsAndRepaintScreen: do checked repaint. slot: %2, connected screen %1", (Object)this.currentConnectedScreen, (long)n);
         this.repaintScreen();
     }
 
-    protected abstract void repaintScreen() {
-    }
+    protected abstract void repaintScreen();
 
-    @Override
     public IPartialPopupController getCurrentVisiblePopup(int n) {
         return this.currentVisiblePopups[n];
     }
 
-    @Override
     public void hideNotScreenChangeSurvivingPopups() {
         for (int i2 = 0; i2 < this.waitingPopupsQueues.length; ++i2) {
             int n;
@@ -873,7 +942,7 @@ ATIPEventListener {
             return false;
         }
         if (this.popups.isEmpty()) {
-            LOGPOPUPS.log(-2137614336, "PartialPopupManager#propagateModelUpdateEvent modelUpdateEvent is: %1; no popups registered at the moment", (Object)modelUpdateEvent);
+            LOGPOPUPS.log(10000000, "PartialPopupManager#propagateModelUpdateEvent modelUpdateEvent is: %1; no popups registered at the moment", (Object)modelUpdateEvent);
             return false;
         }
         boolean bl = false;
@@ -895,7 +964,6 @@ ATIPEventListener {
         return bl;
     }
 
-    @Override
     public boolean processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         return this.propagateModelUpdateEvent(modelUpdateEvent);
     }
@@ -905,7 +973,6 @@ ATIPEventListener {
         ((AbstractWidget)((Object)iPartialPopupControllerEvo)).managePaint(redrawContext);
     }
 
-    @Override
     public void paintUnboundPopups() {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -927,7 +994,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             if (!this.shouldReceiveKeyEvents(this.sortedSlots[i2])) continue;
@@ -938,7 +1004,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             if (!this.shouldReceiveKeyEvents(this.sortedSlots[i2])) continue;
@@ -962,7 +1027,6 @@ ATIPEventListener {
         return iPartialPopupControllerEvo.hasPopupDrawer();
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             if (!this.shouldReceiveKeyEvents(this.sortedSlots[i2])) continue;
@@ -973,7 +1037,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             if (!this.shouldReceiveKeyEvents(this.sortedSlots[i2])) continue;
@@ -984,11 +1047,9 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void processSDSEvent(SDSEvent sDSEvent) {
     }
 
-    @Override
     public String[] getRegisteredPopupsDebugOutput() {
         String[] stringArray;
         if (this.popups.isEmpty()) {
@@ -1013,7 +1074,7 @@ ATIPEventListener {
                 } else {
                     buffer.append("    type = bound\n");
                 }
-                String string = super.getClass().getName();
+                String string = iPartialPopupControllerEvo.getClass().getName();
                 int n3 = string.lastIndexOf(".") + 1;
                 buffer.append(new StringBuffer().append("    widget = ").append(string.substring(n3)).toString());
                 stringArray[n] = new String(buffer.toString());
@@ -1023,7 +1084,6 @@ ATIPEventListener {
         return stringArray;
     }
 
-    @Override
     public String[] getVisiblePopupsDebugOutput() {
         String[] stringArray = new String[this.currentVisiblePopups.length];
         Buffer buffer = new Buffer();
@@ -1040,7 +1100,7 @@ ATIPEventListener {
             } else {
                 buffer.append("; type = bound");
             }
-            String string = super.getClass().getName();
+            String string = this.currentVisiblePopups[i2].getClass().getName();
             int n = string.lastIndexOf(".") + 1;
             buffer.append(new StringBuffer().append("; widget = ").append(string.substring(n)).toString());
             int n2 = i2;
@@ -1049,7 +1109,6 @@ ATIPEventListener {
         return stringArray;
     }
 
-    @Override
     public IPartialPopupController getPartialPopup(int n) {
         IPartialPopupController iPartialPopupController = (IPartialPopupController)this.popups.get(new Integer(n));
         if (iPartialPopupController instanceof IPartialPopupStub) {
@@ -1058,7 +1117,6 @@ ATIPEventListener {
         return iPartialPopupController;
     }
 
-    @Override
     public void setPopupOpacity(float f2) {
         for (int i2 = 0; i2 < this.waitingPopupsQueues.length; ++i2) {
             if (this.currentVisiblePopups[i2] == null || this.currentVisiblePopups[i2].getType() != 8 && this.currentVisiblePopups[i2].survivesScreenChange()) continue;
@@ -1066,9 +1124,8 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void setPartialPopupsEnabled(boolean bl) {
-        LOGPOPUPS.log(1078071040, "PartialPopupManager#setPartialPopupsEnabled( %1 ), terminal = %2", bl, (long)this.terminal.getTerminalID());
+        LOGPOPUPS.log(1000000, "PartialPopupManager#setPartialPopupsEnabled( %1 ), terminal = %2", bl, (long)this.terminal.getTerminalID());
         if (this.partialPopupsGloballyEnabled == bl) {
             return;
         }
@@ -1098,14 +1155,13 @@ ATIPEventListener {
             }
         }
         if (this.currentConnectedScreen != null && AbstractWidget.hmiService.getEventDispatcher().isDispatchThread()) {
-            IWidgetLogChannel.logRepaintCause.log(-2137614336, "PartialPopupManager#executePopupsAllowance: trigger repaint. current screen: %1", (Object)this.currentConnectedScreen);
+            IWidgetLogChannel.logRepaintCause.log(10000000, "PartialPopupManager#executePopupsAllowance: trigger repaint. current screen: %1", (Object)this.currentConnectedScreen);
             ((AbstractWidget)((Object)this.currentConnectedScreen)).triggerRepaint();
         } else {
             LOGPOPUPS.log(10000, "PartialPopupManager#executePopupsAllowance currentConnectedScreen is null (has not been set correctly)");
         }
     }
 
-    @Override
     public void checkPriosAgainstFullScreenPopup() {
         for (int i2 = 0; i2 < this.waitingPopupsQueues.length; ++i2) {
             if (0 >= this.waitingPopupsQueues[i2].size()) continue;
@@ -1120,10 +1176,8 @@ ATIPEventListener {
         }
     }
 
-    protected abstract boolean shouldCheckModelStatusOnExecutePopupAllowance(int n) {
-    }
+    protected abstract boolean shouldCheckModelStatusOnExecutePopupAllowance(int var1);
 
-    @Override
     public void setLanguage(Language language) {
         if (this.framework != null) {
             LanguageChangedEvent languageChangedEvent = new LanguageChangedEvent(language, new ATIPEventListener[]{this.framework.getHMIService().getRootWindow(this.terminal.getTerminalID())});
@@ -1131,7 +1185,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void processLanguageChangedEvent(LanguageChangedEvent languageChangedEvent) {
         IPartialPopupControllerEvo iPartialPopupControllerEvo;
         LinkedList linkedList = new LinkedList();
@@ -1152,7 +1205,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadAbandoned(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1162,7 +1214,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadPalmRecognized(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1172,7 +1223,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadApproached(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1182,7 +1232,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadCharactersRecognized(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1192,7 +1241,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadPositionMoved(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1202,7 +1250,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadPressed(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1212,7 +1259,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void touchPadReleased(TouchEvent touchEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1222,7 +1268,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public boolean hasVisiblePopupInSlot(int n) {
         if (this.currentVisiblePopups == null) {
             LOGPOPUPS.log(10000, "PartialPopUpManager#hasVisiblePopUps PartialPopUpManager was not initialized");
@@ -1231,7 +1276,6 @@ ATIPEventListener {
         return this.currentVisiblePopups[n] != null;
     }
 
-    @Override
     public int getEventID(int n) {
         int n2 = -1;
         if (this.currentVisiblePopups != null) {
@@ -1254,16 +1298,12 @@ ATIPEventListener {
         }
     }
 
-    protected abstract int getPopupIdStatusLine() {
-    }
+    protected abstract int getPopupIdStatusLine();
 
-    protected abstract int getPopupIdVolume() {
-    }
+    protected abstract int getPopupIdVolume();
 
-    protected abstract int getPopupIdInvalid() {
-    }
+    protected abstract int getPopupIdInvalid();
 
-    @Override
     public void triggerGestureEvent(GestureEvent gestureEvent) {
         for (int i2 = 0; i2 < this.sortedSlots.length; ++i2) {
             int n = this.sortedSlots[i2];
@@ -1273,7 +1313,6 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void setFocusedLayer(int n) {
         this.focusedLayer = n;
     }
@@ -1286,13 +1325,12 @@ ATIPEventListener {
         }
     }
 
-    @Override
     public void setPartialPopupCoordinates(int n, int n2, int n3, int n4, int n5) {
         Integer n6 = new Integer(n);
         if (this.popups.containsKey(n6)) {
             IPartialPopupControllerEvo iPartialPopupControllerEvo = (IPartialPopupControllerEvo)this.popups.get(n6);
             ArrayList arrayList = (ArrayList)this.partialPopupListenerList.get(n6);
-            LOGPOPUPS.log(1078071040, new StringBuffer().append("PartialPopupManager#popupFullyVisible id: %2, listeners: %1, x: ").append(n2).append(", y: ").append(n3).append(", width: ").append(n4).append(", height: ").append(n5).toString(), (Object)arrayList, (long)n);
+            LOGPOPUPS.log(1000000, new StringBuffer().append("PartialPopupManager#popupFullyVisible id: %2, listeners: %1, x: ").append(n2).append(", y: ").append(n3).append(", width: ").append(n4).append(", height: ").append(n5).toString(), (Object)arrayList, (long)n);
             if (arrayList != null) {
                 int n7 = arrayList.size();
                 for (int i2 = 0; i2 < n7; ++i2) {
@@ -1310,16 +1348,6 @@ ATIPEventListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ Map access$100(AbstractPartialPopupManager abstractPartialPopupManager) {
-        return abstractPartialPopupManager.partialPopupListenerList;
-    }
-
-    static {
-        SLOTS = new int[]{0, 1, 2, 4, 6, 7, 8, 9, 11, 12, 13};
-        LOGPOPUPS = IWidgetLogChannel.logChannelPopups;
-        LOGPERFORMANCE = IWidgetLogChannel.logWidgetPerformance;
     }
 }
 

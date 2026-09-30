@@ -5,19 +5,21 @@ package de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl;
 
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.ComponentInfo;
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.MapRegionInfoReply;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoReplyProxy$1;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoReplyProxy$2;
-import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.MapRegionInfoReplyProxy$3;
+import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.ComponentInfoSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class MapRegionInfoReplyProxy
 implements MapRegionInfoReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.navigation.mapregioninfo.MapRegionInfo");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public MapRegionInfoReplyProxy() {
@@ -25,27 +27,44 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void replyGetDatabaseInfo(int n, ComponentInfo componentInfo, int n2) {
-        MapRegionInfoReplyProxy$1 mapRegionInfoReplyProxy$1 = new MapRegionInfoReplyProxy$1(this, n, componentInfo, n2);
-        this.proxy.remoteCallMethod((short)0, mapRegionInfoReplyProxy$1);
+    public void replyGetDatabaseInfo(final int n, final ComponentInfo componentInfo, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt16(n);
+                ComponentInfoSerializer.putOptionalComponentInfo(iSerializer, componentInfo);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 
-    @Override
-    public void replyGetMultipleDatabaseInfo(int n, ComponentInfo[] componentInfoArray, int n2) {
-        MapRegionInfoReplyProxy$2 mapRegionInfoReplyProxy$2 = new MapRegionInfoReplyProxy$2(this, n, componentInfoArray, n2);
-        this.proxy.remoteCallMethod((short)1, mapRegionInfoReplyProxy$2);
+    public void replyGetMultipleDatabaseInfo(final int n, final ComponentInfo[] componentInfoArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt16(n);
+                ComponentInfoSerializer.putOptionalComponentInfoVarArray(iSerializer, componentInfoArray);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)1, iSerializable);
     }
 
-    @Override
-    public void replyGetRegionsInVicinity(int n, ComponentInfo[] componentInfoArray, int n2) {
-        MapRegionInfoReplyProxy$3 mapRegionInfoReplyProxy$3 = new MapRegionInfoReplyProxy$3(this, n, componentInfoArray, n2);
-        this.proxy.remoteCallMethod((short)2, mapRegionInfoReplyProxy$3);
+    public void replyGetRegionsInVicinity(final int n, final ComponentInfo[] componentInfoArray, final int n2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putUInt16(n);
+                ComponentInfoSerializer.putOptionalComponentInfoVarArray(iSerializer, componentInfoArray);
+                iSerializer.putEnum(n2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 }
 

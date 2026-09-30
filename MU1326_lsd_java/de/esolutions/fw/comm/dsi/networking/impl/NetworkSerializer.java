@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.networking.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.networking.Network;
 
 public class NetworkSerializer {
-    public static void putOptionalNetwork(ISerializer iSerializer, Network network) {
+    public static void putOptionalNetwork(ISerializer iSerializer, Network network) throws SerializerException {
         boolean bl = network == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class NetworkSerializer {
         }
     }
 
-    public static void putOptionalNetworkVarArray(ISerializer iSerializer, Network[] networkArray) {
+    public static void putOptionalNetworkVarArray(ISerializer iSerializer, Network[] networkArray) throws SerializerException {
         boolean bl = networkArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class NetworkSerializer {
         }
     }
 
-    public static Network getOptionalNetwork(IDeserializer iDeserializer) {
+    public static Network getOptionalNetwork(IDeserializer iDeserializer) throws SerializerException {
         Network network = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class NetworkSerializer {
         return network;
     }
 
-    public static Network[] getOptionalNetworkVarArray(IDeserializer iDeserializer) {
+    public static Network[] getOptionalNetworkVarArray(IDeserializer iDeserializer) throws SerializerException {
         Network[] networkArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

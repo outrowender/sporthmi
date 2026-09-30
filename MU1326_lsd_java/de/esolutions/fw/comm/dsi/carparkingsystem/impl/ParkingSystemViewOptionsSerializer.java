@@ -9,6 +9,7 @@ import de.esolutions.fw.comm.dsi.carparkingsystem.impl.VPSConfigurationSerialize
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carparkingsystem.ARATrailerConfiguration;
 import org.dsi.ifc.carparkingsystem.PDCConfiguration;
 import org.dsi.ifc.carparkingsystem.ParkingSystemViewOptions;
@@ -16,7 +17,7 @@ import org.dsi.ifc.carparkingsystem.VPSConfiguration;
 import org.dsi.ifc.global.CarViewOption;
 
 public class ParkingSystemViewOptionsSerializer {
-    public static void putOptionalParkingSystemViewOptions(ISerializer iSerializer, ParkingSystemViewOptions parkingSystemViewOptions) {
+    public static void putOptionalParkingSystemViewOptions(ISerializer iSerializer, ParkingSystemViewOptions parkingSystemViewOptions) throws SerializerException {
         boolean bl = parkingSystemViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -135,7 +136,7 @@ public class ParkingSystemViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalParkingSystemViewOptionsVarArray(ISerializer iSerializer, ParkingSystemViewOptions[] parkingSystemViewOptionsArray) {
+    public static void putOptionalParkingSystemViewOptionsVarArray(ISerializer iSerializer, ParkingSystemViewOptions[] parkingSystemViewOptionsArray) throws SerializerException {
         boolean bl = parkingSystemViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -146,7 +147,7 @@ public class ParkingSystemViewOptionsSerializer {
         }
     }
 
-    public static ParkingSystemViewOptions getOptionalParkingSystemViewOptions(IDeserializer iDeserializer) {
+    public static ParkingSystemViewOptions getOptionalParkingSystemViewOptions(IDeserializer iDeserializer) throws SerializerException {
         ParkingSystemViewOptions parkingSystemViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -267,7 +268,7 @@ public class ParkingSystemViewOptionsSerializer {
         return parkingSystemViewOptions;
     }
 
-    public static ParkingSystemViewOptions[] getOptionalParkingSystemViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static ParkingSystemViewOptions[] getOptionalParkingSystemViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ParkingSystemViewOptions[] parkingSystemViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

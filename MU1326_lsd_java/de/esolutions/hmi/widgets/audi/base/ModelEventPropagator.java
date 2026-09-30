@@ -49,7 +49,7 @@ implements IWidgetLogChannel {
                 continue;
             }
             if (!screenLogChannel.isDebug()) continue;
-            screenLogChannel.log(-2137614336, "ModelEventPropagator#processModelUpdateEvent is called. modelUpdateTerminalID: %1, screen.terminalID: %2", (long)modelUpdateEvent2.getTerminalID(), (long)this.getScreenTerminalID());
+            screenLogChannel.log(10000000, "ModelEventPropagator#processModelUpdateEvent is called. modelUpdateTerminalID: %1, screen.terminalID: %2", (long)modelUpdateEvent2.getTerminalID(), (long)this.getScreenTerminalID());
         }
     }
 

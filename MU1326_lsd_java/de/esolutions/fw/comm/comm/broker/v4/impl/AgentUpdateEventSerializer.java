@@ -6,9 +6,10 @@ package de.esolutions.fw.comm.comm.broker.v4.impl;
 import de.esolutions.fw.comm.comm.broker.v4.AgentUpdateEvent;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AgentUpdateEventSerializer {
-    public static void putOptionalAgentUpdateEvent(ISerializer iSerializer, AgentUpdateEvent agentUpdateEvent) {
+    public static void putOptionalAgentUpdateEvent(ISerializer iSerializer, AgentUpdateEvent agentUpdateEvent) throws SerializerException {
         boolean bl = agentUpdateEvent == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class AgentUpdateEventSerializer {
         }
     }
 
-    public static void putOptionalAgentUpdateEventVarArray(ISerializer iSerializer, AgentUpdateEvent[] agentUpdateEventArray) {
+    public static void putOptionalAgentUpdateEventVarArray(ISerializer iSerializer, AgentUpdateEvent[] agentUpdateEventArray) throws SerializerException {
         boolean bl = agentUpdateEventArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class AgentUpdateEventSerializer {
         }
     }
 
-    public static AgentUpdateEvent getOptionalAgentUpdateEvent(IDeserializer iDeserializer) {
+    public static AgentUpdateEvent getOptionalAgentUpdateEvent(IDeserializer iDeserializer) throws SerializerException {
         AgentUpdateEvent agentUpdateEvent = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class AgentUpdateEventSerializer {
         return agentUpdateEvent;
     }
 
-    public static AgentUpdateEvent[] getOptionalAgentUpdateEventVarArray(IDeserializer iDeserializer) {
+    public static AgentUpdateEvent[] getOptionalAgentUpdateEventVarArray(IDeserializer iDeserializer) throws SerializerException {
         AgentUpdateEvent[] agentUpdateEventArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

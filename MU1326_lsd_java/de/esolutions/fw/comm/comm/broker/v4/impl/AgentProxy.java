@@ -6,11 +6,15 @@ package de.esolutions.fw.comm.comm.broker.v4.impl;
 import de.esolutions.fw.comm.comm.broker.v4.Agent;
 import de.esolutions.fw.comm.comm.broker.v4.AgentUpdateEvent;
 import de.esolutions.fw.comm.comm.broker.v4.UpdateEvent;
-import de.esolutions.fw.comm.comm.broker.v4.impl.AgentProxy$1;
-import de.esolutions.fw.comm.comm.broker.v4.impl.AgentProxy$2;
+import de.esolutions.fw.comm.comm.broker.v4.impl.AgentUpdateEventSerializer;
+import de.esolutions.fw.comm.comm.broker.v4.impl.UpdateEventSerializer;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class AgentProxy
 implements Agent {
@@ -26,16 +30,24 @@ implements Agent {
         return this.proxy;
     }
 
-    @Override
-    public void serviceUpdate(UpdateEvent[] updateEventArray) {
-        AgentProxy$1 agentProxy$1 = new AgentProxy$1(this, updateEventArray);
-        this.proxy.remoteCallMethod((short)2, agentProxy$1);
+    public void serviceUpdate(final UpdateEvent[] updateEventArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                UpdateEventSerializer.putOptionalUpdateEventVarArray(iSerializer, updateEventArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 
-    @Override
-    public void agentUpdate(AgentUpdateEvent[] agentUpdateEventArray) {
-        AgentProxy$2 agentProxy$2 = new AgentProxy$2(this, agentUpdateEventArray);
-        this.proxy.remoteCallMethod((short)0, agentProxy$2);
+    public void agentUpdate(final AgentUpdateEvent[] agentUpdateEventArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                AgentUpdateEventSerializer.putOptionalAgentUpdateEventVarArray(iSerializer, agentUpdateEventArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 }
 

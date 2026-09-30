@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.media.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.media.AudioStream;
 
 public class AudioStreamSerializer {
-    public static void putOptionalAudioStream(ISerializer iSerializer, AudioStream audioStream) {
+    public static void putOptionalAudioStream(ISerializer iSerializer, AudioStream audioStream) throws SerializerException {
         boolean bl = audioStream == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class AudioStreamSerializer {
         }
     }
 
-    public static void putOptionalAudioStreamVarArray(ISerializer iSerializer, AudioStream[] audioStreamArray) {
+    public static void putOptionalAudioStreamVarArray(ISerializer iSerializer, AudioStream[] audioStreamArray) throws SerializerException {
         boolean bl = audioStreamArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class AudioStreamSerializer {
         }
     }
 
-    public static AudioStream getOptionalAudioStream(IDeserializer iDeserializer) {
+    public static AudioStream getOptionalAudioStream(IDeserializer iDeserializer) throws SerializerException {
         AudioStream audioStream = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class AudioStreamSerializer {
         return audioStream;
     }
 
-    public static AudioStream[] getOptionalAudioStreamVarArray(IDeserializer iDeserializer) {
+    public static AudioStream[] getOptionalAudioStreamVarArray(IDeserializer iDeserializer) throws SerializerException {
         AudioStream[] audioStreamArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

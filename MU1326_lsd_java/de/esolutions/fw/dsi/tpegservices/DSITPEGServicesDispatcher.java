@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.tpegservices;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.tpegservices.DSITPEGServicesReply;
 import de.esolutions.fw.comm.dsi.tpegservices.impl.DSITPEGServicesReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -28,13 +29,11 @@ implements DSITPEGServicesReply {
         super(n, (class$org$dsi$ifc$tpegservices$DSITPEGServicesListener == null ? (class$org$dsi$ifc$tpegservices$DSITPEGServicesListener = DSITPEGServicesDispatcher.class$("org.dsi.ifc.tpegservices.DSITPEGServicesListener")) : class$org$dsi$ifc$tpegservices$DSITPEGServicesListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void updateTPEGContentAvailability(int[] nArray, int n) {
+    public void updateTPEGContentAvailability(int[] nArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -62,8 +61,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void updateSimpleMapsBookmarks(SimpleMapData[] simpleMapDataArray, int n) {
+    public void updateSimpleMapsBookmarks(SimpleMapData[] simpleMapDataArray, int n) throws MethodException {
         if ((n & 0x80) == 128) {
             n ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -91,8 +89,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestLocationDetailsResponse(NavLocation navLocation) {
+    public void requestLocationDetailsResponse(NavLocation navLocation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -108,8 +105,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestFuelPriceInformationResponse(FuelPriceInformation[] fuelPriceInformationArray) {
+    public void requestFuelPriceInformationResponse(FuelPriceInformation[] fuelPriceInformationArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -125,8 +121,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestNewsInformationResponse(NewsCategory newsCategory) {
+    public void requestNewsInformationResponse(NewsCategory newsCategory) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -142,8 +137,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestSimpleMapListResponse(int n, int n2, SimpleMapData[] simpleMapDataArray) {
+    public void requestSimpleMapListResponse(int n, int n2, SimpleMapData[] simpleMapDataArray) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -159,8 +153,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void addSimpleMapBookmarkResult(int n, int n2) {
+    public void addSimpleMapBookmarkResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -176,8 +169,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void deleteSimpleMapBookmarkResult(int n, int n2) {
+    public void deleteSimpleMapBookmarkResult(int n, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -193,8 +185,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void deleteAllSimpleMapBookmarksResult(int n) {
+    public void deleteAllSimpleMapBookmarksResult(int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -210,8 +201,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) {
+    public void requestResourceInformationResponse(int n, ResourceInformation resourceInformation) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -227,8 +217,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void setLanguageResponse(boolean bl) {
+    public void setLanguageResponse(boolean bl) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -244,8 +233,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void requestWeatherInfoResult(WeatherInfo weatherInfo, int n) {
+    public void requestWeatherInfoResult(WeatherInfo weatherInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -261,8 +249,7 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -278,14 +265,13 @@ implements DSITPEGServicesReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSITPEGServicesListener dSITPEGServicesListener = (DSITPEGServicesListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITPEGServicesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITPEGServicesDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSITPEGServicesListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSITPEGServicesDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSITPEGServicesDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSITPEGServicesListener, new Object[]{string, string2});
                     continue;
                 }

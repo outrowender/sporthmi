@@ -42,7 +42,6 @@ extends ActiveRemoteBackend {
         this.forceActive = bl;
     }
 
-    @Override
     public boolean connect() {
         if (!this.isConnected) {
             if (this.doConnect()) {
@@ -60,7 +59,6 @@ extends ActiveRemoteBackend {
         return true;
     }
 
-    @Override
     public void disconnect() {
         if (this.isConnected) {
             boolean bl = this.isPassiveConnect();
@@ -76,21 +74,18 @@ extends ActiveRemoteBackend {
         super.disconnect();
     }
 
-    @Override
     protected boolean doInit() {
         return true;
     }
 
-    @Override
-    protected boolean doWork() {
+    protected boolean doWork() throws InterruptedException {
         if (this.isConnected) {
             return this.handleProtocol();
         }
-        Thread.sleep(0);
+        Thread.sleep(500L);
         return true;
     }
 
-    @Override
     protected void doExit() {
         if (this.isConnected) {
             String string = this.getPeerName();

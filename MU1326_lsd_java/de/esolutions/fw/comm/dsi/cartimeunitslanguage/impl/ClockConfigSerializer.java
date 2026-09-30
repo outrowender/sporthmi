@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl;
 import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.ClockSourcesSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockConfig;
 import org.dsi.ifc.cartimeunitslanguage.ClockSources;
 
 public class ClockConfigSerializer {
-    public static void putOptionalClockConfig(ISerializer iSerializer, ClockConfig clockConfig) {
+    public static void putOptionalClockConfig(ISerializer iSerializer, ClockConfig clockConfig) throws SerializerException {
         boolean bl = clockConfig == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ClockConfigSerializer {
         }
     }
 
-    public static void putOptionalClockConfigVarArray(ISerializer iSerializer, ClockConfig[] clockConfigArray) {
+    public static void putOptionalClockConfigVarArray(ISerializer iSerializer, ClockConfig[] clockConfigArray) throws SerializerException {
         boolean bl = clockConfigArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ClockConfigSerializer {
         }
     }
 
-    public static ClockConfig getOptionalClockConfig(IDeserializer iDeserializer) {
+    public static ClockConfig getOptionalClockConfig(IDeserializer iDeserializer) throws SerializerException {
         ClockConfig clockConfig = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class ClockConfigSerializer {
         return clockConfig;
     }
 
-    public static ClockConfig[] getOptionalClockConfigVarArray(IDeserializer iDeserializer) {
+    public static ClockConfig[] getOptionalClockConfigVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockConfig[] clockConfigArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

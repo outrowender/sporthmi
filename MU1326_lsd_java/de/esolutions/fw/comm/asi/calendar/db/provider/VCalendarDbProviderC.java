@@ -3,55 +3,41 @@
  */
 package de.esolutions.fw.comm.asi.calendar.db.provider;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.calendar.CalendarConfig;
 import org.dsi.ifc.calendar.ProfileInfo;
 import org.dsi.ifc.calendar.VCalendar;
 import org.dsi.ifc.global.DateTime;
 
 public interface VCalendarDbProviderC {
-    default public void beginTransaction() {
-    }
+    public void beginTransaction() throws MethodException;
 
-    default public void commitTransaction() {
-    }
+    public void commitTransaction() throws MethodException;
 
-    default public void addEntries(int n, int n2, VCalendar[] vCalendarArray) {
-    }
+    public void addEntries(int var1, int var2, VCalendar[] var3) throws MethodException;
 
-    default public void removeEntries(int n, int n2, long[] lArray) {
-    }
+    public void removeEntries(int var1, int var2, long[] var3) throws MethodException;
 
-    default public void removeProfile(int n) {
-    }
+    public void removeProfile(int var1) throws MethodException;
 
-    default public void removeAll() {
-    }
+    public void removeAll() throws MethodException;
 
-    default public void getVersion() {
-    }
+    public void getVersion() throws MethodException;
 
-    default public void setActiveProfiles(int[] nArray) {
-    }
+    public void setActiveProfiles(int[] var1) throws MethodException;
 
-    default public void forceGetDataResult(int n) {
-    }
+    public void forceGetDataResult(int var1) throws MethodException;
 
-    default public void setCalendarConfig(CalendarConfig calendarConfig) {
-    }
+    public void setCalendarConfig(CalendarConfig var1) throws MethodException;
 
-    default public void getCalendarConfig(long l) {
-    }
+    public void getCalendarConfig(long var1) throws MethodException;
 
-    default public void insertProfile(ProfileInfo profileInfo) {
-    }
+    public void insertProfile(ProfileInfo var1) throws MethodException;
 
-    default public void getCalendarEntry(long l) {
-    }
+    public void getCalendarEntry(long var1) throws MethodException;
 
-    default public void getCalendarSummaries(DateTime dateTime, DateTime dateTime2) {
-    }
+    public void getCalendarSummaries(DateTime var1, DateTime var2) throws MethodException;
 
-    default public void deleteProfile(long l) {
-    }
+    public void deleteProfile(long var1) throws MethodException;
 }
 

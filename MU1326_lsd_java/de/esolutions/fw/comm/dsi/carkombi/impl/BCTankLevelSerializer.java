@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.BCTankLevel;
 
 public class BCTankLevelSerializer {
-    public static void putOptionalBCTankLevel(ISerializer iSerializer, BCTankLevel bCTankLevel) {
+    public static void putOptionalBCTankLevel(ISerializer iSerializer, BCTankLevel bCTankLevel) throws SerializerException {
         boolean bl = bCTankLevel == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class BCTankLevelSerializer {
         }
     }
 
-    public static void putOptionalBCTankLevelVarArray(ISerializer iSerializer, BCTankLevel[] bCTankLevelArray) {
+    public static void putOptionalBCTankLevelVarArray(ISerializer iSerializer, BCTankLevel[] bCTankLevelArray) throws SerializerException {
         boolean bl = bCTankLevelArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class BCTankLevelSerializer {
         }
     }
 
-    public static BCTankLevel getOptionalBCTankLevel(IDeserializer iDeserializer) {
+    public static BCTankLevel getOptionalBCTankLevel(IDeserializer iDeserializer) throws SerializerException {
         BCTankLevel bCTankLevel = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class BCTankLevelSerializer {
         return bCTankLevel;
     }
 
-    public static BCTankLevel[] getOptionalBCTankLevelVarArray(IDeserializer iDeserializer) {
+    public static BCTankLevel[] getOptionalBCTankLevelVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCTankLevel[] bCTankLevelArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.StreetViewThumbnail;
 
 public class StreetViewThumbnailSerializer {
-    public static void putOptionalStreetViewThumbnail(ISerializer iSerializer, StreetViewThumbnail streetViewThumbnail) {
+    public static void putOptionalStreetViewThumbnail(ISerializer iSerializer, StreetViewThumbnail streetViewThumbnail) throws SerializerException {
         boolean bl = streetViewThumbnail == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -29,7 +30,7 @@ public class StreetViewThumbnailSerializer {
         }
     }
 
-    public static void putOptionalStreetViewThumbnailVarArray(ISerializer iSerializer, StreetViewThumbnail[] streetViewThumbnailArray) {
+    public static void putOptionalStreetViewThumbnailVarArray(ISerializer iSerializer, StreetViewThumbnail[] streetViewThumbnailArray) throws SerializerException {
         boolean bl = streetViewThumbnailArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -40,7 +41,7 @@ public class StreetViewThumbnailSerializer {
         }
     }
 
-    public static StreetViewThumbnail getOptionalStreetViewThumbnail(IDeserializer iDeserializer) {
+    public static StreetViewThumbnail getOptionalStreetViewThumbnail(IDeserializer iDeserializer) throws SerializerException {
         StreetViewThumbnail streetViewThumbnail = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -63,7 +64,7 @@ public class StreetViewThumbnailSerializer {
         return streetViewThumbnail;
     }
 
-    public static StreetViewThumbnail[] getOptionalStreetViewThumbnailVarArray(IDeserializer iDeserializer) {
+    public static StreetViewThumbnail[] getOptionalStreetViewThumbnailVarArray(IDeserializer iDeserializer) throws SerializerException {
         StreetViewThumbnail[] streetViewThumbnailArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

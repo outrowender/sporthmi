@@ -25,28 +25,23 @@ implements DSIMessagingServiceConfiguration {
         this.createNewProxy();
     }
 
-    @Override
     protected int[] getAttributeIDs() {
         return attributeIDs;
     }
 
-    @Override
     public String getName() {
         return (class$org$dsi$ifc$messaging$DSIMessagingServiceConfiguration == null ? (class$org$dsi$ifc$messaging$DSIMessagingServiceConfiguration = DSIMessagingServiceConfigurationProvider.class$("org.dsi.ifc.messaging.DSIMessagingServiceConfiguration")) : class$org$dsi$ifc$messaging$DSIMessagingServiceConfiguration).getName();
     }
 
-    @Override
     protected Proxy getProxy() {
         return this.proxy.getProxy();
     }
 
-    @Override
     protected Proxy createNewProxy() {
         this.proxy = new DSIMessagingServiceConfigurationProxy(this.instance, (DSIMessagingServiceConfigurationReply)((Object)this.dispatcher));
         return this.proxy.getProxy();
     }
 
-    @Override
     public void setPhoneSystemRingingVolumeRequest(int n) {
         try {
             this.proxy.setPhoneSystemRingingVolumeRequest(n);
@@ -56,7 +51,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setPhoneSystemRingingTypeRequest(int n) {
         try {
             this.proxy.setPhoneSystemRingingTypeRequest(n);
@@ -66,7 +60,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setSMSCNumberRequest(String string) {
         try {
             this.proxy.setSMSCNumberRequest(string);
@@ -76,7 +69,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void activateSmsDeliveryReportRequest(boolean bl) {
         try {
             this.proxy.activateSmsDeliveryReportRequest(bl);
@@ -86,7 +78,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void activateStoreSmsOnSentRequest(boolean bl) {
         try {
             this.proxy.activateStoreSmsOnSentRequest(bl);
@@ -96,7 +87,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setShortMessageValidityPeriodRequest(int n) {
         try {
             this.proxy.setShortMessageValidityPeriodRequest(n);
@@ -106,7 +96,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void activateEmailIncludeOldMailInReplyRequest(boolean bl) {
         try {
             this.proxy.activateEmailIncludeOldMailInReplyRequest(bl);
@@ -116,7 +105,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void activateEmailEmptySubjectNotificationRequest(boolean bl) {
         try {
             this.proxy.activateEmailEmptySubjectNotificationRequest(bl);
@@ -126,7 +114,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void changeFolderViewModeRequest(int n) {
         try {
             this.proxy.changeFolderViewModeRequest(n);
@@ -136,7 +123,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void restoreFactorySettingsRequest() {
         try {
             this.proxy.restoreFactorySettingsRequest();
@@ -146,7 +132,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setAccountPreferences(int n, String string) {
         try {
             this.proxy.setAccountPreferences(n, string);
@@ -156,7 +141,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void requestSetSmsIndications(boolean bl) {
         try {
             this.proxy.requestSetSmsIndications(bl);
@@ -166,7 +150,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void requestSetEmailIndications(boolean bl) {
         try {
             this.proxy.requestSetEmailIndications(bl);
@@ -176,7 +159,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void requestSetPushSms(boolean bl) {
         try {
             this.proxy.requestSetPushSms(bl);
@@ -186,7 +168,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setNotification(int[] nArray) {
         try {
             this.proxy.setNotification(nArray);
@@ -196,7 +177,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setNotification(int n) {
         try {
             this.proxy.setNotification(n);
@@ -206,7 +186,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void setNotification() {
         try {
             this.proxy.setNotification();
@@ -216,7 +195,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void clearNotification(int[] nArray) {
         try {
             this.proxy.clearNotification(nArray);
@@ -226,7 +204,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void clearNotification(int n) {
         try {
             this.proxy.clearNotification(n);
@@ -236,7 +213,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void clearNotification() {
         try {
             this.proxy.clearNotification();
@@ -246,7 +222,6 @@ implements DSIMessagingServiceConfiguration {
         }
     }
 
-    @Override
     public void yySet(String string, String string2) {
         try {
             this.proxy.yySet(string, string2);

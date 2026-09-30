@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.global.impl.DateTimeSerializer;
 import de.esolutions.fw.comm.dsi.tpegservices.impl.FuelPriceSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.DateTime;
 import org.dsi.ifc.tpegservices.FuelPrice;
 import org.dsi.ifc.tpegservices.FuelPriceInformation;
 
 public class FuelPriceInformationSerializer {
-    public static void putOptionalFuelPriceInformation(ISerializer iSerializer, FuelPriceInformation fuelPriceInformation) {
+    public static void putOptionalFuelPriceInformation(ISerializer iSerializer, FuelPriceInformation fuelPriceInformation) throws SerializerException {
         boolean bl = fuelPriceInformation == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -33,7 +34,7 @@ public class FuelPriceInformationSerializer {
         }
     }
 
-    public static void putOptionalFuelPriceInformationVarArray(ISerializer iSerializer, FuelPriceInformation[] fuelPriceInformationArray) {
+    public static void putOptionalFuelPriceInformationVarArray(ISerializer iSerializer, FuelPriceInformation[] fuelPriceInformationArray) throws SerializerException {
         boolean bl = fuelPriceInformationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -44,7 +45,7 @@ public class FuelPriceInformationSerializer {
         }
     }
 
-    public static FuelPriceInformation getOptionalFuelPriceInformation(IDeserializer iDeserializer) {
+    public static FuelPriceInformation getOptionalFuelPriceInformation(IDeserializer iDeserializer) throws SerializerException {
         FuelPriceInformation fuelPriceInformation = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -67,7 +68,7 @@ public class FuelPriceInformationSerializer {
         return fuelPriceInformation;
     }
 
-    public static FuelPriceInformation[] getOptionalFuelPriceInformationVarArray(IDeserializer iDeserializer) {
+    public static FuelPriceInformation[] getOptionalFuelPriceInformationVarArray(IDeserializer iDeserializer) throws SerializerException {
         FuelPriceInformation[] fuelPriceInformationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

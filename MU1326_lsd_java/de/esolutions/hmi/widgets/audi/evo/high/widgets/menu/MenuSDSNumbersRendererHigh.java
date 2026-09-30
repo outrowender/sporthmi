@@ -27,12 +27,10 @@ implements IMenuSDSNumbersRenderer {
         this.controller = menuSDSNumbersController;
     }
 
-    @Override
     public AbstractWidgetController getAbstractController() {
         return this.controller;
     }
 
-    @Override
     public void render(RedrawContext redrawContext) {
         if (!this.dirty) {
             return;
@@ -145,7 +143,6 @@ implements IMenuSDSNumbersRenderer {
         iWrappedNode3DText.getInterfaceText().setColor(n4);
     }
 
-    @Override
     public void disconnect() {
         this.destroyNodes();
         super.disconnect();

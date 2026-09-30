@@ -7,74 +7,66 @@ import de.vw.mib.bap.datatypes.ArrayHeader;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.datatypes.BAPEntity;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.telephone.serializer.Phonebook_Data$AdressIndication;
-import de.vw.mib.bap.generated.telephone.serializer.Phonebook_Data$AnyVoiceTag;
-import de.vw.mib.bap.generated.telephone.serializer.Phonebook_Data$Reserve;
-import de.vw.mib.bap.generated.telephone.serializer.Phonebook_Data$VoiceTag;
 import de.vw.mib.bap.stream.BitStream;
 
 public final class Phonebook_Data
 implements BAPArrayElement {
     private ArrayHeader arrayHeader;
-    public static final int RECORD_ADDRESS_PB_NAME_STORAGE_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_TEL_NUMBER_VOICE_TAG_RESERVE_NUMBER_TYPE_ADRESS_INDICATION;
-    public static final int RECORD_ADDRESS_PB_NAME_STORAGE_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_ADRESS_INDICATION;
-    public static final int RECORD_ADDRESS_TEL_NUMBERN_VOICE_TAGN_RESERVEN_NUMBER_TYPEN;
-    public static final int RECORD_ADDRESS_PB_NAME_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_VOICE_TAG_RESERVE_NUMBER_TYPE;
-    public static final int RECORD_ADDRESS_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_TEL_NUMBER_VOICE_TAG_RESERVE_NUMBER_TYPE;
-    public static final int RECORD_ADDRESS_POS;
+    public static final int RECORD_ADDRESS_PB_NAME_STORAGE_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_TEL_NUMBER_VOICE_TAG_RESERVE_NUMBER_TYPE_ADRESS_INDICATION = 0;
+    public static final int RECORD_ADDRESS_PB_NAME_STORAGE_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_ADRESS_INDICATION = 1;
+    public static final int RECORD_ADDRESS_TEL_NUMBERN_VOICE_TAGN_RESERVEN_NUMBER_TYPEN = 2;
+    public static final int RECORD_ADDRESS_PB_NAME_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_VOICE_TAG_RESERVE_NUMBER_TYPE = 3;
+    public static final int RECORD_ADDRESS_ANY_VOICE_TAG_TEL_NUMBER_QUANTITY_TEL_NUMBER_VOICE_TAG_RESERVE_NUMBER_TYPE = 4;
+    public static final int RECORD_ADDRESS_POS = 15;
     private int pos;
     public final BAPString pbName;
-    private static final int MAX_PB_NAME_LENGTH;
+    private static final int MAX_PB_NAME_LENGTH = 100;
     public int storage;
-    private static final int STORAGE_BITSIZE;
-    public static final int STORAGE_UNDEFINED;
-    public static final int STORAGE_SIM;
-    public static final int STORAGE_MOBILE_EQUIPMENT;
-    public static final int STORAGE_LOCAL_PUBLIC;
-    public static final int STORAGE_LOCAL_PRIVATE;
-    public final Phonebook_Data$AnyVoiceTag anyVoiceTag;
+    private static final int STORAGE_BITSIZE = 8;
+    public static final int STORAGE_UNDEFINED = 0;
+    public static final int STORAGE_SIM = 1;
+    public static final int STORAGE_MOBILE_EQUIPMENT = 2;
+    public static final int STORAGE_LOCAL_PUBLIC = 3;
+    public static final int STORAGE_LOCAL_PRIVATE = 4;
+    public final AnyVoiceTag anyVoiceTag;
     public int telNumberQuantity;
-    private static final int TEL_NUMBER_QUANTITY_BITSIZE;
+    private static final int TEL_NUMBER_QUANTITY_BITSIZE = 4;
     public final BAPString[] telNumberN;
-    private static final int MAX_TEL_NUMBERN_LENGTH;
-    private static final int MAX_TEL_NUMBERN_PER_ELEMENT;
-    public final Phonebook_Data$VoiceTag[] voiceTagN;
-    public final Phonebook_Data$Reserve[] reserveN;
+    private static final int MAX_TEL_NUMBERN_LENGTH = 410;
+    private static final int MAX_TEL_NUMBERN_PER_ELEMENT = 10;
+    public final VoiceTag[] voiceTagN;
+    public final Reserve[] reserveN;
     public final int[] numberTypeN;
-    private static final int NUMBER_TYPEN_BITSIZE;
-    public static final int NUMBER_TYPEN_UNKNOWN_NUMBER_TYPE;
-    public static final int NUMBER_TYPEN_GENERAL;
-    public static final int NUMBER_TYPEN_MOBILE;
-    public static final int NUMBER_TYPEN_OFFICE;
-    public static final int NUMBER_TYPEN_HOME;
-    public static final int NUMBER_TYPEN_FAX;
-    public static final int NUMBER_TYPEN_PAGER;
-    public static final int NUMBER_TYPEN_CAR;
-    public static final int NUMBER_TYPEN_SIM;
-    public static final int NUMBER_TYPEN_MAIN_OFFICE;
-    public static final int NUMBER_TYPEN_MAIN_HOME;
-    public static final int NUMBER_TYPEN_CELL_OFFICE;
-    public static final int NUMBER_TYPEN_CELL_HOME;
-    public static final int NUMBER_TYPEN_FAX_OFFICE;
-    public static final int NUMBER_TYPEN_FAX_HOME;
-    public final Phonebook_Data$AdressIndication adressIndication;
+    private static final int NUMBER_TYPEN_BITSIZE = 8;
+    public static final int NUMBER_TYPEN_UNKNOWN_NUMBER_TYPE = 0;
+    public static final int NUMBER_TYPEN_GENERAL = 1;
+    public static final int NUMBER_TYPEN_MOBILE = 2;
+    public static final int NUMBER_TYPEN_OFFICE = 3;
+    public static final int NUMBER_TYPEN_HOME = 4;
+    public static final int NUMBER_TYPEN_FAX = 5;
+    public static final int NUMBER_TYPEN_PAGER = 6;
+    public static final int NUMBER_TYPEN_CAR = 7;
+    public static final int NUMBER_TYPEN_SIM = 8;
+    public static final int NUMBER_TYPEN_MAIN_OFFICE = 9;
+    public static final int NUMBER_TYPEN_MAIN_HOME = 10;
+    public static final int NUMBER_TYPEN_CELL_OFFICE = 11;
+    public static final int NUMBER_TYPEN_CELL_HOME = 12;
+    public static final int NUMBER_TYPEN_FAX_OFFICE = 13;
+    public static final int NUMBER_TYPEN_FAX_HOME = 14;
+    public final AdressIndication adressIndication;
 
-    @Override
     public void setArrayHeader(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
     }
 
-    @Override
     public ArrayHeader getArrayHeader() {
         return this.arrayHeader;
     }
 
-    @Override
     public void setPos(int n) {
         this.pos = n;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
@@ -82,19 +74,19 @@ implements BAPArrayElement {
     public Phonebook_Data(ArrayHeader arrayHeader) {
         this.arrayHeader = arrayHeader;
         this.pbName = new BAPString(100);
-        this.anyVoiceTag = new Phonebook_Data$AnyVoiceTag();
+        this.anyVoiceTag = new AnyVoiceTag();
         this.telNumberQuantity = 0;
         this.telNumberN = new BAPString[this.telNumberQuantity];
-        this.voiceTagN = new Phonebook_Data$VoiceTag[this.telNumberQuantity];
-        this.reserveN = new Phonebook_Data$Reserve[this.telNumberQuantity];
+        this.voiceTagN = new VoiceTag[this.telNumberQuantity];
+        this.reserveN = new Reserve[this.telNumberQuantity];
         this.numberTypeN = new int[this.telNumberQuantity];
         for (int i2 = 0; i2 < this.telNumberQuantity; ++i2) {
             this.telNumberN[i2] = new BAPString(41);
-            this.voiceTagN[i2] = new Phonebook_Data$VoiceTag();
-            this.reserveN[i2] = new Phonebook_Data$Reserve();
+            this.voiceTagN[i2] = new VoiceTag();
+            this.reserveN[i2] = new Reserve();
             this.numberTypeN[i2] = 0;
         }
-        this.adressIndication = new Phonebook_Data$AdressIndication();
+        this.adressIndication = new AdressIndication();
         this.internalReset();
         this.customInitialization();
     }
@@ -103,19 +95,19 @@ implements BAPArrayElement {
         this.internalReset();
         this.arrayHeader = arrayHeader;
         this.pbName = new BAPString(100);
-        this.anyVoiceTag = new Phonebook_Data$AnyVoiceTag();
+        this.anyVoiceTag = new AnyVoiceTag();
         this.telNumberQuantity = n;
         this.telNumberN = new BAPString[this.telNumberQuantity];
-        this.voiceTagN = new Phonebook_Data$VoiceTag[this.telNumberQuantity];
-        this.reserveN = new Phonebook_Data$Reserve[this.telNumberQuantity];
+        this.voiceTagN = new VoiceTag[this.telNumberQuantity];
+        this.reserveN = new Reserve[this.telNumberQuantity];
         this.numberTypeN = new int[this.telNumberQuantity];
         for (int i2 = 0; i2 < this.telNumberQuantity; ++i2) {
             this.telNumberN[i2] = new BAPString(41);
-            this.voiceTagN[i2] = new Phonebook_Data$VoiceTag();
-            this.reserveN[i2] = new Phonebook_Data$Reserve();
+            this.voiceTagN[i2] = new VoiceTag();
+            this.reserveN[i2] = new Reserve();
             this.numberTypeN[i2] = 0;
         }
-        this.adressIndication = new Phonebook_Data$AdressIndication();
+        this.adressIndication = new AdressIndication();
         this.customInitialization();
     }
 
@@ -130,7 +122,6 @@ implements BAPArrayElement {
         this.telNumberQuantity = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.arrayHeader.reset();
@@ -144,7 +135,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         boolean bl;
         Phonebook_Data phonebook_Data = (Phonebook_Data)bAPEntity;
@@ -162,7 +152,6 @@ implements BAPArrayElement {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Phonebook_Data:");
@@ -283,7 +272,6 @@ implements BAPArrayElement {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         switch (this.arrayHeader.getSerializationRecordAddress()) {
@@ -353,7 +341,6 @@ implements BAPArrayElement {
         return n;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -421,7 +408,6 @@ implements BAPArrayElement {
         }
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         switch (this.arrayHeader.getSerializationRecordAddress()) {
             case 0: {
@@ -486,6 +472,329 @@ implements BAPArrayElement {
                 this.arrayHeader.deserializePosOfArrayElement(bitStream, this);
                 break;
             }
+        }
+    }
+
+    public static final class Reserve
+    implements BAPEntity {
+        private static final int RESERVED_BIT_0__3_BITSIZE = 4;
+        private static final int RESERVE_BITSIZE = 4;
+
+        public Reserve() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public Reserve(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            return true;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Reserve:");
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 4;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.resetBits(4);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.discardBits(4);
+        }
+    }
+
+    public static final class VoiceTag
+    implements BAPEntity {
+        public boolean voiceTagAvailable;
+        private static final int VOICE_TAG_BITSIZE = 4;
+        private static final int VOICE_TAG_NOT_DEFINED_BITSIZE = 3;
+
+        public VoiceTag() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public VoiceTag(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.voiceTagAvailable = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            VoiceTag voiceTag = (VoiceTag)bAPEntity;
+            return this.voiceTagAvailable == voiceTag.voiceTagAvailable;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("VoiceTag:");
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.voiceTagAvailable) {
+                stringBuffer.append("true  (voice tag available");
+            } else {
+                stringBuffer.append("false  (no voice tag available");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 4;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBits(3, 0);
+            bitStream.pushBoolean(this.voiceTagAvailable);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            bitStream.popFrontBits(3);
+            this.voiceTagAvailable = bitStream.popFrontBoolean();
+        }
+    }
+
+    public static final class AnyVoiceTag
+    implements BAPEntity {
+        public boolean reserved_bit_3;
+        public boolean reserved_bit_2;
+        public boolean voiceTagForStandardNumberAvailable;
+        public boolean anyVoiceTagAvailable;
+        private static final int ANY_VOICE_TAG_BITSIZE = 4;
+
+        public AnyVoiceTag() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public AnyVoiceTag(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.reserved_bit_3 = false;
+            this.reserved_bit_2 = false;
+            this.voiceTagForStandardNumberAvailable = false;
+            this.anyVoiceTagAvailable = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            AnyVoiceTag anyVoiceTag = (AnyVoiceTag)bAPEntity;
+            return this.reserved_bit_3 == anyVoiceTag.reserved_bit_3 && this.reserved_bit_2 == anyVoiceTag.reserved_bit_2 && this.voiceTagForStandardNumberAvailable == anyVoiceTag.voiceTagForStandardNumberAvailable && this.anyVoiceTagAvailable == anyVoiceTag.anyVoiceTagAvailable;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("AnyVoiceTag:");
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.reserved_bit_3) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.reserved_bit_2) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.voiceTagForStandardNumberAvailable) {
+                stringBuffer.append("true  (voice tag for standard number available");
+            } else {
+                stringBuffer.append("false  (no voice tag for standard number available");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.anyVoiceTagAvailable) {
+                stringBuffer.append("true  (any voice tag available");
+            } else {
+                stringBuffer.append("false  (no voice tag available");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 4;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.reserved_bit_3);
+            bitStream.pushBoolean(this.reserved_bit_2);
+            bitStream.pushBoolean(this.voiceTagForStandardNumberAvailable);
+            bitStream.pushBoolean(this.anyVoiceTagAvailable);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.reserved_bit_3 = bitStream.popFrontBoolean();
+            this.reserved_bit_2 = bitStream.popFrontBoolean();
+            this.voiceTagForStandardNumberAvailable = bitStream.popFrontBoolean();
+            this.anyVoiceTagAvailable = bitStream.popFrontBoolean();
+        }
+    }
+
+    public static final class AdressIndication
+    implements BAPEntity {
+        public boolean reserved_bit_7;
+        public boolean reserved_bit_6;
+        public boolean businessAddressIsSuitedAsNavigationDestaination;
+        public boolean businessAddressAvailable;
+        public boolean privateAddressIsSuitedAsNavigationDestaination;
+        public boolean privateAddressAvailable;
+        public boolean defaultAddressIsSuitedAsNavigationDestaination;
+        public boolean defaultAddressAvailable;
+        private static final int ADRESS_INDICATION_BITSIZE = 8;
+
+        public AdressIndication() {
+            this.internalReset();
+            this.customInitialization();
+        }
+
+        public AdressIndication(BitStream bitStream) {
+            this();
+            this.deserialize(bitStream);
+        }
+
+        private void internalReset() {
+            this.reserved_bit_7 = false;
+            this.reserved_bit_6 = false;
+            this.businessAddressIsSuitedAsNavigationDestaination = false;
+            this.businessAddressAvailable = false;
+            this.privateAddressIsSuitedAsNavigationDestaination = false;
+            this.privateAddressAvailable = false;
+            this.defaultAddressIsSuitedAsNavigationDestaination = false;
+            this.defaultAddressAvailable = false;
+        }
+
+        public void reset() {
+            this.internalReset();
+        }
+
+        public boolean equalTo(BAPEntity bAPEntity) {
+            AdressIndication adressIndication = (AdressIndication)bAPEntity;
+            return this.reserved_bit_7 == adressIndication.reserved_bit_7 && this.reserved_bit_6 == adressIndication.reserved_bit_6 && this.businessAddressIsSuitedAsNavigationDestaination == adressIndication.businessAddressIsSuitedAsNavigationDestaination && this.businessAddressAvailable == adressIndication.businessAddressAvailable && this.privateAddressIsSuitedAsNavigationDestaination == adressIndication.privateAddressIsSuitedAsNavigationDestaination && this.privateAddressAvailable == adressIndication.privateAddressAvailable && this.defaultAddressIsSuitedAsNavigationDestaination == adressIndication.defaultAddressIsSuitedAsNavigationDestaination && this.defaultAddressAvailable == adressIndication.defaultAddressAvailable;
+        }
+
+        private void customInitialization() {
+        }
+
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("AdressIndication:");
+            stringBuffer.append("\n - Bit 7: ");
+            if (this.reserved_bit_7) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 6: ");
+            if (this.reserved_bit_6) {
+                stringBuffer.append("true  (reserved");
+            } else {
+                stringBuffer.append("false  (reserved");
+            }
+            stringBuffer.append("\n - Bit 5: ");
+            if (this.businessAddressIsSuitedAsNavigationDestaination) {
+                stringBuffer.append("true  (business address is suited as navigation destaination");
+            } else {
+                stringBuffer.append("false  (business address is NOT suited as navigation destaination");
+            }
+            stringBuffer.append("\n - Bit 4: ");
+            if (this.businessAddressAvailable) {
+                stringBuffer.append("true  (business address available");
+            } else {
+                stringBuffer.append("false  (business address NOT available");
+            }
+            stringBuffer.append("\n - Bit 3: ");
+            if (this.privateAddressIsSuitedAsNavigationDestaination) {
+                stringBuffer.append("true  (private (home) address is suited as navigation destaination");
+            } else {
+                stringBuffer.append("false  (private (home) address is NOT suited as navigation destaination");
+            }
+            stringBuffer.append("\n - Bit 2: ");
+            if (this.privateAddressAvailable) {
+                stringBuffer.append("true  (private (home) address available");
+            } else {
+                stringBuffer.append("false  (private (home) address NOT available");
+            }
+            stringBuffer.append("\n - Bit 1: ");
+            if (this.defaultAddressIsSuitedAsNavigationDestaination) {
+                stringBuffer.append("true  (default address is suited as navigation destaination");
+            } else {
+                stringBuffer.append("false  (default address is NOT suited as navigation destaination");
+            }
+            stringBuffer.append("\n - Bit 0: ");
+            if (this.defaultAddressAvailable) {
+                stringBuffer.append("true  (default address available");
+            } else {
+                stringBuffer.append("false  (default address NOT available");
+            }
+            return stringBuffer.toString();
+        }
+
+        public int bitSize() {
+            int n = 0;
+            return n += 8;
+        }
+
+        public void serialize(BitStream bitStream) {
+            bitStream.pushBoolean(this.reserved_bit_7);
+            bitStream.pushBoolean(this.reserved_bit_6);
+            bitStream.pushBoolean(this.businessAddressIsSuitedAsNavigationDestaination);
+            bitStream.pushBoolean(this.businessAddressAvailable);
+            bitStream.pushBoolean(this.privateAddressIsSuitedAsNavigationDestaination);
+            bitStream.pushBoolean(this.privateAddressAvailable);
+            bitStream.pushBoolean(this.defaultAddressIsSuitedAsNavigationDestaination);
+            bitStream.pushBoolean(this.defaultAddressAvailable);
+        }
+
+        public void deserialize(BitStream bitStream) {
+            this.reserved_bit_7 = bitStream.popFrontBoolean();
+            this.reserved_bit_6 = bitStream.popFrontBoolean();
+            this.businessAddressIsSuitedAsNavigationDestaination = bitStream.popFrontBoolean();
+            this.businessAddressAvailable = bitStream.popFrontBoolean();
+            this.privateAddressIsSuitedAsNavigationDestaination = bitStream.popFrontBoolean();
+            this.privateAddressAvailable = bitStream.popFrontBoolean();
+            this.defaultAddressIsSuitedAsNavigationDestaination = bitStream.popFrontBoolean();
+            this.defaultAddressAvailable = bitStream.popFrontBoolean();
         }
     }
 }

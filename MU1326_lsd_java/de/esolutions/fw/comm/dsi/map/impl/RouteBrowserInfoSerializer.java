@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.map.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.map.RouteBrowserInfo;
 
 public class RouteBrowserInfoSerializer {
-    public static void putOptionalRouteBrowserInfo(ISerializer iSerializer, RouteBrowserInfo routeBrowserInfo) {
+    public static void putOptionalRouteBrowserInfo(ISerializer iSerializer, RouteBrowserInfo routeBrowserInfo) throws SerializerException {
         boolean bl = routeBrowserInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class RouteBrowserInfoSerializer {
         }
     }
 
-    public static void putOptionalRouteBrowserInfoVarArray(ISerializer iSerializer, RouteBrowserInfo[] routeBrowserInfoArray) {
+    public static void putOptionalRouteBrowserInfoVarArray(ISerializer iSerializer, RouteBrowserInfo[] routeBrowserInfoArray) throws SerializerException {
         boolean bl = routeBrowserInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class RouteBrowserInfoSerializer {
         }
     }
 
-    public static RouteBrowserInfo getOptionalRouteBrowserInfo(IDeserializer iDeserializer) {
+    public static RouteBrowserInfo getOptionalRouteBrowserInfo(IDeserializer iDeserializer) throws SerializerException {
         RouteBrowserInfo routeBrowserInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class RouteBrowserInfoSerializer {
         return routeBrowserInfo;
     }
 
-    public static RouteBrowserInfo[] getOptionalRouteBrowserInfoVarArray(IDeserializer iDeserializer) {
+    public static RouteBrowserInfo[] getOptionalRouteBrowserInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         RouteBrowserInfo[] routeBrowserInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -29,12 +29,12 @@ public class ThreadPoolLegacy {
         return this.name;
     }
 
-    public void execute(Runnable runnable) {
+    public void execute(Runnable runnable) throws InterruptedException {
         ThreadPoolWorker threadPoolWorker = (ThreadPoolWorker)this.idleWorkers.remove();
         threadPoolWorker.process(runnable);
     }
 
-    public void execute(Runnable runnable, Object object) {
+    public void execute(Runnable runnable, Object object) throws InterruptedException {
         ThreadPoolWorker threadPoolWorker = (ThreadPoolWorker)this.busyWorkers.get(object);
         if (threadPoolWorker != null) {
             threadPoolWorker.process(runnable);
@@ -60,7 +60,7 @@ public class ThreadPoolLegacy {
     public void stopRequestAllWorkers() {
         this.stopRequestIdleWorkers();
         try {
-            Thread.sleep(0);
+            Thread.sleep(500L);
         }
         catch (InterruptedException interruptedException) {
             // empty catch block

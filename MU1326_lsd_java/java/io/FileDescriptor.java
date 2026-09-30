@@ -12,17 +12,14 @@ public final class FileDescriptor {
     static {
         FileDescriptor.in.descriptor = 0L;
         FileDescriptor.out.descriptor = 1L;
-        FileDescriptor.err.descriptor = 0;
+        FileDescriptor.err.descriptor = 2L;
         FileDescriptor.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
-    public native void sync() {
-    }
+    public native void sync();
 
-    public native boolean valid() {
-    }
+    public native boolean valid();
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.careco.impl;
 import de.esolutions.fw.comm.dsi.careco.impl.BCmETransmittableElementsSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.careco.BCmEConfiguration;
 import org.dsi.ifc.careco.BCmETransmittableElements;
 
 public class BCmEConfigurationSerializer {
-    public static void putOptionalBCmEConfiguration(ISerializer iSerializer, BCmEConfiguration bCmEConfiguration) {
+    public static void putOptionalBCmEConfiguration(ISerializer iSerializer, BCmEConfiguration bCmEConfiguration) throws SerializerException {
         boolean bl = bCmEConfiguration == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -27,7 +28,7 @@ public class BCmEConfigurationSerializer {
         }
     }
 
-    public static void putOptionalBCmEConfigurationVarArray(ISerializer iSerializer, BCmEConfiguration[] bCmEConfigurationArray) {
+    public static void putOptionalBCmEConfigurationVarArray(ISerializer iSerializer, BCmEConfiguration[] bCmEConfigurationArray) throws SerializerException {
         boolean bl = bCmEConfigurationArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -38,7 +39,7 @@ public class BCmEConfigurationSerializer {
         }
     }
 
-    public static BCmEConfiguration getOptionalBCmEConfiguration(IDeserializer iDeserializer) {
+    public static BCmEConfiguration getOptionalBCmEConfiguration(IDeserializer iDeserializer) throws SerializerException {
         BCmEConfiguration bCmEConfiguration = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -57,7 +58,7 @@ public class BCmEConfigurationSerializer {
         return bCmEConfiguration;
     }
 
-    public static BCmEConfiguration[] getOptionalBCmEConfigurationVarArray(IDeserializer iDeserializer) {
+    public static BCmEConfiguration[] getOptionalBCmEConfigurationVarArray(IDeserializer iDeserializer) throws SerializerException {
         BCmEConfiguration[] bCmEConfigurationArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

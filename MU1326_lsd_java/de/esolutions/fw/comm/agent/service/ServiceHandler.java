@@ -3,9 +3,8 @@
  */
 package de.esolutions.fw.comm.agent.service;
 
+import de.esolutions.fw.comm.agent.service.IServiceHandlerCallback;
 import de.esolutions.fw.comm.agent.service.IServiceHandlerListener;
-import de.esolutions.fw.comm.agent.service.ServiceHandler$1;
-import de.esolutions.fw.comm.agent.service.ServiceHandler$2;
 import de.esolutions.fw.comm.agent.service.Stub;
 import de.esolutions.fw.comm.agent.tracing.CommAgentTracing;
 import de.esolutions.fw.comm.core.IService;
@@ -47,7 +46,7 @@ public class ServiceHandler {
     }
 
     public String toString() {
-        return new StringBuffer().append("[Service #").append(this.serviceID).append("]").toString();
+        return "[Service #" + this.serviceID + "]";
     }
 
     public ServiceInstanceID getInstanceID() {
@@ -66,21 +65,31 @@ public class ServiceHandler {
         return this.serviceID;
     }
 
-    public synchronized void attachedStub(Stub stub) {
+    public synchronized void attachedStub(final Stub stub) {
         this.stubList.add(stub);
         CommAgentTracing.SERVICE.log((short)0, "service=#%1:%2 attach stub. count=%3", new Integer(this.serviceID), (Object)this.service.getInstanceID(), (Object)new Integer(this.stubList.size()));
         CommAgentTracing.COMM.log((short)2, "on='%1' event='interface' interface='%2:%3' info='client-connected' count='%4' home='%5'", new Short(this.myAgentID), (Object)this.service.getInstanceID().getServiceUUID(), (Object)new Integer(this.service.getInstanceID().getHandle()), (Object)new Integer(this.stubList.size()), (Object)new Short(stub.getRemoteAgentID()));
-        ServiceHandler$1 serviceHandler$1 = new ServiceHandler$1(this, stub);
-        this.listener.serviceStubAttached(this.service, this.stubList.size(), stub, serviceHandler$1);
+        IServiceHandlerCallback iServiceHandlerCallback = new IServiceHandlerCallback(){
+
+            public void completedCall() {
+                ServiceHandler.this.attachtedStubComplete(stub);
+            }
+        };
+        this.listener.serviceStubAttached(this.service, this.stubList.size(), stub, iServiceHandlerCallback);
     }
 
     public synchronized void detachedStub(Stub stub) {
         boolean bl = this.stubList.remove(stub);
         CommAgentTracing.SERVICE.log((short)0, "service=#%1:%2 detach stub. count=%3", new Integer(this.serviceID), (Object)this.service.getInstanceID(), (Object)new Integer(this.stubList.size()));
         CommAgentTracing.COMM.log((short)2, "on='%1' event='interface' interface='%2:%3' info='client-disconnected' count='%4' home='%5'", new Short(this.myAgentID), (Object)this.service.getInstanceID().getServiceUUID(), (Object)new Integer(this.service.getInstanceID().getHandle()), (Object)new Integer(this.stubList.size()), (Object)new Short(stub.getRemoteAgentID()));
-        ServiceHandler$2 serviceHandler$2 = new ServiceHandler$2(this);
+        IServiceHandlerCallback iServiceHandlerCallback = new IServiceHandlerCallback(){
+
+            public void completedCall() {
+                ServiceHandler.this.detachedStubComplete();
+            }
+        };
         if (bl) {
-            this.listener.serviceStubDetached(this.service, this.stubList.size(), stub, serviceHandler$2);
+            this.listener.serviceStubDetached(this.service, this.stubList.size(), stub, iServiceHandlerCallback);
         }
     }
 

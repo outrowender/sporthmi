@@ -3,32 +3,27 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.StreamConnection;
 
 public interface SocketConnection
 extends StreamConnection {
-    public static final byte DELAY;
-    public static final byte KEEPALIVE;
-    public static final byte LINGER;
-    public static final byte RCVBUF;
-    public static final byte SNDBUF;
+    public static final byte DELAY = 0;
+    public static final byte KEEPALIVE = 2;
+    public static final byte LINGER = 1;
+    public static final byte RCVBUF = 3;
+    public static final byte SNDBUF = 4;
 
-    default public String getAddress() {
-    }
+    public String getAddress() throws IOException;
 
-    default public String getLocalAddress() {
-    }
+    public String getLocalAddress() throws IOException;
 
-    default public int getLocalPort() {
-    }
+    public int getLocalPort() throws IOException;
 
-    default public int getPort() {
-    }
+    public int getPort() throws IOException;
 
-    default public int getSocketOption(byte by) {
-    }
+    public int getSocketOption(byte var1) throws IllegalArgumentException, IOException;
 
-    default public void setSocketOption(byte by, int n) {
-    }
+    public void setSocketOption(byte var1, int var2) throws IllegalArgumentException, IOException;
 }
 

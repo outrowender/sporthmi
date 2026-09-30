@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.ManeuverElement;
 
 public class ManeuverElementSerializer {
-    public static void putOptionalManeuverElement(ISerializer iSerializer, ManeuverElement maneuverElement) {
+    public static void putOptionalManeuverElement(ISerializer iSerializer, ManeuverElement maneuverElement) throws SerializerException {
         boolean bl = maneuverElement == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class ManeuverElementSerializer {
         }
     }
 
-    public static void putOptionalManeuverElementVarArray(ISerializer iSerializer, ManeuverElement[] maneuverElementArray) {
+    public static void putOptionalManeuverElementVarArray(ISerializer iSerializer, ManeuverElement[] maneuverElementArray) throws SerializerException {
         boolean bl = maneuverElementArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class ManeuverElementSerializer {
         }
     }
 
-    public static ManeuverElement getOptionalManeuverElement(IDeserializer iDeserializer) {
+    public static ManeuverElement getOptionalManeuverElement(IDeserializer iDeserializer) throws SerializerException {
         ManeuverElement maneuverElement = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class ManeuverElementSerializer {
         return maneuverElement;
     }
 
-    public static ManeuverElement[] getOptionalManeuverElementVarArray(IDeserializer iDeserializer) {
+    public static ManeuverElement[] getOptionalManeuverElementVarArray(IDeserializer iDeserializer) throws SerializerException {
         ManeuverElement[] maneuverElementArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

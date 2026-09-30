@@ -5,17 +5,14 @@ package java.util;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.ListResourceBundle$1;
 import java.util.ResourceBundle;
 
 public abstract class ListResourceBundle
 extends ResourceBundle {
     Hashtable table;
 
-    protected abstract Object[][] getContents() {
-    }
+    protected abstract Object[][] getContents();
 
-    @Override
     public Enumeration getKeys() {
         if (this.table == null) {
             this.initializeTable();
@@ -23,10 +20,62 @@ extends ResourceBundle {
         if (this.parent == null) {
             return this.table.keys();
         }
-        return new ListResourceBundle$1(this);
+        return new Enumeration(){
+            Enumeration local;
+            Enumeration pEnum;
+            Object nextElement;
+            {
+                this.local = ListResourceBundle.this.table.keys();
+                this.pEnum = ListResourceBundle.this.parent.getKeys();
+                this.nextElement = null;
+            }
+
+            /*
+             * Unable to fully structure code
+             */
+            private boolean findNext() {
+                if (this.nextElement == null) ** GOTO lbl7
+                return true;
+lbl-1000:
+                // 1 sources
+
+                {
+                    var1_1 = (String)this.pEnum.nextElement();
+                    if (ListResourceBundle.this.table.containsKey(var1_1)) continue;
+                    this.nextElement = var1_1;
+                    return true;
+lbl7:
+                    // 2 sources
+
+                    ** while (this.pEnum.hasMoreElements())
+                }
+lbl8:
+                // 1 sources
+
+                return false;
+            }
+
+            public boolean hasMoreElements() {
+                if (this.local.hasMoreElements()) {
+                    return true;
+                }
+                return this.findNext();
+            }
+
+            public Object nextElement() {
+                if (this.local.hasMoreElements()) {
+                    return this.local.nextElement();
+                }
+                if (this.findNext()) {
+                    Object object = this.nextElement;
+                    this.nextElement = null;
+                    return object;
+                }
+                return this.pEnum.nextElement();
+            }
+        };
     }
 
-    @Override
     public final Object handleGetObject(String string) {
         if (this.table == null) {
             this.initializeTable();

@@ -8,10 +8,8 @@ import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.IStub;
 
 public interface IServiceHandlerListener {
-    default public void serviceStubAttached(IService iService, int n, IStub iStub, IServiceHandlerCallback iServiceHandlerCallback) {
-    }
+    public void serviceStubAttached(IService var1, int var2, IStub var3, IServiceHandlerCallback var4);
 
-    default public void serviceStubDetached(IService iService, int n, IStub iStub, IServiceHandlerCallback iServiceHandlerCallback) {
-    }
+    public void serviceStubDetached(IService var1, int var2, IStub var3, IServiceHandlerCallback var4);
 }
 

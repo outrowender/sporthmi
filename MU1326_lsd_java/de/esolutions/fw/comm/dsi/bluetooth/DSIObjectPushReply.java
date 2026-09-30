@@ -3,37 +3,30 @@
  */
 package de.esolutions.fw.comm.dsi.bluetooth;
 
+import de.esolutions.fw.comm.core.method.MethodException;
+
 public interface DSIObjectPushReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "cadd98a6-ed14-5525-a167-28ccee45b259";
+    public static final String IPL_COMM_INTERFACE_KEY = "f444e780-ab12-56fe-b796-99483239ba21";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.13";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.13";
 
-    default public void updateOPPIncomingObject(String string, String string2, int n, int n2) {
-    }
+    public void updateOPPIncomingObject(String var1, String var2, int var3, int var4) throws MethodException;
 
-    default public void responseOPPAbortSending(int n) {
-    }
+    public void responseOPPAbortSending(int var1) throws MethodException;
 
-    default public void responseOPPAcceptObject(int n) {
-    }
+    public void responseOPPAcceptObject(int var1) throws MethodException;
 
-    default public void responseOPPSendContacts(int n) {
-    }
+    public void responseOPPSendContacts(int var1) throws MethodException;
 
-    default public void responseOPPSendMessages(int n) {
-    }
+    public void responseOPPSendMessages(int var1) throws MethodException;
 
-    default public void responseOPPSendBinary(int n) {
-    }
+    public void responseOPPSendBinary(int var1) throws MethodException;
 
-    default public void updateVCardsReceived(String string, int n) {
-    }
+    public void updateVCardsReceived(String var1, int var2) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

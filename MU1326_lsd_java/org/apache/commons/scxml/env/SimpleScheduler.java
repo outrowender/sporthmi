@@ -16,18 +16,17 @@ import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCXMLExecutor;
 import org.apache.commons.scxml.SCXMLHelper;
 import org.apache.commons.scxml.TriggerEvent;
-import org.apache.commons.scxml.env.SimpleScheduler$DelayedEventTask;
 import org.apache.commons.scxml.model.ModelException;
 
 public class SimpleScheduler
 implements EventDispatcher,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private Log log = LogFactory.getLog(class$org$apache$commons$scxml$env$SimpleScheduler == null ? (class$org$apache$commons$scxml$env$SimpleScheduler = SimpleScheduler.class$("org.apache.commons.scxml.env.SimpleScheduler")) : class$org$apache$commons$scxml$env$SimpleScheduler);
     private Map timers;
     private SCXMLExecutor executor;
-    private static final String TARGETTYPE_SCXML;
-    private static final String EVENT_ERR_SEND_TARGETUNAVAILABLE;
+    private static final String TARGETTYPE_SCXML = "scxml";
+    private static final String EVENT_ERR_SEND_TARGETUNAVAILABLE = "error.send.targetunavailable";
     static /* synthetic */ Class class$org$apache$commons$scxml$env$SimpleScheduler;
 
     public SimpleScheduler(SCXMLExecutor sCXMLExecutor) {
@@ -35,7 +34,6 @@ Serializable {
         this.timers = Collections.synchronizedMap(new HashMap());
     }
 
-    @Override
     public void cancel(String string) {
         if (this.log.isInfoEnabled()) {
             this.log.info(new StringBuffer().append("cancel( sendId: ").append(string).append(")").toString());
@@ -53,7 +51,6 @@ Serializable {
         this.timers.remove(string);
     }
 
-    @Override
     public void send(String string, String string2, String string3, String string4, Map map, Object object, long l, List list) {
         Object object2;
         if (this.log.isInfoEnabled()) {
@@ -68,13 +65,13 @@ Serializable {
             ((StringBuffer)object2).append(')');
             this.log.info(((StringBuffer)object2).toString());
         }
-        if (SCXMLHelper.isStringEmpty(string3) || string3.trim().equalsIgnoreCase("scxml")) {
+        if (SCXMLHelper.isStringEmpty(string3) || string3.trim().equalsIgnoreCase(TARGETTYPE_SCXML)) {
             if (!SCXMLHelper.isStringEmpty(string2)) {
                 if (this.log.isWarnEnabled()) {
                     this.log.warn(new StringBuffer().append("<send>: Unavailable target - ").append(string2).toString());
                 }
                 try {
-                    this.executor.triggerEvent(new TriggerEvent("error.send.targetunavailable", 5));
+                    this.executor.triggerEvent(new TriggerEvent(EVENT_ERR_SEND_TARGETUNAVAILABLE, 5));
                 }
                 catch (ModelException modelException) {
                     this.log.error(modelException.getMessage(), modelException);
@@ -83,7 +80,7 @@ Serializable {
             }
             if (l > 0L) {
                 object2 = new Timer(true);
-                ((Timer)object2).schedule((TimerTask)new SimpleScheduler$DelayedEventTask(this, string, string4, map), l);
+                ((Timer)object2).schedule((TimerTask)new DelayedEventTask(string, string4, map), l);
                 this.timers.put(string, object2);
                 if (this.log.isDebugEnabled()) {
                     this.log.debug(new StringBuffer().append("Scheduled event '").append(string4).append("' with delay ").append(l).append("ms, as specified by <send> with id '").append(string).append("'").toString());
@@ -113,16 +110,34 @@ Serializable {
         }
     }
 
-    static /* synthetic */ SCXMLExecutor access$000(SimpleScheduler simpleScheduler) {
-        return simpleScheduler.executor;
-    }
+    class DelayedEventTask
+    extends TimerTask {
+        private String sendId;
+        private String event;
+        private Map payload;
 
-    static /* synthetic */ Log access$100(SimpleScheduler simpleScheduler) {
-        return simpleScheduler.log;
-    }
+        DelayedEventTask(String string, String string2) {
+            this(string, string2, null);
+        }
 
-    static /* synthetic */ Map access$200(SimpleScheduler simpleScheduler) {
-        return simpleScheduler.timers;
+        DelayedEventTask(String string, String string2, Map map) {
+            this.sendId = string;
+            this.event = string2;
+            this.payload = map;
+        }
+
+        public void run() {
+            try {
+                SimpleScheduler.this.executor.triggerEvent(new TriggerEvent(this.event, 3, this.payload));
+            }
+            catch (ModelException modelException) {
+                SimpleScheduler.this.log.error(modelException.getMessage(), modelException);
+            }
+            SimpleScheduler.this.timers.remove(this.sendId);
+            if (SimpleScheduler.this.log.isDebugEnabled()) {
+                SimpleScheduler.this.log.debug(new StringBuffer().append("Fired event '").append(this.event).append("' as scheduled by ").append("<send> with id '").append(this.sendId).append("'").toString());
+            }
+        }
     }
 }
 

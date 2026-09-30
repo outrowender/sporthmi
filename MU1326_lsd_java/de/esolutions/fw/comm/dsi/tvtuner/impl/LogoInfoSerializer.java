@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.tvtuner.impl;
 import de.esolutions.fw.comm.dsi.global.impl.ResourceLocatorSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.tvtuner.LogoInfo;
 
 public class LogoInfoSerializer {
-    public static void putOptionalLogoInfo(ISerializer iSerializer, LogoInfo logoInfo) {
+    public static void putOptionalLogoInfo(ISerializer iSerializer, LogoInfo logoInfo) throws SerializerException {
         boolean bl = logoInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class LogoInfoSerializer {
         }
     }
 
-    public static void putOptionalLogoInfoVarArray(ISerializer iSerializer, LogoInfo[] logoInfoArray) {
+    public static void putOptionalLogoInfoVarArray(ISerializer iSerializer, LogoInfo[] logoInfoArray) throws SerializerException {
         boolean bl = logoInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class LogoInfoSerializer {
         }
     }
 
-    public static LogoInfo getOptionalLogoInfo(IDeserializer iDeserializer) {
+    public static LogoInfo getOptionalLogoInfo(IDeserializer iDeserializer) throws SerializerException {
         LogoInfo logoInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class LogoInfoSerializer {
         return logoInfo;
     }
 
-    public static LogoInfo[] getOptionalLogoInfoVarArray(IDeserializer iDeserializer) {
+    public static LogoInfo[] getOptionalLogoInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         LogoInfo[] logoInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

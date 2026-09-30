@@ -48,133 +48,90 @@ import org.apache.commons.jexl.parser.ASTWhileStatement;
 import org.apache.commons.jexl.parser.SimpleNode;
 
 public interface ParserVisitor {
-    default public Object visit(SimpleNode simpleNode, Object object) {
-    }
+    public Object visit(SimpleNode var1, Object var2);
 
-    default public Object visit(ASTJexlScript aSTJexlScript, Object object) {
-    }
+    public Object visit(ASTJexlScript var1, Object var2);
 
-    default public Object visit(ASTBlock aSTBlock, Object object) {
-    }
+    public Object visit(ASTBlock var1, Object var2);
 
-    default public Object visit(ASTEmptyFunction aSTEmptyFunction, Object object) {
-    }
+    public Object visit(ASTEmptyFunction var1, Object var2);
 
-    default public Object visit(ASTSizeFunction aSTSizeFunction, Object object) {
-    }
+    public Object visit(ASTSizeFunction var1, Object var2);
 
-    default public Object visit(ASTIdentifier aSTIdentifier, Object object) {
-    }
+    public Object visit(ASTIdentifier var1, Object var2);
 
-    default public Object visit(ASTExpression aSTExpression, Object object) {
-    }
+    public Object visit(ASTExpression var1, Object var2);
 
-    default public Object visit(ASTAssignment aSTAssignment, Object object) {
-    }
+    public Object visit(ASTAssignment var1, Object var2);
 
-    default public Object visit(ASTOrNode aSTOrNode, Object object) {
-    }
+    public Object visit(ASTOrNode var1, Object var2);
 
-    default public Object visit(ASTAndNode aSTAndNode, Object object) {
-    }
+    public Object visit(ASTAndNode var1, Object var2);
 
-    default public Object visit(ASTBitwiseOrNode aSTBitwiseOrNode, Object object) {
-    }
+    public Object visit(ASTBitwiseOrNode var1, Object var2);
 
-    default public Object visit(ASTBitwiseXorNode aSTBitwiseXorNode, Object object) {
-    }
+    public Object visit(ASTBitwiseXorNode var1, Object var2);
 
-    default public Object visit(ASTBitwiseAndNode aSTBitwiseAndNode, Object object) {
-    }
+    public Object visit(ASTBitwiseAndNode var1, Object var2);
 
-    default public Object visit(ASTEQNode aSTEQNode, Object object) {
-    }
+    public Object visit(ASTEQNode var1, Object var2);
 
-    default public Object visit(ASTNENode aSTNENode, Object object) {
-    }
+    public Object visit(ASTNENode var1, Object var2);
 
-    default public Object visit(ASTLTNode aSTLTNode, Object object) {
-    }
+    public Object visit(ASTLTNode var1, Object var2);
 
-    default public Object visit(ASTGTNode aSTGTNode, Object object) {
-    }
+    public Object visit(ASTGTNode var1, Object var2);
 
-    default public Object visit(ASTLENode aSTLENode, Object object) {
-    }
+    public Object visit(ASTLENode var1, Object var2);
 
-    default public Object visit(ASTGENode aSTGENode, Object object) {
-    }
+    public Object visit(ASTGENode var1, Object var2);
 
-    default public Object visit(ASTAddNode aSTAddNode, Object object) {
-    }
+    public Object visit(ASTAddNode var1, Object var2);
 
-    default public Object visit(ASTSubtractNode aSTSubtractNode, Object object) {
-    }
+    public Object visit(ASTSubtractNode var1, Object var2);
 
-    default public Object visit(ASTMulNode aSTMulNode, Object object) {
-    }
+    public Object visit(ASTMulNode var1, Object var2);
 
-    default public Object visit(ASTDivNode aSTDivNode, Object object) {
-    }
+    public Object visit(ASTDivNode var1, Object var2);
 
-    default public Object visit(ASTModNode aSTModNode, Object object) {
-    }
+    public Object visit(ASTModNode var1, Object var2);
 
-    default public Object visit(ASTUnaryMinusNode aSTUnaryMinusNode, Object object) {
-    }
+    public Object visit(ASTUnaryMinusNode var1, Object var2);
 
-    default public Object visit(ASTBitwiseComplNode aSTBitwiseComplNode, Object object) {
-    }
+    public Object visit(ASTBitwiseComplNode var1, Object var2);
 
-    default public Object visit(ASTNotNode aSTNotNode, Object object) {
-    }
+    public Object visit(ASTNotNode var1, Object var2);
 
-    default public Object visit(ASTNullLiteral aSTNullLiteral, Object object) {
-    }
+    public Object visit(ASTNullLiteral var1, Object var2);
 
-    default public Object visit(ASTTrueNode aSTTrueNode, Object object) {
-    }
+    public Object visit(ASTTrueNode var1, Object var2);
 
-    default public Object visit(ASTFalseNode aSTFalseNode, Object object) {
-    }
+    public Object visit(ASTFalseNode var1, Object var2);
 
-    default public Object visit(ASTIntegerLiteral aSTIntegerLiteral, Object object) {
-    }
+    public Object visit(ASTIntegerLiteral var1, Object var2);
 
-    default public Object visit(ASTFloatLiteral aSTFloatLiteral, Object object) {
-    }
+    public Object visit(ASTFloatLiteral var1, Object var2);
 
-    default public Object visit(ASTStringLiteral aSTStringLiteral, Object object) {
-    }
+    public Object visit(ASTStringLiteral var1, Object var2);
 
-    default public Object visit(ASTExpressionExpression aSTExpressionExpression, Object object) {
-    }
+    public Object visit(ASTExpressionExpression var1, Object var2);
 
-    default public Object visit(ASTStatementExpression aSTStatementExpression, Object object) {
-    }
+    public Object visit(ASTStatementExpression var1, Object var2);
 
-    default public Object visit(ASTReferenceExpression aSTReferenceExpression, Object object) {
-    }
+    public Object visit(ASTReferenceExpression var1, Object var2);
 
-    default public Object visit(ASTIfStatement aSTIfStatement, Object object) {
-    }
+    public Object visit(ASTIfStatement var1, Object var2);
 
-    default public Object visit(ASTWhileStatement aSTWhileStatement, Object object) {
-    }
+    public Object visit(ASTWhileStatement var1, Object var2);
 
-    default public Object visit(ASTForeachStatement aSTForeachStatement, Object object) {
-    }
+    public Object visit(ASTForeachStatement var1, Object var2);
 
-    default public Object visit(ASTMethod aSTMethod, Object object) {
-    }
+    public Object visit(ASTMethod var1, Object var2);
 
-    default public Object visit(ASTArrayAccess aSTArrayAccess, Object object) {
-    }
+    public Object visit(ASTArrayAccess var1, Object var2);
 
-    default public Object visit(ASTSizeMethod aSTSizeMethod, Object object) {
-    }
+    public Object visit(ASTSizeMethod var1, Object var2);
 
-    default public Object visit(ASTReference aSTReference, Object object) {
-    }
+    public Object visit(ASTReference var1, Object var2);
 }
 

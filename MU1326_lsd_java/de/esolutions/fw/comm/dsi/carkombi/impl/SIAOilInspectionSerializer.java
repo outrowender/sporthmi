@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carkombi.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carkombi.SIAOilInspection;
 
 public class SIAOilInspectionSerializer {
-    public static void putOptionalSIAOilInspection(ISerializer iSerializer, SIAOilInspection sIAOilInspection) {
+    public static void putOptionalSIAOilInspection(ISerializer iSerializer, SIAOilInspection sIAOilInspection) throws SerializerException {
         boolean bl = sIAOilInspection == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SIAOilInspectionSerializer {
         }
     }
 
-    public static void putOptionalSIAOilInspectionVarArray(ISerializer iSerializer, SIAOilInspection[] sIAOilInspectionArray) {
+    public static void putOptionalSIAOilInspectionVarArray(ISerializer iSerializer, SIAOilInspection[] sIAOilInspectionArray) throws SerializerException {
         boolean bl = sIAOilInspectionArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SIAOilInspectionSerializer {
         }
     }
 
-    public static SIAOilInspection getOptionalSIAOilInspection(IDeserializer iDeserializer) {
+    public static SIAOilInspection getOptionalSIAOilInspection(IDeserializer iDeserializer) throws SerializerException {
         SIAOilInspection sIAOilInspection = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class SIAOilInspectionSerializer {
         return sIAOilInspection;
     }
 
-    public static SIAOilInspection[] getOptionalSIAOilInspectionVarArray(IDeserializer iDeserializer) {
+    public static SIAOilInspection[] getOptionalSIAOilInspectionVarArray(IDeserializer iDeserializer) throws SerializerException {
         SIAOilInspection[] sIAOilInspectionArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

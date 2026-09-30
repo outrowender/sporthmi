@@ -9,58 +9,40 @@ import org.dsi.ifc.iconhandling.TextRenderingInfo;
 
 public interface DSIIconExtractorListener
 extends DSIListener {
-    default public void iconResult(int n) {
-    }
+    public void iconResult(int var1);
 
-    default public void resourceIdForTMCEventIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForTMCEventIcon(ResourceLocator var1);
 
-    default public void resourceIdForPOIIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForPOIIcon(ResourceLocator var1);
 
-    default public void renderingInformationForRoadIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
-    }
+    public void renderingInformationForRoadIcon(ResourceLocator var1, TextRenderingInfo var2);
 
-    default public void resourceIdForTargetIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForTargetIcon(ResourceLocator var1);
 
-    default public void resourceIdForRoadClassIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForRoadClassIcon(ResourceLocator var1);
 
-    default public void resourceIdForTrafficRegulationIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForTrafficRegulationIcon(ResourceLocator var1);
 
-    default public void resourceIdForAdditionalIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForAdditionalIcon(ResourceLocator var1);
 
-    default public void renderingInformationForExitIcon(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
-    }
+    public void renderingInformationForExitIcon(ResourceLocator var1, TextRenderingInfo var2);
 
-    default public void resourceIdForCountryIcon(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForCountryIcon(ResourceLocator var1);
 
-    default public void resourceIdForTrafficRegulationIconWithSubIndex(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForTrafficRegulationIconWithSubIndex(ResourceLocator var1);
 
-    default public void renderingInformationForExitIconWithVariant(ResourceLocator resourceLocator, TextRenderingInfo textRenderingInfo) {
-    }
+    public void renderingInformationForExitIconWithVariant(ResourceLocator var1, TextRenderingInfo var2);
 
-    default public void setBrandIconStyleResult(int n) {
-    }
+    public void setBrandIconStyleResult(int var1);
 
-    default public void resourceIdForTrafficSourceIconResult(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForTrafficSourceIconResult(ResourceLocator var1);
 
-    default public void resourceIdForAreaWarningIconResult(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForAreaWarningIconResult(ResourceLocator var1);
 
-    default public void resourceIdForAdditionalTurnListIconResult(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForAdditionalTurnListIconResult(ResourceLocator var1);
 
-    default public void resourceIdForComposedPOIIconResult(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForComposedPOIIconResult(ResourceLocator var1);
 
-    default public void resourceIdForPOIIconFromRawDataResult(ResourceLocator resourceLocator) {
-    }
+    public void resourceIdForPOIIconFromRawDataResult(ResourceLocator var1);
 }
 

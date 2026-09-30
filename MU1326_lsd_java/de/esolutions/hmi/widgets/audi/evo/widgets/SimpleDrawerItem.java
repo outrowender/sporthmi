@@ -22,7 +22,7 @@ AnimationListener {
     private int mmiCombiSyncMode = 1;
 
     public SimpleDrawerItem() {
-        this.ANIMATION_TARGET = 31300;
+        this.ANIMATION_TARGET = 1000.0f;
     }
 
     public void showDrawerItem(boolean bl) {
@@ -37,9 +37,9 @@ AnimationListener {
             return;
         }
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, this.animationType, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, this.animationType, false, this);
         }
     }
 
@@ -53,9 +53,9 @@ AnimationListener {
             return;
         }
         if (abstractAnimation.isAnimating()) {
-            abstractAnimation.setTarget(abstractAnimation.getTarget() + 31300);
+            abstractAnimation.setTarget(abstractAnimation.getTarget() + 1000.0f);
         } else {
-            abstractAnimation.startDynamicAnimation(0.0f, 31300, this.animationType, false, this);
+            abstractAnimation.startDynamicAnimation(0.0f, 1000.0f, this.animationType, false, this);
         }
     }
 
@@ -75,7 +75,6 @@ AnimationListener {
         return this.animation;
     }
 
-    @Override
     protected void destroyWidget() {
         if (this.animation != null && this.animation.isAnimating()) {
             this.animation.stopAnimation();
@@ -87,7 +86,6 @@ AnimationListener {
         return (AbstractAnimationController)this.getTerminal().getIAnimationController();
     }
 
-    @Override
     public void animate(int n, float f2) {
         if (this.animationType == n) {
             AbstractAnimation abstractAnimation = this.getAnimation();
@@ -98,11 +96,9 @@ AnimationListener {
         }
     }
 
-    @Override
     public void animationStarted(int n, int n2) {
     }
 
-    @Override
     public void animationFinished(int n, int n2) {
         if (this.animationType == n) {
             float f2;
@@ -114,11 +110,9 @@ AnimationListener {
         }
     }
 
-    @Override
     public void setScreenChangeProgress(float f2) {
     }
 
-    @Override
     public void setScreenChangeTarget(int n) {
     }
 
@@ -126,7 +120,6 @@ AnimationListener {
         this.setVisible(true);
     }
 
-    @Override
     public void screenChangeFinished() {
     }
 
@@ -134,79 +127,63 @@ AnimationListener {
         return this;
     }
 
-    @Override
     public void setMMICombiSyncMode(int n) {
         this.mmiCombiSyncMode = n;
     }
 
-    @Override
     public int getMMICombiSyncMode() {
         return this.mmiCombiSyncMode;
     }
 
-    @Override
     public boolean isVisible() {
         return this.mmiCombiSyncMode != 2 && super.isVisible();
     }
 
-    @Override
     public void setAnimationType(int n) {
         this.animationType = n;
     }
 
-    @Override
     public void showDrawerItem(boolean bl, boolean bl2) {
     }
 
-    @Override
     public void hideDrawerItem(boolean bl, boolean bl2) {
     }
 
-    @Override
     public void setDrawerAnimationMask(int n) {
     }
 
-    @Override
     public void drawerAnimationTargetChanged(float[] fArray, float[] fArray2, int n) {
     }
 
     public void drawerSetDrawerAnimation(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void drawerAnimationFinished(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public int getDrawerAnimationMask() {
         return 0;
     }
 
-    @Override
     public void setTransitionForward(boolean bl) {
     }
 
-    @Override
     public boolean isTransitionForward() {
         return false;
     }
 
-    @Override
     public void setDrawerAnimation(float[] fArray, float[] fArray2, int n) {
     }
 
-    @Override
     public void initializeDrawerAnimation(float[] fArray, float[] fArray2) {
     }
 
     public void setInitialState(int n) {
     }
 
-    @Override
     public void hideDrawerItem() {
     }
 
-    @Override
     public void setDrawerAnimationType(int n) {
     }
 }

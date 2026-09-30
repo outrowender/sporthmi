@@ -8,10 +8,8 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface DSIPictureHandlingListener
 extends DSIListener {
-    default public void indicatePicture(int n, int n2, ResourceLocator resourceLocator, ResourceLocator resourceLocator2) {
-    }
+    public void indicatePicture(int var1, int var2, ResourceLocator var3, ResourceLocator var4);
 
-    default public void finishPictureRequest(int n) {
-    }
+    public void finishPictureRequest(int var1);
 }
 

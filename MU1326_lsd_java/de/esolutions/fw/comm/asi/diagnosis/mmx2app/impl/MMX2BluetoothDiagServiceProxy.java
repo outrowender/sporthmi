@@ -3,6 +3,14 @@
  */
 package de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl;
 
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sBluetoothDeviceNameSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sBluetoothDevicesSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sBluetoothMACSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sBluetoothStateSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sConnectedBtDeviceSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sConnectedBtDevicesSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sLastPairedBtDevicesSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.bluetooth.impl.sPairedBtDevicesSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothDeviceName;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothDevices;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sBluetoothMAC;
@@ -11,27 +19,20 @@ import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sConnectedBtDevice;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sConnectedBtDevices;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sLastPairedBtDevices;
 import de.esolutions.fw.comm.asi.diagnosis.bluetooth.sPairedBtDevices;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sClientResponseErrorSerializer;
+import de.esolutions.fw.comm.asi.diagnosis.diagtypes.impl.sRoutineResponseSerializer;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sClientResponseError;
 import de.esolutions.fw.comm.asi.diagnosis.diagtypes.sRoutineResponse;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2BluetoothDiagService;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2BluetoothDiagServiceC;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.MMX2BluetoothDiagServiceReply;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$1;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$10;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$11;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$2;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$3;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$4;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$5;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$6;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$7;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$8;
-import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceProxy$9;
 import de.esolutions.fw.comm.asi.diagnosis.mmx2app.impl.MMX2BluetoothDiagServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -51,68 +52,107 @@ MMX2BluetoothDiagServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void responseErrorBluetooth(sClientResponseError sClientResponseError2) {
-        MMX2BluetoothDiagServiceProxy$1 mMX2BluetoothDiagServiceProxy$1 = new MMX2BluetoothDiagServiceProxy$1(this, sClientResponseError2);
-        this.proxy.remoteCallMethod((short)37, mMX2BluetoothDiagServiceProxy$1);
+    public void responseErrorBluetooth(final sClientResponseError sClientResponseError2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sClientResponseErrorSerializer.putOptionalsClientResponseError(iSerializer, sClientResponseError2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)37, iSerializable);
     }
 
-    @Override
-    public void responseBluetoothState(sBluetoothState sBluetoothState2) {
-        MMX2BluetoothDiagServiceProxy$2 mMX2BluetoothDiagServiceProxy$2 = new MMX2BluetoothDiagServiceProxy$2(this, sBluetoothState2);
-        this.proxy.remoteCallMethod((short)14, mMX2BluetoothDiagServiceProxy$2);
+    public void responseBluetoothState(final sBluetoothState sBluetoothState2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBluetoothStateSerializer.putOptionalsBluetoothState(iSerializer, sBluetoothState2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)14, iSerializable);
     }
 
-    @Override
-    public void responseBluetoothMAC(sBluetoothMAC sBluetoothMAC2) {
-        MMX2BluetoothDiagServiceProxy$3 mMX2BluetoothDiagServiceProxy$3 = new MMX2BluetoothDiagServiceProxy$3(this, sBluetoothMAC2);
-        this.proxy.remoteCallMethod((short)13, mMX2BluetoothDiagServiceProxy$3);
+    public void responseBluetoothMAC(final sBluetoothMAC sBluetoothMAC2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBluetoothMACSerializer.putOptionalsBluetoothMAC(iSerializer, sBluetoothMAC2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)13, iSerializable);
     }
 
-    @Override
-    public void responseBluetoothDevices(sBluetoothDevices sBluetoothDevices2) {
-        MMX2BluetoothDiagServiceProxy$4 mMX2BluetoothDiagServiceProxy$4 = new MMX2BluetoothDiagServiceProxy$4(this, sBluetoothDevices2);
-        this.proxy.remoteCallMethod((short)12, mMX2BluetoothDiagServiceProxy$4);
+    public void responseBluetoothDevices(final sBluetoothDevices sBluetoothDevices2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBluetoothDevicesSerializer.putOptionalsBluetoothDevices(iSerializer, sBluetoothDevices2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void responseLastPairedBtDevices(sLastPairedBtDevices sLastPairedBtDevices2) {
-        MMX2BluetoothDiagServiceProxy$5 mMX2BluetoothDiagServiceProxy$5 = new MMX2BluetoothDiagServiceProxy$5(this, sLastPairedBtDevices2);
-        this.proxy.remoteCallMethod((short)38, mMX2BluetoothDiagServiceProxy$5);
+    public void responseLastPairedBtDevices(final sLastPairedBtDevices sLastPairedBtDevices2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sLastPairedBtDevicesSerializer.putOptionalsLastPairedBtDevices(iSerializer, sLastPairedBtDevices2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)38, iSerializable);
     }
 
-    @Override
-    public void responsePairedBtDevices(sPairedBtDevices sPairedBtDevices2) {
-        MMX2BluetoothDiagServiceProxy$6 mMX2BluetoothDiagServiceProxy$6 = new MMX2BluetoothDiagServiceProxy$6(this, sPairedBtDevices2);
-        this.proxy.remoteCallMethod((short)32, mMX2BluetoothDiagServiceProxy$6);
+    public void responsePairedBtDevices(final sPairedBtDevices sPairedBtDevices2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sPairedBtDevicesSerializer.putOptionalsPairedBtDevices(iSerializer, sPairedBtDevices2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)32, iSerializable);
     }
 
-    @Override
-    public void responseConnectedBtDevices(sConnectedBtDevices sConnectedBtDevices2) {
-        MMX2BluetoothDiagServiceProxy$7 mMX2BluetoothDiagServiceProxy$7 = new MMX2BluetoothDiagServiceProxy$7(this, sConnectedBtDevices2);
-        this.proxy.remoteCallMethod((short)31, mMX2BluetoothDiagServiceProxy$7);
+    public void responseConnectedBtDevices(final sConnectedBtDevices sConnectedBtDevices2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sConnectedBtDevicesSerializer.putOptionalsConnectedBtDevices(iSerializer, sConnectedBtDevices2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)31, iSerializable);
     }
 
-    @Override
-    public void responseConnectedBtDevice(sConnectedBtDevice sConnectedBtDevice2) {
-        MMX2BluetoothDiagServiceProxy$8 mMX2BluetoothDiagServiceProxy$8 = new MMX2BluetoothDiagServiceProxy$8(this, sConnectedBtDevice2);
-        this.proxy.remoteCallMethod((short)17, mMX2BluetoothDiagServiceProxy$8);
+    public void responseConnectedBtDevice(final sConnectedBtDevice sConnectedBtDevice2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sConnectedBtDeviceSerializer.putOptionalsConnectedBtDevice(iSerializer, sConnectedBtDevice2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void responseAutoConnectBtHandset(sRoutineResponse sRoutineResponse2) {
-        MMX2BluetoothDiagServiceProxy$9 mMX2BluetoothDiagServiceProxy$9 = new MMX2BluetoothDiagServiceProxy$9(this, sRoutineResponse2);
-        this.proxy.remoteCallMethod((short)27, mMX2BluetoothDiagServiceProxy$9);
+    public void responseAutoConnectBtHandset(final sRoutineResponse sRoutineResponse2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sRoutineResponseSerializer.putOptionalsRoutineResponse(iSerializer, sRoutineResponse2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)27, iSerializable);
     }
 
-    @Override
-    public void responseBtDeleteLinkKeys(sRoutineResponse sRoutineResponse2) {
-        MMX2BluetoothDiagServiceProxy$10 mMX2BluetoothDiagServiceProxy$10 = new MMX2BluetoothDiagServiceProxy$10(this, sRoutineResponse2);
-        this.proxy.remoteCallMethod((short)28, mMX2BluetoothDiagServiceProxy$10);
+    public void responseBtDeleteLinkKeys(final sRoutineResponse sRoutineResponse2) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sRoutineResponseSerializer.putOptionalsRoutineResponse(iSerializer, sRoutineResponse2);
+            }
+        };
+        this.proxy.remoteCallMethod((short)28, iSerializable);
     }
 
-    @Override
-    public void responseBtDeviceSearch(long l) {
+    public void responseBtDeviceSearch(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);
@@ -123,14 +163,17 @@ MMX2BluetoothDiagServiceC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void responseBtDeviceSearchItem(sBluetoothDeviceName[] sBluetoothDeviceNameArray) {
-        MMX2BluetoothDiagServiceProxy$11 mMX2BluetoothDiagServiceProxy$11 = new MMX2BluetoothDiagServiceProxy$11(this, sBluetoothDeviceNameArray);
-        this.proxy.remoteCallMethod((short)36, mMX2BluetoothDiagServiceProxy$11);
+    public void responseBtDeviceSearchItem(final sBluetoothDeviceName[] sBluetoothDeviceNameArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                sBluetoothDeviceNameSerializer.putOptionalsBluetoothDeviceNameVarArray(iSerializer, sBluetoothDeviceNameArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)36, iSerializable);
     }
 
-    @Override
-    public void responseConnectionToLastBtDevice(long l) {
+    public void responseConnectionToLastBtDevice(long l) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putUInt32(l);

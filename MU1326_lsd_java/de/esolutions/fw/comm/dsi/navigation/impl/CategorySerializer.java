@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.navigation.Category;
 
 public class CategorySerializer {
-    public static void putOptionalCategory(ISerializer iSerializer, Category category) {
+    public static void putOptionalCategory(ISerializer iSerializer, Category category) throws SerializerException {
         boolean bl = category == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -37,7 +38,7 @@ public class CategorySerializer {
         }
     }
 
-    public static void putOptionalCategoryVarArray(ISerializer iSerializer, Category[] categoryArray) {
+    public static void putOptionalCategoryVarArray(ISerializer iSerializer, Category[] categoryArray) throws SerializerException {
         boolean bl = categoryArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -48,7 +49,7 @@ public class CategorySerializer {
         }
     }
 
-    public static Category getOptionalCategory(IDeserializer iDeserializer) {
+    public static Category getOptionalCategory(IDeserializer iDeserializer) throws SerializerException {
         Category category = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -79,7 +80,7 @@ public class CategorySerializer {
         return category;
     }
 
-    public static Category[] getOptionalCategoryVarArray(IDeserializer iDeserializer) {
+    public static Category[] getOptionalCategoryVarArray(IDeserializer iDeserializer) throws SerializerException {
         Category[] categoryArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

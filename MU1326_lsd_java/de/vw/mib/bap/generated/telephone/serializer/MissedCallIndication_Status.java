@@ -10,9 +10,9 @@ import de.vw.mib.bap.stream.BitStream;
 public final class MissedCallIndication_Status
 implements StatusProperty {
     public int missedCalls;
-    private static final int MISSED_CALLS_BITSIZE;
+    private static final int MISSED_CALLS_BITSIZE = 16;
     public int missedNumbers;
-    private static final int MISSED_NUMBERS_BITSIZE;
+    private static final int MISSED_NUMBERS_BITSIZE = 16;
 
     public MissedCallIndication_Status() {
         this.internalReset();
@@ -29,12 +29,10 @@ implements StatusProperty {
         this.missedNumbers = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MissedCallIndication_Status missedCallIndication_Status = (MissedCallIndication_Status)bAPEntity;
         return this.missedCalls == missedCallIndication_Status.missedCalls && this.missedNumbers == missedCallIndication_Status.missedNumbers;
@@ -43,7 +41,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MissedCallIndication_Status:");
@@ -54,20 +51,17 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         int n = 0;
         n += 16;
         return n += 16;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushShort((short)this.missedCalls);
         bitStream.pushShort((short)this.missedNumbers);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.missedCalls = bitStream.popFrontShort();
         this.missedNumbers = bitStream.popFrontShort();
@@ -77,7 +71,6 @@ implements StatusProperty {
         return 45;
     }
 
-    @Override
     public int getFunctionId() {
         return MissedCallIndication_Status.functionId();
     }

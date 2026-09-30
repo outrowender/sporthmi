@@ -64,22 +64,6 @@ import de.esolutions.hmi.widgets.audi.evo.high.AnimationControllerMIB2High;
 import de.esolutions.hmi.widgets.audi.evo.high.AnimationMIB2HighSport;
 import de.esolutions.hmi.widgets.audi.evo.high.DrawerManagerEvoHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.FontLoaderEvoHigh;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$1;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$10;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$11;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$12;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$13;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$14;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$15;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$16;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$2;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$3;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$4;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$5;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$6;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$7;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$8;
-import de.esolutions.hmi.widgets.audi.evo.high.HMITerminalImplMIB2High$9;
 import de.esolutions.hmi.widgets.audi.evo.high.ImageLoaderMIB2High;
 import de.esolutions.hmi.widgets.audi.evo.high.KanziResourceLoaderMIB2High;
 import de.esolutions.hmi.widgets.audi.evo.high.LayoutMIB2HighB9;
@@ -100,8 +84,11 @@ import de.esolutions.hmi.widgets.audi.evo.high.RendererFactoryHigh;
 import de.esolutions.hmi.widgets.audi.evo.high.widgets.ScreenRendererHigh;
 import de.esolutions.hmi.widgets.audi.evo.widgets.LongpressKeyHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.PhoneKeyHandler;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import org.osgi.framework.BundleContext;
 
 public class HMITerminalImplMIB2High
@@ -147,45 +134,212 @@ implements HMITerminalEAL {
 
     private List createInitialEventsBeforeSysConst() {
         ArrayList arrayList = new ArrayList(5);
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$1(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$2(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$3(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$4(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$5(this)));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.createEALManager();
+            }
+
+            public String toString() {
+                return "createEALManager";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.loadLibrary();
+            }
+
+            public String toString() {
+                return "ealManager.loadLibrary";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.createManager();
+            }
+
+            public String toString() {
+                return "ealManager.createManager";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.prepareAnnotationRenderer();
+                HMITerminalImplMIB2High.this.ealManager.startManager();
+            }
+
+            public String toString() {
+                return "ealManager.startManager";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.createMasterRoot();
+            }
+
+            public String toString() {
+                return "ealManager.createMasterRoot";
+            }
+        }));
         return arrayList;
     }
 
     private List createInitialEventsAfterSysConst() {
         ArrayList arrayList = new ArrayList(10);
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$6(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$7(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$8(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$9(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$10(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$11(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$12(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$13(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$14(this)));
-        arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$15(this)));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.updateGlobalProperties();
+            }
+
+            public String toString() {
+                return "ealManager.setGlobalProperties";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.generateCarCodingHelper();
+                HMITerminalImplMIB2High.this.generateKzbMappingHelper(HMITerminalImplMIB2High.this.carCodingHelper);
+            }
+
+            public String toString() {
+                return "generateHelpers";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.generateImageLoader();
+            }
+
+            public String toString() {
+                return "generateImageLoader";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.generateKanziResourceLoader(HMITerminalImplMIB2High.this.ealManager);
+            }
+
+            public String toString() {
+                return "generateKanziResourceLoader";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.loadClearingMaterial(10);
+            }
+
+            public String toString() {
+                return "ealManager.loadClearingMaterial";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                String string = System.getProperty("initialKZBs", "");
+                StringTokenizer stringTokenizer = new StringTokenizer(string, ",");
+                while (stringTokenizer.hasMoreTokens()) {
+                    try {
+                        int n = Integer.parseInt(stringTokenizer.nextToken().trim());
+                        if (n == -1 || n == 17) continue;
+                        HMITerminalImplMIB2High.this.ealManager.mergeKzb(n);
+                    }
+                    catch (NumberFormatException numberFormatException) {
+                        IWidgetLogChannel.logChannel3DEngine.log(10000, "HMITerminalImplMIB2#constructor wrong parameter for VMOption initialKZBs='%1'", (Object)string);
+                    }
+                }
+            }
+
+            public String toString() {
+                return "ealManager.loadInitialKzb";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.setTransparentImageID(TRANSPARENT_IMAGE_ID);
+                if (HMITerminalImplMIB2High.this.carCodingHelper.isR8()) {
+                    backgroundImageId = BLACK_IMAGE_ID_R8;
+                    HMITerminalImplMIB2High.this.ealManager.setBackgroundImageID(BLACK_IMAGE_ID_R8);
+                    HMITerminalImplMIB2High.this.ealManager.updateBackgroundImageNode(this);
+                }
+                HMITerminalImplMIB2High.this.ealManager.setBlackImageID(BLACK_IMAGE_ID);
+                HMITerminalImplMIB2High.this.ealManager.setBackgroundImageID(backgroundImageId);
+                HMITerminalImplMIB2High.this.ealManager.createLayers(this);
+            }
+
+            public String toString() {
+                return "ealManager.createLayers";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.ealManager.setupDesaturation(10);
+            }
+
+            public String toString() {
+                return "ealManager.setupDesaturation";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.start();
+            }
+
+            public String toString() {
+                return "HMITerminal.start";
+            }
+        }));
+        arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+            public void run() {
+                HMITerminalImplMIB2High.this.afterStart();
+            }
+
+            public String toString() {
+                return "HMITerminal.afterStart";
+            }
+        }));
         if (this.getFramework().getLogChannel("Fw.Startup").isDebug()) {
-            arrayList.add(new InitialGraphicsEvent(new HMITerminalImplMIB2High$16(this)));
+            arrayList.add(new InitialGraphicsEvent(new Runnable(){
+
+                public void run() {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    PrintStream printStream = new PrintStream(byteArrayOutputStream);
+                    AbstractWidget.hmiService.getEventDispatcherAdmin().dumpEventQueue(printStream);
+                    HMITerminalImplMIB2High.this.getFramework().getLogChannel("Fw.Startup").log(10000000, printStream.toString());
+                }
+
+                public String toString() {
+                    return "HMIEventQueue.dump";
+                }
+            }));
         }
         return arrayList;
     }
 
-    @Override
     public void start() {
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#start start");
+        IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#start start");
         this.initializeSkin();
         super.start();
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#start after super.start");
+        IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#start after super.start");
     }
 
     private void initializeSkin() {
         HMIModel hMIModel;
         if (this.hasMMIKombi() && (hMIModel = this.getFramework().getHMIService().getModel(this.getTerminalID(), 3937)) instanceof ChoiceModelGUI) {
             int n = ((ChoiceModelGUI)((Object)hMIModel)).getValue();
-            IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#initializeSkin skin model: %1, skin ID: %2", (long)hMIModel.getID(), (long)n);
+            IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#initializeSkin skin model: %1, skin ID: %2", (long)hMIModel.getID(), (long)n);
             super.setSkin(n);
         }
     }
@@ -194,7 +348,6 @@ implements HMITerminalEAL {
         return this.framework != null && this.framework.getKombiType() == 4;
     }
 
-    @Override
     protected void initializeLayout() {
         this.setLayout(this.generateLayout());
     }
@@ -208,38 +361,36 @@ implements HMITerminalEAL {
             IWidgetLogChannel.logBenchmark.log(10000, "HMITerminalImplMIB2#propagateLayoutToClusterTerminal the HMI service is null");
         }
         if (hMITerminal instanceof HMITerminalImpl) {
-            IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#propagateLayoutToClusterTerminal cluster terminal layout: %1", (Object)layout);
+            IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#propagateLayoutToClusterTerminal cluster terminal layout: %1", (Object)layout);
             ((HMITerminalImpl)hMITerminal).setLayout(layout);
         } else {
-            IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#propagateLayoutToClusterTerminal no valid cluster terminal found");
+            IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#propagateLayoutToClusterTerminal no valid cluster terminal found");
         }
     }
 
-    @Override
     public void initializeViewSize(int n) {
         if (this.hasMMIKombi()) {
             IViewSizeManager iViewSizeManager = this.getViewSizeManager();
             if (iViewSizeManager != null) {
-                IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#viewSizeChanged size: %1, skin: %2", (long)n, (long)this.skin);
+                IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#viewSizeChanged size: %1, skin: %2", (long)n, (long)this.skin);
                 boolean bl = n == 1;
                 iViewSizeManager.setSportskinSmallStage(this.skin == 1 && bl);
                 AnimationMIB2HighSport.setViewSize(this.ealManager, this.layout, bl);
             } else {
-                IWidgetLogChannel.logBenchmark.log(-1601830656, "HMITerminalImplMIB2#viewSizeChanged no view size manager available");
+                IWidgetLogChannel.logBenchmark.log(100000, "HMITerminalImplMIB2#viewSizeChanged no view size manager available");
             }
         }
     }
 
-    @Override
     public void initializeDrawerViewSize() {
         if (this.hasMMIKombi()) {
             IViewSizeManager iViewSizeManager = this.getViewSizeManager();
             if (iViewSizeManager != null) {
                 boolean bl = iViewSizeManager.getCurrentViewSize() == 1;
-                IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#initializeDrawerViewSize smallStage: %1, layout: %2", bl, (Object)this.layout);
+                IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#initializeDrawerViewSize smallStage: %1, layout: %2", bl, (Object)this.layout);
                 AnimationMIB2HighSport.setDrawerViewSize(this.ealManager, this.layout, bl);
             } else {
-                IWidgetLogChannel.logBenchmark.log(-1601830656, "HMITerminalImplMIB2#viewSizeChanged no view size manager available");
+                IWidgetLogChannel.logBenchmark.log(100000, "HMITerminalImplMIB2#viewSizeChanged no view size manager available");
             }
         }
     }
@@ -247,7 +398,6 @@ implements HMITerminalEAL {
     public void createPreloadManager() {
     }
 
-    @Override
     protected IDrawerManager generateDrawerManager() {
         return new DrawerManagerEvoHigh(this, this.bundleContext, this.framework);
     }
@@ -255,7 +405,7 @@ implements HMITerminalEAL {
     protected void afterStart() {
         Car3DResourceHandler car3DResourceHandler;
         KzbMergeManager kzbMergeManager;
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#afterStart start");
+        IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#afterStart start");
         if (AbstractWidget.framework.isTarget() && AbstractWidget.isVariantHigh() && !MixedListKZBMerger.isIconExtractorInitialized) {
             IconExtractor.initialize();
             MixedListKZBMerger.isIconExtractorInitialized = true;
@@ -270,13 +420,13 @@ implements HMITerminalEAL {
             if (!this.ealManager.isOpsKzbMergeStarted()) {
                 if (kzbMergeManager.mergeKzbAsynchron(12, -30, "OPS")) {
                     this.ealManager.setOpsKzbMergeStarted(true);
-                    IWidgetLogChannel.logChannel3DEngine.log(1078071040, "HMITerminalImplMIB2High#afterStart: asynchronous merge of OPS-KZB started");
+                    IWidgetLogChannel.logChannel3DEngine.log(1000000, "HMITerminalImplMIB2High#afterStart: asynchronous merge of OPS-KZB started");
                 } else {
                     IWidgetLogChannel.logChannel3DEngine.log(10000, "HMITerminalImplMIB2High#afterStart: could not start asynchronous merge of OPS-KZB");
                 }
             }
             if (kzbMergeManager.mergeKzbAsynchron(8, 200, "selectionDrawer")) {
-                IWidgetLogChannel.logChannel3DEngine.log(1078071040, "HMITerminalImplMIB2High#afterStart: asynchronous merge of selectionDrawer-KZB started");
+                IWidgetLogChannel.logChannel3DEngine.log(1000000, "HMITerminalImplMIB2High#afterStart: asynchronous merge of selectionDrawer-KZB started");
             } else {
                 IWidgetLogChannel.logChannel3DEngine.log(10000, "HMITerminalImplMIB2High#afterStart: could not start asynchronous merge of selectionDrawer-KZB");
             }
@@ -287,7 +437,7 @@ implements HMITerminalEAL {
             }
             car3DResourceHandler.loadResourcesAsync(3, 110, "car");
         }
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#start after afterStart");
+        IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#start after afterStart");
     }
 
     protected void createEALManager() {
@@ -299,7 +449,6 @@ implements HMITerminalEAL {
         MixedListKZBMerger.startTrackingAndMerge(this.bundleContext, this.ealManager);
     }
 
-    @Override
     protected void initializeGraphics() {
         EALStatistics eALStatistics = new EALStatistics(this.ealManager, this);
         this.statistics = eALStatistics;
@@ -307,17 +456,14 @@ implements HMITerminalEAL {
         this.visualFeedbackController = new EALVisualFeedback(this.ealManager, this);
     }
 
-    @Override
     protected void initializeOSGi() {
         this.ealManager.initializeAnimationSyncTracker();
         super.initializeOSGi();
     }
 
-    @Override
     protected void initializeBins() {
     }
 
-    @Override
     protected void disposeGraphics() {
         ((EALStatistics)this.statistics).destroyStatisticElements();
         if (null != this.visualFeedbackController) {
@@ -325,27 +471,23 @@ implements HMITerminalEAL {
         }
     }
 
-    @Override
     public IGUIManager getGUIManager() {
         return this.ealManager;
     }
 
-    @Override
     protected Screen createFallbackScreen() {
-        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(-129);
+        ScreenWidgetEVO screenWidgetEVO = new ScreenWidgetEVO(Integer.MAX_VALUE);
         screenWidgetEVO.setRenderer(new ScreenRendererHigh(screenWidgetEVO));
         screenWidgetEVO.setTerminal(this);
         screenWidgetEVO.setColorIndices(new int[]{1, 2, 4, 0});
-        screenWidgetEVO.setColorPalettes(new int[][]{{-1, 255, -1, -1, -1701143809, -1431655681, -1246382593, -1701143809, -1}, {-1, 255, 419495935, 1751100415, -1701143809, -1431655681, -1246382593, -1701143809, 1228585215}, {-1, 255, -19456, 1838260991, -1701143809, -1431655681, -1246382593, -1701143809, 1838260991}, {-1, 255, -1433657601, -1567134209, -1701143809, -1431655681, -1246382593, -1701143809, -1567134209}, {-1, 255, 11166975, 1973122047, -1701143809, -1431655681, -1246382593, -1701143809, 1973122047}});
+        screenWidgetEVO.setColorPalettes(new int[][]{{-1, -16777216, -1, -1, -6645094, -5592406, -4868683, -6645094, -1}, {-1, -16777216, -65511, -5546136, -6645094, -5592406, -4868683, -6645094, -4703671}, {-1, -16777216, -19456, -6123155, -6645094, -5592406, -4868683, -6645094, -6123155}, {-1, -16777216, -14775126, -9594974, -6645094, -5592406, -4868683, -6645094, -9594974}, {-1, -16777216, -10180096, -9200779, -6645094, -5592406, -4868683, -6645094, -9200779}});
         return screenWidgetEVO;
     }
 
-    @Override
     protected IFontLoader generateFontLoader() {
         return new FontLoaderEvoHigh(this);
     }
 
-    @Override
     protected IImageLoader generateImageLoader() {
         if (imageLoader == null) {
             imageLoader = new ImageLoaderMIB2High(this.ealManager);
@@ -353,17 +495,14 @@ implements HMITerminalEAL {
         return imageLoader;
     }
 
-    @Override
     public IKanziResourceLoader getKanziResourceLoader() {
         return kanziResourceLoader;
     }
 
-    @Override
     public EALManager getEALManager() {
         return this.ealManager;
     }
 
-    @Override
     protected Layout generateLayout() {
         Layout layout;
         if (this.isG21HighScale()) {
@@ -372,7 +511,7 @@ implements HMITerminalEAL {
             ICarCodingHelper iCarCodingHelper = this.getCarCodingHelper();
             layout = this.skin == 1 ? this.generateLayoutSport(iCarCodingHelper) : this.generateLayoutClassic(iCarCodingHelper);
         }
-        IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#generateLayout layout: %1", (Object)layout);
+        IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#generateLayout layout: %1", (Object)layout);
         return layout;
     }
 
@@ -394,35 +533,29 @@ implements HMITerminalEAL {
         return widgetConstants;
     }
 
-    @Override
     protected IAnimationController generateAnimationController() {
         AnimationControllerMIB2High animationControllerMIB2High = new AnimationControllerMIB2High(109);
         animationControllerMIB2High.setSkin(this.skin);
         return animationControllerMIB2High;
     }
 
-    @Override
     public String getScreenName(int n) {
         return HMIDiagScreenNameMapping.getScreenName(n);
     }
 
-    @Override
     protected StringUtility generateStringUtility() {
         return new StringUtilityEAL(this);
     }
 
-    @Override
     protected DumpInfoProvider createRenderInfoProvider() {
         return null;
     }
 
-    @Override
     protected IPartialPopupManagerEvo generatePartialPopupManagerEvo() {
         PartialPopupManagerEvoHigh partialPopupManagerEvoHigh = AbstractWidget.isScreenResolution1440() ? new PartialPopupManagerMMICombi(this, this.bundleContext, this.framework) : new PartialPopupManagerEvoHigh(this, this.bundleContext, this.framework);
         return partialPopupManagerEvoHigh;
     }
 
-    @Override
     protected IPresetInputHandler generatePresetPopupHandler() {
         if (this.presetManager == null) {
             this.presetManager = this.framework.isNar() ? new PresetManagerNAR(this, this.bundleContext, this.framework) : new PresetManager(this, this.bundleContext, this.framework);
@@ -432,7 +565,6 @@ implements HMITerminalEAL {
         return this.presetManager.getPresetInputHandler();
     }
 
-    @Override
     protected ICarCodingHelper generateCarCodingHelper() {
         if (this.carCodingHelper == null) {
             this.carCodingHelper = new CarCodingHelper(this.framework);
@@ -440,7 +572,6 @@ implements HMITerminalEAL {
         return this.carCodingHelper;
     }
 
-    @Override
     protected IKzbMappingHelper generateKzbMappingHelper(ICarCodingHelper iCarCodingHelper) {
         if (this.kzbMappingHelper == null) {
             this.kzbMappingHelper = new KzbMappingHelper(iCarCodingHelper);
@@ -448,33 +579,27 @@ implements HMITerminalEAL {
         return this.kzbMappingHelper;
     }
 
-    @Override
     protected IPhoneKeyHandler generatePhoneKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
         return new PhoneKeyHandler(iDrawerFocusManagerEvo);
     }
 
-    @Override
     protected ILongpressKeyHandler generateLongpressKeyHandler(IDrawerFocusManagerEvo iDrawerFocusManagerEvo) {
         return new LongpressKeyHandler(iDrawerFocusManagerEvo);
     }
 
-    @Override
     protected void setJointTerminalFocus(int n) {
     }
 
-    @Override
     public StringUtility getStringUtility(IWrappedFont iWrappedFont) {
         StringUtility stringUtility = this.getStringUtility();
         ((StringUtilityEAL)stringUtility).setCurrentFont(iWrappedFont);
         return stringUtility;
     }
 
-    @Override
     protected IRendererFactory generateRendererFactory() {
         return new RendererFactoryHigh();
     }
 
-    @Override
     protected void initializeApplicationModels() {
         int n = 29;
         ListCell[] listCellArray = new ListCell[n];
@@ -558,22 +683,19 @@ implements HMITerminalEAL {
         }
     }
 
-    @Override
     protected void generateKanziResourceLoader(IGUIManager iGUIManager) {
         if (kanziResourceLoader == null) {
             kanziResourceLoader = new KanziResourceLoaderMIB2High((EALManager)iGUIManager);
         }
     }
 
-    @Override
     public IVisualFeedback getVisualFeedback() {
         return this.visualFeedbackController;
     }
 
-    @Override
     public void setSkin(int n) {
         if (this.skin != n) {
-            IWidgetLogChannel.logBenchmark.log(-2137614336, "HMITerminalImplMIB2#setSkin skin: %1", (long)n);
+            IWidgetLogChannel.logBenchmark.log(10000000, "HMITerminalImplMIB2#setSkin skin: %1", (long)n);
             System.out.println(new StringBuffer().append("HMITerminalImplMIB2#setSkin skin: ").append(n).toString());
             super.setSkin(n);
             this.propagateSkinToDisplayManager(n);
@@ -595,7 +717,6 @@ implements HMITerminalEAL {
         }
     }
 
-    @Override
     public void setLayout(Layout layout) {
         super.setLayout(layout);
         this.propagateLayoutToClusterTerminal(layout);
@@ -609,17 +730,14 @@ implements HMITerminalEAL {
         }
     }
 
-    @Override
     public PreloadManager getPreloadManager() {
         return this.preloadManager;
     }
 
-    @Override
     public ICarCodingHelper getCarCodingHelper() {
         return this.carCodingHelper;
     }
 
-    @Override
     public void languageChanged(LanguageChangedEvent languageChangedEvent) {
         IViewSizeManager iViewSizeManager;
         boolean bl = EALManager.RTL_ENABLED ? languageChangedEvent.getLanguage().getTextDirection() == 0 : true;
@@ -630,14 +748,6 @@ implements HMITerminalEAL {
             boolean bl2 = iViewSizeManager.getCurrentViewSize() == 1;
             AnimationMIB2HighSport.setViewSize(this.ealManager, this.layout, bl2);
         }
-    }
-
-    static /* synthetic */ EALManager access$000(HMITerminalImplMIB2High hMITerminalImplMIB2High) {
-        return hMITerminalImplMIB2High.ealManager;
-    }
-
-    static /* synthetic */ ICarCodingHelper access$100(HMITerminalImplMIB2High hMITerminalImplMIB2High) {
-        return hMITerminalImplMIB2High.carCodingHelper;
     }
 }
 

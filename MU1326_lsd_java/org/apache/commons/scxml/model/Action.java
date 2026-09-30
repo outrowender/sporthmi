@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.scxml.ErrorReporter;
 import org.apache.commons.scxml.EventDispatcher;
 import org.apache.commons.scxml.SCInstance;
+import org.apache.commons.scxml.SCXMLExpressionException;
 import org.apache.commons.scxml.model.Executable;
 import org.apache.commons.scxml.model.History;
 import org.apache.commons.scxml.model.Initial;
@@ -24,7 +25,7 @@ implements NamespacePrefixesHolder,
 Serializable {
     private Executable parent = null;
     private Map namespaces = null;
-    private static final String NAMESPACES_KEY;
+    private static final String NAMESPACES_KEY = "_ALL_NAMESPACES";
 
     public final Executable getParent() {
         return this.parent;
@@ -34,17 +35,15 @@ Serializable {
         this.parent = executable;
     }
 
-    @Override
     public final Map getNamespaces() {
         return this.namespaces;
     }
 
-    @Override
     public final void setNamespaces(Map map) {
         this.namespaces = map;
     }
 
-    public final State getParentState() {
+    public final State getParentState() throws ModelException {
         TransitionTarget transitionTarget = this.parent.getParent();
         if (transitionTarget instanceof State) {
             State state = (State)transitionTarget;
@@ -54,10 +53,10 @@ Serializable {
             State state = (State)transitionTarget.getParent();
             return state;
         }
-        throw new ModelException(new StringBuffer().append("Unknown TransitionTarget subclass:").append(super.getClass().getName()).toString());
+        throw new ModelException("Unknown TransitionTarget subclass:" + transitionTarget.getClass().getName());
     }
 
-    public final TransitionTarget getParentTransitionTarget() {
+    public final TransitionTarget getParentTransitionTarget() throws ModelException {
         TransitionTarget transitionTarget = this.parent.getParent();
         if (transitionTarget instanceof State || transitionTarget instanceof Parallel) {
             return transitionTarget;
@@ -65,14 +64,13 @@ Serializable {
         if (transitionTarget instanceof History || transitionTarget instanceof Initial) {
             return transitionTarget.getParent();
         }
-        throw new ModelException(new StringBuffer().append("Unknown TransitionTarget subclass:").append(super.getClass().getName()).toString());
+        throw new ModelException("Unknown TransitionTarget subclass:" + transitionTarget.getClass().getName());
     }
 
-    public abstract void execute(EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCInstance sCInstance, Log log, Collection collection) {
-    }
+    public abstract void execute(EventDispatcher var1, ErrorReporter var2, SCInstance var3, Log var4, Collection var5) throws ModelException, SCXMLExpressionException;
 
     protected static String getNamespacesKey() {
-        return "_ALL_NAMESPACES";
+        return NAMESPACES_KEY;
     }
 }
 

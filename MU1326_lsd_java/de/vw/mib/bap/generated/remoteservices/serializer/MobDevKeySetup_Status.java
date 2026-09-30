@@ -15,48 +15,48 @@ public final class MobDevKeySetup_Status
 implements StatusProperty {
     public MobDevKeySetup_Setup setup = new MobDevKeySetup_Setup();
     public int modificationReason_Setup;
-    public static final int MODIFICATION_REASON_SETUP_DEFECTIVE;
-    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_SMARTCARD_REQUIRED;
-    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_SMARTCARD;
-    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY;
-    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY;
-    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_NOT_ACTIVE;
-    public static final int MODIFICATION_REASON_SETUP_NO_REASON;
-    private static final int MODIFICATION_REASON_SETUP_BITSIZE;
+    public static final int MODIFICATION_REASON_SETUP_DEFECTIVE = 9;
+    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED = 8;
+    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_SMARTCARD_REQUIRED = 7;
+    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED = 6;
+    public static final int MODIFICATION_REASON_SETUP_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED = 5;
+    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_SMARTCARD = 4;
+    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY = 3;
+    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY = 2;
+    public static final int MODIFICATION_REASON_SETUP_CLAMP_15_NOT_ACTIVE = 1;
+    public static final int MODIFICATION_REASON_SETUP_NO_REASON = 0;
+    private static final int MODIFICATION_REASON_SETUP_BITSIZE = 4;
     public MobDevKeySetup_ModificationState_Setup modificationState_Setup = new MobDevKeySetup_ModificationState_Setup();
     public int modificationReason_Smartcard;
-    public static final int MODIFICATION_REASON_SMARTCARD_DEFECTIVE;
-    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_SMARTCARD_REQUIRED;
-    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_SMARTCARD;
-    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY;
-    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY;
-    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_NOT_ACTIVE;
-    public static final int MODIFICATION_REASON_SMARTCARD_NO_REASON;
-    private static final int MODIFICATION_REASON_SMARTCARD_BITSIZE;
+    public static final int MODIFICATION_REASON_SMARTCARD_DEFECTIVE = 9;
+    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED = 8;
+    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_SMARTCARD_REQUIRED = 7;
+    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED = 6;
+    public static final int MODIFICATION_REASON_SMARTCARD_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED = 5;
+    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_SMARTCARD = 4;
+    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY = 3;
+    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY = 2;
+    public static final int MODIFICATION_REASON_SMARTCARD_CLAMP_15_NOT_ACTIVE = 1;
+    public static final int MODIFICATION_REASON_SMARTCARD_NO_REASON = 0;
+    private static final int MODIFICATION_REASON_SMARTCARD_BITSIZE = 4;
     public MobDevKeySetup_ModificationState_Smartcard modificationState_Smartcard = new MobDevKeySetup_ModificationState_Smartcard();
     public int modificationReason_Reset;
-    public static final int MODIFICATION_REASON_RESET_DEFECTIVE;
-    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_SMARTCARD_REQUIRED;
-    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED;
-    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_SMARTCARD;
-    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY;
-    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY;
-    public static final int MODIFICATION_REASON_RESET_CLAMP_15_NOT_ACTIVE;
-    public static final int MODIFICATION_REASON_RESET_NO_REASON;
-    private static final int MODIFICATION_REASON_RESET_BITSIZE;
+    public static final int MODIFICATION_REASON_RESET_DEFECTIVE = 9;
+    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_PHYSICAL_OR_MOBILE_DEVICE_KEY_REQUIRED = 8;
+    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_SMARTCARD_REQUIRED = 7;
+    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_MOBILE_DEVICE_KEY_REQUIRED = 6;
+    public static final int MODIFICATION_REASON_RESET_AUTHENTICATION_WITH_PHYSICAL_KEY_REQUIRED = 5;
+    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_SMARTCARD = 4;
+    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_MOBILE_DEVICE_KEY = 3;
+    public static final int MODIFICATION_REASON_RESET_CLAMP_15_ESTABLISHED_WITH_PHYSICAL_KEY = 2;
+    public static final int MODIFICATION_REASON_RESET_CLAMP_15_NOT_ACTIVE = 1;
+    public static final int MODIFICATION_REASON_RESET_NO_REASON = 0;
+    private static final int MODIFICATION_REASON_RESET_BITSIZE = 4;
     public MobDevKeySetup_ModificationState_Reset modificationState_Reset = new MobDevKeySetup_ModificationState_Reset();
     public int extension1;
-    public static final int EXTENSION1_MIN;
+    public static final int EXTENSION1_MIN = 0;
     public int extension2;
-    public static final int EXTENSION2_MIN;
+    public static final int EXTENSION2_MIN = 0;
 
     public MobDevKeySetup_Status() {
         this.internalReset();
@@ -76,7 +76,6 @@ implements StatusProperty {
         this.extension2 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.setup.reset();
@@ -85,7 +84,6 @@ implements StatusProperty {
         this.modificationState_Reset.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         MobDevKeySetup_Status mobDevKeySetup_Status = (MobDevKeySetup_Status)bAPEntity;
         return this.setup.equalTo(mobDevKeySetup_Status.setup) && this.modificationReason_Setup == mobDevKeySetup_Status.modificationReason_Setup && this.modificationState_Setup.equalTo(mobDevKeySetup_Status.modificationState_Setup) && this.modificationReason_Smartcard == mobDevKeySetup_Status.modificationReason_Smartcard && this.modificationState_Smartcard.equalTo(mobDevKeySetup_Status.modificationState_Smartcard) && this.modificationReason_Reset == mobDevKeySetup_Status.modificationReason_Reset && this.modificationState_Reset.equalTo(mobDevKeySetup_Status.modificationState_Reset) && this.extension1 == mobDevKeySetup_Status.extension1 && this.extension2 == mobDevKeySetup_Status.extension2;
@@ -94,7 +92,6 @@ implements StatusProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("MobDevKeySetup_Status");
@@ -110,12 +107,10 @@ implements StatusProperty {
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         this.setup.serialize(bitStream);
         bitStream.pushBits(4, this.modificationReason_Setup);
@@ -128,7 +123,6 @@ implements StatusProperty {
         bitStream.pushByte((byte)this.extension2);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.setup.deserialize(bitStream);
         this.modificationReason_Setup = bitStream.popFrontBits(4);
@@ -145,7 +139,6 @@ implements StatusProperty {
         return 23;
     }
 
-    @Override
     public int getFunctionId() {
         return MobDevKeySetup_Status.functionId();
     }

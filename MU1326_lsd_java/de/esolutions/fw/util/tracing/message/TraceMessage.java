@@ -87,82 +87,66 @@ implements ITraceMessage {
         return buffer.toString();
     }
 
-    @Override
     public int getChannelID() {
         return this.cid;
     }
 
-    @Override
     public void setChannelID(int n) {
         this.cid = n;
     }
 
-    @Override
     public int getThreadID() {
         return this.tid;
     }
 
-    @Override
     public void setThreadID(int n) {
         this.tid = n;
     }
 
-    @Override
     public short getLevel() {
         return this.level;
     }
 
-    @Override
     public short getModifiers() {
         return this.mods;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timeStamp;
     }
 
-    @Override
     public void setTimeStamp(long l) {
         this.timeStamp = l;
     }
 
-    @Override
     public void setEpoch(int n) {
         this.epoch = n;
     }
 
-    @Override
     public int getEpoch() {
         return this.epoch;
     }
 
-    @Override
     public void setSeqNum(int n) {
         this.seqNum = n;
     }
 
-    @Override
     public int getSeqNum() {
         return this.seqNum;
     }
 
-    @Override
     public void setDecodedMessage(String[] stringArray) {
         this.decodedMsg = stringArray;
     }
 
-    @Override
     public String[] getDecodedMessage() {
         return this.decodedMsg;
     }
 
-    @Override
     public short getMessageType() {
         return this.type;
     }
 
-    @Override
     public String getMessageString() {
         if (this.data == null) {
             return null;
@@ -175,7 +159,6 @@ implements ITraceMessage {
         }
     }
 
-    @Override
     public int getMessageSize() {
         if (this.data == null) {
             return 0;
@@ -192,12 +175,10 @@ implements ITraceMessage {
         }
     }
 
-    @Override
     public byte[] getMessageData() {
         return this.data;
     }
 
-    @Override
     public void expandNow() {
     }
 }

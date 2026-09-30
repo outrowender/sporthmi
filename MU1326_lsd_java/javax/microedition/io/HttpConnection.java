@@ -3,113 +3,93 @@
  */
 package javax.microedition.io;
 
+import java.io.IOException;
 import javax.microedition.io.ContentConnection;
 
 public interface HttpConnection
 extends ContentConnection {
-    public static final String GET;
-    public static final String HEAD;
-    public static final String POST;
-    public static final int HTTP_ACCEPTED;
-    public static final int HTTP_BAD_GATEWAY;
-    public static final int HTTP_BAD_METHOD;
-    public static final int HTTP_BAD_REQUEST;
-    public static final int HTTP_CLIENT_TIMEOUT;
-    public static final int HTTP_CONFLICT;
-    public static final int HTTP_CREATED;
-    public static final int HTTP_ENTITY_TOO_LARGE;
-    public static final int HTTP_EXPECT_FAILED;
-    public static final int HTTP_FORBIDDEN;
-    public static final int HTTP_GATEWAY_TIMEOUT;
-    public static final int HTTP_GONE;
-    public static final int HTTP_INTERNAL_ERROR;
-    public static final int HTTP_LENGTH_REQUIRED;
-    public static final int HTTP_MOVED_PERM;
-    public static final int HTTP_MOVED_TEMP;
-    public static final int HTTP_MULT_CHOICE;
-    public static final int HTTP_NO_CONTENT;
-    public static final int HTTP_NOT_ACCEPTABLE;
-    public static final int HTTP_NOT_AUTHORITATIVE;
-    public static final int HTTP_NOT_FOUND;
-    public static final int HTTP_NOT_IMPLEMENTED;
-    public static final int HTTP_NOT_MODIFIED;
-    public static final int HTTP_OK;
-    public static final int HTTP_PARTIAL;
-    public static final int HTTP_PAYMENT_REQUIRED;
-    public static final int HTTP_PRECON_FAILED;
-    public static final int HTTP_PROXY_AUTH;
-    public static final int HTTP_REQ_TOO_LONG;
-    public static final int HTTP_RESET;
-    public static final int HTTP_SEE_OTHER;
-    public static final int HTTP_TEMP_REDIRECT;
-    public static final int HTTP_UNAUTHORIZED;
-    public static final int HTTP_UNAVAILABLE;
-    public static final int HTTP_UNSUPPORTED_RANGE;
-    public static final int HTTP_UNSUPPORTED_TYPE;
-    public static final int HTTP_USE_PROXY;
-    public static final int HTTP_VERSION;
+    public static final String GET = "GET";
+    public static final String HEAD = "HEAD";
+    public static final String POST = "POST";
+    public static final int HTTP_ACCEPTED = 202;
+    public static final int HTTP_BAD_GATEWAY = 502;
+    public static final int HTTP_BAD_METHOD = 405;
+    public static final int HTTP_BAD_REQUEST = 400;
+    public static final int HTTP_CLIENT_TIMEOUT = 408;
+    public static final int HTTP_CONFLICT = 409;
+    public static final int HTTP_CREATED = 201;
+    public static final int HTTP_ENTITY_TOO_LARGE = 413;
+    public static final int HTTP_EXPECT_FAILED = 417;
+    public static final int HTTP_FORBIDDEN = 403;
+    public static final int HTTP_GATEWAY_TIMEOUT = 504;
+    public static final int HTTP_GONE = 410;
+    public static final int HTTP_INTERNAL_ERROR = 500;
+    public static final int HTTP_LENGTH_REQUIRED = 411;
+    public static final int HTTP_MOVED_PERM = 301;
+    public static final int HTTP_MOVED_TEMP = 302;
+    public static final int HTTP_MULT_CHOICE = 300;
+    public static final int HTTP_NO_CONTENT = 204;
+    public static final int HTTP_NOT_ACCEPTABLE = 406;
+    public static final int HTTP_NOT_AUTHORITATIVE = 203;
+    public static final int HTTP_NOT_FOUND = 404;
+    public static final int HTTP_NOT_IMPLEMENTED = 501;
+    public static final int HTTP_NOT_MODIFIED = 304;
+    public static final int HTTP_OK = 200;
+    public static final int HTTP_PARTIAL = 206;
+    public static final int HTTP_PAYMENT_REQUIRED = 402;
+    public static final int HTTP_PRECON_FAILED = 412;
+    public static final int HTTP_PROXY_AUTH = 407;
+    public static final int HTTP_REQ_TOO_LONG = 414;
+    public static final int HTTP_RESET = 205;
+    public static final int HTTP_SEE_OTHER = 303;
+    public static final int HTTP_TEMP_REDIRECT = 307;
+    public static final int HTTP_UNAUTHORIZED = 401;
+    public static final int HTTP_UNAVAILABLE = 503;
+    public static final int HTTP_UNSUPPORTED_RANGE = 416;
+    public static final int HTTP_UNSUPPORTED_TYPE = 415;
+    public static final int HTTP_USE_PROXY = 305;
+    public static final int HTTP_VERSION = 505;
 
-    default public long getDate() {
-    }
+    public long getDate() throws IOException;
 
-    default public long getExpiration() {
-    }
+    public long getExpiration() throws IOException;
 
-    default public String getFile() {
-    }
+    public String getFile();
 
-    default public String getHeaderField(int n) {
-    }
+    public String getHeaderField(int var1) throws IOException;
 
-    default public String getHeaderField(String string) {
-    }
+    public String getHeaderField(String var1) throws IOException;
 
-    default public long getHeaderFieldDate(String string, long l) {
-    }
+    public long getHeaderFieldDate(String var1, long var2) throws IOException;
 
-    default public int getHeaderFieldInt(String string, int n) {
-    }
+    public int getHeaderFieldInt(String var1, int var2) throws IOException;
 
-    default public String getHeaderFieldKey(int n) {
-    }
+    public String getHeaderFieldKey(int var1) throws IOException;
 
-    default public String getHost() {
-    }
+    public String getHost();
 
-    default public long getLastModified() {
-    }
+    public long getLastModified() throws IOException;
 
-    default public int getPort() {
-    }
+    public int getPort();
 
-    default public String getProtocol() {
-    }
+    public String getProtocol();
 
-    default public String getQuery() {
-    }
+    public String getQuery();
 
-    default public String getRef() {
-    }
+    public String getRef();
 
-    default public String getRequestMethod() {
-    }
+    public String getRequestMethod();
 
-    default public String getRequestProperty(String string) {
-    }
+    public String getRequestProperty(String var1);
 
-    default public int getResponseCode() {
-    }
+    public int getResponseCode() throws IOException;
 
-    default public String getResponseMessage() {
-    }
+    public String getResponseMessage() throws IOException;
 
-    default public String getURL() {
-    }
+    public String getURL();
 
-    default public void setRequestMethod(String string) {
-    }
+    public void setRequestMethod(String var1) throws IOException;
 
-    default public void setRequestProperty(String string, String string2) {
-    }
+    public void setRequestProperty(String var1, String var2) throws IOException;
 }
 

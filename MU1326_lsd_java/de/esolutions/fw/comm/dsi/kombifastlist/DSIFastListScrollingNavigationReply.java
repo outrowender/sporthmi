@@ -3,36 +3,29 @@
  */
 package de.esolutions.fw.comm.dsi.kombifastlist;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public interface DSIFastListScrollingNavigationReply {
-    public static final String IPL_COMM_UUID;
-    public static final String IPL_COMM_INTERFACE_KEY;
-    public static final String IPL_COMM_INTERFACE_VERSION;
-    public static final String IPL_COMM_MODULE_VERSION;
+    public static final String IPL_COMM_UUID = "241abe61-ec0b-50d4-a6c5-12746ef6981b";
+    public static final String IPL_COMM_INTERFACE_KEY = "9f971fb4-d04a-5b22-9a68-2920f3688410";
+    public static final String IPL_COMM_INTERFACE_VERSION = "2.11.1";
+    public static final String IPL_COMM_MODULE_VERSION = "2.11.1";
 
-    default public void indicationNavBook(int n, int n2, int n3, int n4, long l, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void indicationNavBook(int var1, int var2, int var3, int var4, long var5, int var7, int var8, int var9, int var10, int var11, int var12) throws MethodException;
 
-    default public void indicationGetInitialsNavigation(int n, int n2, int n3, int n4) {
-    }
+    public void indicationGetInitialsNavigation(int var1, int var2, int var3, int var4) throws MethodException;
 
-    default public void indicationNotifyLastDestListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyLastDestListPUSH(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationNotifyFavoriteDestListPUSH(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyFavoriteDestListPUSH(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationNotifyCurrentListSizeNavigation(boolean bl, boolean bl2) {
-    }
+    public void indicationNotifyCurrentListSizeNavigation(boolean var1, boolean var2) throws MethodException;
 
-    default public void indicationNavBookJobs(int n, int n2, int n3, ArrayHeader[] arrayHeaderArray) {
-    }
+    public void indicationNavBookJobs(int var1, int var2, int var3, ArrayHeader[] var4) throws MethodException;
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3) throws MethodException;
 
-    default public void yyIndication(String string, String string2) {
-    }
+    public void yyIndication(String var1, String var2) throws MethodException;
 }
 

@@ -6,11 +6,12 @@ package de.esolutions.fw.comm.dsi.navigation.impl;
 import de.esolutions.fw.comm.dsi.global.impl.NavLocationSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.TryMatchLocationResultData;
 
 public class TryMatchLocationResultDataSerializer {
-    public static void putOptionalTryMatchLocationResultData(ISerializer iSerializer, TryMatchLocationResultData tryMatchLocationResultData) {
+    public static void putOptionalTryMatchLocationResultData(ISerializer iSerializer, TryMatchLocationResultData tryMatchLocationResultData) throws SerializerException {
         boolean bl = tryMatchLocationResultData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class TryMatchLocationResultDataSerializer {
         }
     }
 
-    public static void putOptionalTryMatchLocationResultDataVarArray(ISerializer iSerializer, TryMatchLocationResultData[] tryMatchLocationResultDataArray) {
+    public static void putOptionalTryMatchLocationResultDataVarArray(ISerializer iSerializer, TryMatchLocationResultData[] tryMatchLocationResultDataArray) throws SerializerException {
         boolean bl = tryMatchLocationResultDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class TryMatchLocationResultDataSerializer {
         }
     }
 
-    public static TryMatchLocationResultData getOptionalTryMatchLocationResultData(IDeserializer iDeserializer) {
+    public static TryMatchLocationResultData getOptionalTryMatchLocationResultData(IDeserializer iDeserializer) throws SerializerException {
         TryMatchLocationResultData tryMatchLocationResultData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -45,7 +46,7 @@ public class TryMatchLocationResultDataSerializer {
         return tryMatchLocationResultData;
     }
 
-    public static TryMatchLocationResultData[] getOptionalTryMatchLocationResultDataVarArray(IDeserializer iDeserializer) {
+    public static TryMatchLocationResultData[] getOptionalTryMatchLocationResultDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         TryMatchLocationResultData[] tryMatchLocationResultDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

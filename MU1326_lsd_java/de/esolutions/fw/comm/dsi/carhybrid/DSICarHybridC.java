@@ -3,6 +3,7 @@
  */
 package de.esolutions.fw.comm.dsi.carhybrid;
 
+import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderAH;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderRA0;
 import org.dsi.ifc.carhybrid.BatteryControlPowerProviderRA1;
@@ -21,100 +22,68 @@ import org.dsi.ifc.carhybrid.BatteryControlProgrammedTimer;
 import org.dsi.ifc.carhybrid.BatteryControlWeekdays;
 
 public interface DSICarHybridC {
-    default public void setBatteryControlImmediately(int n, int n2) {
-    }
+    public void setBatteryControlImmediately(int var1, int var2) throws MethodException;
 
-    default public void setBatteryControlTimerState(BatteryControlProgrammedTimer batteryControlProgrammedTimer) {
-    }
+    public void setBatteryControlTimerState(BatteryControlProgrammedTimer var1) throws MethodException;
 
-    default public void setBatteryControlTimer(int n, int n2, int n3, int n4, int n5, int n6, BatteryControlWeekdays batteryControlWeekdays, int n7) {
-    }
+    public void setBatteryControlTimer(int var1, int var2, int var3, int var4, int var5, int var6, BatteryControlWeekdays var7, int var8) throws MethodException;
 
-    default public void setBatteryControlSetFactoryDefault() {
-    }
+    public void setBatteryControlSetFactoryDefault() throws MethodException;
 
-    default public void setHybridTargetRange(short s, int n) {
-    }
+    public void setHybridTargetRange(short var1, int var2) throws MethodException;
 
-    default public void setHybridEnergyAssistControl(boolean bl) {
-    }
+    public void setHybridEnergyAssistControl(boolean var1) throws MethodException;
 
-    default public void requestBatteryControlProfileList(BatteryControlProfilesAH batteryControlProfilesAH) {
-    }
+    public void requestBatteryControlProfileList(BatteryControlProfilesAH var1) throws MethodException;
 
-    default public void setBatteryControlProfileListRA0(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA0[] batteryControlProfileRA0Array) {
-    }
+    public void setBatteryControlProfileListRA0(BatteryControlProfilesAH var1, BatteryControlProfileRA0[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA1(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA1[] batteryControlProfileRA1Array) {
-    }
+    public void setBatteryControlProfileListRA1(BatteryControlProfilesAH var1, BatteryControlProfileRA1[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA2(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA2[] batteryControlProfileRA2Array) {
-    }
+    public void setBatteryControlProfileListRA2(BatteryControlProfilesAH var1, BatteryControlProfileRA2[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA3(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA3[] batteryControlProfileRA3Array) {
-    }
+    public void setBatteryControlProfileListRA3(BatteryControlProfilesAH var1, BatteryControlProfileRA3[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA4(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA4[] batteryControlProfileRA4Array) {
-    }
+    public void setBatteryControlProfileListRA4(BatteryControlProfilesAH var1, BatteryControlProfileRA4[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA5(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA5[] batteryControlProfileRA5Array) {
-    }
+    public void setBatteryControlProfileListRA5(BatteryControlProfilesAH var1, BatteryControlProfileRA5[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA6(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA6[] batteryControlProfileRA6Array) {
-    }
+    public void setBatteryControlProfileListRA6(BatteryControlProfilesAH var1, BatteryControlProfileRA6[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRA7(BatteryControlProfilesAH batteryControlProfilesAH, BatteryControlProfileRA7[] batteryControlProfileRA7Array) {
-    }
+    public void setBatteryControlProfileListRA7(BatteryControlProfilesAH var1, BatteryControlProfileRA7[] var2) throws MethodException;
 
-    default public void setBatteryControlProfileListRAF(BatteryControlProfilesAH batteryControlProfilesAH, int[] nArray) {
-    }
+    public void setBatteryControlProfileListRAF(BatteryControlProfilesAH var1, int[] var2) throws MethodException;
 
-    default public void setBatteryControlPowerProviderRA0(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA0[] batteryControlPowerProviderRA0Array) {
-    }
+    public void setBatteryControlPowerProviderRA0(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA0[] var2) throws MethodException;
 
-    default public void setBatteryControlPowerProviderRA1(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA1[] batteryControlPowerProviderRA1Array) {
-    }
+    public void setBatteryControlPowerProviderRA1(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA1[] var2) throws MethodException;
 
-    default public void setBatteryControlPowerProviderRA2(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRA2[] batteryControlPowerProviderRA2Array) {
-    }
+    public void setBatteryControlPowerProviderRA2(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRA2[] var2) throws MethodException;
 
-    default public void setBatteryControlPowerProviderRAE(BatteryControlPowerProviderAH batteryControlPowerProviderAH, BatteryControlPowerProviderRAE[] batteryControlPowerProviderRAEArray) {
-    }
+    public void setBatteryControlPowerProviderRAE(BatteryControlPowerProviderAH var1, BatteryControlPowerProviderRAE[] var2) throws MethodException;
 
-    default public void setBatteryControlPowerProviderRAF(BatteryControlPowerProviderAH batteryControlPowerProviderAH, int[] nArray) {
-    }
+    public void setBatteryControlPowerProviderRAF(BatteryControlPowerProviderAH var1, int[] var2) throws MethodException;
 
-    default public void requestBatteryControlPowerProviderList(BatteryControlPowerProviderAH batteryControlPowerProviderAH) {
-    }
+    public void requestBatteryControlPowerProviderList(BatteryControlPowerProviderAH var1) throws MethodException;
 
-    default public void setBatteryControlPastErrorReason(int n) {
-    }
+    public void setBatteryControlPastErrorReason(int var1) throws MethodException;
 
-    default public void setBatteryControlRemainingChargeTime(int n, short s, int n2, short s2) {
-    }
+    public void setBatteryControlRemainingChargeTime(int var1, short var2, int var3, short var4) throws MethodException;
 
-    default public void setHybridActivePedal(boolean bl) {
-    }
+    public void setHybridActivePedal(boolean var1) throws MethodException;
 
-    default public void setNotification(int[] nArray) {
-    }
+    public void setNotification(int[] var1) throws MethodException;
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1) throws MethodException;
 
-    default public void setNotification() {
-    }
+    public void setNotification() throws MethodException;
 
-    default public void clearNotification(int[] nArray) {
-    }
+    public void clearNotification(int[] var1) throws MethodException;
 
-    default public void clearNotification(int n) {
-    }
+    public void clearNotification(int var1) throws MethodException;
 
-    default public void clearNotification() {
-    }
+    public void clearNotification() throws MethodException;
 
-    default public void yySet(String string, String string2) {
-    }
+    public void yySet(String var1, String var2) throws MethodException;
 }
 

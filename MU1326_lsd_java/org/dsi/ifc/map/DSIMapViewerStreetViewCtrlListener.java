@@ -11,49 +11,34 @@ import org.dsi.ifc.map.StreetViewThumbnail;
 
 public interface DSIMapViewerStreetViewCtrlListener
 extends DSIListener {
-    default public void updateStreetViewLoadStatus(int n, int n2) {
-    }
+    public void updateStreetViewLoadStatus(int var1, int var2);
 
-    default public void updateStreetViewAvailable(boolean bl, int n) {
-    }
+    public void updateStreetViewAvailable(boolean var1, int var2);
 
-    default public void updateStreetViewZoomListIndex(int n, int n2) {
-    }
+    public void updateStreetViewZoomListIndex(int var1, int var2);
 
-    default public void updateStreetViewZoomList(float[] fArray, int n) {
-    }
+    public void updateStreetViewZoomList(float[] var1, int var2);
 
-    default public void updateStreetViewThumbnails(StreetViewThumbnail[] streetViewThumbnailArray, int n) {
-    }
+    public void updateStreetViewThumbnails(StreetViewThumbnail[] var1, int var2);
 
-    default public void streetViewEnabled(boolean bl) {
-    }
+    public void streetViewEnabled(boolean var1);
 
-    default public void streetViewVisible(boolean bl) {
-    }
+    public void streetViewVisible(boolean var1);
 
-    default public void streetViewFreeze(boolean bl) {
-    }
+    public void streetViewFreeze(boolean var1);
 
-    default public void updatePosition(NavLocationWgs84 navLocationWgs84, int n) {
-    }
+    public void updatePosition(NavLocationWgs84 var1, int var2);
 
-    default public void updateRotation(int n, int n2, int n3) {
-    }
+    public void updateRotation(int var1, int var2, int var3);
 
-    default public void getInfoForPosition(PosInfo[] posInfoArray) {
-    }
+    public void getInfoForPosition(PosInfo[] var1);
 
-    default public void snapshotResult(StreetViewThumbnail streetViewThumbnail, int n) {
-    }
+    public void snapshotResult(StreetViewThumbnail var1, int var2);
 
-    default public void updateScreenViewPort(Rect rect, int n) {
-    }
+    public void updateScreenViewPort(Rect var1, int var2);
 
-    default public void updateStreetViewZoomLevel(float f2, int n) {
-    }
+    public void updateStreetViewZoomLevel(float var1, int var2);
 
-    default public void updateStreetViewPosition(NavLocationWgs84 navLocationWgs84, boolean bl, int n) {
-    }
+    public void updateStreetViewPosition(NavLocationWgs84 var1, boolean var2, int var3);
 }
 

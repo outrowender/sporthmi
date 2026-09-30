@@ -6,13 +6,10 @@ package de.esolutions.hmi.widgets.audi.evo.widgets.asia;
 import java.util.List;
 
 public interface IConversionMatrixModelUpdateHandler {
-    default public void sourceDataChanged(List list) {
-    }
+    public void sourceDataChanged(List var1);
 
-    default public void candidateSelected(String string) {
-    }
+    public void candidateSelected(String var1);
 
-    default public void onPopupVisibilityChange(boolean bl) {
-    }
+    public void onPopupVisibilityChange(boolean var1);
 }
 

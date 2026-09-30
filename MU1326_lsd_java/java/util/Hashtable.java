@@ -3,23 +3,22 @@
  */
 package java.util;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractCollection;
+import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections$SynchronizedCollection;
-import java.util.Collections$SynchronizedSet;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Hashtable$1;
-import java.util.Hashtable$3;
-import java.util.Hashtable$5;
-import java.util.Hashtable$Entry;
-import java.util.Hashtable$HashEnumerator;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
+import java.util.MapEntry;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class Hashtable
@@ -27,22 +26,18 @@ extends Dictionary
 implements Map,
 Cloneable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1421746759512286392L;
     transient int elementCount;
-    transient Hashtable$Entry[] elementData;
+    transient Entry[] elementData;
     private float loadFactor;
     private int threshold;
     transient int firstSlot = 0;
     transient int lastSlot = -1;
     transient int modCount = 0;
-    private static final Enumeration emptyEnumerator;
+    private static final Enumeration emptyEnumerator = new Hashtable(0).getEmptyEnumerator();
 
-    static {
-        emptyEnumerator = new Hashtable(0).getEmptyEnumerator();
-    }
-
-    private static Hashtable$Entry newEntry(Object object, Object object2, int n) {
-        return new Hashtable$Entry(object, object2);
+    private static Entry newEntry(Object object, Object object2, int n) {
+        return new Entry(object, object2);
     }
 
     public Hashtable() {
@@ -54,9 +49,9 @@ Serializable {
             throw new IllegalArgumentException();
         }
         this.elementCount = 0;
-        this.elementData = new Hashtable$Entry[n == 0 ? 1 : n];
+        this.elementData = new Entry[n == 0 ? 1 : n];
         this.firstSlot = this.elementData.length;
-        this.loadFactor = 16447;
+        this.loadFactor = 0.75f;
         this.computeMaxSize();
     }
 
@@ -66,7 +61,7 @@ Serializable {
         }
         this.elementCount = 0;
         this.firstSlot = n;
-        this.elementData = new Hashtable$Entry[n == 0 ? 1 : n];
+        this.elementData = new Entry[n == 0 ? 1 : n];
         this.loadFactor = f2;
         this.computeMaxSize();
     }
@@ -76,11 +71,10 @@ Serializable {
         this.putAll(map);
     }
 
-    private Hashtable$HashEnumerator getEmptyEnumerator() {
-        return new Hashtable$HashEnumerator(this, false);
+    private HashEnumerator getEmptyEnumerator() {
+        return new HashEnumerator(false);
     }
 
-    @Override
     public synchronized void clear() {
         this.elementCount = 0;
         Arrays.fill(this.elementData, null);
@@ -90,12 +84,12 @@ Serializable {
     public synchronized Object clone() {
         try {
             Hashtable hashtable = (Hashtable)super.clone();
-            hashtable.elementData = new Hashtable$Entry[this.elementData.length];
+            hashtable.elementData = new Entry[this.elementData.length];
             int n = this.elementData.length;
             while (--n >= 0) {
-                Hashtable$Entry hashtable$Entry = this.elementData[n];
-                if (hashtable$Entry == null) continue;
-                hashtable.elementData[n] = (Hashtable$Entry)hashtable$Entry.clone();
+                Entry entry = this.elementData[n];
+                if (entry == null) continue;
+                hashtable.elementData[n] = (Entry)entry.clone();
             }
             return hashtable;
         }
@@ -112,12 +106,12 @@ Serializable {
         if (object != null) {
             int n = this.elementData.length;
             while (--n >= 0) {
-                Hashtable$Entry hashtable$Entry = this.elementData[n];
-                while (hashtable$Entry != null) {
-                    if (object.equals(hashtable$Entry.value)) {
+                Entry entry = this.elementData[n];
+                while (entry != null) {
+                    if (object.equals(entry.value)) {
                         return true;
                     }
-                    hashtable$Entry = hashtable$Entry.next;
+                    entry = entry.next;
                 }
             }
             return false;
@@ -125,30 +119,59 @@ Serializable {
         throw new NullPointerException();
     }
 
-    @Override
     public synchronized boolean containsKey(Object object) {
         return this.getEntry(object) != null;
     }
 
-    @Override
     public boolean containsValue(Object object) {
         return this.contains(object);
     }
 
-    @Override
     public synchronized Enumeration elements() {
         if (this.elementCount == 0) {
             return emptyEnumerator;
         }
-        return new Hashtable$HashEnumerator(this, false);
+        return new HashEnumerator(false);
     }
 
-    @Override
     public Set entrySet() {
-        return new Collections$SynchronizedSet(new Hashtable$1(this), (Object)this);
+        return new Collections.SynchronizedSet(new AbstractSet(){
+
+            public int size() {
+                return Hashtable.this.elementCount;
+            }
+
+            public void clear() {
+                Hashtable.this.clear();
+            }
+
+            public boolean remove(Object object) {
+                if (this.contains(object)) {
+                    Hashtable.this.remove(((Map.Entry)object).getKey());
+                    return true;
+                }
+                return false;
+            }
+
+            public boolean contains(Object object) {
+                if (object instanceof Map.Entry) {
+                    Entry entry = Hashtable.this.getEntry(((Map.Entry)object).getKey());
+                    return object.equals(entry);
+                }
+                return false;
+            }
+
+            public Iterator iterator() {
+                return new HashIterator(new MapEntry.Type(){
+
+                    public Object get(MapEntry mapEntry) {
+                        return mapEntry;
+                    }
+                });
+            }
+        }, (Object)this);
     }
 
-    @Override
     public synchronized boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -169,79 +192,103 @@ Serializable {
         return false;
     }
 
-    @Override
     public synchronized Object get(Object object) {
         int n = object.hashCode();
-        int n2 = (n & 0xFFFFFF7F) % this.elementData.length;
-        Hashtable$Entry hashtable$Entry = this.elementData[n2];
-        while (hashtable$Entry != null) {
-            if (hashtable$Entry.equalsKey(object, n)) {
-                return hashtable$Entry.value;
+        int n2 = (n & Integer.MAX_VALUE) % this.elementData.length;
+        Entry entry = this.elementData[n2];
+        while (entry != null) {
+            if (entry.equalsKey(object, n)) {
+                return entry.value;
             }
-            hashtable$Entry = hashtable$Entry.next;
+            entry = entry.next;
         }
         return null;
     }
 
-    Hashtable$Entry getEntry(Object object) {
+    Entry getEntry(Object object) {
         int n = object.hashCode();
-        int n2 = (n & 0xFFFFFF7F) % this.elementData.length;
-        Hashtable$Entry hashtable$Entry = this.elementData[n2];
-        while (hashtable$Entry != null) {
-            if (hashtable$Entry.equalsKey(object, n)) {
-                return hashtable$Entry;
+        int n2 = (n & Integer.MAX_VALUE) % this.elementData.length;
+        Entry entry = this.elementData[n2];
+        while (entry != null) {
+            if (entry.equalsKey(object, n)) {
+                return entry;
             }
-            hashtable$Entry = hashtable$Entry.next;
+            entry = entry.next;
         }
         return null;
     }
 
-    @Override
     public synchronized int hashCode() {
         int n = 0;
         Iterator iterator = this.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Object object = map$Entry.getKey();
-            Object object2 = map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Object object = entry.getKey();
+            Object object2 = entry.getValue();
             int n2 = (object != this ? object.hashCode() : 0) ^ (object2 != this ? (object2 != null ? object2.hashCode() : 0) : 0);
             n += n2;
         }
         return n;
     }
 
-    @Override
     public synchronized boolean isEmpty() {
         return this.elementCount == 0;
     }
 
-    @Override
     public synchronized Enumeration keys() {
         if (this.elementCount == 0) {
             return emptyEnumerator;
         }
-        return new Hashtable$HashEnumerator(this, true);
+        return new HashEnumerator(true);
     }
 
-    @Override
     public Set keySet() {
-        return new Collections$SynchronizedSet(new Hashtable$3(this), (Object)this);
+        return new Collections.SynchronizedSet(new AbstractSet(){
+
+            public boolean contains(Object object) {
+                return Hashtable.this.containsKey(object);
+            }
+
+            public int size() {
+                return Hashtable.this.elementCount;
+            }
+
+            public void clear() {
+                Hashtable.this.clear();
+            }
+
+            public boolean remove(Object object) {
+                if (Hashtable.this.containsKey(object)) {
+                    Hashtable.this.remove(object);
+                    return true;
+                }
+                return false;
+            }
+
+            public Iterator iterator() {
+                return new HashIterator(new MapEntry.Type(){
+
+                    public Object get(MapEntry mapEntry) {
+                        return mapEntry.key;
+                    }
+                });
+            }
+        }, (Object)this);
     }
 
-    @Override
     public synchronized Object put(Object object, Object object2) {
         if (object != null && object2 != null) {
             int n = object.hashCode();
-            int n2 = (n & 0xFFFFFF7F) % this.elementData.length;
-            Hashtable$Entry hashtable$Entry = this.elementData[n2];
-            while (hashtable$Entry != null && !hashtable$Entry.equalsKey(object, n)) {
-                hashtable$Entry = hashtable$Entry.next;
+            int n2 = (n & Integer.MAX_VALUE) % this.elementData.length;
+            Entry entry = this.elementData[n2];
+            while (entry != null && !entry.equalsKey(object, n)) {
+                entry = entry.next;
             }
-            if (hashtable$Entry == null) {
+            if (entry == null) {
                 ++this.modCount;
                 if (++this.elementCount > this.threshold) {
                     this.rehash();
-                    n2 = (n & 0xFFFFFF7F) % this.elementData.length;
+                    n2 = (n & Integer.MAX_VALUE) % this.elementData.length;
                 }
                 if (n2 < this.firstSlot) {
                     this.firstSlot = n2;
@@ -249,24 +296,23 @@ Serializable {
                 if (n2 > this.lastSlot) {
                     this.lastSlot = n2;
                 }
-                hashtable$Entry = Hashtable.newEntry(object, object2, n);
-                hashtable$Entry.next = this.elementData[n2];
-                this.elementData[n2] = hashtable$Entry;
+                entry = Hashtable.newEntry(object, object2, n);
+                entry.next = this.elementData[n2];
+                this.elementData[n2] = entry;
                 return null;
             }
-            Object object3 = hashtable$Entry.value;
-            hashtable$Entry.value = object2;
+            Object object3 = entry.value;
+            entry.value = object2;
             return object3;
         }
         throw new NullPointerException();
     }
 
-    @Override
     public synchronized void putAll(Map map) {
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            this.put(map$Entry.getKey(), map$Entry.getValue());
+            Map.Entry entry = (Map.Entry)iterator.next();
+            this.put(entry.getKey(), entry.getValue());
         }
     }
 
@@ -277,56 +323,54 @@ Serializable {
         }
         int n2 = n;
         int n3 = -1;
-        Hashtable$Entry[] hashtable$EntryArray = new Hashtable$Entry[n];
+        Entry[] entryArray = new Entry[n];
         int n4 = this.lastSlot + 1;
         while (--n4 >= this.firstSlot) {
-            Hashtable$Entry hashtable$Entry = this.elementData[n4];
-            while (hashtable$Entry != null) {
-                int n5 = (hashtable$Entry.getKeyHash() & 0xFFFFFF7F) % n;
+            Entry entry = this.elementData[n4];
+            while (entry != null) {
+                int n5 = (entry.getKeyHash() & Integer.MAX_VALUE) % n;
                 if (n5 < n2) {
                     n2 = n5;
                 }
                 if (n5 > n3) {
                     n3 = n5;
                 }
-                Hashtable$Entry hashtable$Entry2 = hashtable$Entry.next;
-                hashtable$Entry.next = hashtable$EntryArray[n5];
-                hashtable$EntryArray[n5] = hashtable$Entry;
-                hashtable$Entry = hashtable$Entry2;
+                Entry entry2 = entry.next;
+                entry.next = entryArray[n5];
+                entryArray[n5] = entry;
+                entry = entry2;
             }
         }
         this.firstSlot = n2;
         this.lastSlot = n3;
-        this.elementData = hashtable$EntryArray;
+        this.elementData = entryArray;
         this.computeMaxSize();
     }
 
-    @Override
     public synchronized Object remove(Object object) {
         int n = object.hashCode();
-        int n2 = (n & 0xFFFFFF7F) % this.elementData.length;
-        Hashtable$Entry hashtable$Entry = null;
-        Hashtable$Entry hashtable$Entry2 = this.elementData[n2];
-        while (hashtable$Entry2 != null && !hashtable$Entry2.equalsKey(object, n)) {
-            hashtable$Entry = hashtable$Entry2;
-            hashtable$Entry2 = hashtable$Entry2.next;
+        int n2 = (n & Integer.MAX_VALUE) % this.elementData.length;
+        Entry entry = null;
+        Entry entry2 = this.elementData[n2];
+        while (entry2 != null && !entry2.equalsKey(object, n)) {
+            entry = entry2;
+            entry2 = entry2.next;
         }
-        if (hashtable$Entry2 != null) {
+        if (entry2 != null) {
             ++this.modCount;
-            if (hashtable$Entry == null) {
-                this.elementData[n2] = hashtable$Entry2.next;
+            if (entry == null) {
+                this.elementData[n2] = entry2.next;
             } else {
-                hashtable$Entry.next = hashtable$Entry2.next;
+                entry.next = entry2.next;
             }
             --this.elementCount;
-            Object object2 = hashtable$Entry2.value;
-            hashtable$Entry2.value = null;
+            Object object2 = entry2.value;
+            entry2.value = null;
             return object2;
         }
         return null;
     }
 
-    @Override
     public synchronized int size() {
         return this.elementCount;
     }
@@ -339,21 +383,21 @@ Serializable {
         stringBuffer.append('{');
         int n = this.lastSlot;
         while (n >= this.firstSlot) {
-            Hashtable$Entry hashtable$Entry = this.elementData[n];
-            while (hashtable$Entry != null) {
-                if (hashtable$Entry.key != this) {
-                    stringBuffer.append(hashtable$Entry.key);
+            Entry entry = this.elementData[n];
+            while (entry != null) {
+                if (entry.key != this) {
+                    stringBuffer.append(entry.key);
                 } else {
                     stringBuffer.append("(this Map)");
                 }
                 stringBuffer.append('=');
-                if (hashtable$Entry.value != this) {
-                    stringBuffer.append(hashtable$Entry.value);
+                if (entry.value != this) {
+                    stringBuffer.append(entry.value);
                 } else {
                     stringBuffer.append("(this Map)");
                 }
                 stringBuffer.append(", ");
-                hashtable$Entry = hashtable$Entry.next;
+                entry = entry.next;
             }
             --n;
         }
@@ -364,44 +408,248 @@ Serializable {
         return stringBuffer.toString();
     }
 
-    @Override
     public Collection values() {
-        return new Collections$SynchronizedCollection(new Hashtable$5(this), this);
+        return new Collections.SynchronizedCollection(new AbstractCollection(){
+
+            public boolean contains(Object object) {
+                return Hashtable.this.contains(object);
+            }
+
+            public int size() {
+                return Hashtable.this.elementCount;
+            }
+
+            public void clear() {
+                Hashtable.this.clear();
+            }
+
+            public Iterator iterator() {
+                return new HashIterator(new MapEntry.Type(){
+
+                    public Object get(MapEntry mapEntry) {
+                        return mapEntry.value;
+                    }
+                });
+            }
+        }, this);
     }
 
-    private synchronized void writeObject(ObjectOutputStream objectOutputStream) {
+    private synchronized void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.defaultWriteObject();
         objectOutputStream.writeInt(this.elementData.length);
         objectOutputStream.writeInt(this.elementCount);
         int n = this.elementData.length;
         while (--n >= 0) {
-            Hashtable$Entry hashtable$Entry = this.elementData[n];
-            while (hashtable$Entry != null) {
-                objectOutputStream.writeObject(hashtable$Entry.key);
-                objectOutputStream.writeObject(hashtable$Entry.value);
-                hashtable$Entry = hashtable$Entry.next;
+            Entry entry = this.elementData[n];
+            while (entry != null) {
+                objectOutputStream.writeObject(entry.key);
+                objectOutputStream.writeObject(entry.value);
+                entry = entry.next;
             }
         }
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         int n = objectInputStream.readInt();
-        this.elementData = new Hashtable$Entry[n];
+        this.elementData = new Entry[n];
         int n2 = this.elementCount = objectInputStream.readInt();
         while (--n2 >= 0) {
             Object object = objectInputStream.readObject();
             int n3 = object.hashCode();
-            int n4 = (n3 & 0xFFFFFF7F) % n;
+            int n4 = (n3 & Integer.MAX_VALUE) % n;
             if (n4 < this.firstSlot) {
                 this.firstSlot = n4;
             }
             if (n4 > this.lastSlot) {
                 this.lastSlot = n4;
             }
-            Hashtable$Entry hashtable$Entry = Hashtable.newEntry(object, objectInputStream.readObject(), n3);
-            hashtable$Entry.next = this.elementData[n4];
-            this.elementData[n4] = hashtable$Entry;
+            Entry entry = Hashtable.newEntry(object, objectInputStream.readObject(), n3);
+            entry.next = this.elementData[n4];
+            this.elementData[n4] = entry;
+        }
+    }
+
+    private static class Entry
+    extends MapEntry {
+        Entry next;
+
+        Entry(Object object, Object object2) {
+            super(object, object2);
+        }
+
+        public Object clone() {
+            Entry entry = (Entry)super.clone();
+            if (this.next != null) {
+                entry.next = (Entry)this.next.clone();
+            }
+            return entry;
+        }
+
+        public Object setValue(Object object) {
+            if (object == null) {
+                throw new NullPointerException();
+            }
+            Object object2 = this.value;
+            this.value = object;
+            return object2;
+        }
+
+        public int getKeyHash() {
+            return this.key.hashCode();
+        }
+
+        public boolean equalsKey(Object object, int n) {
+            return this.key.equals(object);
+        }
+
+        public String toString() {
+            return this.key + "=" + this.value;
+        }
+    }
+
+    private final class HashIterator
+    implements Iterator {
+        private int position;
+        private int expectedModCount;
+        private MapEntry.Type type;
+        private Entry lastEntry;
+        private int lastPosition;
+        private boolean canRemove = false;
+
+        HashIterator(MapEntry.Type type) {
+            this.type = type;
+            this.position = Hashtable.this.lastSlot;
+            this.expectedModCount = Hashtable.this.modCount;
+        }
+
+        /*
+         * Unable to fully structure code
+         */
+        public boolean hasNext() {
+            if (this.lastEntry == null || this.lastEntry.next == null) ** GOTO lbl7
+            return true;
+lbl-1000:
+            // 1 sources
+
+            {
+                if (Hashtable.this.elementData[this.position] == null) {
+                    --this.position;
+                    continue;
+                }
+                return true;
+lbl7:
+                // 2 sources
+
+                ** while (this.position >= Hashtable.this.firstSlot)
+            }
+lbl8:
+            // 1 sources
+
+            return false;
+        }
+
+        public Object next() {
+            if (this.expectedModCount == Hashtable.this.modCount) {
+                if (this.lastEntry != null) {
+                    this.lastEntry = this.lastEntry.next;
+                }
+                if (this.lastEntry == null) {
+                    while (this.position >= Hashtable.this.firstSlot && (this.lastEntry = Hashtable.this.elementData[this.position]) == null) {
+                        --this.position;
+                    }
+                    if (this.lastEntry != null) {
+                        this.lastPosition = this.position--;
+                    }
+                }
+                if (this.lastEntry != null) {
+                    this.canRemove = true;
+                    return this.type.get(this.lastEntry);
+                }
+                throw new NoSuchElementException();
+            }
+            throw new ConcurrentModificationException();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         * Enabled aggressive block sorting
+         * Enabled unnecessary exception pruning
+         * Enabled aggressive exception aggregation
+         */
+        public void remove() {
+            if (this.expectedModCount != Hashtable.this.modCount) throw new ConcurrentModificationException();
+            if (!this.canRemove) throw new IllegalStateException();
+            this.canRemove = false;
+            Hashtable hashtable = Hashtable.this;
+            synchronized (hashtable) {
+                boolean bl = false;
+                Entry entry = Hashtable.this.elementData[this.lastPosition];
+                if (entry == this.lastEntry) {
+                    Hashtable.this.elementData[this.lastPosition] = entry.next;
+                    bl = true;
+                } else {
+                    while (true) {
+                        if (entry == null || entry.next == this.lastEntry) {
+                            if (entry == null) break;
+                            entry.next = this.lastEntry.next;
+                            bl = true;
+                            break;
+                        }
+                        entry = entry.next;
+                    }
+                }
+                if (!bl) throw new ConcurrentModificationException();
+                ++Hashtable.this.modCount;
+                --Hashtable.this.elementCount;
+                ++this.expectedModCount;
+                return;
+            }
+        }
+    }
+
+    private final class HashEnumerator
+    implements Enumeration {
+        boolean key;
+        int start;
+        Entry entry;
+
+        HashEnumerator(boolean bl) {
+            this.key = bl;
+            this.start = Hashtable.this.lastSlot + 1;
+        }
+
+        /*
+         * Unable to fully structure code
+         */
+        public boolean hasMoreElements() {
+            if (this.entry == null) ** GOTO lbl6
+            return true;
+lbl-1000:
+            // 1 sources
+
+            {
+                if (Hashtable.this.elementData[this.start] == null) continue;
+                this.entry = Hashtable.this.elementData[this.start];
+                return true;
+lbl6:
+                // 2 sources
+
+                ** while (--this.start >= Hashtable.this.firstSlot)
+            }
+lbl7:
+            // 1 sources
+
+            return false;
+        }
+
+        public Object nextElement() {
+            if (this.hasMoreElements()) {
+                Object object = this.key ? this.entry.key : this.entry.value;
+                this.entry = this.entry.next;
+                return object;
+            }
+            throw new NoSuchElementException();
         }
     }
 }

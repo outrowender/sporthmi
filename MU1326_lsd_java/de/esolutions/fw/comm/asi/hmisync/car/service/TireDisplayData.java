@@ -60,7 +60,7 @@ public class TireDisplayData {
     }
 
     public String toString() {
-        return new StringBuffer("TireDisplayData{").append("wheelStates=").append(this.wheelStates).append(", wheelPressures=").append(this.wheelPressures).append(", requiredWheelPressures=").append(this.requiredWheelPressures).append(", wheelTemperatures=").append(this.wheelTemperatures).append("}").toString();
+        return "TireDisplayData{" + "wheelStates=" + this.wheelStates + ", wheelPressures=" + this.wheelPressures + ", requiredWheelPressures=" + this.requiredWheelPressures + ", wheelTemperatures=" + this.wheelTemperatures + "}";
     }
 }
 

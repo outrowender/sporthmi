@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.carvehiclestates.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.carvehiclestates.SemiStaticVehicleData;
 
 public class SemiStaticVehicleDataSerializer {
-    public static void putOptionalSemiStaticVehicleData(ISerializer iSerializer, SemiStaticVehicleData semiStaticVehicleData) {
+    public static void putOptionalSemiStaticVehicleData(ISerializer iSerializer, SemiStaticVehicleData semiStaticVehicleData) throws SerializerException {
         boolean bl = semiStaticVehicleData == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -25,7 +26,7 @@ public class SemiStaticVehicleDataSerializer {
         }
     }
 
-    public static void putOptionalSemiStaticVehicleDataVarArray(ISerializer iSerializer, SemiStaticVehicleData[] semiStaticVehicleDataArray) {
+    public static void putOptionalSemiStaticVehicleDataVarArray(ISerializer iSerializer, SemiStaticVehicleData[] semiStaticVehicleDataArray) throws SerializerException {
         boolean bl = semiStaticVehicleDataArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -36,7 +37,7 @@ public class SemiStaticVehicleDataSerializer {
         }
     }
 
-    public static SemiStaticVehicleData getOptionalSemiStaticVehicleData(IDeserializer iDeserializer) {
+    public static SemiStaticVehicleData getOptionalSemiStaticVehicleData(IDeserializer iDeserializer) throws SerializerException {
         SemiStaticVehicleData semiStaticVehicleData = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -55,7 +56,7 @@ public class SemiStaticVehicleDataSerializer {
         return semiStaticVehicleData;
     }
 
-    public static SemiStaticVehicleData[] getOptionalSemiStaticVehicleDataVarArray(IDeserializer iDeserializer) {
+    public static SemiStaticVehicleData[] getOptionalSemiStaticVehicleDataVarArray(IDeserializer iDeserializer) throws SerializerException {
         SemiStaticVehicleData[] semiStaticVehicleDataArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

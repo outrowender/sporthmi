@@ -3,25 +3,25 @@
  */
 package java.text;
 
-import java.text.Format$Field;
+import java.text.Format;
 
 public class FieldPosition {
     private int myField;
     private int beginIndex;
     private int endIndex;
-    private Format$Field myAttribute;
+    private Format.Field myAttribute;
 
     public FieldPosition(int n) {
         this.myField = n;
     }
 
-    public FieldPosition(Format$Field format$Field) {
-        this.myAttribute = format$Field;
+    public FieldPosition(Format.Field field) {
+        this.myAttribute = field;
         this.myField = -1;
     }
 
-    public FieldPosition(Format$Field format$Field, int n) {
-        this.myAttribute = format$Field;
+    public FieldPosition(Format.Field field, int n) {
+        this.myAttribute = field;
         this.myField = n;
     }
 
@@ -50,7 +50,7 @@ public class FieldPosition {
         return this.myField;
     }
 
-    public Format$Field getFieldAttribute() {
+    public Format.Field getFieldAttribute() {
         return this.myAttribute;
     }
 
@@ -68,7 +68,7 @@ public class FieldPosition {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append("[attribute=").append(this.myAttribute).append(", field=").append(this.myField).append(", beginIndex=").append(this.beginIndex).append(", endIndex=").append(this.endIndex).append("]").toString();
+        return String.valueOf(this.getClass().getName()) + "[attribute=" + this.myAttribute + ", field=" + this.myField + ", beginIndex=" + this.beginIndex + ", endIndex=" + this.endIndex + "]";
     }
 }
 

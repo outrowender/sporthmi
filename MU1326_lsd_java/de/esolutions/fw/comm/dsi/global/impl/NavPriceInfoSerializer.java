@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.NavPriceInfo;
 
 public class NavPriceInfoSerializer {
-    public static void putOptionalNavPriceInfo(ISerializer iSerializer, NavPriceInfo navPriceInfo) {
+    public static void putOptionalNavPriceInfo(ISerializer iSerializer, NavPriceInfo navPriceInfo) throws SerializerException {
         boolean bl = navPriceInfo == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -19,7 +20,7 @@ public class NavPriceInfoSerializer {
         }
     }
 
-    public static void putOptionalNavPriceInfoVarArray(ISerializer iSerializer, NavPriceInfo[] navPriceInfoArray) {
+    public static void putOptionalNavPriceInfoVarArray(ISerializer iSerializer, NavPriceInfo[] navPriceInfoArray) throws SerializerException {
         boolean bl = navPriceInfoArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -30,7 +31,7 @@ public class NavPriceInfoSerializer {
         }
     }
 
-    public static NavPriceInfo getOptionalNavPriceInfo(IDeserializer iDeserializer) {
+    public static NavPriceInfo getOptionalNavPriceInfo(IDeserializer iDeserializer) throws SerializerException {
         NavPriceInfo navPriceInfo = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -43,7 +44,7 @@ public class NavPriceInfoSerializer {
         return navPriceInfo;
     }
 
-    public static NavPriceInfo[] getOptionalNavPriceInfoVarArray(IDeserializer iDeserializer) {
+    public static NavPriceInfo[] getOptionalNavPriceInfoVarArray(IDeserializer iDeserializer) throws SerializerException {
         NavPriceInfo[] navPriceInfoArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

@@ -17,7 +17,6 @@ implements ITraceCommand {
         this.level = s;
     }
 
-    @Override
     public boolean execute(ITraceCommandExecutor iTraceCommandExecutor) {
         iTraceCommandExecutor.requestFilterLevel(this.uri, this.level);
         return false;

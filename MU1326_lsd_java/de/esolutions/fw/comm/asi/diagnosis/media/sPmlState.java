@@ -42,7 +42,7 @@ public class sPmlState {
     }
 
     public String toString() {
-        return new StringBuffer("sPmlState{").append("msg_id=").append(this.msg_id).append(", levelSystem=").append(this.levelSystem).append(", levelMedium=").append(this.levelMedium).append("}").toString();
+        return "sPmlState{" + "msg_id=" + this.msg_id + ", levelSystem=" + this.levelSystem + ", levelMedium=" + this.levelMedium + "}";
     }
 }
 

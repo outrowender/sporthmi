@@ -12,9 +12,6 @@ import de.esolutions.hmi.widgets.audi.base.widgets.AbstractWidgetController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.GlassplateController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.ScrollbarController;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$ICandidateItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.AbstractConversionWidgetController$MultiCharItem;
-import de.esolutions.hmi.widgets.audi.evo.widgets.asia.ConversionMatrixController$ViewPort;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionMatrixModel;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionMatrixModelUpdateHandler;
 import de.esolutions.hmi.widgets.audi.evo.widgets.asia.IConversionWidgetRenderer;
@@ -26,22 +23,22 @@ public class ConversionMatrixController
 extends AbstractConversionWidgetController
 implements IConversionMatrixModelUpdateHandler {
     private static IConversionMatrixModel isMatrixModelConnected = null;
-    private static final int CONST_DEFAULT_PAGE_SIZE;
-    public static final float MINIMAL_SCROLLBAR_HANDLE_HEIGHT;
+    private static final int CONST_DEFAULT_PAGE_SIZE = 3;
+    public static final float MINIMAL_SCROLLBAR_HANDLE_HEIGHT = 20.0f;
     private ScrollbarController scrollbar;
     private float scrollbarHandlePositionDeltaPerViewportDelta = 0.0f;
-    private static final int AMOUNT_OF_ROWS_SCROLLING;
-    private final ConversionMatrixController$ViewPort viewPort = new ConversionMatrixController$ViewPort(this, null);
+    private static final int AMOUNT_OF_ROWS_SCROLLING = 1;
+    private final ViewPort viewPort = new ViewPort();
     private IConversionMatrixModel conversionMatrixModel = IConversionMatrixModel.NULL;
-    private static final int CURSOR_NO_MOVE;
-    private static final int CURSOR_NORTH;
-    private static final int CURSOR_SOUTH;
-    private static final int CURSOR_LEFT;
-    private static final int CURSOR_RIGHT;
+    private static final int CURSOR_NO_MOVE = -1;
+    private static final int CURSOR_NORTH = 0;
+    private static final int CURSOR_SOUTH = 1;
+    private static final int CURSOR_LEFT = 2;
+    private static final int CURSOR_RIGHT = 3;
     private boolean isModuleColorRefreshNeeded;
     private boolean isFirstTimeVisible = true;
 
-    public ConversionMatrixController$ViewPort getViewPort() {
+    public ViewPort getViewPort() {
         return this.viewPort;
     }
 
@@ -52,7 +49,6 @@ implements IConversionMatrixModelUpdateHandler {
         return this.scrollbar.getWidth();
     }
 
-    @Override
     protected void initializeWidget() {
         super.initializeWidget();
         this.scrollbar = this.findScrollBar();
@@ -65,13 +61,13 @@ implements IConversionMatrixModelUpdateHandler {
         int n = this.getAmountOfRows();
         this.scrollbar.setInterval(this.viewPort.getTopRowIndex(), this.viewPort.getBottomRowIndex(), n, false);
         float f2 = (float)this.scrollbar.getHeight() / (float)n;
-        int n2 = 16448 * f2;
-        if (n2 < 41025) {
-            int n3 = 41025 - n2;
-            f2 -= n3 / (float)n;
-            n2 = 41025;
+        float f3 = 3.0f * f2;
+        if (f3 < 20.0f) {
+            float f4 = 20.0f - f3;
+            f2 -= f4 / (float)n;
+            f3 = 20.0f;
         }
-        this.scrollbar.setScrollbarHeight(n2);
+        this.scrollbar.setScrollbarHeight(f3);
         this.scrollbarHandlePositionDeltaPerViewportDelta = f2 * 1.0f;
         this.scrollbar.setScrollbarPosition(0.0f);
         this.scrollbar.setVisible(true);
@@ -82,8 +78,8 @@ implements IConversionMatrixModelUpdateHandler {
         if (this.candidates.isEmpty()) {
             return 0;
         }
-        AbstractConversionWidgetController$MultiCharItem abstractConversionWidgetController$MultiCharItem = (AbstractConversionWidgetController$MultiCharItem)this.candidates.get(this.candidates.size() - 1);
-        return abstractConversionWidgetController$MultiCharItem.getRowIndex() + 1;
+        AbstractConversionWidgetController.MultiCharItem multiCharItem = (AbstractConversionWidgetController.MultiCharItem)this.candidates.get(this.candidates.size() - 1);
+        return multiCharItem.getRowIndex() + 1;
     }
 
     protected final void updateScrollbarHandlePosition() {
@@ -91,7 +87,7 @@ implements IConversionMatrixModelUpdateHandler {
             return;
         }
         this.scrollbar.setInterval(this.viewPort.getTopRowIndex(), this.viewPort.getBottomRowIndex(), this.getAmountOfRows(), false);
-        float f2 = (float)ConversionMatrixController$ViewPort.access$100(this.viewPort) * this.scrollbarHandlePositionDeltaPerViewportDelta;
+        float f2 = (float)this.viewPort.getDeltaFromTop() * this.scrollbarHandlePositionDeltaPerViewportDelta;
         this.scrollbar.setScrollbarPosition(f2);
     }
 
@@ -107,36 +103,33 @@ implements IConversionMatrixModelUpdateHandler {
         return null;
     }
 
-    @Override
     protected void createMultiCharItems(String string, List list) {
         this.candidates.clear();
         for (int i2 = 0; i2 < list.size(); ++i2) {
-            AbstractConversionWidgetController$MultiCharItem abstractConversionWidgetController$MultiCharItem = ConversionMatrixController.createMultiCharItem((String)list.get(i2), i2);
-            this.candidates.add(abstractConversionWidgetController$MultiCharItem);
+            AbstractConversionWidgetController.MultiCharItem multiCharItem = ConversionMatrixController.createMultiCharItem((String)list.get(i2), i2);
+            this.candidates.add(multiCharItem);
         }
     }
 
-    @Override
-    protected void handleCandidateSelect(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem) {
-        if (!(abstractConversionWidgetController$ICandidateItem instanceof AbstractConversionWidgetController$MultiCharItem)) {
-            tpLogChannelInternal.log(10000, "ConversionMatrixController#handleCandidateSelect: unkown candidate item type %1", (Object)abstractConversionWidgetController$ICandidateItem);
+    protected void handleCandidateSelect(AbstractConversionWidgetController.ICandidateItem iCandidateItem) {
+        if (!(iCandidateItem instanceof AbstractConversionWidgetController.MultiCharItem)) {
+            tpLogChannelInternal.log(10000, "ConversionMatrixController#handleCandidateSelect: unkown candidate item type %1", (Object)iCandidateItem);
             return;
         }
-        String string = ((AbstractConversionWidgetController$MultiCharItem)abstractConversionWidgetController$ICandidateItem).getChars();
-        this.getConversionMatrixModel().setSelected(string, abstractConversionWidgetController$ICandidateItem.getSourceIndex());
+        String string = ((AbstractConversionWidgetController.MultiCharItem)iCandidateItem).getChars();
+        this.getConversionMatrixModel().setSelected(string, iCandidateItem.getSourceIndex());
     }
 
-    public void setCursorPosition(AbstractConversionWidgetController$MultiCharItem abstractConversionWidgetController$MultiCharItem) {
-        super.setCursorPosition(abstractConversionWidgetController$MultiCharItem);
+    public void setCursorPosition(AbstractConversionWidgetController.MultiCharItem multiCharItem) {
+        super.setCursorPosition(multiCharItem);
     }
 
-    @Override
     public void sourceDataChanged(List list) {
-        ConversionMatrixController$ViewPort.access$200(this.viewPort);
+        this.viewPort.reset();
         this.createMultiCharItems(this.getUnconvertedCharacters(), list);
         this.resetInitialItem(false);
         this.layoutMultiCharItems();
-        ConversionMatrixController$ViewPort.access$200(this.viewPort);
+        this.viewPort.reset();
         this.initializeScrollbar();
         this.setDataChanged(true);
         this.setCompositesDirty(true);
@@ -151,7 +144,6 @@ implements IConversionMatrixModelUpdateHandler {
         iConversionWidgetRenderer.fillInLayoutData(this.candidates);
     }
 
-    @Override
     public void candidateSelected(String string) {
         if (this.terminal != null && this.terminal.getPartialPopupManager() != null) {
             this.terminal.getPartialPopupManager().hidePopup(119);
@@ -160,7 +152,6 @@ implements IConversionMatrixModelUpdateHandler {
         this.candidates.clear();
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         this.getConversionMatrixModel().handleMatrixKeyEvent(keyEvent);
         if (keyEvent.getKeyCode() == 15) {
@@ -171,7 +162,6 @@ implements IConversionMatrixModelUpdateHandler {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
         int n;
         if (null == this.candidates || this.candidates.isEmpty()) {
@@ -208,47 +198,47 @@ implements IConversionMatrixModelUpdateHandler {
         if (-1 == n) {
             return false;
         }
-        AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem = this.getRequiredFocusedItem(this.currentFocusedItem, n, n2);
-        if (null != abstractConversionWidgetController$ICandidateItem) {
-            this.moveCursor(abstractConversionWidgetController$ICandidateItem, false);
+        AbstractConversionWidgetController.ICandidateItem iCandidateItem = this.getRequiredFocusedItem(this.currentFocusedItem, n, n2);
+        if (null != iCandidateItem) {
+            this.moveCursor(iCandidateItem, false);
             this.setCompositesDirty(true);
-            this.targetCursorItem = abstractConversionWidgetController$ICandidateItem;
+            this.targetCursorItem = iCandidateItem;
             this.updateScrollbarHandlePosition();
             return true;
         }
         return false;
     }
 
-    private AbstractConversionWidgetController$ICandidateItem getRequiredFocusedItem(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem, int n, int n2) {
-        AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem2 = this.findNewCandidateItem(abstractConversionWidgetController$ICandidateItem, n, n2);
-        if (null != abstractConversionWidgetController$ICandidateItem2 && null != this.viewPort) {
-            this.viewPort.updateViewPortRowIndex(abstractConversionWidgetController$ICandidateItem2.getRowIndex());
+    private AbstractConversionWidgetController.ICandidateItem getRequiredFocusedItem(AbstractConversionWidgetController.ICandidateItem iCandidateItem, int n, int n2) {
+        AbstractConversionWidgetController.ICandidateItem iCandidateItem2 = this.findNewCandidateItem(iCandidateItem, n, n2);
+        if (null != iCandidateItem2 && null != this.viewPort) {
+            this.viewPort.updateViewPortRowIndex(iCandidateItem2.getRowIndex());
         }
-        return abstractConversionWidgetController$ICandidateItem2;
+        return iCandidateItem2;
     }
 
-    private AbstractConversionWidgetController$ICandidateItem findNewCandidateItem(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem, int n, int n2) {
+    private AbstractConversionWidgetController.ICandidateItem findNewCandidateItem(AbstractConversionWidgetController.ICandidateItem iCandidateItem, int n, int n2) {
         switch (n) {
             case 0: {
-                return this.calculateVerticalMovement(abstractConversionWidgetController$ICandidateItem, n2, true);
+                return this.calculateVerticalMovement(iCandidateItem, n2, true);
             }
             case 1: {
-                return this.calculateVerticalMovement(abstractConversionWidgetController$ICandidateItem, n2, false);
+                return this.calculateVerticalMovement(iCandidateItem, n2, false);
             }
             case 2: {
-                return this.calculateHorizontalMovement(abstractConversionWidgetController$ICandidateItem, n2, false);
+                return this.calculateHorizontalMovement(iCandidateItem, n2, false);
             }
             case 3: {
-                return this.calculateHorizontalMovement(abstractConversionWidgetController$ICandidateItem, n2, true);
+                return this.calculateHorizontalMovement(iCandidateItem, n2, true);
             }
         }
-        tpLogChannelInternal.log(-1601830656, "ConversionMatrixController#findNewCandidateItem: unknown direction %1", (long)n);
+        tpLogChannelInternal.log(100000, "ConversionMatrixController#findNewCandidateItem: unknown direction %1", (long)n);
         return null;
     }
 
-    private AbstractConversionWidgetController$ICandidateItem calculateHorizontalMovement(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem, int n, boolean bl) {
+    private AbstractConversionWidgetController.ICandidateItem calculateHorizontalMovement(AbstractConversionWidgetController.ICandidateItem iCandidateItem, int n, boolean bl) {
         int n2 = bl ? n : -n;
-        int n3 = this.candidates.indexOf(abstractConversionWidgetController$ICandidateItem);
+        int n3 = this.candidates.indexOf(iCandidateItem);
         if (n3 >= 0) {
             int n4 = n3 + n2;
             if (n4 >= this.candidates.size()) {
@@ -257,45 +247,44 @@ implements IConversionMatrixModelUpdateHandler {
             if (n4 < 0) {
                 n4 = 0;
             }
-            return (AbstractConversionWidgetController$ICandidateItem)this.candidates.get(n4);
+            return (AbstractConversionWidgetController.ICandidateItem)this.candidates.get(n4);
         }
         return null;
     }
 
-    private AbstractConversionWidgetController$ICandidateItem calculateVerticalMovement(AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem, int n, boolean bl) {
+    private AbstractConversionWidgetController.ICandidateItem calculateVerticalMovement(AbstractConversionWidgetController.ICandidateItem iCandidateItem, int n, boolean bl) {
         int n2 = -1;
-        n2 = bl ? abstractConversionWidgetController$ICandidateItem.getRowIndex() - n : abstractConversionWidgetController$ICandidateItem.getRowIndex() + n;
-        return this.filterCandidateItem(n2, abstractConversionWidgetController$ICandidateItem);
+        n2 = bl ? iCandidateItem.getRowIndex() - n : iCandidateItem.getRowIndex() + n;
+        return this.filterCandidateItem(n2, iCandidateItem);
     }
 
-    private AbstractConversionWidgetController$ICandidateItem filterCandidateItem(int n, AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem) {
+    private AbstractConversionWidgetController.ICandidateItem filterCandidateItem(int n, AbstractConversionWidgetController.ICandidateItem iCandidateItem) {
         ArrayList arrayList = new ArrayList();
         Iterator iterator = this.candidates.iterator();
         while (iterator.hasNext()) {
-            AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem2 = (AbstractConversionWidgetController$ICandidateItem)iterator.next();
-            if (null == abstractConversionWidgetController$ICandidateItem2 || !ConversionMatrixController.isRowMatch(n, abstractConversionWidgetController$ICandidateItem2, arrayList) || !ConversionMatrixController.isColumnMatch(abstractConversionWidgetController$ICandidateItem.getColumnIndex(), abstractConversionWidgetController$ICandidateItem.getColumnSpan(), abstractConversionWidgetController$ICandidateItem2)) continue;
-            return abstractConversionWidgetController$ICandidateItem2;
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem2 = (AbstractConversionWidgetController.ICandidateItem)iterator.next();
+            if (null == iCandidateItem2 || !ConversionMatrixController.isRowMatch(n, iCandidateItem2, arrayList) || !ConversionMatrixController.isColumnMatch(iCandidateItem.getColumnIndex(), iCandidateItem.getColumnSpan(), iCandidateItem2)) continue;
+            return iCandidateItem2;
         }
         if (!arrayList.isEmpty()) {
-            return (AbstractConversionWidgetController$ICandidateItem)arrayList.get(arrayList.size() - 1);
+            return (AbstractConversionWidgetController.ICandidateItem)arrayList.get(arrayList.size() - 1);
         }
         return null;
     }
 
-    private static boolean isColumnMatch(int n, int n2, AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem) {
-        return n + n2 <= abstractConversionWidgetController$ICandidateItem.getColumnIndex() + abstractConversionWidgetController$ICandidateItem.getColumnSpan();
+    private static boolean isColumnMatch(int n, int n2, AbstractConversionWidgetController.ICandidateItem iCandidateItem) {
+        return n + n2 <= iCandidateItem.getColumnIndex() + iCandidateItem.getColumnSpan();
     }
 
-    private static boolean isRowMatch(int n, AbstractConversionWidgetController$ICandidateItem abstractConversionWidgetController$ICandidateItem, List list) {
+    private static boolean isRowMatch(int n, AbstractConversionWidgetController.ICandidateItem iCandidateItem, List list) {
         boolean bl;
-        boolean bl2 = bl = n == abstractConversionWidgetController$ICandidateItem.getRowIndex();
+        boolean bl2 = bl = n == iCandidateItem.getRowIndex();
         if (bl) {
-            list.add(abstractConversionWidgetController$ICandidateItem);
+            list.add(iCandidateItem);
         }
         return bl;
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         int n;
         if (null == this.candidates || this.candidates.isEmpty()) {
@@ -325,15 +314,13 @@ implements IConversionMatrixModelUpdateHandler {
         this.updateScrollbarHandlePosition();
     }
 
-    @Override
     public String getUnconvertedCharacters() {
         return this.getConversionMatrixModel().getUnconvertedCharacters();
     }
 
-    @Override
     public void disconnecting() {
         if (null != this.viewPort) {
-            ConversionMatrixController$ViewPort.access$200(this.viewPort);
+            this.viewPort.reset();
         }
         super.disconnecting();
     }
@@ -354,7 +341,7 @@ implements IConversionMatrixModelUpdateHandler {
     public static void connectConversionMatrixControllerWithModel(IPartialPopupController iPartialPopupController, IConversionMatrixModel iConversionMatrixModel) {
         Object object;
         if (isMatrixModelConnected == iConversionMatrixModel) {
-            tpLogChannelInternal.log(1078071040, "ConversionMatrixController#connectConversionMatrixControllerWithModel: already connected before.");
+            tpLogChannelInternal.log(1000000, "ConversionMatrixController#connectConversionMatrixControllerWithModel: already connected before.");
             return;
         }
         if (!(iPartialPopupController instanceof AbstractWidget)) {
@@ -391,7 +378,6 @@ implements IConversionMatrixModelUpdateHandler {
         this.isModuleColorRefreshNeeded = false;
     }
 
-    @Override
     public void onPopupVisibilityChange(boolean bl) {
         if (bl) {
             if (this.isFirstTimeVisible) {
@@ -406,6 +392,72 @@ implements IConversionMatrixModelUpdateHandler {
             this.candidates.clear();
         }
         this.getConversionMatrixModel().setIsActivated(bl);
+    }
+
+    public class ViewPort {
+        private int topRowIndex = -1;
+        private int bottomRowIndex = -1;
+        private boolean viewPortChanged;
+        private List viewPortData = new ArrayList();
+
+        private ViewPort() {
+            this.reset();
+        }
+
+        private void reset() {
+            this.topRowIndex = 0;
+            this.bottomRowIndex = 2;
+            this.viewPortChanged();
+        }
+
+        private int getDeltaFromTop() {
+            return this.topRowIndex / 1;
+        }
+
+        void updateViewPortRowIndex(int n) {
+            if (n < this.topRowIndex) {
+                this.topRowIndex = n;
+                this.bottomRowIndex = this.topRowIndex + 3 - 1;
+                this.viewPortChanged();
+            } else if (n > this.bottomRowIndex) {
+                this.bottomRowIndex = n;
+                this.topRowIndex = this.bottomRowIndex - 3 + 1;
+                this.viewPortChanged();
+            }
+        }
+
+        public int getTopRowIndex() {
+            return this.topRowIndex;
+        }
+
+        public int getBottomRowIndex() {
+            return this.bottomRowIndex;
+        }
+
+        public List getCandidates() {
+            AbstractConversionWidgetController.ICandidateItem iCandidateItem;
+            int n;
+            this.viewPortData.clear();
+            Iterator iterator = ConversionMatrixController.this.getCandidateIterator();
+            while (iterator.hasNext() && (n = (iCandidateItem = (AbstractConversionWidgetController.ICandidateItem)iterator.next()).getRowIndex()) <= this.getBottomRowIndex()) {
+                if (n < this.getTopRowIndex()) continue;
+                this.viewPortData.add(iCandidateItem);
+            }
+            return this.viewPortData;
+        }
+
+        private void viewPortChanged() {
+            ConversionMatrixController.this.setDataChanged(true);
+            this.viewPortChanged = true;
+        }
+
+        public boolean hasChanged() {
+            return this.viewPortChanged;
+        }
+
+        public void onChangeRendered() {
+            this.viewPortChanged = false;
+        }
     }
 }
 

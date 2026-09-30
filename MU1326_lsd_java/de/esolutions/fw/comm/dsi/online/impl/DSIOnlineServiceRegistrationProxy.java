@@ -10,18 +10,13 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineServiceRegistration;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineServiceRegistrationC;
 import de.esolutions.fw.comm.dsi.online.DSIOnlineServiceRegistrationReply;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$1;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$10;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$11;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$2;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$3;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$4;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$5;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$6;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$7;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$8;
-import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationProxy$9;
 import de.esolutions.fw.comm.dsi.online.impl.DSIOnlineServiceRegistrationReplyService;
+import de.esolutions.fw.comm.dsi.online.impl.OSRApplicationPropertiesSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRDeviceSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRLicenseSerializer;
+import de.esolutions.fw.comm.dsi.online.impl.OSRUserSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.online.OSRApplicationProperties;
@@ -45,13 +40,11 @@ DSIOnlineServiceRegistrationC {
         return this.proxy;
     }
 
-    @Override
-    public void getOnlineApplicationList() {
+    public void getOnlineApplicationList() throws MethodException {
         this.proxy.remoteCallMethod((short)4, null);
     }
 
-    @Override
-    public void getOnlineApplication(String string) {
+    public void getOnlineApplication(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -62,8 +55,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void setOnlineApplicationState(String string, int n) {
+    public void setOnlineApplicationState(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -75,14 +67,17 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)9, genericSerializable);
     }
 
-    @Override
-    public void activateLicense(OSRLicense oSRLicense) {
-        DSIOnlineServiceRegistrationProxy$1 dSIOnlineServiceRegistrationProxy$1 = new DSIOnlineServiceRegistrationProxy$1(this, oSRLicense);
-        this.proxy.remoteCallMethod((short)179, dSIOnlineServiceRegistrationProxy$1);
+    public void activateLicense(final OSRLicense oSRLicense) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRLicenseSerializer.putOptionalOSRLicense(iSerializer, oSRLicense);
+            }
+        };
+        this.proxy.remoteCallMethod((short)179, iSerializable);
     }
 
-    @Override
-    public void setDemandState(String string, boolean bl) {
+    public void setDemandState(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -94,8 +89,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void setDemandStateServiceID(String string, boolean bl) {
+    public void setDemandStateServiceID(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -107,20 +101,29 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)195, genericSerializable);
     }
 
-    @Override
-    public void setApplicationProperties(String string, OSRApplicationProperties[] oSRApplicationPropertiesArray) {
-        DSIOnlineServiceRegistrationProxy$2 dSIOnlineServiceRegistrationProxy$2 = new DSIOnlineServiceRegistrationProxy$2(this, string, oSRApplicationPropertiesArray);
-        this.proxy.remoteCallMethod((short)12, dSIOnlineServiceRegistrationProxy$2);
+    public void setApplicationProperties(final String string, final OSRApplicationProperties[] oSRApplicationPropertiesArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                OSRApplicationPropertiesSerializer.putOptionalOSRApplicationPropertiesVarArray(iSerializer, oSRApplicationPropertiesArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)12, iSerializable);
     }
 
-    @Override
-    public void addOrUpdateApplicationProperty(String string, OSRApplicationProperties oSRApplicationProperties) {
-        DSIOnlineServiceRegistrationProxy$3 dSIOnlineServiceRegistrationProxy$3 = new DSIOnlineServiceRegistrationProxy$3(this, string, oSRApplicationProperties);
-        this.proxy.remoteCallMethod((short)87, dSIOnlineServiceRegistrationProxy$3);
+    public void addOrUpdateApplicationProperty(final String string, final OSRApplicationProperties oSRApplicationProperties) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putOptionalString(string);
+                OSRApplicationPropertiesSerializer.putOptionalOSRApplicationProperties(iSerializer, oSRApplicationProperties);
+            }
+        };
+        this.proxy.remoteCallMethod((short)87, iSerializable);
     }
 
-    @Override
-    public void setCredential(String string, String string2, String string3) {
+    public void setCredential(String string, String string2, String string3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -133,8 +136,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void download(String string, String string2, String string3, long l, long l2) {
+    public void download(String string, String string2, String string3, long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -149,8 +151,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)211, genericSerializable);
     }
 
-    @Override
-    public void downloadRaw(String string, String string2, String string3, long l, long l2) {
+    public void downloadRaw(String string, String string2, String string3, long l, long l2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -165,8 +166,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)212, genericSerializable);
     }
 
-    @Override
-    public void validateOwner(String string) {
+    public void validateOwner(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -177,8 +177,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)35, genericSerializable);
     }
 
-    @Override
-    public void validateOwnerForce(boolean bl) {
+    public void validateOwnerForce(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -189,13 +188,11 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)174, genericSerializable);
     }
 
-    @Override
-    public void checkOwnersVerification() {
+    public void checkOwnersVerification() throws MethodException {
         this.proxy.remoteCallMethod((short)33, null);
     }
 
-    @Override
-    public void createUserWithPairingCode(String string, String string2) {
+    public void createUserWithPairingCode(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -207,8 +204,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)58, genericSerializable);
     }
 
-    @Override
-    public void createUserWithUserPassword(String string, String string2, String string3) {
+    public void createUserWithUserPassword(String string, String string2, String string3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -221,44 +217,73 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)60, genericSerializable);
     }
 
-    @Override
-    public void checkPassword(OSRUser oSRUser, String string, boolean bl) {
-        DSIOnlineServiceRegistrationProxy$4 dSIOnlineServiceRegistrationProxy$4 = new DSIOnlineServiceRegistrationProxy$4(this, oSRUser, string, bl);
-        this.proxy.remoteCallMethod((short)147, dSIOnlineServiceRegistrationProxy$4);
+    public void checkPassword(final OSRUser oSRUser, final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)147, iSerializable);
     }
 
-    @Override
-    public void checkPairingCode(OSRUser oSRUser, String string, boolean bl) {
-        DSIOnlineServiceRegistrationProxy$5 dSIOnlineServiceRegistrationProxy$5 = new DSIOnlineServiceRegistrationProxy$5(this, oSRUser, string, bl);
-        this.proxy.remoteCallMethod((short)145, dSIOnlineServiceRegistrationProxy$5);
+    public void checkPairingCode(final OSRUser oSRUser, final String string, final boolean bl) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                iSerializer.putOptionalString(string);
+                iSerializer.putBool(bl);
+            }
+        };
+        this.proxy.remoteCallMethod((short)145, iSerializable);
     }
 
-    @Override
-    public void setPrivacyFlags(OSRUser oSRUser, int n) {
-        DSIOnlineServiceRegistrationProxy$6 dSIOnlineServiceRegistrationProxy$6 = new DSIOnlineServiceRegistrationProxy$6(this, oSRUser, n);
-        this.proxy.remoteCallMethod((short)169, dSIOnlineServiceRegistrationProxy$6);
+    public void setPrivacyFlags(final OSRUser oSRUser, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                iSerializer.putInt32(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)169, iSerializable);
     }
 
-    @Override
-    public void setAutoLogin(OSRUser oSRUser, OSRDevice[] oSRDeviceArray) {
-        DSIOnlineServiceRegistrationProxy$7 dSIOnlineServiceRegistrationProxy$7 = new DSIOnlineServiceRegistrationProxy$7(this, oSRUser, oSRDeviceArray);
-        this.proxy.remoteCallMethod((short)167, dSIOnlineServiceRegistrationProxy$7);
+    public void setAutoLogin(final OSRUser oSRUser, final OSRDevice[] oSRDeviceArray) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                OSRDeviceSerializer.putOptionalOSRDeviceVarArray(iSerializer, oSRDeviceArray);
+            }
+        };
+        this.proxy.remoteCallMethod((short)167, iSerializable);
     }
 
-    @Override
-    public void login(OSRUser oSRUser) {
-        DSIOnlineServiceRegistrationProxy$8 dSIOnlineServiceRegistrationProxy$8 = new DSIOnlineServiceRegistrationProxy$8(this, oSRUser);
-        this.proxy.remoteCallMethod((short)154, dSIOnlineServiceRegistrationProxy$8);
+    public void login(final OSRUser oSRUser) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+            }
+        };
+        this.proxy.remoteCallMethod((short)154, iSerializable);
     }
 
-    @Override
-    public void logout(OSRUser oSRUser) {
-        DSIOnlineServiceRegistrationProxy$9 dSIOnlineServiceRegistrationProxy$9 = new DSIOnlineServiceRegistrationProxy$9(this, oSRUser);
-        this.proxy.remoteCallMethod((short)156, dSIOnlineServiceRegistrationProxy$9);
+    public void logout(final OSRUser oSRUser) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+            }
+        };
+        this.proxy.remoteCallMethod((short)156, iSerializable);
     }
 
-    @Override
-    public void logoutAuthScheme(String string) {
+    public void logoutAuthScheme(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -269,8 +294,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)75, genericSerializable);
     }
 
-    @Override
-    public void getUsers(String string) {
+    public void getUsers(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -281,14 +305,17 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)70, genericSerializable);
     }
 
-    @Override
-    public void removeUser(OSRUser oSRUser) {
-        DSIOnlineServiceRegistrationProxy$10 dSIOnlineServiceRegistrationProxy$10 = new DSIOnlineServiceRegistrationProxy$10(this, oSRUser);
-        this.proxy.remoteCallMethod((short)165, dSIOnlineServiceRegistrationProxy$10);
+    public void removeUser(final OSRUser oSRUser) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+            }
+        };
+        this.proxy.remoteCallMethod((short)165, iSerializable);
     }
 
-    @Override
-    public void performPortalRegistration(String string) {
+    public void performPortalRegistration(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -299,8 +326,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)43, genericSerializable);
     }
 
-    @Override
-    public void getLicense(String string) {
+    public void getLicense(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -311,8 +337,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)62, genericSerializable);
     }
 
-    @Override
-    public void getLicenses(boolean bl, boolean bl2) {
+    public void getLicenses(boolean bl, boolean bl2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -324,8 +349,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)64, genericSerializable);
     }
 
-    @Override
-    public void precheckOnlineServiceServiceID(String string, String string2) {
+    public void precheckOnlineServiceServiceID(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -337,8 +361,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)161, genericSerializable);
     }
 
-    @Override
-    public void precheckOnlineServiceSymbolicName(String string, String string2) {
+    public void precheckOnlineServiceSymbolicName(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -350,8 +373,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)163, genericSerializable);
     }
 
-    @Override
-    public void precheckOnlineService(String string) {
+    public void precheckOnlineService(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -362,14 +384,18 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)159, genericSerializable);
     }
 
-    @Override
-    public void getProfileFolder(OSRUser oSRUser, String string) {
-        DSIOnlineServiceRegistrationProxy$11 dSIOnlineServiceRegistrationProxy$11 = new DSIOnlineServiceRegistrationProxy$11(this, oSRUser, string);
-        this.proxy.remoteCallMethod((short)151, dSIOnlineServiceRegistrationProxy$11);
+    public void getProfileFolder(final OSRUser oSRUser, final String string) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                OSRUserSerializer.putOptionalOSRUser(iSerializer, oSRUser);
+                iSerializer.putOptionalString(string);
+            }
+        };
+        this.proxy.remoteCallMethod((short)151, iSerializable);
     }
 
-    @Override
-    public void getCredentialsFromHeader(int n, String[] stringArray) {
+    public void getCredentialsFromHeader(int n, String[] stringArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -381,8 +407,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)90, genericSerializable);
     }
 
-    @Override
-    public void getCredentialsFromAuthScheme(int n) {
+    public void getCredentialsFromAuthScheme(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -393,8 +418,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)88, genericSerializable);
     }
 
-    @Override
-    public void getServiceURL(String string) {
+    public void getServiceURL(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -405,8 +429,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)92, genericSerializable);
     }
 
-    @Override
-    public void resetToFactorySettings(String string) {
+    public void resetToFactorySettings(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -417,8 +440,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)30, genericSerializable);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -429,8 +451,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)116, genericSerializable);
     }
 
-    @Override
-    public void setServiceState(String string, int n) {
+    public void setServiceState(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -442,8 +463,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)201, genericSerializable);
     }
 
-    @Override
-    public void setServiceStateSymbolicName(String string, int n) {
+    public void setServiceStateSymbolicName(String string, int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -455,8 +475,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)203, genericSerializable);
     }
 
-    @Override
-    public void setActivePrivacyCategoryMask(int n) {
+    public void setActivePrivacyCategoryMask(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -467,13 +486,11 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)193, genericSerializable);
     }
 
-    @Override
-    public void submitServiceStateChangesToBackend() {
+    public void submitServiceStateChangesToBackend() throws MethodException {
         this.proxy.remoteCallMethod((short)205, null);
     }
 
-    @Override
-    public void profileChange(int n) {
+    public void profileChange(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -484,8 +501,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)185, genericSerializable);
     }
 
-    @Override
-    public void profileCopy(int n, int n2) {
+    public void profileCopy(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -497,8 +513,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)188, genericSerializable);
     }
 
-    @Override
-    public void profileReset(int n) {
+    public void profileReset(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -509,13 +524,11 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)189, genericSerializable);
     }
 
-    @Override
-    public void profileResetAll() {
+    public void profileResetAll() throws MethodException {
         this.proxy.remoteCallMethod((short)191, null);
     }
 
-    @Override
-    public void setGPSUseMode(int n) {
+    public void setGPSUseMode(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -526,8 +539,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)197, genericSerializable);
     }
 
-    @Override
-    public void setInventoryFinished(boolean bl) {
+    public void setInventoryFinished(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -538,8 +550,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)199, genericSerializable);
     }
 
-    @Override
-    public void setSPIN(String string, String string2, String string3) {
+    public void setSPIN(String string, String string2, String string3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -552,8 +563,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)217, genericSerializable);
     }
 
-    @Override
-    public void getSPINHash(String string, String string2, int n, String string3) {
+    public void getSPINHash(String string, String string2, int n, String string3) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -567,8 +577,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)215, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -579,8 +588,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)7, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -591,13 +599,11 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)8, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)6, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -608,8 +614,7 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)2, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -620,13 +625,11 @@ DSIOnlineServiceRegistrationC {
         this.proxy.remoteCallMethod((short)3, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

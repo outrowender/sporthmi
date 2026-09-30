@@ -10,8 +10,10 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowser;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserC;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserReply;
-import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserProxy$1;
 import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserReplyService;
+import de.esolutions.fw.comm.dsi.browser.impl.TimePeriodSerializer;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.browser.TimePeriod;
@@ -32,13 +34,11 @@ DSIBrowserC {
         return this.proxy;
     }
 
-    @Override
-    public void cancelLoading() {
+    public void cancelLoading() throws MethodException {
         this.proxy.remoteCallMethod((short)2, null);
     }
 
-    @Override
-    public void followLink(boolean bl) {
+    public void followLink(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -49,8 +49,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)16, genericSerializable);
     }
 
-    @Override
-    public void getPreference(int n) {
+    public void getPreference(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -61,23 +60,19 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)19, genericSerializable);
     }
 
-    @Override
-    public void goBack() {
+    public void goBack() throws MethodException {
         this.proxy.remoteCallMethod((short)21, null);
     }
 
-    @Override
-    public void goForward() {
+    public void goForward() throws MethodException {
         this.proxy.remoteCallMethod((short)22, null);
     }
 
-    @Override
-    public void gotoHomeUrl() {
+    public void gotoHomeUrl() throws MethodException {
         this.proxy.remoteCallMethod((short)23, null);
     }
 
-    @Override
-    public void loadUrl(String string) {
+    public void loadUrl(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -88,8 +83,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)38, genericSerializable);
     }
 
-    @Override
-    public void nextFocus(int n) {
+    public void nextFocus(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -100,8 +94,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)39, genericSerializable);
     }
 
-    @Override
-    public void previousFocus(int n) {
+    public void previousFocus(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -112,8 +105,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)40, genericSerializable);
     }
 
-    @Override
-    public void scroll(int n, int n2) {
+    public void scroll(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -125,13 +117,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)45, genericSerializable);
     }
 
-    @Override
-    public void reloadUrl() {
+    public void reloadUrl() throws MethodException {
         this.proxy.remoteCallMethod((short)41, null);
     }
 
-    @Override
-    public void setPreference(int n, int n2, String string) {
+    public void setPreference(int n, int n2, String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -144,13 +134,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)50, genericSerializable);
     }
 
-    @Override
-    public void stopBrowser() {
+    public void stopBrowser() throws MethodException {
         this.proxy.remoteCallMethod((short)52, null);
     }
 
-    @Override
-    public void zoom(int n, boolean bl) {
+    public void zoom(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -162,18 +150,15 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)69, genericSerializable);
     }
 
-    @Override
-    public void suspendBrowser() {
+    public void suspendBrowser() throws MethodException {
         this.proxy.remoteCallMethod((short)53, null);
     }
 
-    @Override
-    public void resumeBrowser() {
+    public void resumeBrowser() throws MethodException {
         this.proxy.remoteCallMethod((short)43, null);
     }
 
-    @Override
-    public void setLanguage(String string) {
+    public void setLanguage(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -184,28 +169,23 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)46, genericSerializable);
     }
 
-    @Override
-    public void deleteCookies() {
+    public void deleteCookies() throws MethodException {
         this.proxy.remoteCallMethod((short)8, null);
     }
 
-    @Override
-    public void deleteHistory() {
+    public void deleteHistory() throws MethodException {
         this.proxy.remoteCallMethod((short)9, null);
     }
 
-    @Override
-    public void deletePasswords() {
+    public void deletePasswords() throws MethodException {
         this.proxy.remoteCallMethod((short)10, null);
     }
 
-    @Override
-    public void deleteCache() {
+    public void deleteCache() throws MethodException {
         this.proxy.remoteCallMethod((short)7, null);
     }
 
-    @Override
-    public void downloadFile(String string, String string2) {
+    public void downloadFile(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -217,13 +197,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)11, genericSerializable);
     }
 
-    @Override
-    public void enterImageSelectionMode() {
+    public void enterImageSelectionMode() throws MethodException {
         this.proxy.remoteCallMethod((short)12, null);
     }
 
-    @Override
-    public void clickOnPosition(int n, int n2, boolean bl) {
+    public void clickOnPosition(int n, int n2, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -236,13 +214,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)6, genericSerializable);
     }
 
-    @Override
-    public void javaScriptAlertAck() {
+    public void javaScriptAlertAck() throws MethodException {
         this.proxy.remoteCallMethod((short)31, null);
     }
 
-    @Override
-    public void javaScriptConfirmAck(boolean bl) {
+    public void javaScriptConfirmAck(boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putBool(bl);
@@ -253,8 +229,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)32, genericSerializable);
     }
 
-    @Override
-    public void javaScriptPromptAck(String string, boolean bl) {
+    public void javaScriptPromptAck(String string, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -266,13 +241,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)33, genericSerializable);
     }
 
-    @Override
-    public void bringToFront() {
+    public void bringToFront() throws MethodException {
         this.proxy.remoteCallMethod((short)1, null);
     }
 
-    @Override
-    public void keyboardInput(String string) {
+    public void keyboardInput(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -283,8 +256,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)37, genericSerializable);
     }
 
-    @Override
-    public void setSelection(int n, boolean bl) {
+    public void setSelection(int n, boolean bl) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -296,13 +268,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)51, genericSerializable);
     }
 
-    @Override
-    public void resetToFactoryDefaults() {
+    public void resetToFactoryDefaults() throws MethodException {
         this.proxy.remoteCallMethod((short)42, null);
     }
 
-    @Override
-    public void exportBrowserData(String string) {
+    public void exportBrowserData(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -313,8 +283,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)14, genericSerializable);
     }
 
-    @Override
-    public void importBrowserData(String string) {
+    public void importBrowserData(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -325,14 +294,17 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)24, genericSerializable);
     }
 
-    @Override
-    public void getHistory(TimePeriod timePeriod) {
-        DSIBrowserProxy$1 dSIBrowserProxy$1 = new DSIBrowserProxy$1(this, timePeriod);
-        this.proxy.remoteCallMethod((short)17, dSIBrowserProxy$1);
+    public void getHistory(final TimePeriod timePeriod) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                TimePeriodSerializer.putOptionalTimePeriod(iSerializer, timePeriod);
+            }
+        };
+        this.proxy.remoteCallMethod((short)17, iSerializable);
     }
 
-    @Override
-    public void executeJavaScript(String string) {
+    public void executeJavaScript(String string) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);
@@ -343,8 +315,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)13, genericSerializable);
     }
 
-    @Override
-    public void touchScroll(int n, int n2) {
+    public void touchScroll(int n, int n2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -356,8 +327,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)54, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int[] nArray) {
+    public void setNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -368,8 +338,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)48, genericSerializable);
     }
 
-    @Override
-    public void setNotification(int n) {
+    public void setNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -380,13 +349,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)49, genericSerializable);
     }
 
-    @Override
-    public void setNotification() {
+    public void setNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)47, null);
     }
 
-    @Override
-    public void clearNotification(int[] nArray) {
+    public void clearNotification(int[] nArray) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalInt32VarArray(nArray);
@@ -397,8 +364,7 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)4, genericSerializable);
     }
 
-    @Override
-    public void clearNotification(int n) {
+    public void clearNotification(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putInt32(n);
@@ -409,13 +375,11 @@ DSIBrowserC {
         this.proxy.remoteCallMethod((short)5, genericSerializable);
     }
 
-    @Override
-    public void clearNotification() {
+    public void clearNotification() throws MethodException {
         this.proxy.remoteCallMethod((short)3, null);
     }
 
-    @Override
-    public void yySet(String string, String string2) {
+    public void yySet(String string, String string2) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putOptionalString(string);

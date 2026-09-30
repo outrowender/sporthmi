@@ -4,17 +4,20 @@
 package de.esolutions.fw.comm.asi.navigation.uotanaviservice.impl;
 
 import de.esolutions.fw.comm.asi.navigation.uotanaviservice.UOTANaviServiceReply;
-import de.esolutions.fw.comm.asi.navigation.uotanaviservice.impl.UOTANaviServiceReplyProxy$1;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 
 public class UOTANaviServiceReplyProxy
 implements UOTANaviServiceReply,
 IProxyFrontend {
     private static final CallContext context = CallContext.getContext("PROXY.asi.navigation.uotanaviservice.UOTANaviService");
-    private static final int INVALID_HANDLE;
+    private static final int INVALID_HANDLE = -1;
     private Proxy proxy;
 
     public UOTANaviServiceReplyProxy() {
@@ -22,15 +25,18 @@ IProxyFrontend {
         this.proxy = new Proxy(serviceInstanceID, context);
     }
 
-    @Override
     public Proxy getProxy() {
         return this.proxy;
     }
 
-    @Override
-    public void getVersionInfo(short s) {
-        UOTANaviServiceReplyProxy$1 uOTANaviServiceReplyProxy$1 = new UOTANaviServiceReplyProxy$1(this, s);
-        this.proxy.remoteCallMethod((short)0, uOTANaviServiceReplyProxy$1);
+    public void getVersionInfo(final short s) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt16(s);
+            }
+        };
+        this.proxy.remoteCallMethod((short)0, iSerializable);
     }
 }
 

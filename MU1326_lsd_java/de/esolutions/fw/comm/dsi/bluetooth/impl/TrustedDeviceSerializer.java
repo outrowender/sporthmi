@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.bluetooth.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.bluetooth.TrustedDevice;
 
 public class TrustedDeviceSerializer {
-    public static void putOptionalTrustedDevice(ISerializer iSerializer, TrustedDevice trustedDevice) {
+    public static void putOptionalTrustedDevice(ISerializer iSerializer, TrustedDevice trustedDevice) throws SerializerException {
         boolean bl = trustedDevice == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class TrustedDeviceSerializer {
         }
     }
 
-    public static void putOptionalTrustedDeviceVarArray(ISerializer iSerializer, TrustedDevice[] trustedDeviceArray) {
+    public static void putOptionalTrustedDeviceVarArray(ISerializer iSerializer, TrustedDevice[] trustedDeviceArray) throws SerializerException {
         boolean bl = trustedDeviceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class TrustedDeviceSerializer {
         }
     }
 
-    public static TrustedDevice getOptionalTrustedDevice(IDeserializer iDeserializer) {
+    public static TrustedDevice getOptionalTrustedDevice(IDeserializer iDeserializer) throws SerializerException {
         TrustedDevice trustedDevice = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -75,7 +76,7 @@ public class TrustedDeviceSerializer {
         return trustedDevice;
     }
 
-    public static TrustedDevice[] getOptionalTrustedDeviceVarArray(IDeserializer iDeserializer) {
+    public static TrustedDevice[] getOptionalTrustedDeviceVarArray(IDeserializer iDeserializer) throws SerializerException {
         TrustedDevice[] trustedDeviceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

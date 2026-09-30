@@ -7,12 +7,13 @@ import de.esolutions.fw.comm.dsi.cartimeunitslanguage.impl.ClockConfigSerializer
 import de.esolutions.fw.comm.dsi.global.impl.CarViewOptionSerializer;
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.cartimeunitslanguage.ClockConfig;
 import org.dsi.ifc.cartimeunitslanguage.ClockViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class ClockViewOptionsSerializer {
-    public static void putOptionalClockViewOptions(ISerializer iSerializer, ClockViewOptions clockViewOptions) {
+    public static void putOptionalClockViewOptions(ISerializer iSerializer, ClockViewOptions clockViewOptions) throws SerializerException {
         boolean bl = clockViewOptions == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -35,7 +36,7 @@ public class ClockViewOptionsSerializer {
         }
     }
 
-    public static void putOptionalClockViewOptionsVarArray(ISerializer iSerializer, ClockViewOptions[] clockViewOptionsArray) {
+    public static void putOptionalClockViewOptionsVarArray(ISerializer iSerializer, ClockViewOptions[] clockViewOptionsArray) throws SerializerException {
         boolean bl = clockViewOptionsArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -46,7 +47,7 @@ public class ClockViewOptionsSerializer {
         }
     }
 
-    public static ClockViewOptions getOptionalClockViewOptions(IDeserializer iDeserializer) {
+    public static ClockViewOptions getOptionalClockViewOptions(IDeserializer iDeserializer) throws SerializerException {
         ClockViewOptions clockViewOptions = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -71,7 +72,7 @@ public class ClockViewOptionsSerializer {
         return clockViewOptions;
     }
 
-    public static ClockViewOptions[] getOptionalClockViewOptionsVarArray(IDeserializer iDeserializer) {
+    public static ClockViewOptions[] getOptionalClockViewOptionsVarArray(IDeserializer iDeserializer) throws SerializerException {
         ClockViewOptions[] clockViewOptionsArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

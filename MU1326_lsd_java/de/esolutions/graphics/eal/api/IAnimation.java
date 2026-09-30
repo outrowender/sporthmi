@@ -19,12 +19,10 @@ extends IObject {
         return iAnimation == null ? 0L : iAnimation.swigCPtr;
     }
 
-    @Override
     protected void finalize() {
         this.delete();
     }
 
-    @Override
     public synchronized void delete() {
         if (this.swigCPtr != 0L) {
             if (this.swigCMemOwn) {
@@ -36,7 +34,6 @@ extends IObject {
         super.delete();
     }
 
-    @Override
     public boolean isDeleted() {
         return this.swigCPtr == 0L;
     }
@@ -45,12 +42,10 @@ extends IObject {
         return ealswigJNI.eal_api_IAnimation_setTargetPropertyBlendIntensity(this.swigCPtr, this);
     }
 
-    @Override
     public boolean isValid() {
         return ealswigJNI.eal_api_IAnimation_isValid(this.swigCPtr, this);
     }
 
-    @Override
     public void dispose() {
         ealswigJNI.eal_api_IAnimation_dispose(this.swigCPtr, this);
     }

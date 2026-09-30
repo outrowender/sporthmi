@@ -10,16 +10,12 @@ import org.apache.xerces.xs.XSWildcard;
 
 public interface XSAttributeGroupDefinition
 extends XSObject {
-    default public XSObjectList getAttributeUses() {
-    }
+    public XSObjectList getAttributeUses();
 
-    default public XSWildcard getAttributeWildcard() {
-    }
+    public XSWildcard getAttributeWildcard();
 
-    default public XSAnnotation getAnnotation() {
-    }
+    public XSAnnotation getAnnotation();
 
-    default public XSObjectList getAnnotations() {
-    }
+    public XSObjectList getAnnotations();
 }
 

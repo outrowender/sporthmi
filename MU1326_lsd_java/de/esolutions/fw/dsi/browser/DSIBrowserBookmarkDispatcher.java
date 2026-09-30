@@ -4,6 +4,7 @@
 package de.esolutions.fw.dsi.browser;
 
 import de.esolutions.fw.comm.core.IReplyService;
+import de.esolutions.fw.comm.core.method.MethodException;
 import de.esolutions.fw.comm.dsi.browser.DSIBrowserBookmarkReply;
 import de.esolutions.fw.comm.dsi.browser.impl.DSIBrowserBookmarkReplyService;
 import de.esolutions.fw.dsi.base.AbstractDispatcher;
@@ -25,13 +26,11 @@ implements DSIBrowserBookmarkReply {
         super(n, (class$org$dsi$ifc$browser$DSIBrowserBookmarkListener == null ? (class$org$dsi$ifc$browser$DSIBrowserBookmarkListener = DSIBrowserBookmarkDispatcher.class$("org.dsi.ifc.browser.DSIBrowserBookmarkListener")) : class$org$dsi$ifc$browser$DSIBrowserBookmarkListener).getName());
     }
 
-    @Override
     public IReplyService getService() {
         return this.service;
     }
 
-    @Override
-    public void listBookmarksResult(String string, Bookmark[] bookmarkArray, int n) {
+    public void listBookmarksResult(String string, Bookmark[] bookmarkArray, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -47,8 +46,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void bookmarkListInvalid() {
+    public void bookmarkListInvalid() throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -64,8 +62,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void addBookmarkResult(Bookmark bookmark, int n) {
+    public void addBookmarkResult(Bookmark bookmark, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -81,8 +78,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void editBookmarkResult(Bookmark bookmark, int n) {
+    public void editBookmarkResult(Bookmark bookmark, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -98,8 +94,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void deleteBookmarkResult(Bookmark bookmark, int n) {
+    public void deleteBookmarkResult(Bookmark bookmark, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -115,8 +110,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void createFolderResult(Bookmark bookmark, int n) {
+    public void createFolderResult(Bookmark bookmark, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -132,8 +126,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void deleteFolderResult(String string, int n) {
+    public void deleteFolderResult(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -149,8 +142,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void renameFolderResult(String string, int n) {
+    public void renameFolderResult(String string, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -166,8 +158,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void exportBookmarksResult(PathInfo pathInfo, int n) {
+    public void exportBookmarksResult(PathInfo pathInfo, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -183,8 +174,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void updateExportBookmarksProgress(PathInfo pathInfo, int n, int n2) {
+    public void updateExportBookmarksProgress(PathInfo pathInfo, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(2);
@@ -212,8 +202,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void importBookmarksResult(PathInfo pathInfo, ImportReport importReport, int n) {
+    public void importBookmarksResult(PathInfo pathInfo, ImportReport importReport, int n) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -229,8 +218,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void updateImportBookmarksProgress(PathInfo pathInfo, int n, int n2) {
+    public void updateImportBookmarksProgress(PathInfo pathInfo, int n, int n2) throws MethodException {
         if ((n2 & 0x80) == 128) {
             n2 ^= 0x80;
             Iterator iterator = this.getUnconfirmedNotificationListenerIterator(1);
@@ -258,8 +246,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void getQuotaInformationResult(int n, int n2, int n3) {
+    public void getQuotaInformationResult(int n, int n2, int n3) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -275,8 +262,7 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
+    public void asyncException(int n, String string, int n2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -292,14 +278,13 @@ implements DSIBrowserBookmarkReply {
         }
     }
 
-    @Override
-    public void yyIndication(String string, String string2) {
+    public void yyIndication(String string, String string2) throws MethodException {
         Object[] objectArray = this.getResponseListenerList();
         if (objectArray != null) {
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 try {
                     DSIBrowserBookmarkListener dSIBrowserBookmarkListener = (DSIBrowserBookmarkListener)objectArray[i2];
-                    Method method = super.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBrowserBookmarkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBrowserBookmarkDispatcher.class$("java.lang.String") : class$java$lang$String});
+                    Method method = dSIBrowserBookmarkListener.getClass().getMethod("yyIndication", new Class[]{class$java$lang$String == null ? DSIBrowserBookmarkDispatcher.class$("java.lang.String") : class$java$lang$String, class$java$lang$String == null ? DSIBrowserBookmarkDispatcher.class$("java.lang.String") : class$java$lang$String});
                     method.invoke(dSIBrowserBookmarkListener, new Object[]{string, string2});
                     continue;
                 }

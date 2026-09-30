@@ -10,8 +10,8 @@ import de.esolutions.hmi.widgets.audi.base.AbstractWidget;
 import de.esolutions.hmi.widgets.audi.base.FontLoader;
 import de.esolutions.hmi.widgets.audi.base.HMITerminalImpl;
 import de.esolutions.hmi.widgets.audi.base.eal.EALManager;
-import de.esolutions.hmi.widgets.audi.base.eal.EALStatistics$Slot;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedFont;
+import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3D;
 import de.esolutions.hmi.widgets.audi.base.eal.IWrappedNode3DText;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,21 +19,21 @@ import java.util.List;
 
 public class EALStatistics
 implements IStatistics {
-    private static final String TEXT_NO_OF_LRU_DYNAMIC_IMAGES;
-    private static final String TEXT_NO_OF_LRU_GUIDE_IMAGES;
-    private static final String TEXT_FONT_MEMORY_USAGE;
-    private static final String TEXT_LRU_CACHES;
-    private static final String TEXT_STATISTIC_MEMORY_USAGE;
-    private static final boolean COMBI_AVAILABLE;
-    private static final boolean SHOW_MEMORY_USAGE_DETAILS;
-    private static final int BORDER_X;
-    private static final int BORDER_TOP;
-    private static final int FONT_SIZE;
+    private static final String TEXT_NO_OF_LRU_DYNAMIC_IMAGES = "No of lru dynamic images";
+    private static final String TEXT_NO_OF_LRU_GUIDE_IMAGES = "No of lru guide images";
+    private static final String TEXT_FONT_MEMORY_USAGE = "Font memory usage";
+    private static final String TEXT_LRU_CACHES = "LRU Caches";
+    private static final String TEXT_STATISTIC_MEMORY_USAGE = "Memory Usage";
+    private static final boolean COMBI_AVAILABLE = Boolean.getBoolean("showCombi");
+    private static final boolean SHOW_MEMORY_USAGE_DETAILS = Boolean.getBoolean("showMemUsageDetail");
+    private static final int BORDER_X = 320;
+    private static final int BORDER_TOP = 100;
+    private static final int FONT_SIZE = 11;
     private IWrappedFont font;
     private final EALManager ealManager;
     private final HMITerminalImpl terminal;
     private boolean initialized;
-    private EALStatistics$Slot[] slots;
+    private Slot[] slots;
     private List slotList;
     private int displayWidth;
     private int displayHeight;
@@ -51,7 +51,6 @@ implements IStatistics {
         this.terminal = hMITerminalImpl;
     }
 
-    @Override
     public void showStatistics(int n, String[] stringArray, boolean bl) {
         if (!this.initialized) {
             this.initialize();
@@ -60,47 +59,47 @@ implements IStatistics {
             this.removeSlot(n);
             return;
         }
-        EALStatistics$Slot eALStatistics$Slot = this.getSlot(n);
-        eALStatistics$Slot.setInfo(stringArray);
+        Slot slot = this.getSlot(n);
+        slot.setInfo(stringArray);
         this.relayoutSlots();
     }
 
     private void removeSlot(int n) {
-        EALStatistics$Slot eALStatistics$Slot = this.slots[n];
-        if (eALStatistics$Slot == null) {
+        Slot slot = this.slots[n];
+        if (slot == null) {
             return;
         }
-        eALStatistics$Slot.remove();
+        slot.remove();
         this.slots[n] = null;
-        this.slotList.remove(eALStatistics$Slot);
+        this.slotList.remove(slot);
         this.relayoutSlots();
     }
 
     private void relayoutSlots() {
         int n = this.slotList.size();
         for (int i2 = 0; i2 < n; ++i2) {
-            EALStatistics$Slot eALStatistics$Slot = (EALStatistics$Slot)this.slotList.get(i2);
+            Slot slot = (Slot)this.slotList.get(i2);
             this.calculateSlots(i2);
             int n2 = this.getSlotPositionX(i2);
             int n3 = this.getSlotPositionY(i2);
-            eALStatistics$Slot.setPosition(n2, n3);
+            slot.setPosition(n2, n3);
         }
     }
 
-    private EALStatistics$Slot getSlot(int n) {
-        EALStatistics$Slot eALStatistics$Slot;
-        EALStatistics$Slot eALStatistics$Slot2 = this.slots[n];
-        if (eALStatistics$Slot2 != null) {
-            return eALStatistics$Slot2;
+    private Slot getSlot(int n) {
+        Slot slot;
+        Slot slot2 = this.slots[n];
+        if (slot2 != null) {
+            return slot2;
         }
-        this.slots[n] = eALStatistics$Slot = this.createSlot(n);
-        this.slotList.add(eALStatistics$Slot);
+        this.slots[n] = slot = this.createSlot(n);
+        this.slotList.add(slot);
         this.relayoutSlots();
-        return eALStatistics$Slot;
+        return slot;
     }
 
-    private EALStatistics$Slot createSlot(int n) {
-        return new EALStatistics$Slot(this);
+    private Slot createSlot(int n) {
+        return new Slot();
     }
 
     private int getSlotPositionY(int n) {
@@ -126,11 +125,11 @@ implements IStatistics {
     }
 
     private void calculateSlots(int n) {
-        EALStatistics$Slot eALStatistics$Slot;
+        Slot slot;
         int n2 = 0;
         int n3 = 0;
-        if (this.slotList.size() > 0 && EALStatistics$Slot.access$000(eALStatistics$Slot = (EALStatistics$Slot)this.slotList.get(n)) != null) {
-            Iterator iterator = EALStatistics$Slot.access$000(eALStatistics$Slot).iterator();
+        if (this.slotList.size() > 0 && (slot = (Slot)this.slotList.get(n)).textNodes != null) {
+            Iterator iterator = slot.textNodes.iterator();
             while (iterator.hasNext()) {
                 IWrappedNode3DText iWrappedNode3DText = (IWrappedNode3DText)iterator.next();
                 ++n3;
@@ -144,7 +143,7 @@ implements IStatistics {
     }
 
     private void initialize() {
-        this.slots = new EALStatistics$Slot[23];
+        this.slots = new Slot[23];
         this.slotList = new ArrayList(23);
         this.gridSizeY = this.gridSizeX = (int)Math.ceil(Math.sqrt(23.0));
         this.font = this.getStatisticFont();
@@ -193,7 +192,7 @@ implements IStatistics {
     }
 
     private String[] getInfoMemoryUsage() {
-        String[] stringArray = SHOW_MEMORY_USAGE_DETAILS ? new String[]{"Memory Usage", this.ealManager.getRAMStatus(), this.ealManager.getVRAMStatus(), "No of lru guide images", String.valueOf(((AbstractImageLoader)this.terminal.getImageLoader()).getNoOfCachedGUIDEImages()), "No of lru dynamic images", String.valueOf(((AbstractImageLoader)this.terminal.getImageLoader()).getNoOfCachedDynamicImages()), "LRU Caches", new StringBuffer().append(((AbstractImageLoader)this.terminal.getImageLoader()).getStorageSize() / 0).append(" kbyte").toString(), "Font memory usage", new StringBuffer().append(this.terminal.getFontSizeCount() * this.terminal.getGlyphCachePageSize()[0] * this.terminal.getGlyphCachePageSize()[1] / 1024).append(" kbyte").toString()} : new String[]{"Memory Usage", this.ealManager.getRAMStatus(), this.ealManager.getVRAMStatus()};
+        String[] stringArray = SHOW_MEMORY_USAGE_DETAILS ? new String[]{TEXT_STATISTIC_MEMORY_USAGE, this.ealManager.getRAMStatus(), this.ealManager.getVRAMStatus(), TEXT_NO_OF_LRU_GUIDE_IMAGES, String.valueOf(((AbstractImageLoader)this.terminal.getImageLoader()).getNoOfCachedGUIDEImages()), TEXT_NO_OF_LRU_DYNAMIC_IMAGES, String.valueOf(((AbstractImageLoader)this.terminal.getImageLoader()).getNoOfCachedDynamicImages()), TEXT_LRU_CACHES, new StringBuffer().append(((AbstractImageLoader)this.terminal.getImageLoader()).getStorageSize() / 1024L).append(" kbyte").toString(), TEXT_FONT_MEMORY_USAGE, new StringBuffer().append(this.terminal.getFontSizeCount() * this.terminal.getGlyphCachePageSize()[0] * this.terminal.getGlyphCachePageSize()[1] / 1024).append(" kbyte").toString()} : new String[]{TEXT_STATISTIC_MEMORY_USAGE, this.ealManager.getRAMStatus(), this.ealManager.getVRAMStatus()};
         return stringArray;
     }
 
@@ -242,46 +241,61 @@ implements IStatistics {
     public void destroyStatisticElements() {
         if (this.slots != null) {
             for (int i2 = 0; i2 < this.slots.length; ++i2) {
-                EALStatistics$Slot eALStatistics$Slot = this.slots[i2];
-                if (eALStatistics$Slot == null) continue;
-                eALStatistics$Slot.remove();
+                Slot slot = this.slots[i2];
+                if (slot == null) continue;
+                slot.remove();
             }
             this.slotList.clear();
         }
         this.slots = null;
     }
 
-    static /* synthetic */ int access$100(EALStatistics eALStatistics) {
-        return eALStatistics.displayWidth;
-    }
+    private class Slot {
+        private final IWrappedNode3D node;
+        private List textNodes;
 
-    static /* synthetic */ int access$200(EALStatistics eALStatistics) {
-        return eALStatistics.gridSizeX;
-    }
+        public Slot() {
+            float f2 = EALStatistics.this.displayWidth / EALStatistics.this.gridSizeX;
+            float f3 = EALStatistics.this.displayHeight / EALStatistics.this.gridSizeY;
+            this.node = EALStatistics.this.ealManager.createNode3D(EALStatistics.this.ealManager.getStatisticsNode(), "statistics", f2, f3);
+        }
 
-    static /* synthetic */ int access$300(EALStatistics eALStatistics) {
-        return eALStatistics.displayHeight;
-    }
+        public void setInfo(String[] stringArray) {
+            IWrappedNode3DText iWrappedNode3DText;
+            int n;
+            if (this.textNodes == null) {
+                this.textNodes = new ArrayList(stringArray.length);
+            }
+            while (this.textNodes.size() < stringArray.length) {
+                IWrappedNode3DText iWrappedNode3DText2 = EALStatistics.this.ealManager.createText3D(this.node, "statisticstext", " ", EALStatistics.this.font);
+                long l = EALManager.createColorCode(-65536);
+                iWrappedNode3DText2.getInterfaceText().setColor(l);
+                int n2 = this.textNodes.size();
+                iWrappedNode3DText2.setPosition(5.0f, n2 * (EALStatistics.this.rowHeight + 2) + EALStatistics.this.rowHeight, 0.0f);
+                this.textNodes.add(iWrappedNode3DText2);
+            }
+            for (n = 0; n < stringArray.length; ++n) {
+                iWrappedNode3DText = (IWrappedNode3DText)this.textNodes.get(n);
+                iWrappedNode3DText.setText(stringArray[n], EALStatistics.this.font);
+                iWrappedNode3DText.setVisible(true);
+            }
+            for (n = stringArray.length; n < this.textNodes.size(); ++n) {
+                iWrappedNode3DText = (IWrappedNode3DText)this.textNodes.get(n);
+                iWrappedNode3DText.setVisible(false);
+            }
+        }
 
-    static /* synthetic */ int access$400(EALStatistics eALStatistics) {
-        return eALStatistics.gridSizeY;
-    }
+        public void remove() {
+            for (int i2 = 0; i2 < this.textNodes.size(); ++i2) {
+                IWrappedNode3DText iWrappedNode3DText = (IWrappedNode3DText)this.textNodes.get(i2);
+                EALStatistics.this.ealManager.destroy(iWrappedNode3DText);
+            }
+            EALStatistics.this.ealManager.destroy(this.node);
+        }
 
-    static /* synthetic */ EALManager access$500(EALStatistics eALStatistics) {
-        return eALStatistics.ealManager;
-    }
-
-    static /* synthetic */ IWrappedFont access$600(EALStatistics eALStatistics) {
-        return eALStatistics.font;
-    }
-
-    static /* synthetic */ int access$700(EALStatistics eALStatistics) {
-        return eALStatistics.rowHeight;
-    }
-
-    static {
-        COMBI_AVAILABLE = Boolean.getBoolean("showCombi");
-        SHOW_MEMORY_USAGE_DETAILS = Boolean.getBoolean("showMemUsageDetail");
+        public void setPosition(int n, int n2) {
+            this.node.setPosition(n, n2, 0.0f);
+        }
     }
 }
 

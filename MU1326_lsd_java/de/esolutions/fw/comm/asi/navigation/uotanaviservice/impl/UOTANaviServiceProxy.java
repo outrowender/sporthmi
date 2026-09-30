@@ -4,15 +4,17 @@
 package de.esolutions.fw.comm.asi.navigation.uotanaviservice.impl;
 
 import de.esolutions.fw.comm.asi.navigation.mapregioninfo.ComponentInfo;
+import de.esolutions.fw.comm.asi.navigation.mapregioninfo.impl.ComponentInfoSerializer;
 import de.esolutions.fw.comm.asi.navigation.uotanaviservice.UOTANaviService;
 import de.esolutions.fw.comm.asi.navigation.uotanaviservice.UOTANaviServiceC;
 import de.esolutions.fw.comm.asi.navigation.uotanaviservice.UOTANaviServiceReply;
-import de.esolutions.fw.comm.asi.navigation.uotanaviservice.impl.UOTANaviServiceProxy$1;
 import de.esolutions.fw.comm.asi.navigation.uotanaviservice.impl.UOTANaviServiceReplyService;
 import de.esolutions.fw.comm.core.CallContext;
 import de.esolutions.fw.comm.core.Proxy;
 import de.esolutions.fw.comm.core.ServiceInstanceID;
 import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.serializer.ISerializable;
+import de.esolutions.fw.util.serializer.ISerializer;
 import de.esolutions.fw.util.serializer.adapter.GenericSerializable;
 import de.esolutions.fw.util.serializer.exception.SerializerException;
 
@@ -32,8 +34,7 @@ UOTANaviServiceC {
         return this.proxy;
     }
 
-    @Override
-    public void registerClient(int n) {
+    public void registerClient(int n) throws MethodException {
         GenericSerializable genericSerializable = new GenericSerializable();
         try {
             genericSerializable.putEnum(n);
@@ -44,10 +45,16 @@ UOTANaviServiceC {
         this.proxy.remoteCallMethod((short)1, genericSerializable);
     }
 
-    @Override
-    public void respondVersionInfo(short s, ComponentInfo[] componentInfoArray, int n) {
-        UOTANaviServiceProxy$1 uOTANaviServiceProxy$1 = new UOTANaviServiceProxy$1(this, s, componentInfoArray, n);
-        this.proxy.remoteCallMethod((short)2, uOTANaviServiceProxy$1);
+    public void respondVersionInfo(final short s, final ComponentInfo[] componentInfoArray, final int n) throws MethodException {
+        ISerializable iSerializable = new ISerializable(){
+
+            public void serialize(ISerializer iSerializer) throws SerializerException {
+                iSerializer.putInt16(s);
+                ComponentInfoSerializer.putOptionalComponentInfoVarArray(iSerializer, componentInfoArray);
+                iSerializer.putEnum(n);
+            }
+        };
+        this.proxy.remoteCallMethod((short)2, iSerializable);
     }
 }
 

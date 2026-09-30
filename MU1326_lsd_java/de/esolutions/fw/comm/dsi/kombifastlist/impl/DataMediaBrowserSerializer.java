@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.kombifastlist.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.kombifastlist.DataMediaBrowser;
 
 public class DataMediaBrowserSerializer {
-    public static void putOptionalDataMediaBrowser(ISerializer iSerializer, DataMediaBrowser dataMediaBrowser) {
+    public static void putOptionalDataMediaBrowser(ISerializer iSerializer, DataMediaBrowser dataMediaBrowser) throws SerializerException {
         boolean bl = dataMediaBrowser == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -23,7 +24,7 @@ public class DataMediaBrowserSerializer {
         }
     }
 
-    public static void putOptionalDataMediaBrowserVarArray(ISerializer iSerializer, DataMediaBrowser[] dataMediaBrowserArray) {
+    public static void putOptionalDataMediaBrowserVarArray(ISerializer iSerializer, DataMediaBrowser[] dataMediaBrowserArray) throws SerializerException {
         boolean bl = dataMediaBrowserArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -34,7 +35,7 @@ public class DataMediaBrowserSerializer {
         }
     }
 
-    public static DataMediaBrowser getOptionalDataMediaBrowser(IDeserializer iDeserializer) {
+    public static DataMediaBrowser getOptionalDataMediaBrowser(IDeserializer iDeserializer) throws SerializerException {
         DataMediaBrowser dataMediaBrowser = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -51,7 +52,7 @@ public class DataMediaBrowserSerializer {
         return dataMediaBrowser;
     }
 
-    public static DataMediaBrowser[] getOptionalDataMediaBrowserVarArray(IDeserializer iDeserializer) {
+    public static DataMediaBrowser[] getOptionalDataMediaBrowserVarArray(IDeserializer iDeserializer) throws SerializerException {
         DataMediaBrowser[] dataMediaBrowserArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {

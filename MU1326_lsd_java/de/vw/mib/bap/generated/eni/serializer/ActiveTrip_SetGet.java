@@ -13,18 +13,18 @@ import de.vw.mib.bap.stream.BitStream;
 public final class ActiveTrip_SetGet
 implements SetGetProperty {
     public int reserve1;
-    public static final int RESERVE1_MIN;
+    public static final int RESERVE1_MIN = 0;
     public int reserve2;
-    public static final int RESERVE2_MIN;
+    public static final int RESERVE2_MIN = 0;
     public ActiveTrip_Reserve3 reserve3 = new ActiveTrip_Reserve3();
     public ActiveTrip_StartTime startTime = new ActiveTrip_StartTime();
     public ActiveTrip_StopTime stopTime = new ActiveTrip_StopTime();
     public int mileageAtStart;
-    public static final int MILEAGE_AT_START_MIN;
+    public static final int MILEAGE_AT_START_MIN = 1;
     public int reserve4;
-    public static final int RESERVE4_MIN;
+    public static final int RESERVE4_MIN = 0;
     public int reserve5;
-    public static final int RESERVE5_MIN;
+    public static final int RESERVE5_MIN = 0;
 
     public ActiveTrip_SetGet() {
         this.internalReset();
@@ -44,7 +44,6 @@ implements SetGetProperty {
         this.reserve5 = 0;
     }
 
-    @Override
     public void reset() {
         this.internalReset();
         this.reserve3.reset();
@@ -52,7 +51,6 @@ implements SetGetProperty {
         this.stopTime.reset();
     }
 
-    @Override
     public boolean equalTo(BAPEntity bAPEntity) {
         ActiveTrip_SetGet activeTrip_SetGet = (ActiveTrip_SetGet)bAPEntity;
         return this.reserve1 == activeTrip_SetGet.reserve1 && this.reserve2 == activeTrip_SetGet.reserve2 && this.reserve3.equalTo(activeTrip_SetGet.reserve3) && this.startTime.equalTo(activeTrip_SetGet.startTime) && this.stopTime.equalTo(activeTrip_SetGet.stopTime) && this.mileageAtStart == activeTrip_SetGet.mileageAtStart && this.reserve4 == activeTrip_SetGet.reserve4 && this.reserve5 == activeTrip_SetGet.reserve5;
@@ -61,27 +59,24 @@ implements SetGetProperty {
     private void customInitialization() {
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("ActiveTrip_SetGet");
-        stringBuffer.append(new StringBuffer().append("\n - reserve1:").append(this.reserve1).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve2:").append(this.reserve2).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve3:").append(this.reserve3.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - startTime:").append(this.startTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - stopTime:").append(this.stopTime.toString()).toString());
-        stringBuffer.append(new StringBuffer().append("\n - mileageAtStart:").append(this.mileageAtStart).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve4:").append(this.reserve4).toString());
-        stringBuffer.append(new StringBuffer().append("\n - reserve5:").append(this.reserve5).toString());
+        stringBuffer.append("\n - reserve1:" + this.reserve1);
+        stringBuffer.append("\n - reserve2:" + this.reserve2);
+        stringBuffer.append("\n - reserve3:" + this.reserve3.toString());
+        stringBuffer.append("\n - startTime:" + this.startTime.toString());
+        stringBuffer.append("\n - stopTime:" + this.stopTime.toString());
+        stringBuffer.append("\n - mileageAtStart:" + this.mileageAtStart);
+        stringBuffer.append("\n - reserve4:" + this.reserve4);
+        stringBuffer.append("\n - reserve5:" + this.reserve5);
         return stringBuffer.toString();
     }
 
-    @Override
     public int bitSize() {
         return 0;
     }
 
-    @Override
     public void serialize(BitStream bitStream) {
         bitStream.pushByte((byte)this.reserve1);
         bitStream.pushByte((byte)this.reserve2);
@@ -93,7 +88,6 @@ implements SetGetProperty {
         bitStream.pushByte((byte)this.reserve5);
     }
 
-    @Override
     public void deserialize(BitStream bitStream) {
         this.reserve1 = bitStream.popFrontByte();
         this.reserve2 = bitStream.popFrontByte();
@@ -109,7 +103,6 @@ implements SetGetProperty {
         return 33;
     }
 
-    @Override
     public int getFunctionId() {
         return ActiveTrip_SetGet.functionId();
     }

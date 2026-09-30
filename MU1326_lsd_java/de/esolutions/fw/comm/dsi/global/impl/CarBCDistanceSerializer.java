@@ -5,10 +5,11 @@ package de.esolutions.fw.comm.dsi.global.impl;
 
 import de.esolutions.fw.util.serializer.IDeserializer;
 import de.esolutions.fw.util.serializer.ISerializer;
+import de.esolutions.fw.util.serializer.exception.SerializerException;
 import org.dsi.ifc.global.CarBCDistance;
 
 public class CarBCDistanceSerializer {
-    public static void putOptionalCarBCDistance(ISerializer iSerializer, CarBCDistance carBCDistance) {
+    public static void putOptionalCarBCDistance(ISerializer iSerializer, CarBCDistance carBCDistance) throws SerializerException {
         boolean bl = carBCDistance == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -21,7 +22,7 @@ public class CarBCDistanceSerializer {
         }
     }
 
-    public static void putOptionalCarBCDistanceVarArray(ISerializer iSerializer, CarBCDistance[] carBCDistanceArray) {
+    public static void putOptionalCarBCDistanceVarArray(ISerializer iSerializer, CarBCDistance[] carBCDistanceArray) throws SerializerException {
         boolean bl = carBCDistanceArray == null;
         iSerializer.putBool(bl);
         if (!bl) {
@@ -32,7 +33,7 @@ public class CarBCDistanceSerializer {
         }
     }
 
-    public static CarBCDistance getOptionalCarBCDistance(IDeserializer iDeserializer) {
+    public static CarBCDistance getOptionalCarBCDistance(IDeserializer iDeserializer) throws SerializerException {
         CarBCDistance carBCDistance = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
@@ -47,7 +48,7 @@ public class CarBCDistanceSerializer {
         return carBCDistance;
     }
 
-    public static CarBCDistance[] getOptionalCarBCDistanceVarArray(IDeserializer iDeserializer) {
+    public static CarBCDistance[] getOptionalCarBCDistanceVarArray(IDeserializer iDeserializer) throws SerializerException {
         CarBCDistance[] carBCDistanceArray = null;
         boolean bl = iDeserializer.getBool();
         if (!bl) {
